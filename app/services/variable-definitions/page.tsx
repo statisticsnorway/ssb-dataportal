@@ -1,4 +1,4 @@
-export default function VariableDefinition() {
+export default function VariableDefinitions() {
     return (
         <>
         <h1>Hallo</h1>
