@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import { render } from '@testing-library/react';
-import { MetadataHeader } from '.';
+import { Header } from '.';
 
 // Mock useRouter and useParams:
 jest.mock('next/navigation', () => ({
@@ -24,7 +24,7 @@ jest.mock('next-auth/react', () => ({
 
 describe('Header', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<MetadataHeader />);
+    const { baseElement } = render(<Header />);
     expect(baseElement).toBeTruthy();
     expect(baseElement).toMatchSnapshot();
   });
