@@ -48,6 +48,5 @@
 
 .searchField {
     flex-grow: 1;
-    margin: 0 1rem;
-    /*margin-left: 12rem;*/
+    margin: 0 2rem 0 1rem;
 }
