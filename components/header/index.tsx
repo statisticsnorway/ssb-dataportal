@@ -27,40 +27,25 @@ const Header: FC<HeaderProps> = ({
   const urls = [
     [
       {
-        name: "Variabeldefinisjoner",
-        url: "/variable-definitions",
-        external: false,
-      },
-      {
-        name: "Klassifikasjoner",
-        url: "/classifications",
+        name: "SSB",
+        url: "https://ssb.no",
         external: false,
       },
     ],
     [
       {
-        name: localization.footer.termsOfUse,
-        url: termsOfUseUrl ?? 'https://data.norge.no/publishing/terms-of-use',
-        external: true,
-      },
-      {
         name: localization.footer.privacyStatement,
-        url: 'https://www.digdir.no/om-oss/personvernerklaering/706',
-        external: true,
-      },
-      {
-        name: localization.footer.cookies,
-        url: 'https://www.digdir.no/om-oss/informasjonskapsler/707',
+        url: 'https://www.ssb.no/omssb/personvern',
         external: true,
       },
       {
         name: localization.footer.accessibility,
-        url: 'https://uustatus.no/nb/erklaringer/publisert/8020b962-b706-4cdf-ab8b-cdb5f480a696',
+        url: 'https://www.ssb.no/diverse/tilgjengelighet',
         external: true,
       },
       {
         name: localization.header.contactUs,
-        url: 'https://data.norge.no/nb/contact',
+        url: 'https://www.ssb.no/omssb/kontakt-oss',
         external: true,
       },
     ],
