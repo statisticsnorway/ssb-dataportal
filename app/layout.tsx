@@ -1,5 +1,5 @@
 
-import { MetadataLayout } from '@/components/metadata-layout';
+import { AppLayout } from '@/components/app-layout';
 import { Metadata } from 'next';
 
 
@@ -14,13 +14,13 @@ const RootLayout = async ({ children }: { children: React.ReactNode }
   return (
     <html lang='nb'>
       <body>
-        <MetadataLayout
+        <AppLayout
           displayFooter={true}
           backgroundColor='#ffffff'
           fontColor='#000000'
         >
           {children}
-        </MetadataLayout>
+        </AppLayout>
       </body>
     </html>
   );
