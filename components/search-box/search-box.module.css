@@ -6,7 +6,7 @@
     margin-bottom: 1em;
     background-color: rgb(45, 55, 65);
     -webkit-box-align: center;
-    align-items: center;
+    /*align-items: center;*/
     background-repeat: no-repeat;
     background-position: right top;
     justify-items: center;
@@ -48,4 +48,6 @@
 
 .searchField {
     flex-grow: 1;
+    margin: 0 1rem;
+    /*margin-left: 12rem;*/
 }
