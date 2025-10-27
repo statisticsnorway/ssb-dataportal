@@ -18,7 +18,7 @@
   display: flex;
   overflow-wrap: break-word;
   width: 100%;
-  margin: 0 auto;
+  /*margin: 0 auto;*/
 }
 
 .navigation {
@@ -115,7 +115,7 @@
   }
 }
 
-@media (min-width: 1200px) {
+/*@media (min-width: 1200px) {
   .headerContainer {
     max-width: 1140px;
   }
@@ -125,7 +125,7 @@
   .headerContainer {
     max-width: 1320px;
   }
-}
+}*/
 
 .menuButton {
   color: currentColor;
@@ -169,7 +169,7 @@
 }
 
 .logo{
-  font-size: 2.3rem;
+  font-size: 1.6rem;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 600;
   color: coral;
@@ -177,4 +177,31 @@
 
 .headerText {
   text-decoration: none;
+}
+
+@media (min-width: 768px) {
+  .logo {
+    font-size: 1.8rem;
+  }
+  .headerContainer {
+    margin:0 0.5rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .logo {
+    font-size: 2rem;
+  }
+  .headerContainer {
+    margin:0 0.8rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .logo {
+    font-size: 2.3rem;
+  }
+  .headerContainer {
+    margin: 0 1rem;
+  }
 }

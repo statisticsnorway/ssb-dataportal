@@ -1,0 +1,32 @@
+.tabs{
+    -webkit-box-align: center;
+    align-items: center;
+    display: flex;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    margin-bottom: 0px;
+}
+
+.tab{
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    -webkit-box-pack: center;
+    justify-content: center;
+    list-style-type: none;
+    position: relative;
+    overflow: hidden;
+    color: #e6eff8;
+}
+
+
+.tab[aria-selected='true'] {
+    background-color: #e6eff8;
+    color: black;
+}
+
+.tabsContainer{
+    max-width: none !important;
+    width: 100%;
+}
+
