@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import { FC } from 'react';
 import styles from './header.module.scss';
@@ -8,19 +8,12 @@ import { localization } from '@/lib/language/localization';
 
 export interface HeaderProps {
   homeUrl?: string;
-  adminGuiBaseUrl?: string;
-  catalogAdminUrl?: string;
-  fdkBaseUrl?: string;
-  fdkRegistrationBaseUrl?: string;
-  termsOfUseUrl?: string;
-  useDemoLogo?: boolean;
   fontColor?: string;
   backgroundColor?: string;
 }
 
 const Header: FC<HeaderProps> = ({
   homeUrl,
-  termsOfUseUrl,
   fontColor,
   backgroundColor,
 }) => {
