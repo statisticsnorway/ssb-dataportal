@@ -1,5 +1,3 @@
-'use client';
-
 import { ReactNode } from 'react';
 import { Footer } from '../footer';
 import { Header } from '../header';
@@ -29,11 +27,7 @@ export const AppLayout = ({
   className,
   fontColor,
   backgroundColor,
-  catalogAdminUrl,
   fdkRegistrationBaseUrl,
-  adminGuiBaseUrl,
-  fdkBaseUrl,
-  termsOfUseUrl,
   catalogTitle,
   displayFooter = true,
 }: AppLayoutProps) => {
@@ -43,11 +37,6 @@ export const AppLayout = ({
         homeUrl='/'
         fontColor={fontColor}
         backgroundColor={backgroundColor}
-        catalogAdminUrl={catalogAdminUrl}
-        fdkRegistrationBaseUrl={fdkRegistrationBaseUrl}
-        adminGuiBaseUrl={adminGuiBaseUrl}
-        fdkBaseUrl={fdkBaseUrl}
-        termsOfUseUrl={termsOfUseUrl}
       />
       <main className={style.main}>
         <ErrorBoundary
