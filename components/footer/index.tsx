@@ -26,7 +26,6 @@ export const Footer: FC<FooterProps> = ({ fontColor, backgroundColor }) => (
     <div className={styles.content}>
       <div className={styles.column}>Bygget på Digitaliseringsdirektoratet Felles datakatalog</div>
       <div className={styles.column}>
-        <MetadataLink href='https://data.norge.no/publishing/terms-of-use'>{localization.footer.termsOfUse} </MetadataLink>
         <MetadataLink
           href='https://www.digdir.no/om-oss/personvernerklaering/706'
           external={true}
