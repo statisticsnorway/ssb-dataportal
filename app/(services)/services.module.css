@@ -28,6 +28,10 @@
     margin-bottom: 0px;
 }
 
+.tabsNavigation {
+    margin-left: 1rem;
+}
+
 .tab{
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -50,10 +54,6 @@
     width: 100%;
 }
 
-.tabsContainer{
-    margin: 1rem 1rem 0 1rem;
-}
-
 .searchField {
     flex-grow: 1;
     margin: 0 2rem 0 1rem;
@@ -62,4 +62,10 @@
 .searchFieldContent{
     padding: 1rem;
     margin-top: 1rem;
+}
+
+@media (min-width: 1900px) {
+    .tabsContainer{
+        margin: 1rem 1rem 0 1rem;
+    }
 }
