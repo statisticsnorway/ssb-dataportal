@@ -11,7 +11,7 @@ export interface BreadcrumbsProps {
   breadcrumbList?: BreadcrumbType[];
 }
 
-const Breadcrumbs = ({ breadcrumbList }: BreadcrumbsProps) => {
+export const Breadcrumbs = ({ breadcrumbList }: BreadcrumbsProps) => {
   return (
     <div className='container'>
       <nav className={styles.breadcrumbs}>
@@ -45,4 +45,3 @@ const Breadcrumbs = ({ breadcrumbList }: BreadcrumbsProps) => {
   );
 };
 
-export { Breadcrumbs };
