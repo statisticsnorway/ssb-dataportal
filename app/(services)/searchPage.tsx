@@ -71,7 +71,7 @@ const SearchPage: React.FC<SearchPageProps> = ({
                             onSearch={onSearch}
                         />
                     </div>
-                    <div className={styles.tabsContainer}>
+                    <div className={styles.tabsListContainer}>
                         <Tabs.List className={styles.tabsNavigation}>
                             <Tabs.Tab value='vardefTab' className={styles.tab}>Variabeldefinisjoner</Tabs.Tab>
                             <Tabs.Tab value='klassTab' className={styles.tab}>Klassifikasjoner</Tabs.Tab>

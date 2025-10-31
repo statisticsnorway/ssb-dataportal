@@ -1,6 +1,6 @@
 .container {
   background-color: white;
-  max-width: 934px;
+  /*max-width: 934px;*/
   border: solid 1px;
   border-color: #d5d7d9;
   border-radius: 8px;
@@ -50,7 +50,7 @@
 
 @media (max-width: 768px) {
   .container {
-    max-width: 80vw;
+    max-width: 84vw;
     width: 100%;
   }
 }

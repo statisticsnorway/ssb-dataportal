@@ -1,7 +1,6 @@
 .searchHitsContainer {
   display: flex;
   width: 100%;
-  flex-direction: column;
   gap: 1rem;
 }
 
@@ -12,9 +11,11 @@
   margin-top: 2rem;
 }
 
-@media (max-width: 900px) {
+@media (min-width: 900px) {
   .searchHitsContainer {
-    margin: 1rem auto;
-    align-items: center;
+    /*margin: 1rem auto;*/
+    flex-direction: column;
+    /*max-width: 500px;*/
+    /*align-items: center;*/
   }
 }

@@ -31,7 +31,6 @@ body {
   font-family: inherit;
   line-height: inherit;
   background-color: #fafafa;
-  /*width: 1920px;*/
   padding: 0;
 }
 
@@ -46,13 +45,7 @@ body {
   flex-grow: 1;
 }
 
-/*@media (min-width: 768px) {
-  .container {
-    max-width: 900px;
-  }
-}*/
-
-@media (min-width: 992px) {
+/*@media (min-width: 992px) {
   .container {
     max-width: 1200px;
   }
@@ -72,7 +65,7 @@ body {
   .container {
     max-width: 1320px;
   }
-}
+}*/
 
 .center {
   display: flex;
