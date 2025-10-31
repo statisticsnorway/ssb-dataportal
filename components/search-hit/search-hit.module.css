@@ -48,11 +48,18 @@
   }
 }
 
+@media (max-width: 768px) {
+  .container {
+    max-width: 80vw;
+    width: 100%;
+  }
+}
+
 @media (max-width: 900px) {
   .container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    align-items: center;
+    /*align-items: center;*/
   }
 }
