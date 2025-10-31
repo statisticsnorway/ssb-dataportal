@@ -1,5 +1,5 @@
 import { ExternalLinkIcon } from '@navikt/aksel-icons';
-import styles from './link.module.css';
+import styles from './metadata-link.module.css';
 
 import React, { FC, ComponentPropsWithoutRef, PropsWithChildren, ReactNode, ComponentType, JSX } from 'react';
 
