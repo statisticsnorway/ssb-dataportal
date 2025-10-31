@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
-import Link from '.';
+import Link from './metadataLink';
 
 describe('Link', () => {
   it('should render successfully', () => {
