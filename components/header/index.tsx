@@ -12,7 +12,7 @@ export interface HeaderProps {
   backgroundColor?: string;
 }
 
-const Header: FC<HeaderProps> = ({
+export const Header: FC<HeaderProps> = ({
   homeUrl,
   fontColor,
   backgroundColor,
@@ -44,64 +44,63 @@ const Header: FC<HeaderProps> = ({
     ],
   ];
 
-return (
-    <header
-      className={styles.header}
-      style={{ color: fontColor ?? '#fff', background: backgroundColor ?? '#2d3741' }}
-    >
-      <div className={styles.headerContainer}>
-        <a
-          href={homeUrl}
-          title='Gå til hovedsiden'
-          className={styles.logoText}
-        >
-          <p className={styles.logo}>Metadataportalen</p>
-        </a>
-        <DropdownMenu size='small'>
-          <DropdownMenu.Trigger asChild>
-            <Button
-              variant='tertiary'
-              className={styles.menuButton}
-            >
-              <MenuHamburgerIcon
-                aria-hidden
-                fontSize='1.5rem'
-              />
-              {localization.header.menu}
-            </Button>
-          </DropdownMenu.Trigger>
-          <DropdownMenu.Content>
-            {urls.map((group, index) => (
-              <DropdownMenu.Group key={`menu-group-${index}`}>
-                {group.map((urlObject, itemIndex) => (
-                  <DropdownMenu.Item
-                    key={`menu-item-${index}-${itemIndex}`}
-                    className={styles.dropDownItem}
-                    asChild
-                  >
-                    <a
-                      href={urlObject.url}
+  return (
+      <header
+        className={styles.header}
+        style={{ color: fontColor ?? '#fff', background: backgroundColor ?? '#2d3741' }}
+      >
+        <div className={styles.headerContainer}>
+          <a
+            href={homeUrl}
+            title='Gå til hovedsiden'
+            className={styles.logoText}
+          >
+            <p className={styles.logo}>Metadataportalen</p>
+          </a>
+          <DropdownMenu size='small'>
+            <DropdownMenu.Trigger asChild>
+              <Button
+                variant='tertiary'
+                className={styles.menuButton}
+              >
+                <MenuHamburgerIcon
+                  aria-hidden
+                  fontSize='1.5rem'
+                />
+                {localization.header.menu}
+              </Button>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content>
+              {urls.map((group, index) => (
+                <DropdownMenu.Group key={`menu-group-${index}`}>
+                  {group.map((urlObject, itemIndex) => (
+                    <DropdownMenu.Item
+                      key={`menu-item-${index}-${itemIndex}`}
                       className={styles.dropDownItem}
-                      target={urlObject.external ? '_blank' : undefined}
-                      rel={urlObject.external ? 'noreferrer' : undefined}
+                      asChild
                     >
-                      {urlObject.name}
-                      {urlObject.external && (
-                        <span className={styles.icon}>
-                          <ExternalLinkIcon title='ExternalLinkIcon' />
-                        </span>
-                      )}
-                    </a>
-                  </DropdownMenu.Item>
-                ))}
-                <Divider />
-              </DropdownMenu.Group>
-            ))}
-          </DropdownMenu.Content>
-        </DropdownMenu>
-      </div>
-    </header>
-  );
-};
+                      <a
+                        href={urlObject.url}
+                        className={styles.dropDownItem}
+                        target={urlObject.external ? '_blank' : undefined}
+                        rel={urlObject.external ? 'noreferrer' : undefined}
+                      >
+                        {urlObject.name}
+                        {urlObject.external && (
+                          <span className={styles.icon}>
+                            <ExternalLinkIcon title='ExternalLinkIcon' />
+                          </span>
+                        )}
+                      </a>
+                    </DropdownMenu.Item>
+                  ))}
+                  <Divider />
+                </DropdownMenu.Group>
+              ))}
+            </DropdownMenu.Content>
+          </DropdownMenu>
+        </div>
+      </header>
+    );
+  };
 
-export { Header };
