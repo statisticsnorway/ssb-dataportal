@@ -13,13 +13,7 @@ exports[`Footer should render successfully 1`] = `
       </section>
       <section
         class="footerLinkSection"
-      >
-        <a
-          href="mailto:metadata@ssb.no"
-        >
-          metadata@ssb.no
-        </a>
-      </section>
+      />
     </footer>
   </div>
 </body>

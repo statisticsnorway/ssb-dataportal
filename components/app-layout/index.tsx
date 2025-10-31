@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Footer } from '../footer';
+import { Footer, MetadataLinkType } from '../footer';
 import { Header } from '../header';
 import cn from 'classnames';
 
@@ -11,32 +11,29 @@ import ErrorBoundary from '../error-boundry';
 interface AppLayoutProps {
   children: ReactNode;
   className?: string;
-  fontColor?: string;
-  backgroundColor?: string;
-  catalogAdminUrl?: string;
   fdkRegistrationBaseUrl?: string;
-  adminGuiBaseUrl?: string;
   fdkBaseUrl?: string;
-  termsOfUseUrl?: string;
   catalogTitle?: string;
   displayFooter?: boolean;
 }
 
+const footerLinks: MetadataLinkType[] = [
+  { 
+    href: 'mailto:metadata@ssb.no', 
+    text: 'metadata@ssb.no'
+  },
+];
 export const AppLayout = ({
   children,
   className,
-  fontColor,
-  backgroundColor,
   fdkRegistrationBaseUrl,
   catalogTitle,
-  displayFooter = true,
+  displayFooter = true
 }: AppLayoutProps) => {
   return (
     <div className={cn(style.layout, className)}>
       <Header
         homeUrl='/'
-        fontColor={fontColor}
-        backgroundColor={backgroundColor}
       />
       <main className={style.main}>
         <ErrorBoundary
@@ -48,8 +45,7 @@ export const AppLayout = ({
       </main>
       {displayFooter && (
         <Footer
-          fontColor={fontColor}
-          backgroundColor={backgroundColor}
+          footerLinks={footerLinks}
         />
       )}
     </div>

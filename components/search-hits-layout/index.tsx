@@ -15,8 +15,10 @@ export const SearchHitsLayout = ({ children, infoContent, mainContent, filterCon
   return (
       <div className={styles.pageContainer}>
         <section className={styles.infoSection}>{infoContent}</section>
-        <section className={styles.mainSection}>{mainContent}</section>
-        <aside className={styles.filterSection}>{filterContent}</aside>
+        <section className={styles.searchHitsContainer}>
+            <aside className={styles.filterSection}>{filterContent}</aside>
+            <section className={styles.mainSection}>{mainContent}</section>
+        </section>
         {children}
       </div>
   );

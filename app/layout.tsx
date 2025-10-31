@@ -16,8 +16,6 @@ const RootLayout = async ({ children }: { children: React.ReactNode }
       <body>
         <AppLayout
           displayFooter={true}
-          backgroundColor='#ffffff'
-          fontColor='#000000'
           className="container"
         >
           {children}

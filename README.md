@@ -62,11 +62,11 @@ remove cache
 yarn jest --clearCache
 ```
 Update snapshots
-Start watch session
-Enter -u to update
+Start watch session - interactive mode
+Enter u to update
 ```bash
 yarn test:watch
--u
+u
 ```
 ### Playwright
 Run e2e tests
