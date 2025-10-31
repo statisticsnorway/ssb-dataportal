@@ -1,0 +1,40 @@
+.checkbox label {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox :global(.rct-collapse) {
+  display: none;
+}
+
+.checkbox :global(.rct-checkbox) {
+  padding: 0;
+}
+
+.checkboxIcon {
+  width: 22px;
+  height: 22px;
+  padding: 5px;
+}
+
+.pt1 {
+  padding-top: 1rem;
+}
+
+.searchFilter {
+    background-color: white;
+    border: solid 1px;
+    border-color: #d5d7d9;
+    border-radius: 8px;
+}
+
+.checkboxButton{
+  background-color: unset;
+  background-color: var(--fds-semantic-surface-info-subtle);
+  justify-content: left;
+  color: black;
+}
+
+.checkboxGroup{
+    padding: 1rem;
+}
