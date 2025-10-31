@@ -45,3 +45,31 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 ├── tests
 ├── types
 ├── utils
+
+## Test
+
+We use `jest` for unit testing and `playwright` for end-to-end tests. 
+Unit tests are placed inside the component folders to test and named componentName.spec.tsx
+End-to-end tests (called e2e) is placed in folder 'e2e/'
+
+### Jest
+Run unit tests
+```bash
+yarn test
+```
+remove cache
+```bash
+yarn jest --clearCache
+```
+Update snapshots
+Start watch session
+Enter -u to update
+```bash
+yarn test:watch
+-u
+```
+### Playwright
+Run e2e tests
+```bash
+yarn test:e2e
+```
