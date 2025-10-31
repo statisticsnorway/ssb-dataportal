@@ -4,7 +4,7 @@ import { FC } from 'react';
 import styles from './header.module.scss';
 import { ExternalLinkIcon, MenuHamburgerIcon } from '@navikt/aksel-icons';
 import { Button, Divider, DropdownMenu } from '@digdir/designsystemet-react';
-import { localization } from '@/lib/language/localization';
+import { localization } from '@/utils/src';
 
 export interface HeaderProps {
   homeUrl?: string;

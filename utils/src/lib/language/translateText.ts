@@ -1,7 +1,6 @@
 import { get } from 'lodash';
 import { localization } from './localization';
 
- // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getTranslateText = (textObj: any, language?: string): string | string[] => {
   const selectedLanguage = language || localization.getLanguage();
   if (typeof textObj === 'string') {

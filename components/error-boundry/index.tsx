@@ -4,7 +4,7 @@ import { Component, ErrorInfo, ReactNode } from 'react';
 import { Heading } from '@digdir/designsystemet-react';
 import { Breadcrumbs } from '../breadcrumbs';
 import CenterContainer from '../center-container';
-import { localization } from '@/lib/language/localization';
+import { localization } from '@/utils/src';
 
 interface Props {
   children?: ReactNode;

@@ -6,14 +6,11 @@
     margin: 0 auto;
     padding: var(--fds-spacing-6) 0;
     overflow-wrap: break-word;
-    border: 2px solid gray;
 }
 
 .infoSection{
     width: 100%;
 }
-
-/**/
 
 .filterSection {
     width: 100%;
@@ -26,13 +23,11 @@
 .mainSection {
     width: 100%;
     min-height: 200px;
-    border: 2px solid green;
 }
 
 @media (min-width: 768px) { 
     .searchHitsContainer {
         display: flex;
-        border: 2px solid pink;
         gap: 2rem;
     }
 

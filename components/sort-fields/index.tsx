@@ -5,8 +5,8 @@ import { filter } from "../../utils/constants";
 import { SortTypes } from "@/types/tabs";
 
 interface SortFieldsProps {
-    sortOptions: { key: string; label: string }[];
-    sortValue: string;
+    sortOptions: SortTypes[];
+    sortValue: SortTypes;
     onSortChange: (key: string) => void;
 }
 
@@ -23,9 +23,9 @@ const SortFields = ({ sortOptions, sortValue, onSortChange }: SortFieldsProps) =
     return (
         <section className={styles.sortData}>
             <Select size="sm" aria-label="Select sort" onChange={handleSortChange} value={sortValue}>
-                {sortOptions.map((opt) => (
-                    <option key={opt.key} value={opt.key}>
-                        {opt.label}
+                {sortOptions.map((key) => (
+                    <option key={key} value={key}>
+                        {sortLabels[key] || key}
                     </option>
                 ))}
             </Select>

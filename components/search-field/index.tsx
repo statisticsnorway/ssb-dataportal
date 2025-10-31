@@ -5,7 +5,7 @@ import { Button, NativeSelect, Spinner, Textfield } from '@digdir/designsystemet
 import { MagnifyingGlassIcon } from '@navikt/aksel-icons';
 import styles from './search-field.module.scss';
 import classNames from 'classnames';
-import { localization } from '@/lib/language/localization';
+import { localization } from '@/utils/src';
 
 type SearchOption = {
   value: string;
