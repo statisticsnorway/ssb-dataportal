@@ -29,8 +29,7 @@
     border: 2px solid green;
 }
 
-
-@media (min-width: 992px) { 
+@media (min-width: 768px) { 
     .searchHitsContainer {
         display: flex;
         border: 2px solid pink;
@@ -44,30 +43,3 @@
         flex: 1 1 0;
     }
 }
-/*@media (max-width: 900px) {
-    .searchRowContainer {
-        background-color: var(--ba);
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .gridContainer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .filterSection {
-        width: 80%;
-    }
-
-    .mainSection {
-        width: 80%;
-    }
-}
-
-.metadataContainer{
-    max-width: 100%;
-}*/
