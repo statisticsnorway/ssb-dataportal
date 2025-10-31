@@ -1,27 +1,27 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Header should render successfully 1`] = `
-<body>
-  <div>
-    <header
-      class="header"
-      style="color: rgb(255, 255, 255); background: rgb(45, 55, 65);"
+exports[`Header renders the logo link with correct href and text 1`] = `
+<DocumentFragment>
+  <header
+    class="header"
+    style="color: rgb(255, 255, 255); background: rgb(45, 55, 65);"
+  >
+    <div
+      class="headerContainer"
     >
-      <div
-        class="headerContainer"
+      <a
+        class="logoText"
+        href="https://example.com"
+        title="Gå til hovedsiden"
       >
-        <a
+        <p
           class="logo"
-          title="Gå til hovedsiden"
         >
-          <svgrurl />
-        </a>
-        <button
-          aria-expanded="false"
-          aria-haspopup="menu"
-          class="fds-btn fds-focus fds-btn--md fds-btn--tertiary fds-btn--first menuButton"
-          type="button"
-        >
+          Metadataportalen
+        </p>
+      </a>
+      <div>
+        <button>
           <svg
             aria-hidden="true"
             fill="none"
@@ -42,8 +42,118 @@ exports[`Header should render successfully 1`] = `
           </svg>
           Meny
         </button>
+        <a
+          class="dropDownItem"
+          href="https://ssb.no"
+        >
+          SSB
+        </a>
+        <div />
+        <a
+          class="dropDownItem"
+          href="https://www.ssb.no/omssb/personvern"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Personvernerklæring
+          <span
+            class="icon"
+          >
+            <svg
+              aria-labelledby="title-«r1»"
+              fill="none"
+              focusable="false"
+              height="1em"
+              role="img"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title
+                id="title-«r1»"
+              >
+                ExternalLinkIcon
+              </title>
+              <path
+                clip-rule="evenodd"
+                d="M20.532 3.471A.75.75 0 0 1 20.75 4v7.5a.75.75 0 0 1-1.5 0V5.81l-8.72 8.72a.75.75 0 1 1-1.06-1.06l8.72-8.72H12.5a.75.75 0 0 1 0-1.5H20c.206 0 .393.083.529.218l.001.002zM4.75 9A.25.25 0 0 1 5 8.75h7a.75.75 0 0 0 0-1.5H5A1.75 1.75 0 0 0 3.25 9v10c0 .966.784 1.75 1.75 1.75h10A1.75 1.75 0 0 0 16.75 19v-7a.75.75 0 0 0-1.5 0v7a.25.25 0 0 1-.25.25H5a.25.25 0 0 1-.25-.25z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </span>
+        </a>
+        <a
+          class="dropDownItem"
+          href="https://www.ssb.no/diverse/tilgjengelighet"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Tilgjengelighet
+          <span
+            class="icon"
+          >
+            <svg
+              aria-labelledby="title-«r2»"
+              fill="none"
+              focusable="false"
+              height="1em"
+              role="img"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title
+                id="title-«r2»"
+              >
+                ExternalLinkIcon
+              </title>
+              <path
+                clip-rule="evenodd"
+                d="M20.532 3.471A.75.75 0 0 1 20.75 4v7.5a.75.75 0 0 1-1.5 0V5.81l-8.72 8.72a.75.75 0 1 1-1.06-1.06l8.72-8.72H12.5a.75.75 0 0 1 0-1.5H20c.206 0 .393.083.529.218l.001.002zM4.75 9A.25.25 0 0 1 5 8.75h7a.75.75 0 0 0 0-1.5H5A1.75 1.75 0 0 0 3.25 9v10c0 .966.784 1.75 1.75 1.75h10A1.75 1.75 0 0 0 16.75 19v-7a.75.75 0 0 0-1.5 0v7a.25.25 0 0 1-.25.25H5a.25.25 0 0 1-.25-.25z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </span>
+        </a>
+        <a
+          class="dropDownItem"
+          href="https://www.ssb.no/omssb/kontakt-oss"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Kontakt oss
+          <span
+            class="icon"
+          >
+            <svg
+              aria-labelledby="title-«r3»"
+              fill="none"
+              focusable="false"
+              height="1em"
+              role="img"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title
+                id="title-«r3»"
+              >
+                ExternalLinkIcon
+              </title>
+              <path
+                clip-rule="evenodd"
+                d="M20.532 3.471A.75.75 0 0 1 20.75 4v7.5a.75.75 0 0 1-1.5 0V5.81l-8.72 8.72a.75.75 0 1 1-1.06-1.06l8.72-8.72H12.5a.75.75 0 0 1 0-1.5H20c.206 0 .393.083.529.218l.001.002zM4.75 9A.25.25 0 0 1 5 8.75h7a.75.75 0 0 0 0-1.5H5A1.75 1.75 0 0 0 3.25 9v10c0 .966.784 1.75 1.75 1.75h10A1.75 1.75 0 0 0 16.75 19v-7a.75.75 0 0 0-1.5 0v7a.25.25 0 0 1-.25.25H5a.25.25 0 0 1-.25-.25z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </span>
+        </a>
+        <div />
       </div>
-    </header>
-  </div>
-</body>
+    </div>
+  </header>
+</DocumentFragment>
 `;
