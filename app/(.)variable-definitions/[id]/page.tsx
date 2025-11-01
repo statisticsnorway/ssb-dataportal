@@ -3,8 +3,10 @@
 import { BreadcrumbType } from "@/components/breadcrumbs";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import styles from '../../(services)/services.module.css'
+import { SearchHitsLayout } from "@/components/search-hits-layout";
 
-export default function Classifications() {
+export default function VariableDefinition() {
     const params = useParams();
     const id = params.id; 
 
@@ -44,6 +46,13 @@ export default function Classifications() {
         : [];
 
     return (
-        <h1>Hallo detalj variabler</h1>
+        <SearchHitsLayout
+            infoContent={<><h1>Hallo</h1></>}
+            filterContent={<><h2>Hallo</h2></>}
+            mainContent={<><h2>Hallo</h2></>}
+            rightContent={<><h3>Hallo</h3></>}
+        >
+            <h1>Hallo detalj variabler</h1>
+        </SearchHitsLayout>
     )
 }
