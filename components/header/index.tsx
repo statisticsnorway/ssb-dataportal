@@ -43,7 +43,6 @@ export const Header: FC<HeaderProps> = ({
       },
     ],
   ];
- // <div className={styles.headerContainer}>
   return (
       <header
         className={styles.header}

@@ -1,24 +1,42 @@
 'use client'
-import React from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { render, screen} from '@testing-library/react';
 import { Header } from '.';
 
-// Mock external component
-jest.mock('@digdir/designsystemet-react', () => {
-  const React = require('react');
+type ChildrenProps = PropsWithChildren<object>;
 
-  const MockDropdownMenu = ({ children }: any) => <div>{children}</div>;
-  MockDropdownMenu.Trigger = ({ children }: any) => <>{children}</>;
-  MockDropdownMenu.Content = ({ children }: any) => <>{children}</>;
-  MockDropdownMenu.Group = ({ children }: any) => <>{children}</>;
-  MockDropdownMenu.Item = ({ children }: any) => <>{children}</>;
+interface MockDropdownMenuType extends FC<ChildrenProps> {
+  Trigger?: FC<ChildrenProps>;
+  Content?: FC<ChildrenProps>;
+  Group?: FC<ChildrenProps>;
+  Item?: FC<ChildrenProps>;
+}
+
+jest.mock('@digdir/designsystemet-react', () => {
+  const makePart = (name: string): FC<ChildrenProps> => {
+    const Part: FC<ChildrenProps> = ({ children }) => <>{children}</>;
+    Part.displayName = name;
+    return Part;
+  };
+
+  const MockDropdownMenu: MockDropdownMenuType = ({ children }) => <div>{children}</div>;
+  MockDropdownMenu.displayName = 'MockDropdownMenu';
+  MockDropdownMenu.Trigger = makePart('DropdownMenu.Trigger');
+  MockDropdownMenu.Content = makePart('DropdownMenu.Content');
+  MockDropdownMenu.Group = makePart('DropdownMenu.Group');
+  MockDropdownMenu.Item = makePart('DropdownMenu.Item');
+
+  const Button: FC<ChildrenProps> = ({ children }) => <button>{children}</button>;
+  const Divider: FC<ChildrenProps> = ({ children }) => <div>{children}</div>;
+  const MenuHamburgerIcon: FC = () => <span>☰</span>;
+  const ExternalLinkIcon: FC = () => <span>🔗</span>;
 
   return {
-    Button: ({ children }: any) => <button>{children}</button>,
-    Divider: ({ children }: any) => <div>{children}</div>,
+    Button,
+    Divider,
     DropdownMenu: MockDropdownMenu,
-    MenuHamburgerIcon: () => <span>☰</span>,
-    ExternalLinkIcon: () => <span>🔗</span>,
+    MenuHamburgerIcon,
+    ExternalLinkIcon,
   };
 });
 

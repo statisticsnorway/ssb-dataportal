@@ -5,7 +5,7 @@ import Link from '.';
 
 describe('Link', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Link />);
+    const { baseElement } = render(<Link to={''} />);
     expect(baseElement).toBeTruthy();
   });
 });

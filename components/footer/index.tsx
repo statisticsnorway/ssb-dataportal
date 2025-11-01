@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import styles from './footer.module.css';
-import Link from 'next/link';
+import MetadataLink from '../metadata-link';
 
 export type MetadataLinkType = {
   href: string;
@@ -23,12 +23,12 @@ export const Footer: FC<FooterProps> = ({ footerLinks }) => (
     </section>
     <section className={styles.footerLinkSection}>
       {footerLinks?.map((link, index) => (
-          <Link
+          <MetadataLink
             key={index}
-            href={link.href}
+            to={link.href}
             >
               {link.text}
-          </Link>
+          </MetadataLink>
       )) 
       }
     </section>

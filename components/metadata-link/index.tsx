@@ -1,43 +1,48 @@
 import { ExternalLinkIcon } from '@navikt/aksel-icons';
 import styles from './metadata-link.module.css';
 
-import React, { FC, ComponentPropsWithoutRef, PropsWithChildren, ReactNode, ComponentType, JSX } from 'react';
+import React, { FC, PropsWithChildren, ReactNode } from 'react';
+import Link from 'next/link';
 
-export interface Props extends ComponentPropsWithoutRef<'a'> {
-  /**
-   * An alternative to href
-   */
-  to?: string;
-  /**
-   * An indication whether link points to an external resource
-   * @type {boolean}
-   * @default false
-   */
+export interface MetadataLinkProps {
+  /** Internal or external URL */
+  to: string;
+  /** Indicates external resource */
   external?: boolean;
-  /**
-   * Icon placed before link text
-   * @type {ReactNode}
-   */
+  /** Icon before link text */
   icon?: ReactNode;
-  /**
-   * Component to render
-   * @default a
-   */
-  as?: keyof JSX.IntrinsicElements | ComponentType<any>;
 }
 
-export const MetadataLink: FC<PropsWithChildren<Props>> = ({ external, icon, children, as = 'a', ...props }) => {
-  const As = as;
+export const MetadataLink: FC<PropsWithChildren<MetadataLinkProps>> = ({
+  to,
+  external,
+  icon,
+  children,
+  ...props
+}) => {
+  if (external) {
+    // External links always use <a>
+    return (
+      <a
+        href={to}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={styles.link}
+        {...props}
+      >
+        {icon && <span className={styles.icon}>{icon}</span>}
+        {children}
+        <ExternalLinkIcon title="ExternalLinkIcon" />
+      </a>
+    );
+  }
+
+  // Internal link uses Next.js Link
   return (
-    <As
-      className={styles.link}
-      target={external ? '_blank' : undefined}
-      {...props}
-    >
+    <Link href={to} className={styles.link} {...props}>
       {icon && <span className={styles.icon}>{icon}</span>}
       {children}
-      {external && <ExternalLinkIcon title='ExternalLinkIcon' />}
-    </As>
+    </Link>
   );
 };
 
