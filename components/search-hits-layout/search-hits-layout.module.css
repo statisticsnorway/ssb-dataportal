@@ -33,6 +33,7 @@
 
     .filterSection {
         flex: 0 0 250px;
+        margin-top: 4.5rem;
     }
     .mainSection{
         flex: 1 1 0;
