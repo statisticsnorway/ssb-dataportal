@@ -49,17 +49,6 @@
     color: black;
 }
 
-.tabsContentContainer{
-    max-width: none !important;
-    width: 100%;
-}
-
-.searchFieldContent{
-    padding: 0 1rem;
-    /*padding: 1rem 0;
-    margin-top: 1rem;*/
-}
-
 @media (min-width: 768px) {
     .tabsNavigation {
         flex-direction: row;
@@ -84,8 +73,5 @@
 @media (min-width: 1400px) {
     .tabsContent{
         margin: 0;
-    }
-    .tabsContentContainer{
-        margin: 0 2rem;
     }
 }

@@ -16,7 +16,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }
       <body>
         <AppLayout
           displayFooter={true}
-          className="rootContainer"
+          className='rootContainer'
         >
           {children}
         </AppLayout>

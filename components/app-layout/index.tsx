@@ -5,7 +5,7 @@ import cn from 'classnames';
 
 import '@global-css';
 
-import style from './layout.module.css';
+import styles from './layout.module.css';
 import ErrorBoundary from '../error-boundry';
 
 interface AppLayoutProps {
@@ -31,11 +31,11 @@ export const AppLayout = ({
   displayFooter = true
 }: AppLayoutProps) => {
   return (
-    <div className={cn(style.layout, className)}>
+    <div className={cn(styles.layout, className)}>
       <Header
         homeUrl='/'
       />
-      <main className={style.main}>
+      <main className={styles.main}>
         <ErrorBoundary
           fdkRegistrationBaseUrl={fdkRegistrationBaseUrl}
           title={catalogTitle}

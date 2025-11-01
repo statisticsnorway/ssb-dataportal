@@ -13,7 +13,7 @@
 }
 html * {
   font-display: swap;
-  font-size: 16;
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family:
@@ -30,15 +30,18 @@ html * {
 body {
   font-family: inherit;
   line-height: inherit;
+  height: 100%;
   background-color: #fafafa;
   padding: 0;
 }
 
+.rootContainer{
+  width: 100%;
+  margin: 0;
+}
 .container,
 .formContainer {
   width: 100%;
-  margin-right: auto;
-  margin-left: auto;
 }
 
 .grow {
@@ -54,13 +57,11 @@ body {
 @media (min-width: 992px) {
   .container {
     max-width: 960px;
-    margin: 0 auto;
   }
 }
 @media (min-width: 1400px) {
   .container {
     max-width: 1320px;
-    margin: 0 auto;
   }
 }
 

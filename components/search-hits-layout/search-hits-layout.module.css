@@ -3,7 +3,6 @@
     flex-grow: 1;
     flex-direction: column;
     width: 100%;
-    margin: 0 auto;
     padding: var(--fds-spacing-6) 0;
     overflow-wrap: break-word;
 }
@@ -40,10 +39,3 @@
     }
 }
 
-@media (min-width: 1400px) {
-    .pageContainer{
-        max-width: 1380px;
-        width: 100%;
-        margin: 0 auto;
-    }
-}

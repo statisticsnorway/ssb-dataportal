@@ -13,7 +13,7 @@ interface SearchHitsLayoutProps extends HTMLAttributes<HTMLDivElement> {
 export const SearchHitsLayout = ({ children, infoContent, mainContent, filterContent }: SearchHitsLayoutProps) => {
 
   return (
-      <div className={styles.pageContainer}>
+      <div className={`${styles.pageContainer} container`}>
         <section className={styles.infoSection}>{infoContent}</section>
         <section className={styles.searchHitsContainer}>
             <aside className={styles.filterSection}>{filterContent}</aside>
