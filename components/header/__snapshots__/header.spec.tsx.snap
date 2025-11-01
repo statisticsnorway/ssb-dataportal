@@ -7,7 +7,7 @@ exports[`Header renders the logo link with correct href and text 1`] = `
     style="color: rgb(255, 255, 255); background: rgb(45, 55, 65);"
   >
     <div
-      class="headerContainer"
+      class="headerContainer container"
     >
       <a
         class="logoText"
