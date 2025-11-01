@@ -1,7 +1,6 @@
 .search {
-  max-width: 100%;
-  margin-bottom: 3rem;
-  margin-top: 2em;
+  max-width: 90%;
+  margin: 2em 1rem 3rem 1rem;
 }
 
 .searchBox {
@@ -45,4 +44,10 @@
   }
 }
 
+
+@media (min-width: 768px) {
+  .search{
+    margin-left: 0;
+  }
+}
 

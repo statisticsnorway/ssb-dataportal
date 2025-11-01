@@ -43,13 +43,13 @@ export const Header: FC<HeaderProps> = ({
       },
     ],
   ];
-
+ // <div className={styles.headerContainer}>
   return (
       <header
         className={styles.header}
         style={{ color: fontColor ?? '#fff', background: backgroundColor ?? '#2d3741' }}
       >
-        <div className={styles.headerContainer}>
+        <div className={`${styles.headerContainer} container`}>
           <a
             href={homeUrl}
             title='Gå til hovedsiden'

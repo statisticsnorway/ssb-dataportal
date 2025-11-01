@@ -61,7 +61,7 @@ const SearchPage: React.FC<SearchPageProps> = ({
     return (
             <Tabs value={selectedTab} className={styles.tabsContainer} data-color='brand1' onChange={handleTabChange}>
                 <section className={styles.searchPageWrapper}>
-                    <div className={styles.searchFieldContent}>
+                    <div className={`${styles.searchFieldContent} container`}>
                         <SearchField
                             className={styles.searchField}
                             options={searchFieldOptions}
@@ -71,7 +71,7 @@ const SearchPage: React.FC<SearchPageProps> = ({
                             onSearch={onSearch}
                         />
                     </div>
-                    <div className={styles.tabsListContainer}>
+                    <div className={`${styles.tabsNavigationContainer} container`}>
                         <Tabs.List className={styles.tabsNavigation}>
                             <Tabs.Tab value='vardefTab' className={styles.tab}>Variabeldefinisjoner</Tabs.Tab>
                             <Tabs.Tab value='klassTab' className={styles.tab}>Klassifikasjoner</Tabs.Tab>
