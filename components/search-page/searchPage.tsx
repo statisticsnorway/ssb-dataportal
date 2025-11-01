@@ -1,7 +1,7 @@
 'use client'
 
 import { SearchField } from '@/components/search-field';
-import styles from './services.module.css';
+import styles from './search-page.module.css';
 import { Tabs } from "@digdir/designsystemet-react";
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from "react";

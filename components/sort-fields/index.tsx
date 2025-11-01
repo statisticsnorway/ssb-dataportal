@@ -33,25 +33,3 @@ const SortFields = ({ sortOptions, sortValue, onSortChange }: SortFieldsProps) =
     );
 }
 export default SortFields;
-    
-/*
-const SortFields: React.FC<SortFieldsProps> = ({ options, value, onChange }) => {
-    return (
-        <section className={styles.sortContainer}>
-            <Select
-                size="sm"
-                aria-label="Select sort"
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
-            >
-                {options.map((opt) => (
-                    <option key={opt.key} value={opt.key}>
-                        {opt.label}
-                    </option>
-                ))}
-            </Select>
-        </section>
-    );
-};*/
-
-
