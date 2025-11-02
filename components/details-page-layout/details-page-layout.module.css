@@ -1,0 +1,19 @@
+.detailPageHeader{
+    border: 2px solid pink;
+    width: 100%;
+
+    & h2 {
+        font-size: 2rem;
+    }
+}
+
+.detailPageContainer {
+    padding: var(--fds-spacing-6) 0;
+}
+
+.detailPageContent{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border: 2px solid peru;
+}

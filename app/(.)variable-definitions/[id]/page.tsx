@@ -1,10 +1,9 @@
 'use client'
 
 import { BreadcrumbType } from "@/components/breadcrumbs";
+import { DetailsPageLayout } from "@/components/details-page-layout";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import styles from '../../(services)/services.module.css'
-import { SearchHitsLayout } from "@/components/search-hits-layout";
 
 export default function VariableDefinition() {
     const params = useParams();
@@ -44,15 +43,12 @@ export default function VariableDefinition() {
                 { text: "detalj", href: '' }, 
             ] as BreadcrumbType[])
         : [];
-
     return (
-        <SearchHitsLayout
-            infoContent={<><h1>Hallo</h1></>}
-            filterContent={<><h2>Hallo</h2></>}
-            mainContent={<><h2>Hallo</h2></>}
-            rightContent={<><h3>Hallo</h3></>}
+        <DetailsPageLayout
+            title={"Name"}
+            mainContent={<><h3>Hallo</h3></>}
         >
             <h1>Hallo detalj variabler</h1>
-        </SearchHitsLayout>
+        </DetailsPageLayout>
     )
 }
