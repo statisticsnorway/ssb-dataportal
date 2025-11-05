@@ -1,5 +1,4 @@
 .detailPageHeader{
-    border: 2px solid pink;
     width: 100%;
 
     & h2 {
@@ -8,12 +7,19 @@
 }
 
 .detailPageContainer {
-    padding: var(--fds-spacing-6) 0;
+    margin: 1rem;
 }
-
 .detailPageContent{
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    border: 2px solid peru;
+}
+
+@media (min-width: 768px) {
+    .detailPageContainer  {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin: 0 auto;
+    }
 }

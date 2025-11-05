@@ -9,9 +9,10 @@
   background-color: #FFF;
   color:#000;
   gap: 1rem;
+  min-width: 360px;
 }
 .footerInfoSection {
-    width: 100%;
+    width: 90%;
     text-align: center;
 }
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { Breadcrumbs, BreadcrumbType } from "@/components/breadcrumbs";
+import { BreadcrumbType } from "@/components/breadcrumbs";
 import { DetailsPageLayout } from "@/components/details-page-layout";
 import { Heading } from "@digdir/designsystemet-react";
 import { useParams } from "next/navigation";
@@ -44,13 +44,12 @@ export default function Classification() {
                 ] as BreadcrumbType[])
             : [];
         return (
-            <>
-            <Breadcrumbs breadcrumbList={breadcrumbList} homeUrl={homeUrl}>{}</Breadcrumbs>
             <DetailsPageLayout
                 title={String(id)}
-                mainContent={<Heading level={3}>Hallo detalj klassifikasjon</Heading>}
+                mainContent={<Heading level={3}>Hallo Klassifikasjon</Heading>}
+                breadcrumbList={breadcrumbList} 
+                homeUrl={homeUrl}
             >
             </DetailsPageLayout>
-            </>
         )
 }

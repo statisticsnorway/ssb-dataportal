@@ -17,7 +17,9 @@
     min-height: 200px;
     justify-content: space-between;
     gap: 1rem;
-}.metadataContainer {
+    min-width: 360px;
+}
+.metadataContainer {
     margin-top: 1rem;
     background-color:#fafafa;
 }
