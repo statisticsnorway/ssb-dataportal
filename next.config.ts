@@ -25,7 +25,7 @@ const nextConfig: NextConfig = {
     // Aliases
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
-      '@global-css': path.resolve(__dirname, 'app/global.css')
+      '@global-css': path.resolve(__dirname, 'src/app/global.css')
     };
 
     return config;
