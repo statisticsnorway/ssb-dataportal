@@ -14,7 +14,7 @@ export type Classification = {
     name: string;
     classificationType: ClassificationType;
     lastModified: string;
-    _links: linkObj;
+    //_links: linkObj;
 };
 
 export type KlassApiResponse = {
