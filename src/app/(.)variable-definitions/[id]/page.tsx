@@ -1,7 +1,8 @@
 'use client'
 
-import { BreadcrumbType } from "@/components/breadcrumbs";
+import { Breadcrumbs, BreadcrumbType } from "@/components/breadcrumbs";
 import { DetailsPageLayout } from "@/components/details-page-layout";
+import { Heading } from "@digdir/designsystemet-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -11,7 +12,6 @@ export default function VariableDefinition() {
 
     console.log({id})
     const [loading, setLoading] = useState(true);
-
     const [variableDefinition, setVariableDefinition] = useState<string>("");
     const [error, setError] = useState(null);
 
@@ -37,18 +37,20 @@ export default function VariableDefinition() {
 
     if (loading) return <div>Loading...</div>;
     if (!variableDefinition) return <div>Variable definition not found</div>;
-
+    
+    const homeUrl = { text: "Variabeldefinisjoner", href: '/variable-definitions' };
     const breadcrumbList = id ? ([
-                { text: "variable-defintions", href: '/variable-definitions' },
-                { text: "detalj", href: '' }, 
+                { text: String(id), href: '' }, 
             ] as BreadcrumbType[])
         : [];
     return (
+        <>
+        <Breadcrumbs breadcrumbList={breadcrumbList} homeUrl={homeUrl}>{}</Breadcrumbs>
         <DetailsPageLayout
-            title={"Name"}
-            mainContent={<><h3>Hallo</h3></>}
+            title={String(id)}
+            mainContent={<Heading level={3}>Hallo detalj variabler</Heading>}
         >
-            <h1>Hallo detalj variabler</h1>
         </DetailsPageLayout>
+        </>
     )
 }
