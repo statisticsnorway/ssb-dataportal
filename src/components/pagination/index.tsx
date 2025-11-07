@@ -14,14 +14,14 @@ interface Props {
 const Pagination = ({ onChange, totalPages, currentPage, className }: Props) => (
   <DSPagination
     className={cn(className, styles.paginationContainer)}
-    currentPage={currentPage}
-    totalPages={totalPages}
-    onChange={onChange}
-    nextLabel='Neste'
-    previousLabel='Forrige'
-    itemLabel={(num) => `Side ${num}}`}
-    size='small'
-    compact={false}
+    //currentPage={currentPage}
+    //totalPages={totalPages}
+    //onChange={onChange}
+    //nextLabel='Neste'
+    //previousLabel='Forrige'
+    //itemLabel={(num) => `Side ${num}}`}
+    data-size='small'
+    //compact={false}
   />
 );
 

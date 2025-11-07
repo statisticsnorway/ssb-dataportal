@@ -27,7 +27,6 @@ const CheckboxFilter: React.FC<Props> = ({ filters, filterHeading, selectedItems
     return (
         <div className={styles.searchFilter}>
             <Button
-                fullWidth={true}
                 className={styles.checkboxButton}
                 onClick={() => setOpen((prev) => !prev)}
                 aria-expanded={isOpen}

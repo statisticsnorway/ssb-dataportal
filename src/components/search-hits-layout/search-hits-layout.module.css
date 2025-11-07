@@ -1,10 +1,10 @@
 .pageContainer {
     display: flex;
-    flex-grow: 1;
     flex-direction: column;
-    width: 100%;
-    padding: var(--fds-spacing-6) 0;
+    padding: var(--fds-spacing-6);
     overflow-wrap: break-word;
+    max-width: 95%;
+    margin: 0 auto;
 }
 
 .infoSection{
@@ -38,5 +38,19 @@
     .mainSection{
         flex: 1 1 0;
     }
+    .pageContainer{
+        max-width: 768px;
+    }
 }
 
+@media (min-width: 992px) { 
+    .pageContainer{
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .pageContainer {
+        max-width: 1320px;
+    }
+}

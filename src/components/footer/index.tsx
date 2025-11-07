@@ -2,16 +2,13 @@ import { FC } from 'react';
 
 import styles from './footer.module.css';
 import MetadataLink from '../metadata-link';
+import { UrlItem } from '@/types/navigationTypes';
 
-export type MetadataLinkType = {
-  href: string;
-  text: string;
-}
 
 export interface FooterProps {
   fontColor?: string;
   backgroundColor?: string;
-  footerLinks?: MetadataLinkType[];
+  footerLinks?: UrlItem[];
 }
 
 export const Footer: FC<FooterProps> = ({ footerLinks }) => (
@@ -25,9 +22,9 @@ export const Footer: FC<FooterProps> = ({ footerLinks }) => (
       {footerLinks?.map((link, index) => (
           <MetadataLink
             key={index}
-            to={link.href}
+            to={link.url}
             >
-              {link.text}
+              {link.name}
           </MetadataLink>
       )) 
       }

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Footer, MetadataLinkType } from '../footer';
+import { Footer} from '../footer';
 import { Header } from '../header';
 import cn from 'classnames';
 
@@ -7,6 +7,8 @@ import '@global-css';
 
 import styles from './layout.module.css';
 import ErrorBoundary from '../error-boundry';
+import { UrlItem } from '@/types/navigationTypes';
+import { localization } from '@/utils/src';
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -17,10 +19,10 @@ interface AppLayoutProps {
   displayFooter?: boolean;
 }
 
-const footerLinks: MetadataLinkType[] = [
+const footerLinks: UrlItem[] = [
   { 
-    href: 'mailto:metadata@ssb.no', 
-    text: 'metadata@ssb.no'
+    url: 'mailto:metadata@ssb.no', 
+    name: 'metadata@ssb.no'
   },
 ];
 export const AppLayout = ({

@@ -1,7 +1,7 @@
 'use client';
 
 import { FC, ReactNode, useEffect, useRef, useState } from 'react';
-import { Button, NativeSelect, Spinner, Textfield } from '@digdir/designsystemet-react';
+import { Button, Search, Select, Spinner, Textfield } from '@digdir/designsystemet-react';
 import { MagnifyingGlassIcon } from '@navikt/aksel-icons';
 import styles from './search-field.module.scss';
 import classNames from 'classnames';
@@ -64,13 +64,13 @@ const SearchField: FC<SearchFieldProps> = ({
 
   return (
     <div className={classNames([styles.search, ...(className ? [className] : [])])}>
-      <div className={styles.searchBox}>
+      <div className={styles.searchBox} data-color=''>
         <Textfield
           ref={inputRef}
           autoComplete='off'
           className={styles.inputTextfield}
           placeholder={placeholder}
-          size='large'
+          data-size='lg'
           value={query}
           type='search'
           label={label}
@@ -82,34 +82,34 @@ const SearchField: FC<SearchFieldProps> = ({
           className={styles.searchActions}
         >
           {options && (
-            <NativeSelect
-              size='sm'
+            <Select
+              id='selectSearchOption'
+              data-size='lg'
               aria-label='Velg alternativ'
               value={optionValue}
               className={styles.searchOptions}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setOptionValue(e.target.value)}
             >
               {options.map(({ value, label }) => (
-                <option
+                <Select.Option
                   value={value}
                   key={value}
                 >
                   {label}
-                </option>
+                </Select.Option>
               ))}
-            </NativeSelect>
+            </Select>
           )}
           <Button
             className={styles.searchButton}
             type='submit'
-            size='sm'
+            data-size='sm'
             onClick={handleClick}
           >
             {loading ? (
               <Spinner
-                title={localization.loading}
-                size='xsmall'
-                variant='inverted'
+                aria-label={localization.loading}
+                data-size='xs'
               />
             ) : (
               <>

@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "./sort.module.css";
-import { Select } from "../select";
+import { MetadataSelect } from "../select";
 import { filter } from "../../utils/constants";
 import { SortTypes } from "@/types/tabs";
+import { Select } from "@digdir/designsystemet-react";
 
 interface SortFieldsProps {
     sortOptions: SortTypes[];
@@ -22,11 +23,11 @@ const SortFields = ({ sortOptions, sortValue, onSortChange }: SortFieldsProps) =
     };
     return (
         <section className={styles.sortData}>
-            <Select size="sm" aria-label="Select sort" onChange={handleSortChange} value={sortValue}>
+            <Select id='sortVariables' data-size="sm" aria-label="Select sort" onChange={handleSortChange} value={sortValue}>
                 {sortOptions.map((key) => (
-                    <option key={key} value={key}>
+                    <Select.Option key={key} value={key}>
                         {sortLabels[key] || key}
-                    </option>
+                    </Select.Option>
                 ))}
             </Select>
         </section>

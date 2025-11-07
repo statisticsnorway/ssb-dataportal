@@ -2,9 +2,10 @@
 
 @layer reset, fds;
 
+@import url('@digdir/designsystemet-css');
 @import url('./reset.css');
 @import url('@digdir/designsystemet-theme');
-@import url('@digdir/designsystemet-css');
+
 
 :root {
   box-sizing: border-box;
@@ -48,10 +49,19 @@ body {
   flex-grow: 1;
 }
 
+#searchId.ds-search{
+    --dsc-search-padding-inline: 2rem;
+    max-width: 95%;
+    margin: 0 auto;
+}
+
 @media (min-width: 768px) {
   .container {
     max-width: 768px;
     margin: 0 auto;
+  }
+  #searchId.ds-search{
+    max-width: 100%;
   }
 }
 @media (min-width: 992px) {

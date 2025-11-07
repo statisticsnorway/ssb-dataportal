@@ -36,7 +36,7 @@ export default function VariableDefinition() {
         }, [id]);
 
     if (loading) return <div>Loading...</div>;
-    if (!variableDefinition) return <div>Variable definition not found</div>;
+    if (!variableDefinition) return <div>Variabeldefinisjon ikke funnet</div>;
     
     const homeUrl = { text: "Variabeldefinisjoner", href: '/variable-definitions' };
     const breadcrumbList = id ? ([

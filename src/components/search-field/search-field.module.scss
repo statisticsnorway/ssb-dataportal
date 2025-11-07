@@ -7,6 +7,10 @@
   position: relative;
 }
 
+.searchField{
+  background-color: #FFFF;
+}
+
 .searchActions {
   position: absolute;
   right: 0.5rem;
@@ -44,6 +48,9 @@
   }
 }
 
+#selectSearchOption.ds-input{
+  height: 90%;
+}
 
 @media (min-width: 768px) {
   .search{

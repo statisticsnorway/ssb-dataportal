@@ -2,7 +2,7 @@
 
 import { SearchField } from '@/components/search-field';
 import styles from './search-page.module.css';
-import { Tabs } from "@digdir/designsystemet-react";
+import { Search, Tabs } from "@digdir/designsystemet-react";
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from "react";
 
@@ -62,14 +62,13 @@ const SearchPage: React.FC<SearchPageProps> = ({
             <Tabs value={selectedTab} className={styles.tabsContainer} data-color='brand1' onChange={handleTabChange}>
                 <section className={styles.searchPageWrapper}>
                     <div className={`${styles.searchFieldContent} container`}>
-                        <SearchField
-                            className={styles.searchField}
-                            options={searchFieldOptions}
-                            optionValue="shortName"
-                            placeholder={placeholder}
-                            value={value}
-                            onSearch={onSearch}
-                        />
+                        <Search id='searchId'>
+                            <Search.Input 
+                                id='searchValue'
+                            />
+                            <Search.Clear/>
+                            <Search.Button>Søk</Search.Button>
+                        </Search>
                     </div>
                     <div className={`${styles.tabsNavigationContainer} container`}>
                         <Tabs.List className={styles.tabsNavigation}>
@@ -79,9 +78,9 @@ const SearchPage: React.FC<SearchPageProps> = ({
                     </div>
                 </section>
                 <div className={styles.tabsContentContainer}>
-                    <Tabs.Content value={selectedTab} className={styles.tabsContent}>
+                    <section className={styles.tabsContent}>
                             {children}
-                    </Tabs.Content>
+                    </section>
                 </div>
             </Tabs>
     )

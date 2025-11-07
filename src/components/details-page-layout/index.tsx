@@ -11,7 +11,6 @@ interface DetailsPageProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const DetailsPageLayout = ({ children, mainContent, title, breadcrumbList, homeUrl }: DetailsPageProps) => {
-
     return (
         <div className={`${styles.detailPageContainer} container`}>
             <Breadcrumbs breadcrumbList={breadcrumbList} homeUrl={homeUrl}>{}</Breadcrumbs>
