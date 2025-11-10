@@ -22,16 +22,8 @@ export const CheckboxGroupFilter = ({ items, onChange, value }: Props) => {
       data-size='small'
       className={styles.checkboxGroup}
     >
-      {items.map(({ value, label }) => (
-        <Checkbox
-          data-size='small'
-          key={`checkbox-item-${value}`}
-          value={`${value}`}
-          aria-label={label}
-          {...getCheckboxProps(value)}
-        >
-          {label}
-        </Checkbox>
+      {items.map(({ value: itemValue, label }) => (
+        <Checkbox label={label} key={itemValue} {...getCheckboxProps({ value: itemValue})} />
       ))}
       <ValidationMessage {...validationMessageProps} />
     </Fieldset>
