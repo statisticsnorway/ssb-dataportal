@@ -1,7 +1,7 @@
 'use client';
 
 import { FC, ReactNode, useEffect, useRef, useState } from 'react';
-import { Button, Search, Select, Spinner, Textfield } from '@digdir/designsystemet-react';
+import { Button, Select, Spinner, Textfield } from '@digdir/designsystemet-react';
 import { MagnifyingGlassIcon } from '@navikt/aksel-icons';
 import styles from './search-field.module.scss';
 import classNames from 'classnames';
