@@ -3,7 +3,7 @@
 @layer reset, fds;
 
 @import url('@digdir/designsystemet-css');
-@import url('./reset.css');
+/*@import url('./reset.css');*/
 @import url('@digdir/designsystemet-theme');
 
 
