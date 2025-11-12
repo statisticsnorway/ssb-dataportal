@@ -26,6 +26,9 @@ jest.mock('@digdir/designsystemet-react', () => {
   MockDropdownMenu.Group = makePart('DropdownMenu.Group');
   MockDropdownMenu.Item = makePart('DropdownMenu.Item');
 
+  const Link: FC<any> = ({ children, href, title }) => <a href={href} title={title}>{children}</a>;
+
+
   const Button: FC<ChildrenProps> = ({ children }) => <button>{children}</button>;
   const Divider: FC<ChildrenProps> = ({ children }) => <div>{children}</div>;
   const MenuHamburgerIcon: FC = () => <span>☰</span>;
@@ -35,6 +38,7 @@ jest.mock('@digdir/designsystemet-react', () => {
     Button,
     Divider,
     DropdownMenu: MockDropdownMenu,
+    Link,
     MenuHamburgerIcon,
     ExternalLinkIcon,
   };

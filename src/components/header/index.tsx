@@ -2,7 +2,6 @@
 
 import { FC } from 'react';
 import styles from './header.module.scss';
-import MetadataLink from '../metadata-link';
 import { Link } from '@digdir/designsystemet-react';
 
 export interface HeaderProps {

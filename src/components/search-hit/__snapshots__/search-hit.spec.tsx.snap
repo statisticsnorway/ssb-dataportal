@@ -23,10 +23,11 @@ exports[`SearchHit should render SearchHit successfully 1`] = `
           </a>
           <div>
             <span
-              class="fds-paragraph fds-paragraph--md fds-tag fds-tag--info fds-tag--md"
+              class="ds-tag"
+              color="info"
             >
               <span
-                class="fds-paragraph fds-paragraph--md fds-tag fds-tag--neutral fds-tag--md"
+                class="ds-tag"
               >
                 Search hit status tag
               </span>
