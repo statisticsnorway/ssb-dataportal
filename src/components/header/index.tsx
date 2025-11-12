@@ -2,6 +2,8 @@
 
 import { FC } from 'react';
 import styles from './header.module.scss';
+import MetadataLink from '../metadata-link';
+import { Link } from '@digdir/designsystemet-react';
 
 export interface HeaderProps {
   homeUrl?: string;
@@ -16,13 +18,13 @@ export const Header: FC<HeaderProps> = ({
         className={styles.header}
       >
         <div className={`${styles.headerContainer} container`}>
-          <a
+          <Link
             href={homeUrl}
             title='Gå til hovedsiden'
-            className={styles.logoText}
+            className={styles.logo}
           >
-            <p className={styles.logo}>Metadataportalen</p>
-          </a>
+            Metadataportalen
+          </Link>
         <section className={styles.userSection}>
         </section>
 
