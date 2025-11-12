@@ -1,18 +1,15 @@
-import { Checkbox, Fieldset, useCheckboxGroup, ValidationMessage } from '@digdir/designsystemet-react';
-import styles from './checkbox-tree.module.css';
+import { Checkbox, Fieldset, FieldsetLegend, useCheckboxGroup, ValidationMessage } from '@digdir/designsystemet-react';
+import styles from './checkbox.module.css';
+import { FilterItem } from '@/types/filters';
 
-type CheckboxGroupFilterItem = {
-  value: string;
-  label: string;
-};
-
-interface Props {
-  items: CheckboxGroupFilterItem[];
+interface CheckboxGroupProps {
+  items: FilterItem[];
   onChange: (value: string[]) => void;
   value?: string[];
+  filterHeading: string;
 }
 
-export const CheckboxGroupFilter = ({ items, onChange, value }: Props) => {
+export const CheckboxGroupFilter = ({ filterHeading, items, onChange, value }: CheckboxGroupProps) => {
   const { getCheckboxProps, validationMessageProps } = useCheckboxGroup({
     value: value,
     onChange,
@@ -20,8 +17,13 @@ export const CheckboxGroupFilter = ({ items, onChange, value }: Props) => {
   return (
     <Fieldset
       data-size='small'
-      className={styles.checkboxGroup}
+      //className={styles.checkboxGroup}
     >
+      <FieldsetLegend
+        className={styles.filterHeader}
+      >
+        {filterHeading}
+      </FieldsetLegend>
       {items.map(({ value: itemValue, label }) => (
         <Checkbox label={label} key={itemValue} {...getCheckboxProps({ value: itemValue})} />
       ))}
