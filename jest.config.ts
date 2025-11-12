@@ -18,7 +18,7 @@ const createJestConfig = nextJest({
         transformIgnorePatterns: [
             '/node_modules/(?!react-localization/)', // transform ESM module
         ],
-        testPathIgnorePatterns: ['<rootDir>/e2e/'], // 👈 ignore Playwright
+        testPathIgnorePatterns: ['<rootDir>/src/e2e/'], // 👈 ignore Playwright
     }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
