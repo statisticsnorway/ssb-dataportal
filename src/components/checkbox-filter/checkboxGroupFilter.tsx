@@ -19,13 +19,9 @@ export const CheckboxGroupFilter = ({ filterHeading, items, onChange, value }: C
       data-size='small'
       //className={styles.checkboxGroup}
     >
-      <FieldsetLegend
-        className={styles.filterHeader}
-      >
-        {filterHeading}
-      </FieldsetLegend>
+      <FieldsetLegend className={styles.filterHeader}>{filterHeading}</FieldsetLegend>
       {items.map(({ value: itemValue, label }) => (
-        <Checkbox label={label} key={itemValue} {...getCheckboxProps({ value: itemValue})} />
+        <Checkbox label={label} key={itemValue} {...getCheckboxProps({ value: itemValue })} />
       ))}
       <ValidationMessage {...validationMessageProps} />
     </Fieldset>

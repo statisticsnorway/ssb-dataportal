@@ -1,6 +1,6 @@
-'use client'
+'use client';
 import React, { FC, PropsWithChildren } from 'react';
-import { render, screen} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Header } from '.';
 
 type ChildrenProps = PropsWithChildren<object>;
@@ -27,8 +27,11 @@ jest.mock('@digdir/designsystemet-react', () => {
   MockDropdownMenu.Item = makePart('DropdownMenu.Item');
 
   //eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const Link: FC<any> = ({ children, href, title }) => <a href={href} title={title}>{children}</a>;
-
+  const Link: FC<any> = ({ children, href, title }) => (
+    <a href={href} title={title}>
+      {children}
+    </a>
+  );
 
   const Button: FC<ChildrenProps> = ({ children }) => <button>{children}</button>;
   const Divider: FC<ChildrenProps> = ({ children }) => <div>{children}</div>;
@@ -47,7 +50,7 @@ jest.mock('@digdir/designsystemet-react', () => {
 
 describe('Header', () => {
   it('renders the logo link with correct href and text', () => {
-    const { asFragment } = render(<Header homeUrl="https://example.com" />);
+    const { asFragment } = render(<Header homeUrl='https://example.com' />);
 
     const logoLink = screen.getByTitle(/gå til hovedsiden/i);
     expect(logoLink).toBeInTheDocument();

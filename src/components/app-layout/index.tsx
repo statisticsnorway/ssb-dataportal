@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Footer} from '../footer';
+import { Footer } from '../footer';
 import { Header } from '../header';
 import cn from 'classnames';
 
@@ -20,9 +20,9 @@ interface AppLayoutProps {
 }
 
 const footerLinks: UrlItem[] = [
-  { 
-    url: 'mailto:metadata@ssb.no', 
-    name: 'metadata@ssb.no'
+  {
+    url: 'mailto:metadata@ssb.no',
+    name: 'metadata@ssb.no',
   },
 ];
 export const AppLayout = ({
@@ -30,26 +30,17 @@ export const AppLayout = ({
   className,
   fdkRegistrationBaseUrl,
   catalogTitle,
-  displayFooter = true
+  displayFooter = true,
 }: AppLayoutProps) => {
   return (
     <div className={cn(styles.layout, className)}>
-      <Header
-        homeUrl='/'
-      />
+      <Header homeUrl='/' />
       <main className={styles.main}>
-        <ErrorBoundary
-          fdkRegistrationBaseUrl={fdkRegistrationBaseUrl}
-          title={catalogTitle}
-        >
+        <ErrorBoundary fdkRegistrationBaseUrl={fdkRegistrationBaseUrl} title={catalogTitle}>
           {children}
         </ErrorBoundary>
       </main>
-      {displayFooter && (
-        <Footer
-          footerLinks={footerLinks}
-        />
-      )}
+      {displayFooter && <Footer footerLinks={footerLinks} />}
     </div>
   );
 };

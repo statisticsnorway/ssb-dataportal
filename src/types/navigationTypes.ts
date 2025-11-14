@@ -1,5 +1,5 @@
 export type UrlItem = {
-    url: string;
-    name: string;
-    external?: boolean;
-}
+  url: string;
+  name: string;
+  external?: boolean;
+};

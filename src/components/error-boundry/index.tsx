@@ -44,15 +44,14 @@ class ErrorBoundary extends Component<Props, State> {
       return (
         <>
           <Breadcrumbs
-            breadcrumbList={[]} homeUrl={{
+            breadcrumbList={[]}
+            homeUrl={{
               href: '',
-              text: ''
-            }}          />
+              text: '',
+            }}
+          />
           <CenterContainer>
-            <Heading
-              level={2}
-              data-size='sm'
-            >
+            <Heading level={2} data-size='sm'>
               {localization.somethingWentWrong}
             </Heading>
           </CenterContainer>

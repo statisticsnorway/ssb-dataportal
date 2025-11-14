@@ -10,56 +10,46 @@ import { localization } from '@/utils/src';
 import { VardefSearchHit } from './vardefSearchHit';
 
 interface VariableDefinitionsServicePageProps {
-    rawHits: VariableDefinitionType[];
-    isLoading?: boolean;
-    filterGroups: FilterGroup[];
+  rawHits: VariableDefinitionType[];
+  isLoading?: boolean;
+  filterGroups: FilterGroup[];
 }
 
-const VariableDefinitionsServicePage = ({
-    rawHits,
-    isLoading,
-    filterGroups,
-}: VariableDefinitionsServicePageProps) => {
+const VariableDefinitionsServicePage = ({ rawHits, isLoading, filterGroups }: VariableDefinitionsServicePageProps) => {
+  const memoizedHits = useMemo(() => (isLoading ? [] : rawHits), [isLoading, rawHits]);
 
-    const memoizedHits = useMemo(() => (isLoading ? [] : rawHits), [isLoading, rawHits]);
+  const { hits, sortKey, setSortKey, sortTypes } = useSearchStateVardef(memoizedHits);
 
-    const { hits, sortKey, setSortKey, sortTypes } = useSearchStateVardef(memoizedHits);
+  console.log(
+    'Filters: ',
+    filterGroups.map((filterGroup) => filterGroup.selectedItems),
+  );
 
-    console.log(
-        'Filters: ',
-        filterGroups.map((filterGroup) => filterGroup.selectedItems),
-    );
+  return (
+    <SearchHitsLayout
+      filterContent={<FiltersPanel filterGroups={filterGroups} />}
+      mainContent={
+        <>
+          <SortFields
+            sortOptions={sortTypes}
+            sortValue={sortKey}
+            onSortChange={(key: string) => setSortKey(key as SortTypes)}
+          />
 
-    return (
-        <SearchHitsLayout
-            filterContent={
-                <FiltersPanel filterGroups={filterGroups} />
-            }
-            mainContent={
-                <>
-                    <SortFields
-                        sortOptions={sortTypes}
-                        sortValue={sortKey}
-                        onSortChange={(key: string) => setSortKey(key as SortTypes)}
-                    />
-
-                    {isLoading ? (
-                        <div>Loading...</div>
-                            ) : hits.length === 0 ? (
-                            <div>{localization.search.noHits}</div>
-                        ) : (
-                            <SearchHitContainer
-                                searchHits={hits.map((hit) => (
-                                    <VardefSearchHit key={hit.id} variableDefinition={hit} />
-                                ))}
-                                noSearchHits={false}
-                            />
-                        )
-                    }
-                </>
-            }
-        />
-    );
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : hits.length === 0 ? (
+            <div>{localization.search.noHits}</div>
+          ) : (
+            <SearchHitContainer
+              searchHits={hits.map((hit) => <VardefSearchHit key={hit.id} variableDefinition={hit} />)}
+              noSearchHits={false}
+            />
+          )}
+        </>
+      }
+    />
+  );
 };
 
 export default VariableDefinitionsServicePage;

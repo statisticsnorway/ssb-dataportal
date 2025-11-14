@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { FC } from 'react';
 import styles from './header.module.scss';
@@ -8,27 +8,15 @@ export interface HeaderProps {
   homeUrl?: string;
 }
 
-export const Header: FC<HeaderProps> = ({
-  homeUrl,
-}) => {
-  
+export const Header: FC<HeaderProps> = ({ homeUrl }) => {
   return (
-      <header
-        className={styles.header}
-      >
-        <div className={`${styles.headerContainer} container`}>
-          <Link
-            href={homeUrl}
-            title='Gå til hovedsiden'
-            className={styles.logo}
-          >
-            Metadataportalen
-          </Link>
-        <section className={styles.userSection}>
-        </section>
-
-        </div>
-      </header>
-    );
-  };
-
+    <header className={styles.header}>
+      <div className={`${styles.headerContainer} container`}>
+        <Link href={homeUrl} title='Gå til hovedsiden' className={styles.logo}>
+          Metadataportalen
+        </Link>
+        <section className={styles.userSection}></section>
+      </div>
+    </header>
+  );
+};

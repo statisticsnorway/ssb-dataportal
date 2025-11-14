@@ -1,91 +1,90 @@
 .metadataContainer {
-    margin-top: 1rem;
-    background-color:#fafafa;
+  margin-top: 1rem;
+  background-color: #fafafa;
 }
 
 .searchPageWrapper {
-    display: flex;
-    flex-flow: column;
-    font-size: 1.6rem;
-    margin-bottom: 1em;
-    background-color: rgb(45, 55, 65);
-    -webkit-box-align: center;
-    background-repeat: no-repeat;
-    background-position: right top;
-    justify-items: center;
-    min-height: 150px;
-    justify-content: space-between;
-    gap: 1rem;
+  display: flex;
+  flex-flow: column;
+  font-size: 1.6rem;
+  margin-bottom: 1em;
+  background-color: rgb(45, 55, 65);
+  -webkit-box-align: center;
+  background-repeat: no-repeat;
+  background-position: right top;
+  justify-items: center;
+  min-height: 150px;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-.searchFieldContent{
-    margin-top: 2rem;
+.searchFieldContent {
+  margin-top: 2rem;
 }
 
-#searchValue.ds-input{
-    --dsc-search-padding-inline: 2rem;
-    --dsc-input-color: green;
+#searchValue.ds-input {
+  --dsc-search-padding-inline: 2rem;
+  --dsc-input-color: green;
 }
 .metadataContainer {
-    margin-top: 1rem;
-    background-color:#fafafa;
+  margin-top: 1rem;
+  background-color: #fafafa;
 }
 
-.tabs{
-    -webkit-box-align: center;
-    align-items: center;
-    display: flex;
-    -webkit-box-pack: start;
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-    margin-bottom: 0px;
+.tabs {
+  -webkit-box-align: center;
+  align-items: center;
+  display: flex;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  margin-bottom: 0px;
 }
 
 .tabsNavigation {
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
 }
 
-.tab{
-    -webkit-box-pack: center;
-    justify-content: center;
-    list-style-type: none;
-    position: relative;
-    overflow: hidden;
-    color: #e6eff8;
+.tab {
+  -webkit-box-pack: center;
+  justify-content: center;
+  list-style-type: none;
+  position: relative;
+  overflow: hidden;
+  color: #e6eff8;
 }
 
-
-.tab[aria-selected='true'] {
-    background-color: #e6eff8;
-    color: black;
+.tab[aria-selected="true"] {
+  background-color: #e6eff8;
+  color: black;
 }
 
 @media (min-width: 768px) {
-    .tabsNavigation {
-        flex-direction: row;
-        max-width: 100%;
-    }
+  .tabsNavigation {
+    flex-direction: row;
+    max-width: 100%;
+  }
 
-    .tab{
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-    }
+  .tab {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
 }
 
 @media (min-width: 992px) {
-    .tabsContent{
-        margin: 0;
-        padding: 0;
-    }
-    .searchFieldContent{
-        padding: 0;
-    }
+  .tabsContent {
+    margin: 0;
+    padding: 0;
+  }
+  .searchFieldContent {
+    padding: 0;
+  }
 }
 
 @media (min-width: 1400px) {
-    .tabsContent{
-        margin: 0;
-    }
+  .tabsContent {
+    margin: 0;
+  }
 }

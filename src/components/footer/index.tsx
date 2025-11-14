@@ -4,7 +4,6 @@ import styles from './footer.module.css';
 import { UrlItem } from '@/types/navigationTypes';
 import { Link } from '@digdir/designsystemet-react';
 
-
 export interface FooterProps {
   fontColor?: string;
   backgroundColor?: string;
@@ -12,23 +11,14 @@ export interface FooterProps {
 }
 
 export const Footer: FC<FooterProps> = ({ footerLinks }) => (
-  <footer
-    className={styles.footer}
-  >
-    <section className={styles.footerInfoSection}>
-      Bygget på Digitaliseringsdirektoratet Felles datakatalog
-    </section>
+  <footer className={styles.footer}>
+    <section className={styles.footerInfoSection}>Bygget på Digitaliseringsdirektoratet Felles datakatalog</section>
     <section className={styles.footerLinkSection}>
       {footerLinks?.map((link, index) => (
-          <Link
-            key={index}
-            href={link.url}
-            >
-              {link.name}
-          </Link>
-      )) 
-      }
+        <Link key={index} href={link.url}>
+          {link.name}
+        </Link>
+      ))}
     </section>
   </footer>
 );
-

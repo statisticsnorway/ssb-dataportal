@@ -6,7 +6,7 @@
   box-sizing: border-box;
 }
 
-.filterSection{
+.filterSection {
   display: flex;
   flex-direction: column;
   gap: 1rem;

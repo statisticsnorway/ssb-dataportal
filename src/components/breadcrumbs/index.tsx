@@ -17,9 +17,7 @@ export const Breadcrumbs = ({ breadcrumbList, homeUrl }: BreadcrumbsProps) => {
     <div className='container'>
       <nav className={styles.breadcrumbs}>
         <span>
-          <Link
-            className={styles.link}
-            aria-label={"aria"} href={homeUrl.href}>
+          <Link className={styles.link} aria-label={'aria'} href={homeUrl.href}>
             {homeUrl.text}
           </Link>
           {breadcrumbList?.map((breadcrumb, i) => {
@@ -29,10 +27,7 @@ export const Breadcrumbs = ({ breadcrumbList, homeUrl }: BreadcrumbsProps) => {
                 {i === breadcrumbList.length - 1 ? (
                   <span className={styles.deactiveLink}>{breadcrumb.text}</span>
                 ) : (
-                  <Link
-                    href={breadcrumb.href}
-                    className={styles.link}
-                  >
+                  <Link href={breadcrumb.href} className={styles.link}>
                     {breadcrumb.text}
                   </Link>
                 )}
@@ -44,4 +39,3 @@ export const Breadcrumbs = ({ breadcrumbList, homeUrl }: BreadcrumbsProps) => {
     </div>
   );
 };
-

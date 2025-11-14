@@ -1,9 +1,9 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 import path from 'path';
 
 const nextConfig: NextConfig = {
   /* config options here */
-    webpack(config: { module: { rules: any[]; }; resolve: { alias: any; }; }) {
+  webpack(config: { module: { rules: any[] }; resolve: { alias: any } }) {
     // SVG loader config
     const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.('.svg'));
 
@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
         test: /\.svg$/i,
         resourceQuery: { not: /url/ },
         use: ['@svgr/webpack'],
-      }
+      },
     );
 
     fileLoaderRule.exclude = /\.svg$/i;
@@ -25,7 +25,7 @@ const nextConfig: NextConfig = {
     // Aliases
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
-      '@global-css': path.resolve(__dirname, 'src/app/global.css')
+      '@global-css': path.resolve(__dirname, 'src/app/global.css'),
     };
 
     return config;
@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  output: "standalone",
+  output: 'standalone',
 };
 
 export default nextConfig;

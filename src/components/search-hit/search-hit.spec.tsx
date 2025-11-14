@@ -9,7 +9,7 @@ describe('SearchHit', () => {
       <SearchHit
         title={'Search hit title'}
         content={'Search hit content'}
-        tags={[<Tag key="tag1">Search hit status tag</Tag>]}
+        tags={[<Tag key='tag1'>Search hit status tag</Tag>]}
         titleHref={'Search hit title href'}
         labels={'Search hit labels'}
       />,

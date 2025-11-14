@@ -1,4 +1,3 @@
-
 import { AppLayout } from '@/components/app-layout';
 import { ClassificationType } from '@/types/classification';
 import { KlassTabData } from '@/utils/klassTabContext';
@@ -6,102 +5,98 @@ import { MetadataProviders } from '@/utils/metadataProvider';
 import { VardefTabData } from '@/utils/vardefTabContext';
 import { Metadata } from 'next';
 
-
 export const metadata: Metadata = {
   title: 'Metadata services',
   description: 'SSB metadata services',
 };
 
 const testKlassData: KlassTabData = {
-    klassClassificationFamilies: [
-        { id: 1, 
-            name: 'Family A', 
-            numberOfClassifications: 1, 
-            _links: {
-                self: { href: '/families/1' },
-            },
-        },
-        {   id: 2, 
-            name: 'Family B',
-            numberOfClassifications: 1, 
-            _links: {
-                self: { href: '/families/2' },
-            },
-        },
-    ],
-    klassClassifications: [
-        {   
-            id: 1, 
-            name: 'Standard for X',
-            classificationType: ClassificationType.Klassifikasjon,
-            lastModified: "2024-03-05",
-            _links: {
-                self: { href: '/api/classification/1' },
-            },
-        },
-        {   
-            id: 2, 
-            name: 'Kodeliste Y',
-            classificationType: ClassificationType.Kodeverk,
-            lastModified: "2024-03-05",
-            _links: {
-                self: { href: '/api/classification/2' },
-            },
-        },
-    ],
+  klassClassificationFamilies: [
+    {
+      id: 1,
+      name: 'Family A',
+      numberOfClassifications: 1,
+      _links: {
+        self: { href: '/families/1' },
+      },
+    },
+    {
+      id: 2,
+      name: 'Family B',
+      numberOfClassifications: 1,
+      _links: {
+        self: { href: '/families/2' },
+      },
+    },
+  ],
+  klassClassifications: [
+    {
+      id: 1,
+      name: 'Standard for X',
+      classificationType: ClassificationType.Klassifikasjon,
+      lastModified: '2024-03-05',
+      _links: {
+        self: { href: '/api/classification/1' },
+      },
+    },
+    {
+      id: 2,
+      name: 'Kodeliste Y',
+      classificationType: ClassificationType.Kodeverk,
+      lastModified: '2024-03-05',
+      _links: {
+        self: { href: '/api/classification/2' },
+      },
+    },
+  ],
 };
 
 const testVardefData: VardefTabData = {
-    variableDefinitions: 
-    [
-        {   id: "ux78",
-            name: "landbak",
-            short_name: "land",
-            definition: "bla bla",
-            last_updated_at: "2025-10-11",
-            valid_from: "1998-01-01",
-            contains_special_categories_of_personal_data: false,
-            contact: {
-                title: "Sjef",
-                email: "sjef@ssb.no",
-            },
-        },
-        {   id: "icv6",
-            name: "buss",
-            short_name: "bus",
-            definition: "bla bla",
-            last_updated_at: "2023-08-11",
-            valid_from: "2000-01-01",
-            contains_special_categories_of_personal_data: true,
-            contact: {
-                title: "Professor",
-                email: "proff@ssb.no",
-            },
-        }
-    ]
-
-}
-
-const getMetadata = async () => {
-    const klassData: KlassTabData = testKlassData;
-    const vardefData: VardefTabData = testVardefData;
-    return { klassData, vardefData };
+  variableDefinitions: [
+    {
+      id: 'ux78',
+      name: 'landbak',
+      short_name: 'land',
+      definition: 'bla bla',
+      last_updated_at: '2025-10-11',
+      valid_from: '1998-01-01',
+      contains_special_categories_of_personal_data: false,
+      contact: {
+        title: 'Sjef',
+        email: 'sjef@ssb.no',
+      },
+    },
+    {
+      id: 'icv6',
+      name: 'buss',
+      short_name: 'bus',
+      definition: 'bla bla',
+      last_updated_at: '2023-08-11',
+      valid_from: '2000-01-01',
+      contains_special_categories_of_personal_data: true,
+      contact: {
+        title: 'Professor',
+        email: 'proff@ssb.no',
+      },
+    },
+  ],
 };
 
-const RootLayout = async ({ children }: { children: React.ReactNode }
-) => {
+const getMetadata = async () => {
+  const klassData: KlassTabData = testKlassData;
+  const vardefData: VardefTabData = testVardefData;
+  return { klassData, vardefData };
+};
 
+const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   const { klassData, vardefData } = await getMetadata();
   return (
     <html lang='nb'>
       <body>
-        <AppLayout
-          displayFooter={true}
-          className='rootContainer'
-        >
-        <MetadataProviders klassData={klassData} vardefData={vardefData}>
-          {children}
-        </MetadataProviders>
+        <AppLayout displayFooter={true} className='rootContainer'>
+          <MetadataProviders klassData={klassData} vardefData={vardefData}>
+            {children}
+          </MetadataProviders>
           {children}
         </AppLayout>
       </body>
