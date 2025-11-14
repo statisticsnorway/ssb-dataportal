@@ -123,6 +123,7 @@ export default function Classifications() {
             data = data.slice(start, start + PAGE_SIZE);
 
             setClassifications(data);
+        //eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
             setError(err.message);
         } finally {

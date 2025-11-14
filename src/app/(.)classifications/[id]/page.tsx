@@ -19,7 +19,6 @@ export default function Classification() {
         useEffect(() => {
             if (!id) return;
     
-            const validId = id;
             async function load() {
                 try {
                     setLoading(true);

@@ -7,16 +7,18 @@ export function useSearchTabs() {
     const router = useRouter();
     const pathname = usePathname();
     const [selectedTab, setSelectedTab] = useState('');
+    const getTabFromPath = (pathname: string) => {
+        if (pathname.includes('/classifications')) return 'klassTab';
+        if (pathname.includes('/variable-definitions')) return 'vardefTab';
+        return '';
+    };
 
     useEffect(() => {
-        if (pathname.includes('/classifications')) {
-            setSelectedTab('klassTab');
-        } else if (pathname.includes('/variable-definitions')) {
-            setSelectedTab('vardefTab');
-        } else {
-            setSelectedTab('');
+        const newTab = getTabFromPath(pathname);
+        if (newTab !== selectedTab) {
+            setSelectedTab(newTab);
         }
-    }, [pathname]);
+    }, [pathname, selectedTab]);
 
     const handleTabChange = (value: string) => {
         setSelectedTab(value);

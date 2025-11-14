@@ -19,7 +19,6 @@ export default function VariableDefinition() {
     useEffect(() => {
         if (!id) return;
 
-        const validId = id;
         async function load() {
             try {
                 setLoading(true);
