@@ -5,7 +5,7 @@ import { SearchHitsLayout } from '@/components/search-hits-layout';
 import { FiltersPanel } from '@/components/filters-panel';
 import SortFields from '@/components/sort-fields';
 import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
-import { SearchHitContainer } from '@/components/search-hit-container';
+import { SearchHitContainer } from '@/components/search-hits-container';
 import { localization } from '@/utils/src';
 import { VardefSearchHit } from './vardefSearchHit';
 

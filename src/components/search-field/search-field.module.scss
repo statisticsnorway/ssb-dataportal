@@ -1,6 +1,8 @@
-.search {
-  max-width: 100%;
-  margin: 1.5rem;
+
+.ds-search{
+    --dsc-search-padding-inline: 2rem;
+    max-width: 95%;
+    margin: 0 auto;
 }
 
 .searchBox {
@@ -53,9 +55,9 @@
 }
 
 @media (min-width: 768px) {
-  .search{
-    margin: 2rem 1rem 2rem 0;
-    max-width: 90%;
-  }
+  .ds-search{
+    margin: 0;
+    max-width: 80%;
+}
 }
 

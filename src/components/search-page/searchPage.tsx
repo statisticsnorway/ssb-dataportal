@@ -1,6 +1,5 @@
 'use client'
 
-import { SearchField } from '@/components/search-field';
 import styles from './search-page.module.css';
 import { Search, Tabs } from "@digdir/designsystemet-react";
 import { useRouter, usePathname } from 'next/navigation';
@@ -49,10 +48,6 @@ const SearchPage: React.FC<SearchPageProps> = ({
         if (value === 'klassTab') router.push('/classifications');
         else if (value === 'vardefTab') router.push('/variable-definitions');
     };
-
-    const searchFieldOptions = [
-        { label: 'Kortnavn', value: 'shortName' },
-    ];
 
     useEffect(() => {
         console.log(selectedTab)

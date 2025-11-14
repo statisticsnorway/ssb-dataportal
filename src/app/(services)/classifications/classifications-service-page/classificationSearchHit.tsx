@@ -15,9 +15,6 @@ const ClassificationSearchHit = ({classification}: ClassificationSearchHitProps)
                 key={classification.id}
                 title={classification.name}
                 titleHref={`/classifications/${classification.id}`}
-                tags={[
-                    classification.classificationType,
-                ]}
                 content={
                     <div className={styles.set}>
                         <section className={styles.idSection}>

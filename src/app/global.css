@@ -34,6 +34,7 @@ body {
   height: 100%;
   background-color: #fafafa;
   padding: 0;
+  margin:0;
 }
 
 .rootContainer{
@@ -51,7 +52,7 @@ body {
 
 #searchId.ds-search{
     --dsc-search-padding-inline: 2rem;
-    max-width: 95%;
+    width: 95%;
     margin: 0 auto;
 }
 
@@ -60,9 +61,11 @@ body {
     max-width: 768px;
     margin: 0 auto;
   }
+
   #searchId.ds-search{
-    max-width: 100%;
-  }
+        margin: 0;
+        width: 80%;
+    }
 }
 @media (min-width: 992px) {
   .container {
@@ -96,3 +99,5 @@ body {
   border: 0;
   white-space: nowrap;
 }
+
+

@@ -10,20 +10,12 @@ interface VardefSearchHitProps {
 
 const VardefSearchHit = ({variableDefinition}: VardefSearchHitProps) => {
 
-    const getPersonalDataText = (value: boolean): string | null =>
-        value ? localization.containsSpecialCategoriesOfPersonalData : null;
-
-    const getValidNowText = (value?: string): string => (value ? localization.deprecated : localization.valid);
-
     return (
         <SearchHit
                 key={variableDefinition.id}
                 title={variableDefinition.name}
                 titleHref={`/variable-definitions/${variableDefinition.id}`}
-                tags={[
-                    getPersonalDataText(variableDefinition.contains_special_categories_of_personal_data),
-                    getValidNowText(variableDefinition.valid_until),
-                ]}
+        
                 content={
                     <div className={styles.set}>
                         <section className={styles.idSection}>
