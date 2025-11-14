@@ -4,39 +4,19 @@ exports[`SearchHit should render SearchHit successfully 1`] = `
 <body>
   <div>
     <div
-      class="container"
+      class="ds-card"
+      data-variant="default"
     >
-      <div
-        class="rowSpaceBetween"
+      <a
+        href="Search hit title href"
       >
-        <div
-          class="titleRow"
+        <h2
+          class="title"
         >
-          <a
-            href="Search hit title href"
-          >
-            <h2
-              class="title"
-            >
-              Search hit title
-            </h2>
-          </a>
-          <div>
-            <span
-              class="ds-tag"
-              color="info"
-            >
-              <span
-                class="ds-tag"
-              >
-                Search hit status tag
-              </span>
-            </span>
-          </div>
-        </div>
-      </div>
+          Search hit title
+        </h2>
+      </a>
       Search hit content
-      Search hit labels
     </div>
   </div>
 </body>
@@ -46,25 +26,18 @@ exports[`SearchHit should render SearchHit with empty title successfully 1`] = `
 <body>
   <div>
     <div
-      class="container"
+      class="ds-card"
+      data-variant="default"
     >
-      <div
-        class="rowSpaceBetween"
+      <a
+        href=""
       >
-        <div
-          class="titleRow"
+        <h2
+          class="title"
         >
-          <a
-            href=""
-          >
-            <h2
-              class="title"
-            >
-              Uten navn
-            </h2>
-          </a>
-        </div>
-      </div>
+          Uten navn
+        </h2>
+      </a>
     </div>
   </div>
 </body>
