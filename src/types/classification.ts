@@ -6,7 +6,7 @@ export type linkObj = {
 
 export enum ClassificationType {
     Klassifikasjon = 'Klassifikasjon',
-    Kodeliste = 'Kodeliste',
+    Kodeverk = 'Kodeverk',
 }
 
 export type Classification = {
@@ -14,7 +14,7 @@ export type Classification = {
     name: string;
     classificationType: ClassificationType;
     lastModified: string;
-    //_links: linkObj;
+    _links: linkObj;
 };
 
 export type KlassApiResponse = {

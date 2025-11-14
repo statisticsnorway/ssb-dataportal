@@ -12,9 +12,9 @@ interface SearchPageProps {
     value?: string;
     onSearch?: (value: string) => void;
     children: React.ReactNode;
-    classificationFamilies: string[]
-    variableDefinitions: string[]
-    classifications: string[]
+    //classificationFamilies: string[]
+    //variableDefinitions: string[]
+    //classifications: string[]
 }
 
 
