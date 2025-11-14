@@ -1,14 +1,14 @@
+import cn from 'classnames';
 import { ReactNode } from 'react';
 import { Footer } from '../footer';
 import { Header } from '../header';
-import cn from 'classnames';
 
 import '@global-css';
 
-import styles from './layout.module.css';
-import ErrorBoundary from '../error-boundry';
 import { UrlItem } from '@/types/navigationTypes';
 import { localization } from '@/utils/src';
+import ErrorBoundary from '../error-boundry';
+import styles from './layout.module.css';
 
 interface AppLayoutProps {
   children: ReactNode;

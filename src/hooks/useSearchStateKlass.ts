@@ -1,6 +1,6 @@
+import { useEffect, useMemo, useState } from 'react';
 import { Classification } from '@/types/classification';
 import { sortAscending, sortDateStringsDescending, sortDescending } from '@/utils/sort';
-import { useEffect, useMemo, useState } from 'react';
 
 const sortTypes: SortTypes[] = ['titleAsc', 'titleDesc', 'lastChanged'];
 

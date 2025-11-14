@@ -1,10 +1,10 @@
 'use client';
 
-import ClassificationsServicePage from './classifications-service-page';
+import { useEffect, useMemo, useState } from 'react';
 import { Classification, ClassificationFamily, ClassificationType } from '@/types/classification';
 import { FilterGroup } from '@/types/filters';
 import { useMetadata } from '@/utils/metadataProvider';
-import { useEffect, useMemo, useState } from 'react';
+import ClassificationsServicePage from './classifications-service-page';
 
 export default function Classifications() {
   const { klassData } = useMetadata();

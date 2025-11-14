@@ -1,10 +1,10 @@
 'use client';
 
-import { Component, ErrorInfo, ReactNode } from 'react';
 import { Heading } from '@digdir/designsystemet-react';
+import { Component, ErrorInfo, ReactNode } from 'react';
+import { localization } from '@/utils/src';
 import { Breadcrumbs } from '../breadcrumbs';
 import CenterContainer from '../center-container';
-import { localization } from '@/utils/src';
 
 interface Props {
   children?: ReactNode;

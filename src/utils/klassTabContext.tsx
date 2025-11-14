@@ -1,7 +1,7 @@
 'use client';
 
-import { Classification, ClassificationFamily } from '@/types/classification';
 import { createContext, useContext } from 'react';
+import { Classification, ClassificationFamily } from '@/types/classification';
 
 export type KlassTabData = {
   klassClassificationFamilies: ClassificationFamily[];

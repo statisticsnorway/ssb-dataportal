@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext } from 'react';
-import { KlassTabData, KlassTabProvider } from './klassTabContext';
 import { Classification, ClassificationFamily } from '@/types/classification';
 import { VariableDefinitionType } from '@/types/variableDefinition';
+import { KlassTabData, KlassTabProvider } from './klassTabContext';
 import { VardefTabData, VardefTabProvider } from './vardefTabContext';
 
 type MetadataProvidersProps = {

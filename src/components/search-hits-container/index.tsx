@@ -1,7 +1,7 @@
+import { ReactNode } from 'react';
 import { localization } from '@/utils/src';
 import { Pagination } from '../pagination';
 import styles from './search-hit-container.module.css';
-import { ReactNode } from 'react';
 
 type Props = {
   onPageChange?(selectedItem: number): void;

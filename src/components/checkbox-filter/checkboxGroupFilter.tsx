@@ -1,6 +1,6 @@
 import { Checkbox, Fieldset, FieldsetLegend, useCheckboxGroup, ValidationMessage } from '@digdir/designsystemet-react';
-import styles from './checkbox.module.css';
 import { FilterItem } from '@/types/filters';
+import styles from './checkbox.module.css';
 
 interface CheckboxGroupProps {
   items: FilterItem[];

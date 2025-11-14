@@ -1,6 +1,6 @@
 'use client';
-import React, { FC, PropsWithChildren } from 'react';
 import { render, screen } from '@testing-library/react';
+import React, { FC, PropsWithChildren } from 'react';
 import { Header } from '.';
 
 type ChildrenProps = PropsWithChildren<object>;

@@ -1,7 +1,7 @@
 'use client';
 
-import { VariableDefinitionType } from '@/types/variableDefinition';
 import { createContext, useContext } from 'react';
+import { VariableDefinitionType } from '@/types/variableDefinition';
 
 export type VardefTabData = {
   variableDefinitions: VariableDefinitionType[];

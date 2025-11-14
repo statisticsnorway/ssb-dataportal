@@ -1,9 +1,9 @@
-import styles from './search-hit.module.css';
+import { Card } from '@digdir/designsystemet-react';
+import { Url } from 'next/dist/shared/lib/router/router';
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import { Url } from 'next/dist/shared/lib/router/router';
-import { Card } from '@digdir/designsystemet-react';
 import { localization, getTranslateText as translate } from '@/utils/src';
+import styles from './search-hit.module.css';
 
 interface SearchHitProps {
   title: string[] | string;

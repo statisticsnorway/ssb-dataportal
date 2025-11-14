@@ -1,8 +1,8 @@
 'use client';
 
-import VariableDefinitionsServicePage from './variable-definitions-service-page';
 import { useMemo, useState } from 'react';
 import { FilterGroup } from '@/types/filters';
+import VariableDefinitionsServicePage from './variable-definitions-service-page';
 
 export default function VariableDefinitions() {
   const [selectedVariableDefinitions, setSelectedVariableDefinitions] = useState<string[]>([]);

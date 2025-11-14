@@ -1,8 +1,8 @@
+import { Paragraph } from '@digdir/designsystemet-react';
 import { SearchHit } from '@/components/search-hit';
 import { Classification } from '@/types/classification';
-import { Paragraph } from '@digdir/designsystemet-react';
-import styles from '../../services.module.css';
 import { localization } from '@/utils/src';
+import styles from '../../services.module.css';
 
 interface ClassificationSearchHitProps {
   classification: Classification;

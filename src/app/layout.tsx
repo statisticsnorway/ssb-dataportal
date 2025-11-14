@@ -1,9 +1,9 @@
+import { Metadata } from 'next';
 import { AppLayout } from '@/components/app-layout';
 import { ClassificationType } from '@/types/classification';
 import { KlassTabData } from '@/utils/klassTabContext';
 import { MetadataProviders } from '@/utils/metadataProvider';
 import { VardefTabData } from '@/utils/vardefTabContext';
-import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Metadata services',

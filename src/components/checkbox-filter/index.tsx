@@ -1,8 +1,9 @@
 //import styles from './checkbox-tree.module.css';
-import React from 'react';
-import { CheckboxGroupFilter } from './checkboxGroupFilter';
-import { FilterItem } from '@/types/filters';
+
 import { Card } from '@digdir/designsystemet-react';
+import React from 'react';
+import { FilterItem } from '@/types/filters';
+import { CheckboxGroupFilter } from './checkboxGroupFilter';
 
 interface CheckboxFilterProps {
   filters: FilterItem[];

@@ -1,7 +1,7 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import { SearchHit } from '.';
 import { Tag } from '@digdir/designsystemet-react';
+import { render } from '@testing-library/react';
+import React from 'react';
+import { SearchHit } from '.';
 
 describe('SearchHit', () => {
   it('should render SearchHit successfully', () => {

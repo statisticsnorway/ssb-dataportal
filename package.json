@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check .",
-    "lint:fix": "biome lint --write  .",
+    "lint:fix": "biome check --write  .",
     "format:check": "biome format  .",
     "format:fix": "biome format --write . ",
     "test": "jest",

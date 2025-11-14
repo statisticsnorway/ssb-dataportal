@@ -1,8 +1,8 @@
 'use server';
-import SearchPage from '@/components/search-page/searchPage';
-import styles from './services.module.css';
 
 import { ReactNode } from 'react';
+import SearchPage from '@/components/search-page/searchPage';
+import styles from './services.module.css';
 export default async function TabsLayout({ children }: { children: ReactNode }) {
   //const classificationFamilies: string[] = ["Three", "Four"]
   //const classifications: string[] = ["One", "Two"]

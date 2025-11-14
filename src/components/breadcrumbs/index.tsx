@@ -1,6 +1,6 @@
+import Link from 'next/link';
 import { hashCode } from '@/utils/functions';
 import styles from './breadcrumbs.module.css';
-import Link from 'next/link';
 
 export type BreadcrumbType = {
   href: string;

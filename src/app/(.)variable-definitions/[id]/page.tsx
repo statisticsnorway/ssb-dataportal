@@ -1,10 +1,10 @@
 'use client';
 
-import { BreadcrumbType } from '@/components/breadcrumbs';
-import { DetailsPageLayout } from '@/components/details-page-layout';
 import { Heading } from '@digdir/designsystemet-react';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { BreadcrumbType } from '@/components/breadcrumbs';
+import { DetailsPageLayout } from '@/components/details-page-layout';
 
 export default function VariableDefinition() {
   const params = useParams();

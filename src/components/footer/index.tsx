@@ -1,8 +1,7 @@
-import { FC } from 'react';
-
-import styles from './footer.module.css';
-import { UrlItem } from '@/types/navigationTypes';
 import { Link } from '@digdir/designsystemet-react';
+import { FC } from 'react';
+import { UrlItem } from '@/types/navigationTypes';
+import styles from './footer.module.css';
 
 export interface FooterProps {
   fontColor?: string;

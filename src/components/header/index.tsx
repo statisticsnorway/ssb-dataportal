@@ -1,8 +1,8 @@
 'use client';
 
+import { Link } from '@digdir/designsystemet-react';
 import { FC } from 'react';
 import styles from './header.module.scss';
-import { Link } from '@digdir/designsystemet-react';
 
 export interface HeaderProps {
   homeUrl?: string;

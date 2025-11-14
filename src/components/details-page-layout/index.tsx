@@ -1,6 +1,6 @@
 import { HTMLAttributes, ReactNode } from 'react';
-import styles from './details-page-layout.module.css';
 import { Breadcrumbs, BreadcrumbType } from '../breadcrumbs';
+import styles from './details-page-layout.module.css';
 
 interface DetailsPageProps extends HTMLAttributes<HTMLDivElement> {
   title?: string;

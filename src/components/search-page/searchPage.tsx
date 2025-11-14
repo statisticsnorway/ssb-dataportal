@@ -1,9 +1,9 @@
 'use client';
 
-import styles from './search-page.module.css';
 import { Search, Tabs } from '@digdir/designsystemet-react';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import styles from './search-page.module.css';
 
 interface SearchPageProps {
   className?: string;

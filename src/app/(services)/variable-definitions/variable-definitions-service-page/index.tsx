@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
-import { VariableDefinitionType } from '@/types/variableDefinition';
-import { FilterGroup } from '@/types/filters';
-import { SearchHitsLayout } from '@/components/search-hits-layout';
 import { FiltersPanel } from '@/components/filters-panel';
+import { SearchHitContainer } from '@/components/search-hits-container';
+import { SearchHitsLayout } from '@/components/search-hits-layout';
 import SortFields from '@/components/sort-fields';
 import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
-import { SearchHitContainer } from '@/components/search-hits-container';
+import { FilterGroup } from '@/types/filters';
+import { VariableDefinitionType } from '@/types/variableDefinition';
 import { localization } from '@/utils/src';
 import { VardefSearchHit } from './vardefSearchHit';
 

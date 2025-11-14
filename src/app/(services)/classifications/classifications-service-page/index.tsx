@@ -1,5 +1,6 @@
 'use client';
 
+import React, { useMemo } from 'react';
 import { FiltersPanel } from '@/components/filters-panel';
 import { SearchHitContainer } from '@/components/search-hits-container';
 import { SearchHitsLayout } from '@/components/search-hits-layout';
@@ -7,9 +8,8 @@ import SortFields from '@/components/sort-fields';
 import { SortTypes, useSearchStateKlass } from '@/hooks/useSearchStateKlass';
 import { Classification } from '@/types/classification';
 import { FilterGroup } from '@/types/filters';
-import React, { useMemo } from 'react';
-import { ClassificationSearchHit } from './classificationSearchHit';
 import { localization } from '@/utils/src';
+import { ClassificationSearchHit } from './classificationSearchHit';
 
 interface ClassificationServicePageProps {
   rawHits: Classification[];
@@ -32,7 +32,7 @@ const ClassificationsServicePage = ({
 
   const { hits, sortKey, setSortKey, sortTypes } = useSearchStateKlass(memoizedHits);
 
-  const isLoadingToDisplay = isLoading;
+  const _isLoadingToDisplay = isLoading;
 
   console.log(
     'Filters: ',
