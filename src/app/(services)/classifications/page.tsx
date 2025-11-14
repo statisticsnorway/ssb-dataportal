@@ -27,7 +27,7 @@ export default function Classifications() {
 
   const familyOne = [
     {
-      id: 1,
+      id: '1',
       name: 'Standard for X',
       classificationType: ClassificationType.Klassifikasjon,
       lastModified: '2024-03-05',
@@ -38,7 +38,7 @@ export default function Classifications() {
   ];
   const familyTwo = [
     {
-      id: 2,
+      id: '2',
       name: 'Kodeliste Y',
       classificationType: ClassificationType.Kodeverk,
       lastModified: '2024-03-05',
@@ -113,7 +113,7 @@ export default function Classifications() {
 
         if (selectedFamilies.length > 0) {
           for (const id of selectedFamilies) {
-            const family = 1 ? familyOne : familyTwo;
+            const family = (id === '1') ? familyOne : familyTwo;
             data.push(...(family ?? []));
           }
           // We should not use this combination of fetching data, but we must be sure pagination and filtering is correct before removing
