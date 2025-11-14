@@ -14,7 +14,7 @@ interface SearchHitProps {
     tags?: ReactNode[];
 }
 
-const SearchHit = ({ title, content, titleHref, labels }: SearchHitProps) => {
+const SearchHit = ({ title, content, titleHref }: SearchHitProps) => {
     return (
             <Card>
                     <Link href={titleHref ?? ''}>
