@@ -19,9 +19,6 @@ interface SearchPageProps {
 
 
 const SearchPage: React.FC<SearchPageProps> = ({
-    placeholder = 'Søk...',
-    value = '',
-    onSearch = () => {},
     children,
 }) => {
 

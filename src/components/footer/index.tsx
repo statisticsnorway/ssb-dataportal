@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
 import styles from './footer.module.css';
-import MetadataLink from '../metadata-link';
 import { UrlItem } from '@/types/navigationTypes';
+import { Link } from '@digdir/designsystemet-react';
 
 
 export interface FooterProps {
@@ -20,12 +20,12 @@ export const Footer: FC<FooterProps> = ({ footerLinks }) => (
     </section>
     <section className={styles.footerLinkSection}>
       {footerLinks?.map((link, index) => (
-          <MetadataLink
+          <Link
             key={index}
-            to={link.url}
+            href={link.url}
             >
               {link.name}
-          </MetadataLink>
+          </Link>
       )) 
       }
     </section>
