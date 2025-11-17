@@ -98,7 +98,7 @@
         "noWith": "error"
       }
     },
-    "includes": ["**/src/**", "!**/build/**/*/*.js", "!**/build/**/*.js", "!**/public/**/*.js"]
+    "includes": ["**/src/**", "!**/build/**/*/*.js", "!**/build/**/*.js", "!**/public/**/*.js", "!**/*.spec.tsx"]
   },
   "javascript": {
     "formatter": {

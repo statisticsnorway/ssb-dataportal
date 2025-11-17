@@ -10,5 +10,7 @@
   },
   "biome.enabled": true,
   "biome.requireConfiguration": true,
-  "biome.suggestInstallingGlobally": false
+  "biome.suggestInstallingGlobally": false,
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true
 }

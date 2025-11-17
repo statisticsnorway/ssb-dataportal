@@ -113,7 +113,7 @@ export default function Classifications() {
 
         if (selectedFamilies.length > 0) {
           for (const id of selectedFamilies) {
-            const family = (id === '1') ? familyOne : familyTwo;
+            const family = id === '1' ? familyOne : familyTwo;
             data.push(...(family ?? []));
           }
           // We should not use this combination of fetching data, but we must be sure pagination and filtering is correct before removing
