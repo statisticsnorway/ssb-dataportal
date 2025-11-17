@@ -26,17 +26,16 @@ export default function Classifications() {
 
   const PAGE_SIZE = 20;
 
-  //const klassData: KlassTabData | null = useKlassTabData();
   const klassData = useKlassTabData();
-
-  useEffect(() => {
-    console.log('Klass data', klassData);
-  }, [klassData]);
 
   //TODO: This is console logs for development, We dont want to expose this to the public and it should be removed
   useEffect(() => {
     console.log('Selected classification types', selectedClassificationTypes);
   }, [selectedClassificationTypes]);
+
+    useEffect(() => {
+    console.log('Klass data', klassData);
+  }, [klassData]);
 
   useEffect(() => {
     console.log('Selected classification families', selectedFamilies);
