@@ -26,7 +26,6 @@ jest.mock('@digdir/designsystemet-react', () => {
   MockDropdownMenu.Group = makePart('DropdownMenu.Group');
   MockDropdownMenu.Item = makePart('DropdownMenu.Item');
 
-  //eslint-disable-next-line @typescript-eslint/no-explicit-any
   const Link: FC<any> = ({ children, href, title }) => (
     <a href={href} title={title}>
       {children}

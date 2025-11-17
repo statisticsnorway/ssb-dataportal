@@ -39,6 +39,7 @@ class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
+      // biome-ignore lint/correctness/noUnusedVariables: <Check why unused - copied from catalog-frontend>
       const pageSubtitle = 'Feil';
 
       return (

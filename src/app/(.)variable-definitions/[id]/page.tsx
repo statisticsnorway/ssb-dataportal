@@ -24,7 +24,7 @@ export default function VariableDefinition() {
         setLoading(true);
 
         setVariableDefinition('data');
-        //eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // biome-ignore lint/suspicious/noExplicitAny: <ignore for now>
       } catch (err: any) {
         setError(err.message);
       } finally {

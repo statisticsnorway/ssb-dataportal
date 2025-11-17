@@ -24,7 +24,7 @@ export default function Classification() {
         setLoading(true);
 
         setClassification('data');
-        //eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // biome-ignore lint/suspicious/noExplicitAny: <Must find alternative to any in error>
       } catch (err: any) {
         setError(err.message);
       } finally {

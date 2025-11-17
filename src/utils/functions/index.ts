@@ -11,6 +11,7 @@ export const hashCode = (s: string) => {
   return h;
 };
 
+// biome-ignore lint/suspicious/noExplicitAny: <Not sure why this code is used>
 export const isObjectNullUndefinedEmpty = (object: any | null | undefined) =>
   object === undefined ||
   object === null ||

@@ -1,6 +1,7 @@
 import { get } from 'lodash';
 import { localization } from './localization';
 
+// biome-ignore lint/suspicious/noExplicitAny: <Copied from catalog-frontend - must find out why they us any>
 export const getTranslateText = (textObj: any, language?: string): string | string[] => {
   const selectedLanguage = language || localization.getLanguage();
   if (typeof textObj === 'string') {

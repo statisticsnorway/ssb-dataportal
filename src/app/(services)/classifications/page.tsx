@@ -105,6 +105,7 @@ export default function Classifications() {
    * The pipeline for filtering and paginating page content.
    */
   useEffect(() => {
+    // biome-ignore lint/correctness/noUnusedVariables: <ignoring while setting up project>
     async function loadClassifications() {
       setLoading(true);
       setError(null);
@@ -141,7 +142,7 @@ export default function Classifications() {
         data = data.slice(start, start + PAGE_SIZE);
 
         setClassifications(data);
-        //eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // biome-ignore lint/suspicious/noExplicitAny: <ignoring for now>
       } catch (err: any) {
         setError(err.message);
       } finally {

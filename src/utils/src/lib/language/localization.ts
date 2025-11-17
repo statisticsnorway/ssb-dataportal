@@ -3,7 +3,7 @@ import { datasetFormNb } from './dataset.form.nb';
 import { nb } from './nb';
 
 interface LocaleStrings extends LocalizedStringsMethods {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: <Copied from catalog-frontend - must find out why any is used>
   [key: string]: any;
 }
 
