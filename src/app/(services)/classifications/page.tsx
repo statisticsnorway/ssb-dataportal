@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Classification, ClassificationFamily, ClassificationType } from '@/types/classification';
 import { FilterGroup } from '@/types/filters';
-import { KLASS_HOST } from '@/utils/constants';
 import { useKlassTabData } from '@/utils/klassTabContext';
 import ClassificationsServicePage from './classifications-service-page';
 
