@@ -15,7 +15,7 @@ export default function Classifications() {
   // Default are all classificationtypes selected in order to work with the logic of filtering and combining with other filters
   const [selectedClassificationTypes, setSelectedClassificationTypes] = useState<string[]>([
     ClassificationType.Klassifikasjon,
-    ClassificationType.Kodeverk,
+    ClassificationType.Kodeliste,
   ]);
 
   const [pagination, setPagination] = useState({
@@ -44,7 +44,6 @@ export default function Classifications() {
     console.log('All classifications', classifications);
   }, [classifications]);
 
-  // Filter groups
   /**
    * Creating a list of filters by creating and adding filtergroups.
    *
@@ -97,7 +96,7 @@ export default function Classifications() {
         if (selectedFamilies.length > 0) {
           for (const id of selectedFamilies) {
             const res = await fetch(
-              `${KLASS_HOST}classification-families/${id}?includeCodelists=${selectedClassificationTypes.includes(ClassificationType.Kodeverk)}`,
+              `/api/classification-families/${id}?includeCodelists=${selectedClassificationTypes.includes(ClassificationType.Kodeliste)}`,
             );
             if (!res.ok) continue;
             const familyData = await res.json();
@@ -108,7 +107,7 @@ export default function Classifications() {
           data = [...klassData.klassClassifications];
         } else {
           const res = await fetch(
-            `${KLASS_HOST}classifications?includeCodelists=${selectedClassificationTypes.includes(ClassificationType.Kodeverk)}&page=${pagination.currentPage}&size=${PAGE_SIZE}`,
+            `/api/classifications?includeCodelists=${selectedClassificationTypes.includes(ClassificationType.Kodeliste)}&page=${pagination.currentPage}&size=${PAGE_SIZE}`,
           );
           const apiData = await res.json();
           data = apiData.classifications;
@@ -126,6 +125,7 @@ export default function Classifications() {
 
         const start = pagination.currentPage * PAGE_SIZE;
         data = data.slice(start, start + PAGE_SIZE);
+        console.log('Result %s', data);
 
         setClassifications(data);
         // biome-ignore lint/suspicious/noExplicitAny: <ignoring for now>
@@ -136,7 +136,7 @@ export default function Classifications() {
       }
     }
     loadClassifications();
-  }, [pagination.currentPage, selectedClassificationTypes]);
+  }, [pagination.currentPage, selectedClassificationTypes, selectedFamilies]);
 
   if (!klassData) {
     return <div>Loading...</div>;

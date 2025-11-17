@@ -1,7 +1,7 @@
 import { Classification, linkObj } from '@/types/classification';
+import { CLASSIFICATIONS, KLASS_HOST } from '@/utils/constants';
 
-const KLASS_HOST = process.env.KLASS_HOST;
-const CLASSIFICATIONS = '/classifications';
+//const KLASS_HOST = process.env.KLASS_HOST;
 
 export interface ClassificationResponse {
   classifications: Classification[];
