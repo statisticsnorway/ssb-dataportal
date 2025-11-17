@@ -7,6 +7,7 @@ export type linkObj = {
 export enum ClassificationType {
   Klassifikasjon = 'Klassifikasjon',
   Kodeverk = 'Kodeverk',
+  Kodeliste = 'Kodeliste',
 }
 
 export type Classification = {

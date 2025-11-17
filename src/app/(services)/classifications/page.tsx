@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { getMetadata } from '@/hooks/getMetadata';
 import { Classification, ClassificationFamily, ClassificationType } from '@/types/classification';
 import { FilterGroup } from '@/types/filters';
 import { KLASS_HOST } from '@/utils/constants';
@@ -33,7 +32,7 @@ export default function Classifications() {
     console.log('Selected classification types', selectedClassificationTypes);
   }, [selectedClassificationTypes]);
 
-    useEffect(() => {
+  useEffect(() => {
     console.log('Klass data', klassData);
   }, [klassData]);
 
@@ -60,7 +59,7 @@ export default function Classifications() {
       filterHeading: 'Kodeverk type',
       filters: [
         { label: ClassificationType.Klassifikasjon, value: ClassificationType.Klassifikasjon },
-        { label: ClassificationType.Kodeverk, value: ClassificationType.Kodeverk },
+        { label: ClassificationType.Kodeverk, value: ClassificationType.Kodeliste },
       ],
       selectedItems: selectedClassificationTypes,
       onFilterChange: setSelectedClassificationTypes,
@@ -97,26 +96,26 @@ export default function Classifications() {
 
         if (selectedFamilies.length > 0) {
           for (const id of selectedFamilies) {
-            const res = await getMetadata(
-              `/${KLASS_HOST}/classification-families/${id}?includeCodelists=${selectedClassificationTypes.includes(ClassificationType.Kodeverk)}`,
+            const res = await fetch(
+              `${KLASS_HOST}classification-families/${id}?includeCodelists=${selectedClassificationTypes.includes(ClassificationType.Kodeverk)}`,
             );
             if (!res.ok) continue;
             const familyData = await res.json();
             data.push(...(familyData.classifications ?? []));
           }
           // We should not use this combination of fetching data, but we must be sure pagination and filtering is correct before removing
-        } else if (klassData?.klassClassifications?.length) {
+        } else if (klassData?.klassClassifications?.length > 0) {
           data = [...klassData.klassClassifications];
         } else {
-          const res = await getMetadata(
-            `/${KLASS_HOST}/classifications?includeCodelists=${selectedClassificationTypes.includes(ClassificationType.Kodeverk)}&page=${pagination.currentPage}&size=${PAGE_SIZE}`,
+          const res = await fetch(
+            `${KLASS_HOST}classifications?includeCodelists=${selectedClassificationTypes.includes(ClassificationType.Kodeverk)}&page=${pagination.currentPage}&size=${PAGE_SIZE}`,
           );
           const apiData = await res.json();
           data = apiData.classifications;
         }
 
         // Step 2: apply local filters
-        data = data.filter((c) => selectedClassificationTypes.includes(c.classificationType));
+        data = data?.filter((c) => selectedClassificationTypes.includes(c.classificationType));
 
         // Step 3: pagination
         const totalItems = data.length;

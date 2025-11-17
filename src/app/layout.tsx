@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { AppLayout } from '@/components/app-layout';
-import { ClassificationType } from '@/types/classification';
+import { Classification, ClassificationFamily } from '@/types/classification';
+import { CLASSIFICATION_FAMILIES, CLASSIFICATIONS, KLASS_HOST } from '@/utils/constants';
 import { KlassTabData } from '@/utils/klassTabContext';
 import { MetadataProviders } from '@/utils/metadataProvider';
 import { VardefTabData } from '@/utils/vardefTabContext';
@@ -8,48 +9,6 @@ import { VardefTabData } from '@/utils/vardefTabContext';
 export const metadata: Metadata = {
   title: 'Metadata services',
   description: 'SSB metadata services',
-};
-
-const testKlassData: KlassTabData = {
-  klassClassificationFamilies: [],
-  /*klassClassificationFamilies: [
-    {
-      id: 1,
-      name: 'Family A',
-      numberOfClassifications: 1,
-      _links: {
-        self: { href: '/families/1' },
-      },
-    },
-    {
-      id: 2,
-      name: 'Family B',
-      numberOfClassifications: 1,
-      _links: {
-        self: { href: '/families/2' },
-      },
-    },
-  ],*/
-  klassClassifications: [
-    {
-      id: 1,
-      name: 'Standard for X',
-      classificationType: ClassificationType.Klassifikasjon,
-      lastModified: '2024-03-05',
-      _links: {
-        self: { href: '/api/classification/1' },
-      },
-    },
-    {
-      id: 2,
-      name: 'Kodeliste Y',
-      classificationType: ClassificationType.Kodeverk,
-      lastModified: '2024-03-05',
-      _links: {
-        self: { href: '/api/classification/2' },
-      },
-    },
-  ],
 };
 
 const testVardefData: VardefTabData = {
@@ -83,8 +42,18 @@ const testVardefData: VardefTabData = {
   ],
 };
 
+const classificationFamilies: ClassificationFamily[] = await fetch(`${KLASS_HOST}${CLASSIFICATION_FAMILIES}`)
+  .then((res) => res.json())
+  .then((data) => data._embedded.classificationFamilies ?? []);
+const classifications: Classification[] = await fetch(`${KLASS_HOST}${CLASSIFICATIONS}?includeCodelists=true`)
+  .then((res) => res.json())
+  .then((data) => data._embedded.classifications ?? []);
+
 const getMetadata = async () => {
-  const klassData: KlassTabData = testKlassData;
+  const klassData: KlassTabData = {
+    klassClassificationFamilies: classificationFamilies,
+    klassClassifications: classifications,
+  };
   const vardefData: VardefTabData = testVardefData;
   return { klassData, vardefData };
 };
