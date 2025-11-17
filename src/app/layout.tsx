@@ -11,7 +11,8 @@ export const metadata: Metadata = {
 };
 
 const testKlassData: KlassTabData = {
-  klassClassificationFamilies: [
+  klassClassificationFamilies: [],
+  /*klassClassificationFamilies: [
     {
       id: 1,
       name: 'Family A',
@@ -28,7 +29,7 @@ const testKlassData: KlassTabData = {
         self: { href: '/families/2' },
       },
     },
-  ],
+  ],*/
   klassClassifications: [
     {
       id: 1,
@@ -97,7 +98,6 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
           <MetadataProviders klassData={klassData} vardefData={vardefData}>
             {children}
           </MetadataProviders>
-          {children}
         </AppLayout>
       </body>
     </html>

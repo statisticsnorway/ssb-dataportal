@@ -1,13 +1,14 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { getMetadata } from '@/hooks/getMetadata';
 import { Classification, ClassificationFamily, ClassificationType } from '@/types/classification';
 import { FilterGroup } from '@/types/filters';
-import { useMetadata } from '@/utils/metadataProvider';
+import { KLASS_HOST } from '@/utils/constants';
+import { useKlassTabData } from '@/utils/klassTabContext';
 import ClassificationsServicePage from './classifications-service-page';
 
 export default function Classifications() {
-  const { klassData } = useMetadata();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [classifications, setClassifications] = useState<Classification[]>([]);
@@ -25,28 +26,12 @@ export default function Classifications() {
 
   const PAGE_SIZE = 20;
 
-  const familyOne = [
-    {
-      id: '1',
-      name: 'Standard for X',
-      classificationType: ClassificationType.Klassifikasjon,
-      lastModified: '2024-03-05',
-      _links: {
-        self: { href: '/api/classification/1' },
-      },
-    },
-  ];
-  const familyTwo = [
-    {
-      id: '2',
-      name: 'Kodeliste Y',
-      classificationType: ClassificationType.Kodeverk,
-      lastModified: '2024-03-05',
-      _links: {
-        self: { href: '/api/classification/2' },
-      },
-    },
-  ];
+  //const klassData: KlassTabData | null = useKlassTabData();
+  const klassData = useKlassTabData();
+
+  useEffect(() => {
+    console.log('Klass data', klassData);
+  }, [klassData]);
 
   //TODO: This is console logs for development, We dont want to expose this to the public and it should be removed
   useEffect(() => {
@@ -83,7 +68,7 @@ export default function Classifications() {
     });
 
     // Only add this filter if it is possible to fetch clasification families
-    if (klassData?.klassClassificationFamilies) {
+    if (klassData?.klassClassificationFamilies && klassData?.klassClassificationFamilies.length != 0) {
       groups.push({
         filterHeading: 'Område',
         filters: klassData.klassClassificationFamilies.map((f: ClassificationFamily) => ({
@@ -105,7 +90,6 @@ export default function Classifications() {
    * The pipeline for filtering and paginating page content.
    */
   useEffect(() => {
-    // biome-ignore lint/correctness/noUnusedVariables: <ignoring while setting up project>
     async function loadClassifications() {
       setLoading(true);
       setError(null);
@@ -114,15 +98,19 @@ export default function Classifications() {
 
         if (selectedFamilies.length > 0) {
           for (const id of selectedFamilies) {
-            const family = id === '1' ? familyOne : familyTwo;
-            data.push(...(family ?? []));
+            const res = await getMetadata(
+              `/${KLASS_HOST}/classification-families/${id}?includeCodelists=${selectedClassificationTypes.includes(ClassificationType.Kodeverk)}`,
+            );
+            if (!res.ok) continue;
+            const familyData = await res.json();
+            data.push(...(familyData.classifications ?? []));
           }
           // We should not use this combination of fetching data, but we must be sure pagination and filtering is correct before removing
         } else if (klassData?.klassClassifications?.length) {
           data = [...klassData.klassClassifications];
         } else {
-          const res = await fetch(
-            `/api/classifications?includeCodelists=${selectedClassificationTypes.includes(ClassificationType.Kodeverk)}&page=${pagination.currentPage}&size=${PAGE_SIZE}`,
+          const res = await getMetadata(
+            `/${KLASS_HOST}/classifications?includeCodelists=${selectedClassificationTypes.includes(ClassificationType.Kodeverk)}&page=${pagination.currentPage}&size=${PAGE_SIZE}`,
           );
           const apiData = await res.json();
           data = apiData.classifications;
@@ -149,7 +137,12 @@ export default function Classifications() {
         setLoading(false);
       }
     }
+    loadClassifications();
   }, [pagination.currentPage, selectedClassificationTypes]);
+
+  if (!klassData) {
+    return <div>Loading...</div>;
+  }
 
   if (error) {
     return <div>Error loading data: {error}</div>;

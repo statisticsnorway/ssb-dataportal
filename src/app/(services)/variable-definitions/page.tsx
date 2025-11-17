@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { FilterGroup } from '@/types/filters';
+import { useVardefTabData } from '@/utils/vardefTabContext';
 import VariableDefinitionsServicePage from './variable-definitions-service-page';
 
 export default function VariableDefinitions() {
@@ -23,27 +24,13 @@ export default function VariableDefinitions() {
     return groups;
   }, [selectedVariableDefinitions]);
 
-  //const vardefData = useVardefTabData();
+  const vardefData = useVardefTabData();
 
-  /*if (!vardefData) {
-        return <div>Loading...</div>;
-    }*/
+  if (!vardefData) {
+    return <div>Loading...</div>;
+  }
 
-  const variableDefinitions = [
-    {
-      id: 'hgk',
-      name: 'name',
-      short_name: 'short',
-      definition: 'Bla bla bla',
-      last_updated_at: '2025-01-01',
-      valid_from: '2025-10-12',
-      contains_special_categories_of_personal_data: false,
-      contact: {
-        title: 'Boss',
-        email: 'boss@ssb.no',
-      },
-    },
-  ];
+  const { variableDefinitions } = vardefData;
 
   return <VariableDefinitionsServicePage rawHits={variableDefinitions} filterGroups={filterGroups} isLoading={false} />;
 }

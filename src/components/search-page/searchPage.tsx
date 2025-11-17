@@ -3,6 +3,8 @@
 import { Search, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { Classification, ClassificationFamily } from '@/types/classification';
+import { VariableDefinitionType } from '@/types/variableDefinition';
 import styles from './search-page.module.css';
 
 interface SearchPageProps {
@@ -11,9 +13,6 @@ interface SearchPageProps {
   value?: string;
   onSearch?: (value: string) => void;
   children: React.ReactNode;
-  //classificationFamilies: string[]
-  //variableDefinitions: string[]
-  //classifications: string[]
 }
 
 const SearchPage: React.FC<SearchPageProps> = ({ children }) => {
@@ -32,7 +31,6 @@ const SearchPage: React.FC<SearchPageProps> = ({ children }) => {
     if (selectedTab !== derivedTab) {
       setSelectedTab(derivedTab);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [derivedTab]);
 
   const handleTabChange = (value: string) => {

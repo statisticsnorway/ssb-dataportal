@@ -1,22 +1,11 @@
-'use server';
-
 import { ReactNode } from 'react';
 import SearchPage from '@/components/search-page/searchPage';
 import styles from './services.module.css';
-export default async function TabsLayout({ children }: { children: ReactNode }) {
-  //const classificationFamilies: string[] = ["Three", "Four"]
-  //const classifications: string[] = ["One", "Two"]
-  //const variableDefinitions: string[] = ["Six", "Seven"]
 
+export default async function TabsLayout({ children }: { children: ReactNode }) {
   return (
     <div className={styles.metadataContainer}>
-      <SearchPage
-      //classificationFamilies={classificationFamilies}
-      //classifications={classifications}
-      //variableDefinitions={variableDefinitions}
-      >
-        {children}
-      </SearchPage>
+      <SearchPage>{children}</SearchPage>
     </div>
   );
 }
