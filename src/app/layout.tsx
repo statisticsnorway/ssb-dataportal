@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import { AppLayout } from '@/components/app-layout';
+import { fetchAllClassifications } from '@/lib/data/classificationData';
 import { Classification, ClassificationFamily } from '@/types/classification';
-import { CLASSIFICATION_FAMILIES, CLASSIFICATIONS, KLASS_HOST } from '@/utils/constants';
+import { CLASSIFICATION_FAMILIES, KLASS_HOST } from '@/utils/constants';
 import { KlassTabData } from '@/utils/klassTabContext';
 import { MetadataProviders } from '@/utils/metadataProvider';
 import { VardefTabData } from '@/utils/vardefTabContext';
@@ -45,14 +46,16 @@ const testVardefData: VardefTabData = {
 const classificationFamilies: ClassificationFamily[] = await fetch(`${KLASS_HOST}${CLASSIFICATION_FAMILIES}`)
   .then((res) => res.json())
   .then((data) => data._embedded.classificationFamilies ?? []);
-const classifications: Classification[] = await fetch(`${KLASS_HOST}${CLASSIFICATIONS}?includeCodelists=true`)
+/*const classifications: Classification[] = await fetch(`${KLASS_HOST}${CLASSIFICATIONS}?includeCodelists=true`)
   .then((res) => res.json())
-  .then((data) => data._embedded.classifications ?? []);
+  .then((data) => data._embedded.classifications ?? []);*/
+
+const allClassifications: Classification[] = await fetchAllClassifications();
 
 const getMetadata = async () => {
   const klassData: KlassTabData = {
     klassClassificationFamilies: classificationFamilies,
-    klassClassifications: classifications,
+    klassClassifications: allClassifications,
   };
   const vardefData: VardefTabData = testVardefData;
   return { klassData, vardefData };

@@ -1,7 +1,8 @@
+'use server'
+
 import { Classification, linkObj } from '@/types/classification';
 import { CLASSIFICATIONS, KLASS_HOST } from '@/utils/constants';
 
-//const KLASS_HOST = process.env.KLASS_HOST;
 
 export interface ClassificationResponse {
   classifications: Classification[];
@@ -38,4 +39,30 @@ export async function fetchClassifications({
     console.error('Fetch error:', error);
     throw error;
   }
+}
+
+
+export async function fetchAllClassifications(pageSize = 20): Promise<Classification[]> {
+  const allClassifications = [];
+  let currentPage = 0;
+  let totalPages = 1;
+
+  while (currentPage < totalPages) {
+    const res = await fetch(
+      `${KLASS_HOST}${CLASSIFICATIONS}?includeCodelists=true&page=${currentPage}&size=${pageSize}`,
+      {
+        cache: 'no-store',
+      },
+    );
+    if (!res.ok) throw new Error('Failed to fetch classifications');
+
+    const data = await res.json();
+
+    allClassifications.push(...data._embedded.classifications);
+
+    totalPages = data.page?.totalPages ?? totalPages;
+    currentPage++;
+  }
+
+  return allClassifications;
 }

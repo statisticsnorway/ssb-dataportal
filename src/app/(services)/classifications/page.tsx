@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { fetchClassifications } from '@/lib/data/classificationData';
+import { getClassificationFamily } from '@/lib/data/classificationFamilyData';
 import { Classification, ClassificationFamily, ClassificationType } from '@/types/classification';
 import { FilterGroup } from '@/types/filters';
 import { useKlassTabData } from '@/utils/klassTabContext';
@@ -79,7 +81,10 @@ export default function Classifications() {
   }, [klassData?.klassClassificationFamilies, selectedFamilies, selectedClassificationTypes]);
 
   const handlePageChange = (newPage: number) => {
-    setPagination((prev) => ({ ...prev, currentPage: newPage - 1 }));
+    setPagination((prev) => ({
+      ...prev,
+      currentPage: newPage - 1,
+    }));
   };
 
   /**
@@ -94,36 +99,39 @@ export default function Classifications() {
 
         if (selectedFamilies.length > 0) {
           for (const id of selectedFamilies) {
-            const res = await fetch(
-              `/api/classification-families/${id}?includeCodelists=${selectedClassificationTypes.includes(ClassificationType.Kodeliste)}`,
+            const familyData = await getClassificationFamily(
+              id,
+              selectedClassificationTypes.includes(ClassificationType.Kodeliste),
             );
-            if (!res.ok) continue;
-            const familyData = await res.json();
-            data.push(...(familyData.classifications ?? []));
+            console.log('Family', familyData);
+            const familyClassifications: Classification[] = familyData.classifications;
+
+            data.push(...(familyClassifications ?? []));
           }
           // We should not use this combination of fetching data, but we must be sure pagination and filtering is correct before removing
         } else if (klassData?.klassClassifications?.length > 0) {
           data = [...klassData.klassClassifications];
         } else {
-          const res = await fetch(
-            `/api/classifications?includeCodelists=${selectedClassificationTypes.includes(ClassificationType.Kodeliste)}&page=${pagination.currentPage}&size=${PAGE_SIZE}`,
-          );
-          const apiData = await res.json();
+          const apiData = await fetchClassifications({
+            page: String(pagination.currentPage),
+            size: String(PAGE_SIZE),
+            includeCodelists: selectedClassificationTypes.includes(ClassificationType.Kodeliste),
+          });
           data = apiData.classifications;
         }
 
         // Step 2: apply local filters
         data = data?.filter((c) => selectedClassificationTypes.includes(c.classificationType));
 
-        // Step 3: pagination
-        const totalItems = data.length;
-        setPagination((prev) => ({
-          ...prev,
-          totalPages: Math.ceil(totalItems / PAGE_SIZE),
-        }));
+        // compute totalPages first
+        const totalPages = Math.ceil(data.length / PAGE_SIZE);
 
-        const start = pagination.currentPage * PAGE_SIZE;
-        data = data.slice(start, start + PAGE_SIZE);
+        // snapshot currentPage
+        let currentPage = pagination.currentPage;
+        if (currentPage >= totalPages) currentPage = 0; // reset if needed
+
+        // update state
+        setPagination({ currentPage, totalPages });
 
         setClassifications(data);
         // biome-ignore lint/suspicious/noExplicitAny: <ignoring for now>
@@ -134,7 +142,7 @@ export default function Classifications() {
       }
     }
     loadClassifications();
-  }, [pagination.currentPage, selectedClassificationTypes, selectedFamilies]);
+  }, [pagination.currentPage, selectedClassificationTypes, selectedFamilies, klassData?.klassClassifications]);
 
   if (!klassData) {
     return <div>Loading...</div>;

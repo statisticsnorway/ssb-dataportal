@@ -43,3 +43,9 @@ export type ClassificationFamily = {
   numberOfClassifications: number;
   _links: linkObj;
 };
+
+export type ClassificationFamilyResponse = {
+  name: string;
+  id: number;
+  classifications: Classification[];
+};
