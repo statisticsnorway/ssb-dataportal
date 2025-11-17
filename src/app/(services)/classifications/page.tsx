@@ -124,7 +124,6 @@ export default function Classifications() {
 
         const start = pagination.currentPage * PAGE_SIZE;
         data = data.slice(start, start + PAGE_SIZE);
-        console.log('Result %s', data);
 
         setClassifications(data);
         // biome-ignore lint/suspicious/noExplicitAny: <ignoring for now>
