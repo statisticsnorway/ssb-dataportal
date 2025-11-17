@@ -17,6 +17,7 @@ interface State {
 }
 
 class ErrorBoundary extends Component<Props, State> {
+  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: <Check with catalog-frontendn>
   private title: string | undefined;
 
   constructor(props: Props) {
