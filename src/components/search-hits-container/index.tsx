@@ -1,36 +1,70 @@
-import { ReactNode } from 'react';
-import { localization } from '@/utils/src';
-import { Pagination } from '../pagination';
+import { Pagination, usePagination } from '@digdir/designsystemet-react';
+import { ReactNode, useState } from 'react';
+import { Classification } from '@/types/classification';
 import styles from './search-hit-container.module.css';
+import { localization } from '@/utils/src/lib/language/localization';
 
 type Props = {
-  onPageChange?(selectedItem: number): void;
-  searchHits: ReactNode | undefined;
-  paginationInfo?: PaginationInfo;
+  searchHits: React.ReactNode[];
+  paginationInfo: { currentPage: number; totalPages: number };
+  onPageChange: (page: number) => void;
   noSearchHits: boolean;
 };
 
-type PaginationInfo = {
-  totalPages: number;
-  currentPage: number;
-};
+const SearchHitContainer = ({
+  searchHits = [],
+  paginationInfo,
+  onPageChange,
+  noSearchHits,
+}: Props) => {
+  const { currentPage, totalPages } = paginationInfo;
 
-const SearchHitContainer = ({ onPageChange, searchHits, paginationInfo, noSearchHits }: Props) => {
+  // Generate pages for display
+  const { pages, prevButtonProps, nextButtonProps } = usePagination({
+    currentPage,
+    setCurrentPage: onPageChange, // controlled externally
+    totalPages,
+    showPages: 7,
+  });
+
+  if (noSearchHits) return <div>No results</div>;
+
   return (
     <div className={styles.searchHitsContainer}>
       {(noSearchHits || noSearchHits === undefined) && (
         <div className={styles.noHits}>{localization.search.noHits}</div>
       )}
-      {searchHits}
-      {!noSearchHits && paginationInfo && onPageChange && (
-        <Pagination
-          onChange={onPageChange}
-          totalPages={paginationInfo.totalPages}
-          currentPage={paginationInfo.currentPage + 1}
-        />
+      <div className={styles.hitsList}>{searchHits}</div>
+
+      {totalPages > 1 && (
+        <Pagination>
+          <Pagination.List>
+            <Pagination.Item>
+              <Pagination.Button aria-label="Forrige" {...prevButtonProps}>
+                Forrige
+              </Pagination.Button>
+            </Pagination.Item>
+
+            {pages.map((p) =>
+              p.buttonProps ? (
+                <Pagination.Item key={p.itemKey}>
+                  <Pagination.Button {...p.buttonProps}>{p.page}</Pagination.Button>
+                </Pagination.Item>
+              ) : (
+                <Pagination.Item key={p.itemKey} />
+              )
+            )}
+
+            <Pagination.Item>
+              <Pagination.Button aria-label="Neste" {...nextButtonProps}>
+                Neste
+              </Pagination.Button>
+            </Pagination.Item>
+          </Pagination.List>
+        </Pagination>
       )}
     </div>
   );
 };
 
-export { SearchHitContainer };
+export {SearchHitContainer}

@@ -32,12 +32,20 @@ const ClassificationsServicePage = ({
 
   const { hits, sortKey, setSortKey, sortTypes } = useSearchStateKlass(memoizedHits);
 
+  const PAGE_SIZE = 20;
+  const startIndex = currentPage * PAGE_SIZE;
+  const pagedHits = hits.slice(startIndex, startIndex + PAGE_SIZE);
+
   const _isLoadingToDisplay = isLoading;
 
   console.log(
     'Filters: ',
     filterGroups.map((filterGroup) => filterGroup.selectedItems),
   );
+
+  console.log('Pagination info:', { currentPage, totalPages });
+  console.log('Pagination pages:', { pagedHits});
+  console.log('pages:', { hits});
 
   return (
     <SearchHitsLayout
@@ -55,9 +63,13 @@ const ClassificationsServicePage = ({
             <div>{localization.search.noHits}</div>
           ) : (
             <SearchHitContainer
-              searchHits={hits.map((hit) => <ClassificationSearchHit key={hit.id} classification={hit} />)}
+              searchHits={pagedHits.map((hit) => <ClassificationSearchHit key={hit.id} classification={hit} />)}
               noSearchHits={false}
               onPageChange={onPageChange}
+              paginationInfo={{
+                currentPage: currentPage,
+                totalPages: totalPages,
+              }}
             />
           )}
         </>

@@ -5,6 +5,11 @@
   gap: 1rem;
 }
 
+.hitsList{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 .noHits {
   display: flex;
   justify-content: center;
