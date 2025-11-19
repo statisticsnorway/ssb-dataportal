@@ -1,8 +1,7 @@
-'use server'
+'use server';
 
 import { Classification, linkObj } from '@/types/classification';
 import { CLASSIFICATIONS, KLASS_HOST } from '@/utils/constants';
-
 
 export interface ClassificationResponse {
   classifications: Classification[];
@@ -40,7 +39,6 @@ export async function fetchClassifications({
     throw error;
   }
 }
-
 
 export async function fetchAllClassifications(pageSize = 20): Promise<Classification[]> {
   const allClassifications = [];

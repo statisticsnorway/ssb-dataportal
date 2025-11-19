@@ -5,7 +5,7 @@
   gap: 1rem;
 }
 
-.hitsList{
+.hitsList {
   display: flex;
   flex-direction: column;
   gap: 1rem;

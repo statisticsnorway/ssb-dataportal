@@ -42,13 +42,16 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, filterGroups }: Va
             <div>{localization.search.noHits}</div>
           ) : (
             <SearchHitContainer
-                  searchHits={hits.map((hit) => <VardefSearchHit key={hit.id} variableDefinition={hit} />)}
-                  noSearchHits={false} paginationInfo={{
-                    currentPage: 0,
-                    totalPages: 0
-                  }} onPageChange={function (page: number): void {
-                    throw new Error('Function not implemented.');
-                  } }            />
+              searchHits={hits.map((hit) => <VardefSearchHit key={hit.id} variableDefinition={hit} />)}
+              noSearchHits={false}
+              paginationInfo={{
+                currentPage: 0,
+                totalPages: 0,
+              }}
+              onPageChange={function (page: number): void {
+                throw new Error('Function not implemented.');
+              }}
+            />
           )}
         </>
       }

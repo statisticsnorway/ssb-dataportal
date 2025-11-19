@@ -1,8 +1,6 @@
 import { Pagination, usePagination } from '@digdir/designsystemet-react';
-import { ReactNode, useState } from 'react';
-import { Classification } from '@/types/classification';
-import styles from './search-hit-container.module.css';
 import { localization } from '@/utils/src/lib/language/localization';
+import styles from './search-hit-container.module.css';
 
 type Props = {
   searchHits: React.ReactNode[];
@@ -11,18 +9,16 @@ type Props = {
   noSearchHits: boolean;
 };
 
-const SearchHitContainer = ({
-  searchHits = [],
-  paginationInfo,
-  onPageChange,
-  noSearchHits,
-}: Props) => {
+/**
+ * Display searchits paginated
+ */
+const SearchHitContainer = ({ searchHits = [], paginationInfo, onPageChange, noSearchHits }: Props) => {
   const { currentPage, totalPages } = paginationInfo;
 
   // Generate pages for display
   const { pages, prevButtonProps, nextButtonProps } = usePagination({
     currentPage,
-    setCurrentPage: onPageChange, // controlled externally
+    setCurrentPage: onPageChange,
     totalPages,
     showPages: 7,
   });
@@ -40,7 +36,7 @@ const SearchHitContainer = ({
         <Pagination>
           <Pagination.List>
             <Pagination.Item>
-              <Pagination.Button aria-label="Forrige" {...prevButtonProps}>
+              <Pagination.Button aria-label='Forrige' {...prevButtonProps}>
                 Forrige
               </Pagination.Button>
             </Pagination.Item>
@@ -52,11 +48,11 @@ const SearchHitContainer = ({
                 </Pagination.Item>
               ) : (
                 <Pagination.Item key={p.itemKey} />
-              )
+              ),
             )}
 
             <Pagination.Item>
-              <Pagination.Button aria-label="Neste" {...nextButtonProps}>
+              <Pagination.Button aria-label='Neste' {...nextButtonProps}>
                 Neste
               </Pagination.Button>
             </Pagination.Item>
@@ -67,4 +63,4 @@ const SearchHitContainer = ({
   );
 };
 
-export {SearchHitContainer}
+export { SearchHitContainer };
