@@ -3,7 +3,7 @@ import { FiltersPanel } from '@/components/filters-panel';
 import { SearchHitContainer } from '@/components/search-hits-container';
 import { SearchHitsLayout } from '@/components/search-hits-layout';
 import SortFields from '@/components/sort-fields';
-import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
+import { SortTypes, useSearchStateVardef } from '@/lib/data/useSearchStateVardef';
 import { FilterGroup } from '@/types/filters';
 import { VariableDefinitionType } from '@/types/variableDefinition';
 import { localization } from '@/utils/src';
