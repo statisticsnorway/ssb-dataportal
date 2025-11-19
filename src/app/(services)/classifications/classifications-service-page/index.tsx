@@ -36,16 +36,14 @@ const ClassificationsServicePage = ({
   const startIndex = currentPage * PAGE_SIZE;
   const pagedHits = hits.slice(startIndex, startIndex + PAGE_SIZE);
 
-  const _isLoadingToDisplay = isLoading;
-
   console.log(
     'Filters: ',
     filterGroups.map((filterGroup) => filterGroup.selectedItems),
   );
 
   console.log('Pagination info:', { currentPage, totalPages });
-  console.log('Pagination pages:', { pagedHits});
-  console.log('pages:', { hits});
+  console.log('Pagination pages:', { pagedHits });
+  console.log('pages:', { hits });
 
   return (
     <SearchHitsLayout

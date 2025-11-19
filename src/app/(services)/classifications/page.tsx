@@ -153,11 +153,12 @@ export default function Classifications() {
   }
 
   return (
+    //TODO: The use of +1/-1 is a temporary fix for starting with 0. Should be handled elsewhere
     <ClassificationsServicePage
       rawHits={classifications}
       isLoading={loading}
-      currentPage={pagination.currentPage}
-      totalPages={pagination.totalPages}
+      currentPage={pagination.currentPage + 1}
+      totalPages={pagination.totalPages - 1}
       onPageChange={handlePageChange}
       filterGroups={filterGroups}
     />
