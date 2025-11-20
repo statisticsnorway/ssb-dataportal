@@ -2,7 +2,6 @@ import { Paragraph } from '@digdir/designsystemet-react';
 import { SearchHit } from '@/components/search-hit';
 import { localization } from '@/libs/language';
 import { Classification } from '@/types/classification';
-import styles from '../../services.module.css';
 
 interface ClassificationSearchHitProps {
   classification: Classification;
@@ -15,13 +14,13 @@ const ClassificationSearchHit = ({ classification }: ClassificationSearchHitProp
       title={classification.name}
       titleHref={`/classifications/${classification.id}`}
       content={
-        <div className={styles.set}>
-          <section className={styles.idSection}>
+        <div>
+          <section>
             <Paragraph>
-              <span className={styles.info}>{localization.id}</span> -<span>{classification.id}</span>
+              <span>{localization.id}</span> -<span>{classification.id}</span>
             </Paragraph>
             <Paragraph>
-              <span className={styles.info}>{localization.lastModified}</span> -
+              <span>{localization.lastModified}</span> -
               <span>{classification.lastModified}</span>
             </Paragraph>
           </section>

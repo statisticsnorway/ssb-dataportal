@@ -23,6 +23,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ children }) => {
     ? 'klassTab'
     : pathname.includes('/variable-definitions')
       ? 'vardefTab'
+      : pathname.includes('/datasets') ? 'datasetTab'
       : '';
 
   useEffect(() => {
@@ -34,7 +35,8 @@ const SearchPage: React.FC<SearchPageProps> = ({ children }) => {
   const handleTabChange = (value: string) => {
     setSelectedTab(value);
     if (value === 'klassTab') router.push('/classifications');
-    else if (value === 'vardefTab') router.push('/variable-definitions');
+    if (value === 'vardefTab') router.push('/variable-definitions')
+    else if (value === 'datasetTab') router.push('/datasets');
   };
 
   useEffect(() => {
@@ -58,6 +60,9 @@ const SearchPage: React.FC<SearchPageProps> = ({ children }) => {
             </Tabs.Tab>
             <Tabs.Tab value='klassTab' className={styles.tab}>
               Klassifikasjoner
+            </Tabs.Tab>
+              <Tabs.Tab value='datasetTab' className={styles.tab}>
+              Datasett
             </Tabs.Tab>
           </Tabs.List>
         </div>
