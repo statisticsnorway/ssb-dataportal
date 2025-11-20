@@ -3,8 +3,6 @@
 import { Search, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Classification, ClassificationFamily } from '@/types/classification';
-import { VariableDefinitionType } from '@/types/variableDefinition';
 import styles from './search-page.module.css';
 
 interface SearchPageProps {

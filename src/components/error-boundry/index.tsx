@@ -2,7 +2,7 @@
 
 import { Heading } from '@digdir/designsystemet-react';
 import { Component, ErrorInfo, ReactNode } from 'react';
-import { localization } from '@/utils/src';
+import { localization } from '@/libs/language';
 import { Breadcrumbs } from '../breadcrumbs';
 import CenterContainer from '../center-container';
 

@@ -5,10 +5,10 @@ import { FiltersPanel } from '@/components/filters-panel';
 import { SearchHitContainer } from '@/components/search-hits-container';
 import { SearchHitsLayout } from '@/components/search-hits-layout';
 import SortFields from '@/components/sort-fields';
-import { SortTypes, useSearchStateKlass } from '@/lib/data/useSearchStateKlass';
+import { SortTypes, useSearchStateKlass } from '@/hooks/useSearchStateKlass';
+import { localization } from '@/libs/language';
 import { Classification } from '@/types/classification';
 import { FilterGroup } from '@/types/filters';
-import { localization } from '@/utils/src';
 import { ClassificationSearchHit } from './classificationSearchHit';
 
 interface ClassificationServicePageProps {

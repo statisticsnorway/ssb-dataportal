@@ -6,7 +6,6 @@ import { Header } from '../header';
 import '@global-css';
 
 import { UrlItem } from '@/types/navigationTypes';
-import { localization } from '@/utils/src';
 import ErrorBoundary from '../error-boundry';
 import styles from './layout.module.css';
 

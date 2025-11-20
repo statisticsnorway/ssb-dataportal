@@ -1,7 +1,7 @@
 import { Paragraph } from '@digdir/designsystemet-react';
 import { SearchHit } from '@/components/search-hit';
+import { localization } from '@/libs/language';
 import { Classification } from '@/types/classification';
-import { localization } from '@/utils/src';
 import styles from '../../services.module.css';
 
 interface ClassificationSearchHitProps {

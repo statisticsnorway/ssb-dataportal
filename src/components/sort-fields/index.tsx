@@ -2,7 +2,6 @@ import { Select } from '@digdir/designsystemet-react';
 import React from 'react';
 import { SortTypes } from '@/types/tabs';
 import { filter } from '../../utils/constants';
-import { MetadataSelect } from '../select';
 import styles from './sort.module.css';
 
 interface SortFieldsProps {

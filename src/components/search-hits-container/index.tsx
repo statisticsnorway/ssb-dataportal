@@ -1,5 +1,5 @@
 import { Pagination, usePagination } from '@digdir/designsystemet-react';
-import { localization } from '@/utils/src/lib/language/localization';
+import { localization } from '@/libs/language/src/localization';
 import styles from './search-hit-container.module.css';
 
 type Props = {

@@ -1,5 +1,3 @@
-//import styles from './checkbox-tree.module.css';
-
 import { Card } from '@digdir/designsystemet-react';
 import React from 'react';
 import { FilterItem } from '@/types/filters';

@@ -1,7 +1,7 @@
 import { Paragraph } from '@digdir/designsystemet-react';
 import { SearchHit } from '@/components/search-hit';
+import { localization } from '@/libs/language';
 import { VariableDefinitionType } from '@/types/variableDefinition';
-import { localization } from '@/utils/src';
 import styles from '../../services.module.css';
 
 interface VardefSearchHitProps {

@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { fetchClassifications } from '@/lib/data/classificationData';
-import { getClassificationFamily } from '@/lib/data/classificationFamilyData';
+import { fetchClassifications } from '@/libs/data/classificationData';
+import { getClassificationFamily } from '@/libs/data/classificationFamilyData';
 import { Classification, ClassificationFamily, ClassificationType } from '@/types/classification';
 import { FilterGroup } from '@/types/filters';
 import { useKlassTabData } from '@/utils/klassTabContext';

@@ -2,7 +2,7 @@ import { Card } from '@digdir/designsystemet-react';
 import { Url } from 'next/dist/shared/lib/router/router';
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import { localization, getTranslateText as translate } from '@/utils/src';
+import { nb, getTranslateText as translate } from '@/libs/language';
 import styles from './search-hit.module.css';
 
 interface SearchHitProps {
@@ -18,7 +18,7 @@ const SearchHit = ({ title, content, titleHref }: SearchHitProps) => {
   return (
     <Card>
       <Link href={titleHref ?? ''}>
-        <h2 className={styles.title}>{translate(title) ? translate(title) : localization.nb.noName}</h2>
+        <h2 className={styles.title}>{translate(title) ? translate(title) : nb.noName}</h2>
       </Link>
 
       {content}
