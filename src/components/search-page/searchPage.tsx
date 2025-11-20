@@ -46,7 +46,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ children }) => {
       <section className={styles.searchPageWrapper}>
         <div className={`${styles.searchFieldContent} container`}>
           <Search id='searchId'>
-            <Search.Input id='searchValue' />
+            <Search.Input id='searchValue' aria-label='Søk' />
             <Search.Clear />
             <Search.Button>Søk</Search.Button>
           </Search>
