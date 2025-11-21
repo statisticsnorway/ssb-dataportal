@@ -20,8 +20,7 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
               <span>{localization.id}</span> -<span>{variableDefinition.id}</span>
             </Paragraph>
             <Paragraph>
-              <span>{localization.lastModified}</span> -
-              <span>{variableDefinition.last_updated_at}</span>
+              <span>{localization.lastModified}</span> -<span>{variableDefinition.last_updated_at}</span>
             </Paragraph>
           </section>
           <Paragraph>{variableDefinition.definition}</Paragraph>

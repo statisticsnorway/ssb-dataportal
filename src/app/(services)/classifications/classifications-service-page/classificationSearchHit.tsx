@@ -20,8 +20,7 @@ const ClassificationSearchHit = ({ classification }: ClassificationSearchHitProp
               <span>{localization.id}</span> -<span>{classification.id}</span>
             </Paragraph>
             <Paragraph>
-              <span>{localization.lastModified}</span> -
-              <span>{classification.lastModified}</span>
+              <span>{localization.lastModified}</span> -<span>{classification.lastModified}</span>
             </Paragraph>
           </section>
         </div>

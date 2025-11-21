@@ -55,7 +55,7 @@ describe('Header', () => {
     expect(logoLink).toBeInTheDocument();
     expect(logoLink).toHaveAttribute('href', 'https://example.com');
 
-    const logoText = screen.getByText(/Metadataportalen/i);
+    const logoText = screen.getByText(/Logo/i);
     expect(logoText).toBeInTheDocument();
 
     expect(asFragment()).toMatchSnapshot();

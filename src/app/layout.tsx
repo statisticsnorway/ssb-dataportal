@@ -46,9 +46,6 @@ const testVardefData: VardefTabData = {
 const classificationFamilies: ClassificationFamily[] = await fetch(`${KLASS_HOST}${CLASSIFICATION_FAMILIES}`)
   .then((res) => res.json())
   .then((data) => data._embedded.classificationFamilies ?? []);
-/*const classifications: Classification[] = await fetch(`${KLASS_HOST}${CLASSIFICATIONS}?includeCodelists=true`)
-  .then((res) => res.json())
-  .then((data) => data._embedded.classifications ?? []);*/
 
 const allClassifications: Classification[] = await fetchAllClassifications();
 
