@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPageLayout } from '@/components/details-page-layout';
 
-
 export default function VariableDefinition() {
   const params = useParams();
   const id = params.id;

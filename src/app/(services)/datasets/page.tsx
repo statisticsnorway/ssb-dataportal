@@ -1,4 +1,4 @@
-import styles from './datasets.module.css'
+import styles from './datasets.module.css';
 
 export default function Datasets() {
   return (
@@ -6,4 +6,4 @@ export default function Datasets() {
       <h2 className={styles.message}>Under arbeid</h2>
     </div>
   );
-};
+}
