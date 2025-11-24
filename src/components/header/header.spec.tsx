@@ -6,7 +6,6 @@ import { Header } from '.';
 type ChildrenProps = PropsWithChildren<object>;
 
 jest.mock('@digdir/designsystemet-react', () => {
-
   const Link: FC<any> = ({ children, href, title }) => (
     <a href={href} title={title}>
       {children}
@@ -42,5 +41,5 @@ describe('Header', () => {
     const logoLink = screen.getByTitle(/gå til hovedsiden/i);
     expect(logoLink).toBeInTheDocument();
     expect(logoLink).not.toHaveAttribute('href');
-});
+  });
 });
