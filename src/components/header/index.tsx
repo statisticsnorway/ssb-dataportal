@@ -15,6 +15,7 @@ export const Header: FC<HeaderProps> = ({ homeUrl }) => {
         <Link href={homeUrl} title='Gå til hovedsiden' className={styles.logo}>
           Logo
         </Link>
+        {/* TODO(): This could be section for user avatar. If not remove*/}
         <section className={styles.userSection}></section>
       </div>
     </header>

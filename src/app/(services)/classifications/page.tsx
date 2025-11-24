@@ -85,7 +85,7 @@ export default function Classifications() {
   };
 
   /**
-   * The pipeline for filtering and paginating page content.
+   * The pipeline for filtering page content.
    */
   useEffect(() => {
     async function loadClassifications() {

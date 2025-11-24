@@ -17,7 +17,6 @@ export const CheckboxGroupFilter = ({ filterHeading, items, onChange, value }: C
   return (
     <Fieldset
       data-size='small'
-      //className={styles.checkboxGroup}
     >
       <FieldsetLegend className={styles.filterHeader}>{filterHeading}</FieldsetLegend>
       {items.map(({ value: itemValue, label }) => (
