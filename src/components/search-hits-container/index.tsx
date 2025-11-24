@@ -10,7 +10,7 @@ type Props = {
 };
 
 /**
- * Display searchits paginated
+ * Display search hits paginated
  */
 const SearchHitContainer = ({ searchHits = [], paginationInfo, onPageChange, noSearchHits }: Props) => {
   const { currentPage, totalPages } = paginationInfo;

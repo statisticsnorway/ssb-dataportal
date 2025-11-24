@@ -1,9 +1,9 @@
 .breadcrumbs {
-  color: #335380;
+  color: var(--blue-color);
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 1rem auto;
+  margin: var(--center-element-top);
   overflow-wrap: break-word;
 }
 
@@ -14,7 +14,7 @@
   font-style: normal;
   font-weight: 400;
   line-height: 2.4rem;
-  color: #1e2b3c;
+  color: var(--dark-blue-color);
 }
 
 .link:hover {
@@ -25,11 +25,11 @@
   font-style: normal;
   font-weight: 400;
   line-height: 2.4rem;
-  color: #1e2b3c;
+  color: var(--dark-blue-color);
 }
 
 .separator {
   height: 0.8rem;
   width: 0.4rem;
-  margin: 0 1rem 0 1rem;
+  margin: 0 var(--medium-gap);
 }

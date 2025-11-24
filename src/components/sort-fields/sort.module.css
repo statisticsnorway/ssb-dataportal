@@ -1,5 +1,5 @@
 .sortData {
-  margin-bottom: 1rem;
+  margin-bottom: var(--medium-gap);
 }
 
 #sortVariables.ds-input {

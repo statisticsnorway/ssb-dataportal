@@ -1,34 +1,29 @@
-.metadataContainer {
-  margin-top: 1rem;
-  background-color: #fafafa;
-}
-
 .searchPageWrapper {
   display: flex;
   flex-flow: column;
   font-size: 1.6rem;
-  margin-bottom: 1em;
-  background-color: rgb(45, 55, 65);
+  margin-bottom: var(--medium-gap);
+  background-color: var(--dark-blue-gray-color);
   -webkit-box-align: center;
   background-repeat: no-repeat;
   background-position: right top;
   justify-items: center;
   min-height: 150px;
   justify-content: space-between;
-  gap: 1rem;
+  gap: var(--medium-gap);
 }
 
 .searchFieldContent {
-  margin-top: 2rem;
+  margin-top: var(--large-gap);
 }
 
 #searchValue.ds-input {
-  --dsc-search-padding-inline: 2rem;
+  --dsc-search-padding-inline: var(--large-gap);
   --dsc-input-color: green;
 }
 .metadataContainer {
-  margin-top: 1rem;
-  background-color: #fafafa;
+  margin-top: var(--medium-gap);
+  background-color: var(--background-color);
 }
 
 .tabs {
@@ -38,13 +33,13 @@
   -webkit-box-pack: start;
   justify-content: flex-start;
   flex-wrap: nowrap;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .tabsNavigation {
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+  margin: var(--center-element-no-top);
 }
 
 .tab {
@@ -55,14 +50,14 @@
   overflow: hidden;
   color: #e6eff8;
   width: 95%;
-  margin: 0 auto;
+  margin: var(--center-element-no-top);
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
 
 .tab[aria-selected="true"] {
-  background-color: #e6eff8;
-  color: black;
+  background-color: var(--light-light-blue-color);
+  color: var(--main-font-color);
 }
 
 @media (min-width: 768px) {

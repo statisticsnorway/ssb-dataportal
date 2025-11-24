@@ -20,7 +20,6 @@ const SearchHit = ({ title, content, titleHref }: SearchHitProps) => {
       <Link href={titleHref ?? ''}>
         <h2 className={styles.title}>{translate(title) ? translate(title) : nb.noName}</h2>
       </Link>
-
       {content}
     </Card>
   );

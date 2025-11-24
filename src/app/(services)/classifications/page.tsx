@@ -47,9 +47,6 @@ export default function Classifications() {
 
   /**
    * Creating a list of filters by creating and adding filtergroups.
-   *
-   * This should be made generic and props should be a list.
-   * How to handle conditionally filters? A prop?
    */
   const filterGroups: FilterGroup[] = useMemo(() => {
     const groups: FilterGroup[] = [];
@@ -108,7 +105,7 @@ export default function Classifications() {
 
             data.push(...(familyClassifications ?? []));
           }
-          // We should not use this combination of fetching data, but we must be sure pagination and filtering is correct before removing
+          // We might not use this combination of fetching data, but we must be sure pagination and filtering is correct before removing
         } else if (klassData?.klassClassifications?.length > 0) {
           data = [...klassData.klassClassifications];
         } else {

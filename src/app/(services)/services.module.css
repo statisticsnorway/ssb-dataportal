@@ -1,4 +1,4 @@
 .metadataContainer {
-  margin-top: 1rem;
-  background-color: #fafafa;
+  margin-top: var(--medium-gap);
+  background-color: var(--main-background-color);
 }

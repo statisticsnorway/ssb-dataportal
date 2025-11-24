@@ -6,10 +6,10 @@
   bottom: 0;
   min-height: 200px;
   padding: 3rem 0;
-  background-color: #fff;
-  color: #000;
-  gap: 1rem;
-  min-width: 360px;
+  background-color: var(--element-background-color);
+  color: var(--main-font-color);
+  gap: var(--medium-gap);
+  min-width: var(--app-min-width);
 }
 .footerInfoSection {
   width: 90%;

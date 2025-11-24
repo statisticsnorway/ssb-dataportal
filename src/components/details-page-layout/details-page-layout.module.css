@@ -13,13 +13,13 @@
 .detailPageContent {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: var(--medium-gap);
 }
 
 @media (min-width: 768px) {
   .detailPageContainer {
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
+    margin: var(--center-element-no-top);
   }
 }

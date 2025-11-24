@@ -3,14 +3,32 @@
 @layer reset, fds;
 
 @import url("@digdir/designsystemet-css");
-/*@import url('./reset.css');*/
 @import url("@digdir/designsystemet-theme");
 
 :root {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+
+  --breakpoint-width-sm: 768px;
+  --breakpoint-width-md: 960px;
+  --breakpoint-width-lg: 1320px;
+  --app-min-width: 360px;
+  --center-element-no-top: 0 auto;
+  --center-element-top: 1rem auto;
+  --medium-gap: 1rem;
+  --large-gap: 2rem;
+
+  --blue-color: #335380;
+  --dark-blue-color: #1e2b3c;
+  --main-background-color: #fafafa;
+  --shadow-color: #969ba0;
+  --element-background-color: #fff;
+  --light-light-blue-color: #e6eff8;
+  --dark-blue-gray-color: #2d3741;
+  --main-font-color: #000; 
 }
+
 html * {
   font-display: swap;
   font-size: 16px;
@@ -23,7 +41,7 @@ body {
   font-family: inherit;
   line-height: inherit;
   height: 100%;
-  background-color: #fafafa;
+  background-color: var(--main-background-color);
   padding: 0;
   margin: 0;
 }
@@ -42,15 +60,15 @@ body {
 }
 
 #searchId.ds-search {
-  --dsc-search-padding-inline: 2rem;
+  --dsc-search-padding-inline: var(--large-gap);
   width: 95%;
-  margin: 0 auto;
+  margin: var(--center-element-no-top);
 }
 
 @media (min-width: 768px) {
   .container {
-    max-width: 768px;
-    margin: 0 auto;
+    max-width: var(--breakpoint-width-sm);
+    margin: var(--center-element-no-top);
   }
 
   #searchId.ds-search {
@@ -60,33 +78,11 @@ body {
 }
 @media (min-width: 992px) {
   .container {
-    max-width: 960px;
+    max-width: var(--breakpoint-width-md);
   }
 }
 @media (min-width: 1400px) {
   .container {
-    max-width: 1320px;
+    max-width: var(--breakpoint-width-lg);
   }
-}
-
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.error {
-  font-size: 24px;
-}
-
-.hide-text {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-  white-space: nowrap;
 }
