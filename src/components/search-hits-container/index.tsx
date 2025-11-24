@@ -20,7 +20,8 @@ const SearchHitContainer = ({ searchHits = [], paginationInfo, onPageChange, noS
     currentPage,
     setCurrentPage: onPageChange,
     totalPages,
-    showPages: 7,
+    // TODO(): number of showPages should be set based on screen size
+    showPages: 4,
   });
 
   if (noSearchHits) return <div>No results</div>;
