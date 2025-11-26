@@ -22,6 +22,9 @@ export const DetailsPageLayout = ({ children, mainContent, title, breadcrumbList
         </header>
         <section className={styles.mainSection}>{mainContent}</section>
         {children}
+        <aside>
+          Hello aside
+        </aside>
       </article>
     </div>
   );
