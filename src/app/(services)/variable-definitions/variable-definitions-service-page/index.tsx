@@ -6,11 +6,11 @@ import SortFields from '@/components/sort-fields';
 import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
 import { localization } from '@/libs/language';
 import { FilterGroup } from '@/types/filters';
-import { VariableDefinitionType } from '@/types/variableDefinition';
+import { RenderedVariableDefinition } from '@/libs/data-access/variable-definitions/public/models/RenderedVariableDefinition';
 import { VardefSearchHit } from './vardefSearchHit';
 
 interface VariableDefinitionsServicePageProps {
-  rawHits: VariableDefinitionType[];
+  rawHits: RenderedVariableDefinition[];
   isLoading?: boolean;
   filterGroups: FilterGroup[];
 }

@@ -12,37 +12,42 @@ export const metadata: Metadata = {
   description: 'SSB metadata services',
 };
 
-// Temp data for setting up prototype
-const testVardefData: VardefTabData = {
+const testVardefData: VardefTabData= {
   variableDefinitions: [
     {
-      id: 'ux78',
-      name: 'landbak',
-      short_name: 'land',
-      definition: 'bla bla',
-      last_updated_at: '2025-10-11',
-      valid_from: '1998-01-01',
-      contains_special_categories_of_personal_data: false,
+      id: '',
+      name: 'Landbakgrunn',
+      patchId: 0,
+      shortName: 'landbak',
+      unitTypes: [],
+      subjectFields: [],
+      containsSpecialCategoriesOfPersonalData: false,
+      validFrom: new Date("2000-01-01"),
+      lastUpdatedAt: new Date("2025-10-11"),
+      definition: '',
       contact: {
-        title: 'Sjef',
-        email: 'sjef@ssb.no',
-      },
+        title: 'Professor',
+        email: 'proff@ssb.no',
+      },    
     },
     {
       id: 'icv6',
       name: 'buss',
-      short_name: 'bus',
+      patchId: 0,
+      shortName: 'bus',
+      unitTypes: [],
+      subjectFields: [],
       definition: 'bla bla',
-      last_updated_at: '2023-08-11',
-      valid_from: '2000-01-01',
-      contains_special_categories_of_personal_data: true,
+      validFrom: new Date("2020-01-01"),
+      lastUpdatedAt: new Date("2025-10-11"),
+      containsSpecialCategoriesOfPersonalData: false,
       contact: {
         title: 'Professor',
         email: 'proff@ssb.no',
       },
     },
-  ],
-};
+  ]
+}
 
 const classificationFamilies: ClassificationFamily[] = await fetch(`${KLASS_HOST}${CLASSIFICATION_FAMILIES}`)
   .then((res) => res.json())
