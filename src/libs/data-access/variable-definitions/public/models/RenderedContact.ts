@@ -14,62 +14,59 @@
 
 import { mapValues } from '../runtime';
 /**
- * 
+ *
  * @export
  * @interface RenderedContact
  */
 export interface RenderedContact {
-    /**
-     * 
-     * @type {string}
-     * @memberof RenderedContact
-     */
-    title: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RenderedContact
-     */
-    email: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RenderedContact
+   */
+  title: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RenderedContact
+   */
+  email: string;
 }
 
 /**
  * Check if a given object implements the RenderedContact interface.
  */
 export function instanceOfRenderedContact(value: object): value is RenderedContact {
-    if (!('title' in value) || value['title'] === undefined) return false;
-    if (!('email' in value) || value['email'] === undefined) return false;
-    return true;
+  if (!('title' in value) || value['title'] === undefined) return false;
+  if (!('email' in value) || value['email'] === undefined) return false;
+  return true;
 }
 
 export function RenderedContactFromJSON(json: any): RenderedContact {
-    return RenderedContactFromJSONTyped(json, false);
+  return RenderedContactFromJSONTyped(json, false);
 }
 
 export function RenderedContactFromJSONTyped(json: any, ignoreDiscriminator: boolean): RenderedContact {
-    if (json == null) {
-        return json;
-    }
-    return {
-        
-        'title': json['title'],
-        'email': json['email'],
-    };
+  if (json == null) {
+    return json;
+  }
+  return {
+    title: json['title'],
+    email: json['email'],
+  };
 }
 
 export function RenderedContactToJSON(json: any): RenderedContact {
-    return RenderedContactToJSONTyped(json, false);
+  return RenderedContactToJSONTyped(json, false);
 }
 
 export function RenderedContactToJSONTyped(value?: RenderedContact | null, ignoreDiscriminator: boolean = false): any {
-    if (value == null) {
-        return value;
-    }
+  if (value == null) {
+    return value;
+  }
 
-    return {
-        
-        'title': value['title'],
-        'email': value['email'],
-    };
+  return {
+    title: value['title'],
+    email: value['email'],
+  };
 }
-

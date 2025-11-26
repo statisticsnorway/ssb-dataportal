@@ -14,69 +14,66 @@
 
 import { mapValues } from '../runtime';
 /**
- * 
+ *
  * @export
  * @interface KlassReference
  */
 export interface KlassReference {
-    /**
-     * 
-     * @type {string}
-     * @memberof KlassReference
-     */
-    referenceUri: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof KlassReference
-     */
-    code?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof KlassReference
-     */
-    title?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof KlassReference
+   */
+  referenceUri: string;
+  /**
+   *
+   * @type {string}
+   * @memberof KlassReference
+   */
+  code?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof KlassReference
+   */
+  title?: string | null;
 }
 
 /**
  * Check if a given object implements the KlassReference interface.
  */
 export function instanceOfKlassReference(value: object): value is KlassReference {
-    if (!('referenceUri' in value) || value['referenceUri'] === undefined) return false;
-    return true;
+  if (!('referenceUri' in value) || value['referenceUri'] === undefined) return false;
+  return true;
 }
 
 export function KlassReferenceFromJSON(json: any): KlassReference {
-    return KlassReferenceFromJSONTyped(json, false);
+  return KlassReferenceFromJSONTyped(json, false);
 }
 
 export function KlassReferenceFromJSONTyped(json: any, ignoreDiscriminator: boolean): KlassReference {
-    if (json == null) {
-        return json;
-    }
-    return {
-        
-        'referenceUri': json['reference_uri'],
-        'code': json['code'] == null ? undefined : json['code'],
-        'title': json['title'] == null ? undefined : json['title'],
-    };
+  if (json == null) {
+    return json;
+  }
+  return {
+    referenceUri: json['reference_uri'],
+    code: json['code'] == null ? undefined : json['code'],
+    title: json['title'] == null ? undefined : json['title'],
+  };
 }
 
 export function KlassReferenceToJSON(json: any): KlassReference {
-    return KlassReferenceToJSONTyped(json, false);
+  return KlassReferenceToJSONTyped(json, false);
 }
 
 export function KlassReferenceToJSONTyped(value?: KlassReference | null, ignoreDiscriminator: boolean = false): any {
-    if (value == null) {
-        return value;
-    }
+  if (value == null) {
+    return value;
+  }
 
-    return {
-        
-        'reference_uri': value['referenceUri'],
-        'code': value['code'],
-        'title': value['title'],
-    };
+  return {
+    reference_uri: value['referenceUri'],
+    code: value['code'],
+    title: value['title'],
+  };
 }
-

@@ -12,77 +12,82 @@
  * Do not edit the class manually.
  */
 
-
-import * as runtime from '../runtime';
-import type {
-  RenderedVariableDefinition,
-  SupportedLanguages,
-} from '../models/index';
+import type { RenderedVariableDefinition, SupportedLanguages } from '../models/index';
 import {
-    RenderedVariableDefinitionFromJSON,
-    RenderedVariableDefinitionToJSON,
-    SupportedLanguagesFromJSON,
-    SupportedLanguagesToJSON,
+  RenderedVariableDefinitionFromJSON,
+  RenderedVariableDefinitionToJSON,
+  SupportedLanguagesFromJSON,
+  SupportedLanguagesToJSON,
 } from '../models/index';
+import * as runtime from '../runtime';
 
 export interface ListPublicValidityPeriodsRequest {
-    variableDefinitionId: string;
-    acceptLanguage: SupportedLanguages;
+  variableDefinitionId: string;
+  acceptLanguage: SupportedLanguages;
 }
 
 /**
- * 
+ *
  */
 export class ValidityPeriodsApi extends runtime.BaseAPI {
-
-    /**
-     * List all validity periods. These are rendered in the given language, with the default being Norwegian Bokmål.
-     * List all validity periods.
-     */
-    async listPublicValidityPeriodsRaw(requestParameters: ListPublicValidityPeriodsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<RenderedVariableDefinition>>> {
-        if (requestParameters['variableDefinitionId'] == null) {
-            throw new runtime.RequiredError(
-                'variableDefinitionId',
-                'Required parameter "variableDefinitionId" was null or undefined when calling listPublicValidityPeriods().'
-            );
-        }
-
-        if (requestParameters['acceptLanguage'] == null) {
-            throw new runtime.RequiredError(
-                'acceptLanguage',
-                'Required parameter "acceptLanguage" was null or undefined when calling listPublicValidityPeriods().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (requestParameters['acceptLanguage'] != null) {
-            headerParameters['Accept-Language'] = String(requestParameters['acceptLanguage']);
-        }
-
-
-        let urlPath = `/public/variable-definitions/{variable-definition-id}/validity-periods`;
-        urlPath = urlPath.replace(`{${"variable-definition-id"}}`, encodeURIComponent(String(requestParameters['variableDefinitionId'])));
-
-        const response = await this.request({
-            path: urlPath,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(RenderedVariableDefinitionFromJSON));
+  /**
+   * List all validity periods. These are rendered in the given language, with the default being Norwegian Bokmål.
+   * List all validity periods.
+   */
+  async listPublicValidityPeriodsRaw(
+    requestParameters: ListPublicValidityPeriodsRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<Array<RenderedVariableDefinition>>> {
+    if (requestParameters['variableDefinitionId'] == null) {
+      throw new runtime.RequiredError(
+        'variableDefinitionId',
+        'Required parameter "variableDefinitionId" was null or undefined when calling listPublicValidityPeriods().',
+      );
     }
 
-    /**
-     * List all validity periods. These are rendered in the given language, with the default being Norwegian Bokmål.
-     * List all validity periods.
-     */
-    async listPublicValidityPeriods(requestParameters: ListPublicValidityPeriodsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<RenderedVariableDefinition>> {
-        const response = await this.listPublicValidityPeriodsRaw(requestParameters, initOverrides);
-        return await response.value();
+    if (requestParameters['acceptLanguage'] == null) {
+      throw new runtime.RequiredError(
+        'acceptLanguage',
+        'Required parameter "acceptLanguage" was null or undefined when calling listPublicValidityPeriods().',
+      );
     }
 
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters['acceptLanguage'] != null) {
+      headerParameters['Accept-Language'] = String(requestParameters['acceptLanguage']);
+    }
+
+    let urlPath = `/public/variable-definitions/{variable-definition-id}/validity-periods`;
+    urlPath = urlPath.replace(
+      `{${'variable-definition-id'}}`,
+      encodeURIComponent(String(requestParameters['variableDefinitionId'])),
+    );
+
+    const response = await this.request(
+      {
+        path: urlPath,
+        method: 'GET',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(RenderedVariableDefinitionFromJSON));
+  }
+
+  /**
+   * List all validity periods. These are rendered in the given language, with the default being Norwegian Bokmål.
+   * List all validity periods.
+   */
+  async listPublicValidityPeriods(
+    requestParameters: ListPublicValidityPeriodsRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<Array<RenderedVariableDefinition>> {
+    const response = await this.listPublicValidityPeriodsRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
 }

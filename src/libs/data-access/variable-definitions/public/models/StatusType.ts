@@ -14,62 +14,59 @@
 
 import { mapValues } from '../runtime';
 /**
- * 
+ *
  * @export
  * @interface StatusType
  */
 export interface StatusType {
-    /**
-     * 
-     * @type {number}
-     * @memberof StatusType
-     */
-    statusCode: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof StatusType
-     */
-    reasonPhrase: string;
+  /**
+   *
+   * @type {number}
+   * @memberof StatusType
+   */
+  statusCode: number;
+  /**
+   *
+   * @type {string}
+   * @memberof StatusType
+   */
+  reasonPhrase: string;
 }
 
 /**
  * Check if a given object implements the StatusType interface.
  */
 export function instanceOfStatusType(value: object): value is StatusType {
-    if (!('statusCode' in value) || value['statusCode'] === undefined) return false;
-    if (!('reasonPhrase' in value) || value['reasonPhrase'] === undefined) return false;
-    return true;
+  if (!('statusCode' in value) || value['statusCode'] === undefined) return false;
+  if (!('reasonPhrase' in value) || value['reasonPhrase'] === undefined) return false;
+  return true;
 }
 
 export function StatusTypeFromJSON(json: any): StatusType {
-    return StatusTypeFromJSONTyped(json, false);
+  return StatusTypeFromJSONTyped(json, false);
 }
 
 export function StatusTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): StatusType {
-    if (json == null) {
-        return json;
-    }
-    return {
-        
-        'statusCode': json['status_code'],
-        'reasonPhrase': json['reason_phrase'],
-    };
+  if (json == null) {
+    return json;
+  }
+  return {
+    statusCode: json['status_code'],
+    reasonPhrase: json['reason_phrase'],
+  };
 }
 
 export function StatusTypeToJSON(json: any): StatusType {
-    return StatusTypeToJSONTyped(json, false);
+  return StatusTypeToJSONTyped(json, false);
 }
 
 export function StatusTypeToJSONTyped(value?: StatusType | null, ignoreDiscriminator: boolean = false): any {
-    if (value == null) {
-        return value;
-    }
+  if (value == null) {
+    return value;
+  }
 
-    return {
-        
-        'status_code': value['statusCode'],
-        'reason_phrase': value['reasonPhrase'],
-    };
+  return {
+    status_code: value['statusCode'],
+    reason_phrase: value['reasonPhrase'],
+  };
 }
-

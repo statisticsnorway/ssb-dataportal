@@ -4,9 +4,9 @@ import { SearchHitContainer } from '@/components/search-hits-container';
 import { SearchHitsLayout } from '@/components/search-hits-layout';
 import SortFields from '@/components/sort-fields';
 import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
+import { RenderedVariableDefinition } from '@/libs/data-access/variable-definitions/public/models/RenderedVariableDefinition';
 import { localization } from '@/libs/language';
 import { FilterGroup } from '@/types/filters';
-import { RenderedVariableDefinition } from '@/libs/data-access/variable-definitions/public/models/RenderedVariableDefinition';
 import { VardefSearchHit } from './vardefSearchHit';
 
 interface VariableDefinitionsServicePageProps {

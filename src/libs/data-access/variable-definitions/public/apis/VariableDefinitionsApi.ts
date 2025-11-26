@@ -12,136 +12,148 @@
  * Do not edit the class manually.
  */
 
-
-import * as runtime from '../runtime';
-import type {
-  Problem,
-  RenderedVariableDefinition,
-  SupportedLanguages,
-} from '../models/index';
+import type { Problem, RenderedVariableDefinition, SupportedLanguages } from '../models/index';
 import {
-    ProblemFromJSON,
-    ProblemToJSON,
-    RenderedVariableDefinitionFromJSON,
-    RenderedVariableDefinitionToJSON,
-    SupportedLanguagesFromJSON,
-    SupportedLanguagesToJSON,
+  ProblemFromJSON,
+  ProblemToJSON,
+  RenderedVariableDefinitionFromJSON,
+  RenderedVariableDefinitionToJSON,
+  SupportedLanguagesFromJSON,
+  SupportedLanguagesToJSON,
 } from '../models/index';
+import * as runtime from '../runtime';
 
 export interface GetPublicVariableDefinitionByIdRequest {
-    variableDefinitionId: string;
-    acceptLanguage: SupportedLanguages;
-    dateOfValidity?: Date | null;
+  variableDefinitionId: string;
+  acceptLanguage: SupportedLanguages;
+  dateOfValidity?: Date | null;
 }
 
 export interface ListPublicVariableDefinitionsRequest {
-    acceptLanguage: SupportedLanguages;
-    dateOfValidity?: Date | null;
+  acceptLanguage: SupportedLanguages;
+  dateOfValidity?: Date | null;
 }
 
 /**
- * 
+ *
  */
 export class VariableDefinitionsApi extends runtime.BaseAPI {
-
-    /**
-     * Get one variable definition. This is rendered in the given language, with the default being Norwegian Bokmål.
-     * Get one variable definition.
-     */
-    async getPublicVariableDefinitionByIdRaw(requestParameters: GetPublicVariableDefinitionByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RenderedVariableDefinition>> {
-        if (requestParameters['variableDefinitionId'] == null) {
-            throw new runtime.RequiredError(
-                'variableDefinitionId',
-                'Required parameter "variableDefinitionId" was null or undefined when calling getPublicVariableDefinitionById().'
-            );
-        }
-
-        if (requestParameters['acceptLanguage'] == null) {
-            throw new runtime.RequiredError(
-                'acceptLanguage',
-                'Required parameter "acceptLanguage" was null or undefined when calling getPublicVariableDefinitionById().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        if (requestParameters['dateOfValidity'] != null) {
-            queryParameters['date_of_validity'] = (requestParameters['dateOfValidity'] as any).toISOString().substring(0,10);
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (requestParameters['acceptLanguage'] != null) {
-            headerParameters['Accept-Language'] = String(requestParameters['acceptLanguage']);
-        }
-
-
-        let urlPath = `/public/variable-definitions/{variable-definition-id}`;
-        urlPath = urlPath.replace(`{${"variable-definition-id"}}`, encodeURIComponent(String(requestParameters['variableDefinitionId'])));
-
-        const response = await this.request({
-            path: urlPath,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => RenderedVariableDefinitionFromJSON(jsonValue));
+  /**
+   * Get one variable definition. This is rendered in the given language, with the default being Norwegian Bokmål.
+   * Get one variable definition.
+   */
+  async getPublicVariableDefinitionByIdRaw(
+    requestParameters: GetPublicVariableDefinitionByIdRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<RenderedVariableDefinition>> {
+    if (requestParameters['variableDefinitionId'] == null) {
+      throw new runtime.RequiredError(
+        'variableDefinitionId',
+        'Required parameter "variableDefinitionId" was null or undefined when calling getPublicVariableDefinitionById().',
+      );
     }
 
-    /**
-     * Get one variable definition. This is rendered in the given language, with the default being Norwegian Bokmål.
-     * Get one variable definition.
-     */
-    async getPublicVariableDefinitionById(requestParameters: GetPublicVariableDefinitionByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RenderedVariableDefinition> {
-        const response = await this.getPublicVariableDefinitionByIdRaw(requestParameters, initOverrides);
-        return await response.value();
+    if (requestParameters['acceptLanguage'] == null) {
+      throw new runtime.RequiredError(
+        'acceptLanguage',
+        'Required parameter "acceptLanguage" was null or undefined when calling getPublicVariableDefinitionById().',
+      );
     }
 
-    /**
-     * List all variable definitions. These are rendered in the given language, with the default being Norwegian Bokmål.
-     * List all variable definitions.
-     */
-    async listPublicVariableDefinitionsRaw(requestParameters: ListPublicVariableDefinitionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<RenderedVariableDefinition>>> {
-        if (requestParameters['acceptLanguage'] == null) {
-            throw new runtime.RequiredError(
-                'acceptLanguage',
-                'Required parameter "acceptLanguage" was null or undefined when calling listPublicVariableDefinitions().'
-            );
-        }
+    const queryParameters: any = {};
 
-        const queryParameters: any = {};
-
-        if (requestParameters['dateOfValidity'] != null) {
-            queryParameters['date_of_validity'] = (requestParameters['dateOfValidity'] as any).toISOString().substring(0,10);
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (requestParameters['acceptLanguage'] != null) {
-            headerParameters['Accept-Language'] = String(requestParameters['acceptLanguage']);
-        }
-
-
-        let urlPath = `/public/variable-definitions`;
-
-        const response = await this.request({
-            path: urlPath,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(RenderedVariableDefinitionFromJSON));
+    if (requestParameters['dateOfValidity'] != null) {
+      queryParameters['date_of_validity'] = (requestParameters['dateOfValidity'] as any).toISOString().substring(0, 10);
     }
 
-    /**
-     * List all variable definitions. These are rendered in the given language, with the default being Norwegian Bokmål.
-     * List all variable definitions.
-     */
-    async listPublicVariableDefinitions(requestParameters: ListPublicVariableDefinitionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<RenderedVariableDefinition>> {
-        const response = await this.listPublicVariableDefinitionsRaw(requestParameters, initOverrides);
-        return await response.value();
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters['acceptLanguage'] != null) {
+      headerParameters['Accept-Language'] = String(requestParameters['acceptLanguage']);
     }
 
+    let urlPath = `/public/variable-definitions/{variable-definition-id}`;
+    urlPath = urlPath.replace(
+      `{${'variable-definition-id'}}`,
+      encodeURIComponent(String(requestParameters['variableDefinitionId'])),
+    );
+
+    const response = await this.request(
+      {
+        path: urlPath,
+        method: 'GET',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) => RenderedVariableDefinitionFromJSON(jsonValue));
+  }
+
+  /**
+   * Get one variable definition. This is rendered in the given language, with the default being Norwegian Bokmål.
+   * Get one variable definition.
+   */
+  async getPublicVariableDefinitionById(
+    requestParameters: GetPublicVariableDefinitionByIdRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<RenderedVariableDefinition> {
+    const response = await this.getPublicVariableDefinitionByIdRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * List all variable definitions. These are rendered in the given language, with the default being Norwegian Bokmål.
+   * List all variable definitions.
+   */
+  async listPublicVariableDefinitionsRaw(
+    requestParameters: ListPublicVariableDefinitionsRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<Array<RenderedVariableDefinition>>> {
+    if (requestParameters['acceptLanguage'] == null) {
+      throw new runtime.RequiredError(
+        'acceptLanguage',
+        'Required parameter "acceptLanguage" was null or undefined when calling listPublicVariableDefinitions().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    if (requestParameters['dateOfValidity'] != null) {
+      queryParameters['date_of_validity'] = (requestParameters['dateOfValidity'] as any).toISOString().substring(0, 10);
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters['acceptLanguage'] != null) {
+      headerParameters['Accept-Language'] = String(requestParameters['acceptLanguage']);
+    }
+
+    let urlPath = `/public/variable-definitions`;
+
+    const response = await this.request(
+      {
+        path: urlPath,
+        method: 'GET',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(RenderedVariableDefinitionFromJSON));
+  }
+
+  /**
+   * List all variable definitions. These are rendered in the given language, with the default being Norwegian Bokmål.
+   * List all variable definitions.
+   */
+  async listPublicVariableDefinitions(
+    requestParameters: ListPublicVariableDefinitionsRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<Array<RenderedVariableDefinition>> {
+    const response = await this.listPublicVariableDefinitionsRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
 }

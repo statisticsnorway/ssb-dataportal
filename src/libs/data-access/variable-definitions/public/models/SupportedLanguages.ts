@@ -12,52 +12,49 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * Languages the application supports.
  * @export
  */
 export const SupportedLanguages = {
-    /**
-    * Norwegian Bokmål
-    */
-    Nb: 'nb',
-    /**
-    * Norwegian Nynorsk
-    */
-    Nn: 'nn',
-    /**
-    * English
-    */
-    En: 'en'
+  /**
+   * Norwegian Bokmål
+   */
+  Nb: 'nb',
+  /**
+   * Norwegian Nynorsk
+   */
+  Nn: 'nn',
+  /**
+   * English
+   */
+  En: 'en',
 } as const;
-export type SupportedLanguages = typeof SupportedLanguages[keyof typeof SupportedLanguages];
-
+export type SupportedLanguages = (typeof SupportedLanguages)[keyof typeof SupportedLanguages];
 
 export function instanceOfSupportedLanguages(value: any): boolean {
-    for (const key in SupportedLanguages) {
-        if (Object.prototype.hasOwnProperty.call(SupportedLanguages, key)) {
-            if (SupportedLanguages[key as keyof typeof SupportedLanguages] === value) {
-                return true;
-            }
-        }
+  for (const key in SupportedLanguages) {
+    if (Object.hasOwn(SupportedLanguages, key)) {
+      if (SupportedLanguages[key as keyof typeof SupportedLanguages] === value) {
+        return true;
+      }
     }
-    return false;
+  }
+  return false;
 }
 
 export function SupportedLanguagesFromJSON(json: any): SupportedLanguages {
-    return SupportedLanguagesFromJSONTyped(json, false);
+  return SupportedLanguagesFromJSONTyped(json, false);
 }
 
 export function SupportedLanguagesFromJSONTyped(json: any, ignoreDiscriminator: boolean): SupportedLanguages {
-    return json as SupportedLanguages;
+  return json as SupportedLanguages;
 }
 
 export function SupportedLanguagesToJSON(value?: SupportedLanguages | null): any {
-    return value as any;
+  return value as any;
 }
 
 export function SupportedLanguagesToJSONTyped(value: any, ignoreDiscriminator: boolean): SupportedLanguages {
-    return value as SupportedLanguages;
+  return value as SupportedLanguages;
 }
-

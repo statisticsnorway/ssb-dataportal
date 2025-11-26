@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description: 'SSB metadata services',
 };
 
-const testVardefData: VardefTabData= {
+const testVardefData: VardefTabData = {
   variableDefinitions: [
     {
       id: '',
@@ -22,13 +22,13 @@ const testVardefData: VardefTabData= {
       unitTypes: [],
       subjectFields: [],
       containsSpecialCategoriesOfPersonalData: false,
-      validFrom: new Date("2000-01-01"),
-      lastUpdatedAt: new Date("2025-10-11"),
+      validFrom: new Date('2000-01-01'),
+      lastUpdatedAt: new Date('2025-10-11'),
       definition: '',
       contact: {
         title: 'Professor',
         email: 'proff@ssb.no',
-      },    
+      },
     },
     {
       id: 'icv6',
@@ -38,16 +38,16 @@ const testVardefData: VardefTabData= {
       unitTypes: [],
       subjectFields: [],
       definition: 'bla bla',
-      validFrom: new Date("2020-01-01"),
-      lastUpdatedAt: new Date("2025-10-11"),
+      validFrom: new Date('2020-01-01'),
+      lastUpdatedAt: new Date('2025-10-11'),
       containsSpecialCategoriesOfPersonalData: false,
       contact: {
         title: 'Professor',
         email: 'proff@ssb.no',
       },
     },
-  ]
-}
+  ],
+};
 
 const classificationFamilies: ClassificationFamily[] = await fetch(`${KLASS_HOST}${CLASSIFICATION_FAMILIES}`)
   .then((res) => res.json())

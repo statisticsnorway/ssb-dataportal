@@ -14,106 +14,98 @@
 
 import { mapValues } from '../runtime';
 import type { StatusType } from './StatusType';
-import {
-    StatusTypeFromJSON,
-    StatusTypeFromJSONTyped,
-    StatusTypeToJSON,
-    StatusTypeToJSONTyped,
-} from './StatusType';
+import { StatusTypeFromJSON, StatusTypeFromJSONTyped, StatusTypeToJSON, StatusTypeToJSONTyped } from './StatusType';
 
 /**
- * 
+ *
  * @export
  * @interface Problem
  */
 export interface Problem {
-    /**
-     * 
-     * @type {string}
-     * @memberof Problem
-     */
-    type: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Problem
-     */
-    title: string;
-    /**
-     * 
-     * @type {StatusType}
-     * @memberof Problem
-     */
-    status: StatusType;
-    /**
-     * 
-     * @type {string}
-     * @memberof Problem
-     */
-    detail: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Problem
-     */
-    instance: string;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof Problem
-     */
-    parameters: { [key: string]: object; };
+  /**
+   *
+   * @type {string}
+   * @memberof Problem
+   */
+  type: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Problem
+   */
+  title: string;
+  /**
+   *
+   * @type {StatusType}
+   * @memberof Problem
+   */
+  status: StatusType;
+  /**
+   *
+   * @type {string}
+   * @memberof Problem
+   */
+  detail: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Problem
+   */
+  instance: string;
+  /**
+   *
+   * @type {{ [key: string]: object; }}
+   * @memberof Problem
+   */
+  parameters: { [key: string]: object };
 }
 
 /**
  * Check if a given object implements the Problem interface.
  */
 export function instanceOfProblem(value: object): value is Problem {
-    if (!('type' in value) || value['type'] === undefined) return false;
-    if (!('title' in value) || value['title'] === undefined) return false;
-    if (!('status' in value) || value['status'] === undefined) return false;
-    if (!('detail' in value) || value['detail'] === undefined) return false;
-    if (!('instance' in value) || value['instance'] === undefined) return false;
-    if (!('parameters' in value) || value['parameters'] === undefined) return false;
-    return true;
+  if (!('type' in value) || value['type'] === undefined) return false;
+  if (!('title' in value) || value['title'] === undefined) return false;
+  if (!('status' in value) || value['status'] === undefined) return false;
+  if (!('detail' in value) || value['detail'] === undefined) return false;
+  if (!('instance' in value) || value['instance'] === undefined) return false;
+  if (!('parameters' in value) || value['parameters'] === undefined) return false;
+  return true;
 }
 
 export function ProblemFromJSON(json: any): Problem {
-    return ProblemFromJSONTyped(json, false);
+  return ProblemFromJSONTyped(json, false);
 }
 
 export function ProblemFromJSONTyped(json: any, ignoreDiscriminator: boolean): Problem {
-    if (json == null) {
-        return json;
-    }
-    return {
-        
-        'type': json['type'],
-        'title': json['title'],
-        'status': StatusTypeFromJSON(json['status']),
-        'detail': json['detail'],
-        'instance': json['instance'],
-        'parameters': json['parameters'],
-    };
+  if (json == null) {
+    return json;
+  }
+  return {
+    type: json['type'],
+    title: json['title'],
+    status: StatusTypeFromJSON(json['status']),
+    detail: json['detail'],
+    instance: json['instance'],
+    parameters: json['parameters'],
+  };
 }
 
 export function ProblemToJSON(json: any): Problem {
-    return ProblemToJSONTyped(json, false);
+  return ProblemToJSONTyped(json, false);
 }
 
 export function ProblemToJSONTyped(value?: Problem | null, ignoreDiscriminator: boolean = false): any {
-    if (value == null) {
-        return value;
-    }
+  if (value == null) {
+    return value;
+  }
 
-    return {
-        
-        'type': value['type'],
-        'title': value['title'],
-        'status': StatusTypeToJSON(value['status']),
-        'detail': value['detail'],
-        'instance': value['instance'],
-        'parameters': value['parameters'],
-    };
+  return {
+    type: value['type'],
+    title: value['title'],
+    status: StatusTypeToJSON(value['status']),
+    detail: value['detail'],
+    instance: value['instance'],
+    parameters: value['parameters'],
+  };
 }
-
