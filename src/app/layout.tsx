@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   description: 'SSB metadata services',
 };
 
+// Temp data for setting up prototype
 const testVardefData: VardefTabData = {
   variableDefinitions: [
     {
