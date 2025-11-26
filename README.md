@@ -58,6 +58,11 @@ yarn test:e2e
 ```
 
 ### Generate client code
+Install codgen 
+```bash
+yarn add -D @openapitools/openapi-generator-cli
+```
+
 Run codegen
 ```bash
 yarn codegen-vardef-public
