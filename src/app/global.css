@@ -90,3 +90,10 @@ body {
 .ds-heading {
     font-size: 1.8rem;
 }
+
+.clamp{
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

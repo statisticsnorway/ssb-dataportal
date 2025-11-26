@@ -14,8 +14,9 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
           {variableDefinition.name} - {variableDefinition.short_name}
         </Heading>
       </Link>
-      <Paragraph>{variableDefinition.definition}</Paragraph>
-      {variableDefinition.subject_fields?.map((subject_field) => (
+      <Paragraph className="clamp">{variableDefinition.definition}</Paragraph>
+        {/* TODO: Insert space between tags */}
+      {(variableDefinition.subject_fields ?? []).slice(0, 4).map((subject_field) => (
         <Tag key={subject_field.code}>{subject_field.title}</Tag>
       ))}
     </Card>
