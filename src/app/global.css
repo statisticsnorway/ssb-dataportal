@@ -86,3 +86,7 @@ body {
     max-width: var(--breakpoint-width-lg);
   }
 }
+
+.ds-heading {
+    font-size: 1.8rem;
+}
