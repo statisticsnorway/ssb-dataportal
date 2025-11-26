@@ -57,7 +57,6 @@ Run e2e tests
 yarn test:e2e
 ```
 
-
 ### Generate client code
 Run codegen
 ```bash
