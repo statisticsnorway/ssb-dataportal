@@ -16,8 +16,11 @@ export const metadata: Metadata = {
 const testVardefData: VardefTabData = {
   variableDefinitions: [
     {
-      id: '',
-      name: 'Landbakgrunn',
+      id: '0',
+      name: {
+        nb: 'Landbakgrunn',
+        en: 'Country background',
+      },
       patchId: 0,
       shortName: 'landbak',
       unitTypes: [],
@@ -25,27 +28,56 @@ const testVardefData: VardefTabData = {
       containsSpecialCategoriesOfPersonalData: false,
       validFrom: new Date('2000-01-01'),
       lastUpdatedAt: new Date('2025-10-11'),
-      definition: '',
+      definition: {
+        nb: 'Landbakgrunn er at...',
+        en: 'Country background is...',
+      },
       contact: {
-        title: 'Professor',
+        title: {
+          nb: 'Professor',
+          en: 'Professor',
+        },
         email: 'proff@ssb.no',
       },
+      owner: {
+        team: "test-team",
+        groups: ["groups"],
+      },
+      createdAt: new Date('2000-01-01'),
+      createdBy: 'test-user',
+      lastUpdatedBy: 'test-user',
     },
     {
       id: 'icv6',
-      name: 'buss',
+      name: {
+        nb: 'Buss',
+        en: 'Bus',
+      },
       patchId: 0,
       shortName: 'bus',
       unitTypes: [],
       subjectFields: [],
-      definition: 'bla bla',
+      definition: {
+        nb: 'Buss er at...',
+        en: 'Bus is...',
+      },
       validFrom: new Date('2020-01-01'),
       lastUpdatedAt: new Date('2025-10-11'),
       containsSpecialCategoriesOfPersonalData: false,
       contact: {
-        title: 'Professor',
+        title: {
+          nb: 'Professor',
+          en: 'Professor',
+        },
         email: 'proff@ssb.no',
       },
+      owner: {
+        team: "test-team",
+        groups: ["groups"],
+      },
+      createdAt: new Date('2000-01-01'),
+      createdBy: 'test-user',
+      lastUpdatedBy: 'test-user',
     },
   ],
 };

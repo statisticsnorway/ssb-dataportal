@@ -1,17 +1,17 @@
 import { Paragraph } from '@digdir/designsystemet-react';
 import { SearchHit } from '@/components/search-hit';
-import { RenderedVariableDefinition } from '@/libs/data-access/variable-definitions/public/models/RenderedVariableDefinition';
+import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
 import { localization } from '@/libs/language';
 
 interface VardefSearchHitProps {
-  variableDefinition: RenderedVariableDefinition;
+  variableDefinition: CompleteResponse;
 }
 
 const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
   return (
     <SearchHit
       key={variableDefinition.id}
-      title={variableDefinition.name ?? ''}
+      title={variableDefinition.name.nb ?? ""}
       titleHref={`/variable-definitions/${variableDefinition.id}`}
       content={
         <div>
@@ -24,7 +24,7 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
               <span>{variableDefinition.lastUpdatedAt?.toISOString().split('T')[0]}</span>
             </Paragraph>
           </section>
-          <Paragraph>{variableDefinition.definition}</Paragraph>
+          <Paragraph>{variableDefinition.definition.nb}</Paragraph>
         </div>
       }
     />

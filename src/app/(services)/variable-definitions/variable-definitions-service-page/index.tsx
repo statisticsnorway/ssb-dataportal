@@ -4,13 +4,13 @@ import { SearchHitContainer } from '@/components/search-hits-container';
 import { SearchHitsLayout } from '@/components/search-hits-layout';
 import SortFields from '@/components/sort-fields';
 import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
-import { RenderedVariableDefinition } from '@/libs/data-access/variable-definitions/public/models/RenderedVariableDefinition';
+import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
 import { localization } from '@/libs/language';
 import { FilterGroup } from '@/types/filters';
 import { VardefSearchHit } from './vardefSearchHit';
 
 interface VariableDefinitionsServicePageProps {
-  rawHits: RenderedVariableDefinition[];
+  rawHits: CompleteResponse[];
   isLoading?: boolean;
   filterGroups: FilterGroup[];
 }
