@@ -6,7 +6,6 @@ import { CLASSIFICATION_FAMILIES, KLASS_HOST } from '@/utils/constants';
 import { KlassTabData } from '@/utils/klassTabContext';
 import { MetadataProviders } from '@/utils/metadataProvider';
 import { VardefTabData } from '@/utils/vardefTabContext';
-import { ReferenceItem } from '../types/variableDefinition';
 
 export const metadata: Metadata = {
   title: 'Metadata services',
@@ -17,46 +16,68 @@ export const metadata: Metadata = {
 const testVardefData: VardefTabData = {
   variableDefinitions: [
     {
-      id: 'ux78',
-      name: 'landbak',
-      short_name: 'land',
-      definition:
-        'For personer født i utlandet, er dette (med noen få unntak) eget fødeland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt. Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen mormor, morfar, farmor eller farfar.',
-      last_updated_at: '2025-10-11',
-      valid_from: '1998-01-01',
-      subject_fields: [
-        { title: 'Befolkning', code: 'be', reference_uri: 'https://www.test.ssb.no/klass/klassifikasjoner/618' },
-        {
-          title: 'Transport og reiseliv',
-          code: 'tr',
-          reference_uri: 'https://www.test.ssb.no/klass/klassifikasjoner/618',
-        },
-      ],
-      contains_special_categories_of_personal_data: false,
-      contact: {
-        title: 'Sjef',
-        email: 'sjef@ssb.no',
+      id: '0',
+      name: {
+        nb: 'Landbakgrunn',
+        en: 'Country background',
       },
+      patchId: 0,
+      shortName: 'landbak',
+      unitTypes: [],
+      subjectFields: ['be', 'tr'],
+      containsSpecialCategoriesOfPersonalData: false,
+      validFrom: new Date('2000-01-01'),
+      lastUpdatedAt: new Date('2025-10-11'),
+      definition: {
+        nb: 'For personer født i utlandet, er dette (med noen få unntak) eget fødeland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt. Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen mormor, morfar, farmor eller farfar.',
+        en: 'Country background is...',
+      },
+      contact: {
+        title: {
+          nb: 'Professor',
+          en: 'Professor',
+        },
+        email: 'proff@ssb.no',
+      },
+      owner: {
+        team: 'test-team',
+        groups: ['groups'],
+      },
+      createdAt: new Date('2000-01-01'),
+      createdBy: 'test-user',
+      lastUpdatedBy: 'test-user',
     },
     {
       id: 'icv6',
-      name: 'buss',
-      short_name: 'bus',
-      definition: 'En buss er en bil for persontransport med over 8 sitteplasser i tillegg til førersetet.',
-      last_updated_at: '2023-08-11',
-      valid_from: '2000-01-01',
-      subject_fields: [
-        {
-          title: 'Transport og reiseliv',
-          code: 'tr',
-          reference_uri: 'https://www.test.ssb.no/klass/klassifikasjoner/618',
-        },
-      ],
-      contains_special_categories_of_personal_data: true,
+      name: {
+        nb: 'Buss',
+        en: 'Bus',
+      },
+      patchId: 0,
+      shortName: 'bus',
+      unitTypes: [],
+      subjectFields: ['be'],
+      definition: {
+        nb: 'En buss er en bil for persontransport med over 8 sitteplasser i tillegg til førersetet.',
+        en: 'Bus is...',
+      },
+      validFrom: new Date('2020-01-01'),
+      lastUpdatedAt: new Date('2025-10-11'),
+      containsSpecialCategoriesOfPersonalData: false,
       contact: {
-        title: 'Professor',
+        title: {
+          nb: 'Professor',
+          en: 'Professor',
+        },
         email: 'proff@ssb.no',
       },
+      owner: {
+        team: 'test-team',
+        groups: ['groups'],
+      },
+      createdAt: new Date('2000-01-01'),
+      createdBy: 'test-user',
+      lastUpdatedBy: 'test-user',
     },
   ],
 };

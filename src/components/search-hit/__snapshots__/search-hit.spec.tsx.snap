@@ -7,16 +7,22 @@ exports[`SearchHit should render SearchHit successfully 1`] = `
       class="ds-card"
       data-variant="default"
     >
-      <a
-        href="Search hit title href"
+      <div
+        class="ds-card__block"
       >
-        <h2
-          class="title"
+        <a
+          class="link"
+          href="Search hit title href"
         >
-          Search hit title
-        </h2>
-      </a>
-      Search hit content
+          <h2
+            class="ds-heading title"
+            data-size="sm"
+          >
+            Search hit title
+          </h2>
+        </a>
+        Search hit content
+      </div>
     </div>
   </div>
 </body>
@@ -29,15 +35,19 @@ exports[`SearchHit should render SearchHit with empty title successfully 1`] = `
       class="ds-card"
       data-variant="default"
     >
-      <a
-        href=""
+      <div
+        class="ds-card__block"
       >
-        <h2
-          class="title"
+        <a
+          class="link"
+          href=""
         >
-          Uten navn
-        </h2>
-      </a>
+          <h2
+            class="ds-heading title"
+            data-size="sm"
+          />
+        </a>
+      </div>
     </div>
   </div>
 </body>

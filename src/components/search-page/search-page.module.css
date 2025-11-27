@@ -1,7 +1,6 @@
 .searchPageWrapper {
   display: flex;
   flex-flow: column;
-  font-size: 1.6rem;
   margin-bottom: var(--medium-gap);
   background-color: var(--dark-blue-gray-color);
   -webkit-box-align: center;

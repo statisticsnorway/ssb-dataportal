@@ -1,8 +1,10 @@
 .title {
   color: var(--dark-blue-gray-color);
-  font-size: 1.5rem;
-  text-decoration-line: underline;
   font-weight: 700;
+}
+
+.link {
+  text-decoration: none;
   margin: 0;
   margin-bottom: var(--medium-gap);
 }
