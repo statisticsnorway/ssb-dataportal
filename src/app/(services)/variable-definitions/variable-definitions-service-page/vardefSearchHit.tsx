@@ -2,6 +2,7 @@ import { Card, Heading, Paragraph, Tag } from '@digdir/designsystemet-react';
 import Link from 'next/link';
 import { TagsGroup } from '@/components/tags-group';
 import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal';
+import {SUBJECT_FIELD_LOOKUP} from "@/libs/data/subjectFieldLookup";
 
 interface VardefSearchHitProps {
   variableDefinition: CompleteResponse;
@@ -21,9 +22,8 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
         tagsData={
           new Set(
             (variableDefinition.subjectFields ?? []).map((field) => ({
-              key: String(field),
-              // TODO: Get the title from somewhere
-              title: String('placeholder'),
+              key: field,
+              title: SUBJECT_FIELD_LOOKUP[field] ?? field,
             })),
           )
         }
