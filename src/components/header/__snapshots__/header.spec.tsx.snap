@@ -9,10 +9,17 @@ exports[`Header renders the logo link with correct href and text 1`] = `
       class="headerContainer container"
     >
       <a
+        class="logo"
         href="https://example.com"
         title="Gå til hovedsiden"
       >
-        Logo
+        <h1
+          class="logo"
+          data-size="xl"
+          level="1"
+        >
+          Logo
+        </h1>
       </a>
       <section
         class="userSection"
