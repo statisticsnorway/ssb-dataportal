@@ -9,13 +9,13 @@ interface VardefSearchHitProps {
 const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
   return (
     <Card>
-      <Link href='https://hmpg.net/' rel='noopener noreferrer'>
-        <Heading data-size='xl' level={1}>
+      <Heading data-size='xl' level={1}>
+        <Link href={`/variable-definitions/${variableDefinition.id}`} rel='noopener noreferrer'>
           {variableDefinition.name} - {variableDefinition.short_name}
-        </Heading>
-      </Link>
-      <Paragraph className="clamp">{variableDefinition.definition}</Paragraph>
-        {/* TODO: Insert space between tags */}
+        </Link>
+      </Heading>
+      <Paragraph className='clamp'>{variableDefinition.definition}</Paragraph>
+      {/* TODO: Insert space between tags */}
       {(variableDefinition.subject_fields ?? []).slice(0, 4).map((subject_field) => (
         <Tag key={subject_field.code}>{subject_field.title}</Tag>
       ))}
