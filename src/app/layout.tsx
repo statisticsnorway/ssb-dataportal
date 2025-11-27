@@ -26,6 +26,11 @@ const testVardefData: VardefTabData = {
       valid_from: '1998-01-01',
       subject_fields: [
         { title: 'Befolkning', code: 'be', reference_uri: 'https://www.test.ssb.no/klass/klassifikasjoner/618' },
+        {
+          title: 'Transport og reiseliv',
+          code: 'tr',
+          reference_uri: 'https://www.test.ssb.no/klass/klassifikasjoner/618',
+        },
       ],
       contains_special_categories_of_personal_data: false,
       contact: {

@@ -1,5 +1,6 @@
 import { Card, Heading, Paragraph, Tag } from '@digdir/designsystemet-react';
 import Link from 'next/link';
+import { TagsGroup } from '@/components/tags-group';
 import { VariableDefinitionType } from '@/types/variableDefinition';
 
 interface VardefSearchHitProps {
@@ -15,10 +16,17 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
         </Link>
       </Heading>
       <Paragraph className='clamp'>{variableDefinition.definition}</Paragraph>
-      {/* TODO: Insert space between tags */}
-      {(variableDefinition.subject_fields ?? []).slice(0, 4).map((subject_field) => (
-        <Tag key={subject_field.code}>{subject_field.title}</Tag>
-      ))}
+      <TagsGroup
+        maxTags={4}
+        tagsData={
+          new Set(
+            (variableDefinition.subject_fields ?? []).map((subject_field) => ({
+              key: String(subject_field.code),
+              title: String(subject_field.title),
+            })),
+          )
+        }
+      />
     </Card>
   );
 };
