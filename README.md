@@ -83,3 +83,10 @@ Run e2e tests
 ```bash
 yarn test:e2e
 ```
+
+### Generate client code
+Run codegen
+```bash
+yarn codegen-vardef-public
+```
+

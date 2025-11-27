@@ -16,30 +16,68 @@ export const metadata: Metadata = {
 const testVardefData: VardefTabData = {
   variableDefinitions: [
     {
-      id: 'ux78',
-      name: 'landbak',
-      short_name: 'land',
-      definition: 'bla bla',
-      last_updated_at: '2025-10-11',
-      valid_from: '1998-01-01',
-      contains_special_categories_of_personal_data: false,
-      contact: {
-        title: 'Sjef',
-        email: 'sjef@ssb.no',
+      id: '0',
+      name: {
+        nb: 'Landbakgrunn',
+        en: 'Country background',
       },
+      patchId: 0,
+      shortName: 'landbak',
+      unitTypes: [],
+      subjectFields: [],
+      containsSpecialCategoriesOfPersonalData: false,
+      validFrom: new Date('2000-01-01'),
+      lastUpdatedAt: new Date('2025-10-11'),
+      definition: {
+        nb: 'Landbakgrunn er at...',
+        en: 'Country background is...',
+      },
+      contact: {
+        title: {
+          nb: 'Professor',
+          en: 'Professor',
+        },
+        email: 'proff@ssb.no',
+      },
+      owner: {
+        team: "test-team",
+        groups: ["groups"],
+      },
+      createdAt: new Date('2000-01-01'),
+      createdBy: 'test-user',
+      lastUpdatedBy: 'test-user',
     },
     {
       id: 'icv6',
-      name: 'buss',
-      short_name: 'bus',
-      definition: 'bla bla',
-      last_updated_at: '2023-08-11',
-      valid_from: '2000-01-01',
-      contains_special_categories_of_personal_data: true,
+      name: {
+        nb: 'Buss',
+        en: 'Bus',
+      },
+      patchId: 0,
+      shortName: 'bus',
+      unitTypes: [],
+      subjectFields: [],
+      definition: {
+        nb: 'Buss er at...',
+        en: 'Bus is...',
+      },
+      validFrom: new Date('2020-01-01'),
+      lastUpdatedAt: new Date('2025-10-11'),
+      containsSpecialCategoriesOfPersonalData: false,
       contact: {
-        title: 'Professor',
+        title: {
+          nb: 'Professor',
+          en: 'Professor',
+        },
         email: 'proff@ssb.no',
       },
+      owner: {
+        team: "test-team",
+        groups: ["groups"],
+      },
+      createdAt: new Date('2000-01-01'),
+      createdBy: 'test-user',
+      lastUpdatedBy: 'test-user',
     },
   ],
 };
