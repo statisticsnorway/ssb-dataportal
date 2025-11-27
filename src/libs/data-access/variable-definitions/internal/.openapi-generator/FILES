@@ -1,3 +1,4 @@
+.openapi-generator-ignore
 apis/DataMigrationApi.ts
 apis/DraftVariableDefinitionsApi.ts
 apis/PatchesApi.ts

@@ -1,114 +1,76 @@
-/* Hero Section */
-.hero {
-  padding: 60px 0;
+.detailsPage {
   width: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
-/* Hero row: left = title/info, right = status */
-.heroRow {
-  max-width: 1200px;
-  margin: 0 auto;
+.contentGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
+.mainColumn {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-right: 0;
+}
+
+.sidebar {
+  flex: 1;
+  position: static;
+}
+
+.detailsPageHeader {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 40px;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-/* Left section: title + ID + shortName */
-.heroInfo {
-  flex: 1;
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+@media (min-width: 968px) {
+  .detailsPage {
+    padding: 0;
+  }
+
+  .contentGrid {
+    flex-direction: row;
+  }
+
+  .mainColumn {
+    padding-right: 2rem;
+  }
+
+  .sidebar {
+    flex: 0 0 auto;
+    position: sticky;
+    top: 2rem;
+  }
 }
 
 .heroTitle {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 8px;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.heroRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2.5rem;
 }
 
 .hero h1 {
-  font-size: 36px;
-  font-weight: bold;
-  margin: 0;
-  color: #000;
-}
-
-.idBadge {
-  display: inline-block;
-  background: #3f4ed4;
-  color: white;
-  padding: 4px 12px;
-  font-size: 14px;
-  font-family: monospace;
-}
-
-.heroInfo p {
-  font-size: 18px;
-  color: #666;
-  margin: 0;
-}
-
-/* Right section: status */
-.statusBox {
-  background: #eef2ff;
-  color: #3f4ed4;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  border: 1px solid #3f4ed4;
-  height: fit-content;
-}
-
-/* Main Content Layout */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-.contentGrid {
-  display: flex;
-  gap: 40px;
-}
-
-/* Main Column */
-.mainColumn {
-  flex: 1;
-  min-width: 0;
-}
-
-/* Sidebar */
-.sidebar {
-  flex: 0 0 380px;
-  position: sticky;
-  top: 20px;
-  height: fit-content;
-}
-
-/* Responsive */
-@media (max-width: 968px) {
-  .contentGrid {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    flex: 1;
-    position: static;
-  }
-}
-
-@media (max-width: 768px) {
-  .heroRow {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .statusBox {
-    margin-top: 20px;
-  }
+  font-size: 2.25rem;
 }

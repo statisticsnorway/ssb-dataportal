@@ -11,7 +11,7 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
   return (
     <SearchHit
       key={variableDefinition.id}
-      title={variableDefinition.name.nb ?? ""}
+      title={variableDefinition.name.nb ?? ''}
       titleHref={`/variable-definitions/${variableDefinition.id}`}
       content={
         <div>

@@ -1,8 +1,9 @@
+import { Heading } from '@digdir/designsystemet-react';
 import { HTMLAttributes, ReactNode } from 'react';
+import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
 import { Breadcrumbs, BreadcrumbType } from '../breadcrumbs';
 import styles from './variable-details-page-layout.module.css';
-import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
-import { Heading } from "@digdir/designsystemet-react";
+import { VariableStatusField } from '../variable-details/variable-status';
 
 interface DetailsPageProps extends HTMLAttributes<HTMLDivElement> {
   mainContent?: ReactNode;
@@ -13,11 +14,18 @@ interface DetailsPageProps extends HTMLAttributes<HTMLDivElement> {
   variableDefinition: CompleteResponse;
 }
 
-export const VariableDetailsPageLayout = ({ children, mainContent, asideContent, breadcrumbList, homeUrl, variableDefinition }: DetailsPageProps) => {
+export const VariableDetailsPageLayout = ({
+  children,
+  mainContent,
+  asideContent,
+  breadcrumbList,
+  homeUrl,
+  variableDefinition,
+}: DetailsPageProps) => {
   return (
-    <section className={styles.container}>
+    <section className={`${styles.detailsPage} container`}>
       <Breadcrumbs breadcrumbList={breadcrumbList} homeUrl={homeUrl} />
-      
+
       {/* <div className={styles.hero}>
         <div className={styles.heroRow}>
           <div className={styles.heroInfo}>
@@ -33,11 +41,16 @@ export const VariableDetailsPageLayout = ({ children, mainContent, asideContent,
         </div>
       </div> */}
 
-      <header>
-        <Heading level={1} data-size="lg">
+    <header className={styles.detailsPageHeader}>
+      <div className={styles.headerInfo}>
+        <Heading level={1} data-size="xl">
           {variableDefinition.name.nb}
         </Heading>
-      </header>
+        <p>{variableDefinition.shortName}</p>
+      </div>
+      <VariableStatusField status={variableDefinition.variableStatus} />
+    </header>
+
 
       <div className={styles.contentGrid}>
         <div className={styles.mainColumn}>
@@ -45,9 +58,7 @@ export const VariableDetailsPageLayout = ({ children, mainContent, asideContent,
           {children}
         </div>
 
-        <aside className={styles.sidebar}>
-          {asideContent}
-        </aside>
+        <aside className={styles.sidebar}>{asideContent}</aside>
       </div>
     </section>
   );

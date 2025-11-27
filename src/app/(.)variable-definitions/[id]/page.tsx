@@ -1,12 +1,11 @@
 import React from 'react';
 import { BreadcrumbType } from '@/components/breadcrumbs';
-import { VariableDetailsPageLayout } from "@/components/variable-details-page"
-import { testVardefData } from '@/utils/mock-data';
 import { CoreInformation } from '@/components/variable-details/core-information';
-import { ValidityAndStatus } from '@/components/variable-details/validity-and-status';
 import { Ownership } from '@/components/variable-details/ownership';
-
 import { References } from '@/components/variable-details/references';
+import { ValidityAndStatus } from '@/components/variable-details/validity-and-status';
+import { VariableDetailsPageLayout } from '@/components/variable-details-page';
+import { testVardefData } from '@/utils/mock-data';
 
 export default function VariableDefinition({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);

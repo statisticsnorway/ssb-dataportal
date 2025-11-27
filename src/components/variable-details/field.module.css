@@ -5,10 +5,11 @@
 }
 
 .info-block-item {
-  padding: 1rem 0rem;
+  padding: 1rem 0;
 }
 
 .label {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
+  font-weight: 600;
 }

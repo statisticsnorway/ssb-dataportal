@@ -21,19 +21,19 @@ export const Breadcrumbs = ({ breadcrumbList, homeUrl }: BreadcrumbsProps) => {
             {homeUrl.text}
           </Link>
           {breadcrumbList?.map((breadcrumb, i) => {
-              return (
-                <span key={hashCode(breadcrumb.href)}>
-                  <span className={styles.separator}>{'>'}</span>
-                  {i === breadcrumbList.length - 1 ? (
-                    <span className={styles.deactiveLink}>{breadcrumb.text}</span>
-                  ) : (
-                    <Link href={breadcrumb.href} className={styles.link}>
-                      {breadcrumb.text}
-                    </Link>
-                  )}
-                </span>
-              );
-            })}
+            return (
+              <span key={hashCode(breadcrumb.href)}>
+                <span className={styles.separator}>{'>'}</span>
+                {i === breadcrumbList.length - 1 ? (
+                  <span className={styles.deactiveLink}>{breadcrumb.text}</span>
+                ) : (
+                  <Link href={breadcrumb.href} className={styles.link}>
+                    {breadcrumb.text}
+                  </Link>
+                )}
+              </span>
+            );
+          })}
         </span>
       </nav>
     </>

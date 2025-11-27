@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { Classification, ClassificationFamily } from '@/types/classification';
 import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
+import { Classification, ClassificationFamily } from '@/types/classification';
 import { KlassTabProvider } from './klassTabContext';
 import { VardefTabProvider } from './vardefTabContext';
 
