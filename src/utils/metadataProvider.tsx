@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Classification, ClassificationFamily } from '@/types/classification';
-import { VariableDefinitionType } from '@/types/variableDefinition';
+import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
 import { KlassTabProvider } from './klassTabContext';
 import { VardefTabProvider } from './vardefTabContext';
 
@@ -11,7 +11,7 @@ type MetadataProvidersProps = {
     klassClassifications: Classification[];
   };
   vardefData: {
-    variableDefinitions: VariableDefinitionType[];
+    variableDefinitions: CompleteResponse[];
   };
 };
 

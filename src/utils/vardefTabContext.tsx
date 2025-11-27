@@ -1,10 +1,10 @@
 'use client';
 
 import { createContext, useContext } from 'react';
-import { VariableDefinitionType } from '@/types/variableDefinition';
+import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
 
 export type VardefTabData = {
-  variableDefinitions: VariableDefinitionType[];
+  variableDefinitions: CompleteResponse[];
 };
 
 const VardefTabContext = createContext<VardefTabData | null>(null);
