@@ -40,8 +40,8 @@ const testVardefData: VardefTabData = {
         email: 'proff@ssb.no',
       },
       owner: {
-        team: "test-team",
-        groups: ["groups"],
+        team: 'test-team',
+        groups: ['groups'],
       },
       createdAt: new Date('2000-01-01'),
       createdBy: 'test-user',
@@ -72,8 +72,8 @@ const testVardefData: VardefTabData = {
         email: 'proff@ssb.no',
       },
       owner: {
-        team: "test-team",
-        groups: ["groups"],
+        team: 'test-team',
+        groups: ['groups'],
       },
       createdAt: new Date('2000-01-01'),
       createdBy: 'test-user',

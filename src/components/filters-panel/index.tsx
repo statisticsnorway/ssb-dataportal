@@ -1,11 +1,10 @@
 import React from 'react';
 import { FilterGroup } from '@/types/filters';
 import { CheckboxFilter } from '../checkbox-filter';
-import styles from './search-filter.module.css';
 
 const FiltersPanelComponent = ({ filterGroups }: { filterGroups: FilterGroup[] }) => {
   return (
-    <div className={styles.filterSection}>
+    <>
       {filterGroups.map(({ filterHeading, filters, selectedItems, onFilterChange }) => (
         <CheckboxFilter
           filterHeading={filterHeading}
@@ -15,7 +14,7 @@ const FiltersPanelComponent = ({ filterGroups }: { filterGroups: FilterGroup[] }
           onFilterChange={onFilterChange}
         />
       ))}
-    </div>
+    </>
   );
 };
 
