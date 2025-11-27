@@ -96,3 +96,20 @@ body {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
+.vardef-search-hit__heading-link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    text-decoration: none;
+}
+
+.vardef-search-hit__name {
+    font-weight: inherit;
+}
+
+.vardef-search-hit__short-name {
+    font-size: 0.85em;
+    font-weight: normal;
+    color: #666666;
+}
