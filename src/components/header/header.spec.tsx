@@ -1,24 +1,19 @@
 'use client';
 import { render, screen } from '@testing-library/react';
-import React, { FC, PropsWithChildren } from 'react';
+import React, { JSX } from 'react';
 import { Header } from '.';
 
-type ChildrenProps = PropsWithChildren<object>;
-
 jest.mock('@digdir/designsystemet-react', () => {
-  const Link: FC<any> = ({ children, href, title }) => (
-    <a href={href} title={title}>
-      {children}
-    </a>
-  );
-
-  const Button: FC<ChildrenProps> = ({ children }) => <button>{children}</button>;
-  const ExternalLinkIcon: FC = () => <span>🔗</span>;
+  const passthrough =
+    (tag: keyof JSX.IntrinsicElements) =>
+    ({ children, ...props }: { children?: React.ReactNode } & React.HTMLAttributes<HTMLElement>) =>
+      React.createElement(tag, props, children);
 
   return {
-    Button,
-    Link,
-    ExternalLinkIcon,
+    Link: passthrough('a'),
+    Heading: passthrough('h1'),
+    Button: passthrough('button'),
+    ExternalLinkIcon: () => <span>🔗</span>,
   };
 });
 
@@ -26,7 +21,7 @@ describe('Header', () => {
   it('renders the logo link with correct href and text', () => {
     const { asFragment } = render(<Header homeUrl='https://example.com' />);
 
-    const logoLink = screen.getByTitle(/gå til hovedsiden/i);
+    const logoLink = screen.getByTitle(/Gå til hovedsiden/i);
     expect(logoLink).toBeInTheDocument();
     expect(logoLink).toHaveAttribute('href', 'https://example.com');
 
@@ -38,7 +33,7 @@ describe('Header', () => {
 
   it('renders logo link without href if homeUrl is not provided', () => {
     render(<Header />);
-    const logoLink = screen.getByTitle(/gå til hovedsiden/i);
+    const logoLink = screen.getByTitle(/Gå til hovedsiden/i);
     expect(logoLink).toBeInTheDocument();
     expect(logoLink).not.toHaveAttribute('href');
   });

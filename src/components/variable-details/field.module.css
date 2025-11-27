@@ -1,0 +1,14 @@
+.info-block-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.info-block-item {
+  padding: 1rem 0rem;
+}
+
+.label {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}

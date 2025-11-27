@@ -1,0 +1,45 @@
+.fieldSection {
+  margin-bottom: 48px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #ddd;
+}
+
+.fieldSection:last-of-type {
+  border-bottom: none;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.sectionIcon {
+  font-size: 20px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.gridTwoCol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.gridTwoCol > * {
+  flex: 1 1 calc(50% - 12px);
+  min-width: 200px;
+}
+
+@media (max-width: 768px) {
+  .gridTwoCol > * {
+    flex: 1 1 100%;
+  }
+}

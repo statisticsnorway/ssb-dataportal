@@ -1,24 +1,40 @@
-'use client';
-
-import { Heading } from '@digdir/designsystemet-react';
-import { useParams } from 'next/navigation';
+import React from 'react';
 import { BreadcrumbType } from '@/components/breadcrumbs';
-import { DetailsPageLayout } from '@/components/details-page-layout';
+import { VariableDetailsPageLayout } from "@/components/variable-details-page"
+import { testVardefData } from '@/utils/mock-data';
+import { CoreInformation } from '@/components/variable-details/core-information';
+import { ValidityAndStatus } from '@/components/variable-details/validity-and-status';
+import { Ownership } from '@/components/variable-details/ownership';
 
-export default function VariableDefinition() {
-  const params = useParams();
-  const id = params.id;
+import { References } from '@/components/variable-details/references';
 
-  console.log({ id });
+export default function VariableDefinition({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = React.use(params);
+
+  const variableDefinition = testVardefData.variableDefinitions.find((v) => v.id === id);
+
+  console.log(variableDefinition);
+
+  if (!variableDefinition) {
+    return <div>Variabeldefinisjon ikke funnet</div>;
+  }
 
   const homeUrl = { text: 'Variabeldefinisjoner', href: '/variable-definitions' };
   const breadcrumbList = id ? ([{ text: String(id), href: '' }] as BreadcrumbType[]) : [];
+
   return (
-    <DetailsPageLayout
-      title={String(id)}
-      mainContent={<Heading level={3}>Hallo Variabel</Heading>}
+    <VariableDetailsPageLayout
+      variableDefinition={variableDefinition}
       breadcrumbList={breadcrumbList}
       homeUrl={homeUrl}
-    ></DetailsPageLayout>
+      mainContent={
+        <>
+          <CoreInformation data={variableDefinition} />
+          <Ownership data={variableDefinition} />
+          <ValidityAndStatus data={variableDefinition} />
+        </>
+      }
+      asideContent={<References data={variableDefinition} />}
+    />
   );
 }
