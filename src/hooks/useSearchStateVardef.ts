@@ -22,7 +22,10 @@ export const useSearchStateVardef = (initialHits: CompleteResponse[] = []) => {
         return (a: CompleteResponse, b: CompleteResponse) => sortDescending(a.name.nb || '', b.name.nb || '');
       case 'lastChanged':
         return (a: CompleteResponse, b: CompleteResponse) =>
-          sortDateStringsDescending(a.lastUpdatedAt.toISOString().split('T')[0] || '', b.lastUpdatedAt.toISOString().split('T')[0] || '');
+          sortDateStringsDescending(
+            a.lastUpdatedAt.toISOString().split('T')[0] || '',
+            b.lastUpdatedAt.toISOString().split('T')[0] || '',
+          );
       default:
         return () => 0;
     }

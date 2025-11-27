@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react';
-import { FiltersPanel } from '@/components/filters-panel';
 import { SearchHitContainer } from '@/components/search-hits-container';
-import { SearchHitsLayout } from '@/components/search-hits-layout';
 import SortFields from '@/components/sort-fields';
 import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
 import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
 import { localization } from '@/libs/language';
 import { FilterGroup } from '@/types/filters';
+import SearchPage from '../../../../components/search-page/searchPage';
 import { VardefSearchHit } from './vardefSearchHit';
 
 interface VariableDefinitionsServicePageProps {
@@ -26,9 +25,9 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, filterGroups }: Va
   );
 
   return (
-    <SearchHitsLayout
-      filterContent={<FiltersPanel filterGroups={filterGroups} />}
-      mainContent={
+    <SearchPage
+      filterGroups={filterGroups}
+      searchResult={
         <>
           <SortFields
             sortOptions={sortTypes}

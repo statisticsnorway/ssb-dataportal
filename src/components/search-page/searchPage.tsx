@@ -3,17 +3,20 @@
 import { Search, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { FiltersPanel } from '@/components/filters-panel';
+import { FilterGroup } from '@/types/filters';
 import styles from './search-page.module.css';
 
 interface SearchPageProps {
-  className?: string;
   placeholder?: string;
   value?: string;
   onSearch?: (value: string) => void;
-  children: React.ReactNode;
+  infoContent?: React.ReactNode;
+  searchResult?: React.ReactElement;
+  filterGroups?: FilterGroup[];
 }
 
-const SearchPage: React.FC<SearchPageProps> = ({ children }) => {
+const SearchPage: React.FC<SearchPageProps> = ({ infoContent, searchResult, filterGroups }) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -27,6 +30,11 @@ const SearchPage: React.FC<SearchPageProps> = ({ children }) => {
         ? 'datasetTab'
         : '';
 
+  const tabs = [
+    { value: 'vardefTab', label: 'Variabeldefinisjoner' },
+    { value: 'klassTab', label: 'Klassifikasjoner' },
+    { value: 'datasetTab', label: 'Datasett' },
+  ];
   useEffect(() => {
     if (selectedTab !== derivedTab) {
       setSelectedTab(derivedTab);
@@ -56,20 +64,22 @@ const SearchPage: React.FC<SearchPageProps> = ({ children }) => {
         </div>
         <div className={`${styles.tabsNavigationContainer} container`}>
           <Tabs.List className={styles.tabsNavigation}>
-            <Tabs.Tab value='vardefTab' className={styles.tab}>
-              Variabeldefinisjoner
-            </Tabs.Tab>
-            <Tabs.Tab value='klassTab' className={styles.tab}>
-              Klassifikasjoner
-            </Tabs.Tab>
-            <Tabs.Tab value='datasetTab' className={styles.tab}>
-              Datasett
-            </Tabs.Tab>
+            {tabs.map((tab) => (
+              <Tabs.Tab key={tab.value} value={tab.value} className={styles.tab}>
+                {tab.label}
+              </Tabs.Tab>
+            ))}
           </Tabs.List>
         </div>
       </section>
-      <div className={styles.tabsContentContainer}>
-        <section className={styles.tabsContent}>{children}</section>
+      <div className={`${styles.pageContainer} container`}>
+        <section className={styles.infoSection}>{infoContent}</section>
+        <section className={styles.searchHitsContainer}>
+          <aside className={styles.filterSection}>
+            {filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
+          </aside>
+          <section className={styles.mainSection}>{searchResult}</section>
+        </section>
       </div>
     </Tabs>
   );

@@ -1,14 +1,13 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import { FiltersPanel } from '@/components/filters-panel';
 import { SearchHitContainer } from '@/components/search-hits-container';
-import { SearchHitsLayout } from '@/components/search-hits-layout';
 import SortFields from '@/components/sort-fields';
 import { SortTypes, useSearchStateKlass } from '@/hooks/useSearchStateKlass';
 import { localization } from '@/libs/language';
 import { Classification } from '@/types/classification';
 import { FilterGroup } from '@/types/filters';
+import SearchPage from '../../../../components/search-page/searchPage';
 import { ClassificationSearchHit } from './classificationSearchHit';
 
 interface ClassificationServicePageProps {
@@ -46,9 +45,9 @@ const ClassificationsServicePage = ({
   console.log('pages:', { hits });
 
   return (
-    <SearchHitsLayout
-      filterContent={<FiltersPanel filterGroups={filterGroups} />}
-      mainContent={
+    <SearchPage
+      filterGroups={filterGroups}
+      searchResult={
         <>
           <SortFields
             sortOptions={sortTypes}
