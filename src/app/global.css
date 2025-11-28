@@ -87,29 +87,29 @@ body {
 }
 
 .ds-heading {
-    font-size: 1.8rem;
+  font-size: 1.8rem;
 }
 
-.clamp{
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+.clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .vardef-search-hit__heading-link {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.4rem;
-    text-decoration: none;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  text-decoration: none;
 }
 
 .vardef-search-hit__name {
-    font-weight: inherit;
+  font-weight: inherit;
 }
 
 .vardef-search-hit__short-name {
-    font-size: 0.85em;
-    font-weight: normal;
-    color: #666666;
+  font-size: 0.85em;
+  font-weight: normal;
+  color: #666666;
 }
