@@ -37,6 +37,7 @@ jobs:
         run: yarn test
 
   e2e-tests:
+    if: github.event_name == 'pull_request'
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
