@@ -11,9 +11,6 @@ export const References = ({ data }: Props) => {
   return (
     <>
       <Card data-color='neutral' style={{ marginBottom: '1.5rem' }}>
-        <Heading level={3} data-size='sm' style={{ marginBottom: '1rem' }}>
-          Referanser
-        </Heading>
         <div style={{ marginBottom: '1rem' }}>
           {data.classificationReference ? (
             <Field label='Klassifikasjon' value={data.classificationReference} />

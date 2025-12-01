@@ -11,14 +11,14 @@ export const Ownership = ({ data }: Props) => {
   return (
     <section className={styles.fieldSection}>
       <Heading level={2} data-size='md'>
-        Eier &Kontakt
+        Eier
       </Heading>
-      <div className={styles.gridTwoCol}>
+      <section className={styles.gridTwoCol}>
         <Field label='Team' value={data.owner.team || '—'} />
         <Field label='Groups' value={data.owner.groups.join(', ') || '—'} />
         <Field label='Title' value={data.contact.title.nb || '—'} />
         <Field label='Email' value={data.contact.email || '—'} />
-      </div>
+      </section>
     </section>
   );
 };
