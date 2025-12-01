@@ -1,4 +1,4 @@
-import { Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Heading, Link } from '@digdir/designsystemet-react';
 import styles from './field.module.css';
 
 interface Props {
@@ -13,11 +13,9 @@ export const LinkField = ({ label, value }: Props) => {
         <Heading level={3} data-size='xl' className={styles.label}>
           {label}
         </Heading>
-        <Paragraph data-size='md'>
-          <a target='_blank' rel='noopener noreferrer' href={value}>
-            Lenke
-          </a>
-        </Paragraph>
+        <Link data-size='md' href={value}>
+          Lenke
+        </Link>
       </div>
     </div>
   );
