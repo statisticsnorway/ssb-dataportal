@@ -110,6 +110,14 @@ If tests not working after upgrade
 yarn playwright install
 ```
 
+Generate tests
+
+```bash
+yarn dev
+
+npx playwright codegen http://localhost:3000
+```
+
 ### Generate client code
 Run codegen
 ```bash
