@@ -100,11 +100,11 @@
     },
     "includes": [
       "**/src/**",
+      "!src/libs/data-access/**",
       "!**/build/**/*/*.js",
       "!**/build/**/*.js",
       "!**/public/**/*.js",
-      "!**/*.spec.tsx",
-      "!src/libs/data-access/**"
+      "!**/*.spec.tsx"
     ]
   },
   "javascript": {
@@ -128,7 +128,7 @@
   },
   "assist": {
     "enabled": true,
-    "includes": ["**/src/**", "!src/libs/data-access/**"],
-    "actions": { "source": { "organizeImports": "on" } }
+    "actions": { "source": { "organizeImports": "on" } },
+    "includes": ["**/src/**", "!src/libs/data-access/**"]
   }
 }

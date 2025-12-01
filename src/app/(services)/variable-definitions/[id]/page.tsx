@@ -1,16 +1,39 @@
-'use client';
+import React from 'react';
+import { BreadcrumbType } from '@/components/breadcrumbs';
+import { CoreInformation } from '@/components/variable-details/core-information';
+import { Ownership } from '@/components/variable-details/ownership';
+import { References } from '@/components/variable-details/references';
+import { Validity } from '@/components/variable-details/validity';
+import { VariableDetailsPageLayout } from '@/components/variable-details-page';
+import { testVardefData } from '@/utils/mock-data';
 
-import { useParams, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+export default function VariableDefinition({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = React.use(params);
 
-export default function VariableDefinition() {
-  const { id } = useParams();
-  const router = useRouter();
+  const variableDefinition = testVardefData.variableDefinitions.find((v) => v.id === id);
 
-  useEffect(() => {
-    if (!id) return;
-    router.replace(`/variable-definitions/${id}`);
-  }, [id, router]);
+  console.log(variableDefinition);
 
-  return <div>Loading...</div>;
+  if (!variableDefinition) {
+    return <div>Variabeldefinisjon ikke funnet</div>;
+  }
+
+  const homeUrl = { text: 'Variabeldefinisjoner', href: '/variable-definitions' };
+  const breadcrumbList = id ? ([{ text: String(id), href: '' }] as BreadcrumbType[]) : [];
+
+  return (
+    <VariableDetailsPageLayout
+      variableDefinition={variableDefinition}
+      breadcrumbList={breadcrumbList}
+      homeUrl={homeUrl}
+      mainContent={
+        <>
+          <CoreInformation data={variableDefinition} />
+          <Ownership data={variableDefinition} />
+          <Validity data={variableDefinition} />
+        </>
+      }
+      asideContent={<References data={variableDefinition} />}
+    />
+  );
 }
