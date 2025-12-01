@@ -95,6 +95,11 @@ Run e2e tests
 ```bash
 yarn test:e2e
 ```
+If tests not working after upgrade
+
+```bash
+yarn playwright install
+```
 
 ### Generate client code
 Run codegen
