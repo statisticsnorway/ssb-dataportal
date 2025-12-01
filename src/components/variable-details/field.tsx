@@ -1,20 +1,29 @@
-import { Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Heading, Paragraph, Link } from '@digdir/designsystemet-react';
 import styles from './field.module.css';
 
 interface Props {
   label: string;
   value: string;
+  href?: string;
 }
 
-export const Field = ({ label, value }: Props) => {
+export const Field = ({ label, value, href }: Props) => {
   return (
-    <div className={styles['info-block-container']}>
-      <div className={styles['info-block-item']}>
-        <Heading level={3} data-size='xl' className={styles.label}>
-          {label}
-        </Heading>
-        <Paragraph data-size='md'>{value}</Paragraph>
+    <div className={styles.field}>
+      <div className={styles.label}>
+        {label}
       </div>
+      {href ? (
+        <Link className={styles.value} data-size='md' href={href}>
+          {value}
+        </Link>
+      ) : (
+        <div className={styles.value}>
+          {value}
+        </div>
+      )}
     </div>
   );
 };
+
+

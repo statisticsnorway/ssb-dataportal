@@ -1,5 +1,4 @@
 import { Heading, Paragraph } from '@digdir/designsystemet-react';
-import styles from './field.module.css';
 
 interface Props {
   status: string;

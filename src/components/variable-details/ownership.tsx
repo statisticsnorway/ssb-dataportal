@@ -1,7 +1,6 @@
-import { Heading } from '@digdir/designsystemet-react';
 import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
 import { Field } from './field';
-import styles from './ownership.module.css';
+import { FieldSection } from './field-section';
 
 interface Props {
   data: CompleteResponse;
@@ -9,16 +8,11 @@ interface Props {
 
 export const Ownership = ({ data }: Props) => {
   return (
-    <section className={styles.fieldSection}>
-      <Heading level={2} data-size='md'>
-        Eier
-      </Heading>
-      <section className={styles.gridTwoCol}>
-        <Field label='Team' value={data.owner.team || '—'} />
-        <Field label='Groups' value={data.owner.groups.join(', ') || '—'} />
-        <Field label='Title' value={data.contact.title.nb || '—'} />
-        <Field label='Email' value={data.contact.email || '—'} />
-      </section>
-    </section>
+    <FieldSection title="Eier">
+      <Field label='Team' value={data.owner.team || '—'} />
+      <Field label='Groups' value={data.owner.groups.join(', ') || '—'} />
+      <Field label='Title' value={data.contact.title.nb || '—'} />
+      <Field label='Email' value={data.contact.email || '—'} />
+    </FieldSection>
   );
 };

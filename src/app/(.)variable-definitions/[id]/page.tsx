@@ -3,7 +3,7 @@ import { BreadcrumbType } from '@/components/breadcrumbs';
 import { CoreInformation } from '@/components/variable-details/core-information';
 import { Ownership } from '@/components/variable-details/ownership';
 import { References } from '@/components/variable-details/references';
-import { ValidityAndStatus } from '@/components/variable-details/validity-and-status';
+import { Validity } from '@/components/variable-details/validity';
 import { VariableDetailsPageLayout } from '@/components/variable-details-page';
 import { testVardefData } from '@/utils/mock-data';
 
@@ -30,7 +30,7 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
         <>
           <CoreInformation data={variableDefinition} />
           <Ownership data={variableDefinition} />
-          <ValidityAndStatus data={variableDefinition} />
+          <Validity data={variableDefinition} />
         </>
       }
       asideContent={<References data={variableDefinition} />}

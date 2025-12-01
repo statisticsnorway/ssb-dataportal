@@ -20,11 +20,7 @@
 }
 
 .sectionTitle {
-  font-size: 1.125rem;
-  font-weight: bold;
-  color: #000;
-  text-transform: uppercase;
-  letter-spacing: 0.03125rem;
+  padding-bottom: 1rem;
 }
 
 .gridTwoCol {
@@ -33,7 +29,9 @@
   gap: 1.5rem;
   background-color: white;
   border-radius: 0.5rem;
+  border: none;
   padding: 1rem;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
 }
 
 .gridTwoCol > * {

@@ -1,7 +1,7 @@
-import { Card, Heading, Label, Paragraph } from '@digdir/designsystemet-react';
+import { Paragraph } from '@digdir/designsystemet-react';
 import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
 import { Field } from './field';
-import { LinkField } from './link-field';
+import styles from './references.module.css';
 
 interface Props {
   data: CompleteResponse;
@@ -10,50 +10,51 @@ interface Props {
 export const References = ({ data }: Props) => {
   return (
     <>
-      <Card data-color='neutral' style={{ marginBottom: '1.5rem' }}>
-        <div style={{ marginBottom: '1rem' }}>
+      <section className={styles.card}>
+        <div>
           {data.classificationReference ? (
             <Field label='Klassifikasjon' value={data.classificationReference} />
           ) : (
             <Paragraph data-size='sm'>—</Paragraph>
           )}
         </div>
-        <div style={{ marginBottom: '1rem' }}>
+        <div>
           {data.unitTypes && data.unitTypes.length > 0 ? (
             <Field label='Enhetstype' value={data.unitTypes.join(', ')} />
           ) : (
             <Paragraph data-size='sm'>—</Paragraph>
           )}
         </div>
-        <div style={{ marginBottom: '1rem' }}>
+        <div>
           {data.subjectFields && data.subjectFields.length > 0 ? (
             <Field label='Statistikkområde' value={data.subjectFields.join(', ')} />
           ) : (
             <Paragraph data-size='sm'>—</Paragraph>
           )}
         </div>
-        <div style={{ marginBottom: '1rem' }}>
+        <div>
           {data.externalReferenceUri ? (
-            <LinkField label='External Reference URI' value={data.externalReferenceUri} />
+            <Field label='External Reference URI' value='Lenke' href={data.externalReferenceUri} />
           ) : (
             <Paragraph data-size='sm'>—</Paragraph>
           )}
         </div>
         <div>
           {data.relatedVariableDefinitionUris && data.relatedVariableDefinitionUris.length > 0 ? (
-            <LinkField label='Related Variable URIs' value={data.relatedVariableDefinitionUris.join(', ')} />
+            <Field label='Related Variable URIs' value='Lenke' href={data.relatedVariableDefinitionUris.join(', ')} />
           ) : (
             <Paragraph data-size='sm'>—</Paragraph>
           )}
         </div>
-      </Card>
+      </section>
 
-      <Card data-color='neutral'>
+      <section data-color='neutral' className={styles.card}>
+
         <Field
           label='Inneholder personopplysninger'
           value={data.containsSpecialCategoriesOfPersonalData ? 'true' : 'false'}
         />
-      </Card>
+      </section>
     </>
   );
 };
