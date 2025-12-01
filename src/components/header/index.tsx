@@ -14,7 +14,7 @@ export const Header: FC<HeaderProps> = ({ homeUrl }) => {
     <header className={styles.header}>
       <div className={`${styles.headerContainer} container`}>
         <Link href={homeUrl} title='Gå til hovedsiden' className={styles.logo}>
-          <HouseIcon aria-label="Hjem" fontSize='4rem' />
+          <HouseIcon aria-label='Hjem' fontSize='4rem' />
         </Link>
         {/* TODO(): This could be section for user avatar. If not remove*/}
         <section className={styles.userSection}></section>

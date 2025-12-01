@@ -25,8 +25,8 @@ describe('Header', () => {
     expect(logoLink).toBeInTheDocument();
     expect(logoLink).toHaveAttribute('href', 'https://example.com');
 
-    const icon = screen.getByLabelText(/Hjem/i)
-    expect(icon).toBeInTheDocument()
+    const icon = screen.getByLabelText(/Hjem/i);
+    expect(icon).toBeInTheDocument();
 
     expect(logoLink).toMatchInlineSnapshot(`
 <a
