@@ -1,4 +1,4 @@
-import { Heading, Paragraph, Link } from '@digdir/designsystemet-react';
+import { Link } from '@digdir/designsystemet-react';
 import styles from './field.module.css';
 
 interface Props {
@@ -14,7 +14,7 @@ export const Field = ({ label, value, href }: Props) => {
         {label}
       </div>
       {href ? (
-        <Link className={styles.value} data-size='md' href={href}>
+        <Link className={styles.value} data-size='md' target='_blank' href={href}>
           {value}
         </Link>
       ) : (
