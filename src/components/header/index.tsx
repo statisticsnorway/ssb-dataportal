@@ -1,6 +1,7 @@
 'use client';
 
 import { Heading, Link } from '@digdir/designsystemet-react';
+import { HouseIcon } from '@navikt/aksel-icons';
 import { FC } from 'react';
 import styles from './header.module.scss';
 
@@ -13,9 +14,7 @@ export const Header: FC<HeaderProps> = ({ homeUrl }) => {
     <header className={styles.header}>
       <div className={`${styles.headerContainer} container`}>
         <Link href={homeUrl} title='Gå til hovedsiden' className={styles.logo}>
-          <Heading level={1} data-size='xl' className={styles.logo}>
-            Logo
-          </Heading>
+          <HouseIcon aria-label='Hjem' fontSize='4rem' />
         </Link>
         {/* TODO(): This could be section for user avatar. If not remove*/}
         <section className={styles.userSection}></section>
