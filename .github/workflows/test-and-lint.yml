@@ -4,45 +4,81 @@ on:
     branches: [main, chore/improve-github-workflow]
   pull_request:
     branches: [main]
+
 jobs:
-  test:
-    timeout-minutes: 60
+  setup-deps:
+    runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.cache.outputs.cache-hit }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          path: |
+            **/node_modules
+            ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn install --frozen-lockfile
+      - uses: actions/upload-artifact@v4
+        with:
+          name: node-modules
+          path: node_modules
+
+  lint-and-format:
+    needs: setup-deps
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
-
-      - name: Enable Corepack and install dependencies
-        run: |
-          corepack enable
-          yarn install --frozen-lockfile
-
-      - name: Cache Yarn dependencies
-        uses: actions/cache@v3
+      - uses: actions/download-artifact@v4
         with:
-          path: |
-            **/node_modules
-            ~/.cache/yarn
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          name: node-modules
+          path: node_modules
 
       - name: Lint check
         run: yarn lint:check
-
       - name: Format check
         run: yarn format:check
 
-      - name: Run jest tests
+  unit-tests:
+    needs: setup-deps
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - uses: actions/download-artifact@v4
+        with:
+          name: node-modules
+          path: node_modules
+
+      - name: Run Jest tests
         run: yarn test
+
+  e2e-tests:
+    if: github.event_name == 'pull_request'
+    timeout-minutes: 60
+    needs: setup-deps
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - uses: actions/download-artifact@v4
+        with:
+          name: node-modules
+          path: node_modules
 
       - name: Install Playwright Browsers
         run: yarn playwright install --with-deps
       - name: Run Playwright tests
         run: yarn test:e2e
-
       - name: Upload Playwright report
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
@@ -50,4 +86,3 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
-
