@@ -1,10 +1,10 @@
-import { Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Paragraph } from '@digdir/designsystemet-react';
 
-interface Props {
+interface VariableStatusFieldProps {
   status: string;
 }
 
-export const VariableStatusField = ({ status }: Props) => {
+export const VariableStatusField = ({ status }: VariableStatusFieldProps) => {
   return (
     <div>
       <Paragraph data-size='md'>{status}</Paragraph>

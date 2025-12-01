@@ -1,10 +1,15 @@
 .field {
   display: flex;
   flex-direction: column;
+  margin: 0;
+}
+
+.field dd {
+  margin: 0;
 }
 
 .label {
-  font-size: .95rem;
+  font-size: .85rem;
   font-weight: 500;
   color: #6b7280;
   text-transform: uppercase;
@@ -14,4 +19,5 @@
   font-size: 1.5rem;
   color: #111827;
   line-height: 1.5;
+  font-weight: 500;
 }

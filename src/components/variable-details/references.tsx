@@ -1,52 +1,50 @@
 import { Paragraph } from '@digdir/designsystemet-react';
 import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
 import { Field } from './field';
-import { InfoPanel, Section } from './layout-components';
+import { Section, InfoPanel } from './layout-components';
 
-interface Props {
+interface ReferencesProps {
   data: CompleteResponse;
 }
 
-export const References = ({ data }: Props) => {
+const EmptyValue = () => <Paragraph data-size='sm'>—</Paragraph>;
+
+export const References = ({ data }: ReferencesProps) => {
+  const { 
+    classificationReference, 
+    unitTypes, 
+    subjectFields, 
+    externalReferenceUri, 
+    relatedVariableDefinitionUris,
+    containsSpecialCategoriesOfPersonalData
+  } = data;
+
   return (
     <>
       <Section title="Variabelmetadata">
         <InfoPanel>
-          <div>
-            {data.classificationReference ? (
-              <Field label='Kodeverkets URI' value={data.classificationReference} />
-            ) : (
-              <Paragraph data-size='sm'>—</Paragraph>
-            )}
-          </div>
-          <div>
-            {data.unitTypes && data.unitTypes.length > 0 ? (
-              <Field label='Enhetstyper' value={data.unitTypes.join(', ')} />
-            ) : (
-              <Paragraph data-size='sm'>—</Paragraph>
-            )}
-          </div>
-          <div>
-            {data.subjectFields && data.subjectFields.length > 0 ? (
-              <Field label='Statistikkområder' value={data.subjectFields.join(', ')} />
-            ) : (
-              <Paragraph data-size='sm'>—</Paragraph>
-            )}
-          </div>
-          <div>
-            {data.externalReferenceUri ? (
-              <Field label='URI til ekstern referanse' value='Lenke' href={data.externalReferenceUri} />
-            ) : (
-              <Paragraph data-size='sm'>—</Paragraph>
-            )}
-          </div>
-          <div>
-            {data.relatedVariableDefinitionUris && data.relatedVariableDefinitionUris.length > 0 ? (
-              <Field label='URI til relevante variabeldefinisjoner' value='Lenke' href={data.relatedVariableDefinitionUris.join(', ')} />
-            ) : (
-              <Paragraph data-size='sm'>—</Paragraph>
-            )}
-          </div>
+          <Field 
+            label='Kodeverkets URI' 
+            value={classificationReference || <EmptyValue />} 
+          />
+          <Field 
+            label='Enhetstyper' 
+            value={unitTypes?.length ? unitTypes.join(', ') : <EmptyValue />} 
+          />
+          <Field 
+            label='Statistikkområder' 
+            value={subjectFields?.length ? subjectFields.join(', ') : <EmptyValue />} 
+          />
+          <Field 
+            label='URI til ekstern referanse' 
+            value={externalReferenceUri ? 'Lenke' : <EmptyValue />}
+            href={externalReferenceUri ?? undefined}
+          />
+          <Field 
+            label='URI til relevante variabeldefinisjoner' 
+            value={relatedVariableDefinitionUris?.length ? 'Lenke' : <EmptyValue />}
+            href={relatedVariableDefinitionUris?.join(', ')}
+          />
         </InfoPanel>
       </Section>
 
@@ -54,7 +52,7 @@ export const References = ({ data }: Props) => {
         <InfoPanel>
           <Field
             label='Inneholder særlige kategorier av personopplysninger'
-            value={data.containsSpecialCategoriesOfPersonalData ? 'Ja' : 'Nei'}
+            value={containsSpecialCategoriesOfPersonalData ? 'Ja' : 'Nei'}
           />
         </InfoPanel>
       </Section>
