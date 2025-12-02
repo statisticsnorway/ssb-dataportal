@@ -90,10 +90,32 @@ u
 
 ### Playwright
 
-Run e2e tests
+Install VS code extension: Playwright Test for VSCode
+
+Run e2e tests 
 
 ```bash
 yarn test:e2e
+```
+
+Run e2e tests 'headed' - visible browser
+
+```bash
+yarn test:e2e:headed
+```
+
+If tests not working after upgrade
+
+```bash
+yarn playwright install
+```
+
+Generate tests
+
+```bash
+yarn dev
+
+npx playwright codegen http://localhost:3000
 ```
 
 ### Generate client code
