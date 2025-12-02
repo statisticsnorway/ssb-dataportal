@@ -27,6 +27,7 @@
   --light-light-blue-color: #e6eff8;
   --dark-blue-gray-color: #2d3741;
   --main-font-color: #000;
+  --search-hit-shortname-color: #666666;
 }
 
 html * {
@@ -49,6 +50,7 @@ body {
   width: 100%;
   margin: 0;
 }
+
 .container,
 .formContainer {
   width: 100%;
@@ -75,13 +77,19 @@ body {
     width: 80%;
   }
 }
+
 @media (min-width: 992px) {
   .container {
     max-width: var(--breakpoint-width-md);
   }
 }
+
 @media (min-width: 1400px) {
   .container {
     max-width: var(--breakpoint-width-lg);
   }
+}
+
+.ds-heading {
+  font-size: 1.8rem;
 }

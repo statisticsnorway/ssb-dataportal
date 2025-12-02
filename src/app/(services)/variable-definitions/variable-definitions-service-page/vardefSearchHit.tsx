@@ -1,7 +1,9 @@
-import { Paragraph } from '@digdir/designsystemet-react';
-import { SearchHit } from '@/components/search-hit';
-import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
-import { localization } from '@/libs/language';
+import { Card, Heading, Paragraph } from '@digdir/designsystemet-react';
+import Link from 'next/link';
+import { TagsGroup } from '@/components/tags-group';
+import { SUBJECT_FIELD_LOOKUP } from '@/libs/data/subjectFieldLookup';
+import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal';
+import styles from '../variable-definitions.module.css';
 
 interface VardefSearchHitProps {
   variableDefinition: CompleteResponse;
@@ -9,25 +11,28 @@ interface VardefSearchHitProps {
 
 const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
   return (
-    <SearchHit
-      key={variableDefinition.id}
-      title={variableDefinition.name.nb ?? ''}
-      titleHref={`/variable-definitions/${variableDefinition.id}`}
-      content={
-        <div>
-          <section>
-            <Paragraph>
-              <span>{localization.id}</span> -<span>{variableDefinition.id}</span>
-            </Paragraph>
-            <Paragraph>
-              <span>{localization.lastModified}</span> -
-              <span>{variableDefinition.lastUpdatedAt?.toISOString().split('T')[0]}</span>
-            </Paragraph>
-          </section>
-          <Paragraph>{variableDefinition.definition.nb}</Paragraph>
-        </div>
-      }
-    />
+    <Card>
+      <Heading data-size='xl' level={2}>
+        <Link href={`/variable-definitions/${variableDefinition.id}`} className={styles.vardefSearchHitHeadingLink}>
+          <span className={styles.vardefSearchHitName}>{variableDefinition.name.nb}</span>
+          {variableDefinition.shortName && (
+            <span className={styles.vardefSearchHitShortName}>{variableDefinition.shortName}</span>
+          )}
+        </Link>
+      </Heading>
+      <Paragraph className={styles.truncateLines}>{variableDefinition.definition.nb}</Paragraph>
+      <TagsGroup
+        maxTags={4}
+        tagsData={
+          new Set(
+            (variableDefinition.subjectFields ?? []).map((field) => ({
+              key: field,
+              title: SUBJECT_FIELD_LOOKUP[field] ?? field,
+            })),
+          )
+        }
+      />
+    </Card>
   );
 };
 

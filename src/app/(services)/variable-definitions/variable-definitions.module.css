@@ -1,0 +1,18 @@
+/* TODO: truncate after 3 lines */
+.truncateLines {
+  display: flex;
+  text-overflow: ellipsis;
+}
+
+.vardefSearchHitHeadingLink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  text-decoration: none;
+}
+
+.vardefSearchHitShortName {
+  font-size: 1.5rem;
+  font-weight: normal;
+  color: var(--search-hit-shortname-color);
+}

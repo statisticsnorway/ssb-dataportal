@@ -24,12 +24,12 @@ const testVardefData: VardefTabData = {
       patchId: 0,
       shortName: 'landbak',
       unitTypes: [],
-      subjectFields: [],
+      subjectFields: ['be', 'tr'],
       containsSpecialCategoriesOfPersonalData: false,
       validFrom: new Date('2000-01-01'),
       lastUpdatedAt: new Date('2025-10-11'),
       definition: {
-        nb: 'Landbakgrunn er at...',
+        nb: 'For personer født i utlandet, er dette (med noen få unntak) eget fødeland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt. Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen mormor, morfar, farmor eller farfar.',
         en: 'Country background is...',
       },
       contact: {
@@ -56,9 +56,9 @@ const testVardefData: VardefTabData = {
       patchId: 0,
       shortName: 'bus',
       unitTypes: [],
-      subjectFields: [],
+      subjectFields: ['be'],
       definition: {
-        nb: 'Buss er at...',
+        nb: 'En buss er en bil for persontransport med over 8 sitteplasser i tillegg til førersetet.',
         en: 'Bus is...',
       },
       validFrom: new Date('2020-01-01'),
