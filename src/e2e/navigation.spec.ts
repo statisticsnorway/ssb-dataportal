@@ -10,4 +10,13 @@ test.describe('Navigation at start', () => {
 
     await expect(page).toHaveURL(/\/variable-definitions$/);
   });
+
+  test('Goto a variabledefinition', async ({ page }) => {
+    await page.waitForLoadState('load');
+
+    await expect(page).toHaveURL(/\/variable-definitions$/);
+    await page.getByRole('link', { name: 'Kommunenummer' }).dblclick();
+    await expect(page).toHaveURL(/\/variable-definitions\/0O1QLezw/);
+    await expect(page.getByRole('heading', { name: 'Kommunenummer' })).toBeVisible();
+  });
 });
