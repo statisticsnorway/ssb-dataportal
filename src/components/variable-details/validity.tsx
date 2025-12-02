@@ -1,6 +1,7 @@
 import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
 import { Field } from './field';
-import { Section, InfoPanel } from './layout-components';
+import { DetailsPageSection } from './details-page-section';
+import { DetailsPagePanel } from './detals-page-panel';
 
 interface ValidityProps {
   data: CompleteResponse;
@@ -15,15 +16,15 @@ export const Validity = ({ data }: ValidityProps) => {
   const { validFrom, validUntil, createdAt, createdBy, lastUpdatedAt, lastUpdatedBy } = data;
 
   return (
-    <Section title="Gyldighet">
-      <InfoPanel columns={2}>
+    <DetailsPageSection title="Gyldighet">
+      <DetailsPagePanel columns={2}>
         <Field label='Gyldig fra' value={formatDate(validFrom) || '—'} />
         <Field label='Gyldig til' value={formatDate(validUntil) || '—'} />
         <Field label='Opprettet' value={formatDate(createdAt) || '—'} />
         <Field label='Opprettet av' value={createdBy || '—'} />
         <Field label='Sist oppdatert' value={formatDate(lastUpdatedAt) || '—'} />
         <Field label='Sist oppdatert av' value={lastUpdatedBy || '—'} />
-      </InfoPanel>
-    </Section>
+      </DetailsPagePanel>
+    </DetailsPageSection>
   );
 };

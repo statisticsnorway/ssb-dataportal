@@ -7,7 +7,7 @@ interface SectionProps extends HTMLAttributes<HTMLElement> {
   children: ReactNode;
 }
 
-export const Section = ({ title, children, className, ...rest }: SectionProps) => {
+export const DetailsPageSection = ({ title, children, className, ...rest }: SectionProps) => {
   return (
     <section className={`${styles.section} ${className ?? ''}`} {...rest}>
       {title && (
@@ -20,18 +20,3 @@ export const Section = ({ title, children, className, ...rest }: SectionProps) =
   );
 };
 
-interface InfoPanelProps extends HTMLAttributes<HTMLDListElement> {
-  children: ReactNode;
-  columns?: 1 | 2;
-}
-
-export const InfoPanel = ({ children, columns = 1, className, ...rest }: InfoPanelProps) => {
-  return (
-    <dl 
-      className={`${styles.panel} ${columns === 2 ? styles.gridTwoCol : ''} ${className ?? ''}`}
-      {...rest}
-    >
-      {children}
-    </dl>
-  );
-};

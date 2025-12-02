@@ -1,7 +1,8 @@
 import { Paragraph } from '@digdir/designsystemet-react';
 import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
 import { Field } from './field';
-import { Section, InfoPanel } from './layout-components';
+import { DetailsPageSection } from './details-page-section';
+import { DetailsPagePanel } from './detals-page-panel';
 
 interface ReferencesProps {
   data: CompleteResponse;
@@ -21,8 +22,8 @@ export const References = ({ data }: ReferencesProps) => {
 
   return (
     <>
-      <Section title="Variabelmetadata">
-        <InfoPanel>
+      <DetailsPageSection title="Variabelmetadata">
+        <DetailsPagePanel>
           {classificationReference && (
             <Field 
               label="Kodeverkets URI"
@@ -48,17 +49,17 @@ export const References = ({ data }: ReferencesProps) => {
               href={relatedVariableDefinitionUris.join(', ')}
             />
           )}
-        </InfoPanel>
-      </Section>
+        </DetailsPagePanel>
+      </DetailsPageSection>
 
-      <Section title="Personopplysninger">
-        <InfoPanel>
+      <DetailsPageSection title="Personopplysninger">
+        <DetailsPagePanel>
           <Field
             label='Inneholder særlige kategorier av personopplysninger'
             value={containsSpecialCategoriesOfPersonalData ? 'Ja' : 'Nei'}
           />
-        </InfoPanel>
-      </Section>
+        </DetailsPagePanel>
+      </DetailsPageSection>
     </>
   );
 };
