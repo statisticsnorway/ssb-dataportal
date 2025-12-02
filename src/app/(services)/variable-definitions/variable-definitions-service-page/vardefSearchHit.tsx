@@ -15,7 +15,6 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
       <Heading data-size='xl' level={2}>
         <Link
           href={`/variable-definitions/${variableDefinition.id}`}
-          rel='noopener noreferrer'
           className={styles.vardefSearchHitHeadingLink}
         >
           <span className={styles.vardefSearchHitName}>{variableDefinition.name.nb}</span>
