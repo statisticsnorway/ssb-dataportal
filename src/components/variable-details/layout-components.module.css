@@ -3,12 +3,10 @@
   flex-direction: column;
   gap: var(--large-gap);
   margin-bottom: var(--large-gap);
-  padding-bottom: 2.5rem;
-  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1.5rem;
 }
 
 .section:last-of-type {
-  border-bottom: none;
   margin-bottom: 0;
 }
 
