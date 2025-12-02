@@ -31,20 +31,4 @@ describe('TextField', () => {
     expect(paragraph).toBeInTheDocument();
     expect(paragraph.tagName).toBe('P');
   });
-
-  it('applies custom className', () => {
-    const { container } = render(<TextField label='Test' value='Value' className='custom-class' />);
-
-    const fieldDiv = container.firstChild;
-    expect(fieldDiv).toHaveClass('custom-class');
-  });
-
-  it('renders ReactNode as value', () => {
-    render(
-      <TextField label='Complex Content' value={<span data-testid='custom-content'>Custom paragraph content</span>} />,
-    );
-
-    expect(screen.getByTestId('custom-content')).toBeInTheDocument();
-    expect(screen.getByText('Custom paragraph content')).toBeInTheDocument();
-  });
 });

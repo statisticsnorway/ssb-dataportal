@@ -1,16 +1,16 @@
 import { Label, Link } from '@digdir/designsystemet-react';
-import { HTMLAttributes, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import styles from './field.module.css';
 
-interface FieldProps extends HTMLAttributes<HTMLDivElement> {
+interface FieldProps {
   label: string;
   value: ReactNode;
   href?: string;
 }
 
-export const Field = ({ label, value, href, className, ...rest }: FieldProps) => {
+export const Field = ({ label, value, href }: FieldProps) => {
   return (
-    <div className={`${styles.field} ${className ?? ''}`} {...rest}>
+    <div className={styles.field}>
       <Label className={styles.label}>{label}</Label>
       {href ? (
         <Link data-size='md' target='_blank' href={href}>
