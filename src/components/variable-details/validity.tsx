@@ -1,6 +1,6 @@
 import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
-import { Field } from './field';
-import { DetailsPagePanel, DetailsPageSection } from './layout-components';
+import { DetailsPagePanel } from './details-page-panel';
+
 
 interface ValidityProps {
   data: CompleteResponse;
@@ -15,15 +15,13 @@ export const Validity = ({ data }: ValidityProps) => {
   const { validFrom, validUntil, createdAt, createdBy, lastUpdatedAt, lastUpdatedBy } = data;
 
   return (
-    <DetailsPageSection title='Gyldighet'>
-      <DetailsPagePanel columns={2}>
-        <Field label='Gyldig fra' value={formatDate(validFrom) || '—'} />
-        <Field label='Gyldig til' value={formatDate(validUntil) || '—'} />
-        <Field label='Opprettet' value={formatDate(createdAt) || '—'} />
-        <Field label='Opprettet av' value={createdBy || '—'} />
-        <Field label='Sist oppdatert' value={formatDate(lastUpdatedAt) || '—'} />
-        <Field label='Sist oppdatert av' value={lastUpdatedBy || '—'} />
-      </DetailsPagePanel>
-    </DetailsPageSection>
+    <DetailsPagePanel title='Gyldighet' columns={2} elements={[
+      { label: 'Gyldig fra', value: formatDate(validFrom) || '—' },
+      { label: 'Gyldig til', value: formatDate(validUntil) || '—' },
+      { label: 'Opprettet', value: formatDate(createdAt) || '—' },
+      { label: 'Opprettet av', value: createdBy || '—' },
+      { label: 'Sist oppdatert', value: formatDate(lastUpdatedAt) || '—' },
+      { label: 'Sist oppdatert av', value: lastUpdatedBy || '—' },
+    ]} />
   );
 };

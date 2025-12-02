@@ -2,6 +2,7 @@ import { CompleteResponse } from '@/libs/data-access/variable-definitions/intern
 import { DetailsPageSection } from './layout-components';
 import { TextField } from './text-field';
 
+
 interface CoreInformationProps {
   data: CompleteResponse;
 }

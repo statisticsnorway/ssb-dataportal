@@ -20,11 +20,3 @@ export const DetailsPageSection = ({ title, children }: SectionProps) => {
   );
 };
 
-interface InfoPanelProps {
-  children: ReactNode;
-  columns?: 1 | 2;
-}
-
-export const DetailsPagePanel = ({ children, columns = 1 }: InfoPanelProps) => {
-  return <dl className={`${styles.panel} ${columns === 2 ? styles.gridTwoCol : ''}`}>{children}</dl>;
-};
