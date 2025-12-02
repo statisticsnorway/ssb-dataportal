@@ -9,26 +9,29 @@
 .contentGrid {
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
 
 .mainColumn {
-  flex: 1 1 auto;
+  flex: 1;
   min-width: 0;
-  padding-right: 0;
 }
 
 .sidebar {
   flex: 1;
-  position: static;
   border-top: 1px solid var(--border-color);
   padding-top: var(--large-gap);
 }
 
-.detailsPageHeader {
+.detailsPageHeader,
+.headerInfoText,
+.heroTitle,
+.heroRow {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+}
+
+.detailsPageHeader {
+  justify-content: space-between;
   gap: var(--medium-gap);
   margin-bottom: 3rem;
 }
@@ -40,8 +43,6 @@
 }
 
 .headerInfoText {
-  display: flex;
-  align-items: center;
   gap: 0.75rem;
 }
 
@@ -51,6 +52,22 @@
   background-color: var(--separator-color);
 }
 
+.heroTitle {
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.heroRow {
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2.5rem;
+}
+
+.hero h1 {
+  font-size: 2.25rem;
+}
+
+/* Desktop */
 @media (min-width: 968px) {
   .detailsPage {
     padding: 0;
@@ -72,22 +89,4 @@
     border-top: none;
     padding-top: 0;
   }
-}
-
-.heroTitle {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.heroRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 2.5rem;
-}
-
-.hero h1 {
-  font-size: 2.25rem;
 }

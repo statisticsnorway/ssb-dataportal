@@ -15,7 +15,7 @@ export const TextField = ({ label, value, className, ...rest }: TextFieldProps) 
       >
         {label}
       </Label>
-      <Paragraph data-size='md' data-weight='medium'>
+      <Paragraph data-size='lg' data-weight='medium'>
         {value}
       </Paragraph>
     </div>
