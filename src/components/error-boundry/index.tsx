@@ -18,7 +18,7 @@ interface State {
 
 //TODO(): This component is from catalog-frontend and has not has not been updated
 class ErrorBoundary extends Component<Props, State> {
-  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: <Check with catalog-frontendn>
+  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: <Check with catalog-frontend>
   private title: string | undefined;
 
   constructor(props: Props) {

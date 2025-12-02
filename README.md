@@ -32,20 +32,32 @@ yarn set version stable
 yarn install
 ```
 
-## Lint
+## Lint and format
 
 We use [`biome`](https://biomejs.dev/guides/getting-started/).
 
-Check
+### Lint
 
 ```bash
-yarn lint
+yarn lint:check
 ```
 
-Fix
+Fix linting
 
 ```bash
 yarn lint:fix
+```
+
+### Format
+
+```bash
+yarn format:check
+```
+
+Fix linting
+
+```bash
+yarn format:fix
 ```
 
 ## Test
