@@ -3,7 +3,6 @@ import { render, screen } from '@testing-library/react';
 import React, { JSX } from 'react';
 import { Field } from './field';
 
-
 jest.mock('@digdir/designsystemet-react', () => {
   const passthrough =
     (tag: keyof JSX.IntrinsicElements) =>
@@ -13,7 +12,7 @@ jest.mock('@digdir/designsystemet-react', () => {
   return {
     Label: passthrough('label'),
     Paragraph: passthrough('p'),
-    Link: passthrough('a')
+    Link: passthrough('a'),
   };
 });
 
