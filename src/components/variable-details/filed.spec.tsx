@@ -13,6 +13,7 @@ jest.mock('@digdir/designsystemet-react', () => {
   return {
     Label: passthrough('label'),
     Paragraph: passthrough('p'),
+    Link: passthrough('a')
   };
 });
 
