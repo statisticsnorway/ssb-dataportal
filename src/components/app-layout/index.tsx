@@ -5,10 +5,10 @@ import { Header } from '../header';
 
 import '@global-css';
 
+import { Alert } from '@digdir/designsystemet-react';
 import { UrlItem } from '@/types/navigationTypes';
 import ErrorBoundary from '../error-boundry';
 import styles from './layout.module.css';
-import { Alert } from '@digdir/designsystemet-react';
 
 interface AppLayoutProps {
   children: ReactNode;

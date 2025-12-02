@@ -14,7 +14,6 @@ jest.mock('@digdir/designsystemet-react', () => {
     Heading: passthrough('h1'),
     Button: passthrough('button'),
     ExternalLinkIcon: () => <span>🔗</span>,
-    Alert: passthrough('div')
   };
 });
 
