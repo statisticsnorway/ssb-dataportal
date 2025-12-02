@@ -14,7 +14,6 @@ export const metadata: Metadata = {
 
 import { testVardefData } from '@/utils/mock-data';
 
-
 const classificationFamilies: ClassificationFamily[] = await fetch(`${KLASS_HOST}${CLASSIFICATION_FAMILIES}`)
   .then((res) => res.json())
   .then((data) => data._embedded.classificationFamilies ?? []);

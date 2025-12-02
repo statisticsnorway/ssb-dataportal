@@ -3,6 +3,7 @@ import { CompleteResponse } from '@/libs/data-access/variable-definitions/intern
 import { VardefTabData } from './vardefTabContext';
 
 // Convert JSON data to CompleteResponse types since we currently use only test data
+// biome-ignore lint/suspicious/noExplicitAny: it's mock data // Disable when using test data
 const convertToCompleteResponse = (json: any): CompleteResponse => {
   return {
     id: json.id,

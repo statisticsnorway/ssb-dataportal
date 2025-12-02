@@ -1,7 +1,7 @@
 'use client';
 import { render, screen } from '@testing-library/react';
 import React, { JSX } from 'react';
-import { DetailsPageSection, DetailsPagePanel } from './layout-components';
+import { DetailsPagePanel, DetailsPageSection } from './layout-components';
 
 jest.mock('@digdir/designsystemet-react', () => {
   const passthrough =
@@ -19,19 +19,19 @@ describe('Section', () => {
     render(
       <DetailsPageSection>
         <div>Test Content</div>
-      </DetailsPageSection>
+      </DetailsPageSection>,
     );
-    
+
     expect(screen.getByText('Test Content')).toBeInTheDocument();
   });
 
   it('renders title when provided', () => {
     render(
-      <DetailsPageSection title="Test Section">
+      <DetailsPageSection title='Test Section'>
         <div>Content</div>
-      </DetailsPageSection>
+      </DetailsPageSection>,
     );
-    
+
     expect(screen.getByText('Test Section')).toBeInTheDocument();
     expect(screen.getByText('Content')).toBeInTheDocument();
   });
@@ -40,9 +40,9 @@ describe('Section', () => {
     const { container } = render(
       <DetailsPageSection>
         <div>Content</div>
-      </DetailsPageSection>
+      </DetailsPageSection>,
     );
-    
+
     const heading = container.querySelector('h2');
     expect(heading).not.toBeInTheDocument();
   });
@@ -53,9 +53,9 @@ describe('InfoPanel', () => {
     render(
       <DetailsPagePanel>
         <div>Panel Content</div>
-      </DetailsPagePanel>
+      </DetailsPagePanel>,
     );
-    
+
     expect(screen.getByText('Panel Content')).toBeInTheDocument();
   });
 
@@ -63,9 +63,9 @@ describe('InfoPanel', () => {
     const { container } = render(
       <DetailsPagePanel>
         <div>Content</div>
-      </DetailsPagePanel>
+      </DetailsPagePanel>,
     );
-    
+
     const dl = container.querySelector('dl');
     expect(dl).toBeInTheDocument();
   });
@@ -74,9 +74,9 @@ describe('InfoPanel', () => {
     const { container } = render(
       <DetailsPagePanel columns={2}>
         <div>Content</div>
-      </DetailsPagePanel>
+      </DetailsPagePanel>,
     );
-    
+
     const panel = container.firstChild;
     expect(panel).toHaveClass('gridTwoCol');
   });
@@ -85,9 +85,9 @@ describe('InfoPanel', () => {
     const { container } = render(
       <DetailsPagePanel columns={1}>
         <div>Content</div>
-      </DetailsPagePanel>
+      </DetailsPagePanel>,
     );
-    
+
     const panel = container.firstChild;
     expect(panel).not.toHaveClass('gridTwoCol');
   });

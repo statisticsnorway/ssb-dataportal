@@ -11,11 +11,7 @@ interface FieldProps extends HTMLAttributes<HTMLDivElement> {
 export const Field = ({ label, value, href, className, ...rest }: FieldProps) => {
   return (
     <div className={`${styles.field} ${className ?? ''}`} {...rest}>
-      <Label 
-        className={styles.label}
-      >
-        {label}
-      </Label>
+      <Label className={styles.label}>{label}</Label>
       {href ? (
         <Link data-size='md' target='_blank' href={href}>
           {value}
@@ -28,5 +24,3 @@ export const Field = ({ label, value, href, className, ...rest }: FieldProps) =>
     </div>
   );
 };
-
-

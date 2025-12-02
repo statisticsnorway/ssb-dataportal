@@ -17,36 +17,33 @@ jest.mock('@digdir/designsystemet-react', () => {
 
 describe('TextField', () => {
   it('renders label and value correctly', () => {
-    render(<TextField label="Definisjon" value="This is a definition" />);
-    
+    render(<TextField label='Definisjon' value='This is a definition' />);
+
     expect(screen.getByText('Definisjon')).toBeInTheDocument();
     expect(screen.getByText('This is a definition')).toBeInTheDocument();
   });
 
   it('renders long text content in a paragraph', () => {
     const longText = 'This is a very long definition that should be displayed as paragraph text.';
-    render(<TextField label="Kommentar" value={longText} />);
-    
+    render(<TextField label='Kommentar' value={longText} />);
+
     const paragraph = screen.getByText(longText);
     expect(paragraph).toBeInTheDocument();
     expect(paragraph.tagName).toBe('P');
   });
 
   it('applies custom className', () => {
-    const { container } = render(<TextField label="Test" value="Value" className="custom-class" />);
-    
+    const { container } = render(<TextField label='Test' value='Value' className='custom-class' />);
+
     const fieldDiv = container.firstChild;
     expect(fieldDiv).toHaveClass('custom-class');
   });
 
   it('renders ReactNode as value', () => {
     render(
-      <TextField 
-        label="Complex Content" 
-        value={<span data-testid="custom-content">Custom paragraph content</span>} 
-      />
+      <TextField label='Complex Content' value={<span data-testid='custom-content'>Custom paragraph content</span>} />,
     );
-    
+
     expect(screen.getByTestId('custom-content')).toBeInTheDocument();
     expect(screen.getByText('Custom paragraph content')).toBeInTheDocument();
   });

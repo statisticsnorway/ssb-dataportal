@@ -1,7 +1,6 @@
 import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
 import { Field } from './field';
-import { DetailsPageSection, DetailsPagePanel } from './layout-components';
-
+import { DetailsPagePanel, DetailsPageSection } from './layout-components';
 
 interface ValidityProps {
   data: CompleteResponse;
@@ -16,7 +15,7 @@ export const Validity = ({ data }: ValidityProps) => {
   const { validFrom, validUntil, createdAt, createdBy, lastUpdatedAt, lastUpdatedBy } = data;
 
   return (
-    <DetailsPageSection title="Gyldighet">
+    <DetailsPageSection title='Gyldighet'>
       <DetailsPagePanel columns={2}>
         <Field label='Gyldig fra' value={formatDate(validFrom) || '—'} />
         <Field label='Gyldig til' value={formatDate(validUntil) || '—'} />

@@ -1,8 +1,8 @@
 'use client';
 import { render, screen } from '@testing-library/react';
 import React, { JSX } from 'react';
-import { CoreInformation } from './core-information';
 import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
+import { CoreInformation } from './core-information';
 
 jest.mock('@digdir/designsystemet-react', () => {
   const passthrough =
@@ -38,7 +38,7 @@ const mockVariableDefinition: CompleteResponse = {
 describe('CoreInformation', () => {
   it('renders definition field', () => {
     render(<CoreInformation data={mockVariableDefinition} />);
-    
+
     expect(screen.getByText('Definisjon')).toBeInTheDocument();
     expect(screen.getByText('This is a test definition')).toBeInTheDocument();
   });
@@ -48,16 +48,16 @@ describe('CoreInformation', () => {
       ...mockVariableDefinition,
       comment: { nb: 'This is a comment' },
     };
-    
+
     render(<CoreInformation data={dataWithComment} />);
-    
+
     expect(screen.getByText('Kommentar')).toBeInTheDocument();
     expect(screen.getByText('This is a comment')).toBeInTheDocument();
   });
 
   it('does not render comment field when comment is null', () => {
     render(<CoreInformation data={mockVariableDefinition} />);
-    
+
     expect(screen.queryByText('Kommentar')).not.toBeInTheDocument();
   });
 
@@ -66,9 +66,9 @@ describe('CoreInformation', () => {
       ...mockVariableDefinition,
       comment: { nb: '' },
     };
-    
+
     render(<CoreInformation data={dataWithEmptyComment} />);
-    
+
     expect(screen.queryByText('Kommentar')).not.toBeInTheDocument();
   });
 });

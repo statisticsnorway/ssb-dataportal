@@ -3,7 +3,7 @@
   flex-direction: column;
   margin: 0;
 }
- 
+
 .label {
   color: var(--text-color-secondary);
   text-transform: uppercase;

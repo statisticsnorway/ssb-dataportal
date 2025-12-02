@@ -95,12 +95,8 @@
       "en": "Municipality number is a number that identifies a municipality in Norway. It consists of four digits and is used to unambiguously define the municipality. The first two digits of the municipality number are the county number. The last two digits of the municipality number are a serial number within each county. The municipality numbers are partly arranged according to the old bailiff division, so that neighboring municipalities often have municipality numbers that follow each other. From the time the municipality number was introduced in 1946, the cities were given municipality numbers with the third digit 0. This shows that the municipality was a city municipality. In the past, it was common to reuse municipality numbers, which is a very undesirable practice in modern data processing."
     },
     "classification_reference": "131",
-    "unit_types": [
-      "16"
-    ],
-    "subject_fields": [
-      "be"
-    ],
+    "unit_types": ["16"],
+    "subject_fields": ["be"],
     "contains_special_categories_of_personal_data": false,
     "variable_status": "DRAFT",
     "measurement_type": null,
@@ -111,9 +107,7 @@
     "related_variable_definition_uris": [],
     "owner": {
       "team": "dapla-metadata",
-      "groups": [
-        "dapla-metadata-developers"
-      ]
+      "groups": ["dapla-metadata-developers"]
     },
     "contact": {
       "title": {

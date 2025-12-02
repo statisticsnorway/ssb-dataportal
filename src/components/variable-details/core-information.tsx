@@ -11,12 +11,9 @@ export const CoreInformation = ({ data }: CoreInformationProps) => {
 
   return (
     <DetailsPageSection>
-      <TextField label="Definisjon" value={definition.nb ?? ''} />
+      <TextField label='Definisjon' value={definition.nb ?? ''} />
 
-      {comment?.nb && (
-        <TextField label="Kommentar" value={comment.nb} />
-      )}
+      {comment?.nb && <TextField label='Kommentar' value={comment.nb} />}
     </DetailsPageSection>
   );
 };
-

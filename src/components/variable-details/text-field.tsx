@@ -10,11 +10,7 @@ interface TextFieldProps extends HTMLAttributes<HTMLDivElement> {
 export const TextField = ({ label, value, className, ...rest }: TextFieldProps) => {
   return (
     <div className={`${styles.field} ${className ?? ''}`} {...rest}>
-      <Label 
-        className={styles.label}
-      >
-        {label}
-      </Label>
+      <Label className={styles.label}>{label}</Label>
       <Paragraph data-size='lg' data-weight='medium'>
         {value}
       </Paragraph>

@@ -26,11 +26,5 @@ interface InfoPanelProps {
 }
 
 export const DetailsPagePanel = ({ children, columns = 1 }: InfoPanelProps) => {
-  return (
-    <dl 
-      className={`${styles.panel} ${columns === 2 ? styles.gridTwoCol : ''}`}
-    >
-      {children}
-    </dl>
-  );
+  return <dl className={`${styles.panel} ${columns === 2 ? styles.gridTwoCol : ''}`}>{children}</dl>;
 };

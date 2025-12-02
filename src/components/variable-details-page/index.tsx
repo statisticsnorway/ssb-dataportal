@@ -2,8 +2,8 @@ import { Heading, Tag } from '@digdir/designsystemet-react';
 import { HTMLAttributes, ReactNode } from 'react';
 import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
 import { Breadcrumbs, BreadcrumbType } from '../breadcrumbs';
-import styles from './variable-details-page-layout.module.css';
 import { DetailsPageHeader } from './variable-details-page-header';
+import styles from './variable-details-page-layout.module.css';
 
 interface DetailsPageProps extends HTMLAttributes<HTMLDivElement> {
   mainContent?: ReactNode;
@@ -12,7 +12,6 @@ interface DetailsPageProps extends HTMLAttributes<HTMLDivElement> {
   homeUrl: BreadcrumbType;
   variableDefinition: CompleteResponse;
 }
-
 
 export const VariableDetailsPageLayout = ({
   children,
