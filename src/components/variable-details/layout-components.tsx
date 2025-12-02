@@ -1,5 +1,5 @@
 import { Heading } from '@digdir/designsystemet-react';
-import { HTMLAttributes, ReactNode } from 'react';
+import {  ReactNode } from 'react';
 import styles from './layout-components.module.css';
 
 interface SectionProps {

@@ -1,6 +1,6 @@
 import { Label, Link, Paragraph } from '@digdir/designsystemet-react';
 import { ReactNode } from 'react';
-import styles from './field.module.css';
+import styles from './text-field.module.css';
 
 interface TextFieldProps {
   label: string;
