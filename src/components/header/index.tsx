@@ -1,7 +1,7 @@
 'use client';
 
-import { Alert, Card, Link } from '@digdir/designsystemet-react';
-import { ExclamationmarkTriangleIcon, HouseIcon, InformationIcon } from '@navikt/aksel-icons';
+import { Alert, Link } from '@digdir/designsystemet-react';
+import { HouseIcon } from '@navikt/aksel-icons';
 import { FC } from 'react';
 import styles from './header.module.css';
 
