@@ -16,8 +16,7 @@ const CheckboxFilter: React.FC<CheckboxFilterProps> = ({ filters, filterHeading,
   };
 
   return (
-    <Card data-color={'accent'}
-    >
+    <Card data-color={'accent'}>
       <CheckboxGroupFilter
         items={filters}
         value={(selectedItems ?? []).map(String)}
