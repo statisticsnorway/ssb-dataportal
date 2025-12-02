@@ -64,6 +64,12 @@ body {
   margin: var(--center-element-no-top);
 }
 
+#sortVariables.ds-input {
+  padding: 0.5rem;
+  border-radius: 5px;
+  border-color: var(--ds-color-accent-border-default);
+}
+
 @media (min-width: 768px) {
   .container {
     max-width: var(--breakpoint-width-sm);
