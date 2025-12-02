@@ -1,9 +1,9 @@
 /* This is a global stylesheet */
 
-@layer reset, fds;
-
 @import url("@digdir/designsystemet-css");
-@import url("@digdir/designsystemet-theme");
+@import url('@digdir/designsystemet-theme/digdir.css');
+
+@layer reset, ds;
 
 :root {
   box-sizing: border-box;
