@@ -6,110 +6,92 @@
 @import url("@digdir/designsystemet-theme");
 
 :root {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
 
-  --breakpoint-width-sm: 768px;
-  --breakpoint-width-md: 960px;
-  --breakpoint-width-lg: 1320px;
-  --app-min-width: 360px;
-  --center-element-no-top: 0 auto;
-  --center-element-top: 1rem auto;
-  --medium-gap: 1rem;
-  --large-gap: 2rem;
+    --breakpoint-width-sm: 768px;
+    --breakpoint-width-md: 960px;
+    --breakpoint-width-lg: 1320px;
+    --app-min-width: 360px;
+    --center-element-no-top: 0 auto;
+    --center-element-top: 1rem auto;
+    --medium-gap: 1rem;
+    --large-gap: 2rem;
 
-  --blue-color: #335380;
-  --dark-blue-color: #1e2b3c;
-  --main-background-color: #fafafa;
-  --shadow-color: #969ba0;
-  --element-background-color: #fff;
-  --light-light-blue-color: #e6eff8;
-  --dark-blue-gray-color: #2d3741;
-  --main-font-color: #000;
+    --blue-color: #335380;
+    --dark-blue-color: #1e2b3c;
+    --main-background-color: #fafafa;
+    --shadow-color: #969ba0;
+    --element-background-color: #fff;
+    --light-light-blue-color: #e6eff8;
+    --dark-blue-gray-color: #2d3741;
+    --main-font-color: #000;
+    --search-hit-shortname-color: #666666;
 }
 
 html * {
-  font-display: swap;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-display: swap;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 body {
-  font-family: inherit;
-  line-height: inherit;
-  height: 100%;
-  background-color: var(--main-background-color);
-  padding: 0;
-  margin: 0;
+    font-family: inherit;
+    line-height: inherit;
+    height: 100%;
+    background-color: var(--main-background-color);
+    padding: 0;
+    margin: 0;
 }
 
 .rootContainer {
-  width: 100%;
-  margin: 0;
+    width: 100%;
+    margin: 0;
 }
+
 .container,
 .formContainer {
-  width: 100%;
+    width: 100%;
 }
 
 .grow {
-  flex-grow: 1;
+    flex-grow: 1;
 }
 
 #searchId.ds-search {
-  --dsc-search-padding-inline: var(--large-gap);
-  width: 95%;
-  margin: var(--center-element-no-top);
+    --dsc-search-padding-inline: var(--large-gap);
+    width: 95%;
+    margin: var(--center-element-no-top);
 }
 
 @media (min-width: 768px) {
-  .container {
-    max-width: var(--breakpoint-width-sm);
-    margin: var(--center-element-no-top);
-  }
+    .container {
+        max-width: var(--breakpoint-width-sm);
+        margin: var(--center-element-no-top);
+    }
 
-  #searchId.ds-search {
-    margin: 0;
-    width: 80%;
-  }
+    #searchId.ds-search {
+        margin: 0;
+        width: 80%;
+    }
 }
+
 @media (min-width: 992px) {
-  .container {
-    max-width: var(--breakpoint-width-md);
-  }
+    .container {
+        max-width: var(--breakpoint-width-md);
+    }
 }
+
 @media (min-width: 1400px) {
-  .container {
-    max-width: var(--breakpoint-width-lg);
-  }
+    .container {
+        max-width: var(--breakpoint-width-lg);
+    }
 }
 
 .ds-heading {
-  font-size: 1.8rem;
+    font-size: 1.8rem;
 }
 
-.clamp {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
 
-.vardef-search-hit__heading-link {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.4rem;
-  text-decoration: none;
-}
-
-.vardef-search-hit__name {
-  font-weight: inherit;
-}
-
-.vardef-search-hit__short-name {
-  font-size: 0.85em;
-  font-weight: normal;
-  color: #666666;
-}
