@@ -1,5 +1,5 @@
 import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
-import { DetailsPageSection } from './details-page-section';
+import { DetailsPageSection } from './layout-components';
 import { TextField } from './text-field';
 
 interface CoreInformationProps {

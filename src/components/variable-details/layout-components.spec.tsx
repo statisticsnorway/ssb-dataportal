@@ -1,8 +1,7 @@
 'use client';
 import { render, screen } from '@testing-library/react';
 import React, { JSX } from 'react';
-import { DetailsPageSection } from './details-page-section';
-import { DetailsPagePanel } from './detals-page-panel';
+import { DetailsPageSection, DetailsPagePanel } from './layout-components';
 
 jest.mock('@digdir/designsystemet-react', () => {
   const passthrough =

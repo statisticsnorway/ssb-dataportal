@@ -1,8 +1,8 @@
 import { Paragraph } from '@digdir/designsystemet-react';
 import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
 import { Field } from './field';
-import { DetailsPageSection } from './details-page-section';
-import { DetailsPagePanel } from './detals-page-panel';
+import { DetailsPageSection, DetailsPagePanel } from './layout-components';
+
 
 interface ReferencesProps {
   data: CompleteResponse;
