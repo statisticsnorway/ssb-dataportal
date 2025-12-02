@@ -1,6 +1,6 @@
 import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
-import { Field } from "./field";
 import { Section } from './layout-components';
+import { TextField } from './text-field';
 
 interface CoreInformationProps {
   data: CompleteResponse;
@@ -11,8 +11,12 @@ export const CoreInformation = ({ data }: CoreInformationProps) => {
 
   return (
     <Section>
-      <Field label="Definisjon" value={definition.nb ?? ''} />
-      <Field label="Kommentar" value={comment?.nb ?? ''} />
+      <TextField label="Definisjon" value={definition.nb ?? ''} />
+
+      {comment?.nb && (
+        <TextField label="Kommentar" value={comment.nb} />
+      )}
     </Section>
   );
 };
+

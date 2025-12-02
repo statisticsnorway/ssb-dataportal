@@ -1,6 +1,6 @@
 .detailsPage {
   width: 100%;
-  padding: 1rem;
+  padding: var(--medium-gap);
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -21,15 +21,15 @@
 .sidebar {
   flex: 1;
   position: static;
-  border-top: 1px solid #ddd;
-  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+  padding-top: var(--large-gap);
 }
 
 .detailsPageHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  gap: var(--medium-gap);
   margin-bottom: 3rem;
 }
 
@@ -48,7 +48,7 @@
 .separator {
   width: 1px;
   height: 1.25rem;
-  background-color: #d1d5db;
+  background-color: var(--separator-color);
 }
 
 @media (min-width: 968px) {
@@ -58,17 +58,17 @@
 
   .contentGrid {
     flex-direction: row;
-    gap: 2rem;
+    gap: var(--large-gap);
   }
 
   .mainColumn {
-    padding-right: 2rem;
+    padding-right: var(--large-gap);
   }
 
   .sidebar {
     flex: 0 0 auto;
     position: sticky;
-    top: 2rem;
+    top: var(--large-gap);
     border-top: none;
     padding-top: 0;
   }

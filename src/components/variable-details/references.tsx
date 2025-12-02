@@ -23,28 +23,31 @@ export const References = ({ data }: ReferencesProps) => {
     <>
       <Section title="Variabelmetadata">
         <InfoPanel>
-          <Field 
-            label='Kodeverkets URI' 
-            value={classificationReference || <EmptyValue />} 
-          />
-          <Field 
-            label='Enhetstyper' 
-            value={unitTypes?.length ? unitTypes.join(', ') : <EmptyValue />} 
-          />
-          <Field 
-            label='Statistikkområder' 
-            value={subjectFields?.length ? subjectFields.join(', ') : <EmptyValue />} 
-          />
-          <Field 
-            label='URI til ekstern referanse' 
-            value={externalReferenceUri ? 'Lenke' : <EmptyValue />}
-            href={externalReferenceUri ?? undefined}
-          />
-          <Field 
-            label='URI til relevante variabeldefinisjoner' 
-            value={relatedVariableDefinitionUris?.length ? 'Lenke' : <EmptyValue />}
-            href={relatedVariableDefinitionUris?.join(', ')}
-          />
+          {classificationReference && (
+            <Field 
+              label="Kodeverkets URI"
+              value={classificationReference}
+            />
+          )}
+
+          <Field label='Enhetstyper' value={unitTypes?.length ? unitTypes.join(', ') : <EmptyValue />} />
+          <Field label='Statistikkområder' value={subjectFields?.length ? subjectFields.join(', ') : <EmptyValue />} />
+
+          {externalReferenceUri && (
+            <Field 
+              label="URI til ekstern referanse"
+              value="Lenke"
+              href={externalReferenceUri}
+            />
+          )}
+
+          {!!relatedVariableDefinitionUris?.length && (
+            <Field 
+              label="URI til relevante variabeldefinisjoner"
+              value="Lenke"
+              href={relatedVariableDefinitionUris.join(', ')}
+            />
+          )}
         </InfoPanel>
       </Section>
 
