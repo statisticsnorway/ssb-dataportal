@@ -7,7 +7,7 @@
       "vardef-internal": {
         "generatorName": "typescript-axios",
         "output": "src/libs/data-access/variable-definitions/internal",
-        "inputSpec": "/Users/mmw/code/metadata-system/vardef/build/generated/ksp/main/resources/META-INF/swagger/variable-definitions-internal.yml",
+        "inputSpec": "https://metadata.ssb.no/docs/openapi/variable-definitions/variable-definitions-internal.yml",
         "openapi-normalizer": {
           "SIMPLIFY_ONEOF_ANYOF": true
         },
