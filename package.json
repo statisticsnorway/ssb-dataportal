@@ -14,7 +14,7 @@
     "test:watch": "jest --watchAll",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
-    "codegen": "openapi-generator-cli generate"
+    "codegen": "openapi-generator-cli generate --generator-key vardef-internal --inline-schema-name-mappings RenderedView_contact=Contact,CompleteView_contact=Contact"
   },
   "dependencies": {
     "@biomejs/biome": "2.3.6",

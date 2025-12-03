@@ -1,0 +1,9 @@
+docs/*
+apis/*
+!apis/VariableDefinitionsApi.ts
+!apis/index.ts
+models/CreateDraft*.ts
+models/CreatePatch*.ts
+models/GetVardokVardefMappingById200Response.ts
+models/UpdateDraft.ts
+models/Vardok*.ts
