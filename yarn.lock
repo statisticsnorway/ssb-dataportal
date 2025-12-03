@@ -3426,7 +3426,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.13.2":
+"axios@npm:1.13.2, axios@npm:^1.13.2":
   version: 1.13.2
   resolution: "axios@npm:1.13.2"
   dependencies:
@@ -5923,6 +5923,7 @@ __metadata:
     "@types/node": "npm:24.10.0"
     "@types/react": "npm:19.2.7"
     "@types/react-dom": "npm:19.2.3"
+    axios: "npm:^1.13.2"
     classnames: "npm:2.5.1"
     jest: "npm:30.2.0"
     jest-environment-jsdom: "npm:30.2.0"

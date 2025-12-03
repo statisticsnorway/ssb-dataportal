@@ -5,14 +5,13 @@
     "version": "7.17.0",
     "generators": {
       "vardef-internal": {
-        "generatorName": "typescript-fetch",
+        "generatorName": "typescript-axios",
         "output": "src/libs/data-access/variable-definitions/internal",
         "inputSpec": "/Users/mmw/code/metadata-system/vardef/build/generated/ksp/main/resources/META-INF/swagger/variable-definitions-internal.yml",
         "openapi-normalizer": {
           "SIMPLIFY_ONEOF_ANYOF": true
         },
         "additionalProperties": {
-          "stringEnums": true,
           "supportsES6": "true",
           "npmVersion": "6.9.0",
           "withInterfaces": true
