@@ -1,6 +1,6 @@
 import { Heading, Tag } from '@digdir/designsystemet-react';
 import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
-import styles from './variable-details-page-layout.module.css';
+import styles from './variable-details-page.module.css';
 
 export const DetailsPageHeader = ({ variableDefinition }: { variableDefinition: CompleteResponse }) => {
   const { name, shortName, id, variableStatus } = variableDefinition;
