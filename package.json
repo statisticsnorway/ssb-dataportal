@@ -14,7 +14,7 @@
     "test:watch": "jest --watchAll",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
-    "codegen-vardef-public": "openapi-generator-cli generate -i https://metadata.ssb.no/docs/openapi/variable-definitions/variable-definitions-internal.yml -o src/libs/data-access/variable-definitions/internal -g typescript-fetch --additional-properties=supportsES6=true,npmVersion=6.9.0,typescriptThreePlus=true"
+    "codegen-vardef-public": "openapi-generator-cli generate"
   },
   "dependencies": {
     "@biomejs/biome": "2.3.6",
