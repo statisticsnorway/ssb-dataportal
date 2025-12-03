@@ -5,6 +5,7 @@ exports[`SearchHit should render SearchHit successfully 1`] = `
   <div>
     <div
       class="ds-card"
+      data-color="accent"
       data-variant="default"
     >
       <div
@@ -33,6 +34,7 @@ exports[`SearchHit should render SearchHit with empty title successfully 1`] = `
   <div>
     <div
       class="ds-card"
+      data-color="accent"
       data-variant="default"
     >
       <div

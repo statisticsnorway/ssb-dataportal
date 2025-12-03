@@ -1,9 +1,9 @@
 /* This is a global stylesheet */
 
-@layer reset, fds;
-
 @import url("@digdir/designsystemet-css");
-@import url("@digdir/designsystemet-theme");
+@import url("@digdir/designsystemet-theme/digdir.css");
+
+@layer reset, ds;
 
 :root {
   box-sizing: border-box;
@@ -64,6 +64,12 @@ body {
   --dsc-search-padding-inline: var(--large-gap);
   width: 95%;
   margin: var(--center-element-no-top);
+}
+
+#sortVariables.ds-input {
+  padding: 0.5rem;
+  border-radius: 5px;
+  border-color: var(--ds-color-accent-border-default);
 }
 
 @media (min-width: 768px) {
