@@ -1,7 +1,8 @@
-/* TODO: truncate after 3 lines */
-.truncateLines {
-  display: flex;
-  text-overflow: ellipsis;
+.truncateTo3Lines {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .vardefSearchHitHeadingLink {
