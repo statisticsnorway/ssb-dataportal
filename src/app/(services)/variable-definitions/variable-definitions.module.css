@@ -1,3 +1,6 @@
+/* Multi-line text clamp.
+   Uses -webkit-line-clamp because this 3-property combo is
+   the only fully supported way to truncate text over multiple lines. */
 .truncateTo3Lines {
   display: -webkit-box;
   -webkit-line-clamp: 3;
