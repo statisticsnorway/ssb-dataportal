@@ -1,3 +1,4 @@
-src/libs/data-access/variable-definitions/internal/git_push.sh
-src/libs/data-access/variable-definitions/internal/.npmignore
-src/libs/data-access/variable-definitions/internal/.gitignore
+apis/
+!apis/VariableDefinitionsApi.ts
+!apis/index.ts
+docs/
