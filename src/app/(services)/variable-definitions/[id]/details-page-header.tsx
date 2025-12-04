@@ -8,7 +8,7 @@ export const DetailsPageHeader = ({ variableDefinition }: { variableDefinition: 
   return (
     <header className={styles.detailsPageHeader}>
       <div className={styles.headerInfo}>
-        <Heading level={1} data-size='xl'>
+        <Heading className={styles.headerText}>
           {name.nb}
         </Heading>
         <div className={styles.headerInfoText}>

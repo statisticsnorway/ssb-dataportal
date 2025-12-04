@@ -37,6 +37,10 @@
   align-items: center;
 }
 
+.headerText {
+  font-size: 3rem;
+}
+
 .detailsPageHeader {
   justify-content: space-between;
   gap: var(--medium-gap);
