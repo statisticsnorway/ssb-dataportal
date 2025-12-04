@@ -1,0 +1,17 @@
+apis/VariableDefinitionsApi.ts
+apis/index.ts
+docs/VariableDefinitionsApi.md
+index.ts
+models/CompleteView.ts
+models/Contact.ts
+models/KlassReference.ts
+models/LanguageStringType.ts
+models/ListVariableDefinitions200ResponseInner.ts
+models/Owner.ts
+models/Problem.ts
+models/RenderedContact.ts
+models/RenderedView.ts
+models/SupportedLanguages.ts
+models/VariableStatus.ts
+models/index.ts
+runtime.ts
