@@ -34,15 +34,15 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
           ID: {variableDefinition.id}
         </Label>
       </header>
-      <div className={styles.contentGrid}>
-        <div className={styles.mainColumn}>
+      <main className={styles.contentGrid}>
+        <article className={styles.mainColumn}>
           <section className={styles.section}>
             <TextField label='Definisjon' value={variableDefinition.definition.nb ?? ''} />
             {variableDefinition.comment?.nb && <TextField label='Kommentar' value={variableDefinition.comment.nb} />}
           </section>
           <DetailsPagePanel title="Eier" elements={ownerItems(variableDefinition)} columns={2} />
           <DetailsPagePanel title="Gyldighet" elements={validityItems(variableDefinition)} columns={2} />
-        </div>
+        </article>
         <aside className={styles.sidebar}>
           <Tag data-size='md' data-color='info'>
             {variableDefinition.variableStatus}
@@ -50,7 +50,7 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
           <DetailsPagePanel title="Referanser" elements={referencesItems(variableDefinition)} />
           <DetailsPagePanel title="Personopplysninger" elements={personalData(variableDefinition)} />
         </aside>
-      </div>
+      </main>
     </section>
   );
 }
