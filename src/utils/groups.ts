@@ -13,12 +13,11 @@ export const validityItems = (v: CompleteResponse): Item[] => [
 
 
 export const referencesItems = (v: CompleteResponse): Item[] => [
-  { label: "Classification Reference", value: v.classificationReference || "" },
-  { label: "Unit Types", value: v.unitTypes?.join(", ") || "" },
-  { label: "Subject Fields", value: v.subjectFields?.join(", ") || "" },
-  { label: "External Reference URI", value: v.externalReferenceUri || "", href: v.externalReferenceUri ? v.externalReferenceUri : undefined }, 
-  { label: "Related Variable Definition URIs", value: v.relatedVariableDefinitionUris?.join(", ") || "", href: v.relatedVariableDefinitionUris?.join(", ") ? v.relatedVariableDefinitionUris?.join(", ") : undefined },
-  { label: "Contains Special Categories of Personal Data", value: v.containsSpecialCategoriesOfPersonalData ? "Ja" : "Nei" },
+  { label: "Kodeverkets URI", value: v.classificationReference || "" },
+  { label: "Enhetstyper", value: v.unitTypes?.join(", ") || "" },
+  { label: "Statistikkområder", value: v.subjectFields?.join(", ") || "" },
+  { label: "URI til ekstern referanse", value: v.externalReferenceUri || "", href: v.externalReferenceUri ? v.externalReferenceUri : undefined }, 
+  { label: "URI til relevante variabeldefinisjoner", value: v.relatedVariableDefinitionUris?.join(", ") || "", href: v.relatedVariableDefinitionUris?.join(", ") ? v.relatedVariableDefinitionUris?.join(", ") : undefined },
 ];
 
 export const ownerItems = (v: CompleteResponse): Item[] => [
@@ -29,5 +28,5 @@ export const ownerItems = (v: CompleteResponse): Item[] => [
 ];
 
 export const personalData = (v: CompleteResponse): Item[] => [
-  { label: "Contains Special Categories of Personal Data", value: v.containsSpecialCategoriesOfPersonalData ? "Ja" : "Nei" },
+  { label: "Inneholder særlige kategorier av personopplysninger", value: v.containsSpecialCategoriesOfPersonalData ? "Ja" : "Nei" },
 ];

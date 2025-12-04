@@ -33,11 +33,11 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
             <TextField label='Definisjon' value={variableDefinition.definition.nb ?? ''} />
             {variableDefinition.comment?.nb && <TextField label='Kommentar' value={variableDefinition.comment.nb} />}
           </section>
-          <DetailsPagePanel title="Ownership" elements={ownerItems(variableDefinition)} columns={2} />
-          <DetailsPagePanel title="Validity" elements={validityItems(variableDefinition)} columns={2} />
+          <DetailsPagePanel title="Eier" elements={ownerItems(variableDefinition)} columns={2} />
+          <DetailsPagePanel title="Gyldighet" elements={validityItems(variableDefinition)} columns={2} />
         </div>
         <aside className={styles.sidebar}>
-          <DetailsPagePanel title="References" elements={referencesItems(variableDefinition)} />
+          <DetailsPagePanel title="Referanser" elements={referencesItems(variableDefinition)} />
           <DetailsPagePanel title="Personopplysninger" elements={personalData(variableDefinition)} />
         </aside>
       </div>
