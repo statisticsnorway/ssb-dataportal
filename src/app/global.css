@@ -38,6 +38,8 @@
 
   --font-size-sm: 0.85rem;
   --font-size-lg: 1.5rem;
+  --font-size-xl: 2.5rem;
+
   --font-weight-medium: 500;
   --search-hit-shortname-color: #666666;
 }
