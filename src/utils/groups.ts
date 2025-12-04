@@ -3,11 +3,11 @@ import { Item } from "@/types/item";
 
 
 export const validityItems = (v: CompleteResponse): Item[] => [
-  { label: "Valid From", value: v.validFrom.toISOString() },
-  { label: "Valid Until", value: v.validUntil?.toISOString() },
-  { label: "Created At", value: v.createdAt.toISOString() },
+  { label: "Valid From", value: v.validFrom.toISOString().split("T")[0] },
+  { label: "Valid Until", value: v.validUntil?.toISOString().split("T")[0] },
+  { label: "Created At", value: v.createdAt.toISOString().split("T")[0] },
   { label: "Created By", value: v.createdBy },
-  { label: "Last Updated At", value: v.lastUpdatedAt.toISOString() },
+  { label: "Last Updated At", value: v.lastUpdatedAt.toISOString().split("T")[0] },
   { label: "Last Updated By", value: v.lastUpdatedBy },
 ];
 
@@ -16,8 +16,8 @@ export const referencesItems = (v: CompleteResponse): Item[] => [
   { label: "Classification Reference", value: v.classificationReference || "" },
   { label: "Unit Types", value: v.unitTypes?.join(", ") || "" },
   { label: "Subject Fields", value: v.subjectFields?.join(", ") || "" },
-  { label: "External Reference URI", value: v.externalReferenceUri || "" }, 
-  { label: "Related Variable Definition URIs", value: v.relatedVariableDefinitionUris?.join(", ") || "" },
+  { label: "External Reference URI", value: v.externalReferenceUri || "", href: v.externalReferenceUri ? v.externalReferenceUri : undefined }, 
+  { label: "Related Variable Definition URIs", value: v.relatedVariableDefinitionUris?.join(", ") || "", href: v.relatedVariableDefinitionUris?.join(", ") ? v.relatedVariableDefinitionUris?.join(", ") : undefined },
   { label: "Contains Special Categories of Personal Data", value: v.containsSpecialCategoriesOfPersonalData ? "Ja" : "Nei" },
 ];
 
