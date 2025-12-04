@@ -8,7 +8,7 @@
     "patch_id": 0,
     "short_name": "bus",
     "unit_types": [],
-    "subject_fields": [],
+    "subject_fields": ["be"],
     "definition": {
       "nb": "Buss er at...",
       "en": "Bus is..."
@@ -96,7 +96,7 @@
     },
     "classification_reference": "131",
     "unit_types": ["16"],
-    "subject_fields": ["be"],
+    "subject_fields": ["be", "tr"],
     "contains_special_categories_of_personal_data": false,
     "variable_status": "DRAFT",
     "measurement_type": null,

@@ -1,0 +1,22 @@
+/* Multi-line text clamp.
+   Uses -webkit-line-clamp because this 3-property combo is
+   the only fully supported way to truncate text over multiple lines. */
+.truncateTo3Lines {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.vardefSearchHitHeadingLink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  text-decoration: none;
+}
+
+.vardefSearchHitShortName {
+  font-size: 1.5rem;
+  font-weight: normal;
+  color: var(--search-hit-shortname-color);
+}

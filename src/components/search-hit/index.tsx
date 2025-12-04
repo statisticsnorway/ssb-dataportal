@@ -16,7 +16,7 @@ interface SearchHitProps {
 
 const SearchHit = ({ title, content, titleHref }: SearchHitProps) => {
   return (
-    <Card>
+    <Card data-color={'accent'}>
       <Card.Block>
         <Link href={titleHref ?? ''} className={styles.link}>
           <Heading level={2} data-size='sm' className={styles.title}>

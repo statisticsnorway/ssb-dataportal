@@ -29,10 +29,10 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
       <DetailsPageHeader variableDefinition={variableDefinition} />
       <div className={styles.contentGrid}>
         <div className={styles.mainColumn}>
-    <section className={styles.section}>
-      <TextField label='Definisjon' value={variableDefinition.definition.nb ?? ''} />
-      {variableDefinition.comment?.nb && <TextField label='Kommentar' value={variableDefinition.comment.nb} />}
-    </section>
+          <section className={styles.section}>
+            <TextField label='Definisjon' value={variableDefinition.definition.nb ?? ''} />
+            {variableDefinition.comment?.nb && <TextField label='Kommentar' value={variableDefinition.comment.nb} />}
+          </section>
           <DetailsPagePanel title="Ownership" elements={ownerItems(variableDefinition)} columns={2} />
           <DetailsPagePanel title="Validity" elements={validityItems(variableDefinition)} columns={2} />
         </div>
