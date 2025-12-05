@@ -40,7 +40,7 @@
     flex-direction: row;
     flex-wrap: wrap;
   }
-  
+
   .gridTwoCol > div {
     flex: 1 1 calc(50% - var(--large-gap) / 2);
   }

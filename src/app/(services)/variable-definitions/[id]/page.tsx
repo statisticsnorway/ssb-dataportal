@@ -39,7 +39,9 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
           <section className={styles.section}>
             <dl>
               <TextField label='Definisjon' value={variableDefinition.definition.nb ?? ''} longText />
-              {variableDefinition.comment?.nb && <TextField label='Kommentar' value={variableDefinition.comment.nb} longText />}
+              {variableDefinition.comment?.nb && (
+                <TextField label='Kommentar' value={variableDefinition.comment.nb} longText />
+              )}
             </dl>
           </section>
           <DetailsPagePanel title='Eier' elements={ownerItems(variableDefinition)} columns={2} />

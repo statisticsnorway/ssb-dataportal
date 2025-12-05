@@ -18,7 +18,11 @@ jest.mock('@digdir/designsystemet-react', () => {
 
 describe('TextField', () => {
   it('renders label and value correctly', () => {
-    render(<dl><TextField label='Definisjon' value='This is a definition' /></dl>);
+    render(
+      <dl>
+        <TextField label='Definisjon' value='This is a definition' />
+      </dl>,
+    );
 
     expect(screen.getByText('Definisjon')).toBeInTheDocument();
     expect(screen.getByText('This is a definition')).toBeInTheDocument();
@@ -26,7 +30,11 @@ describe('TextField', () => {
 
   it('renders long text content in a paragraph', () => {
     const longText = 'This is a very long definition that should be displayed as paragraph text.';
-    render(<dl><TextField label='Kommentar' value={longText} longText /></dl>);
+    render(
+      <dl>
+        <TextField label='Kommentar' value={longText} longText />
+      </dl>,
+    );
 
     const paragraph = screen.getByText(longText);
     expect(paragraph).toBeInTheDocument();
@@ -35,7 +43,11 @@ describe('TextField', () => {
 
   it('renders url as link', () => {
     const linkText = 'www.example.com';
-    render(<dl><TextField label='Kommentar' value={linkText} href='https://example.com' /></dl>);
+    render(
+      <dl>
+        <TextField label='Kommentar' value={linkText} href='https://example.com' />
+      </dl>,
+    );
 
     const link = screen.getByRole('link', { name: /lenke/i });
 
