@@ -28,19 +28,13 @@
 }
 
 .gridTwoCol {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: var(--large-gap) 1.5rem;
-}
-
-.gridTwoCol > * {
-  flex: 1 1 100%;
-  min-width: 200px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--large-gap);
 }
 
 @media (min-width: 768px) {
-  .gridTwoCol > * {
-    flex: 1 1 calc(50% - 0.75rem);
+  .gridTwoCol {
+    grid-template-columns: 1fr 1fr;
   }
 }

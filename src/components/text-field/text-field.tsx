@@ -11,19 +11,23 @@ interface TextFieldProps {
 
 export const TextField = ({ label, value, href, longText }: TextFieldProps) => {
   return (
-    <div className={styles.field}>
-      <Label className={styles.label}>{label}</Label>
-      {href ? (
-        <Link className={styles.value} data-size='md' target='_blank' href={href}>
-          Lenke
-        </Link>
-      ) : longText ? (
-        <Paragraph data-size='lg'>{value}</Paragraph>
-      ) : (
-        <Label className={styles.value} data-size='lg'>
-          {value}
-        </Label>
-      )}
+    <div className={styles.fieldGroup}>
+      <dt className={styles.field}>
+        <Label className={styles.label}>{label}</Label>
+      </dt>
+      <dd className={styles.field}>
+        {href ? (
+          <Link className={styles.value} data-size='md' target='_blank' href={href}>
+            Lenke
+          </Link>
+        ) : longText ? (
+          <Paragraph data-size='lg'>{value}</Paragraph>
+        ) : (
+          <Label className={styles.value} data-size='lg'>
+            {value}
+          </Label>
+        )}
+      </dd>
     </div>
   );
 };
