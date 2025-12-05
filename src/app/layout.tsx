@@ -12,75 +12,7 @@ export const metadata: Metadata = {
   description: 'SSB metadata services',
 };
 
-// Temp data for setting up prototype
-const testVardefData: VardefTabData = {
-  variableDefinitions: [
-    {
-      id: '0',
-      name: {
-        nb: 'Landbakgrunn',
-        en: 'Country background',
-      },
-      patchId: 0,
-      shortName: 'landbak',
-      unitTypes: [],
-      subjectFields: ['be', 'tr'],
-      containsSpecialCategoriesOfPersonalData: false,
-      validFrom: new Date('2000-01-01'),
-      lastUpdatedAt: new Date('2025-10-11'),
-      definition: {
-        nb: 'For personer født i utlandet, er dette (med noen få unntak) eget fødeland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt. Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen mormor, morfar, farmor eller farfar.',
-        en: 'Country background is...',
-      },
-      contact: {
-        title: {
-          nb: 'Professor',
-          en: 'Professor',
-        },
-        email: 'proff@ssb.no',
-      },
-      owner: {
-        team: 'test-team',
-        groups: ['groups'],
-      },
-      createdAt: new Date('2000-01-01'),
-      createdBy: 'test-user',
-      lastUpdatedBy: 'test-user',
-    },
-    {
-      id: 'icv6',
-      name: {
-        nb: 'Buss',
-        en: 'Bus',
-      },
-      patchId: 0,
-      shortName: 'bus',
-      unitTypes: [],
-      subjectFields: ['be'],
-      definition: {
-        nb: 'En buss er en bil for persontransport med over 8 sitteplasser i tillegg til førersetet.',
-        en: 'Bus is...',
-      },
-      validFrom: new Date('2020-01-01'),
-      lastUpdatedAt: new Date('2025-10-11'),
-      containsSpecialCategoriesOfPersonalData: false,
-      contact: {
-        title: {
-          nb: 'Professor',
-          en: 'Professor',
-        },
-        email: 'proff@ssb.no',
-      },
-      owner: {
-        team: 'test-team',
-        groups: ['groups'],
-      },
-      createdAt: new Date('2000-01-01'),
-      createdBy: 'test-user',
-      lastUpdatedBy: 'test-user',
-    },
-  ],
-};
+import { testVardefData } from '@/utils/mock-data';
 
 const classificationFamilies: ClassificationFamily[] = await fetch(`${KLASS_HOST}${CLASSIFICATION_FAMILIES}`)
   .then((res) => res.json())

@@ -1,0 +1,21 @@
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.label {
+  color: var(--text-color-secondary);
+  text-transform: uppercase;
+  font-size: var(--font-size-sm);
+}
+
+.value {
+  font-weight: 700;
+}
