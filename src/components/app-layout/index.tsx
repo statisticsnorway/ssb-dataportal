@@ -5,6 +5,7 @@ import { Header } from '../header';
 
 import '@global-css';
 
+import { Alert } from '@digdir/designsystemet-react';
 import { UrlItem } from '@/types/navigationTypes';
 import ErrorBoundary from '../error-boundry';
 import styles from './layout.module.css';
@@ -33,6 +34,9 @@ export const AppLayout = ({
 }: AppLayoutProps) => {
   return (
     <div className={cn(styles.layout, className)}>
+      <Alert data-color={'info'} className={styles.infoAlert} data-size={'md'}>
+        Velkommen til testing av datakatalogen. Du er nå i en prototype under utvikling.
+      </Alert>
       <Header homeUrl='/' />
       <main className={styles.main}>
         {/* TODO(): Remove/change catalog-frontend props */}

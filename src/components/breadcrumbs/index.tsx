@@ -14,7 +14,7 @@ export interface BreadcrumbsProps {
 
 export const Breadcrumbs = ({ breadcrumbList, homeUrl }: BreadcrumbsProps) => {
   return (
-    <div className='container'>
+    <>
       <nav className={styles.breadcrumbs}>
         <span>
           <Link className={styles.link} aria-label={'aria'} href={homeUrl.href}>
@@ -36,6 +36,6 @@ export const Breadcrumbs = ({ breadcrumbList, homeUrl }: BreadcrumbsProps) => {
           })}
         </span>
       </nav>
-    </div>
+    </>
   );
 };

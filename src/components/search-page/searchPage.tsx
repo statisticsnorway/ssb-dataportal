@@ -53,10 +53,10 @@ const SearchPage: React.FC<SearchPageProps> = ({ infoContent, searchResult, filt
   }, [selectedTab]);
 
   return (
-    <Tabs value={selectedTab} className={styles.tabsContainer} data-color='brand1' onChange={handleTabChange}>
+    <Tabs value={selectedTab} className={styles.tabsContainer} data-color='accent' onChange={handleTabChange}>
       <section className={styles.searchPageWrapper}>
         <div className={`${styles.searchFieldContent} container`}>
-          <Search id='searchId'>
+          <Search id='searchId' data-color={'accent'}>
             <Search.Input id='searchValue' aria-label='Søk' />
             <Search.Clear />
             <Search.Button>Søk</Search.Button>

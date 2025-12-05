@@ -21,7 +21,7 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
           )}
         </Link>
       </Heading>
-      <Paragraph className={styles.truncateLines}>{variableDefinition.definition}</Paragraph>
+      <Paragraph className={styles.truncateTo3Lines}>{variableDefinition.definition}</Paragraph>
       <TagsGroup
         maxTags={4}
         tagsData={

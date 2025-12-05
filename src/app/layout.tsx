@@ -13,65 +13,7 @@ export const metadata: Metadata = {
   description: 'SSB metadata services',
 };
 
-const befolkning: KlassReference = { title: 'Befolkning', code: 'be', referenceUri: '' };
-const transport: KlassReference = { title: 'Transport', code: 'tr', referenceUri: '' };
-// Just created to verify that it's filtered out
-const nullable: KlassReference = { title: null, code: null, referenceUri: '' };
-
-// Temp data for setting up prototype
-const testVardefData: VardefTabData = {
-  variableDefinitions: [
-    {
-      id: '0',
-      name: 'Landbakgrunn',
-      patchId: 0,
-      shortName: 'landbak',
-      unitTypes: [],
-      subjectFields: [befolkning, transport, nullable],
-      containsSpecialCategoriesOfPersonalData: false,
-      variableStatus: VariableStatus.Draft,
-      validFrom: new Date('2000-01-01'),
-      lastUpdatedAt: new Date('2025-10-11'),
-      definition:
-        'For personer født i utlandet, er dette (med noen få unntak) eget fødeland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt. Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen mormor, morfar, farmor eller farfar.',
-      contact: {
-        title: 'Professor',
-        email: 'proff@ssb.no',
-      },
-      owner: {
-        team: 'test-team',
-        groups: ['groups'],
-      },
-      createdAt: new Date('2000-01-01'),
-      createdBy: 'test-user',
-      lastUpdatedBy: 'test-user',
-    },
-    {
-      id: 'icv6',
-      name: 'Buss',
-      patchId: 0,
-      shortName: 'bus',
-      unitTypes: [],
-      subjectFields: [transport],
-      definition: 'En buss er en bil for persontransport med over 8 sitteplasser i tillegg til førersetet.',
-      validFrom: new Date('2020-01-01'),
-      lastUpdatedAt: new Date('2025-10-11'),
-      containsSpecialCategoriesOfPersonalData: false,
-      variableStatus: VariableStatus.Draft,
-      contact: {
-        title: 'Professor',
-        email: 'proff@ssb.no',
-      },
-      owner: {
-        team: 'test-team',
-        groups: ['groups'],
-      },
-      createdAt: new Date('2000-01-01'),
-      createdBy: 'test-user',
-      lastUpdatedBy: 'test-user',
-    },
-  ],
-};
+import { testVardefData } from '@/utils/mock-data';
 
 const classificationFamilies: ClassificationFamily[] = await fetch(`${KLASS_HOST}${CLASSIFICATION_FAMILIES}`)
   .then((res) => res.json())
