@@ -1,3 +1,6 @@
+.detailsPage {
+    padding: 0 1rem;
+}
 .contentGrid {
   display: flex;
   flex-direction: column;
@@ -29,7 +32,7 @@
   vertical-align: middle;
 }
 
-.section {
+.mainSection {
   display: flex;
   flex-direction: column;
   gap: var(--large-gap);
@@ -37,15 +40,8 @@
   padding-bottom: 1.5rem;
 }
 
-.section dl {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--large-gap);
-}
-
 .mainColumn {
-  flex: 1;
+  flex: 2;
   min-width: 0;
 }
 
@@ -76,14 +72,6 @@
   }
 
   .mainColumn {
-    padding-right: var(--large-gap);
-  }
-
-  .sidebar {
-    flex: 0 0 auto;
-    position: sticky;
-    top: var(--large-gap);
-    border-top: none;
-    padding-top: 0;
+    padding-right: var(--medium-gap);
   }
 }

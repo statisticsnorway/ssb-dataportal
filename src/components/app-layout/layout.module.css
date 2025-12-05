@@ -1,13 +1,7 @@
-.layout {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
 .main {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  flex: 1;
   min-width: var(--app-min-width);
 }
 

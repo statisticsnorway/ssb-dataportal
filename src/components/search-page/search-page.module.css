@@ -14,6 +14,7 @@
 
 .searchFieldContent {
   margin-top: var(--large-gap);
+  width: 100%;
 }
 
 #searchValue.ds-input {
@@ -23,6 +24,10 @@
 .metadataContainer {
   margin-top: var(--medium-gap);
   background-color: var(--background-color);
+}
+
+.tabsNavigationContainer{
+  width: 100%;
 }
 
 .tabs {
