@@ -3,7 +3,6 @@ import { render, screen } from '@testing-library/react';
 import React, { JSX } from 'react';
 import { TextField } from './text-field';
 
-
 jest.mock('@digdir/designsystemet-react', () => {
   const passthrough =
     (tag: keyof JSX.IntrinsicElements) =>
