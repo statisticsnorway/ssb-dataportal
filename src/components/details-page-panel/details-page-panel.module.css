@@ -16,6 +16,7 @@
 .panel {
   display: flex;
   flex-direction: column;
+  gap: var(--medium-gap);
   background-color: var(--element-background-color);
   border-radius: var(--border-radius-md);
   border: none;
@@ -25,13 +26,22 @@
 }
 
 .gridTwoCol {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: var(--large-gap);
+}
+
+.gridTwoCol > div {
+  flex: 1 1 100%;
 }
 
 @media (min-width: 768px) {
   .gridTwoCol {
-    grid-template-columns: 1fr 1fr;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .gridTwoCol > div {
+    flex: 1 1 calc(50% - var(--large-gap) / 2);
   }
 }
