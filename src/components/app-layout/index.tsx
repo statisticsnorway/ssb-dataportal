@@ -36,7 +36,7 @@ export const AppLayout = ({
       <Header homeUrl='/' />
       <main className={styles.main}>
         {/* TODO(): Remove/change catalog-frontend props */}
-        <ErrorBoundary fdkRegistrationBaseUrl={fdkRegistrationBaseUrl} title={catalogTitle}>
+        <ErrorBoundary fdkRegistrationBaseUrl={fdkRegistrationBaseUrl} title={catalogTitle ?? ""}>
           {children}
         </ErrorBoundary>
       </main>
