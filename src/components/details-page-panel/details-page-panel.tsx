@@ -9,17 +9,23 @@ interface DetailsPagePanelProps {
   columns?: 1 | 2;
 }
 
-export const DetailsPagePanel = ({ title, elements, columns = 1 }: DetailsPagePanelProps) => (
-  <section className={styles.section}>
-    {title && (
-      <Heading level={2} data-size="sm" className={styles.sectionTitle}>
-        {title}
-      </Heading>
-    )}
-    <dl className={`${styles.panel} ${columns === 2 ? styles.gridTwoCol : ''}`}>
-      {elements.map(({ label, value, href }, i) => (
-        <TextField key={i} label={label} value={value} href={href} />
-      ))}
-    </dl>
-  </section>
-);
+export const DetailsPagePanel = ({ title, elements, columns = 1 }: DetailsPagePanelProps) => {
+  const validElements = elements.filter(
+    ({ value }) => value != null && value !== '' && (!Array.isArray(value) || value.length > 0)
+  );
+
+  return (
+    <section className={styles.section}>
+      {title && (
+        <Heading level={2} data-size="sm" className={styles.sectionTitle}>
+          {title}
+        </Heading>
+      )}
+      <dl className={`${styles.panel} ${columns === 2 ? styles.gridTwoCol : ''}`}>
+        {validElements.map(({ label, value, href }, i) => (
+          <TextField key={i} label={label} value={value} href={href} />
+        ))}
+      </dl>
+    </section>
+  );
+};
