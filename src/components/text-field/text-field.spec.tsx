@@ -26,7 +26,7 @@ describe('TextField', () => {
 
   it('renders long text content in a paragraph', () => {
     const longText = 'This is a very long definition that should be displayed as paragraph text.';
-    render(<TextField label='Kommentar' value={longText} />);
+    render(<TextField label='Kommentar' value={longText} longText />);
 
     const paragraph = screen.getByText(longText);
     expect(paragraph).toBeInTheDocument();
