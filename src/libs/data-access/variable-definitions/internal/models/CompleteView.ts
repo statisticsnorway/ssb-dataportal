@@ -13,194 +13,268 @@
  */
 
 import { mapValues } from '../runtime';
-import type { CompleteResponseDefinition } from './CompleteResponseDefinition';
+import type { Owner } from './Owner';
 import {
-    CompleteResponseDefinitionFromJSON,
-    CompleteResponseDefinitionFromJSONTyped,
-    CompleteResponseDefinitionToJSON,
-    CompleteResponseDefinitionToJSONTyped,
-} from './CompleteResponseDefinition';
-import type { CompleteResponseName } from './CompleteResponseName';
+    OwnerFromJSON,
+    OwnerFromJSONTyped,
+    OwnerToJSON,
+    OwnerToJSONTyped,
+} from './Owner';
+import type { VariableStatus } from './VariableStatus';
 import {
-    CompleteResponseNameFromJSON,
-    CompleteResponseNameFromJSONTyped,
-    CompleteResponseNameToJSON,
-    CompleteResponseNameToJSONTyped,
-} from './CompleteResponseName';
-import type { CompleteResponseComment } from './CompleteResponseComment';
+    VariableStatusFromJSON,
+    VariableStatusFromJSONTyped,
+    VariableStatusToJSON,
+    VariableStatusToJSONTyped,
+} from './VariableStatus';
+import type { LanguageStringType } from './LanguageStringType';
 import {
-    CompleteResponseCommentFromJSON,
-    CompleteResponseCommentFromJSONTyped,
-    CompleteResponseCommentToJSON,
-    CompleteResponseCommentToJSONTyped,
-} from './CompleteResponseComment';
-import type { CompleteResponseContact } from './CompleteResponseContact';
+    LanguageStringTypeFromJSON,
+    LanguageStringTypeFromJSONTyped,
+    LanguageStringTypeToJSON,
+    LanguageStringTypeToJSONTyped,
+} from './LanguageStringType';
+import type { Contact } from './Contact';
 import {
-    CompleteResponseContactFromJSON,
-    CompleteResponseContactFromJSONTyped,
-    CompleteResponseContactToJSON,
-    CompleteResponseContactToJSONTyped,
-} from './CompleteResponseContact';
+    ContactFromJSON,
+    ContactFromJSONTyped,
+    ContactToJSON,
+    ContactToJSONTyped,
+} from './Contact';
 
 /**
- * Create a Draft Variable Definition
+ * Complete view For internal users who need all details while maintaining variable definitions.
  * @export
- * @interface Draft
+ * @interface CompleteView
  */
-export interface Draft {
+export interface CompleteView {
+    /**
+     * Unique identifier for the variable definition.
+     * @type {string}
+     * @memberof CompleteView
+     */
+    id: string;
+    /**
+     * Integer identifying a patch of a variable definition.
+     * @type {number}
+     * @memberof CompleteView
+     */
+    patchId: number;
     /**
      * 
-     * @type {CompleteResponseName}
-     * @memberof Draft
+     * @type {LanguageStringType}
+     * @memberof CompleteView
      */
-    name: CompleteResponseName;
+    name: LanguageStringType;
     /**
      * Recommended short name. Must be unique within an organization.
      * @type {string}
-     * @memberof Draft
+     * @memberof CompleteView
      */
     shortName: string;
     /**
      * 
-     * @type {CompleteResponseDefinition}
-     * @memberof Draft
+     * @type {LanguageStringType}
+     * @memberof CompleteView
      */
-    definition: CompleteResponseDefinition;
+    definition: LanguageStringType;
     /**
      * ID of a classification or code list from Klass. The given classification defines all possible values for the defined variable.
      * @type {string}
-     * @memberof Draft
+     * @memberof CompleteView
      */
     classificationReference?: string | null;
     /**
      * A list of one or more unit types, e.g. person, vehicle, household. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/702.
      * @type {Array<string>}
-     * @memberof Draft
+     * @memberof CompleteView
      */
     unitTypes: Array<string>;
     /**
      * A list of subject fields that the variable is used in. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.
      * @type {Array<string>}
-     * @memberof Draft
+     * @memberof CompleteView
      */
     subjectFields: Array<string>;
     /**
      * True if variable instances contain particularly sensitive information. Applies even if the information or identifiers are pseudonymized. Information within the following categories are regarded as particularly sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs, Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual orientation
      * @type {boolean}
-     * @memberof Draft
+     * @memberof CompleteView
      */
     containsSpecialCategoriesOfPersonalData: boolean;
     /**
+     * 
+     * @type {VariableStatus}
+     * @memberof CompleteView
+     */
+    variableStatus: VariableStatus;
+    /**
      * Type of measurement for the variable, e.g. length, volume, currency. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/303
      * @type {string}
-     * @memberof Draft
+     * @memberof CompleteView
      */
     measurementType?: string | null;
     /**
      * The variable definition is valid from this date inclusive
      * @type {Date}
-     * @memberof Draft
+     * @memberof CompleteView
      */
     validFrom: Date;
     /**
      * The variable definition is valid until this date inclusive
      * @type {Date}
-     * @memberof Draft
+     * @memberof CompleteView
      */
     validUntil?: Date | null;
     /**
      * A link (URI) to an external definition/documentation
      * @type {string}
-     * @memberof Draft
+     * @memberof CompleteView
      */
     externalReferenceUri?: string | null;
     /**
      * 
-     * @type {CompleteResponseComment}
-     * @memberof Draft
+     * @type {LanguageStringType}
+     * @memberof CompleteView
      */
-    comment?: CompleteResponseComment | null;
+    comment?: LanguageStringType | null;
     /**
      * Link(s) to related definitions of variables - a list of one or more definitions. For example for a variable after-tax income it could be relevant to link to definitions of income from work, property income etc.
      * @type {Array<string>}
-     * @memberof Draft
+     * @memberof CompleteView
      */
     relatedVariableDefinitionUris?: Array<string> | null;
     /**
      * 
-     * @type {CompleteResponseContact}
-     * @memberof Draft
+     * @type {Owner}
+     * @memberof CompleteView
      */
-    contact: CompleteResponseContact;
+    owner: Owner;
+    /**
+     * 
+     * @type {Contact}
+     * @memberof CompleteView
+     */
+    contact: Contact;
+    /**
+     * The timestamp at which this variable definition was first created.
+     * @type {Date}
+     * @memberof CompleteView
+     */
+    createdAt: Date;
+    /**
+     * The user who created this variable definition.
+     * @type {string}
+     * @memberof CompleteView
+     */
+    createdBy: string;
+    /**
+     * The timestamp at which this variable definition was last modified.
+     * @type {Date}
+     * @memberof CompleteView
+     */
+    lastUpdatedAt: Date;
+    /**
+     * The user who last modified this variable definition.
+     * @type {string}
+     * @memberof CompleteView
+     */
+    lastUpdatedBy: string;
 }
 
+
+
 /**
- * Check if a given object implements the Draft interface.
+ * Check if a given object implements the CompleteView interface.
  */
-export function instanceOfDraft(value: object): value is Draft {
+export function instanceOfCompleteView(value: object): value is CompleteView {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('patchId' in value) || value['patchId'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
     if (!('shortName' in value) || value['shortName'] === undefined) return false;
     if (!('definition' in value) || value['definition'] === undefined) return false;
     if (!('unitTypes' in value) || value['unitTypes'] === undefined) return false;
     if (!('subjectFields' in value) || value['subjectFields'] === undefined) return false;
     if (!('containsSpecialCategoriesOfPersonalData' in value) || value['containsSpecialCategoriesOfPersonalData'] === undefined) return false;
+    if (!('variableStatus' in value) || value['variableStatus'] === undefined) return false;
     if (!('validFrom' in value) || value['validFrom'] === undefined) return false;
+    if (!('owner' in value) || value['owner'] === undefined) return false;
     if (!('contact' in value) || value['contact'] === undefined) return false;
+    if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
+    if (!('createdBy' in value) || value['createdBy'] === undefined) return false;
+    if (!('lastUpdatedAt' in value) || value['lastUpdatedAt'] === undefined) return false;
+    if (!('lastUpdatedBy' in value) || value['lastUpdatedBy'] === undefined) return false;
     return true;
 }
 
-export function DraftFromJSON(json: any): Draft {
-    return DraftFromJSONTyped(json, false);
+export function CompleteViewFromJSON(json: any): CompleteView {
+    return CompleteViewFromJSONTyped(json, false);
 }
 
-export function DraftFromJSONTyped(json: any, ignoreDiscriminator: boolean): Draft {
+export function CompleteViewFromJSONTyped(json: any, ignoreDiscriminator: boolean): CompleteView {
     if (json == null) {
         return json;
     }
     return {
         
-        'name': CompleteResponseNameFromJSON(json['name']),
+        'id': json['id'],
+        'patchId': json['patch_id'],
+        'name': LanguageStringTypeFromJSON(json['name']),
         'shortName': json['short_name'],
-        'definition': CompleteResponseDefinitionFromJSON(json['definition']),
+        'definition': LanguageStringTypeFromJSON(json['definition']),
         'classificationReference': json['classification_reference'] == null ? undefined : json['classification_reference'],
         'unitTypes': json['unit_types'],
         'subjectFields': json['subject_fields'],
         'containsSpecialCategoriesOfPersonalData': json['contains_special_categories_of_personal_data'],
+        'variableStatus': VariableStatusFromJSON(json['variable_status']),
         'measurementType': json['measurement_type'] == null ? undefined : json['measurement_type'],
         'validFrom': (new Date(json['valid_from'])),
         'validUntil': json['valid_until'] == null ? undefined : (new Date(json['valid_until'])),
         'externalReferenceUri': json['external_reference_uri'] == null ? undefined : json['external_reference_uri'],
-        'comment': json['comment'] == null ? undefined : CompleteResponseCommentFromJSON(json['comment']),
+        'comment': json['comment'] == null ? undefined : LanguageStringTypeFromJSON(json['comment']),
         'relatedVariableDefinitionUris': json['related_variable_definition_uris'] == null ? undefined : json['related_variable_definition_uris'],
-        'contact': CompleteResponseContactFromJSON(json['contact']),
+        'owner': OwnerFromJSON(json['owner']),
+        'contact': ContactFromJSON(json['contact']),
+        'createdAt': (new Date(json['created_at'])),
+        'createdBy': json['created_by'],
+        'lastUpdatedAt': (new Date(json['last_updated_at'])),
+        'lastUpdatedBy': json['last_updated_by'],
     };
 }
 
-export function DraftToJSON(json: any): Draft {
-    return DraftToJSONTyped(json, false);
+export function CompleteViewToJSON(json: any): CompleteView {
+    return CompleteViewToJSONTyped(json, false);
 }
 
-export function DraftToJSONTyped(value?: Draft | null, ignoreDiscriminator: boolean = false): any {
+export function CompleteViewToJSONTyped(value?: CompleteView | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
         
-        'name': CompleteResponseNameToJSON(value['name']),
+        'id': value['id'],
+        'patch_id': value['patchId'],
+        'name': LanguageStringTypeToJSON(value['name']),
         'short_name': value['shortName'],
-        'definition': CompleteResponseDefinitionToJSON(value['definition']),
+        'definition': LanguageStringTypeToJSON(value['definition']),
         'classification_reference': value['classificationReference'],
         'unit_types': value['unitTypes'],
         'subject_fields': value['subjectFields'],
         'contains_special_categories_of_personal_data': value['containsSpecialCategoriesOfPersonalData'],
+        'variable_status': VariableStatusToJSON(value['variableStatus']),
         'measurement_type': value['measurementType'],
-        'valid_from': ((value['validFrom']).toISOString().substring(0,10)),
-        'valid_until': value['validUntil'] === null ? null : ((value['validUntil'] as any)?.toISOString().substring(0,10)),
+        'valid_from': value['validFrom'].toISOString().substring(0,10),
+        'valid_until': value['validUntil'] == null ? value['validUntil'] : value['validUntil'].toISOString().substring(0,10),
         'external_reference_uri': value['externalReferenceUri'],
-        'comment': CompleteResponseCommentToJSON(value['comment']),
+        'comment': LanguageStringTypeToJSON(value['comment']),
         'related_variable_definition_uris': value['relatedVariableDefinitionUris'],
-        'contact': CompleteResponseContactToJSON(value['contact']),
+        'owner': OwnerToJSON(value['owner']),
+        'contact': ContactToJSON(value['contact']),
+        'created_at': value['createdAt'].toISOString(),
+        'created_by': value['createdBy'],
+        'last_updated_at': value['lastUpdatedAt'].toISOString(),
+        'last_updated_by': value['lastUpdatedBy'],
     };
 }
 

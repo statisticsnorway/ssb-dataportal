@@ -12,65 +12,64 @@
  * Do not edit the class manually.
  */
 
-import type { CompleteResponse } from './CompleteResponse';
-import {
-    instanceOfCompleteResponse,
-    CompleteResponseFromJSON,
-    CompleteResponseFromJSONTyped,
-    CompleteResponseToJSON,
-} from './CompleteResponse';
-import type { VardokIdResponse } from './VardokIdResponse';
-import {
-    instanceOfVardokIdResponse,
-    VardokIdResponseFromJSON,
-    VardokIdResponseFromJSONTyped,
-    VardokIdResponseToJSON,
-} from './VardokIdResponse';
-
+import { mapValues } from '../runtime';
 /**
- * @type GetVardokVardefMappingById200Response
  * 
  * @export
+ * @interface RenderedContact
  */
-export type GetVardokVardefMappingById200Response = CompleteResponse | VardokIdResponse;
-
-export function GetVardokVardefMappingById200ResponseFromJSON(json: any): GetVardokVardefMappingById200Response {
-    return GetVardokVardefMappingById200ResponseFromJSONTyped(json, false);
+export interface RenderedContact {
+    /**
+     * 
+     * @type {string}
+     * @memberof RenderedContact
+     */
+    title: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RenderedContact
+     */
+    email: string;
 }
 
-export function GetVardokVardefMappingById200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetVardokVardefMappingById200Response {
+/**
+ * Check if a given object implements the RenderedContact interface.
+ */
+export function instanceOfRenderedContact(value: object): value is RenderedContact {
+    if (!('title' in value) || value['title'] === undefined) return false;
+    if (!('email' in value) || value['email'] === undefined) return false;
+    return true;
+}
+
+export function RenderedContactFromJSON(json: any): RenderedContact {
+    return RenderedContactFromJSONTyped(json, false);
+}
+
+export function RenderedContactFromJSONTyped(json: any, ignoreDiscriminator: boolean): RenderedContact {
     if (json == null) {
         return json;
     }
-    if (typeof json !== 'object') {
-        return json;
-    }
-    if (instanceOfCompleteResponse(json)) {
-        return CompleteResponseFromJSONTyped(json, true);
-    }
-    if (instanceOfVardokIdResponse(json)) {
-        return VardokIdResponseFromJSONTyped(json, true);
-    }
-    return {} as any;
+    return {
+        
+        'title': json['title'],
+        'email': json['email'],
+    };
 }
 
-export function GetVardokVardefMappingById200ResponseToJSON(json: any): any {
-    return GetVardokVardefMappingById200ResponseToJSONTyped(json, false);
+export function RenderedContactToJSON(json: any): RenderedContact {
+    return RenderedContactToJSONTyped(json, false);
 }
 
-export function GetVardokVardefMappingById200ResponseToJSONTyped(value?: GetVardokVardefMappingById200Response | null, ignoreDiscriminator: boolean = false): any {
+export function RenderedContactToJSONTyped(value?: RenderedContact | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
-    if (typeof value !== 'object') {
-        return value;
-    }
-    if (instanceOfCompleteResponse(value)) {
-        return CompleteResponseToJSON(value as CompleteResponse);
-    }
-    if (instanceOfVardokIdResponse(value)) {
-        return VardokIdResponseToJSON(value as VardokIdResponse);
-    }
-    return {};
+
+    return {
+        
+        'title': value['title'],
+        'email': value['email'],
+    };
 }
 

@@ -12,72 +12,52 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { LanguageStringType } from './LanguageStringType';
-import {
-    LanguageStringTypeFromJSON,
-    LanguageStringTypeFromJSONTyped,
-    LanguageStringTypeToJSON,
-    LanguageStringTypeToJSONTyped,
-} from './LanguageStringType';
 
 /**
- * Contact details
+ * Languages the application supports.
  * @export
- * @interface PatchContact
  */
-export interface PatchContact {
+export const SupportedLanguages = {
     /**
-     * 
-     * @type {LanguageStringType}
-     * @memberof PatchContact
-     */
-    title: LanguageStringType;
+    * Norwegian Bokmål
+    */
+    Nb: 'nb',
     /**
-     * 
-     * @type {string}
-     * @memberof PatchContact
-     */
-    email: string;
-}
+    * Norwegian Nynorsk
+    */
+    Nn: 'nn',
+    /**
+    * English
+    */
+    En: 'en'
+} as const;
+export type SupportedLanguages = typeof SupportedLanguages[keyof typeof SupportedLanguages];
 
-/**
- * Check if a given object implements the PatchContact interface.
- */
-export function instanceOfPatchContact(value: object): value is PatchContact {
-    if (!('title' in value) || value['title'] === undefined) return false;
-    if (!('email' in value) || value['email'] === undefined) return false;
-    return true;
-}
 
-export function PatchContactFromJSON(json: any): PatchContact {
-    return PatchContactFromJSONTyped(json, false);
-}
-
-export function PatchContactFromJSONTyped(json: any, ignoreDiscriminator: boolean): PatchContact {
-    if (json == null) {
-        return json;
+export function instanceOfSupportedLanguages(value: any): boolean {
+    for (const key in SupportedLanguages) {
+        if (Object.prototype.hasOwnProperty.call(SupportedLanguages, key)) {
+            if (SupportedLanguages[key as keyof typeof SupportedLanguages] === value) {
+                return true;
+            }
+        }
     }
-    return {
-        
-        'title': LanguageStringTypeFromJSON(json['title']),
-        'email': json['email'],
-    };
+    return false;
 }
 
-export function PatchContactToJSON(json: any): PatchContact {
-    return PatchContactToJSONTyped(json, false);
+export function SupportedLanguagesFromJSON(json: any): SupportedLanguages {
+    return SupportedLanguagesFromJSONTyped(json, false);
 }
 
-export function PatchContactToJSONTyped(value?: PatchContact | null, ignoreDiscriminator: boolean = false): any {
-    if (value == null) {
-        return value;
-    }
+export function SupportedLanguagesFromJSONTyped(json: any, ignoreDiscriminator: boolean): SupportedLanguages {
+    return json as SupportedLanguages;
+}
 
-    return {
-        
-        'title': LanguageStringTypeToJSON(value['title']),
-        'email': value['email'],
-    };
+export function SupportedLanguagesToJSON(value?: SupportedLanguages | null): any {
+    return value as any;
+}
+
+export function SupportedLanguagesToJSONTyped(value: any, ignoreDiscriminator: boolean): SupportedLanguages {
+    return value as SupportedLanguages;
 }
 

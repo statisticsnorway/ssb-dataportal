@@ -22,7 +22,7 @@ import {
 } from './LanguageStringType';
 
 /**
- * 
+ * Contact details
  * @export
  * @interface Contact
  */

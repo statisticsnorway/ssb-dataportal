@@ -2,6 +2,18 @@
   "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
   "spaces": 2,
   "generator-cli": {
-    "version": "7.15.0"
+    "version": "7.17.0",
+    "generators": {
+      "vardef-internal": {
+        "generatorName": "typescript-fetch",
+        "output": "src/libs/data-access/variable-definitions/internal",
+        "inputSpec": "https://metadata.ssb.no/docs/openapi/variable-definitions/variable-definitions-internal.yml",
+        "additionalProperties": {
+          "supportsES6": "true",
+          "npmVersion": "6.9.0",
+          "withInterfaces": true
+        }
+      }
+    }
   }
 }
