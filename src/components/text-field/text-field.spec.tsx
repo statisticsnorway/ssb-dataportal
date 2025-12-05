@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import React, { JSX } from 'react';
 import { TextField } from './text-field';
 
+
 jest.mock('@digdir/designsystemet-react', () => {
   const passthrough =
     (tag: keyof JSX.IntrinsicElements) =>
@@ -12,6 +13,7 @@ jest.mock('@digdir/designsystemet-react', () => {
   return {
     Label: passthrough('label'),
     Paragraph: passthrough('p'),
+    Link: passthrough('a'),
   };
 });
 
@@ -30,5 +32,16 @@ describe('TextField', () => {
     const paragraph = screen.getByText(longText);
     expect(paragraph).toBeInTheDocument();
     expect(paragraph.tagName).toBe('P');
+  });
+
+  it('renders url as link', () => {
+    const linkText = 'www.example.com';
+    render(<TextField label='Kommentar' value={linkText} href='https://example.com' />);
+
+    const link = screen.getByRole('link', { name: /lenke/i });
+
+    expect(link).toBeInTheDocument();
+    expect(link.tagName).toBe('A');
+    expect(link).toHaveAttribute('href', 'https://example.com');
   });
 });
