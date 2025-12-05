@@ -34,9 +34,9 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
           ID: {variableDefinition.id}
         </Label>
       </header>
-      <main className={styles.contentGrid}>
+      <div className={styles.contentGrid}>
         <article className={styles.mainColumn}>
-          <section className={styles.section}>
+          <section className={styles.mainSection}>
             <dl>
               <TextField label='Definisjon' value={variableDefinition.definition.nb ?? ''} longText />
               {variableDefinition.comment?.nb && (
@@ -54,7 +54,7 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
           <DetailsPagePanel title='Referanser' elements={referencesItems(variableDefinition)} />
           <DetailsPagePanel title='Personopplysninger' elements={personalData(variableDefinition)} />
         </aside>
-      </main>
+      </div>
     </section>
   );
 }
