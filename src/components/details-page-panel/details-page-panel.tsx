@@ -11,13 +11,13 @@ interface DetailsPagePanelProps {
 
 export const DetailsPagePanel = ({ title, elements, columns = 1 }: DetailsPagePanelProps) => {
   const validElements = elements.filter(
-    ({ value }) => value != null && value !== '' && (!Array.isArray(value) || value.length > 0)
+    ({ value }) => value != null && value !== '' && (!Array.isArray(value) || value.length > 0),
   );
 
   return (
     <section className={styles.section}>
       {title && (
-        <Heading level={2} data-size="sm" className={styles.sectionTitle}>
+        <Heading level={2} data-size='sm' className={styles.sectionTitle}>
           {title}
         </Heading>
       )}
