@@ -14,17 +14,15 @@ export const TextField = ({ label, value, href, longText }: TextFieldProps) => {
     <div className={styles.field}>
       <Label className={styles.label}>{label}</Label>
       {href ? (
-        <Link data-size='md' target='_blank' href={href}>
+        <Link className={styles.value} data-size='md' target='_blank' href={href}>
           Lenke
         </Link>
       ) : longText ? (
-        <Label data-size='lg' data-weight='semibold'>
+        <Paragraph data-size='lg'>{value}</Paragraph>
+      ) : (
+        <Label className={styles.value} data-size='lg'>
           {value}
         </Label>
-      ) : (
-        <Paragraph data-size='lg' data-weight='semibold'>
-          {value}
-        </Paragraph>
       )}
     </div>
   );

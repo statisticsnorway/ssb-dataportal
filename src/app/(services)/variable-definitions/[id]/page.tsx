@@ -37,7 +37,7 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
       <main className={styles.contentGrid}>
         <article className={styles.mainColumn}>
           <section className={styles.section}>
-            <TextField label='Definisjon' value={variableDefinition.definition.nb ?? ''} />
+            <TextField label='Definisjon' value={variableDefinition.definition.nb ?? ''} longText />
             {variableDefinition.comment?.nb && <TextField label='Kommentar' value={variableDefinition.comment.nb} />}
           </section>
           <DetailsPagePanel title='Eier' elements={ownerItems(variableDefinition)} columns={2} />
