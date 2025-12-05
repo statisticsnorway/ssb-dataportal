@@ -14,68 +14,69 @@
 
 import { mapValues } from '../runtime';
 /**
- * Optional comment to explain the definition or communicate potential changes.
+ * 
  * @export
- * @interface CompleteResponseComment
+ * @interface KlassReference
  */
-export interface CompleteResponseComment {
+export interface KlassReference {
     /**
-     * Norwegian Bokmål
+     * 
      * @type {string}
-     * @memberof CompleteResponseComment
+     * @memberof KlassReference
      */
-    nb?: string | null;
+    referenceUri: string;
     /**
-     * Norwegian Nynorsk
+     * 
      * @type {string}
-     * @memberof CompleteResponseComment
+     * @memberof KlassReference
      */
-    nn?: string | null;
+    code?: string | null;
     /**
-     * English
+     * 
      * @type {string}
-     * @memberof CompleteResponseComment
+     * @memberof KlassReference
      */
-    en?: string | null;
+    title?: string | null;
 }
 
 /**
- * Check if a given object implements the CompleteResponseComment interface.
+ * Check if a given object implements the KlassReference interface.
  */
-export function instanceOfCompleteResponseComment(value: object): value is CompleteResponseComment {
+export function instanceOfKlassReference(value: object): value is KlassReference {
+    if (!('referenceUri' in value) || value['referenceUri'] === undefined) return false;
     return true;
 }
 
-export function CompleteResponseCommentFromJSON(json: any): CompleteResponseComment {
-    return CompleteResponseCommentFromJSONTyped(json, false);
+export function KlassReferenceFromJSON(json: any): KlassReference {
+    return KlassReferenceFromJSONTyped(json, false);
 }
 
-export function CompleteResponseCommentFromJSONTyped(json: any, ignoreDiscriminator: boolean): CompleteResponseComment {
+export function KlassReferenceFromJSONTyped(json: any, ignoreDiscriminator: boolean): KlassReference {
     if (json == null) {
         return json;
     }
     return {
         
-        'nb': json['nb'] == null ? undefined : json['nb'],
-        'nn': json['nn'] == null ? undefined : json['nn'],
-        'en': json['en'] == null ? undefined : json['en'],
+        'referenceUri': json['reference_uri'],
+        'code': json['code'] == null ? undefined : json['code'],
+        'title': json['title'] == null ? undefined : json['title'],
     };
 }
 
-export function CompleteResponseCommentToJSON(json: any): CompleteResponseComment {
-    return CompleteResponseCommentToJSONTyped(json, false);
+export function KlassReferenceToJSON(json: any): KlassReference {
+    return KlassReferenceToJSONTyped(json, false);
 }
 
-export function CompleteResponseCommentToJSONTyped(value?: CompleteResponseComment | null, ignoreDiscriminator: boolean = false): any {
+export function KlassReferenceToJSONTyped(value?: KlassReference | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
         
-        'nb': value['nb'],
-        'nn': value['nn'],
-        'en': value['en'],
+        'reference_uri': value['referenceUri'],
+        'code': value['code'],
+        'title': value['title'],
     };
 }
 

@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * Owner
+ * Owner of the definition, i.e. responsible Dapla team (statistics team) and information about access management groups.
  * @export
  * @interface Owner
  */

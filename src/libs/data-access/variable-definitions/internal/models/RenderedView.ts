@@ -13,204 +13,190 @@
  */
 
 import { mapValues } from '../runtime';
-import type { CompleteResponseDefinition } from './CompleteResponseDefinition';
+import type { Owner } from './Owner';
 import {
-    CompleteResponseDefinitionFromJSON,
-    CompleteResponseDefinitionFromJSONTyped,
-    CompleteResponseDefinitionToJSON,
-    CompleteResponseDefinitionToJSONTyped,
-} from './CompleteResponseDefinition';
-import type { CompleteResponseName } from './CompleteResponseName';
+    OwnerFromJSON,
+    OwnerFromJSONTyped,
+    OwnerToJSON,
+    OwnerToJSONTyped,
+} from './Owner';
+import type { VariableStatus } from './VariableStatus';
 import {
-    CompleteResponseNameFromJSON,
-    CompleteResponseNameFromJSONTyped,
-    CompleteResponseNameToJSON,
-    CompleteResponseNameToJSONTyped,
-} from './CompleteResponseName';
-import type { CompleteResponseComment } from './CompleteResponseComment';
+    VariableStatusFromJSON,
+    VariableStatusFromJSONTyped,
+    VariableStatusToJSON,
+    VariableStatusToJSONTyped,
+} from './VariableStatus';
+import type { RenderedContact } from './RenderedContact';
 import {
-    CompleteResponseCommentFromJSON,
-    CompleteResponseCommentFromJSONTyped,
-    CompleteResponseCommentToJSON,
-    CompleteResponseCommentToJSONTyped,
-} from './CompleteResponseComment';
-import type { CompleteResponseContact } from './CompleteResponseContact';
+    RenderedContactFromJSON,
+    RenderedContactFromJSONTyped,
+    RenderedContactToJSON,
+    RenderedContactToJSONTyped,
+} from './RenderedContact';
+import type { KlassReference } from './KlassReference';
 import {
-    CompleteResponseContactFromJSON,
-    CompleteResponseContactFromJSONTyped,
-    CompleteResponseContactToJSON,
-    CompleteResponseContactToJSONTyped,
-} from './CompleteResponseContact';
-import type { VariableStatus & object } from './VariableStatus &amp; object';
-import {
-    VariableStatus &amp; objectFromJSON,
-    VariableStatus &amp; objectFromJSONTyped,
-    VariableStatus &amp; objectToJSON,
-    VariableStatus &amp; objectToJSONTyped,
-} from './VariableStatus &amp; object';
-import type { CompleteResponseOwner } from './CompleteResponseOwner';
-import {
-    CompleteResponseOwnerFromJSON,
-    CompleteResponseOwnerFromJSONTyped,
-    CompleteResponseOwnerToJSON,
-    CompleteResponseOwnerToJSONTyped,
-} from './CompleteResponseOwner';
+    KlassReferenceFromJSON,
+    KlassReferenceFromJSONTyped,
+    KlassReferenceToJSON,
+    KlassReferenceToJSONTyped,
+} from './KlassReference';
 
 /**
- * Complete response For internal users who need all details while maintaining variable definitions.
+ * Render a Variable Definition in a specific language, for display to end users.
  * @export
- * @interface CompleteResponse
+ * @interface RenderedView
  */
-export interface CompleteResponse {
+export interface RenderedView {
     /**
      * Unique identifier for the variable definition.
      * @type {string}
-     * @memberof CompleteResponse
+     * @memberof RenderedView
      */
     id: string;
     /**
      * Integer identifying a patch of a variable definition.
      * @type {number}
-     * @memberof CompleteResponse
+     * @memberof RenderedView
      */
     patchId: number;
     /**
-     * 
-     * @type {CompleteResponseName}
-     * @memberof CompleteResponse
+     * Name of the variable. Must be unique for a given Unit Type and Owner combination.
+     * @type {string}
+     * @memberof RenderedView
      */
-    name: CompleteResponseName;
+    name?: string | null;
     /**
      * Recommended short name. Must be unique within an organization.
      * @type {string}
-     * @memberof CompleteResponse
+     * @memberof RenderedView
      */
     shortName: string;
     /**
-     * 
-     * @type {CompleteResponseDefinition}
-     * @memberof CompleteResponse
-     */
-    definition: CompleteResponseDefinition;
-    /**
-     * ID of a classification or code list from Klass. The given classification defines all possible values for the defined variable.
+     * Definition of the variable.
      * @type {string}
-     * @memberof CompleteResponse
+     * @memberof RenderedView
      */
-    classificationReference?: string | null;
+    definition?: string | null;
     /**
-     * A list of one or more unit types, e.g. person, vehicle, household. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/702.
-     * @type {Array<string>}
-     * @memberof CompleteResponse
+     * Link to the classification which defines all permitted values for this variable.
+     * @type {string}
+     * @memberof RenderedView
      */
-    unitTypes: Array<string>;
+    classificationUri?: string | null;
     /**
-     * A list of subject fields that the variable is used in. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.
-     * @type {Array<string>}
-     * @memberof CompleteResponse
+     * 
+     * @type {Array<KlassReference>}
+     * @memberof RenderedView
      */
-    subjectFields: Array<string>;
+    unitTypes: Array<KlassReference>;
+    /**
+     * 
+     * @type {Array<KlassReference>}
+     * @memberof RenderedView
+     */
+    subjectFields: Array<KlassReference>;
     /**
      * True if variable instances contain particularly sensitive information. Applies even if the information or identifiers are pseudonymized. Information within the following categories are regarded as particularly sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs, Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual orientation
      * @type {boolean}
-     * @memberof CompleteResponse
+     * @memberof RenderedView
      */
     containsSpecialCategoriesOfPersonalData: boolean;
     /**
-     * Status of the life cycle of the variable
-     * @type {VariableStatus & object}
-     * @memberof CompleteResponse
+     * 
+     * @type {VariableStatus}
+     * @memberof RenderedView
      */
-    variableStatus?: VariableStatus & object | null;
+    variableStatus: VariableStatus;
     /**
-     * Type of measurement for the variable, e.g. length, volume, currency. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/303
-     * @type {string}
-     * @memberof CompleteResponse
+     * 
+     * @type {KlassReference}
+     * @memberof RenderedView
      */
-    measurementType?: string | null;
+    measurementType?: KlassReference | null;
     /**
      * The variable definition is valid from this date inclusive
      * @type {Date}
-     * @memberof CompleteResponse
+     * @memberof RenderedView
      */
     validFrom: Date;
     /**
      * The variable definition is valid until this date inclusive
      * @type {Date}
-     * @memberof CompleteResponse
+     * @memberof RenderedView
      */
     validUntil?: Date | null;
     /**
      * A link (URI) to an external definition/documentation
      * @type {string}
-     * @memberof CompleteResponse
+     * @memberof RenderedView
      */
     externalReferenceUri?: string | null;
     /**
-     * 
-     * @type {CompleteResponseComment}
-     * @memberof CompleteResponse
+     * Optional comment to explain the definition or communicate potential changes.
+     * @type {string}
+     * @memberof RenderedView
      */
-    comment?: CompleteResponseComment | null;
+    comment?: string | null;
     /**
      * Link(s) to related definitions of variables - a list of one or more definitions. For example for a variable after-tax income it could be relevant to link to definitions of income from work, property income etc.
      * @type {Array<string>}
-     * @memberof CompleteResponse
+     * @memberof RenderedView
      */
     relatedVariableDefinitionUris?: Array<string> | null;
     /**
      * 
-     * @type {CompleteResponseOwner}
-     * @memberof CompleteResponse
+     * @type {Owner}
+     * @memberof RenderedView
      */
-    owner: CompleteResponseOwner;
+    owner: Owner;
     /**
      * 
-     * @type {CompleteResponseContact}
-     * @memberof CompleteResponse
+     * @type {RenderedContact}
+     * @memberof RenderedView
      */
-    contact: CompleteResponseContact;
+    contact?: RenderedContact | null;
     /**
      * The timestamp at which this variable definition was first created.
      * @type {Date}
-     * @memberof CompleteResponse
+     * @memberof RenderedView
      */
     createdAt: Date;
     /**
      * The user who created this variable definition.
      * @type {string}
-     * @memberof CompleteResponse
+     * @memberof RenderedView
      */
     createdBy: string;
     /**
      * The timestamp at which this variable definition was last modified.
      * @type {Date}
-     * @memberof CompleteResponse
+     * @memberof RenderedView
      */
     lastUpdatedAt: Date;
     /**
      * The user who last modified this variable definition.
      * @type {string}
-     * @memberof CompleteResponse
+     * @memberof RenderedView
      */
     lastUpdatedBy: string;
 }
 
+
+
 /**
- * Check if a given object implements the CompleteResponse interface.
+ * Check if a given object implements the RenderedView interface.
  */
-export function instanceOfCompleteResponse(value: object): value is CompleteResponse {
+export function instanceOfRenderedView(value: object): value is RenderedView {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('patchId' in value) || value['patchId'] === undefined) return false;
-    if (!('name' in value) || value['name'] === undefined) return false;
     if (!('shortName' in value) || value['shortName'] === undefined) return false;
-    if (!('definition' in value) || value['definition'] === undefined) return false;
     if (!('unitTypes' in value) || value['unitTypes'] === undefined) return false;
     if (!('subjectFields' in value) || value['subjectFields'] === undefined) return false;
     if (!('containsSpecialCategoriesOfPersonalData' in value) || value['containsSpecialCategoriesOfPersonalData'] === undefined) return false;
+    if (!('variableStatus' in value) || value['variableStatus'] === undefined) return false;
     if (!('validFrom' in value) || value['validFrom'] === undefined) return false;
     if (!('owner' in value) || value['owner'] === undefined) return false;
-    if (!('contact' in value) || value['contact'] === undefined) return false;
     if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
     if (!('createdBy' in value) || value['createdBy'] === undefined) return false;
     if (!('lastUpdatedAt' in value) || value['lastUpdatedAt'] === undefined) return false;
@@ -218,11 +204,11 @@ export function instanceOfCompleteResponse(value: object): value is CompleteResp
     return true;
 }
 
-export function CompleteResponseFromJSON(json: any): CompleteResponse {
-    return CompleteResponseFromJSONTyped(json, false);
+export function RenderedViewFromJSON(json: any): RenderedView {
+    return RenderedViewFromJSONTyped(json, false);
 }
 
-export function CompleteResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): CompleteResponse {
+export function RenderedViewFromJSONTyped(json: any, ignoreDiscriminator: boolean): RenderedView {
     if (json == null) {
         return json;
     }
@@ -230,22 +216,22 @@ export function CompleteResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
         
         'id': json['id'],
         'patchId': json['patch_id'],
-        'name': CompleteResponseNameFromJSON(json['name']),
+        'name': json['name'] == null ? undefined : json['name'],
         'shortName': json['short_name'],
-        'definition': CompleteResponseDefinitionFromJSON(json['definition']),
-        'classificationReference': json['classification_reference'] == null ? undefined : json['classification_reference'],
-        'unitTypes': json['unit_types'],
-        'subjectFields': json['subject_fields'],
+        'definition': json['definition'] == null ? undefined : json['definition'],
+        'classificationUri': json['classification_uri'] == null ? undefined : json['classification_uri'],
+        'unitTypes': ((json['unit_types'] as Array<any>).map(KlassReferenceFromJSON)),
+        'subjectFields': ((json['subject_fields'] as Array<any>).map(KlassReferenceFromJSON)),
         'containsSpecialCategoriesOfPersonalData': json['contains_special_categories_of_personal_data'],
-        'variableStatus': json['variable_status'] == null ? undefined : (mapValues(json['variable_status'], FromJSON)),
-        'measurementType': json['measurement_type'] == null ? undefined : json['measurement_type'],
+        'variableStatus': VariableStatusFromJSON(json['variable_status']),
+        'measurementType': json['measurement_type'] == null ? undefined : KlassReferenceFromJSON(json['measurement_type']),
         'validFrom': (new Date(json['valid_from'])),
         'validUntil': json['valid_until'] == null ? undefined : (new Date(json['valid_until'])),
         'externalReferenceUri': json['external_reference_uri'] == null ? undefined : json['external_reference_uri'],
-        'comment': json['comment'] == null ? undefined : CompleteResponseCommentFromJSON(json['comment']),
+        'comment': json['comment'] == null ? undefined : json['comment'],
         'relatedVariableDefinitionUris': json['related_variable_definition_uris'] == null ? undefined : json['related_variable_definition_uris'],
-        'owner': CompleteResponseOwnerFromJSON(json['owner']),
-        'contact': CompleteResponseContactFromJSON(json['contact']),
+        'owner': OwnerFromJSON(json['owner']),
+        'contact': json['contact'] == null ? undefined : RenderedContactFromJSON(json['contact']),
         'createdAt': (new Date(json['created_at'])),
         'createdBy': json['created_by'],
         'lastUpdatedAt': (new Date(json['last_updated_at'])),
@@ -253,11 +239,11 @@ export function CompleteResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function CompleteResponseToJSON(json: any): CompleteResponse {
-    return CompleteResponseToJSONTyped(json, false);
+export function RenderedViewToJSON(json: any): RenderedView {
+    return RenderedViewToJSONTyped(json, false);
 }
 
-export function CompleteResponseToJSONTyped(value?: CompleteResponse | null, ignoreDiscriminator: boolean = false): any {
+export function RenderedViewToJSONTyped(value?: RenderedView | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
@@ -266,25 +252,25 @@ export function CompleteResponseToJSONTyped(value?: CompleteResponse | null, ign
         
         'id': value['id'],
         'patch_id': value['patchId'],
-        'name': CompleteResponseNameToJSON(value['name']),
+        'name': value['name'],
         'short_name': value['shortName'],
-        'definition': CompleteResponseDefinitionToJSON(value['definition']),
-        'classification_reference': value['classificationReference'],
-        'unit_types': value['unitTypes'],
-        'subject_fields': value['subjectFields'],
+        'definition': value['definition'],
+        'classification_uri': value['classificationUri'],
+        'unit_types': ((value['unitTypes'] as Array<any>).map(KlassReferenceToJSON)),
+        'subject_fields': ((value['subjectFields'] as Array<any>).map(KlassReferenceToJSON)),
         'contains_special_categories_of_personal_data': value['containsSpecialCategoriesOfPersonalData'],
-        'variable_status': value['variableStatus'] == null ? undefined : (mapValues(value['variableStatus'], ToJSON)),
-        'measurement_type': value['measurementType'],
-        'valid_from': ((value['validFrom']).toISOString().substring(0,10)),
-        'valid_until': value['validUntil'] === null ? null : ((value['validUntil'] as any)?.toISOString().substring(0,10)),
+        'variable_status': VariableStatusToJSON(value['variableStatus']),
+        'measurement_type': KlassReferenceToJSON(value['measurementType']),
+        'valid_from': value['validFrom'].toISOString().substring(0,10),
+        'valid_until': value['validUntil'] == null ? value['validUntil'] : value['validUntil'].toISOString().substring(0,10),
         'external_reference_uri': value['externalReferenceUri'],
-        'comment': CompleteResponseCommentToJSON(value['comment']),
+        'comment': value['comment'],
         'related_variable_definition_uris': value['relatedVariableDefinitionUris'],
-        'owner': CompleteResponseOwnerToJSON(value['owner']),
-        'contact': CompleteResponseContactToJSON(value['contact']),
-        'created_at': ((value['createdAt']).toISOString()),
+        'owner': OwnerToJSON(value['owner']),
+        'contact': RenderedContactToJSON(value['contact']),
+        'created_at': value['createdAt'].toISOString(),
         'created_by': value['createdBy'],
-        'last_updated_at': ((value['lastUpdatedAt']).toISOString()),
+        'last_updated_at': value['lastUpdatedAt'].toISOString(),
         'last_updated_by': value['lastUpdatedBy'],
     };
 }

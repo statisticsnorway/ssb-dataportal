@@ -1,10 +1,10 @@
 import variableDefinitionsJson from '@/data/variable-definitions.json';
-import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
+import { CompleteView } from '@/libs/data-access/variable-definitions/internal/models/CompleteView';
 import { VardefTabData } from './vardefTabContext';
 
 // Convert JSON data to CompleteResponse types since we currently use only test data
 // biome-ignore lint/suspicious/noExplicitAny: it's mock data // Disable when using test data
-const convertToCompleteResponse = (json: any): CompleteResponse => {
+const convertToCompleteView = (json: any): CompleteView => {
   return {
     id: json.id,
     patchId: json.patch_id,
@@ -33,5 +33,5 @@ const convertToCompleteResponse = (json: any): CompleteResponse => {
 
 // Convert JSON data to CompleteResponse types
 export const testVardefData: VardefTabData = {
-  variableDefinitions: variableDefinitionsJson.map(convertToCompleteResponse),
+  variableDefinitions: variableDefinitionsJson.map(convertToCompleteView),
 };

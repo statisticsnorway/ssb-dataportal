@@ -12,70 +12,65 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import type { CompleteView } from './CompleteView';
+import {
+    instanceOfCompleteView,
+    CompleteViewFromJSON,
+    CompleteViewFromJSONTyped,
+    CompleteViewToJSON,
+} from './CompleteView';
+import type { RenderedView } from './RenderedView';
+import {
+    instanceOfRenderedView,
+    RenderedViewFromJSON,
+    RenderedViewFromJSONTyped,
+    RenderedViewToJSON,
+} from './RenderedView';
+
 /**
- * Name of the variable. Must be unique for a given Unit Type and Owner combination.
+ * @type ListVariableDefinitions200ResponseInner
+ * 
  * @export
- * @interface CompleteResponseName
  */
-export interface CompleteResponseName {
-    /**
-     * Norwegian Bokmål
-     * @type {string}
-     * @memberof CompleteResponseName
-     */
-    nb?: string | null;
-    /**
-     * Norwegian Nynorsk
-     * @type {string}
-     * @memberof CompleteResponseName
-     */
-    nn?: string | null;
-    /**
-     * English
-     * @type {string}
-     * @memberof CompleteResponseName
-     */
-    en?: string | null;
+export type ListVariableDefinitions200ResponseInner = CompleteView | RenderedView;
+
+export function ListVariableDefinitions200ResponseInnerFromJSON(json: any): ListVariableDefinitions200ResponseInner {
+    return ListVariableDefinitions200ResponseInnerFromJSONTyped(json, false);
 }
 
-/**
- * Check if a given object implements the CompleteResponseName interface.
- */
-export function instanceOfCompleteResponseName(value: object): value is CompleteResponseName {
-    return true;
-}
-
-export function CompleteResponseNameFromJSON(json: any): CompleteResponseName {
-    return CompleteResponseNameFromJSONTyped(json, false);
-}
-
-export function CompleteResponseNameFromJSONTyped(json: any, ignoreDiscriminator: boolean): CompleteResponseName {
+export function ListVariableDefinitions200ResponseInnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): ListVariableDefinitions200ResponseInner {
     if (json == null) {
         return json;
     }
-    return {
-        
-        'nb': json['nb'] == null ? undefined : json['nb'],
-        'nn': json['nn'] == null ? undefined : json['nn'],
-        'en': json['en'] == null ? undefined : json['en'],
-    };
+    if (typeof json !== 'object') {
+        return json;
+    }
+    if (instanceOfCompleteView(json)) {
+        return CompleteViewFromJSONTyped(json, true);
+    }
+    if (instanceOfRenderedView(json)) {
+        return RenderedViewFromJSONTyped(json, true);
+    }
+    return {} as any;
 }
 
-export function CompleteResponseNameToJSON(json: any): CompleteResponseName {
-    return CompleteResponseNameToJSONTyped(json, false);
+export function ListVariableDefinitions200ResponseInnerToJSON(json: any): any {
+    return ListVariableDefinitions200ResponseInnerToJSONTyped(json, false);
 }
 
-export function CompleteResponseNameToJSONTyped(value?: CompleteResponseName | null, ignoreDiscriminator: boolean = false): any {
+export function ListVariableDefinitions200ResponseInnerToJSONTyped(value?: ListVariableDefinitions200ResponseInner | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
-
-    return {
-        
-        'nb': value['nb'],
-        'nn': value['nn'],
-        'en': value['en'],
-    };
+    if (typeof value !== 'object') {
+        return value;
+    }
+    if (instanceOfCompleteView(value)) {
+        return CompleteViewToJSON(value as CompleteView);
+    }
+    if (instanceOfRenderedView(value)) {
+        return RenderedViewToJSON(value as RenderedView);
+    }
+    return {};
 }
 

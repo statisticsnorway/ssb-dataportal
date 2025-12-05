@@ -15,36 +15,97 @@
 
 import * as runtime from '../runtime';
 import type {
-  CompleteResponse,
+  ListVariableDefinitions200ResponseInner,
   Problem,
+  SupportedLanguages,
 } from '../models/index';
 import {
-    CompleteResponseFromJSON,
-    CompleteResponseToJSON,
+    ListVariableDefinitions200ResponseInnerFromJSON,
+    ListVariableDefinitions200ResponseInnerToJSON,
     ProblemFromJSON,
     ProblemToJSON,
+    SupportedLanguagesFromJSON,
+    SupportedLanguagesToJSON,
 } from '../models/index';
 
 export interface GetVariableDefinitionByIdRequest {
+    acceptLanguage: SupportedLanguages;
     variableDefinitionId: string;
     dateOfValidity?: Date | null;
+    render?: boolean | null;
 }
 
 export interface ListVariableDefinitionsRequest {
+    acceptLanguage: SupportedLanguages;
     dateOfValidity?: Date | null;
     shortName?: string | null;
+    render?: boolean | null;
 }
 
 /**
+ * VariableDefinitionsApi - interface
  * 
+ * @export
+ * @interface VariableDefinitionsApiInterface
  */
-export class VariableDefinitionsApi extends runtime.BaseAPI {
+export interface VariableDefinitionsApiInterface {
+    /**
+     * Get one variable definition.
+     * @summary Get one variable definition.
+     * @param {SupportedLanguages} acceptLanguage Render the variable definition in the given language.
+     * @param {string} variableDefinitionId Unique identifier for the variable definition.
+     * @param {Date} [dateOfValidity] List only variable definitions which are valid on this date.
+     * @param {boolean} [render] Render the Variable Definition for presentation in a frontend
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof VariableDefinitionsApiInterface
+     */
+    getVariableDefinitionByIdRaw(requestParameters: GetVariableDefinitionByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListVariableDefinitions200ResponseInner>>;
 
     /**
      * Get one variable definition.
      * Get one variable definition.
      */
-    async getVariableDefinitionByIdRaw(requestParameters: GetVariableDefinitionByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CompleteResponse>> {
+    getVariableDefinitionById(requestParameters: GetVariableDefinitionByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListVariableDefinitions200ResponseInner>;
+
+    /**
+     * List all variable definitions.
+     * @summary List all variable definitions.
+     * @param {SupportedLanguages} acceptLanguage Render the variable definition in the given language.
+     * @param {Date} [dateOfValidity] List only variable definitions which are valid on this date.
+     * @param {string} [shortName] List only the variable definition with the given short name.
+     * @param {boolean} [render] Render the Variable Definition for presentation in a frontend
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof VariableDefinitionsApiInterface
+     */
+    listVariableDefinitionsRaw(requestParameters: ListVariableDefinitionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ListVariableDefinitions200ResponseInner>>>;
+
+    /**
+     * List all variable definitions.
+     * List all variable definitions.
+     */
+    listVariableDefinitions(requestParameters: ListVariableDefinitionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ListVariableDefinitions200ResponseInner>>;
+
+}
+
+/**
+ * 
+ */
+export class VariableDefinitionsApi extends runtime.BaseAPI implements VariableDefinitionsApiInterface {
+
+    /**
+     * Get one variable definition.
+     * Get one variable definition.
+     */
+    async getVariableDefinitionByIdRaw(requestParameters: GetVariableDefinitionByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListVariableDefinitions200ResponseInner>> {
+        if (requestParameters['acceptLanguage'] == null) {
+            throw new runtime.RequiredError(
+                'acceptLanguage',
+                'Required parameter "acceptLanguage" was null or undefined when calling getVariableDefinitionById().'
+            );
+        }
+
         if (requestParameters['variableDefinitionId'] == null) {
             throw new runtime.RequiredError(
                 'variableDefinitionId',
@@ -58,7 +119,15 @@ export class VariableDefinitionsApi extends runtime.BaseAPI {
             queryParameters['date_of_validity'] = (requestParameters['dateOfValidity'] as any).toISOString().substring(0,10);
         }
 
+        if (requestParameters['render'] != null) {
+            queryParameters['render'] = requestParameters['render'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['acceptLanguage'] != null) {
+            headerParameters['Accept-Language'] = String(requestParameters['acceptLanguage']);
+        }
 
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
@@ -79,14 +148,14 @@ export class VariableDefinitionsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => CompleteResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ListVariableDefinitions200ResponseInnerFromJSON(jsonValue));
     }
 
     /**
      * Get one variable definition.
      * Get one variable definition.
      */
-    async getVariableDefinitionById(requestParameters: GetVariableDefinitionByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CompleteResponse> {
+    async getVariableDefinitionById(requestParameters: GetVariableDefinitionByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListVariableDefinitions200ResponseInner> {
         const response = await this.getVariableDefinitionByIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -95,7 +164,14 @@ export class VariableDefinitionsApi extends runtime.BaseAPI {
      * List all variable definitions.
      * List all variable definitions.
      */
-    async listVariableDefinitionsRaw(requestParameters: ListVariableDefinitionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<CompleteResponse>>> {
+    async listVariableDefinitionsRaw(requestParameters: ListVariableDefinitionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ListVariableDefinitions200ResponseInner>>> {
+        if (requestParameters['acceptLanguage'] == null) {
+            throw new runtime.RequiredError(
+                'acceptLanguage',
+                'Required parameter "acceptLanguage" was null or undefined when calling listVariableDefinitions().'
+            );
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters['dateOfValidity'] != null) {
@@ -106,7 +182,15 @@ export class VariableDefinitionsApi extends runtime.BaseAPI {
             queryParameters['short_name'] = requestParameters['shortName'];
         }
 
+        if (requestParameters['render'] != null) {
+            queryParameters['render'] = requestParameters['render'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['acceptLanguage'] != null) {
+            headerParameters['Accept-Language'] = String(requestParameters['acceptLanguage']);
+        }
 
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
@@ -126,14 +210,14 @@ export class VariableDefinitionsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(CompleteResponseFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ListVariableDefinitions200ResponseInnerFromJSON));
     }
 
     /**
      * List all variable definitions.
      * List all variable definitions.
      */
-    async listVariableDefinitions(requestParameters: ListVariableDefinitionsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<CompleteResponse>> {
+    async listVariableDefinitions(requestParameters: ListVariableDefinitionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ListVariableDefinitions200ResponseInner>> {
         const response = await this.listVariableDefinitionsRaw(requestParameters, initOverrides);
         return await response.value();
     }

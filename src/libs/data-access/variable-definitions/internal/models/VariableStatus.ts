@@ -14,7 +14,7 @@
 
 
 /**
- * Life cycle status of a variable definition.
+ * Status of the life cycle of the variable
  * @export
  */
 export const VariableStatus = {
