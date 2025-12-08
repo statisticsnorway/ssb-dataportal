@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { TagsGroup } from '@/components/tags-group';
 import { SUBJECT_FIELD_LOOKUP } from '@/libs/data/subjectFieldLookup';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
-import styles from '../variable-definitions.module.css';
 import { fieldsNotNull, NonNullableFields } from '@/utils/functions';
+import styles from '../variable-definitions.module.css';
 
 interface VardefSearchHitProps {
   variableDefinition: RenderedView;

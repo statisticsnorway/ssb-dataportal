@@ -1,4 +1,5 @@
 'use client';
+import { describe, expect, it, jest } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import React, { JSX } from 'react';
 import { Header } from '.';
@@ -19,7 +20,7 @@ jest.mock('@digdir/designsystemet-react', () => {
 
 describe('Header', () => {
   it('renders the logo link with correct href and text', () => {
-    const { asFragment } = render(<Header homeUrl='https://example.com' />);
+    render(<Header homeUrl='https://example.com' />);
 
     const logoLink = screen.getByTitle(/Gå til hovedsiden/i);
     expect(logoLink).toBeInTheDocument();
@@ -30,7 +31,7 @@ describe('Header', () => {
 
     expect(logoLink).toMatchInlineSnapshot(`
 <a
-  class="logo"
+  class="ds-link logo"
   href="https://example.com"
   title="Gå til hovedsiden"
 >

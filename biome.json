@@ -103,8 +103,7 @@
       "!src/libs/data-access/**",
       "!**/build/**/*/*.js",
       "!**/build/**/*.js",
-      "!**/public/**/*.js",
-      "!**/*.spec.tsx"
+      "!**/public/**/*.js"
     ]
   },
   "javascript": {

@@ -1,12 +1,12 @@
 import { Metadata } from 'next';
 import { AppLayout } from '@/components/app-layout';
 import { fetchAllClassifications } from '@/libs/data/classificationData';
+import { KlassReference, VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { Classification, ClassificationFamily } from '@/types/classification';
 import { CLASSIFICATION_FAMILIES, KLASS_HOST } from '@/utils/constants';
 import { KlassTabData } from '@/utils/klassTabContext';
 import { MetadataProviders } from '@/utils/metadataProvider';
 import { VardefTabData } from '@/utils/vardefTabContext';
-import { KlassReference, VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 
 export const metadata: Metadata = {
   title: 'Metadata services',
