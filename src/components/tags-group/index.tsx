@@ -10,7 +10,6 @@ export type TagData = {
 export type TagsData = Set<TagData>;
 
 const TagsGroupComponent = ({ maxTags, tagsData }: { maxTags: number; tagsData: TagsData }) => {
-  Array.from(tagsData).forEach((value) => console.log(value));
   return (
     <ul className={styles.tagsList}>
       {Array.from(tagsData)
