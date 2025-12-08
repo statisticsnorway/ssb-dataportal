@@ -65,15 +65,11 @@ body {
   margin: 0;
 }
 
-.container,
-.formContainer {
-  width: 100%;
-}
-
 .grow {
   flex-grow: 1;
 }
 
+/* Overriding designsystem values */
 #searchId.ds-search {
   --dsc-search-padding-inline: var(--large-gap);
   width: 95%;
@@ -86,12 +82,17 @@ body {
   border-color: var(--ds-color-accent-border-default);
 }
 
+.ds-heading {
+  font-size: 1.8rem;
+}
+
 @media (min-width: 768px) {
   .container {
     max-width: var(--breakpoint-width-sm);
     margin: var(--center-element-no-top);
   }
 
+  /* Overriding designsystem values */
   #searchId.ds-search {
     margin: 0;
     width: 80%;
@@ -110,6 +111,3 @@ body {
   }
 }
 
-.ds-heading {
-  font-size: 1.8rem;
-}
