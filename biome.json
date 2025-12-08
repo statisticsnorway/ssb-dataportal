@@ -14,7 +14,7 @@
     "bracketSpacing": true,
     "expand": "auto",
     "useEditorconfig": true,
-    "includes": ["*", "!./dist", "!./coverage", "!src/libs/data-access/**"]
+    "includes": ["**", "!./dist", "!./coverage", "!src/libs/data-access/**"]
   },
   "linter": {
     "enabled": true,
@@ -50,6 +50,7 @@
         "noUnusedLabels": "error",
         "noUnusedPrivateClassMembers": "error",
         "noUnusedVariables": "error",
+        "noUnusedImports": { "level": "error", "fix": "safe" },
         "useIsNan": "error",
         "useJsxKeyInIterable": "error",
         "useValidForDirection": "error",
@@ -103,8 +104,7 @@
       "!src/libs/data-access/**",
       "!**/build/**/*/*.js",
       "!**/build/**/*.js",
-      "!**/public/**/*.js",
-      "!**/*.spec.tsx"
+      "!**/public/**/*.js"
     ]
   },
   "javascript": {

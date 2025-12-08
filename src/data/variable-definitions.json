@@ -1,70 +1,69 @@
 [
   {
     "id": "wypvb3wd",
-    "patch_id": 1,
-    "name": {
-      "en": "Country Background",
-      "nb": "Landbakgrunn",
-      "nn": "Landbakgrunn"
-    },
-    "short_name": "landbak",
-    "definition": {
-      "en": "Country background is the person's own, the mother's or possibly the father's country of birth. Persons without an immigrant background always have Norway as country background. In cases where the parents have different countries of birth the mother's country of birth is chosen. If neither the person nor the parents are born abroad, country background is chosen from the first person born abroad in the order mother's mother, mother's father, father's mother, father's father.",
-      "nb": "For personer født i utlandet, er dette (med noen få unntak) eget fødeland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt. Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen mormor, morfar, farmor eller farfar.",
-      "nn": "For personar fødd i utlandet, er dette (med nokre få unntak) eige fødeland. For personar fødd i Noreg er det fødelandet til foreldra. I dei tilfella der foreldra har ulikt fødeland, er det fødelandet til mora som blir valt. Viss ikkje personen sjølv eller nokon av foreldra er utenlandsfødt, blir henta landsbakgrunn frå dei første utanlandsfødte ein treffar på i rekkjefølgja mormor, morfar, farmor eller farfar."
-    },
-    "classification_reference": "91",
-    "unit_types": ["01", "02"],
-    "subject_fields": ["he04"],
+    "name": "Landbakgrunn",
+    "short_name": "string",
+    "definition": "For personer født i utlandet, er dette (med noen få unntak) eget fødeland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt. Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen mormor, morfar, farmor eller farfar.",
+    "classification_uri": "https://www.ssb.no/en/klass/klassifikasjoner/91",
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be07",
+        "title": "Innvandrere"
+      }
+    ],
     "contains_special_categories_of_personal_data": true,
-    "variable_status": "DRAFT",
+    "variable_status": "PUBLISHED_INTERNAL",
     "valid_from": "2003-01-01",
     "external_reference_uri": "https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb",
-    "comment": {
-      "nb": "Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.",
-      "nn": "Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.",
-      "en": "As of 1 January 2003, the definition was changed to also include the grandparents' country of birth."
-    },
+    "comment": "Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.",
     "related_variable_definition_uris": ["https://example.com/"],
     "owner": {
       "team": "team-a",
       "groups": ["team-a-developers"]
     },
     "contact": {
-      "title": {
-        "en": "Division for population statistics",
-        "nb": "Seksjon for befolkningsstatistikk",
-        "nn": "Seksjon for befolkningsstatistikk"
-      },
+      "title": "Seksjon for befolkningsstatistikk",
       "email": "s320@ssb.no"
     },
     "created_at": "2024-06-11T08:15:19.038Z",
     "created_by": "ano@ssb.no",
     "last_updated_at": "2024-06-11T08:15:19.038Z",
-    "last_updated_by": "ano@ssb.no",
-    "vardef_id": {
-      "value": {
-        "vardok_id": "25"
-      }
-    }
+    "last_updated_by": "ano@ssb.no"
   },
   {
     "id": "0O1QLezw",
     "patch_id": 1,
-    "name": {
-      "nb": "Kommunenummer",
-      "nn": "Kommunenummer",
-      "en": "Municipality number"
-    },
+    "name": "Kommunenummer",
     "short_name": "komm_nr",
-    "definition": {
-      "nb": "Kommunenummer er et nummer som i Norge identifiserer en kommune. Det består av fire sifre og brukes for entydig å definere kommunen. De to første sifrene i kommunenummeret er fylkesnummeret. De to siste sifrene i kommunenummeret er et løpenummer innen hvert fylke. Kommunenumrene er delvis ordnet etter den gamle fogderiinndelingen, slik at nabokommuner ofte har kommunenummer som følger hverandre. Fra kommunenumrene ble innført i 1946, fikk byene kommunenummer med tredjesiffer 0. Dette viser at kommunen var en bykommune. Tidligere har det vært vanlig med gjenbruk av kommunenummer, noe som er svært uønsket praksis i moderne databehandling.",
-      "nn": "Kommunenummer er eit nummer som i Noreg identifiserer ein kommune. Det består av fire siffer og blir brukt for eintydig å definera kommunen. Dei to første siffera i kommunenummeret er fylkesnummeret. Dei to siste siffera i kommunenummeret er eit løpenummer innan kvart fylke. Kommunenummera er delvis ordna etter den gamle fogderiinndelingen, slik at nabokommunar ofte har kommunenummer som følgjer kvarandre. Frå kommunenummera vart innførte i 1946, fekk byane kommunenummer med tredjesiffer 0. Dette viser at kommunen var ein bykommune. Tidlegare har det vore vanleg med gjenbruk av kommunenummer, noko som er svært uønskt praksis i moderne databehandling.",
-      "en": "Municipality number is a number that identifies a municipality in Norway. It consists of four digits and is used to unambiguously define the municipality. The first two digits of the municipality number are the county number. The last two digits of the municipality number are a serial number within each county. The municipality numbers are partly arranged according to the old bailiff division, so that neighboring municipalities often have municipality numbers that follow each other. From the time the municipality number was introduced in 1946, the cities were given municipality numbers with the third digit 0. This shows that the municipality was a city municipality. In the past, it was common to reuse municipality numbers, which is a very undesirable practice in modern data processing."
-    },
-    "classification_reference": "131",
-    "unit_types": ["16"],
-    "subject_fields": ["be", "tr"],
+    "definition": "Kommunenummer er et nummer som i Norge identifiserer en kommune. Det består av fire sifre og brukes for entydig å definere kommunen. De to første sifrene i kommunenummeret er fylkesnummeret. De to siste sifrene i kommunenummeret er et løpenummer innen hvert fylke. Kommunenumrene er delvis ordnet etter den gamle fogderiinndelingen, slik at nabokommuner ofte har kommunenummer som følger hverandre. Fra kommunenumrene ble innført i 1946, fikk byene kommunenummer med tredjesiffer 0. Dette viser at kommunen var en bykommune. Tidligere har det vært vanlig med gjenbruk av kommunenummer, noe som er svært uønsket praksis i moderne databehandling.",
+    "classification_uri": "https://www.ssb.no/en/klass/klassifikasjoner/131",
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "16",
+        "title": "Kommune (forvaltning)"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      },
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "tr",
+        "title": "Transport"
+      }
+    ],
     "contains_special_categories_of_personal_data": false,
     "variable_status": "DRAFT",
     "measurement_type": null,
@@ -78,11 +77,7 @@
       "groups": ["dapla-metadata-developers"]
     },
     "contact": {
-      "title": {
-        "nb": "generert_tittel",
-        "nn": null,
-        "en": null
-      },
+      "title": "Herr Generert",
       "email": "generert@epost.com"
     },
     "created_at": "2025-09-08T11:27:06.964000",
@@ -92,34 +87,37 @@
   },
   {
     "id": "icv6",
-    "name": {
-      "nb": "Buss",
-      "en": "Bus"
-    },
+    "name": "Buss",
     "patch_id": 0,
     "short_name": "bus",
     "unit_types": [],
-    "subject_fields": ["be"],
-    "definition": {
-      "nb": "Buss er at...",
-      "en": "Bus is..."
-    },
-    "valid_from": "2020-01-01",
-    "last_updated_at": "2025-10-11",
-    "contains_special_categories_of_personal_data": false,
-    "contact": {
-      "title": {
-        "nb": "Professor",
-        "en": "Professor"
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "tr",
+        "title": "Transport"
       },
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": null,
+        "title": null
+      }
+    ],
+    "definition": "Buss er at...",
+    "valid_from": "2020-01-01",
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "contact": {
+      "title": "Professor",
       "email": "proff@ssb.no"
     },
     "owner": {
       "team": "test-team",
       "groups": ["groups"]
     },
-    "created_at": "2000-01-01",
+    "created_at": "2024-06-11T08:15:19.038Z",
     "created_by": "test-user",
+    "last_updated_at": "2025-09-08T11:27:06.964000",
     "last_updated_by": "test-user"
   }
 ]

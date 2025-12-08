@@ -1,15 +1,15 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { SearchHitContainer } from '@/components/search-hits-container';
 import SortFields from '@/components/sort-fields';
 import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
-import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
+import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { FilterGroup } from '@/types/filters';
 import SearchPage from '../../../../components/search-page/searchPage';
 import { VardefSearchHit } from './vardefSearchHit';
 
 interface VariableDefinitionsServicePageProps {
-  rawHits: CompleteResponse[];
+  rawHits: RenderedView[];
   isLoading?: boolean;
   filterGroups: FilterGroup[];
 }

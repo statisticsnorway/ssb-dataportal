@@ -12,8 +12,6 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
 
   const variableDefinition = testVardefData.variableDefinitions.find((v) => v.id === id);
 
-  console.log(variableDefinition);
-
   if (!variableDefinition) {
     return <div>Variabeldefinisjon ikke funnet</div>;
   }
@@ -26,7 +24,7 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
       <Breadcrumbs breadcrumbList={breadcrumbList} homeUrl={homeUrl} />
       <header className={styles.detailsPageHeader}>
         <Heading level={1} data-size='lg'>
-          {variableDefinition.name.nb}
+          {variableDefinition.name}
         </Heading>
         <Label className={styles.infoText}>
           {variableDefinition.shortName}
@@ -38,9 +36,9 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
         <article className={styles.mainColumn}>
           <section className={styles.mainSection}>
             <dl>
-              <TextField label='Definisjon' value={variableDefinition.definition.nb ?? ''} longText />
-              {variableDefinition.comment?.nb && (
-                <TextField label='Kommentar' value={variableDefinition.comment.nb} longText />
+              <TextField label='Definisjon' value={variableDefinition.definition ?? ''} longText />
+              {variableDefinition.comment && (
+                <TextField label='Kommentar' value={variableDefinition.comment} longText />
               )}
             </dl>
           </section>

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { CompleteResponse } from '@/libs/data-access/variable-definitions/internal/models/CompleteResponse';
+import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { Classification, ClassificationFamily } from '@/types/classification';
 import { KlassTabProvider } from './klassTabContext';
 import { VardefTabProvider } from './vardefTabContext';
@@ -11,7 +11,7 @@ type MetadataProvidersProps = {
     klassClassifications: Classification[];
   };
   vardefData: {
-    variableDefinitions: CompleteResponse[];
+    variableDefinitions: RenderedView[];
   };
 };
 

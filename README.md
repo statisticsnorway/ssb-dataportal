@@ -122,6 +122,5 @@ npx playwright codegen http://localhost:3000
 ### Generate client code
 Run codegen
 ```bash
-yarn codegen-vardef-public
+yarn codegen
 ```
-

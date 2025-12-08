@@ -2,7 +2,7 @@
   color: var(--blue-color);
   width: 100%;
   margin: var(--center-element-top);
-  overflow-wrap:break-word;
+  overflow-wrap: break-word;
 }
 
 .link {

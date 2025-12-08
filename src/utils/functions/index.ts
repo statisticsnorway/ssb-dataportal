@@ -17,3 +17,13 @@ export const isObjectNullUndefinedEmpty = (object: any | null | undefined) =>
   object === null ||
   Object.keys(object).length === 0 ||
   Object.values(object).every((x) => x === null || x === '');
+
+type RequiredField<T, Field extends keyof T> = Omit<T, Field> &
+  Required<Pick<T, Field>> & { [P in keyof T]: NonNullable<T[P]> };
+
+export function areFieldsDefinedAndNonNull<T extends {}, U extends Array<keyof T>>(
+  obj: T,
+  fields: U,
+): obj is RequiredField<T, U[number]> {
+  return obj != null && obj != undefined && fields.every((field) => obj[field] !== undefined && obj[field] !== null);
+}

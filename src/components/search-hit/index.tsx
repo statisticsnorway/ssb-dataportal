@@ -2,7 +2,6 @@ import { Card, Heading } from '@digdir/designsystemet-react';
 import { Url } from 'next/dist/shared/lib/router/router';
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import { nb, getTranslateText as translate } from '@/libs/language';
 import styles from './search-hit.module.css';
 
 interface SearchHitProps {
