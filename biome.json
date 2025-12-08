@@ -50,6 +50,7 @@
         "noUnusedLabels": "error",
         "noUnusedPrivateClassMembers": "error",
         "noUnusedVariables": "error",
+        "noUnusedImports": { "level": "error", "fix": "safe" },
         "useIsNan": "error",
         "useJsxKeyInIterable": "error",
         "useValidForDirection": "error",

@@ -1,5 +1,4 @@
 import { Tag } from '@digdir/designsystemet-react';
-import { toArray } from 'lodash';
 import React from 'react';
 import styles from './tags-group.module.css';
 

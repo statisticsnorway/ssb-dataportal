@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { SearchHitContainer } from '@/components/search-hits-container';
 import SortFields from '@/components/sort-fields';
 import { SortTypes, useSearchStateKlass } from '@/hooks/useSearchStateKlass';
