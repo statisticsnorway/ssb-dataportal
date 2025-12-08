@@ -1,4 +1,5 @@
 import { Tag } from '@digdir/designsystemet-react';
+import { toArray } from 'lodash';
 import React from 'react';
 import styles from './tags-group.module.css';
 
@@ -10,6 +11,7 @@ export type TagData = {
 export type TagsData = Set<TagData>;
 
 const TagsGroupComponent = ({ maxTags, tagsData }: { maxTags: number; tagsData: TagsData }) => {
+  Array.from(tagsData).forEach((value) => console.log(value));
   return (
     <ul className={styles.tagsList}>
       {Array.from(tagsData)

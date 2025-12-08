@@ -1,9 +1,8 @@
 import { Card, Heading, Paragraph } from '@digdir/designsystemet-react';
 import Link from 'next/link';
 import { TagsGroup } from '@/components/tags-group';
-import { SUBJECT_FIELD_LOOKUP } from '@/libs/data/subjectFieldLookup';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
-import { fieldsNotNull, NonNullableFields } from '@/utils/functions';
+import { areFieldsDefinedAndNonNull } from '@/utils/functions';
 import styles from '../variable-definitions.module.css';
 
 interface VardefSearchHitProps {
@@ -26,10 +25,12 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
         maxTags={4}
         tagsData={
           new Set(
-            variableDefinition.subjectFields.filter(fieldsNotNull).map((field) => ({
-              key: field.code,
-              title: field.title,
-            })),
+            variableDefinition.subjectFields
+              .filter((ref) => areFieldsDefinedAndNonNull(ref, ['code', 'title']))
+              .map((field) => ({
+                key: field.code,
+                title: field.title,
+              })),
           )
         }
       />

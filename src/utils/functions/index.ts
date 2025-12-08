@@ -18,21 +18,12 @@ export const isObjectNullUndefinedEmpty = (object: any | null | undefined) =>
   Object.keys(object).length === 0 ||
   Object.values(object).every((x) => x === null || x === '');
 
-/**
- * Utility type which guarantees that all fields in a type are non-null
- */
-export type NonNullableFields<T> = {
-  [P in keyof T]: NonNullable<T[P]>;
-};
+type RequiredField<T, Field extends keyof T> = Omit<T, Field> &
+  Required<Pick<T, Field>> & { [P in keyof T]: NonNullable<T[P]> };
 
-/**
- * Filter objects with null or undefined fields
- * @param myObject the object to check
- * @returns false if any field is null or undefined. Narrows the type with the help of utility types
- */
-export function fieldsNotNull<T>(myObject: T): myObject is Required<NonNullableFields<T>> {
-  for (var i in myObject) {
-    if (myObject[i] === null || myObject[i] === undefined) return false;
-  }
-  return true;
+export function areFieldsDefinedAndNonNull<T extends {}, U extends Array<keyof T>>(
+  obj: T,
+  fields: U,
+): obj is RequiredField<T, U[number]> {
+  return obj != null && obj != undefined && fields.every((field) => obj[field] !== undefined && obj[field] !== null);
 }

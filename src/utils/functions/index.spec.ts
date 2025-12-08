@@ -1,13 +1,18 @@
 'use client';
 import { describe, expect, it } from '@jest/globals';
-import { fieldsNotNull } from '.';
+import { areFieldsDefinedAndNonNull } from '.';
 
-describe('fields not null filter', () => {
+describe('areFieldsDefinedAndNonNull filter', () => {
   it('non-null objects pass through', () => {
-    expect([{ key1: 'key1' }, { key1: 'key2' }].filter(fieldsNotNull)).toStrictEqual([
-      { key1: 'key1' },
-      { key1: 'key2' },
-    ]);
+    expect(
+      [{ key1: 'key1' }, { key1: 'key2' }].filter((obj) => areFieldsDefinedAndNonNull(obj, ['key1'])),
+    ).toStrictEqual([{ key1: 'key1' }, { key1: 'key2' }]);
+  });
+
+  it('null objects filtered', () => {
+    expect(
+      [{ key1: 'key1' }, null, undefined].filter((obj) => areFieldsDefinedAndNonNull(obj, ['key1'])),
+    ).toStrictEqual([{ key1: 'key1' }]);
   });
 
   it('objects with null fields filtered out', () => {
@@ -15,11 +20,21 @@ describe('fields not null filter', () => {
       [
         { key1: 'key1', key2: 'key2' },
         { key1: null, key2: 'key2' },
-      ].filter(fieldsNotNull),
+      ].filter((obj) => areFieldsDefinedAndNonNull(obj, ['key1'])),
+    ).toStrictEqual([{ key1: 'key1', key2: 'key2' }]);
+  });
+
+  it('objects with missing fields filtered out', () => {
+    expect(
+      [{ key1: 'key1', key2: 'key2' }, { key1: 'key1' }].filter((obj) =>
+        areFieldsDefinedAndNonNull(obj, ['key1', 'key2']),
+      ),
     ).toStrictEqual([{ key1: 'key1', key2: 'key2' }]);
   });
 
   it('objects with undefined fields filtered out', () => {
-    expect([{ key1: 'key1' }, { key1: undefined }].filter(fieldsNotNull)).toStrictEqual([{ key1: 'key1' }]);
+    expect(
+      [{ key1: 'key1' }, { key1: undefined }].filter((obj) => areFieldsDefinedAndNonNull(obj, ['key1'])),
+    ).toStrictEqual([{ key1: 'key1' }]);
   });
 });

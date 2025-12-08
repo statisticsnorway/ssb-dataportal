@@ -1,5 +1,6 @@
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { Item } from '@/types/item';
+import { areFieldsDefinedAndNonNull } from './functions';
 
 export const validityItems = (v: RenderedView): Item[] => [
   { label: 'Valid From', value: v.validFrom.toISOString().split('T')[0] },
@@ -14,8 +15,16 @@ const joinOrEmpty = (arr?: string[] | null) => arr?.join(', ') || '';
 
 export const referencesItems = (v: RenderedView): Item[] => [
   { label: 'Klassifikasjon', value: v.classificationUri || '-', href: v.classificationUri || undefined },
-  { label: 'Enhetstyper', value: joinOrEmpty(v.unitTypes.map((ref) => ref.title ?? '')) },
-  { label: 'Statistikkområder', value: joinOrEmpty(v.subjectFields.map((ref) => ref.title ?? '')) },
+  {
+    label: 'Enhetstyper',
+    value: joinOrEmpty(v.unitTypes.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title)),
+  },
+  {
+    label: 'Statistikkområder',
+    value: joinOrEmpty(
+      v.subjectFields.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
+    ),
+  },
   {
     label: 'URI til ekstern referanse',
     value: v.externalReferenceUri || '',
