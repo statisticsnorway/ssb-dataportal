@@ -1,0 +1,25 @@
+apiVersion: nais.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    team: dapla-metadata
+  name: metadata-catalog
+  namespace: dapla-metadata
+spec:
+  ingresses:
+  - https://metadata-catalog.test.internal.ssb.no
+  image: {{image}}
+  port: 3000
+  accessPolicy:
+    outbound:
+      external:
+        # Allow egress to public Vardef
+        - host: vardef.intern.test.ssb.no 
+        - host: klass.intern.test.ssb.no
+        - host: data.ssb.no
+  replicas:
+    max: 1
+    min: 1
+  env:
+    - name: INTERNAL_BASE_URL
+      value: http://metadata-catalog
