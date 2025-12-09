@@ -154,8 +154,8 @@ export default function Classifications() {
     <ClassificationsServicePage
       rawHits={classifications}
       isLoading={loading}
-      currentPage={pagination.currentPage + 1}
-      totalPages={pagination.totalPages - 1}
+      currentPage={pagination.currentPage}
+      totalPages={pagination.totalPages}
       onPageChange={handlePageChange}
       filterGroups={filterGroups}
     />

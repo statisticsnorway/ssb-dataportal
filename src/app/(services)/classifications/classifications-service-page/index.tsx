@@ -64,7 +64,7 @@ const ClassificationsServicePage = ({
               noSearchHits={false}
               onPageChange={onPageChange}
               paginationInfo={{
-                currentPage: currentPage,
+                currentPage: currentPage + 1,
                 totalPages: totalPages,
               }}
             />
