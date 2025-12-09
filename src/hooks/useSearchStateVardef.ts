@@ -17,9 +17,9 @@ export const useSearchStateVardef = (initialHits: RenderedView[] = []) => {
   const getSortFunction = (key: SortTypes) => {
     switch (key) {
       case 'titleAsc':
-        return (a: RenderedView, b: RenderedView) => sortAscending(a.name.nb || '', b.name.nb || '');
+        return (a: RenderedView, b: RenderedView) => sortAscending(a.name || '', b.name || '');
       case 'titleDesc':
-        return (a: RenderedView, b: RenderedView) => sortDescending(a.name.nb || '', b.name.nb || '');
+        return (a: RenderedView, b: RenderedView) => sortDescending(a.name || '', b.name || '');
       case 'lastChanged':
         return (a: RenderedView, b: RenderedView) =>
           sortDateStringsDescending(

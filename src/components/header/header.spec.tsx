@@ -1,5 +1,4 @@
 'use client';
-import { describe, expect, it, jest } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import React, { JSX } from 'react';
 import { Header } from '.';
@@ -31,7 +30,7 @@ describe('Header', () => {
 
     expect(logoLink).toMatchInlineSnapshot(`
 <a
-  class="ds-link logo"
+  class="logo"
   href="https://example.com"
   title="Gå til hovedsiden"
 >
