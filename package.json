@@ -13,6 +13,7 @@
     "types:check": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watchAll",
+    "test:update-snapshots": "jest -u",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
     "codegen": "openapi-generator-cli generate"

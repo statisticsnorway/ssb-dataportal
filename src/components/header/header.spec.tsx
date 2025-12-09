@@ -30,7 +30,7 @@ describe('Header', () => {
 
     expect(logoLink).toMatchInlineSnapshot(`
 <a
-  class="ds-link logo"
+  class="logo"
   href="https://example.com"
   title="Gå til hovedsiden"
 >
