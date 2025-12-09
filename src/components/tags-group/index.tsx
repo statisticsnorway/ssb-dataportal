@@ -1,29 +1,20 @@
 import { Tag } from '@digdir/designsystemet-react';
-import React from 'react';
 import styles from './tags-group.module.css';
 
-export type TagData = {
-  key: string;
-  title: string;
-};
+export type TagData = Map<string, string>;
 
-export type TagsData = Set<TagData>;
-
-const TagsGroupComponent = ({ maxTags, tagsData }: { maxTags: number; tagsData: TagsData }) => {
+const TagsGroup = ({ maxTags, tagData: tagData }: { maxTags: number; tagData: TagData }) => {
   return (
     <ul className={styles.tagsList}>
-      {Array.from(tagsData)
+      {Array.from(tagData.entries())
         .slice(0, maxTags)
-        .map((entry: TagData) => (
-          <li key={entry.key} style={{ margin: 0 }}>
-            <Tag>{entry.title}</Tag>
+        .map((entry) => (
+          <li key={entry[0]} style={{ margin: 0 }}>
+            <Tag>{entry[1]}</Tag>
           </li>
         ))}
     </ul>
   );
 };
 
-const TagsGroup = React.memo(TagsGroupComponent);
-TagsGroup.displayName = 'TagsGroup';
-
-export { TagsGroup };
+export default TagsGroup;
