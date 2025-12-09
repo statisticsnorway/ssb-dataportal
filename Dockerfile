@@ -1,13 +1,13 @@
 # ---- Build Stage ----
 FROM node:22-alpine AS builder
 
-# Create app directory
 WORKDIR /app
 
-# Enable corepack for yarn
-RUN corepack enable && corepack prepare yarn@4.9.2 --activate
+# Enable corepack (it reads packageManager version)
+RUN corepack enable
 
-COPY package.json yarn.lock .yarnrc.yml ./
+# Copy only the metadata first for caching
+COPY package.json yarn.lock .yarnrc.yml .yarn/ ./
 
 # Install dependencies
 RUN yarn install
