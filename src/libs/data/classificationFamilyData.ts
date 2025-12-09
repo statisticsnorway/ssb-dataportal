@@ -28,7 +28,7 @@ export const getClassificationFamily = async (
   includeCodelists: boolean,
 ): Promise<ClassificationFamilyResponse> => {
   if (isTest) {
-    console.log('Using mock classification familY:');
+    console.log('Using mock classification family:');
     const family = classificationMockFamilies.find((f) => String(f.id) === id);
     if (!family) throw new Error(`Mock classification family with id ${id} not found`);
     return {

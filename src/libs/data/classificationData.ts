@@ -6,7 +6,6 @@ import { CLASSIFICATIONS, KLASS_HOST } from '@/utils/constants';
 
 const isTest = process.env.NEXT_TEST === 'test';
 
-console.log('SSR isTest flag:', isTest);
 export interface ClassificationResponse {
   classifications: Classification[];
   pageInfo: number;
