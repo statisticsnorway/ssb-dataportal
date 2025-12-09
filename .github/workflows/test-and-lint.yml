@@ -22,6 +22,20 @@ jobs:
       - name: Format check
         run: yarn format:check
 
+  type-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Enable Corepack
+        run: corepack enable
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Type check
+        run: yarn tsc --noEmit
+
   unit-tests:
     runs-on: ubuntu-latest
     steps:
