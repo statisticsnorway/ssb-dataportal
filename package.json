@@ -22,7 +22,6 @@
     "@digdir/designsystemet-react": "1.7.3",
     "@digdir/designsystemet-theme": "1.7.3",
     "@navikt/aksel-icons": "7.34.0",
-    "@next/env": "16.0.7",
     "@svgr/webpack": "8.1.0",
     "classnames": "2.5.1",
     "dotenv": "17.2.3",
