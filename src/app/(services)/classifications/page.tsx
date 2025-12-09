@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { fetchClassifications } from '@/libs/data/classificationData';
 import { getClassificationFamily } from '@/libs/data/classificationFamilyData';
 import { Classification, ClassificationFamily, ClassificationType } from '@/types/classification';
 import { FilterGroup } from '@/types/filters';
@@ -11,9 +10,15 @@ import ClassificationsServicePage from './classifications-service-page';
 export default function Classifications() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [classifications, setClassifications] = useState<Classification[]>([]);
+
+  const klassData = useKlassTabData();
+
+  if (!klassData) return <div>Loading...</div>;
+
+  const [classifications, setClassifications] = useState<Classification[]>(klassData.klassClassifications ?? []);
   const [selectedFamilies, setSelectedFamilies] = useState<string[]>([]);
-  // Default are all classificationtypes selected in order to work with the logic of filtering and combining with other filters
+
+  // Default are all classificationtypes selected
   const [selectedClassificationTypes, setSelectedClassificationTypes] = useState<string[]>([
     ClassificationType.Klassifikasjon,
     ClassificationType.Kodeliste,
@@ -26,27 +31,18 @@ export default function Classifications() {
 
   const PAGE_SIZE = 20;
 
-  const klassData = useKlassTabData();
-
-  //TODO: This is console logs for development, We dont want to expose this to the public and it should be removed
+  //TODO: This is console logs for development.
+  // We dont want to expose this to the public and it should be removed
   useEffect(() => {
     console.log('Selected classification types', selectedClassificationTypes);
   }, [selectedClassificationTypes]);
 
   useEffect(() => {
-    console.log('Klass data', klassData);
-  }, [klassData]);
-
-  useEffect(() => {
     console.log('Selected classification families', selectedFamilies);
   }, [selectedFamilies]);
 
-  useEffect(() => {
-    console.log('All classifications', classifications);
-  }, [classifications]);
-
   /**
-   * Creating a list of filters by creating and adding filtergroups.
+   * Creating a list of filters
    */
   const filterGroups: FilterGroup[] = useMemo(() => {
     const groups: FilterGroup[] = [];
@@ -105,16 +101,10 @@ export default function Classifications() {
 
             data.push(...(familyClassifications ?? []));
           }
-          // We might not use this combination of fetching data, but we must be sure pagination and filtering is correct before removing
-        } else if (klassData?.klassClassifications?.length > 0) {
+        }
+        // Refetch data to refill all deselected to select
+        else if (klassData?.klassClassifications?.length > 0) {
           data = [...klassData.klassClassifications];
-        } else {
-          const apiData = await fetchClassifications({
-            page: String(pagination.currentPage),
-            size: String(PAGE_SIZE),
-            includeCodelists: selectedClassificationTypes.includes(ClassificationType.Kodeliste),
-          });
-          data = apiData.classifications;
         }
 
         // Step 2: apply local filters
