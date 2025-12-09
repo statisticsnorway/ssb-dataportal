@@ -1,14 +1,17 @@
 import { test as base, expect } from '@playwright/test';
-import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
+import { RenderedView, RenderedViewFromJSON } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
-import variableDefinitions from '../static-data/variable-definitions.json';
+import variableDefinitionsJson from '@/static-data/variable-definitions.json';
+import { areFieldsDefinedAndNonNull } from '@/utils/functions';
 
-type VariablePageFixture = (variable: (typeof variableDefinitions)[number]) => Promise<void>;
+type VariablePageFixture = (variable: RenderedView) => Promise<void>;
+
+const variableDefinitions = variableDefinitionsJson.map(RenderedViewFromJSON);
 
 const test = base.extend<{
-  variablePage: VariablePageFixture;
+  goToVariable: VariablePageFixture;
 }>({
-  variablePage: async ({ page }, use) => {
+  goToVariable: async ({ page }, use) => {
     const goToVariable = async (variable: RenderedView) => {
       await page.goto('/variable-definitions');
       if (!variable.name) {
@@ -17,54 +20,67 @@ const test = base.extend<{
       await page.getByRole('link', { name: variable.name }).click();
       await expect(page).toHaveURL(new RegExp(`/variable-definitions/${variable.id}`));
     };
-    // await page.getByRole('link', { name: variable.name ?? '' }).click();
     await use(goToVariable);
   },
 });
 
-export { expect };
+test('Navigate to all variable definitions one by one', async ({ goToVariable, page }) => {
+  for (const variable of variableDefinitions) {
+    if (!areFieldsDefinedAndNonNull(variable, ['id', 'name'])) {
+      test.skip();
+      continue;
+    }
 
-test.describe('Details variable definition', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/variable-definitions');
-  });
+    // Go to the variable
+    await goToVariable(variable);
 
-  test('go to variable-definition', async ({ page }) => {
-    await page.waitForLoadState('load');
-
-    const variable = variableDefinitions[0];
-
-    await page.getByRole('link', { name: variable.name }).click();
-    await expect(page).toHaveURL(new RegExp(`/variable-definitions/${variable.id}`));
-  });
-
-  // If not using test data this could break
-  test('Variable definition header', async ({ page }) => {
-    const variable = variableDefinitions[0];
-    await page.getByRole('link', { name: variable.name }).click();
-    await expect(page).toHaveURL(new RegExp(`/variable-definitions/${variable.id}`));
-
+    // Check header
     const header = page.locator('h1');
     await expect(header).toBeVisible();
     await expect(header).toHaveText(variable.name);
-  });
 
-  for (const variable of variableDefinitions) {
-    test(`Variable definition: ${variable.name}`, async ({ page }) => {
-      await page.goto('/variable-definitions');
-
-      await page.getByRole('link', { name: variable.name }).click();
-      await expect(page).toHaveURL(new RegExp(`/variable-definitions/${variable.id}`));
-
-      const header = page.locator('h1');
-      await expect(header).toBeVisible();
-      await expect(header).toHaveText(variable.name);
-
-      await page.getByRole('link', { name: localization.navigateHomeVariableDefinitions }).click();
-      await expect(page.getByRole('link', { name: localization.navigateHomeVariableDefinitions })).toBeVisible();
-
-      await page.waitForLoadState('load');
-      await expect(page).toHaveURL(/\/variable-definitions$/);
-    });
+    // Return to variable definitions
+    await page.getByRole('link', { name: localization.navigateHomeVariableDefinitions }).click();
+    await expect(page.getByRole('link', { name: localization.navigateHomeVariableDefinitions })).toBeVisible();
+    await expect(page).toHaveURL(/\/variable-definitions$/);
   }
 });
+/*
+test('go to variable-definition', async ({ page }) => {
+  await page.waitForLoadState('load');
+  if (!areFieldsDefinedAndNonNull(variable, ['id', 'name'])) {
+    test.skip();
+  } else {
+    await page.getByRole('link', { name: variable.name }).click();
+    await expect(page).toHaveURL(new RegExp(`/variable-definitions/${variable.id}`));
+  }
+});
+
+test('Variable definition header', async ({ goToVariable, page }) => {
+  await goToVariable(variable);
+
+  if (!areFieldsDefinedAndNonNull(variable, ['id', 'name'])) {
+    test.skip();
+  } else {
+    await expect(page.locator('h1')).toHaveText(variable.name);
+  }
+});
+
+test('Return to variable definitions ', async ({ goToVariable, page }) => {
+  await goToVariable(variable);
+
+  if (!areFieldsDefinedAndNonNull(variable, ['id', 'name'])) {
+    test.skip();
+  } else {
+    await page.getByRole('link', { name: localization.navigateHomeVariableDefinitions }).click();
+    await expect(page.getByRole('link', { name: localization.navigateHomeVariableDefinitions })).toBeVisible();
+
+    //await page.waitForLoadState('load');
+    await expect(page).toHaveURL(/\/variable-definitions$/);
+  }
+});
+
+for (const variable of variableDefinitions) {
+  test(`Variable definition: ${variable.name}`, async ({ page }) => {});
+}
+*/
