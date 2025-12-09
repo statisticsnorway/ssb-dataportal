@@ -1,8 +1,10 @@
 'use client';
-import { describe, expect, it, jest } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import React, { JSX } from 'react';
 import { TextField } from './text-field';
+
+// Require syntax used to support extensions to expect
+const { describe, expect, it, jest } = require('@jest/globals');
 
 jest.mock('@digdir/designsystemet-react', () => {
   const passthrough =
