@@ -17,10 +17,8 @@ const test = base.extend<{
       // Wait for the classification link to be visible before clicking
       const link = page.getByRole('link', { name: classification.name });
       await expect(link).toBeVisible({ timeout: 5000 });
-      await link.click();
 
-      // Wait for classification page to load
-      await expect(page).toHaveURL(new RegExp(`/classifications/${classification.id}`));
+      await Promise.all([page.waitForURL(new RegExp(`/classifications/${classification.id}`)), link.click()]);
     };
     await use(goToClassification);
   },
@@ -42,10 +40,11 @@ test('Navigate to up to 4 classifications', async ({ goToClassification, page })
     // Return to classifications page safely
     const homeLink = page.getByRole('link', { name: localization.navigateHomeClassifications });
     await expect(homeLink).toBeVisible({ timeout: 5000 });
-    await homeLink.click();
+
+    await Promise.all([page.waitForURL(/\/classifications$/), homeLink.click()]);
 
     // Wait for classifications page to be ready for next iteration
     await expect(page.getByRole('tab', { name: KLASSIFIKASJONER })).toBeVisible({ timeout: 5000 });
-    await expect(page).toHaveURL(/\/classifications$/);
+    await page.waitForLoadState('networkidle');
   }
 });

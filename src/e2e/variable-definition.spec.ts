@@ -24,8 +24,6 @@ const test = base.extend<{
       await expect(link).toBeVisible({ timeout: 5000 });
 
       await Promise.all([page.waitForURL(new RegExp(`/variable-definitions/${variable.id}`)), link.click()]);
-
-      await expect(page).toHaveURL(new RegExp(`/variable-definitions/${variable.id}`));
     };
     await use(goToVariable);
   },
@@ -61,7 +59,6 @@ test('Navigate to up to 4 variable definitions', async ({ goToVariable, page }) 
 
     // Wait for variable-defintions page to be ready for next iteration
     await expect(page.getByRole('tab', { name: VARIABELDEFINISJONER })).toBeVisible({ timeout: 5000 });
-    await expect(page).toHaveURL(/\/variable-definitions$/);
     await page.waitForLoadState('networkidle');
   }
 });
