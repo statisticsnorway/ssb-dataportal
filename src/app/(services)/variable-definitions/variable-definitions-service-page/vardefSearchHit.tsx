@@ -14,10 +14,8 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
     <Card>
       <Heading data-size='xl' level={2}>
         <Link href={`/variable-definitions/${variableDefinition.id}`} className={styles.vardefSearchHitHeadingLink}>
-          <span className={styles.vardefSearchHitName}>{variableDefinition.name}</span>
-          {variableDefinition.shortName && (
-            <span className={styles.vardefSearchHitShortName}>{variableDefinition.shortName}</span>
-          )}
+          <span>{variableDefinition.name}</span>
+          <span className={styles.vardefSearchHitShortName}>{variableDefinition.shortName}</span>
         </Link>
       </Heading>
       <Paragraph className={styles.truncateTo3Lines}>{variableDefinition.definition}</Paragraph>

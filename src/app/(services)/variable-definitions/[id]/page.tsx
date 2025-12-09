@@ -5,6 +5,7 @@ import { DetailsPagePanel } from '@/components/details-page-panel/details-page-p
 import { TextField } from '@/components/text-field/text-field';
 import { ownerItems, personalData, referencesItems, validityItems } from '@/utils/groups';
 import { testVardefData } from '@/utils/mock-data';
+import stylesParent from '../variable-definitions.module.css';
 import styles from './variable-details-page.module.css';
 
 export default function VariableDefinition({ params }: { params: Promise<{ id: string }> }) {
@@ -24,13 +25,10 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
       <Breadcrumbs breadcrumbList={breadcrumbList} homeUrl={homeUrl} />
       <header className={styles.detailsPageHeader}>
         <Heading level={1} data-size='lg'>
-          {variableDefinition.name}
+          <span style={{ marginRight: '0.4rem' }}>{variableDefinition.name}</span>
+          <span className={stylesParent.vardefSearchHitShortName}>{variableDefinition.shortName}</span>
         </Heading>
-        <Label className={styles.infoText}>
-          {variableDefinition.shortName}
-          <div className={styles.separator} />
-          ID: {variableDefinition.id}
-        </Label>
+        <Label className={styles.infoText}>ID: {variableDefinition.id}</Label>
       </header>
       <div className={styles.contentGrid}>
         <article className={styles.mainColumn}>
