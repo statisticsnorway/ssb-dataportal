@@ -150,7 +150,6 @@ export default function Classifications() {
   }
 
   return (
-    //TODO: The use of +1/-1 is a temporary fix for starting with 0. Should be handled elsewhere
     <ClassificationsServicePage
       rawHits={classifications}
       isLoading={loading}
