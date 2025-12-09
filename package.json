@@ -10,6 +10,7 @@
     "lint:fix": "biome check --write  .",
     "format:check": "biome format  .",
     "format:fix": "biome format --write . ",
+    "types:check": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "test:e2e": "playwright test",
