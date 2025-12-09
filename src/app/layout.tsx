@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import { AppLayout } from '@/components/app-layout';
 import { fetchAllClassifications } from '@/libs/data/classificationData';
 import { Classification, ClassificationFamily } from '@/types/classification';
-import { CLASSIFICATION_FAMILIES, KLASS_HOST } from '@/utils/constants';
 import { KlassTabData } from '@/utils/klassTabContext';
 import { MetadataProviders } from '@/utils/metadataProvider';
 import { VardefTabData } from '@/utils/vardefTabContext';
@@ -12,11 +11,10 @@ export const metadata: Metadata = {
   description: 'SSB metadata services',
 };
 
+import { fetchClassificationFamilies } from '@/libs/data/classificationFamilyData';
 import { testVardefData } from '@/utils/mock-data';
 
-const classificationFamilies: ClassificationFamily[] = await fetch(`${KLASS_HOST}${CLASSIFICATION_FAMILIES}`)
-  .then((res) => res.json())
-  .then((data) => data._embedded.classificationFamilies ?? []);
+const classificationFamilies: ClassificationFamily[] = await fetchClassificationFamilies();
 
 const allClassifications: Classification[] = await fetchAllClassifications();
 
