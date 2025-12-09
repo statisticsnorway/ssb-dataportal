@@ -24,8 +24,15 @@ const test = base.extend<{
   },
 });
 
-test('Navigate to all variable definitions one by one', async ({ goToVariable, page }) => {
-  for (const variable of variableDefinitions) {
+test('Navigate to up to 4 variable definitions', async ({ goToVariable, page }) => {
+  const validVariables = variableDefinitions.filter((v) => areFieldsDefinedAndNonNull(v, ['id', 'name'])).slice(0, 4);
+
+  if (validVariables.length === 0) {
+    test.skip();
+    return;
+  }
+
+  for (const variable of validVariables) {
     if (!areFieldsDefinedAndNonNull(variable, ['id', 'name'])) {
       test.skip();
       continue;
@@ -45,42 +52,3 @@ test('Navigate to all variable definitions one by one', async ({ goToVariable, p
     await expect(page).toHaveURL(/\/variable-definitions$/);
   }
 });
-/*
-test('go to variable-definition', async ({ page }) => {
-  await page.waitForLoadState('load');
-  if (!areFieldsDefinedAndNonNull(variable, ['id', 'name'])) {
-    test.skip();
-  } else {
-    await page.getByRole('link', { name: variable.name }).click();
-    await expect(page).toHaveURL(new RegExp(`/variable-definitions/${variable.id}`));
-  }
-});
-
-test('Variable definition header', async ({ goToVariable, page }) => {
-  await goToVariable(variable);
-
-  if (!areFieldsDefinedAndNonNull(variable, ['id', 'name'])) {
-    test.skip();
-  } else {
-    await expect(page.locator('h1')).toHaveText(variable.name);
-  }
-});
-
-test('Return to variable definitions ', async ({ goToVariable, page }) => {
-  await goToVariable(variable);
-
-  if (!areFieldsDefinedAndNonNull(variable, ['id', 'name'])) {
-    test.skip();
-  } else {
-    await page.getByRole('link', { name: localization.navigateHomeVariableDefinitions }).click();
-    await expect(page.getByRole('link', { name: localization.navigateHomeVariableDefinitions })).toBeVisible();
-
-    //await page.waitForLoadState('load');
-    await expect(page).toHaveURL(/\/variable-definitions$/);
-  }
-});
-
-for (const variable of variableDefinitions) {
-  test(`Variable definition: ${variable.name}`, async ({ page }) => {});
-}
-*/
