@@ -9,6 +9,12 @@ export const CLASSIFICATIONS = 'classifications';
 export const CLASSIFICATION_FAMILIES = 'classificationfamilies';
 export const API_VARIABLE_DEFINITIONS = 'api/variable-definitions';
 
+export const KLASSIFIKASJONER = 'Klassifikasjoner';
+export const DATASETS = 'Datasett';
+export const VARIABELDEFINISJONER = 'Variabeldefinisjoner';
+
+export const LANDBAKGRUNN = 'Landbakgrunn';
+
 export const filter = {
   sortNameAsc: 'Navn (A–Z)',
   sortNameDesc: 'Navn (Z–A)',

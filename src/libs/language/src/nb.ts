@@ -7,7 +7,6 @@ export const nb = {
   navigateHomeClassifications: 'Naviger til hovedside Klassifikasjoner',
   navigateHomeDatasets: 'Naviger til hovedside Datasett',
   chooseLanguage: 'Velg språk',
-  classifications: 'Klassifikasjoner',
   contactPage: 'Kontaktside',
   containsSpecialCategoriesOfPersonalData: 'Inneholder sensitive personopplysninger',
   deprecated: 'Utgått',
@@ -74,7 +73,6 @@ export const nb = {
   by: 'av',
   unitTypes: 'Enhetstyper',
   valid: 'Aktiv',
-  variableDefinitions: 'Variabeldefinisjoner',
 
   language: {
     en: 'Engelsk',
