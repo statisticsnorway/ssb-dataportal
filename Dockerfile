@@ -20,8 +20,8 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-COPY --from=builder /.next/standalone ./
-COPY --from=builder /.next/staticgit ./.next/static
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/staticgit ./.next/static
 COPY --from=builder /app/public ./public
 
 ENV NODE_ENV=production
