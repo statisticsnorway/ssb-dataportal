@@ -2413,13 +2413,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/env@npm:16.0.7":
-  version: 16.0.7
-  resolution: "@next/env@npm:16.0.7"
-  checksum: 10/dc81ffaa22749e4a60233928bca2a89e91a5b2eedf0ec5e5ae43c19c432cbc4881a22205aafbb31e2e8e62ed54d7d97565691d0d2939f120bc1dea955ef2aa94
-  languageName: node
-  linkType: hard
-
 "@next/swc-darwin-arm64@npm:15.5.7":
   version: 15.5.7
   resolution: "@next/swc-darwin-arm64@npm:15.5.7"
@@ -4224,7 +4217,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^17.2.3":
+"dotenv@npm:17.2.3":
   version: 17.2.3
   resolution: "dotenv@npm:17.2.3"
   checksum: 10/f8b78626ebfff6e44420f634773375c9651808b3e1a33df6d4cc19120968eea53e100f59f04ec35f2a20b2beb334b6aba4f24040b2f8ad61773f158ac042a636
@@ -5843,7 +5836,6 @@ __metadata:
     "@digdir/designsystemet-react": "npm:1.7.3"
     "@digdir/designsystemet-theme": "npm:1.7.3"
     "@navikt/aksel-icons": "npm:7.34.0"
-    "@next/env": "npm:16.0.7"
     "@openapitools/openapi-generator-cli": "npm:2.25.2"
     "@playwright/test": "npm:1.57.0"
     "@svgr/webpack": "npm:8.1.0"
@@ -5856,7 +5848,7 @@ __metadata:
     "@types/react": "npm:19.2.7"
     "@types/react-dom": "npm:19.2.3"
     classnames: "npm:2.5.1"
-    dotenv: "npm:^17.2.3"
+    dotenv: "npm:17.2.3"
     jest: "npm:30.2.0"
     jest-environment-jsdom: "npm:30.2.0"
     lodash: "npm:4.17.21"
