@@ -3,9 +3,9 @@ export const datasetFormNb = {
     title: 'Tittelen skal være kortfattet, kunne stå alene og gi mening. Forkortelser skal skrives helt ut.',
     description:
       'Beskrivelsen skal være kortfattet. Det bør fremgå hvilke opplysninger som utgjør kjernen i datasettet, samt formålet til datasettet.',
-    accessRights: `Tilgangsnivå beskriver hvor fritt tilgjengelig datasettet er. Velg det mest restriktive tilgangsnivået som gjelder, basert på om datasettet har:  
-      - **Allmenn tilgang**: Tilgjengelig for alle.  
-      - **Betinget tilgang**: Tilgang krever oppfyllelse av bestemte betingelser.  
+    accessRights: `Tilgangsnivå beskriver hvor fritt tilgjengelig datasettet er. Velg det mest restriktive tilgangsnivået som gjelder, basert på om datasettet har:
+      - **Allmenn tilgang**: Tilgjengelig for alle.
+      - **Betinget tilgang**: Tilgang krever oppfyllelse av bestemte betingelser.
       - **Ikke-allmenn tilgang**: Begrenset til en spesifikk gruppe eller formål.`,
     legalBasis:
       'Relevante juridiske referanser for datasettet, som lover, forskrifter, eller andre rettslige rammer som begrenser eller gir grunnlag for behandling og bruk av datasettet. For eksempel kan dette være en lenke til en lovtekst.',
