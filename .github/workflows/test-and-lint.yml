@@ -1,7 +1,7 @@
 name: Test and lint
 on:
   push:
-    branches: [main]
+    branches: [feat/playwright-test-with-mock-data)]
   pull_request:
     branches: [main]
 
