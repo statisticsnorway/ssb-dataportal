@@ -1,6 +1,13 @@
 {
   "classifications": [
     {
+      "name": "Economy",
+      "id": 2003,
+      "classificationType": "Klassifikasjon",
+      "lastModified": "2025-12-04T12:30:00Z",
+      "_links": { "self": { "href": "/classifications/2" } }
+    },
+    {
       "name": "Standard for delområde- og grunnkretsinndeling",
       "id": 1,
       "classificationType": "Klassifikasjon",
@@ -50,13 +57,6 @@
       "classificationType": "Klassifikasjon",
       "lastModified": "2025-12-05T10:00:00Z",
       "_links": { "self": { "href": "/classifications/1" } }
-    },
-    {
-      "name": "Economy",
-      "id": 2003,
-      "classificationType": "Klassifikasjon",
-      "lastModified": "2025-12-04T12:30:00Z",
-      "_links": { "self": { "href": "/classifications/2" } }
     }
   ],
   "pagination": {
