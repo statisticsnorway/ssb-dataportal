@@ -3,6 +3,9 @@
  */
 
 export const nb = {
+  navigateHomeVariableDefinitions: 'Naviger til hovedside Variabeldefinisjoner',
+  navigateHomeClassifications: 'Naviger til hovedside Klassifikasjoner',
+  navigateHomeDatasets: 'Naviger til hovedside Datasett',
   chooseLanguage: 'Velg språk',
   classifications: 'Klassifikasjoner',
   contactPage: 'Kontaktside',

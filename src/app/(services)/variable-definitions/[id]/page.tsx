@@ -3,6 +3,7 @@ import React from 'react';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
 import { TextField } from '@/components/text-field/text-field';
+import { localization } from '@/libs/language';
 import { ownerItems, personalData, referencesItems, validityItems } from '@/utils/groups';
 import { testVardefData } from '@/utils/mock-data';
 import styles from './variable-details-page.module.css';
@@ -21,7 +22,11 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
 
   return (
     <section className={`${styles.detailsPage} container`}>
-      <Breadcrumbs breadcrumbList={breadcrumbList} homeUrl={homeUrl} />
+      <Breadcrumbs
+        breadcrumbList={breadcrumbList}
+        homeUrl={homeUrl}
+        breadcrumbHomeAriaLabel={localization.navigateHomeVariableDefinitions}
+      />
       <header className={styles.detailsPageHeader}>
         <Heading level={1} data-size='lg'>
           {variableDefinition.name}

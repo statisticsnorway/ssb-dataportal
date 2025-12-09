@@ -10,14 +10,15 @@ export type BreadcrumbType = {
 export interface BreadcrumbsProps {
   breadcrumbList?: BreadcrumbType[];
   homeUrl: BreadcrumbType;
+  breadcrumbHomeAriaLabel: string;
 }
 
-export const Breadcrumbs = ({ breadcrumbList, homeUrl }: BreadcrumbsProps) => {
+export const Breadcrumbs = ({ breadcrumbList, homeUrl, breadcrumbHomeAriaLabel }: BreadcrumbsProps) => {
   return (
     <>
       <nav className={styles.breadcrumbs}>
         <span>
-          <Link className={styles.link} aria-label={'aria'} href={homeUrl.href}>
+          <Link className={styles.link} aria-label={breadcrumbHomeAriaLabel} href={homeUrl.href}>
             {homeUrl.text}
           </Link>
           {breadcrumbList?.map((breadcrumb, i) => {
