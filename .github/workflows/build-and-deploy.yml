@@ -1,9 +1,12 @@
 name: Image Build and Deploy
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    # branches:
+    #   - main
+  # push:
+  #   branches:
+  #     - main
 
 jobs:
   docker-build:
