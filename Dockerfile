@@ -6,14 +6,16 @@ WORKDIR /app
 # Enable corepack for yarn
 RUN corepack enable
 
-COPY package.json yarn.lock .yarnrc.yml .yarn/ ./
+COPY package.json yarn.lock .yarnrc.yml ./
+COPY .yarn/ .yarn/
 
 # Install dependencies
-RUN yarn install
+RUN yarn install --immutable
 
 # Copy full app
 COPY . .
 
+# Build the application
 RUN yarn build
 
 # ---- Runtime Stage ----
