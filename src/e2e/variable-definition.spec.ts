@@ -2,6 +2,7 @@ import { test as base, expect } from '@playwright/test';
 import { RenderedView, RenderedViewFromJSON } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import variableDefinitionsJson from '@/static-data/variable-definitions.json';
+import { VARIABELDEFINISJONER } from '@/utils/constants';
 import { areFieldsDefinedAndNonNull } from '@/utils/functions';
 
 type VariablePageFixture = (variable: RenderedView) => Promise<void>;
@@ -17,7 +18,12 @@ const test = base.extend<{
       if (!variable.name) {
         throw new Error('Variable name is missing');
       }
-      await page.getByRole('link', { name: variable.name }).click();
+
+      // Wait for the link to be visible before clicking
+      const link = page.getByRole('link', { name: variable.name });
+      await expect(link).toBeVisible({ timeout: 5000 });
+      await link.click();
+
       await expect(page).toHaveURL(new RegExp(`/variable-definitions/${variable.id}`));
     };
     await use(goToVariable);
@@ -46,9 +52,13 @@ test('Navigate to up to 4 variable definitions', async ({ goToVariable, page }) 
     await expect(header).toBeVisible();
     await expect(header).toHaveText(variable.name);
 
-    // Return to variable definitions
-    await page.getByRole('link', { name: localization.navigateHomeVariableDefinitions }).click();
-    await expect(page.getByRole('link', { name: localization.navigateHomeVariableDefinitions })).toBeVisible();
+    // Return to variable-definitions page safely
+    const homeLink = page.getByRole('link', { name: localization.navigateHomeVariableDefinitions });
+    await expect(homeLink).toBeVisible({ timeout: 5000 });
+    await homeLink.click();
+
+    // Wait for variable-defintions page to be ready for next iteration
+    await expect(page.getByRole('tab', { name: VARIABELDEFINISJONER })).toBeVisible({ timeout: 5000 });
     await expect(page).toHaveURL(/\/variable-definitions$/);
   }
 });
