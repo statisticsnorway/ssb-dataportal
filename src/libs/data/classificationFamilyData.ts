@@ -1,8 +1,8 @@
 'use server';
 
+import classificationMockFamilies from '@/static-data/classification-families.json';
 import { ClassificationFamily, ClassificationFamilyResponse, ClassificationType } from '@/types/classification';
 import { CLASSIFICATION_FAMILIES, KLASS_HOST } from '@/utils/constants';
-import classificationMockFamilies from './static-data/classification-families.json';
 
 const isTest = process.env.NEXT_TEST === 'test';
 

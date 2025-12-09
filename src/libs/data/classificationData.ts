@@ -1,8 +1,8 @@
 'use server';
 
+import classificationsMock from '@/static-data/classifications.json';
 import { Classification, linkObj } from '@/types/classification';
 import { CLASSIFICATIONS, KLASS_HOST } from '@/utils/constants';
-import classificationsMock from './static-data/classifications.json';
 
 const isTest = process.env.NEXT_TEST === 'test';
 

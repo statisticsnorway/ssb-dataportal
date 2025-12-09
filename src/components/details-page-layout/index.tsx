@@ -11,7 +11,14 @@ interface DetailsPageProps extends HTMLAttributes<HTMLDivElement> {
   ariaLabel: string;
 }
 
-export const DetailsPageLayout = ({ children, mainContent, title, breadcrumbList, homeUrl, ariaLabel }: DetailsPageProps) => {
+export const DetailsPageLayout = ({
+  children,
+  mainContent,
+  title,
+  breadcrumbList,
+  homeUrl,
+  ariaLabel,
+}: DetailsPageProps) => {
   return (
     <div className={`${styles.detailPageContainer} container`}>
       <Breadcrumbs breadcrumbList={breadcrumbList} homeUrl={homeUrl} breadcrumbHomeAriaLabel={ariaLabel}>
