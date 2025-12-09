@@ -3,10 +3,9 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-# Enable corepack (it reads packageManager version)
+# Enable corepack for yarn
 RUN corepack enable
 
-# Copy only the metadata first for caching
 COPY package.json yarn.lock .yarnrc.yml .yarn/ ./
 
 # Install dependencies

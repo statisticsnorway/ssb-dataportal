@@ -20,11 +20,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Corepack and Yarn
-        run: |
-          corepack enable
-          corepack prepare yarn@4.9.2 --activate
-
       - name: Build and push
         uses: nais/docker-build-push@v0
         id: docker-build-push
