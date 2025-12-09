@@ -118,7 +118,8 @@
       "quoteStyle": "single",
       "attributePosition": "auto",
       "bracketSpacing": true
-    }
+    },
+    "globals": ["jest", "describe", "expect", "it"]
   },
   "html": {
     "formatter": {
