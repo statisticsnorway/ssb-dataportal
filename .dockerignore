@@ -1,0 +1,10 @@
+node_modules
+# ignore most of .next
+.next
+# except for standalone output
+!.next/standalone
+!.next/static
+dist
+*.log
+.git
+.vscode

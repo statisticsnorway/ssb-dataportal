@@ -18,7 +18,7 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
   }
 
   const homeUrl = { text: 'Variabeldefinisjoner', href: '/variable-definitions' };
-  const breadcrumbList = id ? ([{ text: String(id), href: '' }] as BreadcrumbType[]) : [];
+  const breadcrumbList = id ? ([{ text: variableDefinition.name, href: '' }] as BreadcrumbType[]) : [];
 
   return (
     <section className={`${styles.detailsPage} container`}>
