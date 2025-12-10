@@ -21,12 +21,12 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
 
   return (
     <section className={`${styles.detailsPage} container`}>
-      <Breadcrumbs breadcrumbList={breadcrumbList} homeUrl={homeUrl} />
-      <header className={styles.detailsPageHeader}>
-        <div className={styles.titleRow}>
-          <Heading level={1} data-size='sm'>
-            {variableDefinition.name}
-          </Heading>
+        <Breadcrumbs breadcrumbList={breadcrumbList} homeUrl={homeUrl} />
+        <header className={styles.detailsPageHeader}>
+          <div className={styles.titleRow}>
+            <Heading level={1} data-size='sm'>
+              {variableDefinition.name}
+            </Heading>
           <Label className={styles.infoText}>
             {variableDefinition.shortName}
           </Label>
@@ -51,9 +51,11 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
           <DetailsPagePanel title='Eier' elements={ownerItems(variableDefinition)} columns={2} />
         </article>
         <aside className={styles.sidebar}>
-          <Tag data-size='md' data-color='info'>
-            {variableDefinition.variableStatus}
-          </Tag>
+          <div className={styles.tagWrapper}>
+            <Tag data-size='lg' data-color='info'>
+              {variableDefinition.variableStatus}
+            </Tag>
+          </div>
           <DetailsPagePanel title='Enhetstyper og statistikkområder' elements={unitTypesItems(variableDefinition)} />
           <DetailsPagePanel title='Referanser' elements={referencesItems(variableDefinition)} />
           <DetailsPagePanel title='Gyldighetsperiode' elements={validityItems(variableDefinition)} columns={2} />

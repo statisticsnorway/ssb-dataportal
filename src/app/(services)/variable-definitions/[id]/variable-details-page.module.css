@@ -19,6 +19,12 @@
   line-height: 1.2;
 }
 
+.tagWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
 .definitionTitle {
   font-size: var(--font-size-xl);
   font-weight: 600;

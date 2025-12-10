@@ -17,7 +17,7 @@ export const DetailsPagePanel = ({ title, elements, columns = 1 }: DetailsPagePa
   return (
     <section className={styles.section}>
       {title && (
-        <Heading level={2}  className={styles.sectionTitle}>
+        <Heading level={2} className={styles.sectionTitle}>
           {title}
         </Heading>
       )}
@@ -26,7 +26,7 @@ export const DetailsPagePanel = ({ title, elements, columns = 1 }: DetailsPagePa
           <TextField 
             key={i} 
             label={label} 
-            value={value} 
+            value={value}
             {...(href ? { type: 'link' as const, href } : {})}
           />
         ))}

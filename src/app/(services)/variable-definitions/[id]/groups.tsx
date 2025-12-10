@@ -1,12 +1,13 @@
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { Item } from '@/types/item';
 import { areFieldsDefinedAndNonNull, formatArray, formatDate, joinOrEmpty, optionalString, yesNo } from '@/utils/functions';
+import { Link, Tag } from '@digdir/designsystemet-react';
 
 export type FieldType = 'text' | 'longtext' | 'link';
 
 /**
  * ------------------------------
- * Validity Items
+ * Validity Items (plain text)
  * ------------------------------
  */
 export const validityItems = (v: RenderedView): Item[] => [
@@ -16,7 +17,7 @@ export const validityItems = (v: RenderedView): Item[] => [
 
 /**
  * ------------------------------
- * Audit / Created & Edited Items
+ * Audit / Created & Edited Items (plain text)
  * ------------------------------
  */
 export const createdAndEditedItems = (v: RenderedView): Item[] => [
@@ -34,38 +35,48 @@ export const createdAndEditedItems = (v: RenderedView): Item[] => [
 export const unitTypesItems = (v: RenderedView): Item[] => [
   {
     label: 'Enhetstyper',
-    value: formatArray(
-      v.unitTypes.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
-    ),
+    value: v.unitTypes
+      .filter((ref) => areFieldsDefinedAndNonNull(ref, ['title']))
+      .map((ref, i) => <Tag key={i}>{ref.title}</Tag>),
   },
   {
     label: 'Statistikkområder',
-    value: formatArray(
-      v.subjectFields.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
-    ),
+    value: v.subjectFields
+      .filter((ref) => areFieldsDefinedAndNonNull(ref, ['title']))
+      .map((ref, i) => <Tag key={i}>{ref.title}</Tag>),
   },
 ];
 
-/**
- * ------------------------------
- * References
- * ------------------------------
- */
+
+// ------------------------------
+// References (links)
+// ------------------------------
 export const referencesItems = (v: RenderedView): Item[] => [
-  { 
-    label: 'Klassifikasjon', 
-    value: optionalString(v.classificationUri ?? undefined), 
-    href: v.classificationUri || undefined 
+  {
+    label: 'Klassifikasjon',
+    value: v.classificationUri ? (
+      <Link target="_blank" href={v.classificationUri}>
+        {v.classificationUri}
+      </Link>
+    ) : undefined,
   },
-  { 
-    label: 'URI til ekstern referanse', 
-    value: optionalString(v.externalReferenceUri ?? undefined), 
-    href: v.externalReferenceUri || undefined 
+  {
+    label: 'URI til ekstern referanse',
+    value: v.externalReferenceUri ? (
+      <Link target="_blank" href={v.externalReferenceUri}>
+        {v.externalReferenceUri}
+      </Link>
+    ) : undefined,
   },
-  { 
-    label: 'URI til relevante variabeldefinisjoner', 
-    value: formatArray(v.relatedVariableDefinitionUris ?? undefined),
-    href: v.relatedVariableDefinitionUris?.length ? v.relatedVariableDefinitionUris.join(', ') : undefined,
+  {
+    label: 'URI til relevante variabeldefinisjoner',
+    value: v.relatedVariableDefinitionUris?.length
+      ? v.relatedVariableDefinitionUris.map((uri, i) => (
+          <Link key={i} target="_blank" href={uri} style={{ display: 'block' }}>
+            {uri}
+          </Link>
+        ))
+      : undefined,
   },
 ];
 

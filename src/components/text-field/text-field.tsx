@@ -1,23 +1,14 @@
-import { Label, Link, Paragraph } from '@digdir/designsystemet-react';
-import { Item } from '@/types/item';
+import { ReactNode } from 'react';
 import styles from './text-field.module.css';
 
-interface TextFieldProps extends Item {}
+interface TextFieldProps {
+  label: string;
+  value: ReactNode;
+}
 
-export const TextField = ({ label, value, href, longText,  }: TextFieldProps) => (
+export const TextField = ({ label, value }: TextFieldProps) => (
   <div className={styles.fieldWrapper}>
     <dt>{label}</dt>
-    <dd>
-      {href ? (
-        <Link data-size="md" target="_blank" href={href}>
-          {value}
-        </Link>
-      ) : longText ? (
-        <Paragraph data-size="lg">{value}</Paragraph>
-      ) : (
-        <Label data-size="lg">{value}</Label>
-      )}
-    </dd>
+    <dd>{value}</dd>
   </div>
 );
-''
