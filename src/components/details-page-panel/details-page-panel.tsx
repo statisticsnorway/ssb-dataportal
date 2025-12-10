@@ -1,11 +1,11 @@
 import { Heading } from '@digdir/designsystemet-react';
-import { ReactNode } from 'react';
-import { TextField } from '../text-field/text-field';
+import { Item } from '@/types/item';
+import { TextField } from '../text-field';
 import styles from './details-page-panel.module.css';
 
 interface DetailsPagePanelProps {
   title?: string;
-  elements: { label: string; value: ReactNode; href?: string }[];
+  elements: Item[];
   columns?: 1 | 2;
 }
 
@@ -22,13 +22,8 @@ export const DetailsPagePanel = ({ title, elements, columns = 1 }: DetailsPagePa
         </Heading>
       )}
       <dl className={`${styles.panel} ${columns === 2 ? styles.gridTwoCol : ''}`}>
-        {validElements.map(({ label, value, href }, i) => (
-          <TextField 
-            key={i} 
-            label={label} 
-            value={value}
-            {...(href ? { type: 'link' as const, href } : {})}
-          />
+        {validElements.map((item, i) => (
+          <TextField key={i} {...item} />
         ))}
       </dl>
     </section>

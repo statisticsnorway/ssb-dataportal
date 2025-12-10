@@ -1,7 +1,7 @@
 'use client';
 import { render, screen } from '@testing-library/react';
 import React, { JSX } from 'react';
-import { TextField } from './text-field';
+import { TextField } from '.';
 
 jest.mock('@digdir/designsystemet-react', () => {
   const passthrough =

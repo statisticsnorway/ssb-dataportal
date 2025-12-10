@@ -1,9 +1,7 @@
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { Item } from '@/types/item';
-import { areFieldsDefinedAndNonNull, formatArray, formatDate, joinOrEmpty, optionalString, yesNo } from '@/utils/functions';
-import { Link, Tag } from '@digdir/designsystemet-react';
+import { areFieldsDefinedAndNonNull, formatDate, yesNo } from '@/utils/functions';
 
-export type FieldType = 'text' | 'longtext' | 'link';
 
 /**
  * ------------------------------
@@ -11,8 +9,8 @@ export type FieldType = 'text' | 'longtext' | 'link';
  * ------------------------------
  */
 export const validityItems = (v: RenderedView): Item[] => [
-  { label: 'Valid From', value: formatDate(v.validFrom) },
-  { label: 'Valid Until', value: formatDate(v.validUntil ?? undefined) },
+  { label: 'Valid From', value: formatDate(v.validFrom), type: 'text' },
+  { label: 'Valid Until', value: formatDate(v.validUntil ?? undefined), type: 'text' },
 ];
 
 /**
@@ -21,15 +19,15 @@ export const validityItems = (v: RenderedView): Item[] => [
  * ------------------------------
  */
 export const createdAndEditedItems = (v: RenderedView): Item[] => [
-  { label: 'Created At', value: formatDate(v.createdAt) },
-  { label: 'Created By', value: v.createdBy },
-  { label: 'Last Updated At', value: formatDate(v.lastUpdatedAt) },
-  { label: 'Last Updated By', value: v.lastUpdatedBy },
+  { label: 'Created At', value: formatDate(v.createdAt), type: 'text' },
+  { label: 'Created By', value: v.createdBy, type: 'text' },
+  { label: 'Last Updated At', value: formatDate(v.lastUpdatedAt), type: 'text' },
+  { label: 'Last Updated By', value: v.lastUpdatedBy, type: 'text' },
 ];
 
 /**
  * ------------------------------
- * Unit Types & Subject Fields
+ * Unit Types & Subject Fields (tags)
  * ------------------------------
  */
 export const unitTypesItems = (v: RenderedView): Item[] => [
@@ -37,46 +35,43 @@ export const unitTypesItems = (v: RenderedView): Item[] => [
     label: 'Enhetstyper',
     value: v.unitTypes
       .filter((ref) => areFieldsDefinedAndNonNull(ref, ['title']))
-      .map((ref, i) => <Tag key={i}>{ref.title}</Tag>),
+      .map((ref) => ref.title),
+    type: 'tags',
   },
   {
     label: 'Statistikkområder',
     value: v.subjectFields
       .filter((ref) => areFieldsDefinedAndNonNull(ref, ['title']))
-      .map((ref, i) => <Tag key={i}>{ref.title}</Tag>),
+      .map((ref) => ref.title),
+    type: 'tags',
   },
 ];
 
-
-// ------------------------------
-// References (links)
-// ------------------------------
+/**
+ * ------------------------------
+ * References (links)
+ * ------------------------------
+ */
 export const referencesItems = (v: RenderedView): Item[] => [
   {
     label: 'Klassifikasjon',
-    value: v.classificationUri ? (
-      <Link target="_blank" href={v.classificationUri}>
-        {v.classificationUri}
-      </Link>
-    ) : undefined,
+    value: v.classificationUri,
+    type: 'link',
+    display: 'Se klassifikasjon', 
   },
   {
     label: 'URI til ekstern referanse',
-    value: v.externalReferenceUri ? (
-      <Link target="_blank" href={v.externalReferenceUri}>
-        {v.externalReferenceUri}
-      </Link>
-    ) : undefined,
+    value: v.externalReferenceUri,
+    type: 'link',
+    display: 'Se ekstern referanse',
   },
   {
     label: 'URI til relevante variabeldefinisjoner',
-    value: v.relatedVariableDefinitionUris?.length
-      ? v.relatedVariableDefinitionUris.map((uri, i) => (
-          <Link key={i} target="_blank" href={uri} style={{ display: 'block' }}>
-            {uri}
-          </Link>
-        ))
-      : undefined,
+    value: v.relatedVariableDefinitionUris,
+    type: 'link',
+    display: Array.isArray(v.relatedVariableDefinitionUris)
+      ? v.relatedVariableDefinitionUris.map((_, i) => `Se relevant variabeldefinisjon ${i + 1}`)
+      : 'Se relevant variabeldefinisjon',
   },
 ];
 
@@ -86,8 +81,8 @@ export const referencesItems = (v: RenderedView): Item[] => [
  * ------------------------------
  */
 export const ownerItems = (v: RenderedView): Item[] => [
-  { label: 'Team', value: v.owner.team },
-  { label: 'Groups', value: v.owner.groups.join(', ') },
+  { label: 'Team', value: v.owner.team, type: 'text' },
+  { label: 'Groups', value: v.owner.groups.join(', '), type: 'text' },
 ];
 
 /**
@@ -96,8 +91,8 @@ export const ownerItems = (v: RenderedView): Item[] => [
  * ------------------------------
  */
 export const contactItems = (v: RenderedView): Item[] => [
-  { label: 'Title', value: v.contact?.title },
-  { label: 'Email', value: v.contact?.email },
+  { label: 'Title', value: v.contact?.title, type: 'text' },
+  { label: 'Email', value: v.contact?.email, type: 'text' },
 ];
 
 /**
@@ -109,5 +104,6 @@ export const personalDataItems = (v: RenderedView): Item[] => [
   {
     label: 'Inneholder særlige kategorier av personopplysninger',
     value: yesNo(v.containsSpecialCategoriesOfPersonalData),
+    type: 'text',
   },
 ];

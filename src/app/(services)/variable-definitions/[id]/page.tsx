@@ -2,11 +2,11 @@ import { Label, Tag } from '@digdir/designsystemet-react';
 import React from 'react';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
-import { TextField } from '@/components/text-field/text-field';
 import { testVardefData } from '@/utils/mock-data';
 import { VardefHeading } from '../components/vardefHeading';
 import styles from './variable-details-page.module.css';
 import { contactItems, validityItems, ownerItems, referencesItems, createdAndEditedItems, unitTypesItems, personalDataItems } from './groups';
+import { TextField } from '@/components/text-field';
 
 export default function VariableDefinition({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
@@ -42,7 +42,7 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
               <h2 className={styles.definitionTitle}>Definisjon</h2>
               <p className={styles.definition}>{variableDefinition.definition}</p>
               {variableDefinition.comment && (
-                <TextField label='Kommentar' value={variableDefinition.comment} />
+                <TextField label='Kommentar' value={variableDefinition.comment} type='longtext' />
               )}
             </div>
           </section>
