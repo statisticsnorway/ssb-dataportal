@@ -1,11 +1,11 @@
-import { Heading, Label, Tag } from '@digdir/designsystemet-react';
+import { Label, Tag } from '@digdir/designsystemet-react';
 import React from 'react';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
 import { TextField } from '@/components/text-field/text-field';
 import { ownerItems, personalData, referencesItems, validityItems } from '@/utils/groups';
 import { testVardefData } from '@/utils/mock-data';
-import stylesParent from '../variable-definitions.module.css';
+import { VardefHeading } from '../components/vardefHeading';
 import styles from './variable-details-page.module.css';
 
 export default function VariableDefinition({ params }: { params: Promise<{ id: string }> }) {
@@ -24,10 +24,10 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
     <section className={`${styles.detailsPage} container`}>
       <Breadcrumbs breadcrumbList={breadcrumbList} homeUrl={homeUrl} />
       <header className={styles.detailsPageHeader}>
-        <Heading level={1} data-size='lg'>
-          <span style={{ marginRight: '0.4rem' }}>{variableDefinition.name}</span>
-          <span className={stylesParent.vardefSearchHitShortName}>{variableDefinition.shortName}</span>
-        </Heading>
+        <VardefHeading
+          headingProps={{ 'data-size': 'lg', level: 1 }}
+          variableDefinition={variableDefinition}
+        ></VardefHeading>
         <Label className={styles.infoText}>ID: {variableDefinition.id}</Label>
       </header>
       <div className={styles.contentGrid}>

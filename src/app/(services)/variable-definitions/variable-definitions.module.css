@@ -8,17 +8,15 @@
   overflow: hidden;
 }
 
-.vardefSearchHitHeadingLink {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.4rem;
+.vardefHeadingLink {
+  /* No underline on the link*/
   text-decoration: none;
 }
 
-.vardefSearchHitShortName {
+.vardefShortName {
   font-size: 1rem;
   font-weight: normal;
   font-family: monospace;
-  margin-left: 0.3rem;
+  margin-left: 0.6rem;
   color: var(--search-hit-shortname-color);
 }
