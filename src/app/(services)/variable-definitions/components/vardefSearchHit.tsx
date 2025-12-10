@@ -1,9 +1,9 @@
-import { Card, Heading, Paragraph } from '@digdir/designsystemet-react';
-import Link from 'next/link';
+import { Card, Paragraph } from '@digdir/designsystemet-react';
 import TagsGroup from '@/components/tags-group';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { areFieldsDefinedAndNonNull } from '@/utils/functions';
 import styles from '../variable-definitions.module.css';
+import { VardefHeading } from './vardefHeading';
 
 interface VardefSearchHitProps {
   variableDefinition: RenderedView;
@@ -12,14 +12,11 @@ interface VardefSearchHitProps {
 const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
   return (
     <Card>
-      <Heading data-size='xl' level={2}>
-        <Link href={`/variable-definitions/${variableDefinition.id}`} className={styles.vardefSearchHitHeadingLink}>
-          <span className={styles.vardefSearchHitName}>{variableDefinition.name}</span>
-          {variableDefinition.shortName && (
-            <span className={styles.vardefSearchHitShortName}>{variableDefinition.shortName}</span>
-          )}
-        </Link>
-      </Heading>
+      <VardefHeading
+        href={`/variable-definitions/${variableDefinition.id}`}
+        headingProps={{ 'data-size': 'xl', level: 2 }}
+        variableDefinition={variableDefinition}
+      ></VardefHeading>
       <Paragraph className={styles.truncateTo3Lines}>{variableDefinition.definition}</Paragraph>
       <TagsGroup
         maxTags={4}
