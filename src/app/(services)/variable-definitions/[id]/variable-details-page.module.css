@@ -10,7 +10,8 @@
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .detailsPageHeader h1 {
@@ -29,7 +30,7 @@
 }
 
 .definitionTitle {
-  font-size: var(--font-size-xl);
+  font-size: 2rem;
   font-weight: 600;
   margin-bottom: 1rem;
 }
