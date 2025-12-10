@@ -1,6 +1,6 @@
 import { Card, Heading, Paragraph } from '@digdir/designsystemet-react';
 import Link from 'next/link';
-import { TagsGroup } from '@/components/tags-group';
+import TagsGroup from '@/components/tags-group';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { areFieldsDefinedAndNonNull } from '@/utils/functions';
 import styles from '../variable-definitions.module.css';
@@ -23,14 +23,11 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
       <Paragraph className={styles.truncateTo3Lines}>{variableDefinition.definition}</Paragraph>
       <TagsGroup
         maxTags={4}
-        tagsData={
-          new Set(
+        tagData={
+          new Map(
             variableDefinition.subjectFields
               .filter((ref) => areFieldsDefinedAndNonNull(ref, ['code', 'title']))
-              .map((field) => ({
-                key: field.code,
-                title: field.title,
-              })),
+              .map((field) => [field.code, field.title]),
           )
         }
       />
