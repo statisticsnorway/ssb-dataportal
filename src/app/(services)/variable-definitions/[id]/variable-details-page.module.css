@@ -14,14 +14,21 @@
 }
 
 .detailsPageHeader h1 {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-2xl);
   font-weight: 600;
   line-height: 1.2;
 }
 
 .infoText {
-  font-size: 1rem;
+  font-size: var(--font-size-md);
   color: var(--fds-semantic-text-neutral-subtle);
+}
+
+.titleRow {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .separator {

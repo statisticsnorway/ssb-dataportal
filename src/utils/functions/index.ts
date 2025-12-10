@@ -27,3 +27,5 @@ export function areFieldsDefinedAndNonNull<T extends {}, U extends Array<keyof T
 ): obj is RequiredField<T, U[number]> {
   return obj != null && obj != undefined && fields.every((field) => obj[field] !== undefined && obj[field] !== null);
 }
+
+export const joinOrEmpty = (arr?: string[] | null) => arr?.join(', ') || '';

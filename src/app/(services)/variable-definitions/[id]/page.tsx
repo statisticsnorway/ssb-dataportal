@@ -3,9 +3,9 @@ import React from 'react';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
 import { TextField } from '@/components/text-field/text-field';
-import { ownerItems, personalData, referencesItems, validityItems } from '@/utils/groups';
 import { testVardefData } from '@/utils/mock-data';
 import styles from './variable-details-page.module.css';
+import { contactItems, validityItems, ownerItems, personalData, referencesItems, createdAndEditedItems, unitTypesItems } from './groups';
 
 export default function VariableDefinition({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
@@ -23,12 +23,15 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
     <section className={`${styles.detailsPage} container`}>
       <Breadcrumbs breadcrumbList={breadcrumbList} homeUrl={homeUrl} />
       <header className={styles.detailsPageHeader}>
-        <Heading level={1} data-size='lg'>
-          {variableDefinition.name}
-        </Heading>
+        <div className={styles.titleRow}>
+          <Heading level={1} data-size='sm'>
+            {variableDefinition.name}
+          </Heading>
+          <Label className={styles.infoText}>
+            {variableDefinition.shortName}
+          </Label>
+        </div>
         <Label className={styles.infoText}>
-          {variableDefinition.shortName}
-          <div className={styles.separator} />
           ID: {variableDefinition.id}
         </Label>
       </header>
@@ -42,15 +45,19 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
               )}
             </dl>
           </section>
+          <DetailsPagePanel title='Kontakt' elements={contactItems(variableDefinition)} columns={2} />
+          <DetailsPagePanel title='Personopplysninger' elements={personalData(variableDefinition)} />
+
           <DetailsPagePanel title='Eier' elements={ownerItems(variableDefinition)} columns={2} />
-          <DetailsPagePanel title='Gyldighet' elements={validityItems(variableDefinition)} columns={2} />
         </article>
         <aside className={styles.sidebar}>
           <Tag data-size='md' data-color='info'>
             {variableDefinition.variableStatus}
           </Tag>
+          <DetailsPagePanel title='Enhetstyper og statistikkområder' elements={unitTypesItems(variableDefinition)} />
           <DetailsPagePanel title='Referanser' elements={referencesItems(variableDefinition)} />
-          <DetailsPagePanel title='Personopplysninger' elements={personalData(variableDefinition)} />
+          <DetailsPagePanel title='Gyldighetsperiode' elements={validityItems(variableDefinition)} columns={2} />
+          <DetailsPagePanel title='Opprettet og siste endret' elements={createdAndEditedItems(variableDefinition)} columns={2} />
         </aside>
       </div>
     </section>
