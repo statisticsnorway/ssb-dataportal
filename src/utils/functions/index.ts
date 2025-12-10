@@ -29,3 +29,7 @@ export function areFieldsDefinedAndNonNull<T extends {}, U extends Array<keyof T
 }
 
 export const joinOrEmpty = (arr?: string[] | null) => arr?.join(', ') || '';
+export const formatDate = (date?: Date) => date?.toISOString().split('T')[0] || '-';
+export const formatArray = (arr?: string[]) => joinOrEmpty(arr || []);
+export const optionalString = (str?: string, fallback = '-') => str || fallback;
+export const yesNo = (flag?: boolean) => (flag ? 'Ja' : 'Nei');

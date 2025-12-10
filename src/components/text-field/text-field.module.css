@@ -1,18 +1,21 @@
-.fieldGroup {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-}
-
 .label {
   color: var(--text-color-secondary);
   text-transform: uppercase;
   font-size: var(--font-size-sm);
+  display: block;
 }
 
+.fieldWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2, 0.5rem);
+  margin-bottom: var(--spacing-4, 1rem);
+}
+
+.fieldWrapper dt {
+  margin: 0;
+}
+
+.fieldWrapper dd {
+  margin: 0;
+}

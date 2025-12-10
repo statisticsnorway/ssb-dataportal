@@ -5,7 +5,7 @@ import { DetailsPagePanel } from '@/components/details-page-panel/details-page-p
 import { TextField } from '@/components/text-field/text-field';
 import { testVardefData } from '@/utils/mock-data';
 import styles from './variable-details-page.module.css';
-import { contactItems, validityItems, ownerItems, personalData, referencesItems, createdAndEditedItems, unitTypesItems } from './groups';
+import { contactItems, validityItems, ownerItems, referencesItems, createdAndEditedItems, unitTypesItems, personalDataItems } from './groups';
 
 export default function VariableDefinition({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
@@ -38,16 +38,16 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
       <div className={styles.contentGrid}>
         <article className={styles.mainColumn}>
           <section className={styles.mainSection}>
-            <dl>
-              <TextField label='Definisjon' value={variableDefinition.definition ?? ''} longText />
+            <div className={styles.coreInformation}>
+              <h2 className={styles.definitionTitle}>Definisjon</h2>
+              <p className={styles.definition}>{variableDefinition.definition}</p>
               {variableDefinition.comment && (
-                <TextField label='Kommentar' value={variableDefinition.comment} longText />
+                <TextField label='Kommentar' value={variableDefinition.comment} />
               )}
-            </dl>
+            </div>
           </section>
           <DetailsPagePanel title='Kontakt' elements={contactItems(variableDefinition)} columns={2} />
-          <DetailsPagePanel title='Personopplysninger' elements={personalData(variableDefinition)} />
-
+          <DetailsPagePanel title='Personopplysninger' elements={personalDataItems(variableDefinition)} />
           <DetailsPagePanel title='Eier' elements={ownerItems(variableDefinition)} columns={2} />
         </article>
         <aside className={styles.sidebar}>

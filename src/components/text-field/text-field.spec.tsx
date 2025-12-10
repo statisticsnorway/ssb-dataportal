@@ -32,7 +32,7 @@ describe('TextField', () => {
     const longText = 'This is a very long definition that should be displayed as paragraph text.';
     render(
       <dl>
-        <TextField label='Kommentar' value={longText} longText />
+        <TextField label='Kommentar' value={longText} href='https://example.com' />
       </dl>,
     );
 

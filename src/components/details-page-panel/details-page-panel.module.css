@@ -10,6 +10,7 @@
 }
 
 .sectionTitle {
+  font-size: var(--font-size-lg);
   padding-bottom: 0.5rem;
 }
 

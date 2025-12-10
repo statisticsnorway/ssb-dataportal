@@ -19,6 +19,19 @@
   line-height: 1.2;
 }
 
+.definitionTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.definition {
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+}
+
 .infoText {
   font-size: var(--font-size-md);
   color: var(--fds-semantic-text-neutral-subtle);

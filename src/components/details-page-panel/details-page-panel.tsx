@@ -17,13 +17,18 @@ export const DetailsPagePanel = ({ title, elements, columns = 1 }: DetailsPagePa
   return (
     <section className={styles.section}>
       {title && (
-        <Heading level={2} data-size='sm' className={styles.sectionTitle}>
+        <Heading level={2}  className={styles.sectionTitle}>
           {title}
         </Heading>
       )}
       <dl className={`${styles.panel} ${columns === 2 ? styles.gridTwoCol : ''}`}>
         {validElements.map(({ label, value, href }, i) => (
-          <TextField key={i} label={label} value={value} href={href} />
+          <TextField 
+            key={i} 
+            label={label} 
+            value={value} 
+            {...(href ? { type: 'link' as const, href } : {})}
+          />
         ))}
       </dl>
     </section>
