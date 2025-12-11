@@ -52,6 +52,7 @@ class ErrorBoundary extends Component<Props, State> {
               href: '',
               text: '',
             }}
+            breadcrumbHomeAriaLabel={''}
           />
           <CenterContainer>
             <Heading level={2} data-size='sm'>

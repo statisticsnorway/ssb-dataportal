@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPageLayout } from '@/components/details-page-layout';
+import { localization } from '@/libs/language';
 
 export default function Classification() {
   const params = useParams();
@@ -45,6 +46,7 @@ export default function Classification() {
       mainContent={<Heading level={3}>Hallo Klassifikasjon</Heading>}
       breadcrumbList={breadcrumbList}
       homeUrl={homeUrl}
+      ariaLabel={localization.navigateHomeClassifications}
     ></DetailsPageLayout>
   );
 }
