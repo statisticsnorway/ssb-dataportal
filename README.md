@@ -113,7 +113,7 @@ yarn playwright install
 
 #### Configure Environment for Tests
 
-Create a .env.test file in the root of your project:
+Create a `.env.test` file in the root of your project:
 
 `NEXT_TEST=test`
 
