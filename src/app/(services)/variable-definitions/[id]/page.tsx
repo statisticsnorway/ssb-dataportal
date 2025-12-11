@@ -35,9 +35,6 @@ export default function VariableDefinition() {
         ></VardefHeading>
         <div className={styles.statusRow}>
           {/* <Label className={styles.infoText}>ID: {variableDefinition.id}</Label> */}
-          <Tag className={styles.variableStatusTag} data-size='lg' data-color='info'>
-            {convertStatus(variableDefinition.variableStatus)}
-          </Tag>
         </div>
       </header>
       <div className={styles.contentGrid}>
@@ -56,9 +53,14 @@ export default function VariableDefinition() {
           <DetailsPagePanel title='Eier' elements={ownerItems(variableDefinition)} columns={2} />
         </article>
         <aside className={styles.sidebar}>
-          <div className={styles.idField}>
-            <span className={styles.idLabel}>ID</span>
-            <span className={styles.idValue}>{variableDefinition.id}</span>
+          <div className={styles.idAndTagRow}>
+            <div className={styles.idField}>
+              <span className={styles.idLabel}>ID</span>
+              <span className={styles.idValue}>{variableDefinition.id}</span>
+            </div>
+            <Tag className={styles.variableStatusTag} data-size="lg" data-color="info">
+              {convertStatus(variableDefinition.variableStatus)}
+            </Tag>
           </div>
           <DetailsPagePanel title='Enhetstyper og statistikkområder' elements={unitTypesItems(variableDefinition)} />
           <DetailsPagePanel title='Referanser' elements={referencesItems(variableDefinition)} />
