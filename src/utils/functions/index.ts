@@ -30,22 +30,33 @@ export function areFieldsDefinedAndNonNull<T extends {}, U extends Array<keyof T
   return obj != null && obj != undefined && fields.every((field) => obj[field] !== undefined && obj[field] !== null);
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: <Needs any for parsing json in test>
-export function parseClassification(json: any): Classification {
-  if (
-    typeof json.id !== 'number' ||
-    typeof json.name !== 'string' ||
-    typeof json.classificationType !== 'string' ||
-    typeof json.lastModified !== 'string' ||
-    !json._links
-  ) {
-    throw new Error(`Invalid classification JSON: ${JSON.stringify(json)}`);
-  }
+/**
+ * Check if an object is compatible with type 'Classification'
+ *
+ * @param value - object to check
+ * @returns true if object is a valid 'Classification'
+ */
+export function instanceOfClassification(value: object): value is Classification {
+  if (!('id' in value) || value['id'] === undefined) return false;
+  if (!('name' in value) || value['name'] === undefined) return false;
+  if (!('classificationType' in value) || value['classificationType'] === undefined) return false;
+  if (!('lastModified' in value) || value['lastModified'] === undefined) return false;
+  if (!('_links' in value)) return false;
+  return true;
+}
 
-  if (!(json.classificationType in ClassificationType)) {
-    throw new Error(`Invalid classificationType: ${json.classificationType}`);
+/**
+ * Check and parse json til valiud 'Classification'
+ * @param json
+ * @returns Classification
+ */
+export function parseClassification(json?: object | null): Classification {
+  if (json == null) {
+    throw new Error(`Object is null: ${json}`);
   }
-
+  if (!instanceOfClassification(json)) {
+    throw new Error(`Invalid classification: ${json}`);
+  }
   return {
     id: json.id,
     name: json.name,
