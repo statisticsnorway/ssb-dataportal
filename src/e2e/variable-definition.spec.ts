@@ -49,7 +49,7 @@ test('Navigate to up to 4 variable definitions', async ({ goToVariable, page }) 
     // Check header
     const header = page.locator('h1');
     await expect(header).toBeVisible();
-    await expect(header).toHaveText(variable.name);
+    await expect(header).toHaveText(`${variable.name}${variable.shortName}`);
 
     // Return to variable-definitions page safely
     const homeLink = page.getByRole('link', { name: localization.navigateHomeVariableDefinitions });
