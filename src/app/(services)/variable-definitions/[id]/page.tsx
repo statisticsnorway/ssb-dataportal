@@ -1,3 +1,5 @@
+'use client';
+
 import { Tag } from '@digdir/designsystemet-react';
 import React from 'react';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
@@ -8,9 +10,11 @@ import styles from './variable-details-page.module.css';
 import { contactItems, validityItems, ownerItems, referencesItems, createdAndEditedItems, unitTypesItems, personalDataItems } from './groups';
 import { TextField } from '@/components/text-field';
 import { convertStatus } from '@/utils/functions';
+import { useParams } from 'next/navigation';
 
-export default function VariableDefinition({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = React.use(params);
+export default function VariableDefinition() {
+  const params = useParams();
+  const id = params?.id;
 
   const variableDefinition = testVardefData.variableDefinitions.find((v) => v.id === id);
 
@@ -19,7 +23,7 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
   }
 
   const homeUrl = { text: 'Variabeldefinisjoner', href: '/variable-definitions' };
-  const breadcrumbList = id ? ([{ text: variableDefinition.name, href: '' }] as BreadcrumbType[]) : [];
+  const breadcrumbList = variableDefinition.id ? ([{ text: variableDefinition.name, href: '' }] as BreadcrumbType[]) : [];
 
   return (
     <section className={`${styles.detailsPage} container`}>
