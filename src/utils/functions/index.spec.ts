@@ -52,12 +52,30 @@ describe('parseClassification', () => {
     },
   };
 
-  it('parses a valid classification object', () => {
+  const invalidJson = {
+    name: 'Standard for delområde- og grunnkretsinndeling',
+    classificationType: 'Klassifikasjon',
+    lastModified: '2025-12-03T10:05:55.000+0000',
+    _links: {
+      self: {
+        href: 'https://data.ssb.no/api/klass/v1/classifications/1',
+      },
+    },
+  };
+  it('returns a parsed classification when given valid input', () => {
     const result = parseClassification(validJson);
 
     expect(result).toEqual({
       ...validJson,
       classificationType: ClassificationType[validJson.classificationType as keyof typeof ClassificationType],
     });
+  });
+
+  it('throws an error when the classification object is missing required fields', () => {
+    expect(() => parseClassification(invalidJson)).toThrow('Invalid classification');
+  });
+
+  it('throws an error when input is null', () => {
+    expect(() => parseClassification(null)).toThrow('Object is null');
   });
 });

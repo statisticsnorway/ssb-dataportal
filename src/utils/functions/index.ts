@@ -46,7 +46,8 @@ export function instanceOfClassification(value: object): value is Classification
 }
 
 /**
- * Check and parse json til valiud 'Classification'
+ * Parse json to valid 'Classification'
+ *
  * @param json
  * @returns Classification
  */
