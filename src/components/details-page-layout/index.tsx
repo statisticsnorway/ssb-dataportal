@@ -8,12 +8,20 @@ interface DetailsPageProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
   breadcrumbList?: BreadcrumbType[];
   homeUrl: BreadcrumbType;
+  ariaLabel: string;
 }
 
-export const DetailsPageLayout = ({ children, mainContent, title, breadcrumbList, homeUrl }: DetailsPageProps) => {
+export const DetailsPageLayout = ({
+  children,
+  mainContent,
+  title,
+  breadcrumbList,
+  homeUrl,
+  ariaLabel,
+}: DetailsPageProps) => {
   return (
     <div className={`${styles.detailPageContainer} container`}>
-      <Breadcrumbs breadcrumbList={breadcrumbList} homeUrl={homeUrl}>
+      <Breadcrumbs breadcrumbList={breadcrumbList} homeUrl={homeUrl} breadcrumbHomeAriaLabel={ariaLabel}>
         {}
       </Breadcrumbs>
       <article className={styles.detailPageContent}>

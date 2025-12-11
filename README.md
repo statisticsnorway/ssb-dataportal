@@ -1,6 +1,6 @@
 # Metadata catalog
 
-> *What we know about our data when everyone goes home for the night*
+> _What we know about our data when everyone goes home for the night_
 
 A frontend for discovery and display of Statistics Norway's metadata. Once complete this app will provide internal and public visibility for the following categories of metadata:
 
@@ -72,13 +72,13 @@ Fix linting
 yarn format:fix
 ```
 
-### Test
+## Test
 
 We use `jest` for unit testing and `playwright` for end-to-end tests.
 Unit tests are placed inside the component folders to test and named componentName.spec.tsx
 End-to-end tests (called e2e) is placed in folder 'e2e/'
 
-#### Jest
+### Jest
 
 Run unit tests
 
@@ -101,29 +101,51 @@ yarn test:watch
 u
 ```
 
-#### Playwright
+### Playwright
 
-Install VS code extension: Playwright Test for VSCode
+Install the Playwright Test for VSCode extension to run and debug tests directly from VS Code.
 
-Run e2e tests
-
-```bash
-yarn test:e2e
-```
-
-Run e2e tests 'headed' - visible browser
-
-```bash
-yarn test:e2e:headed
-```
-
-If tests not working after upgrade
+If tests not working
 
 ```bash
 yarn playwright install
 ```
 
-Generate tests
+#### Configure Environment for Tests
+
+Create a `.env.test` file in the root of your project:
+
+`NEXT_TEST=test`
+
+All end-to-end (E2E) tests will run with static data by default.
+
+#### Running Tests
+
+```bash
+yarn test:e2e
+```
+
+#### Using Real API Data
+
+To run tests with live data fetched from a remote API edit playwright.config.ts:
+
+```
+  webServer: {
+    command: 'yarn dev',
+    url: 'http://localhost:3000',
+    reuseExistingServer: !process.env.CI,
+  },
+```
+
+Run your tests as usual, and they will fetch real data instead of using static fixtures.
+
+#### Run e2e tests with visible browser
+
+```bash
+yarn test:e2e:headed
+```
+
+#### Generate tests
 
 ```bash
 yarn dev
@@ -131,8 +153,10 @@ yarn dev
 npx playwright codegen http://localhost:3000
 ```
 
-#### Generate client code
+### Generate client code
+
 Run codegen
+
 ```bash
 yarn codegen
 ```

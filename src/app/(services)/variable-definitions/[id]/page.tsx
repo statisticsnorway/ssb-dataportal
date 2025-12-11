@@ -4,6 +4,7 @@ import { Tag } from '@digdir/designsystemet-react';
 import React from 'react';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
+import { localization } from '@/libs/language';
 import { testVardefData } from '@/utils/mock-data';
 import { VardefHeading } from '../components/vardefHeading';
 import styles from './variable-details-page.module.css';
@@ -27,8 +28,12 @@ export default function VariableDefinition() {
 
   return (
     <section className={`${styles.detailsPage} container`}>
+      <Breadcrumbs
+        breadcrumbList={breadcrumbList}
+        homeUrl={homeUrl}
+        breadcrumbHomeAriaLabel={localization.navigateHomeVariableDefinitions}
+      />
       <header className={styles.detailsPageHeader}>
-        <Breadcrumbs breadcrumbList={breadcrumbList} homeUrl={homeUrl} />
         <VardefHeading headingProps={{ 'data-size': 'lg', level: 1 }} variableDefinition={variableDefinition} />
       </header>
       <div className={styles.contentGrid}>

@@ -1,3 +1,5 @@
+import { Classification, ClassificationType } from '@/types/classification';
+
 /**
  * Generally used to produce a uniq hash array items.
  * Unlike uniqId() of lodash, it garanties that an array
@@ -47,3 +49,39 @@ export const convertStatus = (status: string) => {
       return status;
   }
 };
+/**
+ * Check if an object is compatible with type 'Classification'
+ *
+ * @param value - object to check
+ * @returns true if object is a valid 'Classification'
+ */
+export function instanceOfClassification(value: object): value is Classification {
+  if (!('id' in value) || value['id'] === undefined) return false;
+  if (!('name' in value) || value['name'] === undefined) return false;
+  if (!('classificationType' in value) || value['classificationType'] === undefined) return false;
+  if (!('lastModified' in value) || value['lastModified'] === undefined) return false;
+  if (!('_links' in value)) return false;
+  return true;
+}
+
+/**
+ * Parse json to valid 'Classification'
+ *
+ * @param json
+ * @returns Classification
+ */
+export function parseClassification(json?: object | null): Classification {
+  if (json == null) {
+    throw new Error(`Object is null: ${json}`);
+  }
+  if (!instanceOfClassification(json)) {
+    throw new Error(`Invalid classification: ${json}`);
+  }
+  return {
+    id: json.id,
+    name: json.name,
+    classificationType: ClassificationType[json.classificationType as keyof typeof ClassificationType],
+    lastModified: json.lastModified,
+    _links: json._links,
+  };
+}
