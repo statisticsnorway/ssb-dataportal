@@ -6,7 +6,7 @@ import { RenderedView } from '@/libs/data-access/variable-definitions/internal/m
 import { localization } from '@/libs/language';
 import { FilterGroup } from '@/types/filters';
 import SearchPage from '../../../../components/search-page/searchPage';
-import { VardefSearchHit } from './vardefSearchHit';
+import { VardefSearchHit } from '../components/vardefSearchHit';
 
 interface VariableDefinitionsServicePageProps {
   rawHits: RenderedView[];

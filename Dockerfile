@@ -3,15 +3,14 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-# Enable corepack for yarn
+# Enable corepack so Yarn comes from packageManager or .yarnrc.yml
 RUN corepack enable
 
-COPY package.json yarn.lock .yarnrc.yml .yarn/ ./
+COPY package.json yarn.lock .yarnrc.yml ./
 
 # Install dependencies
 RUN yarn install
 
-# Copy full app
 COPY . .
 
 RUN yarn build
