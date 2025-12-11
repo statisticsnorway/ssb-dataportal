@@ -6,7 +6,7 @@ import { TextField } from '.';
 jest.mock('@digdir/designsystemet-react', () => {
   const passthrough =
     (tag: string) =>
-    ({ children, ...props }: { children?: ReactNode } & Record<string, any>) =>
+    ({ children, ...props }: { children?: ReactNode } & Record<string, string>) =>
       React.createElement(tag, props, children);
 
   return {
