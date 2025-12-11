@@ -34,26 +34,26 @@
 .idAndTagRow {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: right;
+  gap: 1rem;
+  padding: 0.5rem 0;
   margin-bottom: 1rem;
 }
 
 .idField {
   display: flex;
-  justify-content: flex-end;
-  align-items: center; 
-  margin-bottom: 1rem;
-  width: fit-content;
+  align-items: center;
+  justify-content: center;
   box-shadow: var(--box-shadow-sm);
   border-radius: var(--border-radius-xl);
   overflow: hidden;
-  margin-left: auto;
+  background: white;
 }
 
 .idLabel,
 .idValue {
   display: flex;
-  padding: 0.5rem 0.5rem;
+  padding: 0.5rem 0.75rem;
   white-space: nowrap;
   font-size: var(--font-size-sm);
 }
@@ -68,12 +68,8 @@
   background-color: white;
 }
 
-
-
-.definitionTitle {
-  font-size: 2rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
+.variableStatusTag {
+  margin-left: 0;
 }
 
 .definition {
@@ -106,7 +102,6 @@
 .mainSection {
   display: flex;
   flex-direction: column;
-  gap: var(--large-gap);
   margin-bottom: var(--large-gap);
   padding-bottom: 1.5rem;
 }
