@@ -34,19 +34,18 @@ export const unitTypesItems = (v: RenderedView): Item[] => [
     label: 'Enhetstyper',
     value: v.unitTypes
       .filter((ref) => areFieldsDefinedAndNonNull(ref, ['title']))
-      .map((ref) => ref.title)
-      .join(', '),
+      .map((ref) => ref.title),
     type: 'tags',
   },
   {
     label: 'Statistikkområder',
     value: v.subjectFields
       .filter((ref) => areFieldsDefinedAndNonNull(ref, ['title']))
-      .map((ref) => ref.title)
-      .join(', '),
+      .map((ref) => ref.title),
     type: 'tags',
   },
 ];
+
 
 /**
  * ------------------------------
