@@ -1,5 +1,6 @@
 'use client';
-import { areFieldsDefinedAndNonNull } from '.';
+import { ClassificationType } from '@/types/classification';
+import { areFieldsDefinedAndNonNull, parseClassification } from '.';
 
 describe('areFieldsDefinedAndNonNull filter', () => {
   it('non-null objects pass through', () => {
@@ -35,5 +36,28 @@ describe('areFieldsDefinedAndNonNull filter', () => {
     expect(
       [{ key1: 'key1' }, { key1: undefined }].filter((obj) => areFieldsDefinedAndNonNull(obj, ['key1'])),
     ).toStrictEqual([{ key1: 'key1' }]);
+  });
+});
+
+describe('parseClassification', () => {
+  const validJson = {
+    name: 'Standard for delområde- og grunnkretsinndeling',
+    id: 1,
+    classificationType: 'Klassifikasjon',
+    lastModified: '2025-12-03T10:05:55.000+0000',
+    _links: {
+      self: {
+        href: 'https://data.ssb.no/api/klass/v1/classifications/1',
+      },
+    },
+  };
+
+  it('parses a valid classification object', () => {
+    const result = parseClassification(validJson);
+
+    expect(result).toEqual({
+      ...validJson,
+      classificationType: ClassificationType[validJson.classificationType as keyof typeof ClassificationType],
+    });
   });
 });
