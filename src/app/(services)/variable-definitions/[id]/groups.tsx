@@ -4,13 +4,6 @@ import { areFieldsDefinedAndNonNull, formatDate, yesNo } from '@/utils/functions
 
 /**
  * ------------------------------
- * ID Items
- * ------------------------------
- */
-export const idItems = (v: RenderedView): Item[] => [{ label: 'ID', value: v.id, type: 'text' }];
-
-/**
- * ------------------------------
  * Validity Items
  * ------------------------------
  */
@@ -39,12 +32,18 @@ export const createdAndEditedItems = (v: RenderedView): Item[] => [
 export const unitTypesItems = (v: RenderedView): Item[] => [
   {
     label: 'Enhetstyper',
-    value: v.unitTypes.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
+    value: v.unitTypes
+      .filter((ref) => areFieldsDefinedAndNonNull(ref, ['title']))
+      .map((ref) => ref.title)
+      .join(', '),
     type: 'tags',
   },
   {
     label: 'Statistikkområder',
-    value: v.subjectFields.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
+    value: v.subjectFields
+      .filter((ref) => areFieldsDefinedAndNonNull(ref, ['title']))
+      .map((ref) => ref.title)
+      .join(', '),
     type: 'tags',
   },
 ];
@@ -57,19 +56,21 @@ export const unitTypesItems = (v: RenderedView): Item[] => [
 export const referencesItems = (v: RenderedView): Item[] => [
   {
     label: 'Klassifikasjon',
-    value: v.classificationUri,
+    value: v.classificationUri || '-',
     type: 'link',
     display: 'Se klassifikasjon',
   },
   {
     label: 'URI til ekstern referanse',
-    value: v.externalReferenceUri,
+    value: v.externalReferenceUri || '-',
     type: 'link',
     display: 'Se ekstern referanse',
   },
   {
     label: 'URI til relevante variabeldefinisjoner',
-    value: v.relatedVariableDefinitionUris,
+    value: Array.isArray(v.relatedVariableDefinitionUris)
+      ? v.relatedVariableDefinitionUris.join(', ')
+      : v.relatedVariableDefinitionUris || '-',
     type: 'link',
     display: Array.isArray(v.relatedVariableDefinitionUris)
       ? v.relatedVariableDefinitionUris.map((_, i) => `Se relevant variabeldefinisjon ${i + 1}`)
@@ -83,7 +84,7 @@ export const referencesItems = (v: RenderedView): Item[] => [
  * ------------------------------
  */
 export const ownerItems = (v: RenderedView): Item[] => [
-  { label: 'Team', value: v.owner.team, type: 'text' },
+  { label: 'Team', value: v.owner.team || '-', type: 'text' },
   { label: 'Groups', value: v.owner.groups.join(', '), type: 'text' },
 ];
 
@@ -93,8 +94,8 @@ export const ownerItems = (v: RenderedView): Item[] => [
  * ------------------------------
  */
 export const contactItems = (v: RenderedView): Item[] => [
-  { label: 'Title', value: v.contact?.title, type: 'text' },
-  { label: 'Email', value: v.contact?.email, type: 'text' },
+  { label: 'Title', value: v.contact?.title || '-', type: 'text' },
+  { label: 'Email', value: v.contact?.email || '-', type: 'text' },
 ];
 
 /**
