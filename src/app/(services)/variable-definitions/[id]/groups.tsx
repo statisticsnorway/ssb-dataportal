@@ -2,16 +2,12 @@ import { RenderedView } from '@/libs/data-access/variable-definitions/internal/m
 import { Item } from '@/types/item';
 import { areFieldsDefinedAndNonNull, formatDate, yesNo } from '@/utils/functions';
 
-
-
 /**
  * ------------------------------
  * ID Items
  * ------------------------------
  */
-export const idItems = (v: RenderedView): Item[] => [
-  { label: 'ID', value: v.id, type: 'text' },
-];
+export const idItems = (v: RenderedView): Item[] => [{ label: 'ID', value: v.id, type: 'text' }];
 
 /**
  * ------------------------------
@@ -43,16 +39,12 @@ export const createdAndEditedItems = (v: RenderedView): Item[] => [
 export const unitTypesItems = (v: RenderedView): Item[] => [
   {
     label: 'Enhetstyper',
-    value: v.unitTypes
-      .filter((ref) => areFieldsDefinedAndNonNull(ref, ['title']))
-      .map((ref) => ref.title),
+    value: v.unitTypes.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
     type: 'tags',
   },
   {
     label: 'Statistikkområder',
-    value: v.subjectFields
-      .filter((ref) => areFieldsDefinedAndNonNull(ref, ['title']))
-      .map((ref) => ref.title),
+    value: v.subjectFields.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
     type: 'tags',
   },
 ];
@@ -67,7 +59,7 @@ export const referencesItems = (v: RenderedView): Item[] => [
     label: 'Klassifikasjon',
     value: v.classificationUri,
     type: 'link',
-    display: 'Se klassifikasjon', 
+    display: 'Se klassifikasjon',
   },
   {
     label: 'URI til ekstern referanse',

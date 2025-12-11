@@ -20,7 +20,7 @@ describe('TextField', () => {
   it('renders label and value correctly', () => {
     render(
       <dl>
-        <TextField label="Definisjon" value="This is a definition" />
+        <TextField label='Definisjon' value='This is a definition' />
       </dl>,
     );
 
@@ -32,7 +32,7 @@ describe('TextField', () => {
     const longText = 'This is a very long definition that should be displayed as paragraph text.';
     render(
       <dl>
-        <TextField label="Kommentar" value={longText} />
+        <TextField label='Kommentar' value={longText} />
       </dl>,
     );
 
@@ -45,7 +45,7 @@ describe('TextField', () => {
     const linkText = 'www.example.com';
     render(
       <dl>
-        <TextField label="Kommentar" value={linkText} />
+        <TextField label='Kommentar' value={linkText} />
       </dl>,
     );
 
@@ -57,7 +57,7 @@ describe('TextField', () => {
     const tagText = 'Tag text';
     render(
       <dl>
-        <TextField label="Tag" value={tagText} type="tags" />
+        <TextField label='Tag' value={tagText} type='tags' />
       </dl>,
     );
 

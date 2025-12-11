@@ -36,7 +36,6 @@ export const formatArray = (arr?: string[]) => joinOrEmpty(arr || []);
 export const optionalString = (str?: string, fallback = '-') => str || fallback;
 export const yesNo = (flag?: boolean) => (flag ? 'Ja' : 'Nei');
 
-
 export const convertStatus = (status: string) => {
   switch (status) {
     case 'Draft':

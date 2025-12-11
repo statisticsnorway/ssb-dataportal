@@ -1,17 +1,24 @@
 'use client';
 
 import { Tag } from '@digdir/designsystemet-react';
-import React from 'react';
+import { useParams } from 'next/navigation';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
+import { TextField } from '@/components/text-field';
 import { localization } from '@/libs/language';
+import { convertStatus } from '@/utils/functions';
 import { testVardefData } from '@/utils/mock-data';
 import { VardefHeading } from '../components/vardefHeading';
+import {
+  contactItems,
+  createdAndEditedItems,
+  ownerItems,
+  personalDataItems,
+  referencesItems,
+  unitTypesItems,
+  validityItems,
+} from './groups';
 import styles from './variable-details-page.module.css';
-import { contactItems, validityItems, ownerItems, referencesItems, createdAndEditedItems, unitTypesItems, personalDataItems } from './groups';
-import { TextField } from '@/components/text-field';
-import { convertStatus } from '@/utils/functions';
-import { useParams } from 'next/navigation';
 
 export default function VariableDefinition() {
   const params = useParams();
@@ -24,7 +31,9 @@ export default function VariableDefinition() {
   }
 
   const homeUrl = { text: 'Variabeldefinisjoner', href: '/variable-definitions' };
-  const breadcrumbList = variableDefinition.id ? ([{ text: variableDefinition.name, href: '' }] as BreadcrumbType[]) : [];
+  const breadcrumbList = variableDefinition.id
+    ? ([{ text: variableDefinition.name, href: '' }] as BreadcrumbType[])
+    : [];
 
   return (
     <section className={`${styles.detailsPage} container`}>
@@ -55,14 +64,18 @@ export default function VariableDefinition() {
               <span className={styles.idLabel}>ID</span>
               <span className={styles.idValue}>{variableDefinition.id}</span>
             </div>
-            <Tag className={styles.variableStatusTag} data-size="lg" data-color="info">
+            <Tag className={styles.variableStatusTag} data-size='lg' data-color='info'>
               {convertStatus(variableDefinition.variableStatus)}
             </Tag>
           </section>
           <DetailsPagePanel title='Enhetstyper og statistikkområder' elements={unitTypesItems(variableDefinition)} />
           <DetailsPagePanel title='Referanser' elements={referencesItems(variableDefinition)} />
           <DetailsPagePanel title='Gyldighetsperiode' elements={validityItems(variableDefinition)} columns={2} />
-          <DetailsPagePanel title='Opprettet og siste endret' elements={createdAndEditedItems(variableDefinition)} columns={2} />
+          <DetailsPagePanel
+            title='Opprettet og siste endret'
+            elements={createdAndEditedItems(variableDefinition)}
+            columns={2}
+          />
         </aside>
       </div>
     </section>
