@@ -3,9 +3,19 @@ import { Item } from '@/types/item';
 import { areFieldsDefinedAndNonNull, formatDate, yesNo } from '@/utils/functions';
 
 
+
 /**
  * ------------------------------
- * Validity Items (plain text)
+ * ID Items
+ * ------------------------------
+ */
+export const idItems = (v: RenderedView): Item[] => [
+  { label: 'ID', value: v.id, type: 'text' },
+];
+
+/**
+ * ------------------------------
+ * Validity Items
  * ------------------------------
  */
 export const validityItems = (v: RenderedView): Item[] => [
@@ -15,7 +25,7 @@ export const validityItems = (v: RenderedView): Item[] => [
 
 /**
  * ------------------------------
- * Audit / Created & Edited Items (plain text)
+ * Audit / Created & Edited Items
  * ------------------------------
  */
 export const createdAndEditedItems = (v: RenderedView): Item[] => [
@@ -27,7 +37,7 @@ export const createdAndEditedItems = (v: RenderedView): Item[] => [
 
 /**
  * ------------------------------
- * Unit Types & Subject Fields (tags)
+ * Unit Types & Subject Fields
  * ------------------------------
  */
 export const unitTypesItems = (v: RenderedView): Item[] => [
@@ -49,7 +59,7 @@ export const unitTypesItems = (v: RenderedView): Item[] => [
 
 /**
  * ------------------------------
- * References (links)
+ * References
  * ------------------------------
  */
 export const referencesItems = (v: RenderedView): Item[] => [

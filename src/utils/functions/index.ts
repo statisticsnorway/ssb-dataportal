@@ -33,3 +33,17 @@ export const formatDate = (date?: Date) => date?.toISOString().split('T')[0] || 
 export const formatArray = (arr?: string[]) => joinOrEmpty(arr || []);
 export const optionalString = (str?: string, fallback = '-') => str || fallback;
 export const yesNo = (flag?: boolean) => (flag ? 'Ja' : 'Nei');
+
+
+export const convertStatus = (status: string) => {
+  switch (status) {
+    case 'Draft':
+      return 'Utkast';
+    case 'PUBLISHED_INTERNAL':
+      return 'Publisert internt';
+    case 'PUBLISHED_EXTERNAL':
+      return 'Publisert eksternt';
+    default:
+      return status;
+  }
+};

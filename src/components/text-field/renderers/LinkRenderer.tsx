@@ -4,8 +4,6 @@ import { Link } from '@digdir/designsystemet-react';
 export default function LinkRenderer({ value, display }: Item) {
   if (!value) return null;
 
-  console.log(value, display);
-
   if (Array.isArray(value)) {
     const displayArray = Array.isArray(display)
       ? display

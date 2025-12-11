@@ -1,4 +1,4 @@
-import { Label, Tag } from '@digdir/designsystemet-react';
+import { Tag } from '@digdir/designsystemet-react';
 import React from 'react';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
@@ -7,6 +7,7 @@ import { VardefHeading } from '../components/vardefHeading';
 import styles from './variable-details-page.module.css';
 import { contactItems, validityItems, ownerItems, referencesItems, createdAndEditedItems, unitTypesItems, personalDataItems } from './groups';
 import { TextField } from '@/components/text-field';
+import { convertStatus } from '@/utils/functions';
 
 export default function VariableDefinition({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
@@ -29,9 +30,9 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
           variableDefinition={variableDefinition}
         ></VardefHeading>
         <div className={styles.statusRow}>
-          <Label className={styles.infoText}>ID: {variableDefinition.id}</Label>
+          {/* <Label className={styles.infoText}>ID: {variableDefinition.id}</Label> */}
           <Tag className={styles.variableStatusTag} data-size='lg' data-color='info'>
-            {variableDefinition.variableStatus}
+            {convertStatus(variableDefinition.variableStatus)}
           </Tag>
         </div>
       </header>
@@ -51,6 +52,10 @@ export default function VariableDefinition({ params }: { params: Promise<{ id: s
           <DetailsPagePanel title='Eier' elements={ownerItems(variableDefinition)} columns={2} />
         </article>
         <aside className={styles.sidebar}>
+          <div className={styles.idField}>
+            <span className={styles.idLabel}>ID</span>
+            <span className={styles.idValue}>{variableDefinition.id}</span>
+          </div>
           <DetailsPagePanel title='Enhetstyper og statistikkområder' elements={unitTypesItems(variableDefinition)} />
           <DetailsPagePanel title='Referanser' elements={referencesItems(variableDefinition)} />
           <DetailsPagePanel title='Gyldighetsperiode' elements={validityItems(variableDefinition)} columns={2} />
