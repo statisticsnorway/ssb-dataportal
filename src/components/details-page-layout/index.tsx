@@ -26,7 +26,7 @@ export const DetailsPageLayout = ({
       </Breadcrumbs>
       <article className={styles.detailPageContent}>
         <header className={styles.detailPageHeader}>
-          <h2>{title}</h2>
+          <h1>{title}</h1>
         </header>
         <section className={styles.mainSection}>{mainContent}</section>
         {children}
