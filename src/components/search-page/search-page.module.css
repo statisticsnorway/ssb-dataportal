@@ -1,21 +1,19 @@
-/* Check how and why so many flex boxes*/
 .searchPageWrapper {
   display: flex;
-  flex-flow: column;
+  flex-flow: column wrap;
   margin-bottom: var(--medium-gap);
   background-color: var(--dark-blue-gray-color);
   -webkit-box-align: center;
   background-repeat: no-repeat;
   background-position: right top;
   justify-items: center;
-  min-height: 150px;
   justify-content: space-between;
   gap: var(--medium-gap);
 }
 
 .searchFieldContent {
   margin-top: var(--large-gap);
-  width: 100%;
+  overflow-x: hidden;
 }
 
 .metadataContainer {
@@ -25,6 +23,7 @@
 
 .tabsNavigationContainer {
   width: 100%;
+  overflow-x: hidden;
 }
 
 .tabs {
@@ -40,7 +39,7 @@
 .tabsNavigation {
   display: flex;
   flex-direction: column;
-  margin: var(--center-element-no-top);
+  overflow-x: hidden;
 }
 
 .tab {
@@ -64,9 +63,7 @@
 .pageContainer {
   display: flex;
   flex-direction: column;
-  padding: var(--fds-spacing-6);
   overflow-wrap: break-word;
-  margin: var(--center-element-no-top);
   margin-bottom: var(--ds-size-4);
 }
 
@@ -103,7 +100,6 @@
 
   .tabsNavigation {
     flex-direction: row;
-    max-width: 100%;
   }
 
   /* Set variable*/
@@ -114,16 +110,13 @@
 
   #searchValue.ds-input {
     margin: 0;
-    width: 80%;
+    min-width: 80%;
   }
 }
 
 @media (min-width: 992px) {
   .tabsContent {
     margin: 0;
-    padding: 0;
-  }
-  .searchFieldContent {
     padding: 0;
   }
 }

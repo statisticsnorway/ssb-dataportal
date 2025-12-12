@@ -1,20 +1,14 @@
 .header {
   border-bottom: 1px solid rgb(230, 230, 230);
   box-shadow: var(--shadow-color) 0px 0px 10px -5px;
-  display: flex;
-  justify-content: flex-start;
-  padding: var(--large-gap) 0rem;
-  height: 74px;
-  width: 100%;
-  min-width: var(--app-min-width);
+  padding: var(--large-gap) 1rem;
 }
 
 .headerContainer {
+  display: flex;
   align-items: center;
   justify-content: flex-start;
   display: flex;
-  width: 100%;
-  padding: 0 var(--medium-gap);
 }
 
 .logo {

@@ -28,7 +28,7 @@ export default function Classification() {
         homeUrl={homeUrl}
         breadcrumbHomeAriaLabel={localization.navigateHomeClassifications}
       />
-      <header className={styles.detailsPageHeader}>
+      <header>
         <Heading className={styles.classificationHeading} level={1} data-size='lg'>
           {classification.name}
         </Heading>

@@ -1,6 +1,7 @@
 .detailsPage {
-  padding: 0 1rem;
+  width: 100%;
 }
+
 .contentGrid {
   display: flex;
   flex-direction: column;
@@ -125,10 +126,6 @@
 }
 
 @media (min-width: 768px) {
-  .detailsPage {
-    padding: 0;
-  }
-
   .contentGrid {
     flex-direction: row;
     gap: var(--large-gap);
