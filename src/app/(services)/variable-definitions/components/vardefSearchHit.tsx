@@ -14,7 +14,7 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
     <Card>
       <VardefHeading
         href={`/variable-definitions/${variableDefinition.id}`}
-        headingProps={{ 'data-size': 'xl', level: 2 }}
+        headingProps={{ 'data-size': 'md', level: 2 }}
         variableDefinition={variableDefinition}
       ></VardefHeading>
       <Paragraph className={styles.truncateTo3Lines}>{variableDefinition.definition}</Paragraph>
