@@ -28,7 +28,7 @@
     "classnames": "2.5.1",
     "dotenv": "17.2.3",
     "lodash": "4.17.21",
-    "next": "15.5.7",
+    "next": "15.5.9",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-localization": "2.0.6"
