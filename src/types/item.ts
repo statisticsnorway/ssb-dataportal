@@ -1,8 +1,8 @@
-import { ReactNode } from 'react';
+export type FieldType = 'text' | 'link' | 'tags';
 
-export type Item = {
+export interface Item {
   label: string;
-  value: ReactNode;
-  href?: string;
-  longText?: boolean;
-};
+  value?: string | string[] | null;
+  type?: FieldType;
+  display?: string | string[];
+}

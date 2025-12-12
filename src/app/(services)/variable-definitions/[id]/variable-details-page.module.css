@@ -10,18 +10,83 @@
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .detailsPageHeader h1 {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-2xl);
   font-weight: 600;
   line-height: 1.2;
 }
 
+.statusRow {
+  display: flex;
+  align-items: center;
+}
+
+.variableStatusTag {
+  margin-left: auto;
+}
+
+.idAndTagRow {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  margin-bottom: 1rem;
+}
+
+.idField {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--box-shadow-sm);
+  border-radius: var(--border-radius-xl);
+  overflow: hidden;
+  background: white;
+}
+
+.idLabel,
+.idValue {
+  display: flex;
+  padding: 0.5rem 0.75rem;
+  white-space: nowrap;
+  font-size: var(--font-size-sm);
+}
+
+.idLabel {
+  background-color: #737373;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.idValue {
+  background-color: white;
+}
+
+.variableStatusTag {
+  margin-left: 0;
+}
+
+.definition {
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+  margin-top: 0.25rem;
+  margin-bottom: 2rem;
+}
+
 .infoText {
-  font-size: 1rem;
+  font-size: var(--font-size-md);
   color: var(--fds-semantic-text-neutral-subtle);
+}
+
+.titleRow {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .separator {
@@ -35,7 +100,6 @@
 .mainSection {
   display: flex;
   flex-direction: column;
-  gap: var(--large-gap);
   margin-bottom: var(--large-gap);
   padding-bottom: 1.5rem;
 }
