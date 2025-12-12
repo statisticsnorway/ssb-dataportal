@@ -71,10 +71,13 @@
 }
 
 .definition {
-  font-size: var(--font-size-lg);
   font-weight: 500;
+  line-height: 1.5;
+  font-family: Roboto, "Open Sans", sans-serif;
   margin-top: 0.25rem;
   margin-bottom: 2rem;
+  text-align: left;
+  text-wrap: initial;
 }
 
 .infoText {
