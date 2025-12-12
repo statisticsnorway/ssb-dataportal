@@ -13,15 +13,20 @@
   margin-bottom: 1rem;
 }
 
-.fieldWrapper dt {
-  margin: 0;
+.fieldWrapper .label {
   font-weight: 600;
+  margin: 0;
 }
 
-.fieldWrapper dd {
-  margin: 0;
-  display: flex;
+.fieldWrapper .value {
+  display: inline-flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   align-items: center;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.fieldWrapper .value p {
+  margin: 0;
 }

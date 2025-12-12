@@ -28,19 +28,6 @@ describe('TextField', () => {
     expect(screen.getByText('This is a definition')).toBeInTheDocument();
   });
 
-  it('renders long text content', () => {
-    const longText = 'This is a very long definition that should be displayed as paragraph text.';
-    render(
-      <dl>
-        <TextField label='Kommentar' value={longText} />
-      </dl>,
-    );
-
-    const element = screen.getByText(longText);
-    expect(element).toBeInTheDocument();
-    expect(['P', 'SPAN']).toContain(element.tagName);
-  });
-
   it('renders URL as text (mock does not auto-link)', () => {
     const linkText = 'www.example.com';
     render(

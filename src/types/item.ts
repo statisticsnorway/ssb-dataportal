@@ -1,4 +1,4 @@
-export type FieldType = 'text' | 'longtext' | 'link' | 'tags';
+export type FieldType = 'text' | 'link' | 'tags';
 
 export interface Item {
   label: string;
