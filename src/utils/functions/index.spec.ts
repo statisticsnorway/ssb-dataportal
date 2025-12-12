@@ -1,7 +1,7 @@
 'use client';
 import { ClassificationType } from '@/types/classification';
-import { areFieldsDefinedAndNonNull, nonEmpty, parseClassification } from '.';
 import { Item } from '@/types/item';
+import { areFieldsDefinedAndNonNull, nonEmpty, parseClassification } from '.';
 
 describe('areFieldsDefinedAndNonNull filter', () => {
   it('non-null objects pass through', () => {
@@ -102,14 +102,11 @@ describe('nonEmpty', () => {
 
   it('filters out null or undefined values', () => {
     const items: Item[] = [
-      { label: 'A', value: null as any },
-      { label: 'B', value: undefined as any },
+      { label: 'A', value: null },
+      { label: 'B', value: undefined },
       { label: 'C', value: 'ok' },
     ];
 
     expect(nonEmpty(items)).toEqual([{ label: 'C', value: 'ok' }]);
   });
 });
-
-
-

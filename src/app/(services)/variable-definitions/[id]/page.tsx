@@ -6,7 +6,7 @@ import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
 import { TextField } from '@/components/text-field';
 import { localization } from '@/libs/language';
-import { convertStatus } from '@/utils/functions';
+import { convertStatus, nonEmpty } from '@/utils/functions';
 import { testVardefData } from '@/utils/mock-data';
 import { VardefHeading } from '../components/vardefHeading';
 import {
@@ -19,7 +19,6 @@ import {
   validityItems,
 } from './groups';
 import styles from './variable-details-page.module.css';
-import { nonEmpty } from '@/utils/functions';
 
 export default function VariableDefinition() {
   const params = useParams();
@@ -72,9 +71,7 @@ export default function VariableDefinition() {
             </Tag>
           </section>
           <DetailsPagePanel title='Enhetstyper og statistikkområder' elements={unitTypesItems(variableDefinition)} />
-          {references.length > 0 && (
-            <DetailsPagePanel title='Referanser' elements={references} />
-          )}
+          {references.length > 0 && <DetailsPagePanel title='Referanser' elements={references} />}
           <DetailsPagePanel title='Gyldighetsperiode' elements={validityItems(variableDefinition)} columns={2} />
           <DetailsPagePanel
             title='Opprettet og siste endret'

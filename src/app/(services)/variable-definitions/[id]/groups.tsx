@@ -32,20 +32,15 @@ export const createdAndEditedItems = (v: RenderedView): Item[] => [
 export const unitTypesItems = (v: RenderedView): Item[] => [
   {
     label: 'Enhetstyper',
-    value: v.unitTypes
-      .filter((ref) => areFieldsDefinedAndNonNull(ref, ['title']))
-      .map((ref) => ref.title),
+    value: v.unitTypes.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
     type: 'tags',
   },
   {
     label: 'Statistikkområder',
-    value: v.subjectFields
-      .filter((ref) => areFieldsDefinedAndNonNull(ref, ['title']))
-      .map((ref) => ref.title),
+    value: v.subjectFields.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
     type: 'tags',
   },
 ];
-
 
 /**
  * ------------------------------
@@ -69,7 +64,7 @@ export const referencesItems = (v: RenderedView): Item[] => [
     label: 'URI til relevante variabeldefinisjoner',
     value: Array.isArray(v.relatedVariableDefinitionUris)
       ? v.relatedVariableDefinitionUris.join(', ')
-      : v.relatedVariableDefinitionUris ?? null,
+      : (v.relatedVariableDefinitionUris ?? null),
     type: 'link',
     display: Array.isArray(v.relatedVariableDefinitionUris)
       ? v.relatedVariableDefinitionUris.map((_, i) => `Se relevant variabeldefinisjon ${i + 1}`)

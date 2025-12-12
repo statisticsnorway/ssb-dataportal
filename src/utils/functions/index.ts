@@ -37,7 +37,7 @@ export const formatArray = (arr?: string[]) => joinOrEmpty(arr || []);
 export const optionalString = (str?: string, fallback = '-') => str || fallback;
 export const yesNo = (flag?: boolean) => (flag ? 'Ja' : 'Nei');
 export const nonEmpty = (items: Item[]) =>
-  items.filter((i) => Array.isArray(i.value) ? i.value.length > 0 : !!i.value);
+  items.filter((i) => (Array.isArray(i.value) ? i.value.length > 0 : !!i.value));
 
 export const convertStatus = (status: string) => {
   switch (status) {
