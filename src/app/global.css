@@ -87,10 +87,6 @@ body {
   border-color: var(--ds-color-accent-border-default);
 }
 
-.ds-heading {
-  font-size: 1.8rem;
-}
-
 @media (min-width: 768px) {
   .container {
     max-width: 90%;
