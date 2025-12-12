@@ -2,7 +2,7 @@ import { Card, Paragraph } from '@digdir/designsystemet-react';
 import TagsGroup from '@/components/tags-group';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { areFieldsDefinedAndNonNull } from '@/utils/functions';
-import styles from '../variable-definitions.module.css';
+import styles from './searchHit.module.css';
 import { VardefHeading } from './vardefHeading';
 
 interface VardefSearchHitProps {
