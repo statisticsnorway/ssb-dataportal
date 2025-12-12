@@ -2,6 +2,7 @@
   border-bottom: 1px solid rgb(230, 230, 230);
   box-shadow: var(--shadow-color) 0px 0px 10px -5px;
   padding: var(--large-gap) 0;
+  background-color: var(--element-background-color);
 }
 
 .headerContainer {
