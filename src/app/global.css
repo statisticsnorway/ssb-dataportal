@@ -49,6 +49,8 @@
 
   --font-weight-medium: 500;
   --search-hit-shortname-color: #666666;
+
+  --search-card-border-color: #c3dcdc;
 }
 
 html * {
@@ -89,10 +91,14 @@ body {
   box-sizing: border-box;
 }
 
-#sortVariables.ds-input {
+select#sortVariables.ds-input {
   padding: 0.5rem;
   border-radius: 5px;
-  border-color: var(--ds-color-accent-border-default);
+  border-color: #c3dcdc;
+}
+
+div.ds-card {
+  border-color: #c3dcdc;
 }
 
 @media (min-width: 768px) {
