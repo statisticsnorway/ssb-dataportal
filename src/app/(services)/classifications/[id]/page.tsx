@@ -1,5 +1,5 @@
 'use client';
-import { Heading } from '@digdir/designsystemet-react';
+import { Alert, Heading } from '@digdir/designsystemet-react';
 import { useParams } from 'next/navigation';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { localization } from '@/libs/language';
@@ -33,6 +33,9 @@ export default function Classification() {
           {classification.name}
         </Heading>
       </header>
+      <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
+        Detaljside for klassifikasjon er ikke klar for testing.
+      </Alert>
     </section>
   );
 }

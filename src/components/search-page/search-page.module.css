@@ -79,6 +79,9 @@
   margin-top: var(--medium-gap);
 }
 
+.searchLabel {
+  color: white;
+}
 @media (min-width: 768px) {
   .searchHitsContainer {
     display: flex;

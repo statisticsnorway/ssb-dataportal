@@ -2,7 +2,7 @@ import { Heading, HeadingProps } from '@digdir/designsystemet-react';
 import Link from 'next/link';
 import { JSX } from 'react';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
-import styles from './searchHit.module.css';
+import styles from './search-hit.module.css';
 
 const withLink = ({ href, children }: { href: string | object; children: JSX.Element }) => {
   return (

@@ -1,5 +1,6 @@
 'use client';
 
+import { Alert } from '@digdir/designsystemet-react';
 import { useMemo } from 'react';
 import { SearchHitContainer } from '@/components/search-hits-container';
 import SearchPage from '@/components/search-page/searchPage';
@@ -47,6 +48,12 @@ const ClassificationsServicePage = ({
   return (
     <SearchPage
       filterGroups={filterGroups}
+      searchLabel='Her kommer søk...'
+      infoContent={
+        <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
+          Klassifikasjoner er ikke klar for testing.
+        </Alert>
+      }
       searchResult={
         <>
           <SortFields

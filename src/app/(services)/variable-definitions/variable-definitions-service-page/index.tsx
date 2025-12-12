@@ -27,6 +27,7 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, filterGroups }: Va
   return (
     <SearchPage
       filterGroups={filterGroups}
+      searchLabel='Her kommer søk...'
       searchResult={
         <>
           <SortFields
