@@ -16,11 +16,6 @@
   overflow-x: hidden;
 }
 
-.metadataContainer {
-  margin-top: var(--medium-gap);
-  background-color: var(--background-color);
-}
-
 .tabsNavigationContainer {
   width: 100%;
   overflow-x: hidden;
