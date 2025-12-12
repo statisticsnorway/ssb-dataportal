@@ -58,8 +58,8 @@ export default function VariableDefinition() {
               </dl>
             )}
           </section>
-          <DetailsPagePanel title='Kontakt' elements={contactItems(variableDefinition)} columns={2} />
-          <DetailsPagePanel title='Personopplysninger' elements={personalDataItems(variableDefinition)} />
+          <DetailsPagePanel elements={contactItems(variableDefinition)} columns={2} />
+          <DetailsPagePanel elements={personalDataItems(variableDefinition)} />
           <DetailsPagePanel title='Eier' elements={ownerItems(variableDefinition)} columns={2} />
         </article>
         <aside className={styles.sidebar}>

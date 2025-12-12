@@ -8,8 +8,8 @@ import { areFieldsDefinedAndNonNull, formatDate, yesNo } from '@/utils/functions
  * ------------------------------
  */
 export const validityItems = (v: RenderedView): Item[] => [
-  { label: 'Valid From', value: formatDate(v.validFrom), type: 'text' },
-  { label: 'Valid Until', value: formatDate(v.validUntil ?? undefined), type: 'text' },
+  { label: 'Fra', value: formatDate(v.validFrom), type: 'text' },
+  { label: 'Til', value: formatDate(v.validUntil ?? undefined), type: 'text' },
 ];
 
 /**
@@ -18,10 +18,10 @@ export const validityItems = (v: RenderedView): Item[] => [
  * ------------------------------
  */
 export const createdAndEditedItems = (v: RenderedView): Item[] => [
-  { label: 'Created At', value: formatDate(v.createdAt), type: 'text' },
-  { label: 'Created By', value: v.createdBy, type: 'text' },
-  { label: 'Last Updated At', value: formatDate(v.lastUpdatedAt), type: 'text' },
-  { label: 'Last Updated By', value: v.lastUpdatedBy, type: 'text' },
+  { label: 'Sist oppdatert på', value: formatDate(v.lastUpdatedAt), type: 'text' },
+  { label: 'Sist oppdatert av', value: v.lastUpdatedBy, type: 'text' },
+  { label: 'Opprettet på', value: formatDate(v.createdAt), type: 'text' },
+  { label: 'Opprettet av', value: v.createdBy, type: 'text' },
 ];
 
 /**
@@ -55,13 +55,13 @@ export const referencesItems = (v: RenderedView): Item[] => [
     display: 'Se klassifikasjon',
   },
   {
-    label: 'URI til ekstern referanse',
+    label: 'Ekstern referanse',
     value: v.externalReferenceUri ?? null,
     type: 'link',
     display: 'Se ekstern referanse',
   },
   {
-    label: 'URI til relevante variabeldefinisjoner',
+    label: 'Relevante variabeldefinisjoner',
     value: Array.isArray(v.relatedVariableDefinitionUris)
       ? v.relatedVariableDefinitionUris.join(', ')
       : (v.relatedVariableDefinitionUris ?? null),
@@ -78,8 +78,8 @@ export const referencesItems = (v: RenderedView): Item[] => [
  * ------------------------------
  */
 export const ownerItems = (v: RenderedView): Item[] => [
-  { label: 'Team', value: v.owner.team || '-', type: 'text' },
-  { label: 'Groups', value: v.owner.groups.join(', '), type: 'text' },
+  { label: 'Dapla Team', value: v.owner.team || '-', type: 'text' },
+  { label: 'Grupper', value: v.owner.groups.join(', '), type: 'text' },
 ];
 
 /**
@@ -87,10 +87,20 @@ export const ownerItems = (v: RenderedView): Item[] => [
  * Contact
  * ------------------------------
  */
-export const contactItems = (v: RenderedView): Item[] => [
-  { label: 'Title', value: v.contact?.title || '-', type: 'text' },
-  { label: 'Email', value: v.contact?.email || '-', type: 'text' },
-];
+export const contactItems = (v: RenderedView): Item[] => {
+  if (v.contact?.email != null) {
+    return [
+      {
+        label: 'Kontakt',
+        value: `mailto:${v.contact?.email}`,
+        type: 'link',
+        display: v.contact?.title || 'Ta kontakt med spørsmål eller innspill',
+      },
+    ];
+  } else {
+    return [{ label: 'Kontakt', value: v.contact?.title, type: 'text' }];
+  }
+};
 
 /**
  * ------------------------------
