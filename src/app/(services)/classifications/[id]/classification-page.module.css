@@ -1,0 +1,25 @@
+.detailsPage {
+  padding: 0 1rem;
+}
+
+.classificationHeading {
+  max-width: 100%;
+  width: 100%;
+}
+
+.ds-heading {
+  font-size: var(--font-size-lg);
+}
+.detailsPageHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .detailsPage {
+    padding: 0;
+  }
+}

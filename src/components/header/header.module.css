@@ -6,7 +6,6 @@
   padding: var(--large-gap) 0rem;
   height: 74px;
   width: 100%;
-  z-index: 1000;
   min-width: var(--app-min-width);
 }
 
