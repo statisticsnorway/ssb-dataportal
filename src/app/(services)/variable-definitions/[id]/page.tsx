@@ -53,7 +53,9 @@ export default function VariableDefinition() {
             <h2 className={styles.definitionTitle}>Definisjon</h2>
             <p className={styles.definition}>{variableDefinition.definition}</p>
             {variableDefinition.comment && (
-              <TextField label='Kommentar' value={variableDefinition.comment} type='text' />
+              <dl>
+                <TextField label='Kommentar' value={variableDefinition.comment} type='text' />
+              </dl>
             )}
           </section>
           <DetailsPagePanel title='Kontakt' elements={contactItems(variableDefinition)} columns={2} />

@@ -13,12 +13,13 @@ interface TextFieldProps extends Item {}
 
 export const TextField = ({ label, value, type = 'text', display }: TextFieldProps) => {
   const Renderer = getRenderer(type);
+
   return (
     <div className={styles.fieldWrapper}>
-      <span className={styles.label}>{label}</span>
-      <span className={styles.value}>
+      <dt className={styles.label}>{label}</dt>
+      <dd className={styles.value}>
         {value != null ? <Renderer label={label} value={value} display={display} type={type} /> : '–'}
-      </span>
+      </dd>
     </div>
   );
 };

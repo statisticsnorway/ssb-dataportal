@@ -2,31 +2,19 @@
   color: var(--text-color-secondary);
   text-transform: uppercase;
   font-size: var(--font-size-sm);
-  display: block;
-  margin-bottom: 0.25rem;
-}
-
-.fieldWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  margin-bottom: 1rem;
-}
-
-.fieldWrapper dt {
   font-weight: 600;
-  margin: 0;
+  margin: 0 0 0.25rem 0;
 }
 
-.fieldWrapper dd {
+.value {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   align-items: center;
-  margin: 0;
+  margin: 0 0 1rem 0;
   line-height: 1.5;
 }
 
-.fieldWrapper .value p {
+.value p {
   margin: 0;
 }
