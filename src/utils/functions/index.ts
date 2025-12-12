@@ -1,4 +1,5 @@
 import { Classification, ClassificationType } from '@/types/classification';
+import { Item } from '@/types/item';
 
 /**
  * Generally used to produce a uniq hash array items.
@@ -30,6 +31,26 @@ export function areFieldsDefinedAndNonNull<T extends {}, U extends Array<keyof T
   return obj != null && obj != undefined && fields.every((field) => obj[field] !== undefined && obj[field] !== null);
 }
 
+export const joinOrEmpty = (arr?: string[] | null) => arr?.join(', ') || '';
+export const formatDate = (date?: Date) => date?.toISOString().split('T')[0] || '-';
+export const formatArray = (arr?: string[]) => joinOrEmpty(arr || []);
+export const optionalString = (str?: string, fallback = '-') => str || fallback;
+export const yesNo = (flag?: boolean) => (flag ? 'Ja' : 'Nei');
+export const nonEmpty = (items: Item[]) =>
+  items.filter((i) => (Array.isArray(i.value) ? i.value.length > 0 : !!i.value));
+
+export const convertStatus = (status: string) => {
+  switch (status) {
+    case 'Draft':
+      return 'Utkast';
+    case 'PUBLISHED_INTERNAL':
+      return 'Publisert internt';
+    case 'PUBLISHED_EXTERNAL':
+      return 'Publisert eksternt';
+    default:
+      return status;
+  }
+};
 /**
  * Check if an object is compatible with type 'Classification'
  *

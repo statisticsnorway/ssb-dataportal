@@ -1,21 +1,26 @@
-.fieldGroup {
+.fieldWrapper {
   display: flex;
   flex-direction: column;
-  margin: 0;
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
+  gap: 0.25rem;
 }
 
 .label {
   color: var(--text-color-secondary);
   text-transform: uppercase;
   font-size: var(--font-size-sm);
+  font-weight: 600;
+  margin: 0;
 }
 
 .value {
-  font-weight: 700;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.value p {
+  margin: 0;
 }
