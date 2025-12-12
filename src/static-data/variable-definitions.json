@@ -126,7 +126,7 @@
     "name": "Arbeidsgiver",
     "short_name": "arbgiv",
     "definition": "En arbeidsgiver er en person eller virksomhet som sysselsetter arbeidstakere.",
-    "classification_uri": "https://www.ssb.no/en/klass/klassifikasjoner/131",
+    "classification_uri": null,
     "unit_types": [
       {
         "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",

@@ -1,6 +1,7 @@
 'use client';
 import { ClassificationType } from '@/types/classification';
-import { areFieldsDefinedAndNonNull, parseClassification } from '.';
+import { areFieldsDefinedAndNonNull, nonEmpty, parseClassification } from '.';
+import { Item } from '@/types/item';
 
 describe('areFieldsDefinedAndNonNull filter', () => {
   it('non-null objects pass through', () => {
@@ -79,3 +80,36 @@ describe('parseClassification', () => {
     expect(() => parseClassification(null)).toThrow('Object is null');
   });
 });
+
+describe('nonEmpty', () => {
+  it('keeps items with a truthy string', () => {
+    const items: Item[] = [
+      { label: 'A', value: 'hello' },
+      { label: 'B', value: '' },
+    ];
+
+    expect(nonEmpty(items)).toEqual([{ label: 'A', value: 'hello' }]);
+  });
+
+  it('keeps items with non-empty arrays', () => {
+    const items: Item[] = [
+      { label: 'A', value: ['one'] },
+      { label: 'B', value: [] },
+    ];
+
+    expect(nonEmpty(items)).toEqual([{ label: 'A', value: ['one'] }]);
+  });
+
+  it('filters out null or undefined values', () => {
+    const items: Item[] = [
+      { label: 'A', value: null as any },
+      { label: 'B', value: undefined as any },
+      { label: 'C', value: 'ok' },
+    ];
+
+    expect(nonEmpty(items)).toEqual([{ label: 'C', value: 'ok' }]);
+  });
+});
+
+
+

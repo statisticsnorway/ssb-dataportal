@@ -19,6 +19,7 @@ import {
   validityItems,
 } from './groups';
 import styles from './variable-details-page.module.css';
+import { nonEmpty } from '@/utils/functions';
 
 export default function VariableDefinition() {
   const params = useParams();
@@ -34,6 +35,8 @@ export default function VariableDefinition() {
   const breadcrumbList = variableDefinition.id
     ? ([{ text: variableDefinition.name, href: '' }] as BreadcrumbType[])
     : [];
+
+  const references = nonEmpty(referencesItems(variableDefinition));
 
   return (
     <section className={`${styles.detailsPage} container`}>
@@ -69,7 +72,9 @@ export default function VariableDefinition() {
             </Tag>
           </section>
           <DetailsPagePanel title='Enhetstyper og statistikkområder' elements={unitTypesItems(variableDefinition)} />
-          <DetailsPagePanel title='Referanser' elements={referencesItems(variableDefinition)} />
+          {references.length > 0 && (
+            <DetailsPagePanel title='Referanser' elements={references} />
+          )}
           <DetailsPagePanel title='Gyldighetsperiode' elements={validityItems(variableDefinition)} columns={2} />
           <DetailsPagePanel
             title='Opprettet og siste endret'

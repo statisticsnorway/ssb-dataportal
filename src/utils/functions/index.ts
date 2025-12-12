@@ -1,4 +1,5 @@
 import { Classification, ClassificationType } from '@/types/classification';
+import { Item } from '@/types/item';
 
 /**
  * Generally used to produce a uniq hash array items.
@@ -35,6 +36,8 @@ export const formatDate = (date?: Date) => date?.toISOString().split('T')[0] || 
 export const formatArray = (arr?: string[]) => joinOrEmpty(arr || []);
 export const optionalString = (str?: string, fallback = '-') => str || fallback;
 export const yesNo = (flag?: boolean) => (flag ? 'Ja' : 'Nei');
+export const nonEmpty = (items: Item[]) =>
+  items.filter((i) => Array.isArray(i.value) ? i.value.length > 0 : !!i.value);
 
 export const convertStatus = (status: string) => {
   switch (status) {

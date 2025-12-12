@@ -55,13 +55,13 @@ export const unitTypesItems = (v: RenderedView): Item[] => [
 export const referencesItems = (v: RenderedView): Item[] => [
   {
     label: 'Klassifikasjon',
-    value: v.classificationUri || '-',
+    value: v.classificationUri ?? null,
     type: 'link',
     display: 'Se klassifikasjon',
   },
   {
     label: 'URI til ekstern referanse',
-    value: v.externalReferenceUri || '-',
+    value: v.externalReferenceUri ?? null,
     type: 'link',
     display: 'Se ekstern referanse',
   },
@@ -69,7 +69,7 @@ export const referencesItems = (v: RenderedView): Item[] => [
     label: 'URI til relevante variabeldefinisjoner',
     value: Array.isArray(v.relatedVariableDefinitionUris)
       ? v.relatedVariableDefinitionUris.join(', ')
-      : v.relatedVariableDefinitionUris || '-',
+      : v.relatedVariableDefinitionUris ?? null,
     type: 'link',
     display: Array.isArray(v.relatedVariableDefinitionUris)
       ? v.relatedVariableDefinitionUris.map((_, i) => `Se relevant variabeldefinisjon ${i + 1}`)
