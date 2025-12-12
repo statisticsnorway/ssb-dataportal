@@ -1,9 +1,15 @@
+.fieldWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
 .label {
   color: var(--text-color-secondary);
   text-transform: uppercase;
   font-size: var(--font-size-sm);
   font-weight: 600;
-  margin: 0 0 0.25rem 0;
+  margin: 0;
 }
 
 .value {
@@ -11,7 +17,7 @@
   flex-wrap: wrap;
   gap: 0.5rem;
   align-items: center;
-  margin: 0 0 1rem 0;
+  margin: 0;
   line-height: 1.5;
 }
 
