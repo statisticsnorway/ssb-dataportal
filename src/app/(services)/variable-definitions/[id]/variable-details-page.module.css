@@ -27,6 +27,8 @@
 
 .variableStatusTag {
   margin-left: auto;
+  box-shadow: var(--box-shadow-sm);
+  padding: 0.5rem 0.75rem;
 }
 
 .idAndTagRow {
@@ -40,7 +42,6 @@
 
 .idField {
   display: flex;
-  align-items: center;
   justify-content: center;
   box-shadow: var(--box-shadow-sm);
   border-radius: var(--border-radius-xl);
@@ -60,10 +61,18 @@
   background-color: #737373;
   color: #ffffff;
   font-weight: 500;
+  align-items: center;
+}
+
+.copyId {
+  background-color: var(--element-background-color);
+  color: var(--main-font-color);
+  font-size: var(--font-size-md);
 }
 
 .idValue {
   background-color: white;
+  align-items: center;
 }
 
 .variableStatusTag {
