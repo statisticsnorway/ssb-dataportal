@@ -1,5 +1,3 @@
-'use client';
-
 import { Link } from '@digdir/designsystemet-react';
 import Image from 'next/image';
 import { FC } from 'react';

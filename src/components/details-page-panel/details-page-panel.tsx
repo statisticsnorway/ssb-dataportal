@@ -1,3 +1,4 @@
+// details-page-panel.tsx
 import { Heading } from '@digdir/designsystemet-react';
 import { Item } from '@/types/item';
 import { TextField } from '../text-field';
@@ -10,19 +11,15 @@ interface DetailsPagePanelProps {
 }
 
 export const DetailsPagePanel = ({ title, elements, columns = 1 }: DetailsPagePanelProps) => {
-  const validElements = elements.filter(
-    ({ value }) => value != null && value !== '' && (!Array.isArray(value) || value.length > 0),
-  );
-
   return (
-    <section className={styles.section}>
+    <section className={styles.panel} data-columns={columns}>
       {title && (
         <Heading level={2} className={styles.sectionTitle}>
           {title}
         </Heading>
       )}
-      <dl className={`${styles.panel} ${columns === 2 ? styles.gridTwoCol : ''}`}>
-        {validElements.map((item, i) => (
+      <dl className={styles.list}>
+        {elements.map((item, i) => (
           <TextField key={i} {...item} />
         ))}
       </dl>

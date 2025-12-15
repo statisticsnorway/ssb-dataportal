@@ -1,48 +1,42 @@
-.section {
+.panel {
   display: flex;
   flex-direction: column;
   margin-bottom: var(--large-gap);
   padding-bottom: 1.5rem;
+  background-color: var(--element-background-color);
+  border-radius: var(--border-radius-md);
+  padding: var(--medium-gap);
+  box-shadow: var(--box-shadow-sm);
 }
 
-.section:last-of-type {
+.panel:last-of-type {
   margin-bottom: 0;
 }
 
 .sectionTitle {
   font-size: var(--font-size-lg);
   padding-bottom: 0.5rem;
-}
-
-.panel {
-  display: flex;
-  flex-direction: column;
-  gap: var(--medium-gap);
-  background-color: var(--element-background-color);
-  border-radius: var(--border-radius-md);
-  border: none;
-  padding: var(--medium-gap);
-  box-shadow: var(--box-shadow-sm);
   margin: 0;
 }
 
-.gridTwoCol {
+.list {
   display: flex;
   flex-direction: column;
+  gap: var(--medium-gap);
+  margin: 0;
+}
+
+.panel[data-columns="2"] .list {
   gap: var(--large-gap);
 }
 
-.gridTwoCol > div {
-  flex: 1 1 100%;
-}
-
 @media (min-width: 768px) {
-  .gridTwoCol {
+  .panel[data-columns="2"] .list {
     flex-direction: row;
     flex-wrap: wrap;
   }
 
-  .gridTwoCol > div {
+  .panel[data-columns="2"] .list > * {
     flex: 1 1 calc(50% - var(--large-gap) / 2);
   }
 }
