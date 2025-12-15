@@ -10,10 +10,6 @@ interface DetailsPagePanelProps {
 }
 
 export const DetailsPagePanel = ({ title, elements, columns = 1 }: DetailsPagePanelProps) => {
-  const validElements = elements.filter(
-    ({ value }) => value != null && value !== '' && (!Array.isArray(value) || value.length > 0),
-  );
-
   return (
     <section className={styles.section}>
       {title && (
@@ -21,8 +17,8 @@ export const DetailsPagePanel = ({ title, elements, columns = 1 }: DetailsPagePa
           {title}
         </Heading>
       )}
-      <dl className={`${styles.panel} ${columns === 2 ? styles.gridTwoCol : ''}`}>
-        {validElements.map((item, i) => (
+      <dl className={styles.panel} data-columns={columns}>
+        {elements.map((item, i) => (
           <TextField key={i} {...item} />
         ))}
       </dl>
