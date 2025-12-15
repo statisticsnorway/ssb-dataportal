@@ -1,33 +1,24 @@
 .searchPageWrapper {
   display: flex;
-  flex-flow: column;
+  flex-flow: column wrap;
   margin-bottom: var(--medium-gap);
   background-color: var(--dark-blue-gray-color);
   -webkit-box-align: center;
   background-repeat: no-repeat;
   background-position: right top;
   justify-items: center;
-  min-height: 150px;
   justify-content: space-between;
   gap: var(--medium-gap);
 }
 
 .searchFieldContent {
   margin-top: var(--large-gap);
-  width: 100%;
-}
-
-#searchValue.ds-input {
-  --dsc-search-padding-inline: var(--large-gap);
-  --dsc-input-color: green;
-}
-.metadataContainer {
-  margin-top: var(--medium-gap);
-  background-color: var(--background-color);
+  overflow-x: hidden;
 }
 
 .tabsNavigationContainer {
   width: 100%;
+  overflow-x: hidden;
 }
 
 .tabs {
@@ -43,7 +34,7 @@
 .tabsNavigation {
   display: flex;
   flex-direction: column;
-  margin: var(--center-element-no-top);
+  overflow-x: hidden;
 }
 
 .tab {
@@ -64,41 +55,10 @@
   color: var(--main-font-color);
 }
 
-@media (min-width: 768px) {
-  .tabsNavigation {
-    flex-direction: row;
-    max-width: 100%;
-  }
-
-  .tab {
-    width: 200px;
-    margin: 0;
-  }
-}
-
-@media (min-width: 992px) {
-  .tabsContent {
-    margin: 0;
-    padding: 0;
-  }
-  .searchFieldContent {
-    padding: 0;
-  }
-}
-
-@media (min-width: 1400px) {
-  .tabsContent {
-    margin: 0;
-  }
-}
-
 .pageContainer {
   display: flex;
   flex-direction: column;
-  padding: var(--fds-spacing-6);
   overflow-wrap: break-word;
-  max-width: 95%;
-  margin: var(--center-element-no-top);
   margin-bottom: var(--ds-size-4);
 }
 
@@ -119,6 +79,9 @@
   margin-top: var(--medium-gap);
 }
 
+.searchLabel {
+  color: white;
+}
 @media (min-width: 768px) {
   .searchHitsContainer {
     display: flex;
@@ -132,19 +95,32 @@
   .mainSection {
     flex: 1 1 0;
   }
-  .pageContainer {
-    max-width: var(--breakpoint-width-sm);
+
+  .tabsNavigation {
+    flex-direction: row;
+  }
+
+  /* Set variable*/
+  .tab {
+    width: 200px;
+    margin: 0;
+  }
+
+  #searchValue.ds-input {
+    margin: 0;
+    min-width: 80%;
   }
 }
 
 @media (min-width: 992px) {
-  .pageContainer {
-    max-width: var(--breakpoint-width-md);
+  .tabsContent {
+    margin: 0;
+    padding: 0;
   }
 }
 
 @media (min-width: 1400px) {
-  .pageContainer {
-    max-width: var(--breakpoint-width-lg);
+  .tabsContent {
+    margin: 0;
   }
 }

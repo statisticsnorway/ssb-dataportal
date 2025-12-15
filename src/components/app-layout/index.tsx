@@ -34,7 +34,7 @@ export const AppLayout = ({
 }: AppLayoutProps) => {
   return (
     <div className={cn(styles.layout, className)}>
-      <Alert data-color={'info'} className={styles.infoAlert} data-size={'md'}>
+      <Alert data-color={'info'} className='infoAlert' data-size={'md'}>
         Velkommen til testing av datakatalogen. Du er nå i en prototype under utvikling.
       </Alert>
       <Header homeUrl='https://www.ssb.no' />

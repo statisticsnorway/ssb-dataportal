@@ -2,7 +2,7 @@ import { Heading, HeadingProps } from '@digdir/designsystemet-react';
 import Link from 'next/link';
 import { JSX } from 'react';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
-import styles from '../variable-definitions.module.css';
+import styles from './vardef.module.css';
 
 const withLink = ({ href, children }: { href: string | object; children: JSX.Element }) => {
   return (
@@ -32,7 +32,7 @@ const VardefHeading = ({
 }) => {
   const headingText = (
     <>
-      <span>{variableDefinition.name}</span>
+      {variableDefinition.name}
       <span className={styles.vardefShortName}>{variableDefinition.shortName}</span>
     </>
   );
