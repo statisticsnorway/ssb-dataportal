@@ -2,7 +2,7 @@ import { Card, Paragraph } from '@digdir/designsystemet-react';
 import TagsGroup from '@/components/tags-group';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { areFieldsDefinedAndNonNull } from '@/utils/functions';
-import styles from '../variable-definitions.module.css';
+import styles from './vardef.module.css';
 import { VardefHeading } from './vardefHeading';
 
 interface VardefSearchHitProps {
@@ -14,7 +14,7 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
     <Card>
       <VardefHeading
         href={`/variable-definitions/${variableDefinition.id}`}
-        headingProps={{ 'data-size': 'xl', level: 2 }}
+        headingProps={{ 'data-size': 'md', level: 2 }}
         variableDefinition={variableDefinition}
       ></VardefHeading>
       <Paragraph className={styles.truncateTo3Lines}>{variableDefinition.definition}</Paragraph>

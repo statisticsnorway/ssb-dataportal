@@ -1,13 +1,14 @@
 'use client';
 
+import { Alert } from '@digdir/designsystemet-react';
 import { useMemo } from 'react';
 import { SearchHitContainer } from '@/components/search-hits-container';
+import SearchPage from '@/components/search-page/searchPage';
 import SortFields from '@/components/sort-fields';
 import { SortTypes, useSearchStateKlass } from '@/hooks/useSearchStateKlass';
 import { localization } from '@/libs/language';
 import { Classification } from '@/types/classification';
 import { FilterGroup } from '@/types/filters';
-import SearchPage from '../../../../components/search-page/searchPage';
 import { ClassificationSearchHit } from './classificationSearchHit';
 
 interface ClassificationServicePageProps {
@@ -47,6 +48,12 @@ const ClassificationsServicePage = ({
   return (
     <SearchPage
       filterGroups={filterGroups}
+      searchLabel='Her kommer søk...'
+      infoContent={
+        <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
+          Klassifikasjoner er ikke klar for testing.
+        </Alert>
+      }
       searchResult={
         <>
           <SortFields

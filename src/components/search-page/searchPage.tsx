@@ -1,6 +1,6 @@
 'use client';
 
-import { Search, Tabs } from '@digdir/designsystemet-react';
+import { Field, Search, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FiltersPanel } from '@/components/filters-panel';
@@ -14,9 +14,10 @@ interface SearchPageProps {
   infoContent?: React.ReactNode;
   searchResult?: React.ReactElement;
   filterGroups?: FilterGroup[];
+  searchLabel?: string;
 }
 
-const SearchPage: React.FC<SearchPageProps> = ({ infoContent, searchResult, filterGroups }) => {
+const SearchPage: React.FC<SearchPageProps> = ({ infoContent, searchResult, filterGroups, searchLabel }) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -53,14 +54,18 @@ const SearchPage: React.FC<SearchPageProps> = ({ infoContent, searchResult, filt
   }, [selectedTab]);
 
   return (
-    <Tabs value={selectedTab} className={styles.tabsContainer} data-color='accent' onChange={handleTabChange}>
+    <Tabs value={selectedTab} data-color='accent' onChange={handleTabChange}>
       <section className={styles.searchPageWrapper}>
         <div className={`${styles.searchFieldContent} container`}>
-          <Search id='searchId' data-color={'accent'}>
-            <Search.Input id='searchValue' aria-label='Søk' />
-            <Search.Clear />
-            <Search.Button>Søk</Search.Button>
-          </Search>
+          <Field>
+            {/*Search is not implemented yet*/}
+            {/*<Label className={styles.searchLabel}>{searchLabel}</Label>*/}
+            <Search id='searchId' data-color={'accent'} aria-disabled>
+              {/*<Search.Input id='searchValue' aria-label='Søk' />
+              <Search.Clear />*/}
+              <Search.Button>Søk</Search.Button>
+            </Search>
+          </Field>
         </div>
         <div className={`${styles.tabsNavigationContainer} container`}>
           <Tabs.List className={styles.tabsNavigation}>
