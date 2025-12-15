@@ -27,6 +27,8 @@
 
 .variableStatusTag {
   margin-left: auto;
+  box-shadow: var(--box-shadow-sm);
+  padding: 0.5rem 0.75rem;
 }
 
 .idAndTagRow {
@@ -65,7 +67,7 @@
 .copyId {
   background-color: var(--element-background-color);
   color: var(--main-font-color);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-md);
 }
 
 .idValue {
