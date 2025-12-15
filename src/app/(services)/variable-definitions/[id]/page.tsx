@@ -92,7 +92,6 @@ export default function VariableDefinition() {
               <span className={styles.idValue}>{variableDefinition.id}</span>
               <Button
                 title='Kopier ID'
-                aria-live='assertive'
                 className={styles.copyId}
                 icon
                 onClick={handleCopyId}
