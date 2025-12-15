@@ -75,8 +75,9 @@ yarn format:fix
 ## Test
 
 We use `jest` for unit testing and `playwright` for end-to-end tests.
-Unit tests are placed inside the component folders to test and named componentName.spec.tsx
-End-to-end tests (called e2e) is placed in folder 'e2e/'
+Unit tests are placed inside the component folder. 
+End-to-end tests (called e2e) is placed in folder 'e2e/'.
+Name testfiles:  `<componentName>.spec.tsx`
 
 ### Jest
 
