@@ -48,7 +48,7 @@ const ClassificationsServicePage = ({
   return (
     <SearchPage
       filterGroups={filterGroups}
-      searchLabel='Her kommer søk...'
+      searchLabel='Søk i klassifikasjoner'
       infoContent={
         <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
           Klassifikasjoner er ikke klar for testing.

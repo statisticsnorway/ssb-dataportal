@@ -5,7 +5,7 @@ export default function Datasets() {
   return (
     <SearchPage
       filterGroups={[]}
-      searchLabel='Her kommer søk...'
+      searchLabel='Søk i datasett'
       infoContent={
         <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
           Datasett er ikke klar for testing.
