@@ -37,7 +37,7 @@ export const AppLayout = ({
       <Alert data-color={'info'} className='infoAlert' data-size={'md'}>
         Velkommen til testing av datakatalogen. Du er nå i en prototype under utvikling.
       </Alert>
-      <Header homeUrl='/' />
+      <Header homeUrl='https://www.ssb.no' />
       <main className={styles.main}>
         {/* TODO(): Remove/change catalog-frontend props */}
         <ErrorBoundary fdkRegistrationBaseUrl={fdkRegistrationBaseUrl} title={catalogTitle ?? ''}>
