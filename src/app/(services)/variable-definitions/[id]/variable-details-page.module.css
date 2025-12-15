@@ -52,7 +52,7 @@
   display: flex;
   padding: 0.5rem 0.75rem;
   white-space: nowrap;
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-sm);
 }
 
 .idLabel {
@@ -65,6 +65,7 @@
 .copyId {
   background-color: var(--element-background-color);
   color: var(--main-font-color);
+  font-size: var(--font-size-sm);
 }
 
 .idValue {
