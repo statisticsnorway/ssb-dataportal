@@ -59,7 +59,7 @@ export default function VariableDefinition() {
         breadcrumbHomeAriaLabel={localization.navigateHomeVariableDefinitions}
       />
       <header className={styles.detailsPageHeader}>
-        <VardefHeading headingProps={{ 'data-size': 'lg', level: 1 }} variableDefinition={variableDefinition} />
+        <VardefHeading headingProps={{ 'data-size': 'xl', level: 1 }} variableDefinition={variableDefinition} />
       </header>
       <div className={styles.contentGrid}>
         <article className={styles.mainColumn}>

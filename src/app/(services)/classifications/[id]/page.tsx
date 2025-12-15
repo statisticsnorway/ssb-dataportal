@@ -1,52 +1,41 @@
 'use client';
-
-import { Heading } from '@digdir/designsystemet-react';
+import { Alert, Heading } from '@digdir/designsystemet-react';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { BreadcrumbType } from '@/components/breadcrumbs';
-import { DetailsPageLayout } from '@/components/details-page-layout';
+import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { localization } from '@/libs/language';
+import { CLASSIFICATIONS, KLASSIFIKASJONER } from '@/utils/constants';
+import { useKlassTabData } from '@/utils/klassTabContext';
+import styles from './classification-page.module.css';
 
 export default function Classification() {
   const params = useParams();
-  const id = params.id;
+  const id = Number(params?.id);
 
-  console.log({ id });
-  const [loading, setLoading] = useState(true);
-  const [classification, setClassification] = useState<string>('');
-  const [error, setError] = useState(null);
+  const klassData = useKlassTabData();
+  const classification = klassData.klassClassifications.find((v) => v.id === id);
 
-  console.log(error);
-  useEffect(() => {
-    if (!id) return;
+  if (!classification) {
+    return <div>Klassifikasjon ikke funnet</div>;
+  }
 
-    async function load() {
-      try {
-        setLoading(true);
+  const homeUrl = { text: KLASSIFIKASJONER, href: `/${CLASSIFICATIONS}` };
+  const breadcrumbList = classification.id ? ([{ text: classification.name, href: '' }] as BreadcrumbType[]) : [];
 
-        setClassification('data');
-        // biome-ignore lint/suspicious/noExplicitAny: <Must find alternative to any in error>
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-    load();
-  }, [id]);
-
-  if (loading) return <div>Loading...</div>;
-  if (!classification) return <div>Classification not found</div>;
-
-  const homeUrl = { text: 'Klassifikasjoner', href: '/classifications' };
-  const breadcrumbList = id ? ([{ text: String(id), href: '' }] as BreadcrumbType[]) : [];
   return (
-    <DetailsPageLayout
-      title={String(id)}
-      mainContent={<Heading level={3}>Hallo Klassifikasjon</Heading>}
-      breadcrumbList={breadcrumbList}
-      homeUrl={homeUrl}
-      ariaLabel={localization.navigateHomeClassifications}
-    ></DetailsPageLayout>
+    <section className={`${styles.detailsPage} container`}>
+      <Breadcrumbs
+        breadcrumbList={breadcrumbList}
+        homeUrl={homeUrl}
+        breadcrumbHomeAriaLabel={localization.navigateHomeClassifications}
+      />
+      <header>
+        <Heading className={styles.classificationHeading} level={1} data-size='lg'>
+          {classification.name}
+        </Heading>
+      </header>
+      <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
+        Detaljside for klassifikasjon er ikke klar for testing.
+      </Alert>
+    </section>
   );
 }
