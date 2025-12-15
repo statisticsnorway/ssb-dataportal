@@ -1,7 +1,9 @@
 'use client';
 
-import { Tag } from '@digdir/designsystemet-react';
+import { Button, Tag } from '@digdir/designsystemet-react';
+import { CheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { useParams } from 'next/navigation';
+import { useState } from 'react';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
 import { TextField } from '@/components/text-field';
@@ -37,6 +39,18 @@ export default function VariableDefinition() {
 
   const references = nonEmpty(referencesItems(variableDefinition));
 
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyId = async () => {
+    try {
+      await navigator.clipboard.writeText(variableDefinition.id);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Kopiering av ID mislyktes', err);
+    }
+  };
+
   return (
     <section className={`${styles.detailsPage} container`}>
       <Breadcrumbs
@@ -67,6 +81,15 @@ export default function VariableDefinition() {
             <div className={styles.idField}>
               <span className={styles.idLabel}>ID</span>
               <span className={styles.idValue}>{variableDefinition.id}</span>
+              <Button
+                aria-live='assertive'
+                className={styles.copyId}
+                icon
+                onClick={handleCopyId}
+                aria-label={copied ? 'Kopiert' : 'Kopier ID'}
+              >
+                {copied ? <CheckmarkIcon aria-hidden /> : <ClipboardIcon aria-hidden />}
+              </Button>
             </div>
             <Tag className={styles.variableStatusTag} data-size='lg' data-color='info'>
               {convertStatus(variableDefinition.variableStatus)}
