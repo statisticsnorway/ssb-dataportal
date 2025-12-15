@@ -15,7 +15,7 @@ export default function Classification() {
   const classification = klassData.klassClassifications.find((v) => v.id === id);
 
   if (!classification) {
-    return <div>Variabeldefinisjon ikke funnet</div>;
+    return <div>Klassifikasjon ikke funnet</div>;
   }
 
   const homeUrl = { text: KLASSIFIKASJONER, href: `/${CLASSIFICATIONS}` };
