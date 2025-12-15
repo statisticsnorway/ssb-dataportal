@@ -3118,7 +3118,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/webpack@npm:^5.28.5":
+"@types/webpack@npm:5.28.5":
   version: 5.28.5
   resolution: "@types/webpack@npm:5.28.5"
   dependencies:
@@ -6223,7 +6223,7 @@ __metadata:
     "@types/node": "npm:24.10.0"
     "@types/react": "npm:19.2.7"
     "@types/react-dom": "npm:19.2.3"
-    "@types/webpack": "npm:^5.28.5"
+    "@types/webpack": "npm:5.28.5"
     classnames: "npm:2.5.1"
     dotenv: "npm:17.2.3"
     jest: "npm:30.2.0"
