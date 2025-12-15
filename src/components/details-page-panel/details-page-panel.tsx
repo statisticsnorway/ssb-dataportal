@@ -1,4 +1,3 @@
-// details-page-panel.tsx
 import { Heading } from '@digdir/designsystemet-react';
 import { Item } from '@/types/item';
 import { TextField } from '../text-field';
@@ -12,13 +11,13 @@ interface DetailsPagePanelProps {
 
 export const DetailsPagePanel = ({ title, elements, columns = 1 }: DetailsPagePanelProps) => {
   return (
-    <section className={styles.panel} data-columns={columns}>
+    <section className={styles.section}>
       {title && (
         <Heading level={2} className={styles.sectionTitle}>
           {title}
         </Heading>
       )}
-      <dl className={styles.list}>
+      <dl className={styles.panel} data-columns={columns}>
         {elements.map((item, i) => (
           <TextField key={i} {...item} />
         ))}
