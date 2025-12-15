@@ -1,11 +1,13 @@
 import type { NextConfig } from 'next';
+import type { RuleSetRule } from 'webpack';
 import path from 'path';
 
 const nextConfig: NextConfig = {
   /* config options here */
   webpack(config: { module: { rules: any[] }; resolve: { alias: any } }) {
-    // SVG loader config
-    const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.('.svg'));
+    const fileLoaderRule = config.module.rules.find(
+      (rule: RuleSetRule) => !!rule.test && rule.test instanceof RegExp && rule.test.test('.svg'),
+    );
 
     config.module.rules.push(
       {
@@ -15,11 +17,13 @@ const nextConfig: NextConfig = {
       },
       {
         test: /\.svg$/i,
-        resourceQuery: { not: /url/ },
+        issuer: fileLoaderRule.issuer,
+        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] }, // exclude if *.svg?url
         use: ['@svgr/webpack'],
       },
     );
 
+    // Modify the file loader rule to ignore *.svg, since we have it handled now.
     fileLoaderRule.exclude = /\.svg$/i;
 
     // Aliases

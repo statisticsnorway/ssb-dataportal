@@ -7,8 +7,8 @@ import { MetadataProviders } from '@/utils/metadataProvider';
 import { VardefTabData } from '@/utils/vardefTabContext';
 
 export const metadata: Metadata = {
-  title: 'Metadata services',
-  description: 'SSB metadata services',
+  title: 'Metadata catalog | Statistics Norway',
+  description: 'Metadata catalog | Statistics Norway',
 };
 
 import { fetchClassificationFamilies } from '@/libs/data/classificationFamilyData';
