@@ -3,7 +3,6 @@
   box-shadow: var(--shadow-color) 0px 0px 10px -5px;
   display: flex;
   justify-content: flex-start;
-  /*padding: var(--large-gap) 0rem;*/
   height: 80px;
   width: 100%;
   z-index: 1000;
