@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Tag } from '@digdir/designsystemet-react';
-import { CheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
+import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
@@ -41,11 +41,20 @@ export default function VariableDefinition() {
 
   const [copied, setCopied] = useState(false);
 
+  /**
+   * Copies the `id` from `variableDefinition` to the clipboard.
+   *
+   * Sets the `copied` state to `true` for 2.5 seconds to indicate a successful copy.
+   * If the copy fails, an error is logged to the console.
+   *
+   * @async
+   * @function handleCopyId
+   */
   const handleCopyId = async () => {
     try {
       await navigator.clipboard.writeText(variableDefinition.id);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setTimeout(() => setCopied(false), 2500);
     } catch (err) {
       console.error('Kopiering av ID mislyktes', err);
     }
@@ -82,13 +91,14 @@ export default function VariableDefinition() {
               <span className={styles.idLabel}>ID</span>
               <span className={styles.idValue}>{variableDefinition.id}</span>
               <Button
+                title='Kopier ID'
                 aria-live='assertive'
                 className={styles.copyId}
                 icon
                 onClick={handleCopyId}
                 aria-label={copied ? 'Kopiert' : 'Kopier ID'}
               >
-                {copied ? <CheckmarkIcon aria-hidden /> : <ClipboardIcon aria-hidden />}
+                {copied ? <ClipboardCheckmarkIcon aria-hidden /> : <ClipboardIcon aria-hidden />}
               </Button>
             </div>
             <Tag className={styles.variableStatusTag} data-size='lg' data-color='info'>
