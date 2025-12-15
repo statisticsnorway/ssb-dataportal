@@ -1,6 +1,6 @@
 'use client';
 
-import { Field, Label, Search, Tabs } from '@digdir/designsystemet-react';
+import { Field, Search, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FiltersPanel } from '@/components/filters-panel';
@@ -58,10 +58,11 @@ const SearchPage: React.FC<SearchPageProps> = ({ infoContent, searchResult, filt
       <section className={styles.searchPageWrapper}>
         <div className={`${styles.searchFieldContent} container`}>
           <Field>
-            <Label className={styles.searchLabel}>{searchLabel}</Label>
-            <Search id='searchId' data-color={'accent'}>
-              <Search.Input id='searchValue' aria-label='Søk' />
-              <Search.Clear />
+            {/*Search is not implemented yet*/}
+            {/*<Label className={styles.searchLabel}>{searchLabel}</Label>*/}
+            <Search id='searchId' data-color={'accent'} aria-disabled>
+              {/*<Search.Input id='searchValue' aria-label='Søk' />
+              <Search.Clear />*/}
               <Search.Button>Søk</Search.Button>
             </Search>
           </Field>
