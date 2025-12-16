@@ -72,8 +72,10 @@ export default function VariableDefinition() {
       </header>
       <div className={styles.contentGrid}>
         <article className={styles.mainColumn}>
-          <section className={styles.mainSection}>
-            <h2 className={styles.definitionTitle}>Definisjon</h2>
+          <section
+            className={styles.mainSection}
+            aria-label={variableDefinition.comment ? 'Variabeldefinisjon med kommentar' : 'Variabeldefinisjon'}
+          >
             <p className={styles.definition}>{variableDefinition.definition}</p>
             {variableDefinition.comment && (
               <dl>
