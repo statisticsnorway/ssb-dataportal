@@ -154,13 +154,31 @@ yarn dev
 npx playwright codegen http://localhost:3000
 ```
 
-### Generate client code open api
+### Generate client code
 
-Run codegen
+This project uses OpenAPI Generator to generate TypeScript clients from OpenAPI specs.
+
+You can generate the clients one at a time using the yarn scripts defined in package.json.
+
+Generate Vardef internal:
 
 ```bash
-yarn codegen
+yarn codegen:vardef-internal
 ```
+Uses the OpenAPI spec from:
+https://metadata.ssb.no/docs/openapi/variable-definitions/variable-definitions-internal.yml
+
+Output directory: src/libs/data-access/variable-definitions/internal
+
+Generate Klass:
+
+```bash
+yarn codegen:klass
+```
+Uses the OpenAPI spec from:
+https://data.ssb.no/api/klass/v3/api-docs
+
+Output directory: src/libs/data-access/klass
 
 ## Next.js
 
