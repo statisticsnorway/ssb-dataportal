@@ -1,5 +1,7 @@
 .filterHeader {
   background-color: var(--ds-color-surface-tinted);
+  color: black;
+  font-weight: 700;
 }
 
 .filterCard {

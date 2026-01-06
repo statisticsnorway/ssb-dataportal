@@ -1,9 +1,13 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { fetchSubjectFields } from '@/libs/data/subjectFieldLookup';
 import { FilterGroup } from '@/types/filters';
+import { SubjectField } from '@/types/subjectField';
 import { useVardefTabData } from '@/utils/vardefTabContext';
 import VariableDefinitionsServicePage from './variable-definitions-service-page';
+
+const subjectFields: SubjectField[] = await fetchSubjectFields();
 
 export default function VariableDefinitions() {
   const [selectedVariableDefinitions, setSelectedVariableDefinitions] = useState<string[]>([]);
@@ -11,12 +15,11 @@ export default function VariableDefinitions() {
   const filterGroups: FilterGroup[] = useMemo(() => {
     const groups: FilterGroup[] = [
       {
-        filterHeading: 'Status',
-        filters: [
-          { label: 'Utkast', value: 'draft' },
-          { label: 'Publisert internt', value: 'published-internal' },
-          { label: 'Publisert eksternt', value: 'published-external' },
-        ],
+        filterHeading: 'Statistikkområde',
+        filters: subjectFields.map((f: SubjectField) => ({
+          label: f.name,
+          value: String(f.code),
+        })),
         selectedItems: selectedVariableDefinitions,
         onFilterChange: setSelectedVariableDefinitions,
       },
