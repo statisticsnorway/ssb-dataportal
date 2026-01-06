@@ -13,6 +13,16 @@
           "npmVersion": "6.9.0",
           "withInterfaces": true
         }
+      },
+      "klass": {
+        "generatorName": "typescript-fetch",
+        "output": "src/libs/data-access/klass",
+        "inputSpec": "https://data.ssb.no/api/klass/v3/api-docs",
+        "additionalProperties": {
+          "supportsES6": "true",
+          "npmVersion": "6.9.0",
+          "withInterfaces": true
+        }
       }
     }
   }
