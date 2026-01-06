@@ -1,4 +1,4 @@
-import subjectFieldaMock from '@/static-data/subjectField.json';
+import subjectFieldaMock from '@/static-data/subject-fields.json';
 import { SubjectField } from '@/types/subjectField';
 
 export const SUBJECT_FIELD_LOOKUP: Record<string, string> = {
