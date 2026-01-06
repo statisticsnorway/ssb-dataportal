@@ -111,7 +111,6 @@ export default function Classifications() {
         }
 
         // Step 2: apply local filters
-        //data = data?.filter((c) => selectedClassificationTypes.includes(c.classificationType));
         data = data.filter((c) => c.classificationType && selectedClassificationTypes.includes(c.classificationType));
 
         // compute totalPages first
