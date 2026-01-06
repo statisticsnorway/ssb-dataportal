@@ -1,17 +1,17 @@
 import { test as base, expect } from '@playwright/test';
+import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
-import { Classification } from '@/types/classification';
 import { KLASSIFIKASJONER } from '@/utils/constants';
 import { parseClassification } from '@/utils/functions';
 import classificationMock from '../static-data/classifications.json';
 
-type ClassificationPageFixture = (classification: Classification) => Promise<void>;
+type ClassificationPageFixture = (classification: ClassificationResource) => Promise<void>;
 const classifications = classificationMock.classifications;
 const test = base.extend<{
   goToClassification: ClassificationPageFixture;
 }>({
   goToClassification: async ({ page }, use) => {
-    const goToClassification = async (classification: Classification) => {
+    const goToClassification = async (classification: ClassificationResource) => {
       await page.goto('/classifications');
 
       // Wait for the classification link to be visible before clicking
