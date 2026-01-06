@@ -16,8 +16,8 @@
     "test:update-snapshots": "jest -u",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
-    "codegen:vardef": "openapi-generator-cli generate vardef-internal",
-    "codegen:klass": "openapi-generator-cli generate klass"
+    "codegen:vardef": "openapi-generator-cli generate --generator-key vardef-internal",
+    "codegen:klass": "openapi-generator-cli generate --generator-key klass"
   },
   "dependencies": {
     "@biomejs/biome": "2.3.6",
