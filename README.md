@@ -75,7 +75,7 @@ yarn format:fix
 ## Test
 
 We use `jest` for unit testing and `playwright` for end-to-end tests.
-Unit tests are placed inside the component folder. 
+Unit tests are placed inside the component folder.
 End-to-end tests (called e2e) is placed in folder 'e2e/'.
 Name testfiles:  `<componentName>.spec.tsx`
 
@@ -154,7 +154,7 @@ yarn dev
 npx playwright codegen http://localhost:3000
 ```
 
-### Generate client code
+### Generate client code open api
 
 Run codegen
 
