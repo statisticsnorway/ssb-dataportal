@@ -77,7 +77,7 @@ yarn format:fix
 We use `jest` for unit testing and `playwright` for end-to-end tests.
 Unit tests are placed inside the component folder.
 End-to-end tests (called e2e) is placed in folder 'e2e/'.
-Name testfiles:  `<componentName>.spec.tsx`
+Name testfiles: `<componentName>.spec.tsx`
 
 ### Jest
 
@@ -87,19 +87,22 @@ Run unit tests
 yarn test
 ```
 
-remove cache
+Remove cache
 
 ```bash
 yarn jest --clearCache
 ```
 
-Update snapshots
 Start watch session - interactive mode
-Enter u to update
 
 ```bash
 yarn test:watch
-u
+```
+
+Update snapshots
+
+```bash
+yarn test:update-snapshots
 ```
 
 ### Playwright
@@ -165,6 +168,7 @@ Generate Vardef internal:
 ```bash
 yarn codegen:vardef-internal
 ```
+
 Uses the OpenAPI spec from:
 https://metadata.ssb.no/docs/openapi/variable-definitions/variable-definitions-internal.yml
 
@@ -175,6 +179,7 @@ Generate Klass:
 ```bash
 yarn codegen:klass
 ```
+
 Uses the OpenAPI spec from:
 https://data.ssb.no/api/klass/v3/api-docs
 
