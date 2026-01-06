@@ -8,6 +8,12 @@ export const sortDescending = (a: string, b: string) => {
   return b.localeCompare(a, 'nb', { sensitivity: 'base' });
 };
 
+// Ascending: earliest -> latest
+export const sortDateAscending = (a: Date, b: Date): number => a.getTime() - b.getTime();
+
+// Descending: latest -> earliest
+export const sortDateDescending = (a: Date, b: Date): number => b.getTime() - a.getTime();
+
 // For sorting ISO 8601 date strings in ascending order
 export const sortDateStringsAscending = (a: string, b: string) => {
   return new Date(a).getTime() - new Date(b).getTime();

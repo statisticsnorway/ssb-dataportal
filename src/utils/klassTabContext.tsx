@@ -1,11 +1,12 @@
 'use client';
 
 import { createContext, useContext } from 'react';
-import { Classification, ClassificationFamily } from '@/types/classification';
+import { ClassificationFamilyResource, ClassificationResource } from '@/libs/data-access/klass';
+//import { Classification, ClassificationFamily } from '@/types/classification';
 
 export type KlassTabData = {
-  klassClassificationFamilies: ClassificationFamily[];
-  klassClassifications: Classification[];
+  klassClassificationFamilies: ClassificationFamilyResource[];
+  klassClassifications: ClassificationResource[];
 };
 
 const KlassTabContext = createContext<KlassTabData | null>(null);

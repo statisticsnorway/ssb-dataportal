@@ -6,13 +6,13 @@ import { SearchHitContainer } from '@/components/search-hits-container';
 import SearchPage from '@/components/search-page/searchPage';
 import SortFields from '@/components/sort-fields';
 import { SortTypes, useSearchStateKlass } from '@/hooks/useSearchStateKlass';
+import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
-import { Classification } from '@/types/classification';
 import { FilterGroup } from '@/types/filters';
 import { ClassificationSearchHit } from './classificationSearchHit';
 
 interface ClassificationServicePageProps {
-  rawHits: Classification[];
+  rawHits: ClassificationResource[];
   isLoading?: boolean;
   currentPage: number;
   totalPages: number;

@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { getClassificationFamily } from '@/libs/data/classificationFamilyData';
-import { Classification, ClassificationFamily, ClassificationType } from '@/types/classification';
+import { ClassificationFamilyResource, ClassificationResource } from '@/libs/data-access/klass';
+import { ClassificationType } from '@/types/classification';
 import { FilterGroup } from '@/types/filters';
 import { useKlassTabData } from '@/utils/klassTabContext';
 import ClassificationsServicePage from './classifications-service-page';
@@ -15,7 +16,9 @@ export default function Classifications() {
 
   if (!klassData) return <div>Loading...</div>;
 
-  const [classifications, setClassifications] = useState<Classification[]>(klassData.klassClassifications ?? []);
+  const [classifications, setClassifications] = useState<ClassificationResource[]>(
+    klassData.klassClassifications ?? [],
+  );
   const [selectedFamilies, setSelectedFamilies] = useState<string[]>([]);
 
   // Default are all classificationtypes selected
@@ -62,7 +65,7 @@ export default function Classifications() {
     if (klassData?.klassClassificationFamilies && klassData?.klassClassificationFamilies.length != 0) {
       groups.push({
         filterHeading: 'Område',
-        filters: klassData.klassClassificationFamilies.map((f: ClassificationFamily) => ({
+        filters: klassData.klassClassificationFamilies.map((f: ClassificationFamilyResource) => ({
           label: f.name,
           value: String(f.id),
         })),
@@ -88,7 +91,7 @@ export default function Classifications() {
       setLoading(true);
       setError(null);
       try {
-        let data: Classification[] = [];
+        let data: ClassificationResource[] = [];
 
         if (selectedFamilies.length > 0) {
           for (const id of selectedFamilies) {
@@ -97,7 +100,7 @@ export default function Classifications() {
               selectedClassificationTypes.includes(ClassificationType.Kodeliste),
             );
             console.log('Family', familyData);
-            const familyClassifications: Classification[] = familyData.classifications;
+            const familyClassifications: ClassificationResource[] = familyData.classifications ?? [];
 
             data.push(...(familyClassifications ?? []));
           }
@@ -108,7 +111,8 @@ export default function Classifications() {
         }
 
         // Step 2: apply local filters
-        data = data?.filter((c) => selectedClassificationTypes.includes(c.classificationType));
+        //data = data?.filter((c) => selectedClassificationTypes.includes(c.classificationType));
+        data = data.filter((c) => c.classificationType && selectedClassificationTypes.includes(c.classificationType));
 
         // compute totalPages first
         const totalPages = Math.ceil(data.length / PAGE_SIZE);

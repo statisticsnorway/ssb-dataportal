@@ -1,18 +1,19 @@
 'use server';
 
 import classificationsMock from '@/static-data/classifications.json';
-import { Classification, linkObj } from '@/types/classification';
+import { linkObj } from '@/types/classification';
 import { CLASSIFICATIONS, KLASS_HOST } from '@/utils/constants';
+import { ClassificationResource } from '../data-access/klass';
 
 const isTest = process.env.NEXT_TEST === 'test';
 
 export interface ClassificationResponse {
-  classifications: Classification[];
+  classifications: ClassificationResource[];
   pageInfo: number;
   links: linkObj[];
 }
 
-export async function fetchAllClassifications(pageSize = 20): Promise<Classification[]> {
+export async function fetchAllClassifications(pageSize = 20): Promise<ClassificationResource[]> {
   let allClassifications = [];
   let currentPage = 0;
   let totalPages = 1;

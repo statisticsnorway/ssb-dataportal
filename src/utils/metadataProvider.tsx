@@ -1,14 +1,14 @@
 import { ReactNode } from 'react';
+import { ClassificationFamilyResource, ClassificationResource } from '@/libs/data-access/klass';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
-import { Classification, ClassificationFamily } from '@/types/classification';
 import { KlassTabProvider } from './klassTabContext';
 import { VardefTabProvider } from './vardefTabContext';
 
 type MetadataProvidersProps = {
   children: ReactNode;
   klassData: {
-    klassClassificationFamilies: ClassificationFamily[];
-    klassClassifications: Classification[];
+    klassClassificationFamilies: ClassificationFamilyResource[];
+    klassClassifications: ClassificationResource[];
   };
   vardefData: {
     variableDefinitions: RenderedView[];
