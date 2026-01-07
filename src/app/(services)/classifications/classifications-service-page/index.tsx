@@ -100,7 +100,6 @@ const ClassificationsServicePage = ({
               id,
               selectedClassificationTypes.includes(ClassificationType.Kodeliste),
             );
-            console.log('Family', familyData);
             const familyClassifications: Classification[] = familyData.classifications;
 
             data.push(...(familyClassifications ?? []));
@@ -149,9 +148,6 @@ const ClassificationsServicePage = ({
     'Filters: ',
     filterGroups.map((filterGroup) => filterGroup.selectedItems),
   );
-
-  console.log('Pagination pages:', { pagedHits });
-  console.log('pages:', { hits });
 
   return (
     <SearchPage
