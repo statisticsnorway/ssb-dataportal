@@ -41,3 +41,17 @@ export async function fetchAllClassifications(pageSize = 20): Promise<Classifica
 
   return allClassifications;
 }
+
+export async function fetchClassificationById(id: number): Promise<Classification | undefined> {
+  const res = await fetch(`${KLASS_HOST}${CLASSIFICATIONS}/${id}?includeCodelists=true`, {
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    if (res.status === 404) return undefined; // not found
+    throw new Error('Failed to fetch classification');
+  }
+
+  const data: Classification = await res.json();
+  return data;
+}
