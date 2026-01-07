@@ -1,7 +1,10 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.3.6/schema.json",
   "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
-  "files": { "ignoreUnknown": false },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": ["!jest.setup.ts"]
+  },
   "formatter": {
     "enabled": true,
     "formatWithErrors": true,
@@ -14,7 +17,7 @@
     "bracketSpacing": true,
     "expand": "auto",
     "useEditorconfig": true,
-    "includes": ["**", "!./dist", "!./coverage", "!src/libs/data-access/**"]
+    "includes": ["**", "!./dist", "!./coverage", "!src/libs/data-access/**", "!jest.config.ts"]
   },
   "linter": {
     "enabled": true,
@@ -104,7 +107,9 @@
       "!src/libs/data-access/**",
       "!**/build/**/*/*.js",
       "!**/build/**/*.js",
-      "!**/public/**/*.js"
+      "!**/public/**/*.js",
+      "!jest.config.ts",
+      "!jest.setup.ts"
     ]
   },
   "javascript": {
@@ -130,6 +135,6 @@
   "assist": {
     "enabled": true,
     "actions": { "source": { "organizeImports": "on" } },
-    "includes": ["**/src/**", "!src/libs/data-access/**"]
+    "includes": ["**/src/**", "!src/libs/data-access/**", "!jest.config.ts"]
   }
 }
