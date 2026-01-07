@@ -21,7 +21,7 @@ import {
 } from './groups';
 import styles from './variable-details-page.module.css';
 
-export default function VariableDefinitionDetails({ variableDefinition }: { variableDefinition: RenderedView }) {
+export default function VariableDefinitionDetail({ variableDefinition }: { variableDefinition: RenderedView }) {
   if (!variableDefinition) {
     return <div>Variabeldefinisjon ikke funnet</div>;
   }

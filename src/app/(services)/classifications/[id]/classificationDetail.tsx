@@ -7,7 +7,7 @@ import { Classification } from '@/types/classification';
 import { CLASSIFICATIONS, KLASSIFIKASJONER } from '@/utils/constants';
 import styles from './classification-page.module.css';
 
-export default function ClassificationDetails({ classification }: { classification: Classification }) {
+export default function ClassificationDetail({ classification }: { classification: Classification }) {
   const homeUrl = { text: KLASSIFIKASJONER, href: `/${CLASSIFICATIONS}` };
   const breadcrumbList = classification.id ? ([{ text: classification.name, href: '' }] as BreadcrumbType[]) : [];
 

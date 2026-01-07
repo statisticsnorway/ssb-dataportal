@@ -1,5 +1,5 @@
 import { fetchClassificationById } from '@/libs/data/classificationData';
-import ClassificationDetails from './classificationDetail';
+import ClassificationDetail from './classificationDetail';
 
 interface ClassificationPageProps {
   params: { id: string };
@@ -14,5 +14,5 @@ export default async function Classification({ params }: ClassificationPageProps
   if (!classification) {
     return <div>Klassifikasjon ikke funnet</div>;
   }
-  return <ClassificationDetails classification={classification} />;
+  return <ClassificationDetail classification={classification} />;
 }

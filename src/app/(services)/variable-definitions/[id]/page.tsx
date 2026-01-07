@@ -1,5 +1,5 @@
 import { getVariableDefinitionById } from '@/utils/mock-data';
-import VariableDefinitionDetails from './variableDefinitionDetail';
+import VariableDefinitionDetail from './variableDefinitionDetail';
 
 export default async function VariableDefinition({ params }: { params: { id: string } }) {
   // await is necessary for Next
@@ -10,5 +10,5 @@ export default async function VariableDefinition({ params }: { params: { id: str
     return <div>Variabeldefinisjon ikke funnet</div>;
   }
 
-  return <VariableDefinitionDetails variableDefinition={variableDefinition} />;
+  return <VariableDefinitionDetail variableDefinition={variableDefinition} />;
 }
