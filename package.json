@@ -19,7 +19,7 @@
     "codegen": "openapi-generator-cli generate"
   },
   "dependencies": {
-    "@biomejs/biome": "2.3.6",
+    "@biomejs/biome": "2.3.11",
     "@digdir/designsystemet-css": "1.7.3",
     "@digdir/designsystemet-react": "1.7.3",
     "@digdir/designsystemet-theme": "1.7.3",
