@@ -22,7 +22,6 @@
           "supportsES6": "true",
           "npmVersion": "6.9.0",
           "withInterfaces": true,
-          "enumPropertyNaming": "UPPERCASE",
           "useSingleRequestParameter": true
         }
       }
