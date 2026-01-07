@@ -6,7 +6,7 @@ interface ClassificationPageProps {
 }
 
 export default async function Classification({ params }: ClassificationPageProps) {
-  // await is Next necessary
+  // await is necessary for Next
   const { id } = await params;
   const numId = Number(id);
   const classification = await fetchClassificationById(numId);
