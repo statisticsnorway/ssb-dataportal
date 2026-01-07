@@ -3,6 +3,7 @@
 import classificationsMock from '@/static-data/classifications.json';
 import { Classification, linkObj } from '@/types/classification';
 import { CLASSIFICATIONS, KLASS_HOST } from '@/utils/constants';
+import { getClassification } from '@/utils/mock-data';
 
 const isTest = process.env.NEXT_TEST === 'test';
 
@@ -43,15 +44,22 @@ export async function fetchAllClassifications(pageSize = 20): Promise<Classifica
 }
 
 export async function fetchClassificationById(id: number): Promise<Classification | undefined> {
-  const res = await fetch(`${KLASS_HOST}${CLASSIFICATIONS}/${id}?includeCodelists=true`, {
-    cache: 'no-store',
-  });
+  let classification: Classification | undefined;
 
-  if (!res.ok) {
-    if (res.status === 404) return undefined; // not found
-    throw new Error('Failed to fetch classification');
+  if (isTest) {
+    console.log('Using mock classifications:', classificationsMock.classifications);
+    classification = getClassification(id);
+  } else {
+    const res = await fetch(`${KLASS_HOST}${CLASSIFICATIONS}/${id}?includeCodelists=true`, {
+      cache: 'no-store',
+    });
+
+    if (!res.ok) {
+      if (res.status === 404) return undefined; // not found
+      throw new Error('Failed to fetch classification');
+    }
+
+    classification = await res.json();
   }
-
-  const data: Classification = await res.json();
-  return data;
+  return classification;
 }
