@@ -6,25 +6,7 @@ export const metadata: Metadata = {
   description: 'Metadata catalog | Statistics Norway',
 };
 
-/*
-import { fetchClassificationFamilies } from '@/libs/data/classificationFamilyData';
-import { testVardefData } from '@/utils/mock-data';
-
-const classificationFamilies: ClassificationFamily[] = await fetchClassificationFamilies();
-
-const allClassifications: Classification[] = await fetchAllClassifications();
-
-const getMetadata = async () => {
-  const klassData: KlassTabData = {
-    klassClassificationFamilies: classificationFamilies,
-    klassClassifications: allClassifications,
-  };
-  const vardefData: VardefTabData = testVardefData;
-  return { klassData, vardefData };
-};
-*/
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
-  //const { klassData, vardefData } = await getMetadata();
   return (
     <html lang='nb'>
       <body>
