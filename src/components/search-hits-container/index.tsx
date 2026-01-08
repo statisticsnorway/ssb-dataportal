@@ -31,6 +31,7 @@ const SearchHitContainer = ({ searchHits = [], paginationInfo, onPageChange, noS
       {(noSearchHits || noSearchHits === undefined) && (
         <div className={styles.noHits}>{localization.search.noHits}</div>
       )}
+      <p className={styles.numHits}>{searchHits.length} treff</p>
       <div className={styles.hitsList}>{searchHits}</div>
 
       {totalPages > 1 && (
