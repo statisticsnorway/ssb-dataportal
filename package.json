@@ -34,7 +34,7 @@
     "react-localization": "2.0.6"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "2.25.2",
+    "@openapitools/openapi-generator-cli": "2.27.0",
     "@playwright/test": "1.57.0",
     "@svgr/webpack": "8.1.0",
     "@testing-library/dom": "10.4.1",
