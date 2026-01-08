@@ -4,7 +4,6 @@ import { Alert } from '@digdir/designsystemet-react';
 import { useMemo } from 'react';
 import { SearchHitContainer } from '@/components/search-hits-container';
 import SearchPage from '@/components/search-page/searchPage';
-import SortFields from '@/components/sort-fields';
 import { SortTypes, useSearchStateKlass } from '@/hooks/useSearchStateKlass';
 import { localization } from '@/libs/language';
 import { Classification } from '@/types/classification';
@@ -54,13 +53,11 @@ const ClassificationsServicePage = ({
           Klassifikasjoner er ikke klar for testing.
         </Alert>
       }
+      sortOptions={sortTypes}
+      sortValue={sortKey}
+      onSortChange={(key: string) => setSortKey(key as SortTypes)}
       searchResult={
         <>
-          <SortFields
-            sortOptions={sortTypes}
-            sortValue={sortKey}
-            onSortChange={(key: string) => setSortKey(key as SortTypes)}
-          />
           {isLoading ? (
             <div>Loading...</div>
           ) : hits.length === 0 ? (

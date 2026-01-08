@@ -4,7 +4,9 @@ import { Field, Label, Search, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FiltersPanel } from '@/components/filters-panel';
+import { SortTypes } from '@/hooks/useSearchStateKlass';
 import { FilterGroup } from '@/types/filters';
+import SortFields from '../sort-fields';
 import styles from './search-page.module.css';
 
 interface SearchPageProps {
@@ -15,9 +17,20 @@ interface SearchPageProps {
   searchResult?: React.ReactElement;
   filterGroups?: FilterGroup[];
   searchLabel?: string;
+  sortOptions?: SortTypes[];
+  sortValue?: SortTypes;
+  onSortChange?: (key: string) => void;
 }
 
-const SearchPage: React.FC<SearchPageProps> = ({ infoContent, searchResult, filterGroups, searchLabel }) => {
+const SearchPage: React.FC<SearchPageProps> = ({
+  infoContent,
+  searchResult,
+  filterGroups,
+  searchLabel,
+  sortOptions,
+  sortValue,
+  onSortChange,
+}) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -83,7 +96,12 @@ const SearchPage: React.FC<SearchPageProps> = ({ infoContent, searchResult, filt
           <aside className={styles.filterSection}>
             {filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
           </aside>
-          <section className={styles.mainSection}>{searchResult}</section>
+          <section className={styles.mainSection}>
+            {sortOptions && sortValue && onSortChange && (
+              <SortFields sortOptions={sortOptions} sortValue={sortValue} onSortChange={onSortChange} />
+            )}
+            {searchResult}
+          </section>
         </section>
       </div>
     </Tabs>
