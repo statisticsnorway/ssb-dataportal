@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Classification } from '@/types/classification';
-import { sortAscending, sortDateStringsDescending, sortDescending } from '@/utils/sort';
+import { ClassificationResource } from '@/libs/data-access/klass';
+import { sortAscending, sortDatesDescendingSafe, sortDescending } from '@/utils/sort';
 
 const sortTypes: SortTypes[] = ['titleAsc', 'titleDesc', 'lastChanged'];
 
 export type SortTypes = 'titleAsc' | 'titleDesc' | 'lastChanged';
 
-export const useSearchStateKlass = (initialHits: Classification[] = []) => {
+export const useSearchStateKlass = (initialHits: ClassificationResource[] = []) => {
   const [sortKey, setSortKey] = useState<SortTypes>('titleAsc');
-  const [hits, setHits] = useState<Classification[]>(initialHits);
+  const [hits, setHits] = useState<ClassificationResource[]>(initialHits);
 
   useEffect(() => {
     setHits(initialHits);
@@ -17,12 +17,13 @@ export const useSearchStateKlass = (initialHits: Classification[] = []) => {
   const getSortFunction = (key: SortTypes) => {
     switch (key) {
       case 'titleAsc':
-        return (a: Classification, b: Classification) => sortAscending(a.name || '', b.name || '');
+        return (a: ClassificationResource, b: ClassificationResource) => sortAscending(a.name || '', b.name || '');
       case 'titleDesc':
-        return (a: Classification, b: Classification) => sortDescending(a.name || '', b.name || '');
-      case 'lastChanged':
-        return (a: Classification, b: Classification) =>
-          sortDateStringsDescending(a.lastModified || '', b.lastModified || '');
+        return (a: ClassificationResource, b: ClassificationResource) => sortDescending(a.name || '', b.name || '');
+      case 'lastChanged': {
+        return (a: ClassificationResource, b: ClassificationResource) =>
+          sortDatesDescendingSafe(a.lastModified, b.lastModified);
+      }
       default:
         return () => 0;
     }

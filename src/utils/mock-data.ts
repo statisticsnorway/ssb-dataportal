@@ -1,7 +1,12 @@
+import {
+  ClassificationFamilyResource,
+  ClassificationResource,
+  ClassificationSummaryResource,
+} from '@/libs/data-access/klass';
 import { RenderedView, RenderedViewFromJSON } from '@/libs/data-access/variable-definitions/internal';
 import classificationsMock from '@/static-data/classifications.json';
 import variableDefinitionsJson from '@/static-data/variable-definitions.json';
-import { Classification } from '@/types/classification';
+import { RawClassificationFamily } from '@/types/classification';
 import { parseClassification } from './functions';
 
 export const testVardefData: RenderedView[] = variableDefinitionsJson.map(RenderedViewFromJSON);
@@ -11,9 +16,22 @@ export function getVariableDefinitionById(id: string | number): RenderedView | u
   return variableDefinitions.find((v) => String(v.id) === String(id));
 }
 
-export function getClassification(id: number): Classification | undefined {
+export function getClassification(id: number): ClassificationResource | undefined {
   const classifications = classificationsMock.classifications;
   const classification = classifications.find((v) => v.id === id);
   const parsedClassification = parseClassification(classification);
   return parsedClassification;
+}
+
+/** * Transforms JSON read from file into proper typed objects */
+export function transformClassificationFamilies(rawData: RawClassificationFamily[]): ClassificationFamilyResource[] {
+  return rawData.map((family) => ({
+    ...family,
+    classifications: family.classifications.map(
+      (c: RawClassificationFamily['classifications'][number]): ClassificationSummaryResource => ({
+        ...c,
+        lastModified: new Date(c.lastModified),
+      }),
+    ),
+  }));
 }
