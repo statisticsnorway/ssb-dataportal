@@ -10,12 +10,12 @@ import { localization } from '@/libs/language';
 import { FilterGroup } from '@/types/filters';
 import { SubjectField } from '@/types/subjectField';
 import { VardefSearchHit } from '../components/vardefSearchHit';
+import styles from './vardef-service-page.module.css';
 
 interface VariableDefinitionsServicePageProps {
   rawHits: RenderedView[];
   isLoading?: boolean;
   subjectFields: SubjectField[];
-  //filterGroups: FilterGroup[];
 }
 
 const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: VariableDefinitionsServicePageProps) => {
@@ -49,6 +49,7 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
     <SearchPage
       filterGroups={filterGroups}
       searchLabel='Søk i variabeldefinisjoner'
+      infoContent={<div className={styles.testInfo}>Text</div>}
       searchResult={
         <>
           <SortFields
