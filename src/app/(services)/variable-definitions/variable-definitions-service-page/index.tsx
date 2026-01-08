@@ -1,4 +1,6 @@
-import { useMemo } from 'react';
+'use client';
+
+import { useMemo, useState } from 'react';
 import { SearchHitContainer } from '@/components/search-hits-container';
 import SearchPage from '@/components/search-page/searchPage';
 import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
@@ -11,10 +13,26 @@ import styles from './vardef-service-page.module.css';
 interface VariableDefinitionsServicePageProps {
   rawHits: RenderedView[];
   isLoading?: boolean;
-  filterGroups: FilterGroup[];
 }
 
-const VariableDefinitionsServicePage = ({ rawHits, isLoading, filterGroups }: VariableDefinitionsServicePageProps) => {
+const VariableDefinitionsServicePage = ({ rawHits, isLoading }: VariableDefinitionsServicePageProps) => {
+  const [selectedVariableDefinitions, setSelectedVariableDefinitions] = useState<string[]>([]);
+
+  const filterGroups: FilterGroup[] = useMemo(() => {
+    const groups: FilterGroup[] = [
+      {
+        filterHeading: 'Status',
+        filters: [
+          { label: 'Utkast', value: 'draft' },
+          { label: 'Publisert internt', value: 'published-internal' },
+          { label: 'Publisert eksternt', value: 'published-external' },
+        ],
+        selectedItems: selectedVariableDefinitions,
+        onFilterChange: setSelectedVariableDefinitions,
+      },
+    ];
+    return groups;
+  }, [selectedVariableDefinitions]);
   const memoizedHits = useMemo(() => (isLoading ? [] : rawHits), [isLoading, rawHits]);
 
   const { hits, sortKey, setSortKey, sortTypes } = useSearchStateVardef(memoizedHits);

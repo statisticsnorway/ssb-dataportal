@@ -14,7 +14,7 @@ export const Header: FC<HeaderProps> = ({ homeUrl }) => {
     <header className={styles.header}>
       <div className={`${styles.headerContainer} container`}>
         <Link href={homeUrl} title='Gå til hovedsiden' className={styles.logo}>
-          <Image src='/ssb-logo.svg' alt='Statistics Norway logo' width={240} height={44} />
+          <Image src='/ssb-logo.svg' alt='Statistics Norway logo' width={240} height={44} priority />
         </Link>
       </div>
     </header>
