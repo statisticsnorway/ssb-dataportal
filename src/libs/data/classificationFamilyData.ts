@@ -1,17 +1,19 @@
 'use server';
 
 import classificationMockFamilies from '@/static-data/classification-families.json';
-import { ClassificationFamily, ClassificationFamilyResponse, ClassificationType } from '@/types/classification';
+import { ClassificationType } from '@/types/classification';
 import { CLASSIFICATION_FAMILIES, KLASS_HOST } from '@/utils/constants';
+import { transformClassificationFamilies } from '@/utils/mock-data';
+import { ClassificationFamilyResource } from '../data-access/klass';
 
 const isTest = process.env.NEXT_TEST === 'test';
 
-export async function fetchClassificationFamilies(): Promise<ClassificationFamily[]> {
-  let allClassificationFamilies: ClassificationFamily[];
+export async function fetchClassificationFamilies(): Promise<ClassificationFamilyResource[]> {
+  let allClassificationFamilies: ClassificationFamilyResource[];
 
   if (isTest) {
     console.log('Using mock classification families:', classificationMockFamilies);
-    allClassificationFamilies = classificationMockFamilies;
+    allClassificationFamilies = allClassificationFamilies = transformClassificationFamilies(classificationMockFamilies);
   } else {
     const res = await fetch(`${KLASS_HOST}${CLASSIFICATION_FAMILIES}`, { cache: 'no-store' });
     if (!res.ok) throw new Error('Failed to fetch classification families');
@@ -26,7 +28,7 @@ export async function fetchClassificationFamilies(): Promise<ClassificationFamil
 export const getClassificationFamily = async (
   id: string,
   includeCodelists: boolean,
-): Promise<ClassificationFamilyResponse> => {
+): Promise<ClassificationFamilyResource> => {
   if (isTest) {
     console.log('Using mock classification family:');
     const family = classificationMockFamilies.find((f) => String(f.id) === id);
@@ -36,7 +38,11 @@ export const getClassificationFamily = async (
       name: family.name,
       classifications: family.classifications.map((c) => ({
         ...c,
+        name: c.name,
+        id: c.id,
         classificationType: c.classificationType as ClassificationType,
+        lastModified: new Date(c.lastModified), // <-- convert string -> Date
+        _links: c._links,
       })),
     };
   } else {

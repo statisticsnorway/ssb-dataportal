@@ -75,7 +75,7 @@ yarn format:fix
 ## Test
 
 We use `jest` for unit testing and `playwright` for end-to-end tests.
-Unit tests are placed inside the component folder. 
+Unit tests are placed inside the component folder.
 End-to-end tests (called e2e) is placed in folder 'e2e/'.
 Name testfiles:  `<componentName>.spec.tsx`
 
@@ -87,19 +87,21 @@ Run unit tests
 yarn test
 ```
 
-remove cache
+Remove cache
 
 ```bash
 yarn jest --clearCache
 ```
-
-Update snapshots
 Start watch session - interactive mode
-Enter u to update
 
 ```bash
 yarn test:watch
-u
+```
+
+Update snapshots
+
+```bash
+yarn test:update-snapshots
 ```
 
 ### Playwright
@@ -156,11 +158,28 @@ npx playwright codegen http://localhost:3000
 
 ### Generate client code
 
-Run codegen
+This project uses OpenAPI Generator to generate TypeScript clients from OpenAPI specs.
+
+You can generate the clients one at a time using the yarn scripts defined in package.json.
+
+Generate Vardef internal:
+```bash
+yarn codegen:vardef-internal
+```
+Uses the OpenAPI spec from:
+https://metadata.ssb.no/docs/openapi/variable-definitions/variable-definitions-internal.yml
+
+Output directory: src/libs/data-access/variable-definitions/internal
+
+Generate Klass:
 
 ```bash
-yarn codegen
+yarn codegen:klass
 ```
+Uses the OpenAPI spec from:
+https://data.ssb.no/api/klass/v3/api-docs
+
+Output directory: src/libs/data-access/klass
 
 ## Next.js
 
