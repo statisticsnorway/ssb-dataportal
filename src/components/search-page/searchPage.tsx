@@ -3,7 +3,7 @@
 import { Field, Label, Search, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { FiltersPanel } from '@/components/filters-panel';
+import { FiltersPanel } from '@/components/filter/filters-panel';
 import { SortTypes } from '@/hooks/useSearchStateKlass';
 import { FilterGroup } from '@/types/filters';
 import SortFields from '../sort-fields';
