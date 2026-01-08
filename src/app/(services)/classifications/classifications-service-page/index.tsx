@@ -6,14 +6,15 @@ import { SearchHitContainer } from '@/components/search-hits-container';
 import SearchPage from '@/components/search-page/searchPage';
 import { SortTypes, useSearchStateKlass } from '@/hooks/useSearchStateKlass';
 import { getClassificationFamily } from '@/libs/data/classificationFamilyData';
+import { ClassificationFamilyResource, ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
-import { Classification, ClassificationFamily, ClassificationType } from '@/types/classification';
+import { ClassificationType } from '@/types/classification';
 import { FilterGroup } from '@/types/filters';
 import { ClassificationSearchHit } from './classificationSearchHit';
 
 interface ClassificationServicePageProps {
-  rawClassifications: Classification[];
-  rawClassificationFamilies: ClassificationFamily[];
+  rawClassifications: ClassificationResource[];
+  rawClassificationFamilies: ClassificationFamilyResource[];
 }
 
 const ClassificationsServicePage = ({
@@ -65,7 +66,7 @@ const ClassificationsServicePage = ({
     if (rawClassificationFamilies && rawClassificationFamilies.length != 0) {
       groups.push({
         filterHeading: 'Område',
-        filters: rawClassificationFamilies.map((f: ClassificationFamily) => ({
+        filters: rawClassificationFamilies.map((f: ClassificationFamilyResource) => ({
           label: f.name,
           value: String(f.id),
         })),
@@ -91,7 +92,7 @@ const ClassificationsServicePage = ({
       setLoading(true);
       setError(null);
       try {
-        let data: Classification[] = [];
+        let data: ClassificationResource[] = [];
 
         if (selectedFamilies.length > 0) {
           for (const id of selectedFamilies) {
@@ -99,7 +100,7 @@ const ClassificationsServicePage = ({
               id,
               selectedClassificationTypes.includes(ClassificationType.Kodeliste),
             );
-            const familyClassifications: Classification[] = familyData.classifications;
+            const familyClassifications: ClassificationResource[] = familyData.classifications ?? [];
 
             data.push(...(familyClassifications ?? []));
           }
@@ -110,7 +111,7 @@ const ClassificationsServicePage = ({
         }
 
         // Step 2: apply local filters
-        data = data?.filter((c) => selectedClassificationTypes.includes(c.classificationType));
+        data = data.filter((c) => c.classificationType && selectedClassificationTypes.includes(c.classificationType));
 
         // compute totalPages first
         const totalPages = Math.ceil(data.length / PAGE_SIZE);
@@ -142,11 +143,6 @@ const ClassificationsServicePage = ({
   }
   const startIndex = pagination.currentPage * PAGE_SIZE;
   const pagedHits = hits.slice(startIndex, startIndex + PAGE_SIZE);
-
-  console.log(
-    'Filters: ',
-    filterGroups.map((filterGroup) => filterGroup.selectedItems),
-  );
 
   return (
     <SearchPage
