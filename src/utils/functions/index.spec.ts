@@ -1,4 +1,5 @@
 'use client';
+import { ClassificationResource } from '@/libs/data-access/klass';
 import { ClassificationType } from '@/types/classification';
 import { Item } from '@/types/item';
 import { areFieldsDefinedAndNonNull, nonEmpty, parseClassification } from '.';
@@ -66,10 +67,15 @@ describe('parseClassification', () => {
   it('returns a parsed classification when given valid input', () => {
     const result = parseClassification(validJson);
 
-    expect(result).toEqual({
-      ...validJson,
+    const expected: ClassificationResource = {
+      id: validJson.id,
+      name: validJson.name,
       classificationType: ClassificationType[validJson.classificationType as keyof typeof ClassificationType],
-    });
+      lastModified: new Date(validJson.lastModified),
+      links: validJson._links,
+    };
+
+    expect(result).toEqual(expected);
   });
 
   it('throws an error when the classification object is missing required fields', () => {

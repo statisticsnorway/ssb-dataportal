@@ -7,6 +7,6 @@ export interface FilterGroup {
   onFilterChange: (selected: string[]) => void;
 }
 export interface FilterItem {
-  label: string;
+  label: string | undefined;
   value: string;
 }
