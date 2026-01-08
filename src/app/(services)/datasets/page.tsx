@@ -1,7 +1,7 @@
 import { Alert } from '@digdir/designsystemet-react';
 import SearchPage from '@/components/search-page/searchPage';
 
-export default function Datasets() {
+export default async function Datasets() {
   return (
     <SearchPage
       filterGroups={[]}
