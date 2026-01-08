@@ -79,6 +79,15 @@
   margin-top: var(--medium-gap);
 }
 
+.filterSection {
+  flex: 0 0 250px;
+  margin-top: 1rem;
+}
+
+.mainSection {
+  flex: 1 1 0;
+}
+
 .searchLabel {
   color: white;
 }
@@ -86,14 +95,6 @@
   .searchHitsContainer {
     display: flex;
     gap: var(--large-gap);
-  }
-
-  .filterSection {
-    flex: 0 0 250px;
-    margin-top: 4.5rem;
-  }
-  .mainSection {
-    flex: 1 1 0;
   }
 
   .tabsNavigation {

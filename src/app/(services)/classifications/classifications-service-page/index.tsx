@@ -4,7 +4,6 @@ import { Alert } from '@digdir/designsystemet-react';
 import { useEffect, useMemo, useState } from 'react';
 import { SearchHitContainer } from '@/components/search-hits-container';
 import SearchPage from '@/components/search-page/searchPage';
-import SortFields from '@/components/sort-fields';
 import { SortTypes, useSearchStateKlass } from '@/hooks/useSearchStateKlass';
 import { getClassificationFamily } from '@/libs/data/classificationFamilyData';
 import { ClassificationFamilyResource, ClassificationResource } from '@/libs/data-access/klass';
@@ -23,9 +22,9 @@ const ClassificationsServicePage = ({
   rawClassificationFamilies,
 }: ClassificationServicePageProps) => {
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true);
   const [classifications, setClassifications] = useState(rawClassifications ? rawClassifications : []);
-  const memoizedHits = useMemo(() => (loading ? [] : classifications), [loading, classifications]);
+  const memoizedHits = useMemo(() => (isLoading ? [] : classifications), [isLoading, classifications]);
 
   const { hits, sortKey, setSortKey, sortTypes } = useSearchStateKlass(memoizedHits);
 
@@ -154,14 +153,12 @@ const ClassificationsServicePage = ({
           Klassifikasjoner er ikke klar for testing.
         </Alert>
       }
+      sortOptions={sortTypes}
+      sortValue={sortKey}
+      onSortChange={(key: string) => setSortKey(key as SortTypes)}
       searchResult={
         <>
-          <SortFields
-            sortOptions={sortTypes}
-            sortValue={sortKey}
-            onSortChange={(key: string) => setSortKey(key as SortTypes)}
-          />
-          {loading ? (
+          {isLoading ? (
             <div>Loading...</div>
           ) : hits.length === 0 ? (
             <div>{localization.search.noHits}</div>

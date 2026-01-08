@@ -16,6 +16,9 @@
   margin-top: var(--large-gap);
 }
 
+.numHits {
+  margin: 0;
+}
 @media (min-width: 900px) {
   .searchHitsContainer {
     flex-direction: column;

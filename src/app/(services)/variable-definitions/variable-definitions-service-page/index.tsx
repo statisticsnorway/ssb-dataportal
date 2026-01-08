@@ -3,7 +3,6 @@
 import { useMemo, useState } from 'react';
 import { SearchHitContainer } from '@/components/search-hits-container';
 import SearchPage from '@/components/search-page/searchPage';
-import SortFields from '@/components/sort-fields';
 import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
@@ -49,15 +48,12 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
     <SearchPage
       filterGroups={filterGroups}
       searchLabel='Søk i variabeldefinisjoner'
-      infoContent={<div className={styles.testInfo}>Text</div>}
+      infoContent={<div className={styles.infoTest}>Text</div>}
+      sortOptions={sortTypes}
+      sortValue={sortKey}
+      onSortChange={(key: string) => setSortKey(key as SortTypes)}
       searchResult={
         <>
-          <SortFields
-            sortOptions={sortTypes}
-            sortValue={sortKey}
-            onSortChange={(key: string) => setSortKey(key as SortTypes)}
-          />
-
           {isLoading ? (
             <div>Loading...</div>
           ) : hits.length === 0 ? (
