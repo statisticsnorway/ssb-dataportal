@@ -145,11 +145,6 @@ const ClassificationsServicePage = ({
   const startIndex = pagination.currentPage * PAGE_SIZE;
   const pagedHits = hits.slice(startIndex, startIndex + PAGE_SIZE);
 
-  console.log(
-    'Filters: ',
-    filterGroups.map((filterGroup) => filterGroup.selectedItems),
-  );
-
   return (
     <SearchPage
       filterGroups={filterGroups}
