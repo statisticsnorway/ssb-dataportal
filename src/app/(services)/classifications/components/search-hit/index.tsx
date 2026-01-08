@@ -13,7 +13,7 @@ interface SearchHitProps {
   tags?: ReactNode[];
 }
 
-const SearchHit = ({ title, content, titleHref }: SearchHitProps) => {
+const ClassificationSearchHit = ({ title, content, titleHref }: SearchHitProps) => {
   return (
     <Card>
       <Card.Block>
@@ -28,4 +28,4 @@ const SearchHit = ({ title, content, titleHref }: SearchHitProps) => {
   );
 };
 
-export { SearchHit };
+export { ClassificationSearchHit as SearchHit };
