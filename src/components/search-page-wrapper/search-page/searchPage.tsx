@@ -2,19 +2,20 @@
 
 import { Field, Label, Search, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import { FiltersPanel } from '@/components/filter/filters-panel';
 import { SortTypes } from '@/hooks/useSearchStateKlass';
 import { FilterGroup } from '@/types/filters';
-import SortFields from '../sort-fields';
+import SortFields from '../../sort-fields';
+import { InfoSection } from '../infoSection';
 import styles from './search-page.module.css';
 
 interface SearchPageProps {
   placeholder?: string;
   value?: string;
   onSearch?: (value: string) => void;
-  infoContent?: React.ReactNode;
-  searchResult?: React.ReactElement;
+  infoContent?: string[] | ReactNode;
+  searchResult?: ReactElement;
   filterGroups?: FilterGroup[];
   searchLabel?: string;
   sortOptions?: SortTypes[];
@@ -91,7 +92,9 @@ const SearchPage: React.FC<SearchPageProps> = ({
         </div>
       </section>
       <div className={`${styles.pageContainer} container`}>
-        <section className={styles.infoSection}>{infoContent}</section>
+        <section className={styles.infoSection}>
+          <InfoSection infoContent={infoContent} />
+        </section>
         <section className={styles.searchHitsContainer}>
           <aside className={styles.filterSection}>
             {filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}

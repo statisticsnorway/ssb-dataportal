@@ -2,8 +2,8 @@
 
 import { Alert } from '@digdir/designsystemet-react';
 import { useEffect, useMemo, useState } from 'react';
-import { SearchHitContainer } from '@/components/search-hits-container';
-import SearchPage from '@/components/search-page/searchPage';
+import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
+import SearchPage from '@/components/search-page-wrapper/search-page/searchPage';
 import { SortTypes, useSearchStateKlass } from '@/hooks/useSearchStateKlass';
 import { getClassificationFamily } from '@/libs/data/classificationFamilyData';
 import { ClassificationFamilyResource, ClassificationResource } from '@/libs/data-access/klass';

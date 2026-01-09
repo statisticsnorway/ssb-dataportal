@@ -1,8 +1,8 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { SearchHitContainer } from '@/components/search-hits-container';
-import SearchPage from '@/components/search-page/searchPage';
+import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
+import SearchPage from '@/components/search-page-wrapper/search-page/searchPage';
 import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
