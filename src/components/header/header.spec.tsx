@@ -35,7 +35,6 @@ describe('Header', () => {
     data-nimg="1"
     decoding="async"
     height="44"
-    loading="lazy"
     src="/ssb-logo.svg"
     style="color: transparent;"
     width="240"

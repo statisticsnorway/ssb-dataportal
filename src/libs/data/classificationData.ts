@@ -1,18 +1,20 @@
 'use server';
 
 import classificationsMock from '@/static-data/classifications.json';
-import { Classification, linkObj } from '@/types/classification';
+import { linkObj } from '@/types/classification';
 import { CLASSIFICATIONS, KLASS_HOST } from '@/utils/constants';
+import { getClassification } from '@/utils/mock-data';
+import { ClassificationResource } from '../data-access/klass';
 
 const isTest = process.env.NEXT_TEST === 'test';
 
 export interface ClassificationResponse {
-  classifications: Classification[];
+  classifications: ClassificationResource[];
   pageInfo: number;
   links: linkObj[];
 }
 
-export async function fetchAllClassifications(pageSize = 20): Promise<Classification[]> {
+export async function fetchAllClassifications(pageSize = 20): Promise<ClassificationResource[]> {
   let allClassifications = [];
   let currentPage = 0;
   let totalPages = 1;
@@ -40,4 +42,25 @@ export async function fetchAllClassifications(pageSize = 20): Promise<Classifica
   }
 
   return allClassifications;
+}
+
+export async function fetchClassificationById(id: number): Promise<ClassificationResource | undefined> {
+  let classification: ClassificationResource | undefined;
+
+  if (isTest) {
+    console.log('Using mock classifications:', classificationsMock.classifications);
+    classification = getClassification(id);
+  } else {
+    const res = await fetch(`${KLASS_HOST}${CLASSIFICATIONS}/${id}?includeCodelists=true`, {
+      cache: 'no-store',
+    });
+
+    if (!res.ok) {
+      if (res.status === 404) return undefined; // not found
+      throw new Error('Failed to fetch classification');
+    }
+
+    classification = await res.json();
+  }
+  return classification;
 }
