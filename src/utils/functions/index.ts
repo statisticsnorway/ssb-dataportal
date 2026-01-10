@@ -1,4 +1,4 @@
-import { Classification, ClassificationType } from '@/types/classification';
+import { ClassificationResource, ClassificationResourceFromJSONTyped } from '@/libs/data-access/klass';
 import { Item } from '@/types/item';
 
 /**
@@ -52,12 +52,12 @@ export const convertStatus = (status: string) => {
   }
 };
 /**
- * Check if an object is compatible with type 'Classification'
+ * Check if an object is compatible with type 'ClassificationResource'
  *
  * @param value - object to check
- * @returns true if object is a valid 'Classification'
+ * @returns true if object is a valid 'ClassificationResource'
  */
-export function instanceOfClassification(value: object): value is Classification {
+export function instanceOfClassification(value: object): value is ClassificationResource {
   if (!('id' in value) || value['id'] === undefined) return false;
   if (!('name' in value) || value['name'] === undefined) return false;
   if (!('classificationType' in value) || value['classificationType'] === undefined) return false;
@@ -67,23 +67,17 @@ export function instanceOfClassification(value: object): value is Classification
 }
 
 /**
- * Parse json to valid 'Classification'
+ * Parse json to valid 'ClassificationResource'
  *
  * @param json
- * @returns Classification
+ * @returns ClassificationResource
  */
-export function parseClassification(json?: object | null): Classification {
+export function parseClassification(json?: object | null): ClassificationResource {
   if (json == null) {
     throw new Error(`Object is null: ${json}`);
   }
   if (!instanceOfClassification(json)) {
     throw new Error(`Invalid classification: ${json}`);
   }
-  return {
-    id: json.id,
-    name: json.name,
-    classificationType: ClassificationType[json.classificationType as keyof typeof ClassificationType],
-    lastModified: json.lastModified,
-    _links: json._links,
-  };
+  return ClassificationResourceFromJSONTyped(json, true);
 }

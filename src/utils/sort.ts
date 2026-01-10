@@ -17,3 +17,17 @@ export const sortDateStringsAscending = (a: string, b: string) => {
 export const sortDateStringsDescending = (a: string, b: string) => {
   return new Date(b).getTime() - new Date(a).getTime();
 };
+
+export const toTimestamp = (value?: Date | string) => {
+  if (!value) return 0; // missing value → fallback
+  if (value instanceof Date) return value.getTime(); // Date → timestamp
+  return new Date(value).getTime(); // string → parse to timestamp
+};
+
+export const sortDatesAscendingSafe = (a?: Date | string, b?: Date | string) => {
+  return toTimestamp(a) - toTimestamp(b);
+};
+
+export const sortDatesDescendingSafe = (a?: Date | string, b?: Date | string) => {
+  return toTimestamp(b) - toTimestamp(a);
+};

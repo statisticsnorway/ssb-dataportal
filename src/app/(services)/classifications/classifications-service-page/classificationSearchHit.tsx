@@ -1,17 +1,17 @@
 import { Paragraph } from '@digdir/designsystemet-react';
 import { SearchHit } from '@/components/search-hit';
+import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
-import { Classification } from '@/types/classification';
 
 interface ClassificationSearchHitProps {
-  classification: Classification;
+  classification: ClassificationResource;
 }
 
 const ClassificationSearchHit = ({ classification }: ClassificationSearchHitProps) => {
   return (
     <SearchHit
       key={classification.id}
-      title={classification.name}
+      title={classification.name ?? 'Unnamed'}
       titleHref={`/classifications/${classification.id}`}
       content={
         <div>
@@ -20,7 +20,7 @@ const ClassificationSearchHit = ({ classification }: ClassificationSearchHitProp
               <span>{localization.id}</span> -<span>{classification.id}</span>
             </Paragraph>
             <Paragraph>
-              <span>{localization.lastModified}</span> -<span>{classification.lastModified}</span>
+              <span>{classification.lastModified ? classification.lastModified.toLocaleString() : '-'}</span>
             </Paragraph>
           </section>
         </div>
