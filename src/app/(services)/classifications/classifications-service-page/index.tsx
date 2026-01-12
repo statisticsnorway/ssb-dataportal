@@ -83,6 +83,10 @@ const ClassificationsServicePage = ({
     }));
   };
 
+  useEffect(() => {
+    setPagination((prev) => ({ ...prev, currentPage: 0 }));
+  }, [selectedFamilies, selectedClassificationTypes]);
+
   /**
    * The pipeline for filtering page content.
    */
@@ -114,14 +118,10 @@ const ClassificationsServicePage = ({
 
         // compute totalPages first
         const totalPages = Math.ceil(data.length / PAGE_SIZE);
-        //const totalPages = data.length;
 
-        // snapshot currentPage
-        let currentPage = pagination.currentPage;
-        if (currentPage >= totalPages) currentPage = 0; // reset if needed
+        const safeCurrentPage = pagination.currentPage >= totalPages ? 0 : pagination.currentPage;
 
-        // update state
-        setPagination({ currentPage, totalPages });
+        setPagination({ currentPage: safeCurrentPage, totalPages });
 
         setClassifications(data);
         // biome-ignore lint/suspicious/noExplicitAny: <ignoring for now>
