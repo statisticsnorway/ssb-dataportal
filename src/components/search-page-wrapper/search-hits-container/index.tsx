@@ -1,28 +1,55 @@
 import { Pagination, usePagination } from '@digdir/designsystemet-react';
+import { ClassificationResource } from '@/libs/data-access/klass';
+import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language/src/localization';
 import styles from './search-hit-container.module.css';
 
 type Props = {
-  searchHits: React.ReactNode[];
-  paginationInfo: { currentPage: number; totalPages: number };
+  searchHits: RenderedView[] | ClassificationResource[];
+  paginationInfo?: { currentPage: number; totalPages: number };
   onPageChange: (page: number) => void;
   noSearchHits: boolean;
+  pageSize?: number;
+  renderHit: (hit: RenderedView | ClassificationResource) => React.ReactNode;
 };
 
 /**
  * Display search hits paginated
  */
-const SearchHitContainer = ({ searchHits = [], paginationInfo, onPageChange, noSearchHits }: Props) => {
-  const { currentPage, totalPages } = paginationInfo;
+const SearchHitContainer = ({
+  searchHits = [],
+  renderHit,
+  paginationInfo,
+  onPageChange,
+  noSearchHits,
+  pageSize = 20,
+}: Props) => {
+  let pagedHits: RenderedView[] | ClassificationResource[] = searchHits;
+  let pages = [];
+  let prevButtonProps = {};
+  let nextButtonProps = {};
 
-  // Generate pages for display
-  const { pages, prevButtonProps, nextButtonProps } = usePagination({
-    currentPage,
+  const hasPagination = !!paginationInfo;
+
+  const totalPages = hasPagination ? Math.ceil(searchHits.length / pageSize) : 1;
+  const currentPage = paginationInfo?.currentPage ?? 1;
+
+  if (hasPagination) {
+    // slice hits
+    const startIndex = (currentPage - 1) * pageSize;
+    pagedHits = searchHits.slice(startIndex, startIndex + pageSize);
+  }
+
+  // Call hook unconditionally
+  const pagination = usePagination({
+    currentPage: paginationInfo?.currentPage ?? 1,
     setCurrentPage: onPageChange,
     totalPages,
-    // TODO(): number of showPages should be set based on screen size
-    showPages: 4,
   });
+
+  pages = pagination.pages;
+  prevButtonProps = pagination.prevButtonProps;
+  nextButtonProps = pagination.nextButtonProps;
 
   if (noSearchHits) return <div>No results</div>;
 
@@ -32,9 +59,10 @@ const SearchHitContainer = ({ searchHits = [], paginationInfo, onPageChange, noS
         <div className={styles.noHits}>{localization.search.noHits}</div>
       )}
       <p className={styles.numHits}>{searchHits.length} treff</p>
-      <div className={styles.hitsList}>{searchHits}</div>
+      {/*<div className={styles.hitsList}>{searchHits}</div>*/}
+      <div className={styles.hitsList}>{pagedHits.map((hit) => renderHit(hit))}</div>
 
-      {totalPages > 1 && (
+      {hasPagination && paginationInfo?.totalPages > 1 && (
         <Pagination>
           <Pagination.List>
             <Pagination.Item>

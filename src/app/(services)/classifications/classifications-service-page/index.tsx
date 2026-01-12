@@ -141,8 +141,8 @@ const ClassificationsServicePage = ({
   if (error) {
     return <div>Error loading data: {error}</div>;
   }
-  const startIndex = pagination.currentPage * PAGE_SIZE;
-  const pagedHits = hits.slice(startIndex, startIndex + PAGE_SIZE);
+  //const startIndex = pagination.currentPage * PAGE_SIZE;
+  //const pagedHits = hits.slice(startIndex, startIndex + PAGE_SIZE);
 
   return (
     <SearchPage
@@ -164,7 +164,10 @@ const ClassificationsServicePage = ({
             <div>{localization.search.noHits}</div>
           ) : (
             <SearchHitContainer
-              searchHits={pagedHits.map((hit) => <ClassificationSearchHit key={hit.id} classification={hit} />)}
+              searchHits={hits}
+              renderHit={(hit) => (
+                <ClassificationSearchHit key={hit.id} classification={hit as ClassificationResource} />
+              )}
               noSearchHits={false}
               onPageChange={handlePageChange}
               paginationInfo={{

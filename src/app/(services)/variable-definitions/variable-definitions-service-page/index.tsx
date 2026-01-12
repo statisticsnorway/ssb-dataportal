@@ -58,12 +58,9 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
             <div>{localization.search.noHits}</div>
           ) : (
             <SearchHitContainer
-              searchHits={hits.map((hit) => <VardefSearchHit key={hit.id} variableDefinition={hit} />)}
+              searchHits={hits}
+              renderHit={(hit) => <VardefSearchHit key={hit.id} variableDefinition={hit as RenderedView} />}
               noSearchHits={false}
-              paginationInfo={{
-                currentPage: 0,
-                totalPages: 0,
-              }}
               onPageChange={function (page: number): void {
                 throw new Error('Function not implemented.');
               }}
