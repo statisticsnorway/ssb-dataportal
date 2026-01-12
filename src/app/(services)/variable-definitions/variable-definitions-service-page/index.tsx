@@ -9,7 +9,6 @@ import { localization } from '@/libs/language';
 import { FilterGroup } from '@/types/filters';
 import { SubjectField } from '@/types/subjectField';
 import { VardefSearchHit } from '../components/vardefSearchHit';
-import styles from './vardef-service-page.module.css';
 
 interface VariableDefinitionsServicePageProps {
   rawHits: RenderedView[];
@@ -48,7 +47,6 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
     <SearchPage
       filterGroups={filterGroups}
       searchLabel='Søk i variabeldefinisjoner'
-      infoContent={<div className={styles.infoTest}>Text</div>}
       sortOptions={sortTypes}
       sortValue={sortKey}
       onSortChange={(key: string) => setSortKey(key as SortTypes)}

@@ -1,5 +1,5 @@
 import { Paragraph } from '@digdir/designsystemet-react';
-import { SearchHit } from '@/app/(services)/classifications/components/search-hit';
+import { SearchHit } from '@/app/(services)/classifications/classification-search-hit';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 

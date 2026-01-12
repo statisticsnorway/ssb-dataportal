@@ -7,20 +7,21 @@ import { FiltersPanel } from '@/components/filter/filters-panel';
 import { SortTypes } from '@/hooks/useSearchStateKlass';
 import { FilterGroup } from '@/types/filters';
 import SortFields from '../../sort-fields';
-import { InfoSection } from '../infoSection';
+import { FilterInfoSection } from '../filterInfoSection';
 import styles from './search-page.module.css';
 
 interface SearchPageProps {
   placeholder?: string;
   value?: string;
   onSearch?: (value: string) => void;
-  infoContent?: string[] | ReactNode;
+  infoContent?: ReactNode;
   searchResult?: ReactElement;
   filterGroups?: FilterGroup[];
   searchLabel?: string;
   sortOptions?: SortTypes[];
   sortValue?: SortTypes;
   onSortChange?: (key: string) => void;
+  filterTags?: ReactNode[];
 }
 
 const SearchPage: React.FC<SearchPageProps> = ({
@@ -31,6 +32,7 @@ const SearchPage: React.FC<SearchPageProps> = ({
   sortOptions,
   sortValue,
   onSortChange,
+  filterTags,
 }) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -93,7 +95,8 @@ const SearchPage: React.FC<SearchPageProps> = ({
       </section>
       <div className={`${styles.pageContainer} container`}>
         <section className={styles.infoSection}>
-          <InfoSection infoContent={infoContent} />
+          <div>{infoContent}</div>
+          <FilterInfoSection filterTags={filterTags} />
         </section>
         <section className={styles.searchHitsContainer}>
           <aside className={styles.filterSection}>
