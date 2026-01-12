@@ -17,18 +17,19 @@ interface ClassificationServicePageProps {
   rawClassificationFamilies: ClassificationFamilyResource[];
 }
 
+const PAGE_SIZE = 20;
+
 const ClassificationsServicePage = ({
   rawClassifications,
   rawClassificationFamilies,
 }: ClassificationServicePageProps) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(true);
-  const [classifications, setClassifications] = useState(rawClassifications ? rawClassifications : []);
+  const [classifications, setClassifications] = useState<ClassificationResource[]>([]);
+
   const memoizedHits = useMemo(() => (isLoading ? [] : classifications), [isLoading, classifications]);
 
   const { hits, sortKey, setSortKey, sortTypes } = useSearchStateKlass(memoizedHits);
-
-  if (!classifications) return <div>Loading...</div>;
 
   const [selectedFamilies, setSelectedFamilies] = useState<string[]>([]);
 
@@ -42,8 +43,6 @@ const ClassificationsServicePage = ({
     currentPage: 0,
     totalPages: 0,
   });
-
-  const PAGE_SIZE = 20;
 
   /**
    * Creating a list of filters
