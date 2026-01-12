@@ -17,6 +17,7 @@ interface ClassificationServicePageProps {
   rawClassificationFamilies: ClassificationFamilyResource[];
 }
 
+// Declare outside so not rerendered over and over
 const PAGE_SIZE = 20;
 
 const ClassificationsServicePage = ({
@@ -25,6 +26,8 @@ const ClassificationsServicePage = ({
 }: ClassificationServicePageProps) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(true);
+
+  // This could be replaced by useMemo
   const [classifications, setClassifications] = useState<ClassificationResource[]>([]);
 
   const memoizedHits = useMemo(() => (isLoading ? [] : classifications), [isLoading, classifications]);
@@ -39,10 +42,8 @@ const ClassificationsServicePage = ({
     ClassificationType.Kodeliste,
   ]);
 
-  const [pagination, setPagination] = useState({
-    currentPage: 0,
-    totalPages: 0,
-  });
+  const totalPages = Math.ceil(classifications.length / PAGE_SIZE);
+  const [currentPage, setCurrentPage] = useState(0);
 
   /**
    * Creating a list of filters
@@ -77,14 +78,11 @@ const ClassificationsServicePage = ({
   }, [selectedFamilies, selectedClassificationTypes]);
 
   const handlePageChange = (newPage: number) => {
-    setPagination((prev) => ({
-      ...prev,
-      currentPage: newPage - 1,
-    }));
+    setCurrentPage(newPage - 1);
   };
 
   useEffect(() => {
-    setPagination((prev) => ({ ...prev, currentPage: 0 }));
+    setCurrentPage(0);
   }, [selectedFamilies, selectedClassificationTypes]);
 
   /**
@@ -114,16 +112,9 @@ const ClassificationsServicePage = ({
         }
 
         // Step 2: apply local filters
-        data = data.filter((c) => c.classificationType && selectedClassificationTypes.includes(c.classificationType));
-
-        // compute totalPages first
-        const totalPages = Math.ceil(data.length / PAGE_SIZE);
-
-        const safeCurrentPage = pagination.currentPage >= totalPages ? 0 : pagination.currentPage;
-
-        setPagination({ currentPage: safeCurrentPage, totalPages });
-
-        setClassifications(data);
+        setClassifications(
+          data.filter((c) => c.classificationType && selectedClassificationTypes.includes(c.classificationType)),
+        );
         // biome-ignore lint/suspicious/noExplicitAny: <ignoring for now>
       } catch (err: any) {
         setError(err.message);
@@ -142,7 +133,8 @@ const ClassificationsServicePage = ({
     return <div>Error loading data: {error}</div>;
   }
 
-  const startIndex = pagination.currentPage * PAGE_SIZE;
+  // For pagination
+  const startIndex = currentPage * PAGE_SIZE;
   const pagedHits = hits.slice(startIndex, startIndex + PAGE_SIZE);
 
   return (
@@ -173,8 +165,8 @@ const ClassificationsServicePage = ({
               noSearchHits={hits.length === 0}
               onPageChange={handlePageChange}
               paginationInfo={{
-                currentPage: pagination.currentPage + 1,
-                totalPages: pagination.totalPages,
+                currentPage: currentPage + 1,
+                totalPages,
               }}
             />
           )}
