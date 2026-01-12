@@ -6,6 +6,7 @@ import {
   useCheckboxGroup,
   ValidationMessage,
 } from '@digdir/designsystemet-react';
+import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { FilterItem } from '@/types/filters';
 import styles from './checkbox.module.css';
 
@@ -40,6 +41,11 @@ export const CheckboxGroupFilter = ({
         aria-controls={`filter-${filterHeading}`}
       >
         <FieldsetLegend className={styles.filterHeader}>{filterHeading}</FieldsetLegend>
+        {isOpen ? (
+          <ChevronDownIcon title='Lukk filter' className={styles.chevronUpDown} />
+        ) : (
+          <ChevronUpIcon title='Åpne filter' className={styles.chevronUpDown} />
+        )}
       </Button>
       {isOpen ? (
         <div>

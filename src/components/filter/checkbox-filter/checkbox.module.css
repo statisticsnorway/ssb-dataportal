@@ -21,3 +21,9 @@
 .hidden {
   padding-bottom: 0;
 }
+
+.chevronUpDown {
+  color: var(--text-color-primary);
+  font-size: 2rem;
+  margin-left: 0.5rem;
+}
