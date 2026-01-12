@@ -63,7 +63,7 @@ const ClassificationsServicePage = ({
     });
 
     // Only add this filter if it is possible to fetch clasification families
-    if (rawClassificationFamilies && rawClassificationFamilies.length != 0) {
+    if (rawClassificationFamilies?.length > 0) {
       groups.push({
         filterHeading: 'Område',
         filters: rawClassificationFamilies.map((f: ClassificationFamilyResource) => ({
@@ -106,8 +106,8 @@ const ClassificationsServicePage = ({
           }
         }
         // Refetch data to refill all deselected to select
-        else if (classifications?.length > 0) {
-          data = [...classifications];
+        else {
+          data = [...rawClassifications];
         }
 
         // Step 2: apply local filters
@@ -132,7 +132,7 @@ const ClassificationsServicePage = ({
       }
     }
     loadClassifications();
-  }, [pagination.currentPage, selectedClassificationTypes, selectedFamilies]);
+  }, [selectedFamilies, selectedClassificationTypes, rawClassifications]);
 
   if (!rawClassifications) {
     return <div>Loading...</div>;
@@ -141,8 +141,6 @@ const ClassificationsServicePage = ({
   if (error) {
     return <div>Error loading data: {error}</div>;
   }
-  //const startIndex = pagination.currentPage * PAGE_SIZE;
-  //const pagedHits = hits.slice(startIndex, startIndex + PAGE_SIZE);
 
   return (
     <SearchPage
