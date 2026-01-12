@@ -26,8 +26,11 @@ const ClassificationsServicePage = ({
 }: ClassificationServicePageProps) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(true);
+
   const [classifications, setClassifications] = useState<ClassificationResource[]>([]);
-  const { hits, sortKey, setSortKey, sortTypes } = useSearchStateKlass(isLoading ? [] : classifications);
+  const memoizedHits = useMemo(() => (isLoading ? [] : classifications), [isLoading, classifications]);
+  const { hits, sortKey, setSortKey, sortTypes } = useSearchStateKlass(memoizedHits);
+
   const [selectedFamilies, setSelectedFamilies] = useState<string[]>([]);
 
   // Default are all classificationtypes selected
