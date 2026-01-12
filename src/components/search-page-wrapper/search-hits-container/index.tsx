@@ -6,6 +6,7 @@ import styles from './search-hit-container.module.css';
 
 type Props = {
   searchHits: RenderedView[] | ClassificationResource[];
+  totalHits?: number;
   paginationInfo?: { currentPage: number; totalPages: number };
   onPageChange: (page: number) => void;
   noSearchHits: boolean;
@@ -21,35 +22,23 @@ const SearchHitContainer = ({
   renderHit,
   paginationInfo,
   onPageChange,
+  totalHits,
   noSearchHits,
-  pageSize = 20,
 }: Props) => {
   let pagedHits: RenderedView[] | ClassificationResource[] = searchHits;
-  let pages = [];
-  let prevButtonProps = {};
-  let nextButtonProps = {};
 
   const hasPagination = !!paginationInfo;
 
-  const totalPages = hasPagination ? Math.ceil(searchHits.length / pageSize) : 1;
-  const currentPage = paginationInfo?.currentPage ?? 1;
-
-  if (hasPagination) {
-    // slice hits
-    const startIndex = (currentPage - 1) * pageSize;
-    pagedHits = searchHits.slice(startIndex, startIndex + pageSize);
-  }
-
-  // Call hook unconditionally
   const pagination = usePagination({
     currentPage: paginationInfo?.currentPage ?? 1,
     setCurrentPage: onPageChange,
-    totalPages,
+    totalPages: paginationInfo?.totalPages as number,
+    showPages: 8,
   });
 
-  pages = pagination.pages;
-  prevButtonProps = pagination.prevButtonProps;
-  nextButtonProps = pagination.nextButtonProps;
+  const prevButtonProps = pagination.prevButtonProps;
+  const nextButtonProps = pagination.nextButtonProps;
+  const pages = pagination.pages;
 
   if (noSearchHits) return <div>No results</div>;
 
@@ -58,10 +47,10 @@ const SearchHitContainer = ({
       {(noSearchHits || noSearchHits === undefined) && (
         <div className={styles.noHits}>{localization.search.noHits}</div>
       )}
-      <p className={styles.numHits}>{searchHits.length} treff</p>
+      <p className={styles.numHits}>{totalHits} treff</p>
       <div className={styles.hitsList}>{pagedHits.map((hit) => renderHit(hit))}</div>
 
-      {hasPagination && paginationInfo?.totalPages > 1 && (
+      {hasPagination && (
         <Pagination>
           <Pagination.List>
             <Pagination.Item>

@@ -60,7 +60,8 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
             <SearchHitContainer
               searchHits={hits}
               renderHit={(hit) => <VardefSearchHit key={hit.id} variableDefinition={hit as RenderedView} />}
-              noSearchHits={false}
+              totalHits={hits.length}
+              noSearchHits={hits.length === 0}
               onPageChange={function (page: number): void {
                 throw new Error('Function not implemented.');
               }}

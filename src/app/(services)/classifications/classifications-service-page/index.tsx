@@ -115,6 +115,7 @@ const ClassificationsServicePage = ({
 
         // compute totalPages first
         const totalPages = Math.ceil(data.length / PAGE_SIZE);
+        //const totalPages = data.length;
 
         // snapshot currentPage
         let currentPage = pagination.currentPage;
@@ -142,6 +143,9 @@ const ClassificationsServicePage = ({
     return <div>Error loading data: {error}</div>;
   }
 
+  const startIndex = pagination.currentPage * PAGE_SIZE;
+  const pagedHits = hits.slice(startIndex, startIndex + PAGE_SIZE);
+
   return (
     <SearchPage
       filterGroups={filterGroups}
@@ -162,11 +166,12 @@ const ClassificationsServicePage = ({
             <div>{localization.search.noHits}</div>
           ) : (
             <SearchHitContainer
-              searchHits={hits}
+              searchHits={pagedHits}
               renderHit={(hit) => (
                 <ClassificationSearchHit key={hit.id} classification={hit as ClassificationResource} />
               )}
-              noSearchHits={false}
+              totalHits={hits.length}
+              noSearchHits={hits.length === 0}
               onPageChange={handlePageChange}
               paginationInfo={{
                 currentPage: pagination.currentPage + 1,
