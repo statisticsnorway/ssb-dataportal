@@ -6,15 +6,24 @@ import {
   VariableDefinitionsApi,
 } from '../data-access/variable-definitions/internal/apis';
 import { instanceOfRenderedView, RenderedView } from '../data-access/variable-definitions/internal/models';
-import { Configuration, ResponseError } from '../data-access/variable-definitions/internal/runtime';
+import {
+  Configuration,
+  ConfigurationParameters,
+  ResponseError,
+} from '../data-access/variable-definitions/internal/runtime';
 
 async function getVardefClient(): Promise<VariableDefinitionsApi> {
   const token = await getEncodedJwt();
   if (!token) return Promise.reject('Could not retrieve access token!');
-  const config = new Configuration({
+  let configParams = {
     accessToken: token,
-  });
-  return new VariableDefinitionsApi(config);
+  } as ConfigurationParameters;
+  const basePath = process.env.VARDEF_BASE_PATH;
+  if (basePath) {
+    console.log(`Using Vardef base path: ${basePath}`);
+    configParams.basePath = basePath;
+  }
+  return new VariableDefinitionsApi(new Configuration(configParams));
 }
 
 export async function listRenderedVariableDefinitions(): Promise<Array<RenderedView>> {

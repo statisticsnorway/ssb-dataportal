@@ -4,9 +4,7 @@ import { headers } from 'next/headers';
  * Get the Authorization header from the request.
  */
 export async function getAuthorizationHeader(): Promise<string | null> {
-  const allHeaders = await headers();
-  allHeaders.entries().forEach((header) => console.debug(header));
-  return allHeaders.get('authorization');
+  return (await headers()).get('authorization');
 }
 
 /**
