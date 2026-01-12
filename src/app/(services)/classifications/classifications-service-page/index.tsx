@@ -26,14 +26,8 @@ const ClassificationsServicePage = ({
 }: ClassificationServicePageProps) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(true);
-
-  // This could be replaced by useMemo
   const [classifications, setClassifications] = useState<ClassificationResource[]>([]);
-
-  const memoizedHits = useMemo(() => (isLoading ? [] : classifications), [isLoading, classifications]);
-
-  const { hits, sortKey, setSortKey, sortTypes } = useSearchStateKlass(memoizedHits);
-
+  const { hits, sortKey, setSortKey, sortTypes } = useSearchStateKlass(isLoading ? [] : classifications);
   const [selectedFamilies, setSelectedFamilies] = useState<string[]>([]);
 
   // Default are all classificationtypes selected
@@ -133,7 +127,7 @@ const ClassificationsServicePage = ({
     return <div>Error loading data: {error}</div>;
   }
 
-  // For pagination
+  // Slice search hits for paginated pages
   const startIndex = currentPage * PAGE_SIZE;
   const pagedHits = hits.slice(startIndex, startIndex + PAGE_SIZE);
 
