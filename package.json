@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:inspect": "NODE_OPTIONS='--inspect' yarn next dev",
     "build": "next build",
     "start": "next start",
     "lint:check": "biome check .",
