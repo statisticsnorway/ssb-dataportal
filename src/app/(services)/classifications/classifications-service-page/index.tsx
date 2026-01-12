@@ -10,7 +10,7 @@ import { ClassificationFamilyResource, ClassificationResource } from '@/libs/dat
 import { localization } from '@/libs/language';
 import { ClassificationType } from '@/types/classification';
 import { FilterGroup } from '@/types/filters';
-import { ClassificationSearchHit } from './classificationSearchHit';
+import { ClassificationSearchHit } from '../components/classificationSearchHit';
 
 interface ClassificationServicePageProps {
   rawClassifications: ClassificationResource[];

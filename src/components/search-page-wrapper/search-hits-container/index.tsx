@@ -59,7 +59,6 @@ const SearchHitContainer = ({
         <div className={styles.noHits}>{localization.search.noHits}</div>
       )}
       <p className={styles.numHits}>{searchHits.length} treff</p>
-      {/*<div className={styles.hitsList}>{searchHits}</div>*/}
       <div className={styles.hitsList}>{pagedHits.map((hit) => renderHit(hit))}</div>
 
       {hasPagination && paginationInfo?.totalPages > 1 && (
