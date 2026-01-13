@@ -1,5 +1,6 @@
 'use server';
 
+import { getVariableDefinitions } from '@/utils/mock-data';
 import { getEncodedJwt } from '../auth/jwt';
 import {
   ListVariableDefinitionsRequest,
@@ -33,6 +34,11 @@ async function getVardefClient(): Promise<VariableDefinitionsApi> {
 }
 
 export async function listRenderedVariableDefinitions(): Promise<Array<RenderedView>> {
+  if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
+    console.warn('Using static mock data for Vardef');
+    return getVariableDefinitions();
+  }
+
   const api = await getVardefClient();
   if (!api) return Promise.reject('Could not access Vardef API!');
 
