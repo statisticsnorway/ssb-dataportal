@@ -3,11 +3,13 @@ import React from 'react';
 import { FilterGroup } from '@/types/filters';
 import { CheckboxFilter } from '@/components/filter';
 
+const FILTER_HEADING = 'Filter'
+
 const FiltersPanelComponent = ({ filterGroups }: { filterGroups: FilterGroup[] }) => {
   return (
     <>
       <Heading level={3} data-size='sm'>
-        Filter
+        {filterGroups.length > 0 ? FILTER_HEADING : null}
       </Heading>
       {filterGroups.map(({ filterHeading, filters, selectedItems, onFilterChange }) => (
         <CheckboxFilter
