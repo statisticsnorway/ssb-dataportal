@@ -3,11 +3,11 @@ kind: Application
 metadata:
   labels:
     team: dapla-metadata
-  name: metadata-catalog-{{ pr-number }}
+  name: metadata-catalog-dev
   namespace: dapla-metadata
 spec:
   ingresses:
-  - https://metadata-catalog-{{ pr-number }}.test.ssb.no
+  - https://metadata-catalog-dev.test.ssb.no
   image: {{image}}
   port: 3000
   accessPolicy:
