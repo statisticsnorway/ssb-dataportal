@@ -1,28 +1,45 @@
 import { Pagination, usePagination } from '@digdir/designsystemet-react';
+import { ReactNode } from 'react';
+import { ClassificationResource } from '@/libs/data-access/klass';
+import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language/src/localization';
 import styles from './search-hit-container.module.css';
 
 type Props = {
-  searchHits: React.ReactNode[];
-  paginationInfo: { currentPage: number; totalPages: number };
+  searchHits: RenderedView[] | ClassificationResource[];
+  totalHits?: number;
+  paginationInfo?: { currentPage: number; totalPages: number };
   onPageChange: (page: number) => void;
   noSearchHits: boolean;
+  pageSize?: number;
+  renderHit: (hit: RenderedView | ClassificationResource) => ReactNode;
 };
 
 /**
  * Display search hits paginated
  */
-const SearchHitContainer = ({ searchHits = [], paginationInfo, onPageChange, noSearchHits }: Props) => {
-  const { currentPage, totalPages } = paginationInfo;
+const SearchHitContainer = ({
+  searchHits = [],
+  renderHit,
+  paginationInfo,
+  onPageChange,
+  totalHits,
+  noSearchHits,
+}: Props) => {
+  let pagedHits: RenderedView[] | ClassificationResource[] = searchHits;
 
-  // Generate pages for display
-  const { pages, prevButtonProps, nextButtonProps } = usePagination({
-    currentPage,
+  const hasPagination = !!paginationInfo;
+
+  const pagination = usePagination({
+    currentPage: paginationInfo?.currentPage ?? 1,
     setCurrentPage: onPageChange,
-    totalPages,
-    // TODO(): number of showPages should be set based on screen size
-    showPages: 4,
+    totalPages: paginationInfo?.totalPages as number,
+    showPages: 8,
   });
+
+  const prevButtonProps = pagination.prevButtonProps;
+  const nextButtonProps = pagination.nextButtonProps;
+  const pages = pagination.pages;
 
   if (noSearchHits) return <div>No results</div>;
 
@@ -31,9 +48,10 @@ const SearchHitContainer = ({ searchHits = [], paginationInfo, onPageChange, noS
       {(noSearchHits || noSearchHits === undefined) && (
         <div className={styles.noHits}>{localization.search.noHits}</div>
       )}
-      <div className={styles.hitsList}>{searchHits}</div>
+      <p className={styles.numHits}>{totalHits} treff</p>
+      <div className={styles.hitsList}>{pagedHits.map((hit) => renderHit(hit))}</div>
 
-      {totalPages > 1 && (
+      {hasPagination && (
         <Pagination>
           <Pagination.List>
             <Pagination.Item>

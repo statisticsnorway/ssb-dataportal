@@ -2,8 +2,10 @@
 
 import { Field, Label, Search, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { FiltersPanel } from '@/components/filters-panel';
+import { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
+import { FiltersPanel } from '@/components/filter';
+import { SortFields } from '@/components/sort-fields';
+import { SortTypes } from '@/hooks/useSearchStateKlass';
 import { FilterGroup } from '@/types/filters';
 import styles from './search-page.module.css';
 
@@ -11,13 +13,24 @@ interface SearchPageProps {
   placeholder?: string;
   value?: string;
   onSearch?: (value: string) => void;
-  infoContent?: React.ReactNode;
-  searchResult?: React.ReactElement;
+  infoContent?: ReactNode;
+  searchResult?: ReactElement;
   filterGroups?: FilterGroup[];
   searchLabel?: string;
+  sortOptions?: SortTypes[];
+  sortValue?: SortTypes;
+  onSortChange?: (key: string) => void;
 }
 
-const SearchPage: React.FC<SearchPageProps> = ({ infoContent, searchResult, filterGroups, searchLabel }) => {
+const SearchPage: FC<SearchPageProps> = ({
+  infoContent,
+  searchResult,
+  filterGroups,
+  searchLabel,
+  sortOptions,
+  sortValue,
+  onSortChange,
+}) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -78,16 +91,23 @@ const SearchPage: React.FC<SearchPageProps> = ({ infoContent, searchResult, filt
         </div>
       </section>
       <div className={`${styles.pageContainer} container`}>
-        <section className={styles.infoSection}>{infoContent}</section>
+        <section className={styles.infoSection}>
+          <div>{infoContent}</div>
+        </section>
         <section className={styles.searchHitsContainer}>
           <aside className={styles.filterSection}>
             {filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
           </aside>
-          <section className={styles.mainSection}>{searchResult}</section>
+          <section className={styles.mainSection}>
+            {sortOptions && sortValue && onSortChange && (
+              <SortFields sortOptions={sortOptions} sortValue={sortValue} onSortChange={onSortChange} />
+            )}
+            {searchResult}
+          </section>
         </section>
       </div>
     </Tabs>
   );
 };
 
-export default SearchPage;
+export { SearchPage };

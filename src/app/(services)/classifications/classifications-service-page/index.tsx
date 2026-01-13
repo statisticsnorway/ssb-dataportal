@@ -2,9 +2,8 @@
 
 import { Alert } from '@digdir/designsystemet-react';
 import { useEffect, useMemo, useState } from 'react';
-import { SearchHitContainer } from '@/components/search-hits-container';
-import SearchPage from '@/components/search-page/searchPage';
-import SortFields from '@/components/sort-fields';
+import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
+import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortTypes, useSearchStateKlass } from '@/hooks/useSearchStateKlass';
 import { getClassificationFamily } from '@/libs/data/classificationFamilyData';
 import { ClassificationFamilyResource, ClassificationResource } from '@/libs/data-access/klass';
@@ -18,18 +17,19 @@ interface ClassificationServicePageProps {
   rawClassificationFamilies: ClassificationFamilyResource[];
 }
 
+// Declare outside so not rerendered
+const PAGE_SIZE = 20;
+
 const ClassificationsServicePage = ({
   rawClassifications,
   rawClassificationFamilies,
 }: ClassificationServicePageProps) => {
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [classifications, setClassifications] = useState(rawClassifications ? rawClassifications : []);
-  const memoizedHits = useMemo(() => (loading ? [] : classifications), [loading, classifications]);
+  const [isLoading, setLoading] = useState(true);
 
+  const [classifications, setClassifications] = useState<ClassificationResource[]>([]);
+  const memoizedHits = useMemo(() => (isLoading ? [] : classifications), [isLoading, classifications]);
   const { hits, sortKey, setSortKey, sortTypes } = useSearchStateKlass(memoizedHits);
-
-  if (!classifications) return <div>Loading...</div>;
 
   const [selectedFamilies, setSelectedFamilies] = useState<string[]>([]);
 
@@ -39,12 +39,8 @@ const ClassificationsServicePage = ({
     ClassificationType.Kodeliste,
   ]);
 
-  const [pagination, setPagination] = useState({
-    currentPage: 0,
-    totalPages: 0,
-  });
-
-  const PAGE_SIZE = 20;
+  const totalPages = Math.ceil(classifications.length / PAGE_SIZE);
+  const [currentPage, setCurrentPage] = useState(0);
 
   /**
    * Creating a list of filters
@@ -64,7 +60,7 @@ const ClassificationsServicePage = ({
     });
 
     // Only add this filter if it is possible to fetch clasification families
-    if (rawClassificationFamilies && rawClassificationFamilies.length != 0) {
+    if (rawClassificationFamilies?.length > 0) {
       groups.push({
         filterHeading: 'Område',
         filters: rawClassificationFamilies.map((f: ClassificationFamilyResource) => ({
@@ -79,11 +75,12 @@ const ClassificationsServicePage = ({
   }, [selectedFamilies, selectedClassificationTypes]);
 
   const handlePageChange = (newPage: number) => {
-    setPagination((prev) => ({
-      ...prev,
-      currentPage: newPage - 1,
-    }));
+    setCurrentPage(newPage - 1);
   };
+
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [selectedFamilies, selectedClassificationTypes]);
 
   /**
    * The pipeline for filtering page content.
@@ -107,24 +104,14 @@ const ClassificationsServicePage = ({
           }
         }
         // Refetch data to refill all deselected to select
-        else if (classifications?.length > 0) {
-          data = [...classifications];
+        else {
+          data = [...rawClassifications];
         }
 
-        // Step 2: apply local filters
-        data = data.filter((c) => c.classificationType && selectedClassificationTypes.includes(c.classificationType));
-
-        // compute totalPages first
-        const totalPages = Math.ceil(data.length / PAGE_SIZE);
-
-        // snapshot currentPage
-        let currentPage = pagination.currentPage;
-        if (currentPage >= totalPages) currentPage = 0; // reset if needed
-
-        // update state
-        setPagination({ currentPage, totalPages });
-
-        setClassifications(data);
+        // apply filters
+        setClassifications(
+          data.filter((c) => c.classificationType && selectedClassificationTypes.includes(c.classificationType)),
+        );
         // biome-ignore lint/suspicious/noExplicitAny: <ignoring for now>
       } catch (err: any) {
         setError(err.message);
@@ -133,7 +120,7 @@ const ClassificationsServicePage = ({
       }
     }
     loadClassifications();
-  }, [pagination.currentPage, selectedClassificationTypes, selectedFamilies]);
+  }, [selectedFamilies, selectedClassificationTypes, rawClassifications]);
 
   if (!rawClassifications) {
     return <div>Loading...</div>;
@@ -142,7 +129,9 @@ const ClassificationsServicePage = ({
   if (error) {
     return <div>Error loading data: {error}</div>;
   }
-  const startIndex = pagination.currentPage * PAGE_SIZE;
+
+  // Slice search hits for paginated pages
+  const startIndex = currentPage * PAGE_SIZE;
   const pagedHits = hits.slice(startIndex, startIndex + PAGE_SIZE);
 
   return (
@@ -154,25 +143,27 @@ const ClassificationsServicePage = ({
           Klassifikasjoner er ikke klar for testing.
         </Alert>
       }
+      sortOptions={sortTypes}
+      sortValue={sortKey}
+      onSortChange={(key: string) => setSortKey(key as SortTypes)}
       searchResult={
         <>
-          <SortFields
-            sortOptions={sortTypes}
-            sortValue={sortKey}
-            onSortChange={(key: string) => setSortKey(key as SortTypes)}
-          />
-          {loading ? (
+          {isLoading ? (
             <div>Loading...</div>
           ) : hits.length === 0 ? (
             <div>{localization.search.noHits}</div>
           ) : (
             <SearchHitContainer
-              searchHits={pagedHits.map((hit) => <ClassificationSearchHit key={hit.id} classification={hit} />)}
-              noSearchHits={false}
+              searchHits={pagedHits}
+              renderHit={(hit) => (
+                <ClassificationSearchHit key={hit.id} classification={hit as ClassificationResource} />
+              )}
+              totalHits={hits.length}
+              noSearchHits={hits.length === 0}
               onPageChange={handlePageChange}
               paginationInfo={{
-                currentPage: pagination.currentPage + 1,
-                totalPages: pagination.totalPages,
+                currentPage: currentPage + 1,
+                totalPages,
               }}
             />
           )}
