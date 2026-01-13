@@ -1,9 +1,9 @@
 import { Heading } from '@digdir/designsystemet-react';
 import React from 'react';
-import { FilterGroup } from '@/types/filters';
 import { CheckboxFilter } from '@/components/filter';
+import { FilterGroup } from '@/types/filters';
 
-const FILTER_HEADING = 'Filter'
+const FILTER_HEADING = 'Filter';
 
 const FiltersPanelComponent = ({ filterGroups }: { filterGroups: FilterGroup[] }) => {
   return (

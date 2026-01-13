@@ -1,9 +1,9 @@
 import { Pagination, usePagination } from '@digdir/designsystemet-react';
+import { ReactNode } from 'react';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language/src/localization';
 import styles from './search-hit-container.module.css';
-import { ReactNode } from 'react';
 
 type Props = {
   searchHits: RenderedView[] | ClassificationResource[];

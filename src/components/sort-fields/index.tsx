@@ -1,7 +1,7 @@
-import { SortTypes } from '@/types/tabs';
-import { filter } from '@/utils/constants';
 import { Select } from '@digdir/designsystemet-react';
 import React from 'react';
+import { SortTypes } from '@/types/tabs';
+import { filter } from '@/utils/constants';
 import styles from './sort.module.css';
 
 interface SortFieldsProps {

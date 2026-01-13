@@ -1,14 +1,14 @@
 'use client';
 
+import { useMemo, useState } from 'react';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
+import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { FilterGroup } from '@/types/filters';
-import { useMemo, useState } from 'react';
 import { VardefSearchHit } from '../components/vardefSearchHit';
-import { CodeItem } from '@/libs/data-access/klass/models';
 
 interface VariableDefinitionsServicePageProps {
   rawHits: RenderedView[];

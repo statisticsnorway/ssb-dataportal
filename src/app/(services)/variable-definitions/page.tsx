@@ -1,7 +1,7 @@
 import { fetchSubjectFields } from '@/libs/data/subjectFieldLookup';
+import { CodeItem } from '@/libs/data-access/klass/models';
 import { testVardefData } from '@/utils/mock-data';
 import VariableDefinitionsServicePage from './variable-definitions-service-page';
-import { CodeItem } from '@/libs/data-access/klass/models';
 
 export default async function VariableDefinitions() {
   const variableDefinitions = testVardefData;

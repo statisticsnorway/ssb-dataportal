@@ -7,7 +7,7 @@ export const SUBJECT_FIELD_LOOKUP: Record<string, string> = {
 };
 
 export async function fetchSubjectFields(): Promise<CodeItem[]> {
-  return subjectFieldaMock.codes.map(item => ({
+  return subjectFieldaMock.codes.map((item) => ({
     ...item,
     parentCode: item.parentCode ?? undefined,
     validFrom: item.validFrom ?? undefined,

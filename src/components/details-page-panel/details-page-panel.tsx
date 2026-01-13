@@ -1,6 +1,6 @@
 import { Heading } from '@digdir/designsystemet-react';
-import { Item } from '@/types/item';
 import { TextField } from '@/components/text-field';
+import { Item } from '@/types/item';
 import styles from './details-page-panel.module.css';
 
 interface DetailsPagePanelProps {
