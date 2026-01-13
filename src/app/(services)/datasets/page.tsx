@@ -1,5 +1,5 @@
 import { Alert } from '@digdir/designsystemet-react';
-import SearchPage from '@/components/search-page/searchPage';
+import { SearchPage } from '@/components/search-page-wrapper/search-page';
 
 export default async function Datasets() {
   return (

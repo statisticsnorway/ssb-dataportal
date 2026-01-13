@@ -1,7 +1,7 @@
 import { Link } from '@digdir/designsystemet-react';
 import { Item } from '@/types/item';
 
-export default function LinkRenderer({ value, display }: Item) {
+export function LinkRenderer({ value, display }: Item) {
   if (!value) return null;
 
   if (Array.isArray(value)) {
