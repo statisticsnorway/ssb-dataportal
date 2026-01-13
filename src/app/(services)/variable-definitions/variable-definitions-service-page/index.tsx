@@ -44,7 +44,7 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
     if (!selectedVariableDefinitions.length) return memoizedHits;
 
     return memoizedHits.filter((hit) =>
-      hit.subjectFields.some((f: { code: string }) => selectedVariableDefinitions.includes(f.code)),
+      hit.subjectFields.some((f) => f.code != null && selectedVariableDefinitions.includes(f.code)),
     );
   }, [memoizedHits, selectedVariableDefinitions, isLoading]);
 
