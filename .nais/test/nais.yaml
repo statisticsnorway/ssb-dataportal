@@ -7,14 +7,14 @@ metadata:
   namespace: dapla-metadata
 spec:
   ingresses:
-  - https://metadata-catalog.test.ssb.no
-  image: {{image}}
+    - https://metadata-catalog.test.ssb.no
+  image: "{{ image }}"
   port: 3000
   accessPolicy:
     outbound:
       external:
         # Allow egress to public Vardef
-        - host: vardef.intern.test.ssb.no 
+        - host: vardef.intern.test.ssb.no
         - host: klass.intern.test.ssb.no
         - host: data.ssb.no
   replicas:
@@ -23,3 +23,5 @@ spec:
   env:
     - name: INTERNAL_BASE_URL
       value: http://metadata-catalog
+    - name: VARDEF_USE_STATIC_DATA
+      value: true
