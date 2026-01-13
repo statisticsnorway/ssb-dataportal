@@ -20,6 +20,7 @@ import {
   validityItems,
 } from './groups';
 import styles from './variable-details-page.module.css';
+import {PythonSnippet} from "@/app/(services)/variable-definitions/components/pythonSnippet";
 
 export default function VariableDefinitionDetail({ variableDefinition }: { variableDefinition: RenderedView }) {
   if (!variableDefinition) {
@@ -110,6 +111,10 @@ export default function VariableDefinitionDetail({ variableDefinition }: { varia
           />
         </aside>
       </div>
+        <PythonSnippet
+            title='Python'
+            code={`from dapla import...` }
+        />
     </section>
   );
 }
