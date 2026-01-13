@@ -1,0 +1,42 @@
+.snippet {
+    width: 100%;
+    box-shadow: var(--box-shadow-sm);
+    border-radius: var(--border-radius-xl);
+    overflow: hidden;
+    background: white;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 1rem;
+}
+
+.pre {
+    margin: 0;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+}
+
+.code {
+    counter-reset: line;
+}
+
+.line {
+    display: grid;
+    grid-template-columns: 3ch 1fr;
+    gap: 1ch;
+    background: #f8f8f8;
+    font-family: courier, monospace;
+    font-size: var(--font-size-md);
+}
+
+.line::before {
+    counter-increment: line;
+    content: counter(line);
+    color: var(--fds-semantic-text-neutral-strong);
+    background-color: #e5e7eb;
+    text-align: center;
+    user-select: none;
+}

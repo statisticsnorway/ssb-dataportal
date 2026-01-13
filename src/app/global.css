@@ -105,3 +105,9 @@ div.ds-card {
   min-width: var(--app-min-width);
   --dsc-alert-padding-block: var(--ds-size-4);
 }
+
+.copyButton {
+    background-color: var(--element-background-color);
+    color: var(--main-font-color);
+    font-size: var(--font-size-md);
+}
