@@ -32,4 +32,4 @@ const SortFields = ({ sortOptions, sortValue, onSortChange }: SortFieldsProps) =
     </section>
   );
 };
-export default SortFields;
+export { SortFields };
