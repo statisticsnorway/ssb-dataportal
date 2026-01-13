@@ -62,6 +62,7 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
       sortOptions={sortTypes}
       sortValue={sortKey}
       onSortChange={(key: string) => setSortKey(key as SortTypes)}
+      totalHits={hits.length}
       searchResult={
         <>
           {isLoading ? (
@@ -72,7 +73,6 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
             <SearchHitContainer
               searchHits={hits}
               renderHit={(hit) => <VardefSearchHit key={hit.id} variableDefinition={hit as RenderedView} />}
-              totalHits={hits.length}
               noSearchHits={hits.length === 0}
               onPageChange={function (): void {
                 throw new Error('Function not implemented.');

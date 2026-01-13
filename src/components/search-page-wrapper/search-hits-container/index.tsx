@@ -7,7 +7,6 @@ import styles from './search-hit-container.module.css';
 
 type Props = {
   searchHits: RenderedView[] | ClassificationResource[];
-  totalHits?: number;
   paginationInfo?: { currentPage: number; totalPages: number };
   onPageChange: (page: number) => void;
   noSearchHits: boolean;
@@ -18,14 +17,7 @@ type Props = {
 /**
  * Display search hits paginated
  */
-const SearchHitContainer = ({
-  searchHits = [],
-  renderHit,
-  paginationInfo,
-  onPageChange,
-  totalHits,
-  noSearchHits,
-}: Props) => {
+const SearchHitContainer = ({ searchHits = [], renderHit, paginationInfo, onPageChange, noSearchHits }: Props) => {
   let pagedHits: RenderedView[] | ClassificationResource[] = searchHits;
 
   const hasPagination = !!paginationInfo;
@@ -48,7 +40,6 @@ const SearchHitContainer = ({
       {(noSearchHits || noSearchHits === undefined) && (
         <div className={styles.noHits}>{localization.search.noHits}</div>
       )}
-      <p className={styles.numHits}>{totalHits} treff</p>
       <div className={styles.hitsList}>{pagedHits.map((hit) => renderHit(hit))}</div>
 
       {hasPagination && (
