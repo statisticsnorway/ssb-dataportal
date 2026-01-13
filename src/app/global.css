@@ -107,7 +107,7 @@ div.ds-card {
 }
 
 .copyButton {
-    background-color: var(--element-background-color);
-    color: var(--main-font-color);
-    font-size: var(--font-size-md);
+  background-color: var(--element-background-color);
+  color: var(--main-font-color);
+  font-size: var(--font-size-md);
 }

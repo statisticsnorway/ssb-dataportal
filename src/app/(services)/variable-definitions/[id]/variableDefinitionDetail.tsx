@@ -2,9 +2,11 @@
 
 import { Button, Tag } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
+import { CodeSnippet } from '@/app/(services)/variable-definitions/components/codeSnippet';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
 import { TextField } from '@/components/text-field';
+import { useClipboard } from '@/hooks/useClipboard';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import { convertStatus, nonEmpty } from '@/utils/functions';
@@ -19,8 +21,6 @@ import {
   validityItems,
 } from './groups';
 import styles from './variable-details-page.module.css';
-import {CodeSnippet} from "@/app/(services)/variable-definitions/components/codeSnippet";
-import {useClipboard}  from "@/hooks/useClipboard";
 
 export default function VariableDefinitionDetail({ variableDefinition }: { variableDefinition: RenderedView }) {
   if (!variableDefinition) {
@@ -32,7 +32,7 @@ export default function VariableDefinitionDetail({ variableDefinition }: { varia
     ? ([{ text: variableDefinition.name, href: '' }] as BreadcrumbType[])
     : [];
   const references = nonEmpty(referencesItems(variableDefinition));
-  const {copied, copyToClipboard} = useClipboard();
+  const { copied, copyToClipboard } = useClipboard();
 
   return (
     <section className={`${styles.detailsPage} container`}>
@@ -60,12 +60,12 @@ export default function VariableDefinitionDetail({ variableDefinition }: { varia
           <DetailsPagePanel elements={contactItems(variableDefinition)} columns={2} />
           <DetailsPagePanel elements={personalDataItems(variableDefinition)} />
           <DetailsPagePanel title='Eier' elements={ownerItems(variableDefinition)} columns={2} />
-            <CodeSnippet
-                title='Python kode for å hente variabeldefinisjon'
-                code={`Vardef.get_variable_definition_by_shortname(short_name="${variableDefinition.name?.toLowerCase()}")
+          <CodeSnippet
+            title='Python kode for å hente variabeldefinisjon'
+            code={`Vardef.get_variable_definition_by_shortname(short_name="${variableDefinition.name?.toLowerCase()}")
             linje 2
-            linje 3` }
-            />
+            linje 3`}
+          />
         </article>
         <aside className={styles.sidebar}>
           <section className={styles.idAndTagRow}>
@@ -74,9 +74,9 @@ export default function VariableDefinitionDetail({ variableDefinition }: { varia
               <span className={styles.idValue}>{variableDefinition.id}</span>
               <Button
                 title='Kopier ID'
-                className="copyButton"
+                className='copyButton'
                 icon
-                onClick={()=>copyToClipboard(variableDefinition.id)}
+                onClick={() => copyToClipboard(variableDefinition.id)}
                 aria-label={copied ? 'Kopiert' : 'Kopier ID'}
               >
                 {copied ? <ClipboardCheckmarkIcon aria-hidden /> : <ClipboardIcon aria-hidden />}
