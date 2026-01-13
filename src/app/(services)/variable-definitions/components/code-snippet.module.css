@@ -17,6 +17,7 @@
     margin: 0;
     overflow-x: auto;
     padding-bottom: 1rem;
+    background: #f8f8f8;
 }
 
 .code {
@@ -27,7 +28,6 @@
     display: grid;
     grid-template-columns: 3ch 1fr;
     gap: 1ch;
-    background: #f8f8f8;
     font-family: courier, monospace;
     font-size: var(--font-size-md);
 }
@@ -38,5 +38,4 @@
     color: var(--fds-semantic-text-neutral-strong);
     background-color: #e5e7eb;
     text-align: center;
-    user-select: none;
 }

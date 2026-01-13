@@ -2,7 +2,7 @@
 
 import  {Button} from '@digdir/designsystemet-react';
 import {useMemo} from "react";
-import styles from './python-snippet.module.css';
+import styles from './code-snippet.module.css';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import {useClipboard} from "@/hooks/useClipboard";
 
@@ -17,21 +17,23 @@ type Props = {
 export function CodeSnippet({
     title='Python kodeeksempel',
     code,
+    copyLabel='Kopier kode',
+    copiedLabel='Kopiert',
     className,
 }: Props) {
     const {copied, copyToClipboard} = useClipboard();
-    const lines=useMemo(()=> code.replace(/\n$/,'').split('\n'),[code]);
+    const lines=code.replace(/\n+$/,'').split('\n');
 
     return (
         <section className={`${styles.snippet} ${className||''}`}>
             <div className={styles.header}>
                 <span >{title}</span>
                 <Button
-                    title='Kopier kode'
+                    title={copyLabel}
                     className="copyButton"
                     icon
                     onClick={()=>copyToClipboard(code)}
-                    aria-label={copied ? 'Kopiert' : 'Kopier kode'}
+                    aria-label={copied ? copiedLabel : copyLabel}
                 >
                     {copied ? <ClipboardCheckmarkIcon aria-hidden/> : <ClipboardIcon aria-hidden/>}
                 </Button>
