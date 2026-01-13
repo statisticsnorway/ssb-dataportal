@@ -26,7 +26,7 @@ jobs:
         env:
           CLUSTER: test
           RESOURCE: .nais/test/test-pr.yaml
-          VAR: image=${{ steps.docker-build-push.outputs.image }}
+          VAR: image=${{ needs.docker-build.outputs.image-tag }},pr-number=${{github.event.number}}
           DEPLOY_SERVER: deploy.ssb.cloud.nais.io:443
           WORKLOAD_IMAGE: ${{ steps.docker-build-push.outputs.image }}
           TELEMETRY: ${{ steps.docker-build-push.outputs.telemetry }}
