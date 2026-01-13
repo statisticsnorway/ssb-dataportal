@@ -81,7 +81,7 @@
 
 .filterSection {
   flex: 0 0 250px;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .mainSection {
@@ -91,6 +91,24 @@
 .searchLabel {
   color: white;
 }
+
+.numHits {
+  margin: 0;
+  margin-left: 0.2rem;
+}
+
+.hitsAndSort {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.hitsAndSort > p {
+  align-self: flex-end;
+  font-weight: 600;
+}
+
 @media (min-width: 768px) {
   .searchHitsContainer {
     display: flex;

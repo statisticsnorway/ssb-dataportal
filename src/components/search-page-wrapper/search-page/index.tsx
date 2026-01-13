@@ -20,6 +20,7 @@ interface SearchPageProps {
   sortOptions?: SortTypes[];
   sortValue?: SortTypes;
   onSortChange?: (key: string) => void;
+  totalHits?: number;
 }
 
 const SearchPage: FC<SearchPageProps> = ({
@@ -30,6 +31,7 @@ const SearchPage: FC<SearchPageProps> = ({
   sortOptions,
   sortValue,
   onSortChange,
+  totalHits,
 }) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -64,6 +66,7 @@ const SearchPage: FC<SearchPageProps> = ({
 
   useEffect(() => {
     console.log(selectedTab);
+    console.log(totalHits);
   }, [selectedTab]);
 
   return (
@@ -99,9 +102,12 @@ const SearchPage: FC<SearchPageProps> = ({
             {filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
           </aside>
           <section className={styles.mainSection}>
-            {sortOptions && sortValue && onSortChange && (
-              <SortFields sortOptions={sortOptions} sortValue={sortValue} onSortChange={onSortChange} />
-            )}
+            <div className={styles.hitsAndSort}>
+              <p className={styles.numHits}>{totalHits} treff</p>
+              {sortOptions && sortValue && onSortChange && (
+                <SortFields sortOptions={sortOptions} sortValue={sortValue} onSortChange={onSortChange} />
+              )}
+            </div>
             {searchResult}
           </section>
         </section>
