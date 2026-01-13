@@ -3,6 +3,7 @@ import { ClassificationResource } from '@/libs/data-access/klass';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language/src/localization';
 import styles from './search-hit-container.module.css';
+import { ReactNode } from 'react';
 
 type Props = {
   searchHits: RenderedView[] | ClassificationResource[];
@@ -11,7 +12,7 @@ type Props = {
   onPageChange: (page: number) => void;
   noSearchHits: boolean;
   pageSize?: number;
-  renderHit: (hit: RenderedView | ClassificationResource) => React.ReactNode;
+  renderHit: (hit: RenderedView | ClassificationResource) => ReactNode;
 };
 
 /**

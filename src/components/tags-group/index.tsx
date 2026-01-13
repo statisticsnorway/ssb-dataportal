@@ -17,4 +17,4 @@ const TagsGroup = ({ maxTags, tagData: tagData }: { maxTags: number; tagData: Ta
   );
 };
 
-export default TagsGroup;
+export { TagsGroup };

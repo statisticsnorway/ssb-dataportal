@@ -1,13 +1,13 @@
 'use client';
 
-import { useMemo, useState } from 'react';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
-import SearchPage from '@/components/search-page-wrapper/search-page/searchPage';
+import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { FilterGroup } from '@/types/filters';
 import { SubjectField } from '@/types/subjectField';
+import { useMemo, useState } from 'react';
 import { VardefSearchHit } from '../components/vardefSearchHit';
 
 interface VariableDefinitionsServicePageProps {
@@ -62,7 +62,7 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
               renderHit={(hit) => <VardefSearchHit key={hit.id} variableDefinition={hit as RenderedView} />}
               totalHits={hits.length}
               noSearchHits={hits.length === 0}
-              onPageChange={function (page: number): void {
+              onPageChange={function (): void {
                 throw new Error('Function not implemented.');
               }}
             />

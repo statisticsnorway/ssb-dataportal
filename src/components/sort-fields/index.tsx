@@ -1,7 +1,7 @@
-import { Select } from '@digdir/designsystemet-react';
-import React from 'react';
 import { SortTypes } from '@/types/tabs';
 import { filter } from '@/utils/constants';
+import { Select } from '@digdir/designsystemet-react';
+import React from 'react';
 import styles from './sort.module.css';
 
 interface SortFieldsProps {
@@ -32,4 +32,4 @@ const SortFields = ({ sortOptions, sortValue, onSortChange }: SortFieldsProps) =
     </section>
   );
 };
-export default SortFields;
+export { SortFields };

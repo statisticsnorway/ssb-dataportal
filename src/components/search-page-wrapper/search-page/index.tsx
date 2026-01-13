@@ -1,12 +1,12 @@
 'use client';
 
-import { Field, Label, Search, Tabs } from '@digdir/designsystemet-react';
-import { usePathname, useRouter } from 'next/navigation';
-import { ReactElement, ReactNode, useEffect, useState } from 'react';
-import { FiltersPanel } from '@/components/filter/filters-panel';
+import { FiltersPanel } from '@/components/filter';
+import { SortFields } from '@/components/sort-fields';
 import { SortTypes } from '@/hooks/useSearchStateKlass';
 import { FilterGroup } from '@/types/filters';
-import SortFields from '../../sort-fields';
+import { Field, Label, Search, Tabs } from '@digdir/designsystemet-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
 import styles from './search-page.module.css';
 
 interface SearchPageProps {
@@ -22,7 +22,7 @@ interface SearchPageProps {
   onSortChange?: (key: string) => void;
 }
 
-const SearchPage: React.FC<SearchPageProps> = ({
+const SearchPage: FC<SearchPageProps> = ({
   infoContent,
   searchResult,
   filterGroups,
@@ -39,10 +39,10 @@ const SearchPage: React.FC<SearchPageProps> = ({
   const derivedTab = pathname.includes('/classifications')
     ? 'klassTab'
     : pathname.includes('/variable-definitions')
-      ? 'vardefTab'
-      : pathname.includes('/datasets')
-        ? 'datasetTab'
-        : '';
+    ? 'vardefTab'
+    : pathname.includes('/datasets')
+    ? 'datasetTab'
+    : '';
 
   const tabs = [
     { value: 'vardefTab', label: 'Variabeldefinisjoner' },
@@ -110,4 +110,4 @@ const SearchPage: React.FC<SearchPageProps> = ({
   );
 };
 
-export default SearchPage;
+export { SearchPage };
