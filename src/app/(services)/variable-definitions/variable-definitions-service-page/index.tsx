@@ -6,14 +6,14 @@ import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { FilterGroup } from '@/types/filters';
-import { SubjectField } from '@/types/subjectField';
 import { useMemo, useState } from 'react';
 import { VardefSearchHit } from '../components/vardefSearchHit';
+import { CodeItem } from '@/libs/data-access/klass/models';
 
 interface VariableDefinitionsServicePageProps {
   rawHits: RenderedView[];
   isLoading?: boolean;
-  subjectFields: SubjectField[];
+  subjectFields: CodeItem[];
 }
 
 const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: VariableDefinitionsServicePageProps) => {
@@ -23,7 +23,7 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
     const groups: FilterGroup[] = [
       {
         filterHeading: 'Statistikkområde',
-        filters: subjectFields.map((f: SubjectField) => ({
+        filters: subjectFields.map((f: CodeItem) => ({
           label: f.name,
           value: String(f.code),
         })),
