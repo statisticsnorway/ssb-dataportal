@@ -15,7 +15,7 @@ const sortLabels: Record<string, string> = {
   lastChanged: filter.sortLastUpdated,
 };
 
-const SortFields = ({ sortOptions, sortValue, onSortChange, className }: SortFieldsProps) => {
+const SortFields = ({ sortOptions, sortValue, onSortChange }: SortFieldsProps) => {
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     onSortChange(e.target.value as SortTypes);
   };
