@@ -146,6 +146,7 @@ const ClassificationsServicePage = ({
       sortOptions={sortTypes}
       sortValue={sortKey}
       onSortChange={(key: string) => setSortKey(key as SortTypes)}
+      totalHits={hits.length}
       searchResult={
         <>
           {isLoading ? (
@@ -158,7 +159,6 @@ const ClassificationsServicePage = ({
               renderHit={(hit) => (
                 <ClassificationSearchHit key={hit.id} classification={hit as ClassificationResource} />
               )}
-              totalHits={hits.length}
               noSearchHits={hits.length === 0}
               onPageChange={handlePageChange}
               paginationInfo={{
