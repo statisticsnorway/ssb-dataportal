@@ -26,6 +26,6 @@ spec:
   replicas:
     max: 1
     min: 1
-  env:
-    - name: INTERNAL_BASE_URL
-      value: http://metadata-catalog
+  # env:
+  #   - name: INTERNAL_BASE_URL
+  #     value: http://metadata-catalog
