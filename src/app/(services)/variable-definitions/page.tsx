@@ -1,11 +1,27 @@
 import { listRenderedVariableDefinitions } from '@/libs/data/variableDefinitions';
+import { ResponseError } from '@/libs/data-access/variable-definitions/internal';
+import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models';
 import VariableDefinitionsServicePage from './variable-definitions-service-page';
 
 export default async function VariableDefinitions() {
-  const variableDefinitions = await listRenderedVariableDefinitions();
-  if (!variableDefinitions) {
-    return <div>Loading...</div>;
+  let data: RenderedView[] = [];
+  let errorMessage: string | null = null;
+  try {
+    data = await listRenderedVariableDefinitions();
+  } catch (error: unknown) {
+    if (error instanceof ResponseError) {
+      switch (error.response.status) {
+        case 401:
+        case 403:
+          errorMessage = 'Unauthorized';
+          break;
+        case 500:
+        default:
+          errorMessage = 'Unknown';
+      }
+    } else {
+      errorMessage = 'Unknown';
+    }
   }
-
-  return <VariableDefinitionsServicePage rawHits={variableDefinitions} isLoading={false} />;
+  return <VariableDefinitionsServicePage rawHits={data} isLoading={false} errorMessage={errorMessage} />;
 }

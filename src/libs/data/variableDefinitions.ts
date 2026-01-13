@@ -13,8 +13,14 @@ import {
 } from '../data-access/variable-definitions/internal/runtime';
 
 async function getVardefClient(): Promise<VariableDefinitionsApi> {
-  const token = await getEncodedJwt();
-  if (!token) return Promise.reject('Could not retrieve access token!');
+  let token = process.env.METADATA_CATALOG_JWT_TOKEN;
+  if (token) {
+    console.warn('Using hardcoded access token from environment! (METADATA_CATALOG_JWT_TOKEN)');
+  } else {
+    token = await getEncodedJwt();
+    if (!token) return Promise.reject('Could not retrieve access token!');
+    console.debug('Got access token from authorization header');
+  }
   let configParams = {
     accessToken: token,
   } as ConfigurationParameters;
@@ -34,12 +40,12 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
     acceptLanguage: 'nb',
     render: true,
   } satisfies ListVariableDefinitionsRequest;
-  const data = Promise.reject();
+  const data: RenderedView[] = [];
 
   try {
     const data = await api.listVariableDefinitions(body);
     data.filter((each) => instanceOfRenderedView(each));
-    console.log(data);
+    console.log(`Fetched ${data.length} variable definitions`);
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
       console.error(`Request to ${error.response.url} returned status code ${error.response.status}`);

@@ -13,10 +13,12 @@ import { VardefSearchHit } from '../components/vardefSearchHit';
 interface VariableDefinitionsServicePageProps {
   rawHits: RenderedView[];
   isLoading?: boolean;
+  errorMessage: string | null;
 }
 
-const VariableDefinitionsServicePage = ({ rawHits, isLoading }: VariableDefinitionsServicePageProps) => {
+const VariableDefinitionsServicePage = ({ rawHits, isLoading, errorMessage }: VariableDefinitionsServicePageProps) => {
   const [selectedVariableDefinitions, setSelectedVariableDefinitions] = useState<string[]>([]);
+  console.log(`Hits: ${rawHits.length}, isLoading: ${isLoading}, errorMessage: ${errorMessage}`);
 
   const filterGroups: FilterGroup[] = useMemo(() => {
     const groups: FilterGroup[] = [
@@ -54,8 +56,8 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading }: VariableDefiniti
             onSortChange={(key: string) => setSortKey(key as SortTypes)}
           />
 
-          {isLoading ? (
-            <div>Loading...</div>
+          {errorMessage ? (
+            <div>Could not fetch data: {errorMessage}</div>
           ) : hits.length === 0 ? (
             <div>{localization.search.noHits}</div>
           ) : (
