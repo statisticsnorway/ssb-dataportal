@@ -36,7 +36,18 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
 
   const memoizedHits = useMemo(() => (isLoading ? [] : rawHits), [isLoading, rawHits]);
 
-  const { hits, sortKey, setSortKey, sortTypes } = useSearchStateVardef(memoizedHits);
+  const filteredHits = useMemo(() => {
+    if (isLoading) return [];
+
+    // If no filters selected, return all hits
+    if (!selectedVariableDefinitions.length) return memoizedHits;
+
+    return memoizedHits.filter((hit) =>
+      hit.subjectFields.some((f: { code: string }) => selectedVariableDefinitions.includes(f.code)),
+    );
+  }, [memoizedHits, selectedVariableDefinitions, isLoading]);
+
+  const { hits, sortKey, setSortKey, sortTypes } = useSearchStateVardef(filteredHits);
 
   console.log(
     'Filters: ',
