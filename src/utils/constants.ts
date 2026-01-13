@@ -15,6 +15,8 @@ export const VARIABELDEFINISJONER = 'Variabeldefinisjoner';
 
 export const LANDBAKGRUNN = 'Landbakgrunn';
 
+export const SUBJECT_AREA = 'Statistikkområde';
+
 export const filter = {
   sortNameAsc: 'Navn (A–Z)',
   sortNameDesc: 'Navn (Z–A)',

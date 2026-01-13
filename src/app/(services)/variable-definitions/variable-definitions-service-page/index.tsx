@@ -8,6 +8,7 @@ import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { FilterGroup } from '@/types/filters';
+import { SUBJECT_AREA } from '@/utils/constants';
 import { VardefSearchHit } from '../components/vardefSearchHit';
 
 interface VariableDefinitionsServicePageProps {
@@ -22,7 +23,7 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
   const filterGroups: FilterGroup[] = useMemo(() => {
     const groups: FilterGroup[] = [
       {
-        filterHeading: 'Statistikkområde',
+        filterHeading: SUBJECT_AREA,
         filters: subjectFields.map((f: CodeItem) => ({
           label: f.name,
           value: String(f.code),
