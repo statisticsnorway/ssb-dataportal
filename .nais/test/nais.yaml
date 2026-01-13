@@ -14,9 +14,14 @@ spec:
     outbound:
       external:
         # Allow egress to public Vardef
-        - host: vardef.intern.test.ssb.no 
+        - host: vardef.intern.test.ssb.no
         - host: klass.intern.test.ssb.no
         - host: data.ssb.no
+        - host: auth.test.ssb.no
+  login:
+    provider: openid
+    enforce:
+      enabled: true
   replicas:
     max: 1
     min: 1
