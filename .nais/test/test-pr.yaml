@@ -17,6 +17,7 @@ spec:
         - host: vardef.intern.test.ssb.no
         - host: klass.intern.test.ssb.no
         - host: data.ssb.no
+        - host: auth.test.ssb.no
   login:
     provider: openid
     enforce:
