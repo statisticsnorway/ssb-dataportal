@@ -23,8 +23,8 @@ export const useSearchStateVardef = (initialHits: RenderedView[] = []) => {
       case 'lastChanged':
         return (a: RenderedView, b: RenderedView) =>
           sortDateStringsDescending(
-            a.lastUpdatedAt.toISOString().split('T')[0] || '',
-            b.lastUpdatedAt.toISOString().split('T')[0] || '',
+            a.last_updated_at.toISOString().split('T')[0] || '',
+            b.last_updated_at.toISOString().split('T')[0] || '',
           );
       default:
         return () => 0;

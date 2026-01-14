@@ -33,7 +33,7 @@ const VardefHeading = ({
   const headingText = (
     <>
       {variableDefinition.name}
-      <span className={styles.vardefShortName}>{variableDefinition.shortName}</span>
+      <span className={styles.vardefShortName}>{variableDefinition.short_name}</span>
     </>
   );
   return href === undefined ? (

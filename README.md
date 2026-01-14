@@ -72,12 +72,31 @@ Fix linting
 yarn format:fix
 ```
 
+### Dev config
+
+Dev config and environment variables can be included in `.env.local` which is excluded from the repository
+
+#### Commonly used config
+
+| Key                        | Description                                                                                             |
+| -------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `VARDEF_BASE_PATH`           | Which Vardef instance to point to. Can be set to `http://localhost:8081` to work with a local instance  |
+| `VARDEF_USE_STATIC_DATA`     | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. |
+| `METADATA_CATALOG_JWT_TOKEN` | A JWT token to use for auth. Can be obtained from via the [Dapla CLI](#local-auth).                                    |
+
+### Local auth
+
+1. Install Dapla CLI: <https://github.com/statisticsnorway/dapla-cli?tab=readme-ov-file#installation>
+1. Log in: `dp auth login --client metadata-local --env test`
+1. Copy your access token: `dp auth show-access-token --to-clipboard --client metadata-local --env test`
+1. Save it in the `METADATA_CATALOG_JWT_TOKEN` environment variable.
+
 ## Test
 
 We use `jest` for unit testing and `playwright` for end-to-end tests.
 Unit tests are placed inside the component folder.
 End-to-end tests (called e2e) is placed in folder 'e2e/'.
-Name testfiles:  `<componentName>.spec.tsx`
+Name testfiles: `<componentName>.spec.tsx`
 
 ### Jest
 
@@ -92,6 +111,7 @@ Remove cache
 ```bash
 yarn jest --clearCache
 ```
+
 Start watch session - interactive mode
 
 ```bash
@@ -116,11 +136,7 @@ yarn playwright install
 
 #### Configure Environment for Tests
 
-Create a `.env.test` file in the root of your project:
-
-`NEXT_TEST=test`
-
-All end-to-end (E2E) tests will run with static data by default.
+Config can be added in `.env.test`. This file is included in the repo so _no secrets_! All tests should run with static data by default.
 
 #### Running Tests
 
@@ -163,9 +179,11 @@ This project uses OpenAPI Generator to generate TypeScript clients from OpenAPI 
 You can generate the clients one at a time using the yarn scripts defined in package.json.
 
 Generate Vardef internal:
+
 ```bash
 yarn codegen:vardef-internal
 ```
+
 Uses the OpenAPI spec from:
 https://metadata.ssb.no/docs/openapi/variable-definitions/variable-definitions-internal.yml
 
@@ -176,6 +194,7 @@ Generate Klass:
 ```bash
 yarn codegen:klass
 ```
+
 Uses the OpenAPI spec from:
 https://data.ssb.no/api/klass/v3/api-docs
 
