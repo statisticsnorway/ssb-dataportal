@@ -14,10 +14,7 @@ const test = base.extend<{
 }>({
   goToVariable: async ({ page }, use) => {
     const goToVariable = async (variable: RenderedView) => {
-      await page.goto('http://localhost:3000/variable-definitions', {
-        waitUntil: 'domcontentloaded',
-        timeout: 15000,
-      });
+      await page.goto('/variable-definitions');
       if (!variable.name) {
         throw new Error('Variable name is missing');
       }
@@ -60,6 +57,7 @@ test('Navigate to up to 4 variable definitions', async ({ goToVariable, page }) 
 
     await Promise.all([page.waitForURL(/\/variable-definitions$/), homeLink.click()]);
 
+    // Wait for variable-defintions page to be ready for next iteration
     await expect(page.getByRole('tab', { name: VARIABELDEFINISJONER })).toBeVisible({ timeout: 5000 });
     await page.waitForLoadState('networkidle');
   }
