@@ -36,7 +36,7 @@ const VariableDefinitionsServicePage = ({
       {
         filterHeading: SUBJECT_AREA,
         filters: subjectFields.map((f: CodeItem) => ({
-          label: f.name,
+          label: String(f.name),
           value: String(f.code),
         })),
         selectedItems: selectedVariableDefinitions,
