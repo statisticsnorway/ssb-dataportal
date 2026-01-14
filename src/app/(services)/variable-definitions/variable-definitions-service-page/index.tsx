@@ -1,5 +1,6 @@
 'use client';
 
+import { Spinner } from '@digdir/designsystemet-react';
 import { useMemo, useState } from 'react';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
@@ -8,6 +9,7 @@ import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { FilterGroup } from '@/types/filters';
+import { SUBJECT_AREA } from '@/utils/constants';
 import { VardefSearchHit } from '../components/vardefSearchHit';
 
 interface VariableDefinitionsServicePageProps {
@@ -17,12 +19,16 @@ interface VariableDefinitionsServicePageProps {
 }
 
 const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: VariableDefinitionsServicePageProps) => {
+  if (isLoading) {
+    return <Spinner aria-label='Laster variabeldefinisjoner' />;
+  }
+
   const [selectedVariableDefinitions, setSelectedVariableDefinitions] = useState<string[]>([]);
 
   const filterGroups: FilterGroup[] = useMemo(() => {
     const groups: FilterGroup[] = [
       {
-        filterHeading: 'Statistikkområde',
+        filterHeading: SUBJECT_AREA,
         filters: subjectFields.map((f: CodeItem) => ({
           label: f.name,
           value: String(f.code),
@@ -34,9 +40,15 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
     return groups;
   }, [selectedVariableDefinitions]);
 
-  const memoizedHits = useMemo(() => (isLoading ? [] : rawHits), [isLoading, rawHits]);
+  const filteredHits = useMemo(() => {
+    if (!selectedVariableDefinitions.length) return rawHits;
 
-  const { hits, sortKey, setSortKey, sortTypes } = useSearchStateVardef(memoizedHits);
+    return rawHits.filter((hit) =>
+      hit.subjectFields.some((f) => f.code != null && selectedVariableDefinitions.includes(f.code)),
+    );
+  }, [rawHits, selectedVariableDefinitions]);
+
+  const { hits, sortKey, setSortKey, sortTypes } = useSearchStateVardef(filteredHits);
 
   console.log(
     'Filters: ',
@@ -53,9 +65,7 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
       totalHits={hits.length}
       searchResult={
         <>
-          {isLoading ? (
-            <div>Loading...</div>
-          ) : hits.length === 0 ? (
+          {hits.length === 0 ? (
             <div>{localization.search.noHits}</div>
           ) : (
             <SearchHitContainer

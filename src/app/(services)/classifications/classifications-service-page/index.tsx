@@ -1,6 +1,6 @@
 'use client';
 
-import { Alert } from '@digdir/designsystemet-react';
+import { Alert, Spinner } from '@digdir/designsystemet-react';
 import { useEffect, useMemo, useState } from 'react';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
@@ -123,7 +123,7 @@ const ClassificationsServicePage = ({
   }, [selectedFamilies, selectedClassificationTypes, rawClassifications]);
 
   if (!rawClassifications) {
-    return <div>Loading...</div>;
+    return <Spinner aria-label='Laster klassifikasjoner' />;
   }
 
   if (error) {
@@ -150,7 +150,7 @@ const ClassificationsServicePage = ({
       searchResult={
         <>
           {isLoading ? (
-            <div>Loading...</div>
+            <Spinner aria-label='Laster klassifikasjoner' />
           ) : hits.length === 0 ? (
             <div>{localization.search.noHits}</div>
           ) : (
