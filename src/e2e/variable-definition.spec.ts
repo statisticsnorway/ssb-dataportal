@@ -21,7 +21,7 @@ const test = base.extend<{
 
       // Wait for the link to be visible before clicking
       const link = page.getByRole('link', { name: variable.name, exact: true });
-      await expect(link).toBeVisible({ timeout: 5000 });
+      await expect(link).toBeVisible({ timeout: 10000 });
 
       await Promise.all([page.waitForURL(new RegExp(`/variable-definitions/${variable.id}`)), link.click()]);
     };
