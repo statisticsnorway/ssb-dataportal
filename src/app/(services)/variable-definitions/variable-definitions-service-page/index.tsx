@@ -19,6 +19,10 @@ interface VariableDefinitionsServicePageProps {
 }
 
 const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: VariableDefinitionsServicePageProps) => {
+  if (isLoading) {
+    return <Spinner aria-label='Laster variabeldefinisjoner' />;
+  }
+
   const [selectedVariableDefinitions, setSelectedVariableDefinitions] = useState<string[]>([]);
 
   const filterGroups: FilterGroup[] = useMemo(() => {
@@ -36,18 +40,13 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
     return groups;
   }, [selectedVariableDefinitions]);
 
-  const memoizedHits = useMemo(() => (isLoading ? [] : rawHits), [isLoading, rawHits]);
-
   const filteredHits = useMemo(() => {
-    if (isLoading) return <Spinner aria-label='Laster variabeldefinisjoner' />;
+    if (!selectedVariableDefinitions.length) return rawHits;
 
-    // If no filters selected, return all hits
-    if (!selectedVariableDefinitions.length) return memoizedHits;
-
-    return memoizedHits.filter((hit) =>
+    return rawHits.filter((hit) =>
       hit.subjectFields.some((f) => f.code != null && selectedVariableDefinitions.includes(f.code)),
     );
-  }, [memoizedHits, selectedVariableDefinitions, isLoading]);
+  }, [rawHits, selectedVariableDefinitions]);
 
   const { hits, sortKey, setSortKey, sortTypes } = useSearchStateVardef(filteredHits);
 
@@ -66,9 +65,7 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
       totalHits={hits.length}
       searchResult={
         <>
-          {isLoading ? (
-            <div>Loading...</div>
-          ) : hits.length === 0 ? (
+          {hits.length === 0 ? (
             <div>{localization.search.noHits}</div>
           ) : (
             <SearchHitContainer
