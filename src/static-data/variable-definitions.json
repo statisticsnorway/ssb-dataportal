@@ -1,67 +1,65 @@
 [
   {
-    "id": "wypvb3wd",
-    "name": "Landbakgrunn",
-    "short_name": "string",
-    "definition": "For personer født i utlandet, er dette (med noen få unntak) eget fødeland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt. Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen mormor, morfar, farmor eller farfar.",
-    "classification_uri": "https://www.ssb.no/en/klass/klassifikasjoner/91",
+    "id": "uTlh01fK",
+    "patch_id": 1,
+    "name": "Aksje",
+    "short_name": "aksje",
+    "definition": "En eierandel i et selskap med avgrenset ansvar.",
+    "classification_uri": null,
     "unit_types": [
       {
         "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
-        "code": "20",
-        "title": "Person"
+        "code": "12",
+        "title": "Foretak"
       }
     ],
     "subject_fields": [
       {
         "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
-        "code": "be07",
-        "title": "Innvandrere"
+        "code": "bf",
+        "title": "Bank og finansmarked"
       }
     ],
-    "contains_special_categories_of_personal_data": true,
-    "variable_status": "PUBLISHED_INTERNAL",
-    "valid_from": "2003-01-01",
-    "external_reference_uri": "https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb",
-    "comment": "Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.",
-    "related_variable_definition_uris": ["https://example.com/"],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1984-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": [],
     "owner": {
-      "team": "team-a",
-      "groups": ["team-a-developers"]
+      "team": "skatt-naering",
+      "groups": ["skatt-naering-developers"]
     },
     "contact": {
-      "title": "Seksjon for befolkningsstatistikk",
-      "email": "s320@ssb.no"
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
     },
-    "created_at": "2024-06-11T08:15:19.038Z",
-    "created_by": "ano@ssb.no",
-    "last_updated_at": "2024-06-11T08:15:19.038Z",
-    "last_updated_by": "ano@ssb.no"
+    "created_at": "2025-10-20T10:50:48.199000",
+    "created_by": "ori@ssb.no",
+    "last_updated_at": "2025-10-29T09:42:41.480000",
+    "last_updated_by": "ori@ssb.no"
   },
   {
-    "id": "0O1QLezw",
+    "id": "pxgHCjpc",
     "patch_id": 1,
-    "name": "Kommunenummer",
-    "short_name": "komm_nr",
-    "definition": "Kommunenummer er et nummer som i Norge identifiserer en kommune. Det består av fire sifre og brukes for entydig å definere kommunen. De to første sifrene i kommunenummeret er fylkesnummeret. De to siste sifrene i kommunenummeret er et løpenummer innen hvert fylke. Kommunenumrene er delvis ordnet etter den gamle fogderiinndelingen, slik at nabokommuner ofte har kommunenummer som følger hverandre. Fra kommunenumrene ble innført i 1946, fikk byene kommunenummer med tredjesiffer 0. Dette viser at kommunen var en bykommune. Tidligere har det vært vanlig med gjenbruk av kommunenummer, noe som er svært uønsket praksis i moderne databehandling.",
-    "classification_uri": "https://www.ssb.no/en/klass/klassifikasjoner/131",
+    "name": "Aksjer og andeler mv",
+    "short_name": "aksjand",
+    "definition": "Aksjer og andeler inkluderer aksjer, grunnfondsbevis, kapitalinnskudd og verdipapirfondsandeler.",
+    "classification_uri": null,
     "unit_types": [
       {
         "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
-        "code": "16",
-        "title": "Kommune (forvaltning)"
+        "code": "12",
+        "title": "Foretak"
       }
     ],
     "subject_fields": [
       {
         "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
-        "code": "be",
-        "title": "Befolkning"
-      },
-      {
-        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
-        "code": "tr",
-        "title": "Transport"
+        "code": "nk",
+        "title": "Nasjonalregnskap og konjunkturer"
       }
     ],
     "contains_special_categories_of_personal_data": false,
@@ -73,75 +71,72 @@
     "comment": null,
     "related_variable_definition_uris": [],
     "owner": {
-      "team": "dapla-metadata",
-      "groups": ["dapla-metadata-developers"]
+      "team": "finregn",
+      "groups": ["finregn-developers"]
     },
     "contact": {
-      "title": "Herr Generert",
-      "email": "generert@epost.com"
+      "title": "Torbj\u00f8rn Cock R\u00f8nning",
+      "email": "tcr@ssb.no"
     },
-    "created_at": "2025-09-08T11:27:06.964000",
-    "created_by": "mmw@ssb.no",
-    "last_updated_at": "2025-09-08T11:27:06.964000",
-    "last_updated_by": "mmw@ssb.no"
+    "created_at": "2025-10-27T11:57:29.948000",
+    "created_by": "tcr@ssb.no",
+    "last_updated_at": "2025-11-24T12:47:26.163000",
+    "last_updated_by": "tcr@ssb.no"
   },
   {
-    "id": "icv6",
-    "name": "Buss",
-    "patch_id": 0,
-    "short_name": "bus",
-    "unit_types": [],
-    "subject_fields": [
-      {
-        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
-        "code": "tr",
-        "title": "Transport"
-      },
-      {
-        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
-        "code": null,
-        "title": null
-      }
-    ],
-    "definition": "Buss er at...",
-    "valid_from": "2020-01-01",
-    "contains_special_categories_of_personal_data": false,
-    "variable_status": "DRAFT",
-    "contact": {
-      "title": "Professor",
-      "email": "proff@ssb.no"
-    },
-    "owner": {
-      "team": "test-team",
-      "groups": ["groups"]
-    },
-    "created_at": "2024-06-11T08:15:19.038Z",
-    "created_by": "test-user",
-    "last_updated_at": "2025-09-08T11:27:06.964000",
-    "last_updated_by": "test-user"
-  },
-  {
-    "id": "tJMLQK8_",
+    "id": "bl_FE1oP",
     "patch_id": 1,
-    "name": "Arbeidsgiver",
-    "short_name": "arbgiv",
-    "definition": "En arbeidsgiver er en person eller virksomhet som sysselsetter arbeidstakere.",
+    "name": "Aktivitetskode",
+    "short_name": "aktivitetskode",
+    "definition": "Aktivitetskode angir om enheten har uoppgitt aktivitet, er aktiv, aldri har v\u00e6rt aktiv eller har v\u00e6rt aktiv. Aktivitetskoden registreres ut fra aktivitet i et utvalg administrative register (Arbeidsgiver- arbeidstakerregisteret fra NAV, Terminfiler fra Merverdiavgiftsmanntallet, Regnskapsregisteret og Selvangivelsesregisteret).",
     "classification_uri": null,
     "unit_types": [
       {
         "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
-        "code": "16",
-        "title": "Kommune (forvaltning)"
-      },
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2003-11-18",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "Definisjonen gjelder b\u00e5de for bedrift og foretak.",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "vof",
+      "groups": ["vof-developers"]
+    },
+    "contact": {
+      "title": "Felles e-post Bedrifts- og Foretaksregisteret (BoF)",
+      "email": "bof@ssb.no"
+    },
+    "created_at": "2025-10-20T10:44:11.041000",
+    "created_by": "sik@ssb.no",
+    "last_updated_at": "2025-10-20T11:54:45.572000",
+    "last_updated_by": "aeh@ssb.no"
+  },
+  {
+    "id": "L6ExgSGP",
+    "patch_id": 1,
+    "name": "Antall baderom",
+    "short_name": "sp17_rom",
+    "definition": "Som baderom regnes rom der det er installert badekar og/eller dusj.",
+    "classification_uri": null,
+    "unit_types": [
       {
         "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
-        "code": "22",
-        "title": "Statlig virksomhet"
-      },
-      {
-        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
-        "code": "21",
-        "title": "Skip"
+        "code": "03",
+        "title": "Bruksenhet"
       }
     ],
     "subject_fields": [
@@ -149,36 +144,1408 @@
         "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
         "code": "be",
         "title": "Befolkning"
-      },
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2001-01-01",
+    "valid_until": "2001-12-31",
+    "external_reference_uri": "http://www.ssb.no/emner/02/01/fobhusinnt/om.html",
+    "comment": "I FoB2001 hentet fra boligskjemaet, sp\u00f8rsm\u00e5l 17.",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-09-11T07:50:26.251000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-09-11T07:50:26.251000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "tSKyWmp5",
+    "patch_id": 1,
+    "name": "Antall barn (0-17 \u00e5r) i familien",
+    "short_name": "antall_barn_u18_fam",
+    "definition": "Som barn regnes her personer under 18 \u00e5r som er registrert bosatt i familien til minst en av foreldrene. Familie er definert som personer som er bosatt i samme bolig og som er knyttet til hverandre som ektefeller, registrerte partnere, samboere og/eller som foreldre og barn (uansett barnets alder).",
+    "classification_uri": null,
+    "unit_types": [
       {
-        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
-        "code": "tr",
-        "title": "Transport"
-      },
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "06",
+        "title": "Familie"
+      }
+    ],
+    "subject_fields": [
       {
         "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
         "code": "be",
         "title": "Befolkning"
-      },
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2001-01-01",
+    "valid_until": null,
+    "external_reference_uri": "http://www.ssb.no/emner/02/01/20/familie/om.html",
+    "comment": null,
+    "related_variable_definition_uris": ["http://www.ssb.no/conceptvariable/vardok/116"],
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "Seksjon for Befolkningsstatistikk",
+      "email": "befolkning@ssb.no"
+    },
+    "created_at": "2025-09-11T07:50:33.752000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2026-01-05T15:26:43.137000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "aJDd2ir2",
+    "patch_id": 1,
+    "name": "Antall etasjer",
+    "short_name": "sp10",
+    "definition": "Variabelen viser til hvor mange etasjer det totalt er i bygningen. Kjeller eller underetasje tas ikke med i beregningen av antall etasjer. Loft er bare regnet med dersom det er innredet til boligform\u00e5l.",
+    "classification_uri": null,
+    "unit_types": [
       {
-        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
-        "code": "tr",
-        "title": "Transport"
-      },
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "04",
+        "title": "Bygg"
+      }
+    ],
+    "subject_fields": [
       {
         "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
         "code": "be",
         "title": "Befolkning"
-      },
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2001-01-01",
+    "valid_until": "2001-12-31",
+    "external_reference_uri": "http://www.ssb.no/emner/02/01/fobhusinnt/om.html",
+    "comment": "Opplysningene er hentet fra boligskjemaet i FoB2001, sp\u00f8rsm\u00e5l 10.",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-09-11T07:51:02.956000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-09-11T07:51:02.956000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "vtseKLFv",
+    "patch_id": 1,
+    "name": "Annen kapital",
+    "short_name": "akap",
+    "definition": "Annen kapital omfatter l\u00e5n og varekreditter",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
       {
         "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
-        "code": "tr",
-        "title": "Transport"
-      },
+        "code": "ut",
+        "title": "Utenriks\u00f8konomi"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2016-08-19",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "finregn",
+      "groups": ["finregn-developers"]
+    },
+    "contact": {
+      "title": "Torbj\u00f8rn Cock R\u00f8nning",
+      "email": "tcr@ssb.no"
+    },
+    "created_at": "2025-10-27T11:57:34.544000",
+    "created_by": "tcr@ssb.no",
+    "last_updated_at": "2025-11-24T12:50:01.894000",
+    "last_updated_by": "tcr@ssb.no"
+  },
+  {
+    "id": "98jr0Bl4",
+    "patch_id": 1,
+    "name": "Antall foretak - n\u00e6ringsoppgaver",
+    "short_name": "ant_f",
+    "definition": "Viser antall foretak som inng\u00e5r i statistikken. Regnskapsstatistikken som bygger p\u00e5 n\u00e6ringsoppgaver omfatter ikke-finansielle foretak som har levert n\u00e6ringsoppgave elektronisk - eller inng\u00e5r i SSBs utvalgsbaserte innhenteing av n\u00e6ringsoppgaver.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
       {
         "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
-        "code": "tr",
-        "title": "Transport"
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1999-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "skatt-naering",
+      "groups": ["skatt-naering-developers"]
+    },
+    "contact": {
+      "title": "Regnskap og skatt",
+      "email": "regnskap@ssb.no"
+    },
+    "created_at": "2025-10-14T10:51:34.991000",
+    "created_by": "mio@ssb.no",
+    "last_updated_at": "2025-10-20T11:49:31.502000",
+    "last_updated_by": "mio@ssb.no"
+  },
+  {
+    "id": "Xd3Ueog_",
+    "patch_id": 1,
+    "name": "Antall medlemmer i familien (Besys)",
+    "short_name": "antall",
+    "definition": "Variabelen viser antall personer med samme familienummer (BESYS). Variabelen brukes i familiestatistikken.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "06",
+        "title": "Familie"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1993-01-01",
+    "valid_until": "2006-01-01",
+    "external_reference_uri": "http://www.ssb.no/emner/02/01/20/familie/om.html",
+    "comment": null,
+    "related_variable_definition_uris": ["http://www.ssb.no/conceptvariable/vardok/117"],
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-09-11T07:49:21.366000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-09-11T07:49:21.366000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "_NHHszR9",
+    "patch_id": 1,
+    "name": "Antall personer 18 \u00e5r og over i husholdningen",
+    "short_name": "pers18plus_i_hushnr",
+    "definition": "Antall personer 18 \u00e5r og eldre i husholdningen",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "10",
+        "title": "Husholdning"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1900-01-01",
+    "valid_until": "2025-12-31",
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "Seksjon for Befolkningsstatistikk",
+      "email": "befolkning@ssb.no"
+    },
+    "created_at": "2025-09-11T07:52:45.038000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2026-01-05T09:46:46.878000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "0A81rJn3",
+    "patch_id": 1,
+    "name": "Antall rom til n\u00e6ringsvirksomhet",
+    "short_name": "sp16_rom",
+    "definition": "Antall rom i boligen som bare blir brukt til n\u00e6ringsvirksomhet",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "03",
+        "title": "Bruksenhet"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2001-01-01",
+    "valid_until": "2001-12-31",
+    "external_reference_uri": "http://www.ssb.no/emner/02/01/fobhusinnt/om.html",
+    "comment": "I FoB2001 hentet fra boligskjemaet, sp\u00f8rsm\u00e5l 16.",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-09-11T07:50:26.630000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-09-11T07:50:26.630000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "BP7HapXl",
+    "patch_id": 1,
+    "name": "Arbeidsstedskommune",
+    "short_name": "arbsted",
+    "definition": "Arbeidsted betegner beliggenheten til den lokale produksjonsenheten (bedriften) til den ansattes arbeidsgiver eller n\u00e6ringsdrivende selv.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "al",
+        "title": "Arbeid og l\u00f8nn"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1900-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "Beliggenhet kan oppgis ved ulik grad av detaljering, f.eks. grunnkrets, delomr\u00e5de, kommune, fylke, land. Arbeidsted kan skille seg fra hvor arbeidsoppgavene faktisk utf\u00f8res, f.eks. ved bygg- og anlegg, transport, salg utenfor butikk.",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "arbmark-register",
+      "groups": ["arbmark-register-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-09-30T08:16:01.758000",
+    "created_by": "efr@ssb.no",
+    "last_updated_at": "2025-12-19T12:43:51.268000",
+    "last_updated_by": "chb@ssb.no"
+  },
+  {
+    "id": "TXcBkNY8",
+    "patch_id": 1,
+    "name": "Bankinnskudd og kontanter",
+    "short_name": "kasse",
+    "definition": "Omfatter verdien av innskudd i bank, post mv og beholdningen av kontanter p\u00e5 balansetidspunktet",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1999-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "skatt-naering",
+      "groups": ["skatt-naering-developers"]
+    },
+    "contact": {
+      "title": "Regnskap og skatt",
+      "email": "Regnskap@ssb.no"
+    },
+    "created_at": "2025-10-14T10:51:35.798000",
+    "created_by": "mio@ssb.no",
+    "last_updated_at": "2025-11-18T10:30:49.064000",
+    "last_updated_by": "mio@ssb.no"
+  },
+  {
+    "id": "bdOmTdMD",
+    "patch_id": 1,
+    "name": "Bedriftens numeriske adresse",
+    "short_name": "numerisk_adresse",
+    "definition": "Nummerisk adresse kan best\u00e5 av 13 eller 17 posisjoner. 13 posisjoner best\u00e5r av f\u00f8lgende felter. Kommunenummer||gatenummer||husnummer. 17 posisjoner best\u00e5r av f\u00f8lgende felter Kommunenummer||gatenummer||husnummer||bokstav. Nummerisk adresse kan v\u00e6re inntil 25 posisjoner langt, avhengig av hvilke felter en velger \u00e5 inkludere. Kan ogs\u00e5 inneholde feltene undernummer, etasjetype, etasjenummer og leilighetsnummer.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "13",
+        "title": "Bedrift"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2003-11-18",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "Gjelder b\u00e5de bedrift og foretak",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "vof",
+      "groups": ["vof-developers"]
+    },
+    "contact": {
+      "title": "Felles e-post Bedrifts- og Foretaksregisteret (BoF)",
+      "email": "bof@ssb.no"
+    },
+    "created_at": "2025-10-20T10:44:12.616000",
+    "created_by": "sik@ssb.no",
+    "last_updated_at": "2025-10-21T10:02:25.186000",
+    "last_updated_by": "rga@ssb.no"
+  },
+  {
+    "id": "kDANrVb6",
+    "patch_id": 1,
+    "name": "Beregnet arbeidsgiveravgift",
+    "short_name": "agrl_beregnet",
+    "definition": "Avgift som arbeidsgivere m\u00e5 betale for sine ansatte som en del av finansieringen av folketrygden. Den beregnes som en prosentsats av l\u00f8nn og godtgj\u00f8relse. Arbeidsgiveravgift er differensiert, slik at avgiftssatsen avhenger av n\u00e6ring og hvor arbeidsstedet er lokalisert.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "13",
+        "title": "Bedrift"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "al05",
+        "title": "L\u00f8nn og arbeidskraftkostnader"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2011-07-06",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "strukt-arbkost",
+      "groups": ["strukt-arbkost-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-10-28T10:04:13.241000",
+    "created_by": "bbh@ssb.no",
+    "last_updated_at": "2025-10-29T14:10:05.108000",
+    "last_updated_by": "bbh@ssb.no"
+  },
+  {
+    "id": "jeXeL7hn",
+    "patch_id": 1,
+    "name": "Bonitet",
+    "short_name": "bonitet",
+    "definition": "Et uttrykk for markas evne til \u00e5 produsere trevirke n\u00e5r den er bestokket med et treslag som passer for vekstforholdene p\u00e5 vedkommende sted. (Boniteten i H40-systemet angis ved tr\u00e6rnes overh\u00f8yde (gjennomsnittsh\u00f8yden av de ti tr\u00e6rne per dekar med st\u00f8rst diameter) ved 40-\u00e5rsalder i brysth\u00f8yde (1,3 meter over bakken).)",
+    "classification_uri": "https://www.ssb.no/klass/klassifikasjoner/71",
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "05",
+        "title": "Matrikkelenhet"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "js",
+        "title": "Jord, skog, jakt og fiskeri"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": {
+      "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/303",
+      "code": "09",
+      "title": "Lengde"
+    },
+    "valid_from": "1977-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "stat-skog",
+      "groups": ["stat-skog-developers"]
+    },
+    "contact": {
+      "title": "Seksjon for eiendoms-, areal- og prim\u00e6rn\u00e6ringsstatistikk",
+      "email": "tra@ssb.no"
+    },
+    "created_at": "2025-12-10T08:19:08.681000",
+    "created_by": "tra@ssb.no",
+    "last_updated_at": "2025-12-19T10:07:14.792000",
+    "last_updated_by": "tra@ssb.no"
+  },
+  {
+    "id": "XiT6aUIy",
+    "patch_id": 1,
+    "name": "Bosatt p\u00e5 hybel",
+    "short_name": "hybel",
+    "definition": "Variabelen viser om personen bor p\u00e5 hybel. B\u00e5de hybel med og uten egen inngang er medregnet. Boenheter med eget kj\u00f8kken regnes ikke som hybel.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2001-01-01",
+    "valid_until": "2001-12-31",
+    "external_reference_uri": "http://www.ssb.no/emner/02/01/fobhusinnt/om.html",
+    "comment": "Opplysningene er hentet fra boligskjemaet i FoB2001 (sp\u00f8rsm\u00e5l 4).",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-09-11T07:50:36.816000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-09-11T07:50:36.816000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "mpw2Fz8T",
+    "patch_id": 1,
+    "name": "Bygningsnummer",
+    "short_name": "bygnings_nr",
+    "definition": "Bygningsnummer er en unik identifikator for bygninger registert i Matrikkelen.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "04",
+        "title": "Bygg"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2004-04-30",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "Kommunenummeret + bygningsnummeret utgj\u00f8r de f\u00f8rste 13 posisjonene av bygningens offisielle identifikasjon.",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "pop-mat-gb",
+      "groups": ["pop-mat-gb-developers", "pop-mat-gb-data-admins"]
+    },
+    "contact": {
+      "title": "Jens Mathiesen",
+      "email": "jma@ssb.no"
+    },
+    "created_at": "2025-08-21T11:23:15.541000",
+    "created_by": "jma@ssb.no",
+    "last_updated_at": "2025-08-21T11:27:48.324000",
+    "last_updated_by": "jma@ssb.no"
+  },
+  {
+    "id": "c11BBwmz",
+    "patch_id": 1,
+    "name": "Dato for avslutning",
+    "short_name": "avsldato",
+    "definition": "Avslutningsdato. Fylles ut dersom saken er avsluttet pr. 31.12. i oppgave\u00e5ret",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "sk",
+        "title": "Sosiale forhold og kriminalitet"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2000-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "famvern",
+      "groups": ["famvern-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-12-03T13:38:49.322000",
+    "created_by": "vis@ssb.no",
+    "last_updated_at": "2025-12-03T13:38:49.322000",
+    "last_updated_by": "vis@ssb.no"
+  },
+  {
+    "id": "nZa7pn6c",
+    "patch_id": 1,
+    "name": "Dato for navneendring",
+    "short_name": "navn_dato",
+    "definition": "Variabelen viser dato for navneendring.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2026-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "Seksjon for Befolkningsstatistikk",
+      "email": "befolkning@ssb.no"
+    },
+    "created_at": "2025-10-13T12:56:14.423000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-10-13T12:57:32.909000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "aMhswgYR",
+    "patch_id": 1,
+    "name": "Deltidsl\u00f8nnstakere",
+    "short_name": "generert_kortnavn_ohnm6zuy",
+    "definition": "Antall deltidsl\u00f8nnstakere er l\u00f8nnstakere som har en vanlig arbeidstid som er kortere enn normalarbeidstiden.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2005-10-03",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "strukt-naering",
+      "groups": ["strukt-naering-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-10-28T10:17:58.200000",
+    "created_by": "krf@ssb.no",
+    "last_updated_at": "2025-10-28T10:17:58.200000",
+    "last_updated_by": "krf@ssb.no"
+  },
+  {
+    "id": "UBmP4CY8",
+    "patch_id": 1,
+    "name": "Deponert avfallsmengde",
+    "short_name": "dep_avf",
+    "definition": "Avfallsmengde som er permanent deponert p\u00e5 disponeringssted for avfall, p\u00e5 eller under bakken. Dekkmasse, masse brukt p\u00e5 fyllplass/deponi til tildekking, er ikke tatt med i summen for deponert avfallsmengde.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      },
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "13",
+        "title": "Bedrift"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "nm",
+        "title": "Natur og milj\u00f8"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1900-01-01",
+    "valid_until": null,
+    "external_reference_uri": "http://www.ssb.no/emner/01/05/avfhand/",
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "var-avfall",
+      "groups": ["var-avfall-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-10-28T10:00:00.438000",
+    "created_by": "exa@ssb.no",
+    "last_updated_at": "2025-10-28T10:00:00.438000",
+    "last_updated_by": "exa@ssb.no"
+  },
+  {
+    "id": "P6CXPWU0",
+    "patch_id": 1,
+    "name": "D\u00f8dsdato",
+    "short_name": "doedsdato",
+    "definition": "Variabelen viser dato for d\u00f8dstidspunktet",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1000-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "Seksjon for Befolkningsstatistikk",
+      "email": "befolkning@ssb.no"
+    },
+    "created_at": "2025-09-24T09:05:20.231000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-09-24T09:05:20.231000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "nhGmf3La",
+    "patch_id": 1,
+    "name": "Egenkapital",
+    "short_name": "generert_kortnavn_0yeyqnuo",
+    "definition": "Aksjekapital og annen kapital som investor har investert i foretaket, og reinvestert overskudd fra foretakets drift.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "ut",
+        "title": "Utenriks\u00f8konomi"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1900-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "finregn",
+      "groups": ["finregn-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-10-27T11:57:32.135000",
+    "created_by": "tcr@ssb.no",
+    "last_updated_at": "2025-10-27T11:57:32.135000",
+    "last_updated_by": "tcr@ssb.no"
+  },
+  {
+    "id": "OkSQXMiu",
+    "patch_id": 1,
+    "name": "Egenmeldt sykefrav\u00e6r",
+    "short_name": "syk_egenmeldt",
+    "definition": "Egenmeldt sykefrav\u00e6r er frav\u00e6r der arbeidstakeren selv har meldt fra til arbeidsgiver om sykefrav\u00e6r.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "13",
+        "title": "Bedrift"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "al",
+        "title": "Arbeid og l\u00f8nn"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2000-04-01",
+    "valid_until": null,
+    "external_reference_uri": "http://www.ssb.no/emner/06/02/sykefratot/om.html",
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "arbmark-skjema",
+      "groups": ["arbmark-skjema-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-11-05T06:44:12.420000",
+    "created_by": "efr@ssb.no",
+    "last_updated_at": "2025-12-09T07:02:38.040000",
+    "last_updated_by": "mkk@ssb.no"
+  },
+  {
+    "id": "_INbxpax",
+    "patch_id": 1,
+    "name": "Eksport av varer",
+    "short_name": "eksport_uhv",
+    "definition": "Eksport best\u00e5r av innenlandsk produserte varer som sendes ut av Norge. Her inkluderes ogs\u00e5 reeksport av opprinnelig utenlandsk produserte varer og bearbeidede varer.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "ut",
+        "title": "Utenriks\u00f8konomi"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1900-01-01",
+    "valid_until": null,
+    "external_reference_uri": "http://www.ssb.no/muh",
+    "comment": "Handelen med varer er basert p\u00e5 fysiske varebevegelser over landegrensene, men for enkelte varer som skip, mobile oljeplattformer og fly skjer det ofte en handel uten at det forekommer en slik bevegelse. Om det har forekommet import eller eksport av en slik vare bestemmes derfor ut i fra om det har skjedd en endring i \u00f8konomisk eierskap. Med \u00f8konomisk eierskap menes nasjonaliteten til det selskapet som er registrert som eier, og som har rett til \u00e5 gj\u00f8re krav p\u00e5 den \u00f8konomiske gevinst samtidig som de har juridisk ansvar for risikoen for varen. Eksport av varer bygger i all hovedsak p\u00e5 opplysninger fra tolldeklarasjoner. Deklarerende enhet er enten foretak/bedrift eller privatperson. For viktige varer som r\u00e5olje og naturgass fra norsk kontinentalsokkel og fly, skip, str\u00f8m, kull og oljeplattformer er eksporten basert p\u00e5 direkte innsamling av opplysninger. Eksport av skip og oljeplattformer omfatter overdragelser fra norsk til utenlandsk registrert eierskap. Fra 1. januar 1999 ble nye koder for varebevegelser (prosedyrekoder) tatt i bruk for \u00e5 im\u00f8tekomme internasjonale anbefalinger fra FN om utforming av handelsstatistikk.",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "uh-varer",
+      "groups": ["uh-varer-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-10-27T12:17:57.755000",
+    "created_by": "sid@ssb.no",
+    "last_updated_at": "2025-11-07T13:52:25.694000",
+    "last_updated_by": "sid@ssb.no"
+  },
+  {
+    "id": "hMm0Vd9S",
+    "patch_id": 1,
+    "name": "Ektefelles f\u00f8dselsdato",
+    "short_name": "ektf_foedselsdato",
+    "definition": "Variabelen viser f\u00f8dselsdatoen til referansepersonens ektefelle.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2026-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "Seksjon for Befolkningsstatistikk",
+      "email": "befolkning@ssb.no"
+    },
+    "created_at": "2025-11-04T13:07:25.442000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-11-04T13:07:25.442000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "bbtSGBI4",
+    "patch_id": 1,
+    "name": "Ektefelles landbakgrunn",
+    "short_name": "innv_ektef_landbak",
+    "definition": "N\u00e5r ektefellen er f\u00f8dt i utlandet, er dette dennes eget f\u00f8deland. For ektefeller f\u00f8dt i Norge er det f\u00f8deland til dennes foreldre. I de tilfeller der disse foreldrene har ulikt f\u00f8deland, er det morens f\u00f8deland som blir valgt.",
+    "classification_uri": "https://www.ssb.no/klass/klassifikasjoner/91",
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1994-01-01",
+    "valid_until": "2025-12-31",
+    "external_reference_uri": "http://www.ssb.no/emner/02/01/10/innvbef/om.html",
+    "comment": "Fra og med 1.1.2003 ble definisjon endret til ogs\u00e5 \u00e5 trekke inn besteforeldrenes f\u00f8deland.",
+    "related_variable_definition_uris": [
+      "http://www.ssb.no/conceptvariable/vardok/1919",
+      "http://www.ssb.no/conceptvariable/vardok/123"
+    ],
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "Seksjon for Befolkningsstatistikk",
+      "email": "befolkning@ssb.no"
+    },
+    "created_at": "2025-09-11T07:51:14.219000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2026-01-05T12:55:12.038000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "tIXC1xLE",
+    "patch_id": 1,
+    "name": "Ervervsdato for statsborgerskap",
+    "short_name": "statsborgerskap_dato",
+    "definition": "Datoen en person har f\u00e5tt innvilget et statsborgerskap",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1000-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "Seksjon for Befolkningsstatistikk",
+      "email": "befolkning@ssb.no"
+    },
+    "created_at": "2025-09-23T12:42:59.600000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-09-23T12:42:59.600000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "1jfmiYip",
+    "patch_id": 1,
+    "name": "Fagstillinger",
+    "short_name": "fagu",
+    "definition": "Angir ubesatte fagstillinger i barneverntjenesten per 31.12. En stilling blir definert som ledig dersom den har v\u00e6rt ubesatt fire m\u00e5neder eller lengre.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "sk",
+        "title": "Sosiale forhold og kriminalitet"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2002-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "barneverng",
+      "groups": ["barneverng-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-11-25T12:06:22.464000",
+    "created_by": "dyr@ssb.no",
+    "last_updated_at": "2025-11-25T12:06:22.464000",
+    "last_updated_by": "dyr@ssb.no"
+  },
+  {
+    "id": "C1lNUFRX",
+    "patch_id": 1,
+    "name": "Familietype, aggregert inndeling",
+    "short_name": "famtyp2",
+    "definition": "Familietype er definert etter Standard for grupperinger av familier og husholdning, aggregert inndeling.",
+    "classification_uri": "https://www.ssb.no/klass/klassifikasjoner/17",
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "06",
+        "title": "Familie"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2001-01-01",
+    "valid_until": "2025-12-31",
+    "external_reference_uri": "http://www.ssb.no/emner/02/01/fobhusinnt/om.html",
+    "comment": null,
+    "related_variable_definition_uris": ["http://www.ssb.no/conceptvariable/vardok/2012"],
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "Seksjon for Befolkningsstatistikk",
+      "email": "befolkning@ssb.no"
+    },
+    "created_at": "2025-09-11T07:50:33.128000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2026-01-05T09:54:58.607000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "vg8s3Rla",
+    "patch_id": 1,
+    "name": "Fars sivilstand",
+    "short_name": "far_sivilstand",
+    "definition": "Variabelen viser sivilstatus til referansepersonens far. Statuskoden er angitt i henhold til ekteskapslovgivningen (ugift, gift, separert, osv.).",
+    "classification_uri": "https://www.ssb.no/klass/klassifikasjoner/19",
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2026-01-01",
+    "valid_until": null,
+    "external_reference_uri": "http://www.ssb.no/emner/02/01/10/folkemengde/om.html",
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "Seksjon for Befolkningsstatistikk",
+      "email": "befolkning@ssb.no"
+    },
+    "created_at": "2025-11-03T15:15:31.246000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-11-04T11:51:10.630000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "tL4MkTff",
+    "patch_id": 1,
+    "name": "Fartsgrense",
+    "short_name": "fartsgrense",
+    "definition": "H\u00f8yeste tillatte hastighet p\u00e5 en vegstrekning.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "99",
+        "title": "Aggregert"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "nm01",
+        "title": "Areal"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": {
+      "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/303",
+      "code": "08.02",
+      "title": "kilometer i timen"
+    },
+    "valid_from": "2024-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "areal",
+      "groups": ["areal-developers"]
+    },
+    "contact": {
+      "title": "Erik Engelien",
+      "email": "eer@ssb.no"
+    },
+    "created_at": "2025-07-04T08:03:19.472000",
+    "created_by": "eer@ssb.no",
+    "last_updated_at": "2025-07-04T08:47:07.736000",
+    "last_updated_by": "eer@ssb.no"
+  },
+  {
+    "id": "7M-UkUWp",
+    "patch_id": 1,
+    "name": "Flom",
+    "short_name": "flom",
+    "definition": "Flom aktsomhetsomr\u00e5de. Nasjonal avgrensning (NVE) som p\u00e5 oversiktsniv\u00e5 viser hvilke arealer som kan v\u00e6re utsatt for flomfare.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "99",
+        "title": "Aggregert"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "nm01",
+        "title": "Areal"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2024-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "areal",
+      "groups": ["areal-developers"]
+    },
+    "contact": {
+      "title": "Erik Engelien",
+      "email": "eer@ssb.no"
+    },
+    "created_at": "2025-07-04T08:42:48.278000",
+    "created_by": "eer@ssb.no",
+    "last_updated_at": "2025-07-04T08:57:34.326000",
+    "last_updated_by": "eer@ssb.no"
+  },
+  {
+    "id": "Vsy4dCXw",
+    "patch_id": 1,
+    "name": "Flom, 1000-\u00e5rsflom",
+    "short_name": "flom1000",
+    "definition": "Flom med 1000 \u00e5rs gjentaksintervall. NVEs flomsonekartlegging omfatter utvalgte vassdragstrekninger med stort skadepotensiale.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "99",
+        "title": "Aggregert"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "nm01",
+        "title": "Areal"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2024-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "areal",
+      "groups": ["areal-developers"]
+    },
+    "contact": {
+      "title": "Erik Engelien",
+      "email": "eer@ssb.no"
+    },
+    "created_at": "2025-07-07T06:54:20.693000",
+    "created_by": "eer@ssb.no",
+    "last_updated_at": "2025-07-07T06:54:20.693000",
+    "last_updated_by": "eer@ssb.no"
+  },
+  {
+    "id": "mfiqWL4o",
+    "patch_id": 1,
+    "name": "Forbruk i kraftintensiv industri i alt",
+    "short_name": "generert_kortnavn_au_wiyen",
+    "definition": "Forbruk i kraftintensiv industri i alt er summen av uprioritert og prioritert forbruk innenfor kraftintensiv industri. Kraftintensiv industri er definert som produksjon av kjemiske r\u00e5varer, jern, st\u00e5l og ferrolegeringer samt ikke-jernholdige metaller. Kontraktstypene for prioritert og uprioritert kraft er forskjellig. Uprioritert kraft kan kobles ut ved kapasitetsbegrensninger i nettet.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "13",
+        "title": "Bedrift"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "ei",
+        "title": "Energi og industri"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1993-01-01",
+    "valid_until": "2009-12-31",
+    "external_reference_uri": "http://www.ssb.no/emner/10/08/10/elektrisitet/",
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "el-pris-volum",
+      "groups": ["el-pris-volum-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-12-15T09:56:53.506000",
+    "created_by": "gnh@ssb.no",
+    "last_updated_at": "2025-12-15T09:56:53.506000",
+    "last_updated_by": "gnh@ssb.no"
+  },
+  {
+    "id": "nRWJ0hOO",
+    "patch_id": 1,
+    "name": "Fordringer",
+    "short_name": "sumford",
+    "definition": "Omfatter summen av kortsiktige fordringer - som kundefordringer, opptjent ikke fakturert driftsinntekt, og kortsiktige fordringer p\u00e5 selskap innen samme konsern, p\u00e5 eiere, styremedlemmer mv. Med forfall innen ett \u00e5r.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
       }
     ],
     "contains_special_categories_of_personal_data": false,
@@ -190,16 +1557,1844 @@
     "comment": null,
     "related_variable_definition_uris": null,
     "owner": {
-      "team": "dapla-felles",
-      "groups": ["dapla-felles-developers"]
+      "team": "skatt-naering",
+      "groups": ["skatt-naering-developers"]
+    },
+    "contact": {
+      "title": "Regnskap og skatt",
+      "email": "Regnskap@ssb.no"
+    },
+    "created_at": "2025-10-14T10:51:39.101000",
+    "created_by": "mio@ssb.no",
+    "last_updated_at": "2025-11-05T08:28:21.697000",
+    "last_updated_by": "mio@ssb.no"
+  },
+  {
+    "id": "jFdwEfgg",
+    "patch_id": 1,
+    "name": "Forkastede stemmesedler",
+    "short_name": "generert_kortnavn_drwu_nsc",
+    "definition": "Forkastede stemmesedler avgitt p\u00e5 forh\u00e5nd og p\u00e5 valgting. En stemmeseddel skal forkastes dersom den ikke oppfyller betingelsene i valgloven \u00a710-3.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "26",
+        "title": "Valg"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "va",
+        "title": "Valg"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2003-09-15",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "1. If\u00f8lge valgloven skal en stemmeseddel godkjennes dersom: a. Den har offentlig stempel n\u00e5r den er avgitt p\u00e5 valgtinget, b. det framg\u00e5r hvilket valg stemmeseddelen gjelder, c. det fremg\u00e5r hvilket parti eller gruppe velgeren har stemt p\u00e5, og d. partiet eller gruppen stiller liste i valgkretsen. Stemmeseddel beregnet p\u00e5 en annen valgkrets kan bare godkjennes dersom den gjelder et registrert parti. 2. En avgitt stemmeseddel anses \u00e5 v\u00e6re enslydende med den offisielle valgliste. 3. Dersom velgeren har benyttet en trykt stemmeseddel som ikke er enslydende med den offisielle valglisten, skal det ses bort fra eventuelle endringer foretatt av velgeren. Dersom en stemmeseddel har en eller flere avvik i forhold til disse betingelsene, m\u00e5 stemmeseddelen forkastes.",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "bef-valg",
+      "groups": ["bef-valg-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-09-11T07:51:53.351000",
+    "created_by": "hmc@ssb.no",
+    "last_updated_at": "2025-09-11T07:51:53.351000",
+    "last_updated_by": "hmc@ssb.no"
+  },
+  {
+    "id": "oreoEzAl",
+    "patch_id": 1,
+    "name": "Forretningsadresse",
+    "short_name": "f_adr",
+    "definition": "P\u00e5 foretak er forretningsadresse hovedkontorets beliggenhetsadresse for n\u00e6ringsdrivende enheter, og bes\u00f8ksadresse for andre enheter. P\u00e5 bedrifter er forretningsadresse virksomhetens beliggenhetsadresse. Adressen angis som gate-/veiadresse, eller stedsnavn der gate-/veiadresser ikke finnes. Adressen best\u00e5r av gate-/veiadresse og ev. husnummer, eller stedsnavn, samt postnummer, poststed, kommunenummer og landkode.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2003-11-18",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "Denne definisjonen gjelder b\u00e5de for bedrift og foretak.",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "vof",
+      "groups": ["vof-developers"]
+    },
+    "contact": {
+      "title": "Felles e-post Bedrifts- og Foretaksregisteret (BoF)",
+      "email": "bof@ssb.no"
+    },
+    "created_at": "2025-10-20T10:44:14.919000",
+    "created_by": "sik@ssb.no",
+    "last_updated_at": "2025-10-21T08:42:38.668000",
+    "last_updated_by": "rga@ssb.no"
+  },
+  {
+    "id": "tSt78aCw",
+    "patch_id": 1,
+    "name": "Fraflyttingskommune",
+    "short_name": "fra_komm_nr",
+    "definition": "Variabelen viser kommunenummer for kommunen en person har flyttet fra ved registrering av flytting fra- eller i Norge.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2026-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "Seksjon for Befolkningsstatistikk",
+      "email": "befolkning@ssb.no"
+    },
+    "created_at": "2025-10-13T12:35:04.708000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-10-13T12:35:04.708000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "8bE1ov_Q",
+    "patch_id": 1,
+    "name": "Fraflyttingsland",
+    "short_name": "fra_land",
+    "definition": "Variabelen viser landkode for hvilket land en person flyttet fra ved registrering av innflytting til Norge",
+    "classification_uri": "https://www.ssb.no/klass/klassifikasjoner/91",
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2026-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "Seksjon for Befolkningsstatistikk",
+      "email": "befolkning@ssb.no"
+    },
+    "created_at": "2025-09-23T13:46:21.182000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-10-13T12:27:31.037000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "clPTSeIT",
+    "patch_id": 1,
+    "name": "Fylkesnummer",
+    "short_name": "fylke_nr",
+    "definition": "Fylkesnummer er et tosifret nummer som i Norge identifiserer et fylke. Det ble innf\u00f8rt ved folketellingen i 1946 og inng\u00e5r blant annet som f\u00f8rste to siffer i kommunenummeret. I tillegg til de regul\u00e6re fylkene kan denne serien forlenges med regionale spesialkoder for Svalbard og Jan Mayen.",
+    "classification_uri": "https://www.ssb.no/klass/klassifikasjoner/104",
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "07",
+        "title": "Fylke (forvaltning)"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2025-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "bef-regional",
+      "groups": ["bef-regional-developers"]
     },
     "contact": {
       "title": "generert tittel",
-      "email": null
+      "email": "generert@ssb.no"
     },
-    "created_at": "2025-12-02T12:29:26.237000",
-    "created_by": "amr@ssb.no",
-    "last_updated_at": "2025-12-02T12:29:26.237000",
-    "last_updated_by": "amr@ssb.no"
+    "created_at": "2025-09-09T07:28:42.539000",
+    "created_by": "dnm@ssb.no",
+    "last_updated_at": "2025-09-09T07:28:42.539000",
+    "last_updated_by": "dnm@ssb.no"
+  },
+  {
+    "id": "PmH0tgtv",
+    "patch_id": 1,
+    "name": "F\u00f8dselsdato",
+    "short_name": "pers_foedselsdato",
+    "definition": "F\u00f8dselsdato",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": {
+      "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/303",
+      "code": "14.10",
+      "title": "\u00e5r"
+    },
+    "valid_from": "1970-10-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "Hva med n\u00e5r personene skifter f\u00f8dselsdato? Skal vi datere disse skiftene for \u00e5 kunne reprodusere statistikkene, eller blir det riktigere \u00e5 bruke de nye opplysningene, da de gamle egentlig er ukorrekte.? Svar: Forblir udatert. Det er den siste korrigerte verdien som alltid gjelder. (Van)  Fra befolk.alle_fnr.   Variable renamed from: ['fodt_dato', 'fodtdato', 'fodselsdato', 'foedselsdato'].",
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "utd-nudb",
+      "groups": ["utd-nudb-developers"]
+    },
+    "contact": {
+      "title": "generert tittel",
+      "email": "generert@ssb.no"
+    },
+    "created_at": "2025-11-27T13:04:42.742000",
+    "created_by": "rku@ssb.no",
+    "last_updated_at": "2025-11-27T13:04:42.742000",
+    "last_updated_by": "rku@ssb.no"
+  },
+  {
+    "id": "vlkyddG3",
+    "patch_id": 1,
+    "name": "Gevinst ved avgang anleggsmidler",
+    "short_name": "gev_anl",
+    "definition": "Regnskapsmessig gevinst ved avgang (salg eller annen realisasjon) anleggsmidler (eiendeler for varig eie og/eller bruk). Gevinster av ekstraordin\u00e6r karakter f\u00f8res som ekstraordin\u00e6r inntekt fram til 2021. Ekstraordin\u00e6r inntekter gikk ut av oppstillingsplanen fom 2022.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1999-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "skatt-naering",
+      "groups": ["skatt-naering-developers"]
+    },
+    "contact": {
+      "title": "Regnskap og skatt",
+      "email": "Regnskap@ssb.no"
+    },
+    "created_at": "2025-10-14T10:51:35.612000",
+    "created_by": "mio@ssb.no",
+    "last_updated_at": "2025-11-11T12:50:57.223000",
+    "last_updated_by": "mio@ssb.no"
+  },
+  {
+    "id": "5nsCaOIe",
+    "patch_id": 1,
+    "name": "Godkjente stemmesedler",
+    "short_name": "generert_kortnavn_lrvk0oob",
+    "definition": "Godkjente stemmesedler avgitt p\u00e5 forh\u00e5nd og p\u00e5 valgting. En stemmeseddel skal godkjennes dersom den oppfyller betingelsene i valglovens \u00a710-3 .",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "26",
+        "title": "Valg"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "va",
+        "title": "Valg"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2003-09-15",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "1. If\u00f8lge valgloven skal en stemmeseddel godkjennes dersom: a. Den har offentlig stempel n\u00e5r den er avgitt p\u00e5 valgtinget, b. det framg\u00e5r hvilket valg stemmeseddelen gjelder, c. det fremg\u00e5r hvilket parti eller gruppe velgeren har stemt p\u00e5, og d. partiet eller gruppen stiller liste i valgkretsen. Stemmeseddel beregnet p\u00e5 en annen valgkrets kan bare godkjennes dersom den gjelder et registrert parti. 2. En avgitt stemmeseddel anses \u00e5 v\u00e6re enslydende med den offisielle valgliste. 3. Dersom velgeren har benyttet en trykt stemmeseddel som ikke er enslydende med den offisielle valglisten, skal det ses bort fra eventuelle endringer foretatt av velgeren.",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "bef-valg",
+      "groups": ["bef-valg-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-09-11T07:51:52.982000",
+    "created_by": "hmc@ssb.no",
+    "last_updated_at": "2025-09-11T07:51:52.982000",
+    "last_updated_by": "hmc@ssb.no"
+  },
+  {
+    "id": "zQCb2a6j",
+    "patch_id": 1,
+    "name": "Grunnlag naturressursskatt",
+    "short_name": "grl_grunnrenteskatt",
+    "definition": "Beregningsgrunnlaget for naturressursskatten fastsettes for hvert kraftverk, og er gjennomsnittet av kraftverkets samlede produksjon av elektrisk kraft i inntekts\u00e5ret og de 6 foreg\u00e5ende \u00e5r. Beregningsgrunnlaget omfatter kun generatorer som har p\u00e5stemplet merkeytelse 5500 kVA eller mer.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2004-01-01",
+    "valid_until": null,
+    "external_reference_uri": "http://www.ssb.no/english/subjects/10/02/nos_d294_en/",
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "skatt-naering",
+      "groups": ["skatt-naering-developers"]
+    },
+    "contact": {
+      "title": "Regnskap og skatt",
+      "email": "regnskap@ssb.no"
+    },
+    "created_at": "2025-12-02T13:42:35.935000",
+    "created_by": "hmt@ssb.no",
+    "last_updated_at": "2025-12-02T13:46:29.333000",
+    "last_updated_by": "hmt@ssb.no"
+  },
+  {
+    "id": "jgisW4t3",
+    "patch_id": 1,
+    "name": "Handelsbalanse med varer",
+    "short_name": "handelsbalanse_uhv",
+    "definition": "Variabelen beskriver differanse mellom eksport og import av varer.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "ut",
+        "title": "Utenriks\u00f8konomi"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1900-01-01",
+    "valid_until": null,
+    "external_reference_uri": "http://www.ssb.no/muh",
+    "comment": "Eksport minus import av varer",
+    "related_variable_definition_uris": [
+      "http://www.ssb.no/conceptvariable/vardok/2682",
+      "http://www.ssb.no/conceptvariable/vardok/2682",
+      "http://www.ssb.no/conceptvariable/vardok/2683"
+    ],
+    "owner": {
+      "team": "uh-varer",
+      "groups": ["uh-varer-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-10-27T16:51:55.214000",
+    "created_by": "sid@ssb.no",
+    "last_updated_at": "2025-11-24T21:17:04.456000",
+    "last_updated_by": "sid@ssb.no"
+  },
+  {
+    "id": "cJeYGScL",
+    "patch_id": 1,
+    "name": "Heis",
+    "short_name": "sp11",
+    "definition": "Denne variabelen angir om det er installert heis i bygningen. Som heis regnes personheis, ikke vareheis eller trappeheis installert i enebolig.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "04",
+        "title": "Bygg"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2001-01-01",
+    "valid_until": "2001-12-31",
+    "external_reference_uri": "http://www.ssb.no/emner/02/01/fobhusinnt/om.html",
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-09-11T07:49:56.912000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-09-11T07:49:56.912000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "KTF1T51D",
+    "patch_id": 1,
+    "name": "Hjortevilt",
+    "short_name": "hjortevilt",
+    "definition": "Hjortevilt omfatter elg, hjort, villrein og r\u00e5dyr.",
+    "classification_uri": "https://www.ssb.no/klass/klassifikasjoner/69",
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "16",
+        "title": "Kommune (forvaltning)"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "js",
+        "title": "Jord, skog, jakt og fiskeri"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": {
+      "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/303",
+      "code": "02",
+      "title": "Antall"
+    },
+    "valid_from": "1952-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": ["http://www.ssb.no/conceptvariable/vardok/1321"],
+    "owner": {
+      "team": "primaer-jakt",
+      "groups": ["primaer-jakt-developers"]
+    },
+    "contact": {
+      "title": "Seksjon for eiendoms-, areal- og prim\u00e6rn\u00e6ringsstatistikk",
+      "email": "tra@ssb.no"
+    },
+    "created_at": "2025-12-10T08:18:58.308000",
+    "created_by": "tra@ssb.no",
+    "last_updated_at": "2025-12-22T08:13:48.531000",
+    "last_updated_by": "tra@ssb.no"
+  },
+  {
+    "id": "QxU3OdEC",
+    "patch_id": 1,
+    "name": "Husdyr",
+    "short_name": "husdyr",
+    "definition": "Dyr av ulike slag (pattedyr, fugler, bier) som holdes for nytteform\u00e5l, for eksempel for produksjon av produkter som mj\u00f8lk, kj\u00f8tt og ull, for avl eller for trekkraft. Kj\u00e6ledyr regnes ikke med.",
+    "classification_uri": "https://www.ssb.no/klass/klassifikasjoner/29",
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "13",
+        "title": "Bedrift"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "js",
+        "title": "Jord, skog, jakt og fiskeri"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1900-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "Noen husdyrslag inng\u00e5r ikke i statistikken som utarbeides av SSB: Opplysninger om tamreindrift samles inn av Landbruksdirektoratet (tidligere Reindriftsforvaltningen). SSB samlet inn opplysninger om pelsdyrhold siste gang i Landbrukstelling 1989. Senere statistikk fra Landbruksdirektoratet basert p\u00e5 s\u00f8knader om produksjonstilksudd i jordbruket, omfatter de fleste pelsdyrg\u00e5rdene.",
+    "related_variable_definition_uris": ["http://www.ssb.no/conceptvariable/vardok/1247"],
+    "owner": {
+      "team": "primaer-j-reg",
+      "groups": ["primaer-j-reg-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-11-24T08:06:35.745000",
+    "created_by": "dpo@ssb.no",
+    "last_updated_at": "2025-11-24T08:54:51.644000",
+    "last_updated_by": "dpo@ssb.no"
+  },
+  {
+    "id": "I3AjQVq6",
+    "patch_id": 1,
+    "name": "Husholdningstype",
+    "short_name": "hush_type",
+    "definition": "Variabelen viser en detaljert inndeling av husholdningstyper for privathusholdninger etter Standard for gruppering av familier og husholdninger (NOS C 677) og standard for husholdningstyper fra 2006.",
+    "classification_uri": "https://www.ssb.no/klass/klassifikasjoner/37",
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "10",
+        "title": "Husholdning"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2005-01-01",
+    "valid_until": null,
+    "external_reference_uri": "http://www.ssb.no/emner/02/01/20/familie/om.html",
+    "comment": "Husholdningstype, detaljert inndeling som ble benyttet i F0B2001 har samme definisjon, men kodene er forskjellige.",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "Seksjon for Befolkningsstatistikk",
+      "email": "befolkning@ssb.no"
+    },
+    "created_at": "2025-09-11T07:51:16.635000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2026-01-05T14:15:01.913000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "JOAiA8Gi",
+    "patch_id": 1,
+    "name": "H\u00f8gskolesentra-kode",
+    "short_name": "uh_institusjon_id",
+    "definition": "H\u00f8gskolesentra-kode",
+    "classification_uri": "https://www.ssb.no/klass/klassifikasjoner/790",
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      },
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "13",
+        "title": "Bedrift"
+      },
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "18",
+        "title": "Kurs"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "ud03",
+        "title": "Universitets- og h\u00f8gskoleutdanning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1994-08-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "Fra skole\u00e5ret 1994/95Fra UI og UA.   Variable renamed from: ['hskode'].",
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "utd-nudb",
+      "groups": ["utd-nudb-developers"]
+    },
+    "contact": {
+      "title": "generert tittel",
+      "email": "generert@ssb.no"
+    },
+    "created_at": "2025-11-27T12:59:19.365000",
+    "created_by": "rku@ssb.no",
+    "last_updated_at": "2025-11-27T12:59:19.365000",
+    "last_updated_by": "rku@ssb.no"
+  },
+  {
+    "id": "2bzKWkMT",
+    "patch_id": 1,
+    "name": "Indeks for gjennomsnittlig avtalt m\u00e5nedsl\u00f8nn",
+    "short_name": "indeks_avtalt_mndlonn_1998_2018",
+    "definition": "Viser utvikling i gjennomsnittlig avtalt m\u00e5nedsl\u00f8nn i l\u00f8pet av \u00e5ret ved hjelp av kvartalsvise indekser.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "al",
+        "title": "Arbeid og l\u00f8nn"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1998-01-01",
+    "valid_until": "2018-08-15",
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": ["http://www.ssb.no/conceptvariable/vardok/188"],
+    "owner": {
+      "team": "strukt-arbkost",
+      "groups": ["strukt-arbkost-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-10-28T10:04:11.669000",
+    "created_by": "bbh@ssb.no",
+    "last_updated_at": "2025-10-29T14:46:43.150000",
+    "last_updated_by": "bbh@ssb.no"
+  },
+  {
+    "id": "H64vSXzM",
+    "patch_id": 1,
+    "name": "Inng\u00e5ende saldo",
+    "short_name": "ss102",
+    "definition": "Skattemessig verdi p\u00e5 driftsmidler fra utgangen av forrige inntekts\u00e5r, det vil si utg\u00e5ende saldo per 31.12 forrige inntekts\u00e5r.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1994-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "skatt-naering",
+      "groups": ["skatt-naering-developers"]
+    },
+    "contact": {
+      "title": "Regnskap og skatt",
+      "email": "regnskap@ssb.no"
+    },
+    "created_at": "2025-10-29T11:22:28.657000",
+    "created_by": "hmt@ssb.no",
+    "last_updated_at": "2025-10-29T11:26:17.987000",
+    "last_updated_by": "hmt@ssb.no"
+  },
+  {
+    "id": "jIcI76z1",
+    "patch_id": 1,
+    "name": "Jordbruksareal i drift",
+    "short_name": "jbrareal_idrift",
+    "definition": "Jordbruksareal som h\u00f8stes minst en gang i l\u00f8pet av et \u00e5r, inkludert tilplantet eller tils\u00e5dd areal med fler\u00e5rige vekster som enn\u00e5 ikke gir avling. \u00c5pen \u00e5ker der det ikke tas avling i l\u00f8pet av \u00e5ret, men som er tenkt h\u00f8stet neste \u00e5r inng\u00e5r.",
+    "classification_uri": "https://www.ssb.no/klass/klassifikasjoner/27",
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "13",
+        "title": "Bedrift"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "js",
+        "title": "Jord, skog, jakt og fiskeri"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1900-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "Jordbruksareal i drift = jordbruksareal - jordbruksareal ute av drift",
+    "related_variable_definition_uris": ["http://www.ssb.no/conceptvariable/vardok/1236"],
+    "owner": {
+      "team": "primaer-j-reg",
+      "groups": ["primaer-j-reg-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-11-24T08:06:33.231000",
+    "created_by": "dpo@ssb.no",
+    "last_updated_at": "2025-11-24T08:29:00.872000",
+    "last_updated_by": "dpo@ssb.no"
+  },
+  {
+    "id": "cU4SLgIU",
+    "patch_id": 1,
+    "name": "Kilde til aktivitetskode",
+    "short_name": "aktivitetskode_kilde",
+    "definition": "Kilde til aktivitetskode viser til det registeret som har oppdatert aktivitetskoden. Hver kilde har sitt eget merke.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2003-11-18",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "vof",
+      "groups": ["vof-developers"]
+    },
+    "contact": {
+      "title": "Felles e-post Bedrifts- og Foretaksregisteret (BoF)",
+      "email": "bof@ssb.no"
+    },
+    "created_at": "2025-10-20T10:44:11.256000",
+    "created_by": "sik@ssb.no",
+    "last_updated_at": "2025-10-21T11:05:32.672000",
+    "last_updated_by": "rga@ssb.no"
+  },
+  {
+    "id": "G7_KGiXq",
+    "patch_id": 1,
+    "name": "Kj\u00f8nn",
+    "short_name": "kjoenn",
+    "definition": "Variabelen viser personens kj\u00f8nn",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1900-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "Seksjon for Befolkningsstatistikk",
+      "email": "befolkning@ssb.no"
+    },
+    "created_at": "2025-09-11T07:49:18.254000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-09-23T12:36:13.672000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "UiHiCM-1",
+    "patch_id": 1,
+    "name": "Kj\u00f8nn",
+    "short_name": "pers_kjoenn",
+    "definition": "Kj\u00f8nn",
+    "classification_uri": "https://www.ssb.no/klass/klassifikasjoner/2",
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1970-10-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "nan Fra bef.alle_fnr   Variable renamed from: ['kjoenn'].",
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "utd-nudb",
+      "groups": ["utd-nudb-developers"]
+    },
+    "contact": {
+      "title": "generert tittel",
+      "email": "generert@ssb.no"
+    },
+    "created_at": "2025-11-27T12:59:18.916000",
+    "created_by": "rku@ssb.no",
+    "last_updated_at": "2025-11-27T12:59:18.916000",
+    "last_updated_by": "rku@ssb.no"
+  },
+  {
+    "id": "ZxDB5g9v",
+    "patch_id": 1,
+    "name": "Kj\u00f8ret\u00f8ykilometer med last",
+    "short_name": "kjoretoy_km_m_last",
+    "definition": "Kj\u00f8rte kilometer med last",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "15",
+        "title": "Kj\u00f8ret\u00f8y"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "tr",
+        "title": "Transport og reiseliv"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1947-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "transport-lastbil",
+      "groups": ["transport-lastbil-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-11-18T11:32:16.667000",
+    "created_by": "jaj@ssb.no",
+    "last_updated_at": "2025-11-18T13:36:37.433000",
+    "last_updated_by": "jaj@ssb.no"
+  },
+  {
+    "id": "ho5faXgV",
+    "patch_id": 1,
+    "name": "Landbakgrunn",
+    "short_name": "generert_kortnavn_067rq7ij",
+    "definition": "For personer f\u00f8dt i utlandet, er dette(med noen f\u00e5 unntak) eget f\u00f8deland. For personer f\u00f8dt i Norge er det foreldrenes f\u00f8deland. I de tilfeller der foreldrene har ulikt f\u00f8deland, er det morens f\u00f8deland som blir valgt.",
+    "classification_uri": "https://www.ssb.no/klass/klassifikasjoner/91",
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1994-01-01",
+    "valid_until": "2002-12-31",
+    "external_reference_uri": "http://www.ssb.no/emner/02/01/10/innvbef/om.html",
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-09-11T07:49:21.983000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-09-11T07:49:21.983000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "rp7ZNpd_",
+    "patch_id": 1,
+    "name": "Landbakgrunn",
+    "short_name": "landbak3gen",
+    "definition": "Landbakgrunn beskriver en persons tilknytning til utlandet basert p\u00e5 eget og familiens f\u00f8deland. For personer f\u00f8dt i utlandet er landbakgrunn som hovedregel lik eget f\u00f8deland. For personer f\u00f8dt i Norge bestemmes landbakgrunn av foreldrenes f\u00f8deland, og dersom foreldrene har ulikt f\u00f8deland, brukes morens f\u00f8deland. Dersom verken personen selv eller noen av foreldrene er f\u00f8dt i utlandet, hentes landbakgrunn fra den f\u00f8rste utenlandsf\u00f8dte en m\u00f8ter i rekkef\u00f8lgen mormor, morfar, farmor, farfar.",
+    "classification_uri": "https://www.ssb.no/klass/klassifikasjoner/91",
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2003-01-01",
+    "valid_until": null,
+    "external_reference_uri": "http://www.ssb.no/emner/02/01/10/innvbef/om.html",
+    "comment": "Fra og med 1.1.2003 ble definisjon endret til ogs\u00e5 \u00e5 trekke inn besteforeldrenes f\u00f8deland.",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "Seksjon for Befolkningsstatistikk",
+      "email": "befolkning@ssb.no"
+    },
+    "created_at": "2025-09-11T07:51:14.828000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-12-15T10:49:11.864000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "zyWZ48i2",
+    "patch_id": 1,
+    "name": "Leiejord",
+    "short_name": "leiejord",
+    "definition": "Jordbruksareal der bruker og eier av arealet er forskjellige personer, inklusive ikke-fysiske personer",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "13",
+        "title": "Bedrift"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "js",
+        "title": "Jord, skog, jakt og fiskeri"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1900-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "Leiejord omfatter b\u00e5de forpaktning av hel eiendom og leie av tilleggsjord til egen eiendom. Jordbruksareal eid av andre og som disponeres gratis av en jordbruksbedrift, regnes som leiejord. Dersom ektefellen til brukeren av en jordbruksbedrift eier jordbruksarealet, regnes arealet som eid. Dersom deltaker i samdrift eier jordbruksareal som er i drift i samdrifta, regnes arealet som eid. Dersom brukeren av en jordbruksbedrift har inng\u00e5tt flere leieavtaler p\u00e5 samme eiendom, regnes dette som ett leieforhold. Dersom eieren av en eiendom leier ut jordbruksareal til flere jordbruksbedrifter, regnes dette som ett leieforhold per jordbruksbedrift.",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "primaer-j-reg",
+      "groups": ["primaer-j-reg-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-11-24T08:06:44.412000",
+    "created_by": "dpo@ssb.no",
+    "last_updated_at": "2025-11-24T08:56:09.016000",
+    "last_updated_by": "dpo@ssb.no"
+  },
+  {
+    "id": "V8OeBT3A",
+    "patch_id": 1,
+    "name": "L\u00f8nn for ikke-arbeidet tid",
+    "short_name": "likkearb",
+    "definition": "Feriegodtgj\u00f8relse, l\u00f8nn under sykdom dekket av arbeidsgiver, l\u00f8nn p\u00e5 faste og bevegelige helligdager, l\u00f8nn i ulike permisjoner, utgifter til ekstra fridager og annen l\u00f8nn for ikke-arbeidet tid",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "al",
+        "title": "Arbeid og l\u00f8nn"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1996-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": ["http://www.ssb.no/conceptvariable/vardok/309"],
+    "owner": {
+      "team": "arbmark-register",
+      "groups": ["arbmark-register-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-11-05T06:34:15.467000",
+    "created_by": "efr@ssb.no",
+    "last_updated_at": "2025-11-05T06:34:15.467000",
+    "last_updated_by": "efr@ssb.no"
+  },
+  {
+    "id": "1XcfajJw",
+    "patch_id": 1,
+    "name": "Mors alder ved hendelsestidspunktet",
+    "short_name": "mor_alderh",
+    "definition": "Variabelen viser alderen til referansepersonens mor ved hendelsestidspunktet.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2026-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "Seksjon for Befolkningsstatistikk",
+      "email": "befolkning@ssb.no"
+    },
+    "created_at": "2025-11-03T15:33:31.450000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-11-03T15:33:31.450000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "1u5nsVdL",
+    "patch_id": 1,
+    "name": "Nedskriving av varige driftsm og imm eiendeler",
+    "short_name": "nskriv",
+    "definition": "Omfatter regnskapsmessig nedskrivning p\u00e5 varige anleggsmidler og immaterielle eiendeler n\u00e5r verdireduksjonen skyldes \u00e5rsaker som ikke er av forbig\u00e5ende art.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1999-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "skatt-naering",
+      "groups": ["skatt-naering-developers"]
+    },
+    "contact": {
+      "title": "Regnskap og skatt",
+      "email": "Regnskap@ssb.no"
+    },
+    "created_at": "2025-10-14T10:51:36.323000",
+    "created_by": "mio@ssb.no",
+    "last_updated_at": "2025-11-20T07:34:58.763000",
+    "last_updated_by": "mio@ssb.no"
+  },
+  {
+    "id": "wiQtqPil",
+    "patch_id": 1,
+    "name": "Omsetning - strukturstatistikk",
+    "short_name": "generert_kortnavn_tnzua6ol",
+    "definition": "Omsetning er definert som foretakets driftsinntekter, fratrukket b\u00e5de offentlige tilskudd og gevinst ved salg av anleggsmidler. Spesielle offentlige avgifter vedr\u00f8rende salget, og skatter og avgifter er inkludert i omsetningen, mens merverdiavgift ikke er inkludert.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2003-10-03",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "Denne variabelen benyttes b\u00e5de for foretak og bedrift.Beregnes via N\u00e6ringsoppgaven: Post 9000/9900-post3400-post 3800/3895",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "strukt-naering",
+      "groups": ["strukt-naering-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-10-28T10:17:55.914000",
+    "created_by": "krf@ssb.no",
+    "last_updated_at": "2025-10-28T10:17:55.914000",
+    "last_updated_by": "krf@ssb.no"
+  },
+  {
+    "id": "5TotEwKN",
+    "patch_id": 1,
+    "name": "Oppvarming, bruker andre energikilder",
+    "short_name": "sp23_6",
+    "definition": "Variabelen viser om andre energikilder enn elektrisitet, fast og flytende brensel, gass eller solenergi brukes til \u00e5 varme opp boligen.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "03",
+        "title": "Bruksenhet"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2001-01-01",
+    "valid_until": "2001-12-31",
+    "external_reference_uri": "http://www.ssb.no/emner/02/01/fobhusinnt/om.html",
+    "comment": "Opplysningene er hentet fra boligskjemaet i FoB2001, sp\u00f8rsm\u00e5l 23.",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-09-11T07:50:32.697000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-09-11T07:50:32.697000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "HRg0JqPV",
+    "patch_id": 1,
+    "name": "Organisasjonsform",
+    "short_name": "org_form",
+    "definition": "Organisasjonsform fastsettes ved registrering av ny enhet, og angir organisasjonsform for juridiske enheter. En enhet kan som hovedregel ikke endre organisasjonsform uten \u00e5 g\u00e5 veien om sletting og nystiftelse.",
+    "classification_uri": "https://www.ssb.no/klass/klassifikasjoner/35",
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1995-03-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "vof",
+      "groups": ["vof-developers"]
+    },
+    "contact": {
+      "title": "Felles e-post Bedrifts- og Foretaksregisteret (BoF)",
+      "email": "bof@ssb.no"
+    },
+    "created_at": "2025-10-20T10:44:15.920000",
+    "created_by": "sik@ssb.no",
+    "last_updated_at": "2025-10-21T07:10:09.058000",
+    "last_updated_by": "rga@ssb.no"
+  },
+  {
+    "id": "CSRMKP4I",
+    "patch_id": 1,
+    "name": "Pendlere",
+    "short_name": "pendling",
+    "definition": "Person som arbeider i en annen kommune enn der de er registrert bosatt.",
+    "classification_uri": "https://www.ssb.no/klass/klassifikasjoner/131",
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "al",
+        "title": "Arbeid og l\u00f8nn"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1990-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "En person som er registrert bosatt i f.eks. Oslo, men arbeider i en annen kommune, er en utpendler (fra Oslo). En person som er registrert bosatt i en kommune utenfor Oslo, men arbeider i Oslo, er en innpendler (til Oslo).",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "arbmark-register",
+      "groups": ["arbmark-register-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-09-30T08:26:29.473000",
+    "created_by": "efr@ssb.no",
+    "last_updated_at": "2025-09-30T08:28:38.083000",
+    "last_updated_by": "efr@ssb.no"
+  },
+  {
+    "id": "hxIxQSW8",
+    "patch_id": 1,
+    "name": "Planteskoleproduksjon",
+    "short_name": "planteskole",
+    "definition": "Formering og oppal av fler\u00e5rige planter, busker og tr\u00e6r som er ment for utplanting.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "13",
+        "title": "Bedrift"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "js",
+        "title": "Jord, skog, jakt og fiskeri"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1900-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "SSBs statistikk over planteskoler omfatter ikke skogplanteskoler.",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "primaer-j-reg",
+      "groups": ["primaer-j-reg-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-11-24T08:06:42.592000",
+    "created_by": "dpo@ssb.no",
+    "last_updated_at": "2025-11-24T09:13:31.740000",
+    "last_updated_by": "dpo@ssb.no"
+  },
+  {
+    "id": "StN9GecH",
+    "patch_id": 1,
+    "name": "P\u00e5kostninger",
+    "short_name": "ss1042",
+    "definition": "Forbedringer p\u00e5 eksisterende og nyervervede driftsmidler i l\u00f8pet av inntekts\u00e5ret. Vedlikehold kan kostnadsf\u00f8res direkte.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1994-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "skatt-naering",
+      "groups": ["skatt-naering-developers"]
+    },
+    "contact": {
+      "title": "Regnskap og skatt",
+      "email": "regnskap@ssb.no"
+    },
+    "created_at": "2025-10-29T11:33:05.264000",
+    "created_by": "hmt@ssb.no",
+    "last_updated_at": "2025-10-29T11:36:15.495000",
+    "last_updated_by": "hmt@ssb.no"
+  },
+  {
+    "id": "POW_DUZs",
+    "patch_id": 1,
+    "name": "Reise- og diett kostnad",
+    "short_name": "reise",
+    "definition": "Summen av reise- og diettkostnad og bilgodtgj\u00f8relse. Kan v\u00e6re oppgavepliktig og ikke oppgavepliktig",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1900-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "skatt-naering",
+      "groups": ["skatt-naering-developers"]
+    },
+    "contact": {
+      "title": "Regnskap og skatt",
+      "email": "Regnskap@ssb.no"
+    },
+    "created_at": "2025-10-14T10:51:38.392000",
+    "created_by": "mio@ssb.no",
+    "last_updated_at": "2025-11-06T08:40:21.905000",
+    "last_updated_by": "mio@ssb.no"
+  },
+  {
+    "id": "DZPfAnny",
+    "patch_id": 1,
+    "name": "Salgsinntekter",
+    "short_name": "salginnt",
+    "definition": "Summen av salgsinntekter og uttak pluss spesielle offentlige avgifter vedr\u00f8rende salg. Salgsinntekter og uttak kan i forhold til mva-loven v\u00e6re avgiftspliktig, avgiftsfritt og utenfor avgiftsomr\u00e5det.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1999-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "skatt-naering",
+      "groups": ["skatt-naering-developers"]
+    },
+    "contact": {
+      "title": "Regnskap og skatt",
+      "email": "Regnskap@ssb.no"
+    },
+    "created_at": "2025-10-14T10:51:38.757000",
+    "created_by": "mio@ssb.no",
+    "last_updated_at": "2025-11-19T09:28:48.075000",
+    "last_updated_by": "mio@ssb.no"
+  },
+  {
+    "id": "hmch6wCm",
+    "patch_id": 1,
+    "name": "Skattepliktig formue",
+    "short_name": "formstat",
+    "definition": "Skattepliktig formue fastsettes til ligningsverdi pr. 1. januar i lignings\u00e5ret av selskapets eiendeler med \u00f8konomisk verdi, med fradrag for gjeld som selskapet hefter for.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1994-01-01",
+    "valid_until": null,
+    "external_reference_uri": "http://www.ssb.no/emner/10/02/nos_skatt/nos_d294/nos_d294.pdf",
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "skatt-naering",
+      "groups": ["skatt-naering-developers"]
+    },
+    "contact": {
+      "title": "Regnskap og skatt",
+      "email": "regnskap@ssb.no"
+    },
+    "created_at": "2025-10-29T12:55:18.270000",
+    "created_by": "hmt@ssb.no",
+    "last_updated_at": "2025-10-29T12:58:16.745000",
+    "last_updated_by": "hmt@ssb.no"
+  },
+  {
+    "id": "amQkwPsN",
+    "patch_id": 1,
+    "name": "Tilgang til egen hage",
+    "short_name": "sp27_1",
+    "definition": "Variabelen angir om beboerne i boligen har tilgang til egen hage, dvs. hage som ikke er felles med naboer.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "03",
+        "title": "Bruksenhet"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "be",
+        "title": "Befolkning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "2001-01-01",
+    "valid_until": "2001-12-31",
+    "external_reference_uri": "http://www.ssb.no/emner/02/01/fobhusinnt/om.html",
+    "comment": "Opplysningene er hentet fra boligskjemaet i FoB2001, sp\u00f8rsm\u00e5l 27.",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "bef-statistikk",
+      "groups": ["bef-statistikk-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-09-11T07:50:23.467000",
+    "created_by": "grd@ssb.no",
+    "last_updated_at": "2025-09-11T07:50:23.467000",
+    "last_updated_by": "grd@ssb.no"
+  },
+  {
+    "id": "p5_snh9g",
+    "patch_id": 1,
+    "name": "Transportmengde",
+    "short_name": "transport_mengde",
+    "definition": "Bruttovekten av det gods som transporteres medregnet vekten av emballasje.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "15",
+        "title": "Kj\u00f8ret\u00f8y"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "tr",
+        "title": "Transport og reiseliv"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1947-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "Bruttovekt er medregnet vekten av emballasje, men ikke medregnet vekten av kontainer eller vekselflak.",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "transport-lastbil",
+      "groups": ["transport-lastbil-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-11-18T11:32:17.665000",
+    "created_by": "jaj@ssb.no",
+    "last_updated_at": "2025-11-18T13:47:43.317000",
+    "last_updated_by": "jaj@ssb.no"
+  },
+  {
+    "id": "1svaeLyq",
+    "patch_id": 1,
+    "name": "Utfall, uomkodet",
+    "short_name": "utd_fullfoertkode_inn",
+    "definition": "Utfall, uomkodet",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "18",
+        "title": "Kurs"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "ud",
+        "title": "Utdanning"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1974-10-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "Er ikke sammenlignbar over tid.Settes ved avgang og endres ikke. Ellers NULL (blank). Har bare verdiene 2 og 8 fra 1974 t.o.m. 1993/1994.   Variable renamed from: ['utfallu'].",
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "utd-nudb",
+      "groups": ["utd-nudb-developers"]
+    },
+    "contact": {
+      "title": "generert tittel",
+      "email": "generert@ssb.no"
+    },
+    "created_at": "2025-11-27T12:49:01.668000",
+    "created_by": "rku@ssb.no",
+    "last_updated_at": "2025-11-27T12:49:01.668000",
+    "last_updated_by": "rku@ssb.no"
+  },
+  {
+    "id": "m6HBaNyW",
+    "patch_id": 1,
+    "name": "Veksthus",
+    "short_name": "veksthus",
+    "definition": "Hus med vegger og tak av gjennomskinnelig materiale (glass eller plast) som brukes til innend\u00f8rs dyrking av planter. Veksthuset kan v\u00e6re med eller uten varmeanlegg. Hus med s\u00e5 lav takh\u00f8yde at en ikke kan g\u00e5 inn uten \u00e5 fjerne taket, regnes som vekstbenk og ikke som veksthus.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "13",
+        "title": "Bedrift"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "js",
+        "title": "Jord, skog, jakt og fiskeri"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1900-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "primaer-j-reg",
+      "groups": ["primaer-j-reg-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-11-24T08:06:42.341000",
+    "created_by": "dpo@ssb.no",
+    "last_updated_at": "2025-11-24T08:25:53.718000",
+    "last_updated_by": "dpo@ssb.no"
+  },
+  {
+    "id": "y8MV1fkF",
+    "patch_id": 1,
+    "name": "\u00c5rsl\u00f8nn",
+    "short_name": "generert_kortnavn_oallyqki",
+    "definition": "Dette er en beregnet st\u00f8rrelse for 12 m\u00e5neder i kalender\u00e5ret og tar utgangspunkt i m\u00e5nedsl\u00f8nn p\u00e5 tellingstidspunktet. Omfatter avtalt l\u00f8nn, uregelmessige tillegg og bonus, men inkluderer ikke feriepengetillegg eller overtidsgodtgj\u00f8relse.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "20",
+        "title": "Person"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "al",
+        "title": "Arbeid og l\u00f8nn"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1997-09-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": "I beregningen nyttes informasjonen fra den kvartalsvise l\u00f8nnsindeksen og to \u00e5rganger av l\u00f8nnsstatistikken samt informasjon fra l\u00f8nnsforhandlingene. Beregnet \u00e5rsl\u00f8nn for gjeldende \u00e5r er forel\u00f8pig, helt til ny \u00e5rgang l\u00f8nnsstatistikken er etablert.",
+    "related_variable_definition_uris": [],
+    "owner": {
+      "team": "arbmark-register",
+      "groups": ["arbmark-register-developers"]
+    },
+    "contact": {
+      "title": "generert_tittel",
+      "email": "generert@epost.com"
+    },
+    "created_at": "2025-11-05T06:34:16.102000",
+    "created_by": "efr@ssb.no",
+    "last_updated_at": "2025-11-05T06:34:16.102000",
+    "last_updated_by": "efr@ssb.no"
+  },
+  {
+    "id": "M7ZzpNwc",
+    "patch_id": 1,
+    "name": "\u00d8vrige driftskostnader (SUM)",
+    "short_name": "ovrkost",
+    "definition": "Driftskostnader som ikke er spesifisert s\u00e6rskilt.",
+    "classification_uri": null,
+    "unit_types": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      }
+    ],
+    "subject_fields": [
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      }
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "variable_status": "DRAFT",
+    "measurement_type": null,
+    "valid_from": "1999-01-01",
+    "valid_until": null,
+    "external_reference_uri": null,
+    "comment": null,
+    "related_variable_definition_uris": null,
+    "owner": {
+      "team": "skatt-naering",
+      "groups": ["skatt-naering-developers"]
+    },
+    "contact": {
+      "title": "Regnskap og skatt",
+      "email": "Regnskap@ssb.no"
+    },
+    "created_at": "2025-10-14T10:51:36.555000",
+    "created_by": "mio@ssb.no",
+    "last_updated_at": "2025-11-21T08:54:24.560000",
+    "last_updated_by": "mio@ssb.no"
   }
 ]
