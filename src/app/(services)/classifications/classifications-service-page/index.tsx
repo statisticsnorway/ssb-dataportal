@@ -138,7 +138,6 @@ const ClassificationsServicePage = ({
   return (
     <SearchPage
       asideContent={filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
-      //filterGroups={filterGroups}
       searchLabel='Søk i klassifikasjoner'
       infoContent={
         <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>

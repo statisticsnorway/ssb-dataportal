@@ -10,7 +10,7 @@ import {
   ValidationMessage,
 } from '@digdir/designsystemet-react';
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FilterItem } from '@/types/filters';
 import styles from './checkbox.module.css';
 
@@ -22,20 +22,21 @@ interface CheckboxFilterProps {
 }
 
 export const CheckboxFilter = ({ filterHeading, filters, onFilterChange, selectedItems }: CheckboxFilterProps) => {
-  const handleChange = (newSelected: string[]) => {
-    onFilterChange?.(newSelected);
-  };
-
-  const { getCheckboxProps, validationMessageProps } = useCheckboxGroup({
-    value: (selectedItems ?? []).map(String),
-    onChange: handleChange,
+  const { getCheckboxProps, validationMessageProps, setValue } = useCheckboxGroup({
+    onChange: onFilterChange,
   });
+
+  useEffect(() => {
+    setValue((selectedItems ?? []).map(String));
+  }, [selectedItems, setValue]);
 
   const [isOpen, setIsOpen] = useState(true);
 
   const handleToggle = () => {
     setIsOpen((prev) => !prev);
   };
+
+  console.log(`Selected filteres ${selectedItems}`);
 
   return (
     <Card data-color={'accent'} className={`${styles.filterCard} ${!isOpen ? styles.hidden : ''}`}>

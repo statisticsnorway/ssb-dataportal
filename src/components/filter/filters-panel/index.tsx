@@ -1,11 +1,11 @@
 import { Heading } from '@digdir/designsystemet-react';
-import React from 'react';
 import { CheckboxFilter } from '@/components/filter';
 import { FilterGroup } from '@/types/filters';
 
 const FILTER_HEADING = 'Filter';
 
-const FiltersPanelComponent = ({ filterGroups }: { filterGroups: FilterGroup[] }) => {
+const FiltersPanel = ({ filterGroups }: { filterGroups: FilterGroup[] }) => {
+  console.log(`Selected filteres filterspanel ${filterGroups.selectedItems}`);
   return (
     <>
       <Heading level={3} data-size='sm'>
@@ -23,8 +23,5 @@ const FiltersPanelComponent = ({ filterGroups }: { filterGroups: FilterGroup[] }
     </>
   );
 };
-
-const FiltersPanel = React.memo(FiltersPanelComponent);
-FiltersPanel.displayName = 'FiltersPanel';
 
 export { FiltersPanel };

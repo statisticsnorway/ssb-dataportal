@@ -1,6 +1,6 @@
 'use client';
 
-import { Spinner } from '@digdir/designsystemet-react';
+import { Button, Spinner } from '@digdir/designsystemet-react';
 import { useMemo, useState } from 'react';
 import { FiltersPanel } from '@/components/filter';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
@@ -62,6 +62,10 @@ const VariableDefinitionsServicePage = ({
     filterGroups.map((filterGroup) => filterGroup.selectedItems),
   );
 
+  const handleButton = () => {
+    setSelectedVariableDefinitions([]);
+  };
+
   return (
     <SearchPage
       asideContent={filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
@@ -70,6 +74,7 @@ const VariableDefinitionsServicePage = ({
       sortValue={sortKey}
       onSortChange={(key: string) => setSortKey(key as SortTypes)}
       totalHits={hits.length}
+      infoContent={<Button onClick={handleButton}>Remove</Button>}
       searchResult={
         <>
           {errorMessage ? (
