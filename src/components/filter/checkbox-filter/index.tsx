@@ -10,7 +10,7 @@ import {
   ValidationMessage,
 } from '@digdir/designsystemet-react';
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FilterItem } from '@/types/filters';
 import styles from './checkbox.module.css';
 
@@ -26,9 +26,16 @@ export const CheckboxFilter = ({ filterHeading, filters, onFilterChange, selecte
     onChange: onFilterChange,
   });
 
+  /*
   useEffect(() => {
     setValue((selectedItems ?? []).map(String));
   }, [selectedItems, setValue]);
+*/
+  const stringValues = useMemo(() => (selectedItems ?? []).map(String), [selectedItems]);
+
+  useEffect(() => {
+    setValue(stringValues);
+  }, [stringValues, setValue]);
 
   const [isOpen, setIsOpen] = useState(true);
 

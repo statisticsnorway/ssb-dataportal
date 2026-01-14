@@ -45,7 +45,7 @@ const VariableDefinitionsServicePage = ({
       },
     ];
     return groups;
-  }, [selectedVariableDefinitions]);
+  }, [selectedVariableDefinitions, subjectFields]);
 
   const filteredHits = useMemo(() => {
     if (!selectedVariableDefinitions.length) return rawHits;
