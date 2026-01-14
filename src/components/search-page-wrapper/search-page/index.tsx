@@ -2,8 +2,7 @@
 
 import { Field, Label, Search, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
-import { FiltersPanel } from '@/components/filter';
+import { FC, ReactElement, ReactNode } from 'react';
 import { SortFields } from '@/components/sort-fields';
 import { SortTypes } from '@/hooks/useSearchStateKlass';
 import { FilterGroup } from '@/types/filters';
@@ -14,6 +13,7 @@ interface SearchPageProps {
   value?: string;
   onSearch?: (value: string) => void;
   infoContent?: ReactNode;
+  asideContent?: ReactNode;
   searchResult?: ReactElement;
   filterGroups?: FilterGroup[];
   searchLabel?: string;
@@ -25,6 +25,7 @@ interface SearchPageProps {
 
 const SearchPage: FC<SearchPageProps> = ({
   infoContent,
+  asideContent,
   searchResult,
   filterGroups,
   searchLabel,
@@ -35,8 +36,6 @@ const SearchPage: FC<SearchPageProps> = ({
 }) => {
   const router = useRouter();
   const pathname = usePathname();
-
-  const [selectedTab, setSelectedTab] = useState('');
 
   const derivedTab = pathname.includes('/classifications')
     ? 'klassTab'
@@ -51,26 +50,15 @@ const SearchPage: FC<SearchPageProps> = ({
     { value: 'klassTab', label: 'Klassifikasjoner' },
     { value: 'datasetTab', label: 'Datasett' },
   ];
-  useEffect(() => {
-    if (selectedTab !== derivedTab) {
-      setSelectedTab(derivedTab);
-    }
-  }, [derivedTab]);
 
-  const handleTabChange = (value: string) => {
-    setSelectedTab(value);
-    if (value === 'klassTab') router.push('/classifications');
-    if (value === 'vardefTab') router.push('/variable-definitions');
-    else if (value === 'datasetTab') router.push('/datasets');
+  const tabRoutes: Record<string, string> = {
+    klassTab: '/classifications',
+    vardefTab: '/variable-definitions',
+    datasetTab: '/datasets',
   };
 
-  useEffect(() => {
-    console.log(selectedTab);
-    console.log(totalHits);
-  }, [selectedTab]);
-
   return (
-    <Tabs value={selectedTab} data-color='accent' onChange={handleTabChange}>
+    <Tabs value={derivedTab} data-color='accent' onChange={(value) => router.push(tabRoutes[value] || '/')}>
       <section className={styles.searchPageWrapper}>
         <div className={`${styles.searchFieldContent} container`}>
           <Field>
@@ -98,9 +86,7 @@ const SearchPage: FC<SearchPageProps> = ({
           <div>{infoContent}</div>
         </section>
         <section className={styles.searchHitsContainer}>
-          <aside className={styles.filterSection}>
-            {filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
-          </aside>
+          {asideContent ? <aside className={styles.filterSection}>{asideContent}</aside> : null}
           <section className={styles.mainSection}>
             <div className={styles.hitsAndSort}>
               <p className={styles.numHits}>{totalHits} treff</p>
