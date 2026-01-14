@@ -13,10 +13,6 @@
   "biome.suggestInstallingGlobally": false,
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
-  "typescript.tsdk": ".yarn/sdks/typescript/lib",
-  "search.exclude": {
-    "**/.yarn": true,
-    "**/.pnp.*": true
-  },
+  "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true
 }
