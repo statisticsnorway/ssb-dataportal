@@ -2,6 +2,7 @@
 
 import { Spinner } from '@digdir/designsystemet-react';
 import { useMemo, useState } from 'react';
+import { FiltersPanel } from '@/components/filter';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
@@ -63,7 +64,7 @@ const VariableDefinitionsServicePage = ({
 
   return (
     <SearchPage
-      filterGroups={filterGroups}
+      asideContent={filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
       searchLabel='Søk i variabeldefinisjoner'
       sortOptions={sortTypes}
       sortValue={sortKey}
