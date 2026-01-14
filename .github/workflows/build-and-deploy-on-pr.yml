@@ -1,0 +1,32 @@
+name: Image Build and Deploy
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  docker-build:
+    name: Docker build
+    permissions:
+      contents: "read"
+      id-token: "write"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build and push
+        uses: nais/docker-build-push@v0
+        id: docker-build-push
+        with:
+          team: dapla-metadata
+
+      - uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: test
+          RESOURCE: .nais/test/test-pr.yaml
+          VAR: image=${{ needs.docker-build.outputs.image-tag }},pr-number=${{github.event.number}}
+          DEPLOY_SERVER: deploy.ssb.cloud.nais.io:443
+          WORKLOAD_IMAGE: ${{ steps.docker-build-push.outputs.image }}
+          TELEMETRY: ${{ steps.docker-build-push.outputs.telemetry }}

@@ -1,6 +1,6 @@
 'use client';
 
-import { Alert } from '@digdir/designsystemet-react';
+import { Alert, Spinner } from '@digdir/designsystemet-react';
 import { useEffect, useMemo, useState } from 'react';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
@@ -123,7 +123,7 @@ const ClassificationsServicePage = ({
   }, [selectedFamilies, selectedClassificationTypes, rawClassifications]);
 
   if (!rawClassifications) {
-    return <div>Loading...</div>;
+    return <Spinner aria-label='Laster klassifikasjoner' />;
   }
 
   if (error) {
@@ -146,10 +146,11 @@ const ClassificationsServicePage = ({
       sortOptions={sortTypes}
       sortValue={sortKey}
       onSortChange={(key: string) => setSortKey(key as SortTypes)}
+      totalHits={hits.length}
       searchResult={
         <>
           {isLoading ? (
-            <div>Loading...</div>
+            <Spinner aria-label='Laster klassifikasjoner' />
           ) : hits.length === 0 ? (
             <div>{localization.search.noHits}</div>
           ) : (
@@ -158,7 +159,6 @@ const ClassificationsServicePage = ({
               renderHit={(hit) => (
                 <ClassificationSearchHit key={hit.id} classification={hit as ClassificationResource} />
               )}
-              totalHits={hits.length}
               noSearchHits={hits.length === 0}
               onPageChange={handlePageChange}
               paginationInfo={{
