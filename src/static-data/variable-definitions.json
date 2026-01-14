@@ -2222,48 +2222,6 @@
     "last_updated_by": "dpo@ssb.no"
   },
   {
-    "id": "cU4SLgIU",
-    "patch_id": 1,
-    "name": "Kilde til aktivitetskode",
-    "short_name": "aktivitetskode_kilde",
-    "definition": "Kilde til aktivitetskode viser til det registeret som har oppdatert aktivitetskoden. Hver kilde har sitt eget merke.",
-    "classification_uri": null,
-    "unit_types": [
-      {
-        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
-        "code": "12",
-        "title": "Foretak"
-      }
-    ],
-    "subject_fields": [
-      {
-        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
-        "code": "vf",
-        "title": "Bedrifter, foretak og regnskap"
-      }
-    ],
-    "contains_special_categories_of_personal_data": false,
-    "variable_status": "DRAFT",
-    "measurement_type": null,
-    "valid_from": "2003-11-18",
-    "valid_until": null,
-    "external_reference_uri": null,
-    "comment": null,
-    "related_variable_definition_uris": [],
-    "owner": {
-      "team": "vof",
-      "groups": ["vof-developers"]
-    },
-    "contact": {
-      "title": "Felles e-post Bedrifts- og Foretaksregisteret (BoF)",
-      "email": "bof@ssb.no"
-    },
-    "created_at": "2025-10-20T10:44:11.256000",
-    "created_by": "sik@ssb.no",
-    "last_updated_at": "2025-10-21T11:05:32.672000",
-    "last_updated_by": "rga@ssb.no"
-  },
-  {
     "id": "G7_KGiXq",
     "patch_id": 1,
     "name": "Kj\u00f8nn",
