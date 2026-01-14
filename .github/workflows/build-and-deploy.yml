@@ -41,7 +41,6 @@ jobs:
         env:
           CLUSTER: ${{ steps.nais-deploy-vars.outputs.nais_cluster }}
           RESOURCE: ${{ steps.nais-deploy-vars.outputs.nais_config_path }}
-          VAR: image=${{ steps.docker-build-push.outputs.image }}
           DEPLOY_SERVER: deploy.ssb.cloud.nais.io:443
           WORKLOAD_IMAGE: ${{ steps.docker-build-push.outputs.image }}
           TELEMETRY: ${{ steps.docker-build-push.outputs.telemetry }}
