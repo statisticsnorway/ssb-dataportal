@@ -1,0 +1,27 @@
+.filterSection {
+  display: none;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.filterGroup {
+  padding: 1rem;
+  border: 1px solid var(--fds-semantic-border-neutral-subtle);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.filterItems {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Show filters on larger screens */
+@media (min-width: 769px) {
+  .filterSection {
+    display: flex;
+  }
+}

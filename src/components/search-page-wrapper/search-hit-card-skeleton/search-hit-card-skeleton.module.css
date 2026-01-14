@@ -1,0 +1,29 @@
+.skeletonCard {
+  padding: 1.5rem;
+  border: 1px solid var(--fds-semantic-border-neutral-subtle);
+  border-radius: 8px;
+  background: var(--fds-semantic-surface-neutral-default);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cardFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+@media (min-width: 769px) {
+  .cardFooter {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

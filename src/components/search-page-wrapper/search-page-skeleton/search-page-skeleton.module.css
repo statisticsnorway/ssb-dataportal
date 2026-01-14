@@ -1,37 +1,24 @@
-.pageContainer {
-  padding: 2rem 0;
-}
-
 .infoSection {
   margin-bottom: 2rem;
 }
 
 .searchHitsContainer {
-  display: grid;
-  grid-template-columns: 300px 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
   margin-top: 2rem;
 }
 
-.filterSection {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.filterGroup {
-  padding: 1rem;
-  border: 1px solid var(--fds-semantic-border-neutral-subtle);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.filterItems {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+@media (min-width: 769px) {
+  .searchHitsContainer {
+    flex-direction: row;
+  }
+  .searchHitsContainer > *:first-child {
+    flex: 0 0 300px;
+  }
+  .searchHitsContainer > *:last-child {
+    flex: 1;
+  }
 }
 
 .mainSection {
@@ -54,41 +41,8 @@
   gap: 1rem;
 }
 
-.skeletonCard {
-  padding: 1.5rem;
-  border: 1px solid var(--fds-semantic-border-neutral-subtle);
-  border-radius: 8px;
-  background: var(--fds-semantic-surface-neutral-default);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.cardContent {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.cardFooter {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
 .paginationSkeleton {
   display: flex;
   justify-content: center;
   margin-top: 1rem;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .searchHitsContainer {
-    grid-template-columns: 1fr;
-  }
-
-  .filterSection {
-    display: none;
-  }
 }
