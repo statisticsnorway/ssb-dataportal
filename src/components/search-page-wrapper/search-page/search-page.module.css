@@ -38,16 +38,19 @@
 }
 
 .tab {
-  -webkit-box-pack: center;
+  display: flex;
   justify-content: center;
+  align-items: center;
   list-style-type: none;
   position: relative;
   overflow: hidden;
   color: #e6eff8;
-  width: 95%;
-  margin: var(--center-element-no-top);
+  width: fit-content;
+  padding: 0.75rem 1.25rem;
+  margin: 0;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  white-space: nowrap;
 }
 
 .tab[aria-selected="true"] {
@@ -121,7 +124,6 @@
 
   /* Set variable*/
   .tab {
-    width: 200px;
     margin: 0;
   }
 
