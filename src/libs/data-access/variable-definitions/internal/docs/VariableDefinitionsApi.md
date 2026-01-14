@@ -11,7 +11,7 @@ All URIs are relative to *https://metadata.intern.ssb.no*
 
 ## getVariableDefinitionById
 
-> ListVariableDefinitions200ResponseInner getVariableDefinitionById(acceptLanguage, variableDefinitionId, dateOfValidity, render)
+> ListVariableDefinitions200ResponseInner getVariableDefinitionById(variableDefinitionId, acceptLanguage, dateOfValidity, render)
 
 Get one variable definition.
 
@@ -35,12 +35,12 @@ async function example() {
   const api = new VariableDefinitionsApi(config);
 
   const body = {
-    // SupportedLanguages | Render the variable definition in the given language.
-    acceptLanguage: nb,
     // string | Unique identifier for the variable definition.
     variableDefinitionId: wypvb3wd,
+    // SupportedLanguages | Render the variable definition in the given language. (optional)
+    acceptLanguage: nb,
     // Date | List only variable definitions which are valid on this date. (optional)
-    dateOfValidity: ,
+    dateOfValidity: 1970-01-01,
     // boolean | Render the Variable Definition for presentation in a frontend (optional)
     render: false,
   } satisfies GetVariableDefinitionByIdRequest;
@@ -62,8 +62,8 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **acceptLanguage** | `SupportedLanguages` | Render the variable definition in the given language. | [Defaults to `undefined`] [Enum: nb, nn, en] |
 | **variableDefinitionId** | `string` | Unique identifier for the variable definition. | [Defaults to `undefined`] |
+| **acceptLanguage** | `SupportedLanguages` | Render the variable definition in the given language. | [Optional] [Defaults to `undefined`] [Enum: nb, nn, en] |
 | **dateOfValidity** | `Date` | List only variable definitions which are valid on this date. | [Optional] [Defaults to `undefined`] |
 | **render** | `boolean` | Render the Variable Definition for presentation in a frontend | [Optional] [Defaults to `undefined`] |
 
@@ -116,7 +116,7 @@ async function example() {
   const api = new VariableDefinitionsApi(config);
 
   const body = {
-    // SupportedLanguages | Render the variable definition in the given language.
+    // SupportedLanguages | Render the variable definition in the given language. (optional)
     acceptLanguage: nb,
     // Date | List only variable definitions which are valid on this date. (optional)
     dateOfValidity: 1970-01-01,
@@ -143,7 +143,7 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **acceptLanguage** | `SupportedLanguages` | Render the variable definition in the given language. | [Defaults to `undefined`] [Enum: nb, nn, en] |
+| **acceptLanguage** | `SupportedLanguages` | Render the variable definition in the given language. | [Optional] [Defaults to `undefined`] [Enum: nb, nn, en] |
 | **dateOfValidity** | `Date` | List only variable definitions which are valid on this date. | [Optional] [Defaults to `undefined`] |
 | **shortName** | `string` | List only the variable definition with the given short name. | [Optional] [Defaults to `undefined`] |
 | **render** | `boolean` | Render the Variable Definition for presentation in a frontend | [Optional] [Defaults to `undefined`] |

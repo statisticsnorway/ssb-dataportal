@@ -15,22 +15,28 @@ import { VardefSearchHit } from '../components/vardefSearchHit';
 interface VariableDefinitionsServicePageProps {
   rawHits: RenderedView[];
   isLoading?: boolean;
+  errorMessage: string | null;
   subjectFields: CodeItem[];
 }
 
-const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: VariableDefinitionsServicePageProps) => {
+const VariableDefinitionsServicePage = ({
+  rawHits,
+  isLoading,
+  errorMessage,
+  subjectFields,
+}: VariableDefinitionsServicePageProps) => {
   if (isLoading) {
     return <Spinner aria-label='Laster variabeldefinisjoner' />;
   }
-
   const [selectedVariableDefinitions, setSelectedVariableDefinitions] = useState<string[]>([]);
+  console.log(`Hits: ${rawHits.length}, isLoading: ${isLoading}, errorMessage: ${errorMessage}`);
 
   const filterGroups: FilterGroup[] = useMemo(() => {
     const groups: FilterGroup[] = [
       {
         filterHeading: SUBJECT_AREA,
         filters: subjectFields.map((f: CodeItem) => ({
-          label: f.name,
+          label: String(f.name),
           value: String(f.code),
         })),
         selectedItems: selectedVariableDefinitions,
@@ -44,7 +50,7 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
     if (!selectedVariableDefinitions.length) return rawHits;
 
     return rawHits.filter((hit) =>
-      hit.subjectFields.some((f) => f.code != null && selectedVariableDefinitions.includes(f.code)),
+      hit.subject_fields.some((f) => f.code != null && selectedVariableDefinitions.includes(f.code)),
     );
   }, [rawHits, selectedVariableDefinitions]);
 
@@ -65,7 +71,9 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
       totalHits={hits.length}
       searchResult={
         <>
-          {hits.length === 0 ? (
+          {errorMessage ? (
+            <div>Could not fetch data: {errorMessage}</div>
+          ) : hits.length === 0 ? (
             <div>{localization.search.noHits}</div>
           ) : (
             <SearchHitContainer

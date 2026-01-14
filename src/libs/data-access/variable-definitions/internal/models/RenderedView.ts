@@ -59,7 +59,7 @@ export interface RenderedView {
      * @type {number}
      * @memberof RenderedView
      */
-    patchId: number;
+    patch_id: number;
     /**
      * Name of the variable. Must be unique for a given Unit Type and Owner combination.
      * @type {string}
@@ -71,7 +71,7 @@ export interface RenderedView {
      * @type {string}
      * @memberof RenderedView
      */
-    shortName: string;
+    short_name: string;
     /**
      * Definition of the variable.
      * @type {string}
@@ -83,55 +83,55 @@ export interface RenderedView {
      * @type {string}
      * @memberof RenderedView
      */
-    classificationUri?: string | null;
+    classification_uri?: string | null;
     /**
      * 
      * @type {Array<KlassReference>}
      * @memberof RenderedView
      */
-    unitTypes: Array<KlassReference>;
+    unit_types: Array<KlassReference>;
     /**
      * 
      * @type {Array<KlassReference>}
      * @memberof RenderedView
      */
-    subjectFields: Array<KlassReference>;
+    subject_fields: Array<KlassReference>;
     /**
      * True if variable instances contain particularly sensitive information. Applies even if the information or identifiers are pseudonymized. Information within the following categories are regarded as particularly sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs, Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual orientation
      * @type {boolean}
      * @memberof RenderedView
      */
-    containsSpecialCategoriesOfPersonalData: boolean;
+    contains_special_categories_of_personal_data: boolean;
     /**
      * 
      * @type {VariableStatus}
      * @memberof RenderedView
      */
-    variableStatus: VariableStatus;
+    variable_status: VariableStatus;
     /**
      * 
      * @type {KlassReference}
      * @memberof RenderedView
      */
-    measurementType?: KlassReference | null;
+    measurement_type?: KlassReference | null;
     /**
      * The variable definition is valid from this date inclusive
      * @type {Date}
      * @memberof RenderedView
      */
-    validFrom: Date;
+    valid_from: Date;
     /**
      * The variable definition is valid until this date inclusive
      * @type {Date}
      * @memberof RenderedView
      */
-    validUntil?: Date | null;
+    valid_until?: Date | null;
     /**
      * A link (URI) to an external definition/documentation
      * @type {string}
      * @memberof RenderedView
      */
-    externalReferenceUri?: string | null;
+    external_reference_uri?: string | null;
     /**
      * Optional comment to explain the definition or communicate potential changes.
      * @type {string}
@@ -143,7 +143,7 @@ export interface RenderedView {
      * @type {Array<string>}
      * @memberof RenderedView
      */
-    relatedVariableDefinitionUris?: Array<string> | null;
+    related_variable_definition_uris?: Array<string> | null;
     /**
      * 
      * @type {Owner}
@@ -161,25 +161,25 @@ export interface RenderedView {
      * @type {Date}
      * @memberof RenderedView
      */
-    createdAt: Date;
+    created_at: Date;
     /**
      * The user who created this variable definition.
      * @type {string}
      * @memberof RenderedView
      */
-    createdBy: string;
+    created_by: string;
     /**
      * The timestamp at which this variable definition was last modified.
      * @type {Date}
      * @memberof RenderedView
      */
-    lastUpdatedAt: Date;
+    last_updated_at: Date;
     /**
      * The user who last modified this variable definition.
      * @type {string}
      * @memberof RenderedView
      */
-    lastUpdatedBy: string;
+    last_updated_by: string;
 }
 
 
@@ -189,18 +189,18 @@ export interface RenderedView {
  */
 export function instanceOfRenderedView(value: object): value is RenderedView {
     if (!('id' in value) || value['id'] === undefined) return false;
-    if (!('patchId' in value) || value['patchId'] === undefined) return false;
-    if (!('shortName' in value) || value['shortName'] === undefined) return false;
-    if (!('unitTypes' in value) || value['unitTypes'] === undefined) return false;
-    if (!('subjectFields' in value) || value['subjectFields'] === undefined) return false;
-    if (!('containsSpecialCategoriesOfPersonalData' in value) || value['containsSpecialCategoriesOfPersonalData'] === undefined) return false;
-    if (!('variableStatus' in value) || value['variableStatus'] === undefined) return false;
-    if (!('validFrom' in value) || value['validFrom'] === undefined) return false;
+    if (!('patch_id' in value) || value['patch_id'] === undefined) return false;
+    if (!('short_name' in value) || value['short_name'] === undefined) return false;
+    if (!('unit_types' in value) || value['unit_types'] === undefined) return false;
+    if (!('subject_fields' in value) || value['subject_fields'] === undefined) return false;
+    if (!('contains_special_categories_of_personal_data' in value) || value['contains_special_categories_of_personal_data'] === undefined) return false;
+    if (!('variable_status' in value) || value['variable_status'] === undefined) return false;
+    if (!('valid_from' in value) || value['valid_from'] === undefined) return false;
     if (!('owner' in value) || value['owner'] === undefined) return false;
-    if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
-    if (!('createdBy' in value) || value['createdBy'] === undefined) return false;
-    if (!('lastUpdatedAt' in value) || value['lastUpdatedAt'] === undefined) return false;
-    if (!('lastUpdatedBy' in value) || value['lastUpdatedBy'] === undefined) return false;
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
+    if (!('last_updated_at' in value) || value['last_updated_at'] === undefined) return false;
+    if (!('last_updated_by' in value) || value['last_updated_by'] === undefined) return false;
     return true;
 }
 
@@ -215,27 +215,27 @@ export function RenderedViewFromJSONTyped(json: any, ignoreDiscriminator: boolea
     return {
         
         'id': json['id'],
-        'patchId': json['patch_id'],
+        'patch_id': json['patch_id'],
         'name': json['name'] == null ? undefined : json['name'],
-        'shortName': json['short_name'],
+        'short_name': json['short_name'],
         'definition': json['definition'] == null ? undefined : json['definition'],
-        'classificationUri': json['classification_uri'] == null ? undefined : json['classification_uri'],
-        'unitTypes': ((json['unit_types'] as Array<any>).map(KlassReferenceFromJSON)),
-        'subjectFields': ((json['subject_fields'] as Array<any>).map(KlassReferenceFromJSON)),
-        'containsSpecialCategoriesOfPersonalData': json['contains_special_categories_of_personal_data'],
-        'variableStatus': VariableStatusFromJSON(json['variable_status']),
-        'measurementType': json['measurement_type'] == null ? undefined : KlassReferenceFromJSON(json['measurement_type']),
-        'validFrom': (new Date(json['valid_from'])),
-        'validUntil': json['valid_until'] == null ? undefined : (new Date(json['valid_until'])),
-        'externalReferenceUri': json['external_reference_uri'] == null ? undefined : json['external_reference_uri'],
+        'classification_uri': json['classification_uri'] == null ? undefined : json['classification_uri'],
+        'unit_types': ((json['unit_types'] as Array<any>).map(KlassReferenceFromJSON)),
+        'subject_fields': ((json['subject_fields'] as Array<any>).map(KlassReferenceFromJSON)),
+        'contains_special_categories_of_personal_data': json['contains_special_categories_of_personal_data'],
+        'variable_status': VariableStatusFromJSON(json['variable_status']),
+        'measurement_type': json['measurement_type'] == null ? undefined : KlassReferenceFromJSON(json['measurement_type']),
+        'valid_from': (new Date(json['valid_from'])),
+        'valid_until': json['valid_until'] == null ? undefined : (new Date(json['valid_until'])),
+        'external_reference_uri': json['external_reference_uri'] == null ? undefined : json['external_reference_uri'],
         'comment': json['comment'] == null ? undefined : json['comment'],
-        'relatedVariableDefinitionUris': json['related_variable_definition_uris'] == null ? undefined : json['related_variable_definition_uris'],
+        'related_variable_definition_uris': json['related_variable_definition_uris'] == null ? undefined : json['related_variable_definition_uris'],
         'owner': OwnerFromJSON(json['owner']),
         'contact': json['contact'] == null ? undefined : RenderedContactFromJSON(json['contact']),
-        'createdAt': (new Date(json['created_at'])),
-        'createdBy': json['created_by'],
-        'lastUpdatedAt': (new Date(json['last_updated_at'])),
-        'lastUpdatedBy': json['last_updated_by'],
+        'created_at': (new Date(json['created_at'])),
+        'created_by': json['created_by'],
+        'last_updated_at': (new Date(json['last_updated_at'])),
+        'last_updated_by': json['last_updated_by'],
     };
 }
 
@@ -251,27 +251,27 @@ export function RenderedViewToJSONTyped(value?: RenderedView | null, ignoreDiscr
     return {
         
         'id': value['id'],
-        'patch_id': value['patchId'],
+        'patch_id': value['patch_id'],
         'name': value['name'],
-        'short_name': value['shortName'],
+        'short_name': value['short_name'],
         'definition': value['definition'],
-        'classification_uri': value['classificationUri'],
-        'unit_types': ((value['unitTypes'] as Array<any>).map(KlassReferenceToJSON)),
-        'subject_fields': ((value['subjectFields'] as Array<any>).map(KlassReferenceToJSON)),
-        'contains_special_categories_of_personal_data': value['containsSpecialCategoriesOfPersonalData'],
-        'variable_status': VariableStatusToJSON(value['variableStatus']),
-        'measurement_type': KlassReferenceToJSON(value['measurementType']),
-        'valid_from': value['validFrom'].toISOString().substring(0,10),
-        'valid_until': value['validUntil'] == null ? value['validUntil'] : value['validUntil'].toISOString().substring(0,10),
-        'external_reference_uri': value['externalReferenceUri'],
+        'classification_uri': value['classification_uri'],
+        'unit_types': ((value['unit_types'] as Array<any>).map(KlassReferenceToJSON)),
+        'subject_fields': ((value['subject_fields'] as Array<any>).map(KlassReferenceToJSON)),
+        'contains_special_categories_of_personal_data': value['contains_special_categories_of_personal_data'],
+        'variable_status': VariableStatusToJSON(value['variable_status']),
+        'measurement_type': KlassReferenceToJSON(value['measurement_type']),
+        'valid_from': value['valid_from'].toISOString().substring(0,10),
+        'valid_until': value['valid_until'] == null ? value['valid_until'] : value['valid_until'].toISOString().substring(0,10),
+        'external_reference_uri': value['external_reference_uri'],
         'comment': value['comment'],
-        'related_variable_definition_uris': value['relatedVariableDefinitionUris'],
+        'related_variable_definition_uris': value['related_variable_definition_uris'],
         'owner': OwnerToJSON(value['owner']),
         'contact': RenderedContactToJSON(value['contact']),
-        'created_at': value['createdAt'].toISOString(),
-        'created_by': value['createdBy'],
-        'last_updated_at': value['lastUpdatedAt'].toISOString(),
-        'last_updated_by': value['lastUpdatedBy'],
+        'created_at': value['created_at'].toISOString(),
+        'created_by': value['created_by'],
+        'last_updated_at': value['last_updated_at'].toISOString(),
+        'last_updated_by': value['last_updated_by'],
     };
 }
 

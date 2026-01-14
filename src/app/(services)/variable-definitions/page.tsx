@@ -1,16 +1,38 @@
 import { fetchSubjectFields } from '@/libs/data/subjectFieldLookup';
+import { listRenderedVariableDefinitions } from '@/libs/data/variableDefinitions';
 import { CodeItem } from '@/libs/data-access/klass/models';
-import { testVardefData } from '@/utils/mock-data';
+import { ResponseError } from '@/libs/data-access/variable-definitions/internal';
+import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models';
 import VariableDefinitionsServicePage from './variable-definitions-service-page';
 
 export default async function VariableDefinitions() {
-  const variableDefinitions = testVardefData;
+  let data: RenderedView[] = [];
+  let errorMessage: string | null = null;
   const subjectFields: CodeItem[] = await fetchSubjectFields();
-  if (!variableDefinitions) {
-    return <div>Loading...</div>;
+  try {
+    data = await listRenderedVariableDefinitions();
+  } catch (error: unknown) {
+    if (error instanceof ResponseError) {
+      switch (error.response.status) {
+        case 401:
+        case 403:
+          errorMessage = 'Unauthorized';
+          break;
+        case 500:
+        default:
+          errorMessage = 'Unknown';
+      }
+    } else {
+      errorMessage = 'Unknown';
+    }
   }
-
+  console.debug(data[0]);
   return (
-    <VariableDefinitionsServicePage rawHits={variableDefinitions} isLoading={false} subjectFields={subjectFields} />
+    <VariableDefinitionsServicePage
+      rawHits={data}
+      isLoading={false}
+      errorMessage={errorMessage}
+      subjectFields={subjectFields}
+    />
   );
 }
