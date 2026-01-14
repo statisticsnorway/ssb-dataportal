@@ -5,7 +5,6 @@ import { FilterGroup } from '@/types/filters';
 const FILTER_HEADING = 'Filter';
 
 const FiltersPanel = ({ filterGroups }: { filterGroups: FilterGroup[] }) => {
-  console.log(`Selected filteres filterspanel ${filterGroups.selectedItems}`);
   return (
     <>
       <Heading level={3} data-size='sm'>
