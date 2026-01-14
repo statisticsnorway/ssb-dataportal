@@ -22,7 +22,7 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
         maxTags={4}
         tagData={
           new Map(
-            variableDefinition.subjectFields
+            variableDefinition.subject_fields
               .filter((ref) => areFieldsDefinedAndNonNull(ref, ['code', 'title']))
               .map((field) => [field.code, field.title]),
           )

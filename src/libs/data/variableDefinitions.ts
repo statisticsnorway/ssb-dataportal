@@ -46,11 +46,11 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
     acceptLanguage: 'nb',
     render: true,
   } satisfies ListVariableDefinitionsRequest;
-  const data: RenderedView[] = [];
+  var data: RenderedView[] = [];
 
   try {
-    const data = await api.listVariableDefinitions(body);
-    data.filter((each) => instanceOfRenderedView(each));
+    let rawData = await api.listVariableDefinitions(body);
+    data = rawData.filter((each) => instanceOfRenderedView(each));
     console.log(`Fetched ${data.length} variable definitions`);
   } catch (error: unknown) {
     if (error instanceof ResponseError) {

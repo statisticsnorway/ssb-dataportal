@@ -8,8 +8,8 @@ import { areFieldsDefinedAndNonNull, formatDate, yesNo } from '@/utils/functions
  * ------------------------------
  */
 export const validityItems = (v: RenderedView): Item[] => [
-  { label: 'Fra', value: formatDate(v.validFrom), type: 'text' },
-  { label: 'Til', value: formatDate(v.validUntil ?? undefined), type: 'text' },
+  { label: 'Fra', value: formatDate(v.valid_from), type: 'text' },
+  { label: 'Til', value: formatDate(v.valid_until ?? undefined), type: 'text' },
 ];
 
 /**
@@ -18,10 +18,10 @@ export const validityItems = (v: RenderedView): Item[] => [
  * ------------------------------
  */
 export const createdAndEditedItems = (v: RenderedView): Item[] => [
-  { label: 'Sist oppdatert på', value: formatDate(v.lastUpdatedAt), type: 'text' },
-  { label: 'Sist oppdatert av', value: v.lastUpdatedBy, type: 'text' },
-  { label: 'Opprettet på', value: formatDate(v.createdAt), type: 'text' },
-  { label: 'Opprettet av', value: v.createdBy, type: 'text' },
+  { label: 'Sist oppdatert på', value: formatDate(v.last_updated_at), type: 'text' },
+  { label: 'Sist oppdatert av', value: v.last_updated_by, type: 'text' },
+  { label: 'Opprettet på', value: formatDate(v.created_at), type: 'text' },
+  { label: 'Opprettet av', value: v.created_by, type: 'text' },
 ];
 
 /**
@@ -32,12 +32,12 @@ export const createdAndEditedItems = (v: RenderedView): Item[] => [
 export const unitTypesItems = (v: RenderedView): Item[] => [
   {
     label: 'Enhetstyper',
-    value: v.unitTypes.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
+    value: v.unit_types.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
     type: 'tags',
   },
   {
     label: 'Statistikkområder',
-    value: v.subjectFields.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
+    value: v.subject_fields.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
     type: 'tags',
   },
 ];
@@ -50,24 +50,24 @@ export const unitTypesItems = (v: RenderedView): Item[] => [
 export const referencesItems = (v: RenderedView): Item[] => [
   {
     label: 'Klassifikasjon',
-    value: v.classificationUri ?? null,
+    value: v.classification_uri ?? null,
     type: 'link',
     display: 'Se klassifikasjon',
   },
   {
     label: 'Ekstern referanse',
-    value: v.externalReferenceUri ?? null,
+    value: v.external_reference_uri ?? null,
     type: 'link',
     display: 'Se ekstern referanse',
   },
   {
     label: 'Relevante variabeldefinisjoner',
-    value: Array.isArray(v.relatedVariableDefinitionUris)
-      ? v.relatedVariableDefinitionUris.join(', ')
-      : (v.relatedVariableDefinitionUris ?? null),
+    value: Array.isArray(v.related_variable_definition_uris)
+      ? v.related_variable_definition_uris.join(', ')
+      : (v.related_variable_definition_uris ?? null),
     type: 'link',
-    display: Array.isArray(v.relatedVariableDefinitionUris)
-      ? v.relatedVariableDefinitionUris.map((_, i) => `Se relevant variabeldefinisjon ${i + 1}`)
+    display: Array.isArray(v.related_variable_definition_uris)
+      ? v.related_variable_definition_uris.map((_, i) => `Se relevant variabeldefinisjon ${i + 1}`)
       : 'Se relevant variabeldefinisjon',
   },
 ];
@@ -110,7 +110,7 @@ export const contactItems = (v: RenderedView): Item[] => {
 export const personalDataItems = (v: RenderedView): Item[] => [
   {
     label: 'Inneholder særlige kategorier av personopplysninger',
-    value: yesNo(v.containsSpecialCategoriesOfPersonalData),
+    value: yesNo(v.contains_special_categories_of_personal_data),
     type: 'text',
   },
 ];

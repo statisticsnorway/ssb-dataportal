@@ -97,7 +97,7 @@ export default function VariableDefinitionDetail({ variableDefinition }: { varia
               </Button>
             </div>
             <Tag className={styles.variableStatusTag} data-size='lg' data-color='info'>
-              {convertStatus(variableDefinition.variableStatus)}
+              {convertStatus(variableDefinition.variable_status)}
             </Tag>
           </section>
           <DetailsPagePanel title='Enhetstyper og statistikkområder' elements={unitTypesItems(variableDefinition)} />
