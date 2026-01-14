@@ -1,5 +1,6 @@
 'use client';
 
+import { Spinner } from '@digdir/designsystemet-react';
 import { useMemo, useState } from 'react';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
@@ -38,7 +39,7 @@ const VariableDefinitionsServicePage = ({ rawHits, isLoading, subjectFields }: V
   const memoizedHits = useMemo(() => (isLoading ? [] : rawHits), [isLoading, rawHits]);
 
   const filteredHits = useMemo(() => {
-    if (isLoading) return [];
+    if (isLoading) return <Spinner aria-label='Laster variabeldefinisjoner' />;
 
     // If no filters selected, return all hits
     if (!selectedVariableDefinitions.length) return memoizedHits;
