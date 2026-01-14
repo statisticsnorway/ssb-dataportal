@@ -8,7 +8,6 @@ metadata:
 spec:
   ingresses:
     - https://metadata-catalog-dev.test.ssb.no
-  image: {{image}}
   port: 3000
   accessPolicy:
     outbound:
