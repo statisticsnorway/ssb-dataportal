@@ -26,7 +26,6 @@ export default async function VariableDefinitions() {
       errorMessage = 'Unknown';
     }
   }
-  console.debug(data[0]);
   return (
     <VariableDefinitionsServicePage
       rawHits={data}
