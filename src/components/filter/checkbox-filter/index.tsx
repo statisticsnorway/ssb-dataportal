@@ -10,7 +10,7 @@ import {
   ValidationMessage,
 } from '@digdir/designsystemet-react';
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FilterItem } from '@/types/filters';
 import styles from './checkbox.module.css';
 
@@ -23,19 +23,13 @@ interface CheckboxFilterProps {
 
 export const CheckboxFilter = ({ filterHeading, filters, onFilterChange, selectedItems }: CheckboxFilterProps) => {
   const { getCheckboxProps, validationMessageProps, setValue } = useCheckboxGroup({
-    onChange: onFilterChange,
+    value: selectedItems,
+    onChange: (values) => onFilterChange(values.map(String)),
   });
 
-  /*
   useEffect(() => {
     setValue((selectedItems ?? []).map(String));
   }, [selectedItems, setValue]);
-*/
-  const stringValues = useMemo(() => (selectedItems ?? []).map(String), [selectedItems]);
-
-  useEffect(() => {
-    setValue(stringValues);
-  }, [stringValues, setValue]);
 
   const [isOpen, setIsOpen] = useState(true);
 
@@ -63,13 +57,8 @@ export const CheckboxFilter = ({ filterHeading, filters, onFilterChange, selecte
         </Button>
         {isOpen ? (
           <div>
-            {filters.map(({ value: itemValue, label }) => (
-              <Checkbox
-                className={styles.checkbox}
-                label={label}
-                key={itemValue}
-                {...getCheckboxProps({ value: itemValue })}
-              />
+            {filters.map(({ value, label }) => (
+              <Checkbox className={styles.checkbox} label={label} key={value} {...getCheckboxProps({ value: value })} />
             ))}
             <ValidationMessage {...validationMessageProps} />
           </div>
