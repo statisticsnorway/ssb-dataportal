@@ -28,4 +28,4 @@ spec:
     - name: INTERNAL_BASE_URL
       value: http://metadata-catalog
     - name: VARDEF_USE_STATIC_DATA
-      value: true
+      value: "true"
