@@ -66,19 +66,15 @@
 }
 
 .infoSection {
-  width: 100%;
   min-height: 4rem;
   margin-top: 0;
   margin-bottom: 0;
+  flex: 0 0 100%;
 }
 
 .mainSection {
-  width: 100%;
   min-height: 200px;
   margin-top: var(--medium-gap);
-}
-
-.mainSection {
   flex: 1 1 0;
 }
 
@@ -103,12 +99,20 @@
   font-weight: 600;
 }
 
+.filterSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--medium-gap);
+  width: 100%;
+}
+
 @media (min-width: 886px) {
   .searchHitsContainer {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: var(--medium-gap);
+    margin-top: 1rem;
   }
 
   .tabsNavigation {
@@ -123,6 +127,10 @@
   #searchValue.ds-input {
     margin: 0;
     min-width: 80%;
+  }
+
+  .filterSection {
+    flex: 0.5 0.5 0;
   }
 }
 
