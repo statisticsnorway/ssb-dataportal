@@ -3,6 +3,7 @@
 import { Button, Tag } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { CodeSnippet } from '@/app/(services)/variable-definitions/components/codeSnippet';
+import { COPIED_LABEL, COPY_ID_LABEL } from '@/app/(services)/variable-definitions/components/constants';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
 import { TextField } from '@/components/text-field';
@@ -62,9 +63,11 @@ export default function VariableDefinitionDetail({ variableDefinition }: { varia
           <DetailsPagePanel title='Eier' elements={ownerItems(variableDefinition)} columns={2} />
           <CodeSnippet
             title='Python kode for å hente variabeldefinisjon'
-            code={`Vardef.get_variable_definition_by_shortname(short_name="${variableDefinition.name?.toLowerCase()}")
-            linje 2
-            linje 3`}
+            code={[
+              `Vardef.get_variable_definition_by_shortname(`,
+              `    short_name="${variableDefinition.name?.toLowerCase()}"`,
+              `)`,
+            ]}
           />
         </article>
         <aside className={styles.sidebar}>
@@ -73,11 +76,11 @@ export default function VariableDefinitionDetail({ variableDefinition }: { varia
               <span className={styles.idLabel}>ID</span>
               <span className={styles.idValue}>{variableDefinition.id}</span>
               <Button
-                title='Kopier ID'
+                title={COPY_ID_LABEL}
                 className='copyButton'
                 icon
                 onClick={() => copyToClipboard(variableDefinition.id)}
-                aria-label={copied ? 'Kopiert' : 'Kopier ID'}
+                aria-label={copied ? COPIED_LABEL : COPY_ID_LABEL}
               >
                 {copied ? <ClipboardCheckmarkIcon aria-hidden /> : <ClipboardIcon aria-hidden />}
               </Button>
