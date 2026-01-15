@@ -59,7 +59,11 @@ const TagsGroup = ({ maxTags, tagData, closeButton = false, onClose, onClearAll 
       )}
       {tagsArray.map(([key, label]) => (
         <li key={key} style={{ margin: 0 }}>
-          {closeButton ? <TagWithCloseButton label={label} onClose={() => onClose?.(key)} /> : <Tag>{label}</Tag>}
+          {closeButton ? (
+            <TagWithCloseButton label={label} id={key} onClose={() => onClose?.(key)} />
+          ) : (
+            <Tag>{label}</Tag>
+          )}
         </li>
       ))}
     </ul>
