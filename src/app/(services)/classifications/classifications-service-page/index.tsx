@@ -38,9 +38,9 @@ const ClassificationsServicePage = ({
   const [selectedFamilies, setSelectedFamilies] = useState<FilterItem[]>([]);
 
   // Default are all classificationtypes selected
-  const [selectedClassificationTypes, setSelectedClassificationTypes] = useState<string[]>([
-    ClassificationType.Klassifikasjon,
-    ClassificationType.Kodeliste,
+  const [selectedClassificationTypes, setSelectedClassificationTypes] = useState<FilterItem[]>([
+    { label: ClassificationType.Klassifikasjon, value: ClassificationType.Klassifikasjon },
+    { label: ClassificationType.Kodeliste, value: ClassificationType.Kodeliste },
   ]);
 
   const totalPages = Math.ceil(classifications.length / PAGE_SIZE);
@@ -97,10 +97,10 @@ const ClassificationsServicePage = ({
         let data: ClassificationResource[] = [];
 
         if (selectedFamilies.length > 0) {
-          for (const id of selectedFamilies) {
+          for (const family of selectedFamilies) {
             const familyData = await getClassificationFamily(
-              id,
-              selectedClassificationTypes.includes(ClassificationType.Kodeliste),
+              family.value,
+              selectedClassificationTypes.some((ct) => ct.value === ClassificationType.Kodeliste),
             );
             const familyClassifications: ClassificationResource[] = familyData.classifications ?? [];
 
@@ -111,10 +111,11 @@ const ClassificationsServicePage = ({
         else {
           data = [...rawClassifications];
         }
-
         // apply filters
         setClassifications(
-          data.filter((c) => c.classificationType && selectedClassificationTypes.includes(c.classificationType)),
+          data.filter(
+            (c) => c.classificationType && selectedClassificationTypes.some((ct) => ct.value === c.classificationType),
+          ),
         );
         // biome-ignore lint/suspicious/noExplicitAny: <ignoring for now>
       } catch (err: any) {
