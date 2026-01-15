@@ -30,8 +30,8 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: clamp(0.75rem, 2.5vw, 0.95rem);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: clamp(0.75rem, 2.5vw, 0.95rem);
   white-space: pre;
 }
 
