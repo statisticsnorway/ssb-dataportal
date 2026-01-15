@@ -93,7 +93,6 @@ const ClassificationsServicePage = ({
       try {
         let data: ClassificationResource[] = [];
 
-        /*
         if (selectedFamilies.length > 0) {
           for (const id of selectedFamilies) {
             const familyData = await getClassificationFamily(
@@ -109,17 +108,7 @@ const ClassificationsServicePage = ({
         else {
           data = [...rawClassifications];
         }
-*/
-        if (selectedFamilies.length > 0) {
-          const familyDataArray = await Promise.all(
-            selectedFamilies.map((id) =>
-              getClassificationFamily(id, selectedClassificationTypes.includes(ClassificationType.Kodeliste)),
-            ),
-          );
-          data = familyDataArray.flatMap((f) => f.classifications ?? []);
-        } else {
-          data = [...rawClassifications];
-        }
+
         // apply filters
         setClassifications(
           data.filter((c) => c.classificationType && selectedClassificationTypes.includes(c.classificationType)),
