@@ -11,19 +11,16 @@
   gap: var(--medium-gap);
   min-width: var(--app-min-width);
 }
-.footerInfoSection {
-  width: 90%;
-  text-align: center;
-}
 
 .footerLinkSection {
   width: 100%;
-  text-align: center;
+  text-align: right;
+  padding-right: 1rem;
 }
 
 @media (min-width: 768px) {
-  .footerInfoSection,
   .footerLinkSection {
     flex: 1 1 200px;
+    padding-right: 3rem;
   }
 }

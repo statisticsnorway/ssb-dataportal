@@ -7,11 +7,6 @@ exports[`Footer should render successfully 1`] = `
       class="footer"
     >
       <section
-        class="footerInfoSection"
-      >
-        Bygget på Digitaliseringsdirektoratet Felles datakatalog
-      </section>
-      <section
         class="footerLinkSection"
       />
     </footer>

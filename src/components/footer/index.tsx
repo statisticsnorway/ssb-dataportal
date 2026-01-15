@@ -11,7 +11,6 @@ export interface FooterProps {
 
 export const Footer: FC<FooterProps> = ({ footerLinks }) => (
   <footer className={styles.footer}>
-    <section className={styles.footerInfoSection}>Bygget på Digitaliseringsdirektoratet Felles datakatalog</section>
     <section className={styles.footerLinkSection}>
       {footerLinks?.map((link, index) => (
         <Link key={index} href={link.url}>
