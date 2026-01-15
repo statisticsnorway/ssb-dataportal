@@ -2,7 +2,7 @@
 
 import { Button, Spinner } from '@digdir/designsystemet-react';
 import { useMemo, useState } from 'react';
-import { FiltersPanel } from '@/components/filter';
+import { FiltersPanel } from '@/components/filter/filters-panel';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
