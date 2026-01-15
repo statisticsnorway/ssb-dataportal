@@ -30,7 +30,7 @@ const TagWithCloseButton: React.FC<TagWithCloseButtonProps> = ({ label, id, onCl
       {label}
       {onClose && (
         <Button className={styles.closeButton} onClick={() => onClose(id)} style={{ marginLeft: 4 }}>
-          X
+          x
         </Button>
       )}
     </Tag>
@@ -56,10 +56,10 @@ const TagsGroup = ({ maxTags, tagData, closeButton = false, onClose, onClearAll 
       {/* Remove All button if used with closeButton and list */}
       {closeButton && tagsArray.length > 1 && onClearAll && (
         <li key='remove-all' style={{ margin: 0 }}>
-          <Tag>
+          <Tag variant='outline' data-color={'accent'} className={styles.closeAllTag}>
             {onClearAll.text}
             <Button className={styles.closeAllButton} onClick={onClearAll.action}>
-              X
+              x
             </Button>
           </Tag>
         </li>

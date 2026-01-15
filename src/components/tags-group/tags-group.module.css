@@ -10,5 +10,13 @@
 .closeButton {
   background-color: var(--dsc-tag-background);
   color: var(--text-color-primary);
-  font-size: 1.5rem;
+}
+
+.closeAllTag,
+.closeAllButton {
+  background-color: var(--dark-blue-color);
+  color: white;
+  font-weight: 700;
+  padding: 0 1rem;
+  font-size: 1.1rem;
 }
