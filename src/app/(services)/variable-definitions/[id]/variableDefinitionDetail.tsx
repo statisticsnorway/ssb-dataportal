@@ -9,7 +9,8 @@ import { TextField } from '@/components/text-field';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import { convertStatus, nonEmpty } from '@/utils/functions';
-import { VardefHeading } from '../components/vardefHeading';
+import { VardefHeading } from './components/vardefHeading';
+
 import {
   contactItems,
   createdAndEditedItems,

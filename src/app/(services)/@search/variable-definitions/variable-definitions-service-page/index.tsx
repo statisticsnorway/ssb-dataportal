@@ -64,7 +64,6 @@ const VariableDefinitionsServicePage = ({
   return (
     <SearchPage
       filterGroups={filterGroups}
-      searchLabel='Søk i variabeldefinisjoner'
       sortOptions={sortTypes}
       sortValue={sortKey}
       onSortChange={(key: string) => setSortKey(key as SortTypes)}
