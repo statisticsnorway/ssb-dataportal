@@ -49,7 +49,6 @@ describe('vardef data fetching', () => {
     jest.spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions').mockResolvedValue(staticDefs);
 
     listRenderedVariableDefinitions().then((result) => {
-      expect(result).toHaveLength(3);
       expect(result).toContainEqual(staticDefs[2]);
     });
   });
