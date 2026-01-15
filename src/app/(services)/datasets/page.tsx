@@ -5,7 +5,6 @@ export default async function Datasets() {
   return (
     <SearchPage
       filterGroups={[]}
-      searchLabel='Søk i datasett'
       infoContent={
         <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
           Datasett er ikke klar for testing.

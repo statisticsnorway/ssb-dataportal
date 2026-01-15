@@ -19,10 +19,16 @@ export default function ServicesLayout({ children }: { children: ReactNode }) {
   const [selectedTab, setSelectedTab] = useState(derivedTab);
 
   const tabs = [
-    { value: 'vardefTab', label: 'Variabeldefinisjoner', href: '/variable-definitions' },
-    { value: 'klassTab', label: 'Klassifikasjoner', href: '/classifications' },
-    { value: 'datasetTab', label: 'Datasett', href: '/datasets' },
+    {
+      value: 'vardefTab',
+      label: 'Variabeldefinisjoner',
+      searchWord: 'Variabeldefinisjoner',
+      href: '/variable-definitions',
+    },
+    { value: 'klassTab', label: 'Klassifikasjoner', searchWord: 'Kodeverk', href: '/classifications' },
+    { value: 'datasetTab', label: 'Datasett', searchWord: 'Dataset', href: '/datasets' },
   ];
+  const activeTab = tabs.find((t) => t.value === selectedTab);
 
   useEffect(() => {
     setSelectedTab(derivedTab);
@@ -47,7 +53,7 @@ export default function ServicesLayout({ children }: { children: ReactNode }) {
       <section className={styles.searchPageWrapper}>
         <div className={`${styles.searchFieldContent} container`}>
           <Field>
-            <Label className={styles.searchLabel}>Søk i kodeverk</Label>
+            <Label className={styles.searchLabel}>Søk i {activeTab?.searchWord?.toLowerCase()}</Label>
             <Search id='searchId' data-color='accent' aria-disabled>
               <Search.Input id='searchValue' aria-label='Søk' />
               <Search.Clear />
