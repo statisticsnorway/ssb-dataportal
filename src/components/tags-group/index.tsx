@@ -16,16 +16,17 @@ interface TagsGroupProps {
 interface TagWithCloseButtonProps {
   onClose?: (key: string) => void;
   label: string;
+  id: string;
 }
 
 export type TagData = Map<string, string>;
 
-const TagWithCloseButton: React.FC<TagWithCloseButtonProps> = ({ label, onClose }) => {
+const TagWithCloseButton: React.FC<TagWithCloseButtonProps> = ({ label, id, onClose }) => {
   return (
     <Tag>
       {label}
       {onClose && (
-        <Button className={styles.closeButton} size='sm' onClick={onClose} style={{ marginLeft: 4 }}>
+        <Button className={styles.closeButton} size='sm' onClick={() => onClose(id)} style={{ marginLeft: 4 }}>
           ×
         </Button>
       )}
