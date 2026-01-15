@@ -12,6 +12,12 @@ interface TagsGroupProps {
     action: () => void;
   };
 }
+
+interface TagWithCloseButtonProps {
+  onClose?: (key: string) => void;
+  label: string;
+}
+
 export type TagData = Map<string, string>;
 
 const TagWithCloseButton: React.FC<TagWithCloseButtonProps> = ({ label, onClose }) => {

@@ -10,7 +10,7 @@ import { getClassificationFamily } from '@/libs/data/classificationFamilyData';
 import { ClassificationFamilyResource, ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import { ClassificationType } from '@/types/classification';
-import { FilterGroup } from '@/types/filters';
+import { FilterGroup, FilterItem } from '@/types/filters';
 import { ClassificationSearchHit } from './classificationSearchHit';
 
 interface ClassificationServicePageProps {
