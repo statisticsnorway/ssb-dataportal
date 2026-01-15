@@ -1,6 +1,6 @@
 import { VariableDefinitionsApi } from '@/libs/data-access/variable-definitions/internal/apis/VariableDefinitionsApi';
 import { getVariableDefinitions as getStaticVariableDefinitions } from '@/utils/mock-data';
-import { getVardefClient, listRenderedVariableDefinitions } from './variableDefinitions';
+import { getRenderedVariableDefinition, getVardefClient, listRenderedVariableDefinitions } from './variableDefinitions';
 
 const staticDefs = getStaticVariableDefinitions();
 
@@ -51,5 +51,12 @@ describe('vardef data fetching', () => {
     listRenderedVariableDefinitions().then((result) => {
       expect(result).toContainEqual(staticDefs[2]);
     });
+  });
+  it('listRenderedVariableDefinitions static data', () => {
+    expect(getRenderedVariableDefinition('Xd3Ueog_')).resolves.toEqual(staticDefs[5]);
+  });
+  it('getRenderedVariableDefinition no token available', () => {
+    process.env.VARDEF_USE_STATIC_DATA = 'false';
+    expect(getRenderedVariableDefinition('Xd3Ueog_')).rejects.toEqual('Could not retrieve access token!');
   });
 });
