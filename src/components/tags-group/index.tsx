@@ -1,20 +1,39 @@
-import { Tag } from '@digdir/designsystemet-react';
+import { Button, Tag } from '@digdir/designsystemet-react';
 import styles from './tags-group.module.css';
 
+interface TagsGroupProps {
+  maxTags: number;
+  tagData: TagData;
+  closeButton?: boolean;
+  onClose?: (key: string) => void;
+}
 export type TagData = Map<string, string>;
 
-const TagsGroup = ({ maxTags, tagData: tagData }: { maxTags: number; tagData: TagData }) => {
+const TagWithCloseButton: React.FC<TagWithCloseButtonProps> = ({ label, onClose }) => {
+  return (
+    <Tag>
+      {label}
+      {onClose && (
+        <Button className={styles.closeButton} size='sm' onClick={onClose} style={{ marginLeft: 4 }}>
+          ×
+        </Button>
+      )}
+    </Tag>
+  );
+};
+
+const TagsGroup = ({ maxTags, tagData, closeButton = false, onClose }: TagsGroupProps) => {
   return (
     <ul className={styles.tagsList}>
       {Array.from(tagData.entries())
         .slice(0, maxTags)
-        .map((entry) => (
-          <li key={entry[0]} style={{ margin: 0 }}>
-            <Tag>{entry[1]}</Tag>
+        .map(([key, label]) => (
+          <li key={key} style={{ margin: 0 }}>
+            {closeButton ? <TagWithCloseButton label={label} onClose={() => onClose?.(key)} /> : <Tag>{label}</Tag>}
           </li>
         ))}
     </ul>
   );
 };
 
-export { TagsGroup };
+export { TagsGroup, TagWithCloseButton };
