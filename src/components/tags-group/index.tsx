@@ -21,12 +21,15 @@ interface TagWithCloseButtonProps {
 
 export type TagData = Map<string, string>;
 
+/**
+ * Tag component with close button
+ */
 const TagWithCloseButton: React.FC<TagWithCloseButtonProps> = ({ label, id, onClose }) => {
   return (
     <Tag>
       {label}
       {onClose && (
-        <Button className={styles.closeButton} size='sm' onClick={() => onClose(id)} style={{ marginLeft: 4 }}>
+        <Button className={styles.closeButton} onClick={() => onClose(id)} style={{ marginLeft: 4 }}>
           ×
         </Button>
       )}
@@ -34,6 +37,11 @@ const TagWithCloseButton: React.FC<TagWithCloseButtonProps> = ({ label, id, onCl
   );
 };
 
+/**
+ * Display list of tags
+ *
+ * @returns
+ */
 const TagsGroup = ({ maxTags, tagData, closeButton = false, onClose, onClearAll }: TagsGroupProps) => {
   const tagsArray = useMemo(() => Array.from(tagData.entries()).slice(0, maxTags), [tagData, maxTags]);
 
@@ -43,7 +51,7 @@ const TagsGroup = ({ maxTags, tagData, closeButton = false, onClose, onClearAll 
       {closeButton && tagsArray.length > 1 && onClearAll && (
         <li key='remove-all' style={{ margin: 0 }}>
           <Tag>
-            <Button className={styles.closeAllButton} size='sm' onClick={onClearAll.action}>
+            <Button className={styles.closeAllButton} onClick={onClearAll.action}>
               {onClearAll.text} <span>X</span>
             </Button>
           </Tag>
