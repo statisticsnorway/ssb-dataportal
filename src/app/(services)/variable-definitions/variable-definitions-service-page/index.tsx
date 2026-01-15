@@ -10,7 +10,7 @@ import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { FilterGroup } from '@/types/filters';
-import { SUBJECT_AREA } from '@/utils/constants';
+import { REMOVE_ALL_FILTERS, SUBJECT_AREA } from '@/utils/constants';
 import { TagsGroup } from '../../../../components/tags-group';
 import { VardefSearchHit } from '../components/vardefSearchHit';
 
@@ -31,7 +31,6 @@ const VariableDefinitionsServicePage = ({
     return <Spinner aria-label='Laster variabeldefinisjoner' />;
   }
   const [selectedVariableDefinitions, setSelectedVariableDefinitions] = useState<FilterItem[]>([]);
-  console.log(`Hits: ${rawHits.length}, isLoading: ${isLoading}, errorMessage: ${errorMessage}`);
 
   const subjectFilters = useMemo(
     () => subjectFields.map((f) => ({ label: String(f.name), value: String(f.code) })),
@@ -75,6 +74,10 @@ const VariableDefinitionsServicePage = ({
           onClose={(key) => {
             const newSelected = selectedVariableDefinitions.filter((f) => f.value !== key);
             setSelectedVariableDefinitions(newSelected);
+          }}
+          onClearAll={{
+            text: REMOVE_ALL_FILTERS,
+            action: () => setSelectedVariableDefinitions([]),
           }}
           tagData={
             new Map(
