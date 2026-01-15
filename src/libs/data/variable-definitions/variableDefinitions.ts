@@ -13,7 +13,7 @@ import {
   ResponseError,
 } from '../../data-access/variable-definitions/internal/runtime';
 
-async function getVardefClient(): Promise<VariableDefinitionsApi> {
+export async function getVardefClient(): Promise<VariableDefinitionsApi> {
   let token = process.env.METADATA_CATALOG_JWT_TOKEN;
   if (token) {
     console.warn('Using hardcoded access token from environment! (METADATA_CATALOG_JWT_TOKEN)');
