@@ -1,24 +1,27 @@
 'use server';
 
 import { getVariableDefinitions } from '@/utils/mock-data';
-import { getEncodedJwt } from '../auth/jwt';
+import { getEncodedJwt } from '../../auth/jwt';
 import {
   ListVariableDefinitionsRequest,
   VariableDefinitionsApi,
-} from '../data-access/variable-definitions/internal/apis';
-import { instanceOfRenderedView, RenderedView } from '../data-access/variable-definitions/internal/models';
+} from '../../data-access/variable-definitions/internal/apis';
+import { instanceOfRenderedView, RenderedView } from '../../data-access/variable-definitions/internal/models';
 import {
   Configuration,
   ConfigurationParameters,
   ResponseError,
-} from '../data-access/variable-definitions/internal/runtime';
+} from '../../data-access/variable-definitions/internal/runtime';
 
-async function getVardefClient(): Promise<VariableDefinitionsApi> {
+export async function getVardefClient(): Promise<VariableDefinitionsApi> {
   let token = process.env.METADATA_CATALOG_JWT_TOKEN;
   if (token) {
     console.warn('Using hardcoded access token from environment! (METADATA_CATALOG_JWT_TOKEN)');
   } else {
-    token = await getEncodedJwt();
+    token = await getEncodedJwt().catch((reason) => {
+      console.error(reason);
+      return undefined;
+    });
     if (!token) return Promise.reject('Could not retrieve access token!');
     console.debug('Got access token from authorization header');
   }
@@ -42,14 +45,14 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
   const api = await getVardefClient();
   if (!api) return Promise.reject('Could not access Vardef API!');
 
-  const body = {
+  const params = {
     acceptLanguage: 'nb',
     render: true,
   } satisfies ListVariableDefinitionsRequest;
   var data: RenderedView[] = [];
 
   try {
-    let rawData = await api.listVariableDefinitions(body);
+    let rawData = await api.listVariableDefinitions(params);
     data = rawData.filter((each) => instanceOfRenderedView(each));
     console.log(`Fetched ${data.length} variable definitions`);
   } catch (error: unknown) {

@@ -1,5 +1,5 @@
-import { fetchAllClassifications } from '@/libs/data/classificationData';
-import { fetchClassificationFamilies } from '@/libs/data/classificationFamilyData';
+import { fetchAllClassifications } from '@/libs/data/classifications/classificationData';
+import { fetchClassificationFamilies } from '@/libs/data/classifications/classificationFamilyData';
 import { ClassificationFamilyResource, ClassificationResource } from '@/libs/data-access/klass';
 import ClassificationsServicePage from './classifications-service-page';
 

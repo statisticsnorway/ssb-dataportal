@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortTypes, useSearchStateKlass } from '@/hooks/useSearchStateKlass';
-import { getClassificationFamily } from '@/libs/data/classificationFamilyData';
+import { getClassificationFamily } from '@/libs/data/classifications/classificationFamilyData';
 import { ClassificationFamilyResource, ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import { ClassificationType } from '@/types/classification';
