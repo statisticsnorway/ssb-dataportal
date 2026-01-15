@@ -1,5 +1,5 @@
-import { fetchSubjectFields } from '@/libs/data/subjectFieldLookup';
-import { listRenderedVariableDefinitions } from '@/libs/data/variableDefinitions';
+import { fetchSubjectFields } from '@/libs/data/classifications/subjectFieldLookup';
+import { listRenderedVariableDefinitions } from '@/libs/data/variable-definitions/variableDefinitions';
 import { CodeItem } from '@/libs/data-access/klass/models';
 import { ResponseError } from '@/libs/data-access/variable-definitions/internal';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models';

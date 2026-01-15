@@ -1,4 +1,4 @@
-import { fetchClassificationById } from '@/libs/data/classificationData';
+import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
 import ClassificationDetail from './classificationDetail';
 
 interface ClassificationPageProps {
