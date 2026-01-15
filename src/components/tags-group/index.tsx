@@ -42,7 +42,7 @@ const TagsGroup = ({ maxTags, tagData, closeButton = false, onClose, onClearAll 
       {closeButton && tagsArray.length > 1 && onClearAll && (
         <li key='remove-all' style={{ margin: 0 }}>
           <Tag>
-            <Button size='sm' className={styles.closeAllButton} onClick={onClearAll.action}>
+            <Button className={styles.closeAllButton} size='sm' onClick={onClearAll.action}>
               {onClearAll.text} <span>X</span>
             </Button>
           </Tag>
