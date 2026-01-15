@@ -10,9 +10,9 @@ export const SearchHitCardSkeleton = () => (
       <Skeleton variant='text' width='80%' />
     </div>
     <div className={styles.cardFooter}>
-      <Skeleton variant='rounded' width={80} height={24} />
-      <Skeleton variant='rounded' width={80} height={24} />
-      <Skeleton variant='rounded' width={100} height={24} />
+      <Skeleton variant='rectangle' width={80} height={24} className={styles.roundedSkeleton} />
+      <Skeleton variant='rectangle' width={80} height={24} className={styles.roundedSkeleton} />
+      <Skeleton variant='rectangle' width={100} height={24} className={styles.roundedSkeleton} />
     </div>
   </div>
 );
