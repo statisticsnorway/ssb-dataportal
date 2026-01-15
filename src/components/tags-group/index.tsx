@@ -30,7 +30,7 @@ const TagWithCloseButton: React.FC<TagWithCloseButtonProps> = ({ label, id, onCl
       {label}
       {onClose && (
         <Button className={styles.closeButton} onClick={() => onClose(id)} style={{ marginLeft: 4 }}>
-          ×
+          X
         </Button>
       )}
     </Tag>
@@ -38,9 +38,15 @@ const TagWithCloseButton: React.FC<TagWithCloseButtonProps> = ({ label, id, onCl
 };
 
 /**
- * Display list of tags
+ * TagsGroup component displays a list of tags with optional close buttons.
  *
- * @returns
+ * @param maxTags - Maximum number of tags to display.
+ * @param tagData - Map of tag keys and their corresponding labels.
+ * @param closeButton=false - Whether each tag should have a close button.
+ * @param onClose - Callback triggered when a tag's close button is clicked.
+ * @param onClearAll - Optional "Remove All" button configuration.
+ *
+ * @returns An unordered list (<ul>) of tags, optionally with close buttons and a "Remove All" button.
  */
 const TagsGroup = ({ maxTags, tagData, closeButton = false, onClose, onClearAll }: TagsGroupProps) => {
   const tagsArray = useMemo(() => Array.from(tagData.entries()).slice(0, maxTags), [tagData, maxTags]);
@@ -51,8 +57,9 @@ const TagsGroup = ({ maxTags, tagData, closeButton = false, onClose, onClearAll 
       {closeButton && tagsArray.length > 1 && onClearAll && (
         <li key='remove-all' style={{ margin: 0 }}>
           <Tag>
+            {onClearAll.text}
             <Button className={styles.closeAllButton} onClick={onClearAll.action}>
-              {onClearAll.text} <span>X</span>
+              X
             </Button>
           </Tag>
         </li>

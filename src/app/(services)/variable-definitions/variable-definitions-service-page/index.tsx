@@ -37,6 +37,12 @@ const VariableDefinitionsServicePage = ({
     [subjectFields],
   );
 
+  /**
+   * Memoized array of filter groups used in the FiltersPanel.
+   *
+   * This array is memoized with `useMemo` and only recalculates when
+   * `selectedVariableDefinitions` or `subjectFields` change.
+   */
   const filterGroups: FilterGroup[] = useMemo(
     () => [
       {
@@ -49,6 +55,17 @@ const VariableDefinitionsServicePage = ({
     [selectedVariableDefinitions, subjectFields],
   );
 
+  /**
+   * Memoized array of filtered hits based on selected variable definitions.
+   *
+   * If no variables are selected, returns the original `rawHits`.
+   * Otherwise, filters `rawHits` to include only items whose `subject_fields`
+   * contain at least one field with a `code` that matches a selected variable's value.
+   *
+   * Dependencies:
+   * - `rawHits`: The full array of hits to filter.
+   * - `selectedVariableDefinitions`: Array of selected filter items used to determine which hits to include.
+   */
   const filteredHits = useMemo(() => {
     if (!selectedVariableDefinitions.length) return rawHits;
 
