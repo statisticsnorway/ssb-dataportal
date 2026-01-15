@@ -67,24 +67,15 @@
 
 .infoSection {
   width: 100%;
-}
-
-.filterSection {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: var(--medium-gap);
+  min-height: 4rem;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .mainSection {
   width: 100%;
   min-height: 200px;
   margin-top: var(--medium-gap);
-}
-
-.filterSection {
-  flex: 0 0 250px;
-  margin-top: 2rem;
 }
 
 .mainSection {
@@ -112,10 +103,12 @@
   font-weight: 600;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 886px) {
   .searchHitsContainer {
     display: flex;
-    gap: var(--large-gap);
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--medium-gap);
   }
 
   .tabsNavigation {
