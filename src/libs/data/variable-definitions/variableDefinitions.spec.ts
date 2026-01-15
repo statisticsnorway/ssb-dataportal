@@ -1,10 +1,9 @@
-import { VariableDefinitionsApi } from '@/libs/data-access/variable-definitions/internal/apis';
+import { VariableDefinitionsApi } from '@/libs/data-access/variable-definitions/internal/apis/VariableDefinitionsApi';
 import { getVariableDefinitions as getStaticVariableDefinitions } from '@/utils/mock-data';
 import { getVardefClient, listRenderedVariableDefinitions } from './variableDefinitions';
 
-jest.mock('next/headers', () => ({
-  headers: jest.fn().mockResolvedValue({ get: () => 'blah' }),
-}));
+const staticDefs = getStaticVariableDefinitions();
+
 const ORIGINAL_ENV = process.env;
 beforeEach(() => {
   // Allow independently modifying process.env in tests
@@ -37,10 +36,21 @@ describe('vardef data fetching', () => {
     });
   });
   it('listRenderedVariableDefinitions static data', () => {
-    expect(listRenderedVariableDefinitions()).resolves.toContainEqual(getStaticVariableDefinitions()[0]);
+    expect(listRenderedVariableDefinitions()).resolves.toContainEqual(staticDefs[0]);
   });
   it('listRenderedVariableDefinitions no token available', () => {
     process.env.VARDEF_USE_STATIC_DATA = 'false';
     expect(listRenderedVariableDefinitions()).rejects.toEqual('Could not retrieve access token!');
+  });
+  it('listRenderedVariableDefinitions', () => {
+    process.env.VARDEF_USE_STATIC_DATA = 'false';
+    process.env.METADATA_CATALOG_JWT_TOKEN = 'my-cool-token';
+
+    jest.spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions').mockResolvedValue(staticDefs);
+
+    listRenderedVariableDefinitions().then((result) => {
+      expect(result).toHaveLength(3);
+      expect(result).toContainEqual(staticDefs[2]);
+    });
   });
 });
