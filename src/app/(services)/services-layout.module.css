@@ -21,16 +21,6 @@
   overflow-x: hidden;
 }
 
-.tabs {
-  -webkit-box-align: center;
-  align-items: center;
-  display: flex;
-  -webkit-box-pack: start;
-  justify-content: flex-start;
-  flex-wrap: nowrap;
-  margin-bottom: 0;
-}
-
 .tabsNavigation {
   display: flex;
   flex-direction: column;
@@ -58,71 +48,15 @@
   color: var(--main-font-color);
 }
 
-.pageContainer {
-  display: flex;
-  flex-direction: column;
-  overflow-wrap: break-word;
-  margin-bottom: var(--ds-size-4);
-}
-
-.infoSection {
-  width: 100%;
-}
-
-.filterSection {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: var(--medium-gap);
-}
-
-.mainSection {
-  width: 100%;
-  min-height: 200px;
-  margin-top: var(--medium-gap);
-}
-
-.filterSection {
-  flex: 0 0 250px;
-  margin-top: 2rem;
-}
-
-.mainSection {
-  flex: 1 1 0;
-}
-
 .searchLabel {
   color: white;
 }
 
-.numHits {
-  margin: 0;
-  margin-left: 0.2rem;
-}
-
-.hitsAndSort {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.hitsAndSort > p {
-  align-self: flex-end;
-  font-weight: 600;
-}
-
 @media (min-width: 768px) {
-  .searchHitsContainer {
-    display: flex;
-    gap: var(--large-gap);
-  }
-
   .tabsNavigation {
     flex-direction: row;
   }
 
-  /* Set variable*/
   .tab {
     margin: 0;
   }
@@ -130,18 +64,5 @@
   #searchValue.ds-input {
     margin: 0;
     min-width: 80%;
-  }
-}
-
-@media (min-width: 992px) {
-  .tabsContent {
-    margin: 0;
-    padding: 0;
-  }
-}
-
-@media (min-width: 1400px) {
-  .tabsContent {
-    margin: 0;
   }
 }
