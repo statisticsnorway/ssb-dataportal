@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Spinner } from '@digdir/designsystemet-react';
+import { Spinner } from '@digdir/designsystemet-react';
 import { useMemo, useState } from 'react';
 import { FiltersPanel } from '@/components/filter/filters-panel';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
@@ -11,6 +11,7 @@ import { RenderedView } from '@/libs/data-access/variable-definitions/internal/m
 import { localization } from '@/libs/language';
 import { FilterGroup } from '@/types/filters';
 import { SUBJECT_AREA } from '@/utils/constants';
+import { TagsGroup } from '../../../../components/tags-group';
 import { VardefSearchHit } from '../components/vardefSearchHit';
 
 interface VariableDefinitionsServicePageProps {
@@ -29,42 +30,34 @@ const VariableDefinitionsServicePage = ({
   if (isLoading) {
     return <Spinner aria-label='Laster variabeldefinisjoner' />;
   }
-  const [selectedVariableDefinitions, setSelectedVariableDefinitions] = useState<string[]>([]);
+  const [selectedVariableDefinitions, setSelectedVariableDefinitions] = useState<FilterItem[]>([]);
   console.log(`Hits: ${rawHits.length}, isLoading: ${isLoading}, errorMessage: ${errorMessage}`);
 
-  const filterGroups: FilterGroup[] = useMemo(() => {
-    const groups: FilterGroup[] = [
+  const subjectFilters = useMemo(
+    () => subjectFields.map((f) => ({ label: String(f.name), value: String(f.code) })),
+    [subjectFields],
+  );
+  const filterGroups: FilterGroup[] = useMemo(
+    () => [
       {
         filterHeading: SUBJECT_AREA,
-        filters: subjectFields.map((f: CodeItem) => ({
-          label: String(f.name),
-          value: String(f.code),
-        })),
+        filters: subjectFilters,
         selectedItems: selectedVariableDefinitions,
         onFilterChange: setSelectedVariableDefinitions,
       },
-    ];
-    return groups;
-  }, [selectedVariableDefinitions, subjectFields]);
+    ],
+    [selectedVariableDefinitions, subjectFields],
+  );
 
   const filteredHits = useMemo(() => {
     if (!selectedVariableDefinitions.length) return rawHits;
 
-    return rawHits.filter((hit) =>
-      hit.subject_fields.some((f) => f.code != null && selectedVariableDefinitions.includes(f.code)),
-    );
+    const selectedCodes = selectedVariableDefinitions.map((s) => s.value);
+
+    return rawHits.filter((hit) => hit.subject_fields?.some((f) => f.code != null && selectedCodes.includes(f.code)));
   }, [rawHits, selectedVariableDefinitions]);
 
   const { hits, sortKey, setSortKey, sortTypes } = useSearchStateVardef(filteredHits);
-
-  console.log(
-    'Filters: ',
-    filterGroups.map((filterGroup) => filterGroup.selectedItems),
-  );
-
-  const handleButton = () => {
-    setSelectedVariableDefinitions([]);
-  };
 
   return (
     <SearchPage
@@ -74,7 +67,23 @@ const VariableDefinitionsServicePage = ({
       sortValue={sortKey}
       onSortChange={(key: string) => setSortKey(key as SortTypes)}
       totalHits={hits.length}
-      infoContent={<Button onClick={handleButton}>Remove</Button>}
+      infoContent={
+        <TagsGroup
+          maxTags={subjectFields.length}
+          closeButton={true}
+          onClose={(key) => {
+            const newSelected = selectedVariableDefinitions.filter((f) => f.value !== key);
+            setSelectedVariableDefinitions(newSelected);
+          }}
+          tagData={
+            new Map(
+              filterGroups.flatMap((filterGroup) =>
+                filterGroup.selectedItems.map((field) => [field.value, field.label] as [string, string]),
+              ),
+            )
+          }
+        />
+      }
       searchResult={
         <>
           {errorMessage ? (
