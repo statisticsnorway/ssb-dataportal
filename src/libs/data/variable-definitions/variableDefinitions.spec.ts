@@ -25,12 +25,14 @@ describe('vardef data fetching', () => {
     process.env.VARDEF_BASE_PATH = 'my-cool-base-path';
     getVardefClient().then((client) => {
       expect(client).toBeInstanceOf(VariableDefinitionsApi);
+      // @ts-ignore only protected access in test
       const tokenReturn = client.configuration.accessToken?.();
       if (tokenReturn instanceof Promise) {
         tokenReturn.then((token: String) => {
           expect(token).toEqual(process.env.METADATA_CATALOG_JWT_TOKEN);
         });
       }
+      // @ts-ignore only protected access in test
       expect(client.configuration.basePath).toEqual(process.env.VARDEF_BASE_PATH);
     });
   });
