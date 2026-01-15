@@ -37,6 +37,7 @@ const VariableDefinitionsServicePage = ({
     () => subjectFields.map((f) => ({ label: String(f.name), value: String(f.code) })),
     [subjectFields],
   );
+
   const filterGroups: FilterGroup[] = useMemo(
     () => [
       {
