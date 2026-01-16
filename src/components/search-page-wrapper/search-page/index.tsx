@@ -1,6 +1,4 @@
-'use client';
 import { FC, ReactElement, ReactNode } from 'react';
-import { FiltersPanel } from '@/components/filter';
 import { SortFields } from '@/components/sort-fields';
 import { SortTypes } from '@/hooks/useSearchStateKlass';
 import { FilterGroup } from '@/types/filters';
@@ -8,6 +6,7 @@ import styles from './search-page.module.css';
 
 interface SearchPageProps {
   infoContent?: ReactNode;
+  asideContent?: ReactNode;
   searchResult?: ReactElement;
   filterGroups?: FilterGroup[];
   sortOptions?: SortTypes[];
@@ -18,8 +17,8 @@ interface SearchPageProps {
 
 const SearchPage: FC<SearchPageProps> = ({
   infoContent,
+  asideContent,
   searchResult,
-  filterGroups,
   sortOptions,
   sortValue,
   onSortChange,
@@ -27,13 +26,9 @@ const SearchPage: FC<SearchPageProps> = ({
 }) => {
   return (
     <div className={`${styles.pageContainer} container`}>
-      <section className={styles.infoSection}>
-        <div>{infoContent}</div>
-      </section>
+      {infoContent ? <div className={styles.infoSection}>{infoContent}</div> : null}
       <section className={styles.searchHitsContainer}>
-        <aside className={styles.filterSection}>
-          {filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
-        </aside>
+        {asideContent ? <aside className={styles.filterSection}>{asideContent}</aside> : null}
         <section className={styles.mainSection}>
           <div className={styles.hitsAndSort}>
             <p className={styles.numHits}>{totalHits} treff</p>

@@ -3,8 +3,8 @@ export type FilterType = 'status' | 'published';
 export interface FilterGroup {
   filterHeading: string;
   filters: FilterItem[];
-  selectedItems: string[];
-  onFilterChange: (selected: string[]) => void;
+  selectedItems: FilterItem[];
+  onFilterChange: (selected: FilterItem[]) => void;
 }
 export interface FilterItem {
   label: string | undefined;

@@ -5,4 +5,25 @@
   padding: 0;
   align-items: center;
   flex-wrap: wrap;
+  height: 100%;
+}
+
+.closeButton {
+  background-color: var(--dsc-tag-background);
+  color: var(--text-color-primary);
+}
+
+.closeAllTag,
+.closeAllButton {
+  background-color: var(--dark-blue-color);
+  color: white;
+  font-weight: 700;
+  padding: 0 1rem;
+  font-size: 1.1rem;
+}
+
+@media (min-width: 886px) {
+  .tagsList {
+    margin: 0;
+  }
 }

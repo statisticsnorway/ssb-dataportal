@@ -64,12 +64,6 @@
   align-items: center;
 }
 
-.copyId {
-  background-color: var(--element-background-color);
-  color: var(--main-font-color);
-  font-size: var(--font-size-md);
-}
-
 .idValue {
   background-color: white;
   align-items: center;

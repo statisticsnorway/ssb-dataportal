@@ -10,26 +10,46 @@ import {
   ValidationMessage,
 } from '@digdir/designsystemet-react';
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FilterItem } from '@/types/filters';
 import styles from './checkbox.module.css';
 
 interface CheckboxFilterProps {
   filters: FilterItem[];
   filterHeading: string;
-  selectedItems: string[];
-  onFilterChange: (selected: string[]) => void;
+  selectedItems: FilterItem[];
+  onFilterChange: (selected: FilterItem[]) => void;
 }
 
+/**
+ * CheckboxFilter component renders a collapsible card containing a group of checkboxes.
+ *
+ * Each checkbox represents a filter option, and users can select multiple items.
+ * The component manages syncing selected items with external state and provides validation messaging.
+ *
+ * @param filterHeading - Title for the filter group.
+ * @param filters - Array of available filter options, each with `value` and `label`.
+ * @param selectedItems - Array of currently selected filter items.
+ * @param onFilterChange - Callback fired when selection changes. Receives the updated array of selected `FilterItem`s.
+ *
+ * @returns A Card component containing a collapsible filter group with checkboxes.
+ */
 export const CheckboxFilter = ({ filterHeading, filters, onFilterChange, selectedItems }: CheckboxFilterProps) => {
-  const handleChange = (newSelected: string[]) => {
-    onFilterChange?.(newSelected);
-  };
+  const selectedValues = useMemo(() => selectedItems.map((s) => s.value), [selectedItems]);
 
-  const { getCheckboxProps, validationMessageProps } = useCheckboxGroup({
-    value: (selectedItems ?? []).map(String),
-    onChange: handleChange,
+  const { getCheckboxProps, validationMessageProps, setValue } = useCheckboxGroup({
+    value: selectedValues,
+    onChange: (values: string[]) => {
+      // map string values to FilterItem[]
+      const selectedObjects = filters.filter((f) => values.includes(f.value));
+      onFilterChange(selectedObjects);
+    },
   });
+
+  // Sync checkboxes
+  useEffect(() => {
+    setValue(selectedValues);
+  }, [selectedValues, setValue]);
 
   const [isOpen, setIsOpen] = useState(true);
 
@@ -54,14 +74,9 @@ export const CheckboxFilter = ({ filterHeading, filters, onFilterChange, selecte
           )}
         </Button>
         {isOpen ? (
-          <div>
-            {filters.map(({ value: itemValue, label }) => (
-              <Checkbox
-                className={styles.checkbox}
-                label={label}
-                key={itemValue}
-                {...getCheckboxProps({ value: itemValue })}
-              />
+          <div id={`filter-${filterHeading}`}>
+            {filters.map(({ value, label }) => (
+              <Checkbox className={styles.checkbox} label={label} key={value} {...getCheckboxProps({ value: value })} />
             ))}
             <ValidationMessage {...validationMessageProps} />
           </div>
