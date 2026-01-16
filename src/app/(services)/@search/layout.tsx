@@ -1,59 +1,52 @@
 'use client';
+
 import { Field, Label, Search, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, Suspense, useEffect } from 'react';
+import { SearchPageSkeleton } from '@/components/search-page-wrapper/search-page-skeleton';
 import styles from './search-layout.module.css';
+
+const tabs = [
+  {
+    value: 'vardefTab',
+    label: 'Variabeldefinisjoner',
+    searchWord: 'Variabeldefinisjoner',
+    href: '/variable-definitions',
+  },
+  {
+    value: 'klassTab',
+    label: 'Klassifikasjoner',
+    searchWord: 'Kodeverk',
+    href: '/classifications',
+  },
+  {
+    value: 'datasetTab',
+    label: 'Datasett',
+    searchWord: 'Datasett',
+    href: '/datasets',
+  },
+];
 
 export default function SearchLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
 
-  const derivedTab = pathname.includes('/classifications')
-    ? 'klassTab'
-    : pathname.includes('/variable-definitions')
-      ? 'vardefTab'
-      : pathname.includes('/datasets')
-        ? 'datasetTab'
-        : '';
-
-  const [selectedTab, setSelectedTab] = useState(derivedTab);
-
-  const tabs = [
-    {
-      value: 'vardefTab',
-      label: 'Variabeldefinisjoner',
-      searchWord: 'Variabeldefinisjoner',
-      href: '/variable-definitions',
-    },
-    { value: 'klassTab', label: 'Klassifikasjoner', searchWord: 'Kodeverk', href: '/classifications' },
-    { value: 'datasetTab', label: 'Datasett', searchWord: 'Datasett', href: '/datasets' },
-  ];
-  const activeTab = tabs.find((t) => t.value === selectedTab);
+  const activeTab = tabs.find((tab) => pathname.startsWith(tab.href)) ?? tabs[0];
 
   useEffect(() => {
-    setSelectedTab(derivedTab);
-  }, [derivedTab]);
-
-  // Prefetch all tabs on mount
-  useEffect(() => {
-    tabs.forEach((tab) => {
-      router.prefetch(tab.href);
-    });
-  }, []);
-
-  const handleTabChange = (value: string) => {
-    const tab = tabs.find((t) => t.value === value);
-    if (tab) {
-      router.push(tab.href);
-    }
-  };
+    tabs.forEach(({ href }) => router.prefetch(href));
+  }, [router]);
 
   return (
-    <Tabs value={selectedTab} data-color='accent' onChange={handleTabChange}>
+    <Tabs
+      value={activeTab.value}
+      data-color='accent'
+      onChange={(value) => router.push(tabs.find((t) => t.value === value)!.href)}
+    >
       <section className={styles.searchPageWrapper}>
         <div className={`${styles.searchFieldContent} container`}>
           <Field>
-            <Label className={styles.searchLabel}>Søk i {activeTab?.searchWord?.toLowerCase()}</Label>
+            <Label className={styles.searchLabel}>Søk i {activeTab.searchWord.toLowerCase()}</Label>
             <Search id='searchId' data-color='accent' aria-disabled>
               <Search.Input id='searchValue' aria-label='Søk' />
               <Search.Clear />
@@ -61,6 +54,7 @@ export default function SearchLayout({ children }: { children: ReactNode }) {
             </Search>
           </Field>
         </div>
+
         <div className={`${styles.tabsNavigationContainer} container`}>
           <Tabs.List className={styles.tabsNavigation}>
             {tabs.map((tab) => (
@@ -71,7 +65,10 @@ export default function SearchLayout({ children }: { children: ReactNode }) {
           </Tabs.List>
         </div>
       </section>
-      {children}
+
+      <Suspense fallback={<SearchPageSkeleton />} key={activeTab.value}>
+        {children}
+      </Suspense>
     </Tabs>
   );
 }
