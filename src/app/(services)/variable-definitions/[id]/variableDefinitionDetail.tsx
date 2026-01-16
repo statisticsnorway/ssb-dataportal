@@ -65,7 +65,7 @@ export default function VariableDefinitionDetail({ variableDefinition }: { varia
             title='Python kode for å hente variabeldefinisjon'
             code={[
               `Vardef.get_variable_definition_by_shortname(`,
-              `    short_name="${variableDefinition.name?.toLowerCase()}"`,
+              `    short_name="${variableDefinition.shortName}"`,
               `)`,
             ]}
           />
