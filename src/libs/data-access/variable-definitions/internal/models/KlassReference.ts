@@ -24,7 +24,7 @@ export interface KlassReference {
      * @type {string}
      * @memberof KlassReference
      */
-    referenceUri: string;
+    reference_uri: string;
     /**
      * 
      * @type {string}
@@ -43,7 +43,7 @@ export interface KlassReference {
  * Check if a given object implements the KlassReference interface.
  */
 export function instanceOfKlassReference(value: object): value is KlassReference {
-    if (!('referenceUri' in value) || value['referenceUri'] === undefined) return false;
+    if (!('reference_uri' in value) || value['reference_uri'] === undefined) return false;
     return true;
 }
 
@@ -57,7 +57,7 @@ export function KlassReferenceFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'referenceUri': json['reference_uri'],
+        'reference_uri': json['reference_uri'],
         'code': json['code'] == null ? undefined : json['code'],
         'title': json['title'] == null ? undefined : json['title'],
     };
@@ -74,7 +74,7 @@ export function KlassReferenceToJSONTyped(value?: KlassReference | null, ignoreD
 
     return {
         
-        'reference_uri': value['referenceUri'],
+        'reference_uri': value['reference_uri'],
         'code': value['code'],
         'title': value['title'],
     };

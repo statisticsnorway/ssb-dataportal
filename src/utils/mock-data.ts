@@ -9,11 +9,11 @@ import variableDefinitionsJson from '@/static-data/variable-definitions.json';
 import { RawClassificationFamily } from '@/types/classification';
 import { parseClassification } from './functions';
 
-export const testVardefData: RenderedView[] = variableDefinitionsJson.map(RenderedViewFromJSON);
-
+export function getVariableDefinitions(): Array<RenderedView> {
+  return variableDefinitionsJson.map(RenderedViewFromJSON);
+}
 export function getVariableDefinitionById(id: string | number): RenderedView | undefined {
-  const variableDefinitions = testVardefData;
-  return variableDefinitions.find((v) => String(v.id) === String(id));
+  return getVariableDefinitions().find((v) => String(v.id) === String(id));
 }
 
 export function getClassification(id: number): ClassificationResource | undefined {

@@ -4,7 +4,7 @@ import classificationsMock from '@/static-data/classifications.json';
 import { linkObj } from '@/types/classification';
 import { CLASSIFICATIONS, KLASS_HOST } from '@/utils/constants';
 import { getClassification } from '@/utils/mock-data';
-import { ClassificationResource } from '../data-access/klass';
+import { ClassificationResource } from '../../data-access/klass';
 
 const isTest = process.env.NEXT_TEST === 'test';
 

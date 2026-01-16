@@ -29,14 +29,14 @@ import {
 } from '../models/index';
 
 export interface GetVariableDefinitionByIdRequest {
-    acceptLanguage: SupportedLanguages;
     variableDefinitionId: string;
+    acceptLanguage?: SupportedLanguages | null;
     dateOfValidity?: Date | null;
     render?: boolean | null;
 }
 
 export interface ListVariableDefinitionsRequest {
-    acceptLanguage: SupportedLanguages;
+    acceptLanguage?: SupportedLanguages | null;
     dateOfValidity?: Date | null;
     shortName?: string | null;
     render?: boolean | null;
@@ -52,8 +52,8 @@ export interface VariableDefinitionsApiInterface {
     /**
      * Get one variable definition.
      * @summary Get one variable definition.
-     * @param {SupportedLanguages} acceptLanguage Render the variable definition in the given language.
      * @param {string} variableDefinitionId Unique identifier for the variable definition.
+     * @param {SupportedLanguages} [acceptLanguage] Render the variable definition in the given language.
      * @param {Date} [dateOfValidity] List only variable definitions which are valid on this date.
      * @param {boolean} [render] Render the Variable Definition for presentation in a frontend
      * @param {*} [options] Override http request option.
@@ -71,7 +71,7 @@ export interface VariableDefinitionsApiInterface {
     /**
      * List all variable definitions.
      * @summary List all variable definitions.
-     * @param {SupportedLanguages} acceptLanguage Render the variable definition in the given language.
+     * @param {SupportedLanguages} [acceptLanguage] Render the variable definition in the given language.
      * @param {Date} [dateOfValidity] List only variable definitions which are valid on this date.
      * @param {string} [shortName] List only the variable definition with the given short name.
      * @param {boolean} [render] Render the Variable Definition for presentation in a frontend
@@ -99,13 +99,6 @@ export class VariableDefinitionsApi extends runtime.BaseAPI implements VariableD
      * Get one variable definition.
      */
     async getVariableDefinitionByIdRaw(requestParameters: GetVariableDefinitionByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListVariableDefinitions200ResponseInner>> {
-        if (requestParameters['acceptLanguage'] == null) {
-            throw new runtime.RequiredError(
-                'acceptLanguage',
-                'Required parameter "acceptLanguage" was null or undefined when calling getVariableDefinitionById().'
-            );
-        }
-
         if (requestParameters['variableDefinitionId'] == null) {
             throw new runtime.RequiredError(
                 'variableDefinitionId',
@@ -165,13 +158,6 @@ export class VariableDefinitionsApi extends runtime.BaseAPI implements VariableD
      * List all variable definitions.
      */
     async listVariableDefinitionsRaw(requestParameters: ListVariableDefinitionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ListVariableDefinitions200ResponseInner>>> {
-        if (requestParameters['acceptLanguage'] == null) {
-            throw new runtime.RequiredError(
-                'acceptLanguage',
-                'Required parameter "acceptLanguage" was null or undefined when calling listVariableDefinitions().'
-            );
-        }
-
         const queryParameters: any = {};
 
         if (requestParameters['dateOfValidity'] != null) {
@@ -217,7 +203,7 @@ export class VariableDefinitionsApi extends runtime.BaseAPI implements VariableD
      * List all variable definitions.
      * List all variable definitions.
      */
-    async listVariableDefinitions(requestParameters: ListVariableDefinitionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ListVariableDefinitions200ResponseInner>> {
+    async listVariableDefinitions(requestParameters: ListVariableDefinitionsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ListVariableDefinitions200ResponseInner>> {
         const response = await this.listVariableDefinitionsRaw(requestParameters, initOverrides);
         return await response.value();
     }

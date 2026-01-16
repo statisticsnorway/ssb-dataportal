@@ -93,6 +93,8 @@ select#sortVariables.ds-input {
   padding: 0.5rem;
   border-radius: 5px;
   border-color: #c3dcdc;
+  width: 300px;
+  max-width: 100%;
 }
 
 /* Global overrides for selected Design System components */

@@ -123,7 +123,7 @@
       "attributePosition": "auto",
       "bracketSpacing": true
     },
-    "globals": ["jest", "describe", "expect", "it"]
+    "globals": ["afterEach", "afterAll", "beforeEach", "beforeAll", "describe", "expect", "it", "test", "jest"]
   },
   "html": {
     "formatter": {

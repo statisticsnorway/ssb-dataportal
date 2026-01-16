@@ -1,5 +1,5 @@
 import subjectFieldaMock from '@/static-data/subject-fields.json';
-import { CodeItem } from '../data-access/klass';
+import { CodeItem } from '../../data-access/klass';
 
 export const SUBJECT_FIELD_LOOKUP: Record<string, string> = {
   be: 'Befolkning',

@@ -1,10 +1,14 @@
 // For sorting strings in ascending order (case-insensitive) using Norwegian locale
-export const sortAscending = (a: string, b: string) => {
+export const sortAscending = (a: string | null | undefined, b: string | null | undefined) => {
+  if (typeof a !== 'string' || a === '') return 1;
+  if (typeof b !== 'string' || b === '') return -1;
   return a.localeCompare(b, 'nb', { sensitivity: 'base' });
 };
 
 // For sorting strings in descending order (case-insensitive) using Norwegian locale
-export const sortDescending = (a: string, b: string) => {
+export const sortDescending = (a: string | null | undefined, b: string | null | undefined) => {
+  if (typeof a !== 'string' || a === '') return -1;
+  if (typeof b !== 'string' || b === '') return 1;
   return b.localeCompare(a, 'nb', { sensitivity: 'base' });
 };
 

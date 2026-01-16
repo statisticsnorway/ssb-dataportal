@@ -1,15 +1,16 @@
 'use client';
 
-import { Alert } from '@digdir/designsystemet-react';
+import { Alert, Spinner } from '@digdir/designsystemet-react';
 import { useEffect, useMemo, useState } from 'react';
+import { FiltersPanel } from '@/components/filter';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortTypes, useSearchStateKlass } from '@/hooks/useSearchStateKlass';
-import { getClassificationFamily } from '@/libs/data/classificationFamilyData';
+import { getClassificationFamily } from '@/libs/data/classifications/classificationFamilyData';
 import { ClassificationFamilyResource, ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import { ClassificationType } from '@/types/classification';
-import { FilterGroup } from '@/types/filters';
+import { FilterGroup, FilterItem } from '@/types/filters';
 import { ClassificationSearchHit } from './classificationSearchHit';
 
 interface ClassificationServicePageProps {
@@ -27,16 +28,19 @@ const ClassificationsServicePage = ({
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(true);
 
+  console.log(`Hits: ${rawClassifications.length}, isLoading: ${isLoading}, errorMessage: ${error}`);
+  console.log(`Hits: ${rawClassificationFamilies.length}, isLoading: ${isLoading}, errorMessage: ${error}`);
+
   const [classifications, setClassifications] = useState<ClassificationResource[]>([]);
   const memoizedHits = useMemo(() => (isLoading ? [] : classifications), [isLoading, classifications]);
   const { hits, sortKey, setSortKey, sortTypes } = useSearchStateKlass(memoizedHits);
 
-  const [selectedFamilies, setSelectedFamilies] = useState<string[]>([]);
+  const [selectedFamilies, setSelectedFamilies] = useState<FilterItem[]>([]);
 
   // Default are all classificationtypes selected
-  const [selectedClassificationTypes, setSelectedClassificationTypes] = useState<string[]>([
-    ClassificationType.Klassifikasjon,
-    ClassificationType.Kodeliste,
+  const [selectedClassificationTypes, setSelectedClassificationTypes] = useState<FilterItem[]>([
+    { label: ClassificationType.Klassifikasjon, value: ClassificationType.Klassifikasjon },
+    { label: ClassificationType.Kodeliste, value: ClassificationType.Kodeliste },
   ]);
 
   const totalPages = Math.ceil(classifications.length / PAGE_SIZE);
@@ -93,10 +97,10 @@ const ClassificationsServicePage = ({
         let data: ClassificationResource[] = [];
 
         if (selectedFamilies.length > 0) {
-          for (const id of selectedFamilies) {
+          for (const family of selectedFamilies) {
             const familyData = await getClassificationFamily(
-              id,
-              selectedClassificationTypes.includes(ClassificationType.Kodeliste),
+              family.value,
+              selectedClassificationTypes.some((ct) => ct.value === ClassificationType.Kodeliste),
             );
             const familyClassifications: ClassificationResource[] = familyData.classifications ?? [];
 
@@ -107,10 +111,11 @@ const ClassificationsServicePage = ({
         else {
           data = [...rawClassifications];
         }
-
         // apply filters
         setClassifications(
-          data.filter((c) => c.classificationType && selectedClassificationTypes.includes(c.classificationType)),
+          data.filter(
+            (c) => c.classificationType && selectedClassificationTypes.some((ct) => ct.value === c.classificationType),
+          ),
         );
         // biome-ignore lint/suspicious/noExplicitAny: <ignoring for now>
       } catch (err: any) {
@@ -123,7 +128,7 @@ const ClassificationsServicePage = ({
   }, [selectedFamilies, selectedClassificationTypes, rawClassifications]);
 
   if (!rawClassifications) {
-    return <div>Loading...</div>;
+    return <Spinner aria-label='Laster klassifikasjoner' />;
   }
 
   if (error) {
@@ -136,7 +141,7 @@ const ClassificationsServicePage = ({
 
   return (
     <SearchPage
-      filterGroups={filterGroups}
+      asideContent={filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
       searchLabel='Søk i klassifikasjoner'
       infoContent={
         <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
@@ -146,10 +151,11 @@ const ClassificationsServicePage = ({
       sortOptions={sortTypes}
       sortValue={sortKey}
       onSortChange={(key: string) => setSortKey(key as SortTypes)}
+      totalHits={hits.length}
       searchResult={
         <>
           {isLoading ? (
-            <div>Loading...</div>
+            <Spinner aria-label='Laster klassifikasjoner' />
           ) : hits.length === 0 ? (
             <div>{localization.search.noHits}</div>
           ) : (
@@ -158,7 +164,6 @@ const ClassificationsServicePage = ({
               renderHit={(hit) => (
                 <ClassificationSearchHit key={hit.id} classification={hit as ClassificationResource} />
               )}
-              totalHits={hits.length}
               noSearchHits={hits.length === 0}
               onPageChange={handlePageChange}
               paginationInfo={{

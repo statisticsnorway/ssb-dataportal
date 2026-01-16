@@ -6,10 +6,7 @@ WORKDIR /app
 # Enable corepack so Yarn comes from packageManager or .yarnrc.yml
 RUN corepack enable
 
-COPY package.json yarn.lock ./
-
-# Override Yarn PnP for Docker build
-ENV YARN_NODE_LINKER=node-modules
+COPY package.json yarn.lock .yarnrc.yml ./
 
 # Install dependencies
 RUN yarn install
