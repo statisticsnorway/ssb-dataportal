@@ -113,3 +113,9 @@ div.ds-card {
   color: var(--main-font-color);
   font-size: var(--font-size-md);
 }
+
+.ds-field:has(input:is([type="checkbox"])) .ds-input:is([type="checkbox"]):not([aria-label]) {
+  translate: unset;
+  --dsc-input-size--toggle: var(--ds-size-8);
+  --dsc-input-size: var(--ds-size-12);
+}
