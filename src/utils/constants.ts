@@ -16,6 +16,8 @@ export const LANDBAKGRUNN = 'Landbakgrunn';
 
 export const SUBJECT_AREA = 'Statistikkområde';
 
+export const REMOVE_ALL_FILTERS = 'Fjern alle filtere';
+
 export const filter = {
   sortNameAsc: 'Navn (A–Z)',
   sortNameDesc: 'Navn (Z–A)',
