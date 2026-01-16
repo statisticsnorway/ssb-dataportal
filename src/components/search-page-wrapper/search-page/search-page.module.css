@@ -38,19 +38,16 @@
 }
 
 .tab {
-  display: flex;
+  -webkit-box-pack: center;
   justify-content: center;
-  align-items: center;
   list-style-type: none;
   position: relative;
   overflow: hidden;
   color: #e6eff8;
-  width: fit-content;
-  padding: 0.75rem 1.25rem;
-  margin: 0;
+  width: 95%;
+  margin: var(--center-element-no-top);
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  white-space: nowrap;
 }
 
 .tab[aria-selected="true"] {
@@ -119,8 +116,14 @@
     flex-direction: row;
   }
 
-  /* Set variable*/
   .tab {
+    width: auto;
+    max-width: 200px;
+    flex: 0 0 auto;
+    white-space: normal;
+    overflow: visible;
+    height: auto;
+    text-align: center;
     margin: 0;
   }
 

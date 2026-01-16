@@ -4,7 +4,7 @@ import classificationMockFamilies from '@/static-data/classification-families.js
 import { ClassificationType } from '@/types/classification';
 import { CLASSIFICATION_FAMILIES, KLASS_HOST } from '@/utils/constants';
 import { transformClassificationFamilies } from '@/utils/mock-data';
-import { ClassificationFamilyResource } from '../data-access/klass';
+import { ClassificationFamilyResource } from '../../data-access/klass';
 
 const isTest = process.env.NEXT_TEST === 'test';
 
