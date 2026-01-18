@@ -13,6 +13,8 @@ interface SearchPageProps {
   value?: string;
   onSearch?: (value: string) => void;
   infoContent?: ReactNode;
+  filterInfo?: ReactNode;
+  filterSection?: ReactNode;
   asideContent?: ReactNode;
   searchResult?: ReactElement;
   filterGroups?: FilterGroup[];
@@ -25,6 +27,8 @@ interface SearchPageProps {
 
 const SearchPage: FC<SearchPageProps> = ({
   infoContent,
+  filterSection,
+  filterInfo,
   asideContent,
   searchResult,
   filterGroups,
@@ -83,11 +87,12 @@ const SearchPage: FC<SearchPageProps> = ({
       </section>
       <div className={`${styles.pageContainer} container`}>
         {/*{infoContent ? <div className={styles.infoSection}>{infoContent}</div> : null} */}
-        {infoContent ? infoContent : null}
+        {filterInfo ? <div className={styles.infoSection}>{filterInfo}</div> : null}
         <section className={styles.searchHitsContainer}>
           {asideContent ? <aside className={styles.filterSection}>{asideContent}</aside> : null}
           <section className={styles.mainSection}>
             <div className={styles.hitsAndSort}>
+              {filterSection ? <div className={styles.filterSection}>{filterSection}</div> : null}
               <p className={styles.numHits}>{totalHits} treff</p>
               {sortOptions && sortValue && onSortChange && (
                 <SortFields sortOptions={sortOptions} sortValue={sortValue} onSortChange={onSortChange} />

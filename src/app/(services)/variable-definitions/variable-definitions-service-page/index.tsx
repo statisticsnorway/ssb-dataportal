@@ -2,7 +2,7 @@
 
 import { Spinner } from '@digdir/designsystemet-react';
 import { useMemo, useState } from 'react';
-import { FiltersPanel } from '@/components/filter/filters-panel';
+//import { FiltersPanel } from '@/components/filter/filters-panel';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
@@ -11,8 +11,11 @@ import { RenderedView } from '@/libs/data-access/variable-definitions/internal/m
 import { localization } from '@/libs/language';
 import { FilterGroup, FilterItem } from '@/types/filters';
 import { REMOVE_ALL_FILTERS, SUBJECT_AREA } from '@/utils/constants';
+import { FilterDropdown } from '../../../../components/filter/filters-panel/filterDropdown';
 import { TagsGroup } from '../../../../components/tags-group';
 import { VardefSearchHit } from '../components/vardefSearchHit';
+
+//import { FiltersPanel } from '../../../../components/filter/filters-panel';
 
 interface VariableDefinitionsServicePageProps {
   rawHits: RenderedView[];
@@ -78,13 +81,14 @@ const VariableDefinitionsServicePage = ({
 
   return (
     <SearchPage
-      asideContent={filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
+      //asideContent={filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
       searchLabel='Søk i variabeldefinisjoner'
       sortOptions={sortTypes}
       sortValue={sortKey}
       onSortChange={(key: string) => setSortKey(key as SortTypes)}
       totalHits={hits.length}
-      infoContent={
+      filterSection={<FilterDropdown filterGroups={filterGroups} />}
+      filterInfo={
         <TagsGroup
           maxTags={subjectFields.length}
           closeButton={true}

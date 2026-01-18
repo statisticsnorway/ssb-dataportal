@@ -1,5 +1,5 @@
-import { Button, Dropdown, Tag } from '@digdir/designsystemet-react';
-import { useMemo } from 'react';
+import { Button, Tag } from '@digdir/designsystemet-react';
+import React, { useMemo } from 'react';
 //import { FILTER_HEADING } from '@/utils/constants';
 import styles from './tags-group.module.css';
 
@@ -53,28 +53,8 @@ const TagWithCloseButton: React.FC<TagWithCloseButtonProps> = ({ label, id, onCl
 const TagsGroup = ({ maxTags, tagData, closeButton = false, onClose, onClearAll, filterGroups }: TagsGroupProps) => {
   const tagsArray = useMemo(() => Array.from(tagData.entries()).slice(0, maxTags), [tagData, maxTags]);
 
-  console.log({
-    Tag,
-    TagWithCloseButton,
-    Dropdown,
-    DropdownListItem: Dropdown?.listItem,
-  });
   return (
     <div className={styles.tagsWithHeading}>
-      <Dropdown.TriggerContext>
-        <Dropdown.Trigger>Filter</Dropdown.Trigger>
-        <Dropdown placement='bottom-start' autoPlacement={false}>
-          <Dropdown.List>
-            {(filterGroups || []).map((group) =>
-              group.filters.map((item) => (
-                <Dropdown.Item key={item.value}>
-                  <Dropdown.Button>{item.label}</Dropdown.Button>
-                </Dropdown.Item>
-              )),
-            )}
-          </Dropdown.List>
-        </Dropdown>
-      </Dropdown.TriggerContext>
       {/*{closeButton ? (
         <Heading level={3} data-size='sm'>
           {FILTER_HEADING}
