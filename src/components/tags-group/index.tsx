@@ -1,5 +1,6 @@
-import { Button, Tag } from '@digdir/designsystemet-react';
+import { Button, Heading, Tag } from '@digdir/designsystemet-react';
 import { useMemo } from 'react';
+import { FILTER_HEADING } from '@/utils/constants';
 import styles from './tags-group.module.css';
 
 interface TagsGroupProps {
@@ -52,28 +53,35 @@ const TagsGroup = ({ maxTags, tagData, closeButton = false, onClose, onClearAll 
   const tagsArray = useMemo(() => Array.from(tagData.entries()).slice(0, maxTags), [tagData, maxTags]);
 
   return (
-    <ul className={styles.tagsList}>
-      {/* Remove All button if used with closeButton and list */}
-      {closeButton && tagsArray.length > 1 && onClearAll && (
-        <li key='remove-all' style={{ margin: 0 }}>
-          <Tag variant='outline' data-color={'accent'} className={styles.closeAllTag}>
-            {onClearAll.text}
-            <Button className={styles.closeAllButton} onClick={onClearAll.action}>
-              x
-            </Button>
-          </Tag>
-        </li>
-      )}
-      {tagsArray.map(([key, label]) => (
-        <li key={key} style={{ margin: 0 }}>
-          {closeButton ? (
-            <TagWithCloseButton label={label} id={key} onClose={() => onClose?.(key)} />
-          ) : (
-            <Tag>{label}</Tag>
-          )}
-        </li>
-      ))}
-    </ul>
+    <div className={styles.tagsWithHeading}>
+      {closeButton ? (
+        <Heading level={3} data-size='sm'>
+          {FILTER_HEADING}
+        </Heading>
+      ) : null}
+      <ul className={styles.tagsList}>
+        {/* Remove All button if used with closeButton and list */}
+        {closeButton && tagsArray.length > 1 && onClearAll && (
+          <li key='remove-all' style={{ margin: 0 }}>
+            <Tag variant='outline' data-color={'accent'} className={styles.closeAllTag}>
+              {onClearAll.text}
+              <Button className={styles.closeAllButton} onClick={onClearAll.action}>
+                x
+              </Button>
+            </Tag>
+          </li>
+        )}
+        {tagsArray.map(([key, label]) => (
+          <li key={key} style={{ margin: 0 }}>
+            {closeButton ? (
+              <TagWithCloseButton label={label} id={key} onClose={() => onClose?.(key)} />
+            ) : (
+              <Tag>{label}</Tag>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 export { TagsGroup, TagWithCloseButton };

@@ -18,6 +18,8 @@ export const SUBJECT_AREA = 'Statistikkområde';
 
 export const REMOVE_ALL_FILTERS = 'Fjern alle filtere';
 
+export const FILTER_HEADING = 'Filter';
+
 export const filter = {
   sortNameAsc: 'Navn (A–Z)',
   sortNameDesc: 'Navn (Z–A)',

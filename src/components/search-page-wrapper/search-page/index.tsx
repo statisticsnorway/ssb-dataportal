@@ -82,7 +82,8 @@ const SearchPage: FC<SearchPageProps> = ({
         </div>
       </section>
       <div className={`${styles.pageContainer} container`}>
-        {infoContent ? <div className={styles.infoSection}>{infoContent}</div> : null}
+        {/*{infoContent ? <div className={styles.infoSection}>{infoContent}</div> : null} */}
+        {infoContent ? infoContent : null}
         <section className={styles.searchHitsContainer}>
           {asideContent ? <aside className={styles.filterSection}>{asideContent}</aside> : null}
           <section className={styles.mainSection}>

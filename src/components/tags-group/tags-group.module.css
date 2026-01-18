@@ -22,8 +22,23 @@
   font-size: 1.1rem;
 }
 
+.tagsWithHeading {
+  min-height: 3rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  transition: height 0.2s ease;
+}
+
 @media (min-width: 886px) {
   .tagsList {
     margin: 0;
   }
+
+  /*
+  .tagsWithHeading {
+    display: inline-flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }*/
 }

@@ -1,8 +1,8 @@
-import { Heading } from '@digdir/designsystemet-react';
+//import { Heading } from '@digdir/designsystemet-react';
 import { CheckboxFilter } from '@/components/filter';
 import { FilterGroup } from '@/types/filters';
 
-const FILTER_HEADING = 'Filter';
+//const FILTER_HEADING = 'Filter';
 
 /**
  * FiltersPanel component renders a list of filter groups with checkboxes.
@@ -18,9 +18,9 @@ const FILTER_HEADING = 'Filter';
 const FiltersPanel = ({ filterGroups }: { filterGroups: FilterGroup[] }) => {
   return (
     <>
-      <Heading level={3} data-size='sm'>
+      {/*<Heading level={3} data-size='sm'>
         {filterGroups.length > 0 ? FILTER_HEADING : null}
-      </Heading>
+      </Heading>*/}
       {filterGroups.map(({ filterHeading, filters, selectedItems, onFilterChange }) => (
         <CheckboxFilter
           filterHeading={filterHeading}
