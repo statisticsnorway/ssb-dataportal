@@ -27,10 +27,10 @@ export type TagData = Map<string, string>;
  */
 const TagWithCloseButton: React.FC<TagWithCloseButtonProps> = ({ label, id, onClose }) => {
   return (
-    <Tag>
+    <Tag variant={'outline'} data-size='md' data-color='accent' className={styles.tagWithButton}>
       {label}
       {onClose && (
-        <Button className={styles.closeButton} onClick={() => onClose(id)} style={{ marginLeft: 4 }}>
+        <Button data-size={'md'} className={styles.closeButton} onClick={() => onClose(id)}>
           x
         </Button>
       )}
@@ -63,7 +63,13 @@ const TagsGroup = ({ maxTags, tagData, closeButton = false, onClose, onClearAll 
         {/* Remove All button if used with closeButton and list */}
         {closeButton && tagsArray.length > 1 && onClearAll && (
           <li key='remove-all' style={{ margin: 0 }}>
-            <Tag variant='outline' data-color={'accent'} className={styles.closeAllTag}>
+            <Tag
+              variant='outline'
+              data-color={'accent'}
+              className={styles.closeAllTag}
+              data-size='md'
+              style={{ borderRadius: '5px' }}
+            >
               {onClearAll.text}
               <Button className={styles.closeAllButton} onClick={onClearAll.action}>
                 x

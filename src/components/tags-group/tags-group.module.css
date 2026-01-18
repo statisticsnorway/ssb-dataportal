@@ -19,8 +19,11 @@
   background-color: var(--dark-blue-color);
   color: white;
   font-weight: 700;
-  padding: 0 1rem;
-  font-size: 1.1rem;
+  padding: 0 0 0 0.5rem;
+}
+
+.closeAllButton {
+  padding: 0;
 }
 
 .tagsWithHeading {
@@ -28,17 +31,16 @@
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+  align-items: center;
+}
+
+.tagWithButton {
+  padding: 0 0 0 0.5rem;
+  border-radius: 10px;
 }
 
 @media (min-width: 886px) {
   .tagsList {
     margin: 0;
   }
-
-  /*
-  .tagsWithHeading {
-    display: inline-flex;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
-  }*/
 }
