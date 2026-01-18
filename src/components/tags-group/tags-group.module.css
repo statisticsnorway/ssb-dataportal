@@ -6,6 +6,7 @@
   align-items: center;
   flex-wrap: wrap;
   height: 100%;
+  transition: height 0.2s ease;
 }
 
 .closeButton {
@@ -27,7 +28,6 @@
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
-  transition: height 0.2s ease;
 }
 
 @media (min-width: 886px) {
