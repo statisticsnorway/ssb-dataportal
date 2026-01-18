@@ -92,6 +92,7 @@ const VariableDefinitionsServicePage = ({
             const newSelected = selectedVariableDefinitions.filter((f) => f.value !== key);
             setSelectedVariableDefinitions(newSelected);
           }}
+          filterGroups={filterGroups}
           onClearAll={{
             text: REMOVE_ALL_FILTERS,
             action: () => setSelectedVariableDefinitions([]),
