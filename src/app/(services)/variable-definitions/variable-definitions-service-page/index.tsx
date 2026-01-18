@@ -2,20 +2,17 @@
 
 import { Spinner } from '@digdir/designsystemet-react';
 import { useMemo, useState } from 'react';
-//import { FiltersPanel } from '@/components/filter/filters-panel';
+import { FilterDropdown } from '@/components/filter/filters-panel/filterDropdown';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
+import { TagsGroup } from '@/components/tags-group';
 import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
 import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { FilterGroup, FilterItem } from '@/types/filters';
 import { REMOVE_ALL_FILTERS, SUBJECT_AREA } from '@/utils/constants';
-import { FilterDropdown } from '../../../../components/filter/filters-panel/filterDropdown';
-import { TagsGroup } from '../../../../components/tags-group';
 import { VardefSearchHit } from '../components/vardefSearchHit';
-
-//import { FiltersPanel } from '../../../../components/filter/filters-panel';
 
 interface VariableDefinitionsServicePageProps {
   rawHits: RenderedView[];
@@ -35,10 +32,72 @@ const VariableDefinitionsServicePage = ({
   }
   const [selectedVariableDefinitions, setSelectedVariableDefinitions] = useState<FilterItem[]>([]);
 
+  // Count hits
+  const hitCountsByCode = useMemo(() => {
+    if (!Array.isArray(rawHits)) return {};
+    if (!Array.isArray(selectedVariableDefinitions)) return {};
+
+    const counts: Record<string, number> = {};
+
+    selectedVariableDefinitions.forEach((def) => {
+      counts[def.value] = 0;
+    });
+
+    rawHits.forEach((hit) => {
+      if (!Array.isArray(hit.subject_fields)) return;
+
+      selectedVariableDefinitions.forEach((def) => {
+        const match = hit.subject_fields.some((f) => f?.code === def.value);
+
+        if (match) {
+          counts[def.value]++;
+        }
+      });
+    });
+
+    return counts;
+  }, [rawHits, selectedVariableDefinitions]);
+
+  const selectedItemsWithCounts = useMemo(
+    () =>
+      selectedVariableDefinitions.map((item) => ({
+        ...item,
+        count: hitCountsByCode[item.value] ?? 0,
+      })),
+    [selectedVariableDefinitions, hitCountsByCode],
+  );
+
   const subjectFilters = useMemo(
-    () => subjectFields.map((f) => ({ label: String(f.name), value: String(f.code) })),
+    () =>
+      subjectFields.map((f) => ({
+        label: String(f.name),
+        value: String(f.code),
+      })),
     [subjectFields],
   );
+
+  const filterGroups: FilterGroup[] = useMemo(
+    () => [
+      {
+        filterHeading: SUBJECT_AREA,
+        filters: subjectFilters,
+        selectedItems: selectedItemsWithCounts,
+        onFilterChange: setSelectedVariableDefinitions,
+      },
+    ],
+    [subjectFilters, selectedItemsWithCounts],
+  );
+
+  /*
+  const subjectFilters = useMemo(
+    () =>
+      subjectFields.map((f) => ({
+        label: String(f.name),
+        value: String(f.code),
+        count: hitCountsByCode[String(f.code)] ?? 0,
+      })),
+    [subjectFields, hitCountsByCode],
+  );*/
 
   /**
    * Memoized array of filter groups used in the FiltersPanel.
@@ -46,7 +105,7 @@ const VariableDefinitionsServicePage = ({
    * This array is memoized with `useMemo` and only recalculates when
    * `selectedVariableDefinitions` or `subjectFields` change.
    */
-  const filterGroups: FilterGroup[] = useMemo(
+  /*const filterGroups: FilterGroup[] = useMemo(
     () => [
       {
         filterHeading: SUBJECT_AREA,
@@ -55,9 +114,9 @@ const VariableDefinitionsServicePage = ({
         onFilterChange: setSelectedVariableDefinitions,
       },
     ],
-    [selectedVariableDefinitions, subjectFields],
+    [selectedVariableDefinitions, subjectFilters],
   );
-
+*/
   /**
    * Memoized array of filtered hits based on selected variable definitions.
    *
@@ -79,9 +138,11 @@ const VariableDefinitionsServicePage = ({
 
   const { hits, sortKey, setSortKey, sortTypes } = useSearchStateVardef(filteredHits);
 
+  console.log('counts', hitCountsByCode);
+  console.log('filters', filterGroups);
+
   return (
     <SearchPage
-      //asideContent={filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
       searchLabel='Søk i variabeldefinisjoner'
       sortOptions={sortTypes}
       sortValue={sortKey}
@@ -103,8 +164,8 @@ const VariableDefinitionsServicePage = ({
           }}
           tagData={
             new Map(
-              filterGroups.flatMap((filterGroup) =>
-                filterGroup.selectedItems.map((field) => [field.value, field.label] as [string, string]),
+              filterGroups.flatMap((group) =>
+                group.selectedItems.map((item) => [item.value, `${item.label} (${item.count ?? 0})`]),
               ),
             )
           }

@@ -80,19 +80,27 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .hitsAndSort > p {
   font-weight: 600;
 }
 
+.filterAndHits {
+  align-self: center;
+}
+
 .filterSection {
   display: flex;
   flex-direction: column;
+  flex-direction: row;
+  align-items: baseline;
   gap: var(--medium-gap);
-  width: 100%;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
+  /*width: 100%;*/
+  /*margin-bottom: 1rem;
+  margin-top: 1rem;*/
 }
 
 @media (min-width: 886px) {

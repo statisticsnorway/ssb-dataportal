@@ -9,4 +9,5 @@ export interface FilterGroup {
 export interface FilterItem {
   label: string | undefined;
   value: string;
+  count?: number;
 }

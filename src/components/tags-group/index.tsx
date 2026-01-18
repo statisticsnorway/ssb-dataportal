@@ -1,6 +1,5 @@
 import { Button, Tag } from '@digdir/designsystemet-react';
 import React, { useMemo } from 'react';
-//import { FILTER_HEADING } from '@/utils/constants';
 import styles from './tags-group.module.css';
 
 interface TagsGroupProps {
