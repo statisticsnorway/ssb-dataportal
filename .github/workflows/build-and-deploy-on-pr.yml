@@ -1,8 +1,7 @@
 name: Deploy dev instance
 
 on:
-  pull_request:
-    branches: ["main"]
+  workflow_dispatch:
 
 jobs:
   docker-build:
