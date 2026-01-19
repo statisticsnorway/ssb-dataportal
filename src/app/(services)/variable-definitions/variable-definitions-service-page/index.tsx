@@ -132,8 +132,8 @@ const VariableDefinitionsServicePage = ({
           }}
           tagData={
             new Map(
-              filterGroups.flatMap((filterGroup) =>
-                filterGroup.selectedItems.map((field) => [field.value, field.label] as [string, string]),
+              filterGroups.flatMap((group) =>
+                group.selectedItems.map((item) => [item.value, `${item.label} (${item.count ?? 0})`]),
               ),
             )
           }
