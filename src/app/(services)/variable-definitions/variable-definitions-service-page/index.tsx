@@ -32,6 +32,39 @@ const VariableDefinitionsServicePage = ({
   }
   const [selectedVariableDefinitions, setSelectedVariableDefinitions] = useState<FilterItem[]>([]);
 
+  const hitCountsByCode = useMemo(() => {
+    if (!Array.isArray(rawHits)) return {};
+    if (!Array.isArray(selectedVariableDefinitions)) return {};
+
+    const counts: Record<string, number> = {};
+
+    selectedVariableDefinitions.forEach((def) => {
+      counts[def.value] = 0;
+    });
+
+    rawHits.forEach((hit) => {
+      if (!Array.isArray(hit.subject_fields)) return;
+
+      selectedVariableDefinitions.forEach((def) => {
+        const match = hit.subject_fields.some((f) => f?.code === def.value);
+
+        if (match) {
+          counts[def.value]++;
+        }
+      });
+    });
+
+    return counts;
+  }, [rawHits, selectedVariableDefinitions]);
+
+  const selectedItemsWithCounts = useMemo(
+    () =>
+      selectedVariableDefinitions.map((item) => ({
+        ...item,
+        count: hitCountsByCode[item.value] ?? 0,
+      })),
+    [selectedVariableDefinitions, hitCountsByCode],
+  );
   const subjectFilters = useMemo(
     () => subjectFields.map((f) => ({ label: String(f.name), value: String(f.code) })),
     [subjectFields],
@@ -48,11 +81,11 @@ const VariableDefinitionsServicePage = ({
       {
         filterHeading: SUBJECT_AREA,
         filters: subjectFilters,
-        selectedItems: selectedVariableDefinitions,
+        selectedItems: selectedItemsWithCounts,
         onFilterChange: setSelectedVariableDefinitions,
       },
     ],
-    [selectedVariableDefinitions, subjectFields],
+    [subjectFields, selectedItemsWithCounts],
   );
 
   /**
@@ -76,6 +109,7 @@ const VariableDefinitionsServicePage = ({
 
   const { hits, sortKey, setSortKey, sortTypes } = useSearchStateVardef(filteredHits);
 
+  console.log('Selected with count', selectedItemsWithCounts);
   return (
     <SearchPage
       asideContent={filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
