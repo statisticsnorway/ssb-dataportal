@@ -40,7 +40,20 @@ export function CodeSnippet({
         </Button>
       </div>
 
-      <SyntaxHighlighter language='python' style={oneLight} showLineNumbers>
+      <SyntaxHighlighter
+        language='python'
+        style={oneLight}
+        showLineNumbers
+        customStyle={{
+          fontSize: 'clamp(0.8rem, 1.2vw, 1rem)',
+          lineHeight: 1.5,
+        }}
+        codeTagProps={{
+          style: {
+            fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+          },
+        }}
+      >
         {code.join('\n')}
       </SyntaxHighlighter>
     </section>
