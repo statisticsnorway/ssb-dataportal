@@ -2,11 +2,11 @@
 
 import classificationsMock from '@/static-data/classifications.json';
 import { linkObj } from '@/types/classification';
-import { CLASSIFICATIONS, KLASS_HOST } from '@/utils/constants';
+import { CLASSIFICATIONS } from '@/utils/constants';
 import { getClassification } from '@/utils/mock-data';
 import { ClassificationResource } from '../../data-access/klass';
 
-const isTest = process.env.NEXT_TEST === 'test';
+const useStaticData = process.env.KLASS_USE_STATIC_DATA === 'true';
 
 export interface ClassificationResponse {
   classifications: ClassificationResource[];
@@ -19,18 +19,22 @@ export async function fetchAllClassifications(pageSize = 20): Promise<Classifica
   let currentPage = 0;
   let totalPages = 1;
 
-  if (isTest) {
-    console.log('Using mock classifications:', classificationsMock.classifications);
+  if (useStaticData) {
+    console.warn('Using mock classifications');
     allClassifications = classificationsMock.classifications;
   } else {
+    console.log(`Using Klass base path: ${process.env.KLASS_BASE_PATH}`);
     while (currentPage < totalPages) {
       const res = await fetch(
-        `${KLASS_HOST}${CLASSIFICATIONS}?includeCodelists=true&page=${currentPage}&size=${pageSize}`,
+        `${process.env.KLASS_BASE_PATH}/${CLASSIFICATIONS}?includeCodelists=true&page=${currentPage}&size=${pageSize}`,
         {
           cache: 'no-store',
         },
       );
-      if (!res.ok) throw new Error('Failed to fetch classifications');
+      if (!res.ok) {
+        console.error(`Request to ${res.url} returned status code ${res.status}`, res);
+        throw new Error('Failed to fetch classifications');
+      }
 
       const data = await res.json();
 
@@ -47,15 +51,16 @@ export async function fetchAllClassifications(pageSize = 20): Promise<Classifica
 export async function fetchClassificationById(id: number): Promise<ClassificationResource | undefined> {
   let classification: ClassificationResource | undefined;
 
-  if (isTest) {
-    console.log('Using mock classifications:', classificationsMock.classifications);
+  if (useStaticData) {
+    console.warn('Using mock classifications');
     classification = getClassification(id);
   } else {
-    const res = await fetch(`${KLASS_HOST}${CLASSIFICATIONS}/${id}?includeCodelists=true`, {
+    const res = await fetch(`${process.env.KLASS_BASE_PATH}/${CLASSIFICATIONS}/${id}?includeCodelists=true`, {
       cache: 'no-store',
     });
 
     if (!res.ok) {
+      console.error(`Request to ${res.url} returned status code ${res.status}`, res);
       if (res.status === 404) return undefined; // not found
       throw new Error('Failed to fetch classification');
     }
