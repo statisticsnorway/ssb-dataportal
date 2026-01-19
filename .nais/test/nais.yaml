@@ -27,3 +27,5 @@ spec:
   env:
     - name: VARDEF_USE_STATIC_DATA
       value: "true"
+    - name: KLASS_USE_STATIC_DATA
+      value: "true"
