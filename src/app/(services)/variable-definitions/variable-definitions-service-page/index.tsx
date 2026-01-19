@@ -138,9 +138,6 @@ const VariableDefinitionsServicePage = ({
 
   const { hits, sortKey, setSortKey, sortTypes } = useSearchStateVardef(filteredHits);
 
-  console.log('counts', hitCountsByCode);
-  console.log('filters', filterGroups);
-
   return (
     <SearchPage
       searchLabel='Søk i variabeldefinisjoner'
