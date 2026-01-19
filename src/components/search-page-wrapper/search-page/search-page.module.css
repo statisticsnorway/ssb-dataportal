@@ -84,7 +84,7 @@
   flex-wrap: wrap;
 }
 
-.hitsAndSort > p {
+.hitsAndSort > div > p {
   font-weight: 600;
 }
 
