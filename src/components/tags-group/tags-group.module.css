@@ -19,7 +19,8 @@
   background-color: var(--dark-blue-color);
   color: white;
   font-weight: 700;
-  padding: 0 0 0 0.5rem;
+  padding: 0 0 0 1rem;
+  border-radius: var(--ds-border-radius-lg);
 }
 
 .closeAllButton {
@@ -35,7 +36,8 @@
 
 .tagWithButton {
   padding: 0 0 0 0.5rem;
-  border-radius: 10px;
+  border-radius: var(--ds-border-radius-lg);
+  /*border-radius: 10px;*/
 }
 
 @media (min-width: 886px) {
