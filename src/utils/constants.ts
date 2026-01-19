@@ -16,7 +16,7 @@ export const LANDBAKGRUNN = 'Landbakgrunn';
 
 export const SUBJECT_AREA = 'Statistikkområde';
 
-export const REMOVE_ALL_FILTERS = 'Fjern alle filtere';
+export const REMOVE_ALL_FILTERS = 'Fjern alle';
 
 export const FILTER_HEADING = 'Filter';
 
