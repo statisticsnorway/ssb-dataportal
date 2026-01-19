@@ -45,7 +45,7 @@ export function CodeSnippet({
         style={oneLight}
         showLineNumbers
         customStyle={{
-          fontSize: 'clamp(0.8rem, 1.2vw, 1rem)',
+          fontSize: 'clamp(0.9rem, 1.1vw, 1.05rem)',
           lineHeight: 1.5,
         }}
         codeTagProps={{
