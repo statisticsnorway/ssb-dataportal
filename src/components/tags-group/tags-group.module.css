@@ -27,7 +27,6 @@
 }
 
 .tagsWithHeading {
-  min-height: 3rem;
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
