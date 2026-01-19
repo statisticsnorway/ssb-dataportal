@@ -58,7 +58,7 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
     console.log(`Fetched ${data.length} variable definitions`);
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
-      console.error(`Request to ${error.response.url} returned status code ${error.response.status}`);
+      console.error(`Request to ${error.response.url} returned status code ${error.response.status}`, error);
     } else {
       console.error(error);
     }

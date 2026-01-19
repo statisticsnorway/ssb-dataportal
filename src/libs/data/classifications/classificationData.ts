@@ -20,9 +20,10 @@ export async function fetchAllClassifications(pageSize = 20): Promise<Classifica
   let totalPages = 1;
 
   if (useStaticData) {
-    console.log('Using mock classifications:', classificationsMock.classifications);
+    console.warn('Using mock classifications');
     allClassifications = classificationsMock.classifications;
   } else {
+    console.log(`Using Klass base path: ${process.env.KLASS_BASE_PATH}`);
     while (currentPage < totalPages) {
       const res = await fetch(
         `${process.env.KLASS_BASE_PATH}/${CLASSIFICATIONS}?includeCodelists=true&page=${currentPage}&size=${pageSize}`,
@@ -30,7 +31,10 @@ export async function fetchAllClassifications(pageSize = 20): Promise<Classifica
           cache: 'no-store',
         },
       );
-      if (!res.ok) throw new Error('Failed to fetch classifications');
+      if (!res.ok) {
+        console.error(`Request to ${res.url} returned status code ${res.status}`, res);
+        throw new Error('Failed to fetch classifications');
+      }
 
       const data = await res.json();
 
@@ -48,7 +52,7 @@ export async function fetchClassificationById(id: number): Promise<Classificatio
   let classification: ClassificationResource | undefined;
 
   if (useStaticData) {
-    console.log('Using mock classifications:', classificationsMock.classifications);
+    console.warn('Using mock classifications');
     classification = getClassification(id);
   } else {
     const res = await fetch(`${process.env.KLASS_BASE_PATH}/${CLASSIFICATIONS}/${id}?includeCodelists=true`, {
@@ -56,6 +60,7 @@ export async function fetchClassificationById(id: number): Promise<Classificatio
     });
 
     if (!res.ok) {
+      console.error(`Request to ${res.url} returned status code ${res.status}`, res);
       if (res.status === 404) return undefined; // not found
       throw new Error('Failed to fetch classification');
     }

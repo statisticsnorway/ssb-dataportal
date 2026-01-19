@@ -12,7 +12,7 @@ export async function fetchClassificationFamilies(): Promise<ClassificationFamil
   let allClassificationFamilies: ClassificationFamilyResource[];
 
   if (useStaticData) {
-    console.log('Using mock classification families:', classificationMockFamilies);
+    console.log('Using mock classification families');
     allClassificationFamilies = allClassificationFamilies = transformClassificationFamilies(classificationMockFamilies);
   } else {
     const res = await fetch(`${process.env.KLASS_BASE_PATH}/${CLASSIFICATION_FAMILIES}`, { cache: 'no-store' });
@@ -30,7 +30,7 @@ export const getClassificationFamily = async (
   includeCodelists: boolean,
 ): Promise<ClassificationFamilyResource> => {
   if (useStaticData) {
-    console.log('Using mock classification family:');
+    console.log('Using mock classification family');
     const family = classificationMockFamilies.find((f) => String(f.id) === id);
     if (!family) throw new Error(`Mock classification family with id ${id} not found`);
     return {
