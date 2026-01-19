@@ -32,7 +32,8 @@
     "next": "15.5.9",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "react-localization": "2.0.6"
+    "react-localization": "2.0.6",
+    "react-syntax-highlighter": "16.1.0"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "2.27.0",
@@ -46,6 +47,7 @@
     "@types/node": "25.0.3",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
+    "@types/react-syntax-highlighter": "15.5.13",
     "@types/webpack": "5.28.5",
     "jest": "30.2.0",
     "jest-environment-jsdom": "30.2.0",

@@ -113,3 +113,7 @@ div.ds-card {
   color: var(--main-font-color);
   font-size: var(--font-size-md);
 }
+
+.react-syntax-highlighter-line-number {
+  background: rgb(242, 242, 242);
+}
