@@ -5,13 +5,13 @@ import { useMemo, useState } from 'react';
 import { FiltersPanel } from '@/components/filter/filters-panel';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
+import { TagsGroup } from '@/components/tags-group';
 import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
 import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { FilterGroup, FilterItem } from '@/types/filters';
 import { REMOVE_ALL_FILTERS, SUBJECT_AREA } from '@/utils/constants';
-import { TagsGroup } from '../../../../components/tags-group';
 import { VardefSearchHit } from '../components/vardefSearchHit';
 
 interface VariableDefinitionsServicePageProps {
