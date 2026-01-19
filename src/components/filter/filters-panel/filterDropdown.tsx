@@ -1,6 +1,6 @@
 import { Dropdown } from '@digdir/designsystemet-react';
 import { FunnelIcon } from '@navikt/aksel-icons';
-import { CheckboxFilter } from '@/components/filter';
+import { CheckboxFilter } from '../checkbox-filter';
 
 const FilterDropdown = ({ filterGroups }) => {
   return (

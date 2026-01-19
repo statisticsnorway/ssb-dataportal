@@ -79,9 +79,10 @@
 .hitsAndSort {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
   align-items: center;
   flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .hitsAndSort > div > p {
@@ -137,6 +138,14 @@
 
   .numHits {
     align-self: auto;
+  }
+
+  .hitsAndSort {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
   }
 }
 
