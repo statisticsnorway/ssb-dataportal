@@ -10,7 +10,7 @@ test.describe('Navigation variable definitions', () => {
 });
 
 // This test depends on current testdata
-test('test', async ({ page }) => {
+test('Filter by subject field', async ({ page }) => {
   await page.goto('/variable-definitions');
   await page.getByRole('checkbox', { name: 'Arbeid og lønn' }).check();
   await page.getByRole('checkbox', { name: 'Inntekt og forbruk' }).check();
