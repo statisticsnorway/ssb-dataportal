@@ -50,7 +50,7 @@ export function CodeSnippet({
         }}
         className='codeBlock'
       >
-        {code.join('\n')}
+        {codeString}
       </SyntaxHighlighter>
     </section>
   );
