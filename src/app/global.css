@@ -117,3 +117,11 @@ div.ds-card {
 .react-syntax-highlighter-line-number {
   background: rgb(242, 242, 242);
 }
+
+.codeBlock,
+.codeBlock pre,
+.codeBlock code,
+.codeBlock span {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace !important;
+}
