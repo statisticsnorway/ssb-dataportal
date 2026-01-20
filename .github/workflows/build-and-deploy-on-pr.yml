@@ -26,5 +26,6 @@ jobs:
           CLUSTER: test
           RESOURCE: .nais/test/test-pr.yaml
           DEPLOY_SERVER: deploy.ssb.cloud.nais.io:443
+          VAR: git-ref=${{ github.ref_name }}
           WORKLOAD_IMAGE: ${{ steps.docker-build-push.outputs.image }}
           TELEMETRY: ${{ steps.docker-build-push.outputs.telemetry }}
