@@ -43,9 +43,8 @@ export function CodeSnippet({
       <SyntaxHighlighter
         language='python'
         style={oneLight}
-        showLineNumbers
         customStyle={{
-          fontSize: 'clamp(0.9rem, 1.1vw, 1.05rem)',
+          fontSize: 'clamp(0.8rem, 1.1vw, 1.05rem)',
           lineHeight: 1.5,
         }}
         className='codeBlock'
