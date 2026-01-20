@@ -48,7 +48,7 @@ export function CodeSnippet({
           fontSize: 'clamp(0.9rem, 1.1vw, 1.05rem)',
           lineHeight: 1.5,
         }}
-        className="codeBlock"
+        className='codeBlock'
       >
         {code.join('\n')}
       </SyntaxHighlighter>
