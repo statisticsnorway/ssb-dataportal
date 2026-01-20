@@ -7,6 +7,7 @@ import '@global-css';
 
 import { Alert } from '@digdir/designsystemet-react';
 import { UrlItem } from '@/types/navigationTypes';
+import { getDevEnvironmentName } from '@/utils/functions';
 import ErrorBoundary from '../error-boundry';
 import styles from './layout.module.css';
 
@@ -37,7 +38,7 @@ export const AppLayout = ({
       <Alert data-color={'info'} className='infoAlert' data-size={'md'}>
         Velkommen til testing av datakatalogen. Du er nå i en prototype under utvikling.
       </Alert>
-      <Header homeUrl='https://www.ssb.no' />
+      <Header homeUrl='https://www.ssb.no' devEnvironmentName={getDevEnvironmentName()} />
       <main className={styles.main}>
         {/* TODO(): Remove/change catalog-frontend props */}
         <ErrorBoundary fdkRegistrationBaseUrl={fdkRegistrationBaseUrl} title={catalogTitle ?? ''}>
