@@ -16,6 +16,11 @@ export const Header: FC<HeaderProps> = ({ homeUrl }) => {
         <Link href={homeUrl} title='Gå til hovedsiden' className={styles.logo}>
           <Image src='/ssb-logo.svg' alt='Statistics Norway logo' width={240} height={44} priority />
         </Link>
+        <div className={`${styles.rightGroup}`}>
+          {process.env.NEXT_PUBLIC_ENVIRONMENT_NAME ? (
+            <p className={styles.environmentName}>{process.env.NEXT_PUBLIC_ENVIRONMENT_NAME}</p>
+          ) : undefined}
+        </div>
       </div>
     </header>
   );

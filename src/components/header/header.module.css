@@ -12,6 +12,15 @@
   display: flex;
 }
 
+.rightGroup {
+  margin-left: auto;
+}
+.environmentName {
+  font-weight: var(--font-weight-heavy);
+  color: #ff0000;
+  text-decoration: none;
+}
+
 .logo {
   font-weight: 800;
   color: var(--dark-blue-gray-color);
