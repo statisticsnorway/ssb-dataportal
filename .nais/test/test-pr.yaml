@@ -33,5 +33,5 @@ spec:
       value: http://klass/api/klass/v1
     - name: KLASS_USE_STATIC_DATA
       value: "false"
-    - name: NEXT_PUBLIC_ENVIRONMENT_NAME
+    - name: DEV_ENVIRONMENT_NAME
       value: "{{ git-ref }}"

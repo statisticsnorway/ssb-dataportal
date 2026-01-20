@@ -81,3 +81,7 @@ export function parseClassification(json?: object | null): ClassificationResourc
   }
   return ClassificationResourceFromJSONTyped(json, true);
 }
+
+export function getDevEnvironmentName(): string | undefined {
+  return process.env.DEV_ENVIRONMENT_NAME;
+}
