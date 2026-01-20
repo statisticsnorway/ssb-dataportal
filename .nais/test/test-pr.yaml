@@ -15,7 +15,6 @@ spec:
         - application: metadata-api-gateway
         - application: klass
       external:
-        - host: data.ssb.no
         - host: auth.test.ssb.no
   login:
     provider: openid
@@ -26,9 +25,11 @@ spec:
     max: 1
     min: 1
   env:
-    - name: INTERNAL_BASE_URL
-      value: http://metadata-catalog
     - name: VARDEF_BASE_PATH
       value: http://metadata-api-gateway
     - name: VARDEF_USE_STATIC_DATA
+      value: "false"
+    - name: KLASS_BASE_PATH
+      value: http://klass/api/klass/v1
+    - name: KLASS_USE_STATIC_DATA
       value: "false"

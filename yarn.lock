@@ -4605,13 +4605,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:17.2.3":
-  version: 17.2.3
-  resolution: "dotenv@npm:17.2.3"
-  checksum: 10/f8b78626ebfff6e44420f634773375c9651808b3e1a33df6d4cc19120968eea53e100f59f04ec35f2a20b2beb334b6aba4f24040b2f8ad61773f158ac042a636
-  languageName: node
-  linkType: hard
-
 "dunder-proto@npm:^1.0.1":
   version: 1.0.1
   resolution: "dunder-proto@npm:1.0.1"
@@ -6421,7 +6414,6 @@ __metadata:
     "@types/react-syntax-highlighter": "npm:15.5.13"
     "@types/webpack": "npm:5.28.5"
     classnames: "npm:2.5.1"
-    dotenv: "npm:17.2.3"
     jest: "npm:30.2.0"
     jest-environment-jsdom: "npm:30.2.0"
     lodash: "npm:4.17.21"
