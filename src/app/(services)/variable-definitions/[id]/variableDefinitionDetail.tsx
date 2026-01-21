@@ -3,7 +3,11 @@
 import { Button, Tag } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { CodeSnippet } from '@/app/(services)/variable-definitions/components/codeSnippet';
-import { COPIED_LABEL, COPY_ID_LABEL } from '@/app/(services)/variable-definitions/components/constants';
+import {
+  COPIED_LABEL,
+  COPY_ID_LABEL,
+  PYPI_DAPLA_TOOLBELT_METADATA_URL,
+} from '@/app/(services)/variable-definitions/components/constants';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
 import { TextField } from '@/components/text-field';
@@ -66,7 +70,17 @@ export default function VariableDefinitionDetail({
           <DetailsPagePanel elements={personalDataItems(variableDefinition)} />
           <DetailsPagePanel title='Eier' elements={ownerItems(variableDefinition)} columns={2} />
           <CodeSnippet
-            title='Python kode for å hente variabeldefinisjon'
+            title={
+              <span className={styles.codeSnippetTitle}>
+                <span className={styles.titleMain}>
+                  <img src='/python-logo-only.svg' alt='' className={styles.pythonIcon} />
+                  <span>Hent variabeldefinisjon med </span>
+                </span>
+                <a href={PYPI_DAPLA_TOOLBELT_METADATA_URL} target='_blank' className={styles.titleLink}>
+                  dapla-toolbelt-metadata
+                </a>
+              </span>
+            }
             code={[
               `Vardef.get_variable_definition_by_shortname(`,
               `    short_name="${variableDefinition.short_name}"`,
