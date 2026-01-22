@@ -12,35 +12,3 @@
   align-items: center;
   padding-left: 1rem;
 }
-
-.pre {
-  margin: 0;
-  overflow-x: auto;
-  padding-bottom: 1rem;
-  background: #f8f8f8;
-}
-
-.code {
-  counter-reset: line;
-  display: block;
-}
-
-.line {
-  background-color: rgb(240, 236, 236);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: clamp(0.75rem, 2.5vw, 0.95rem);
-  white-space: pre;
-}
-
-.line::before {
-  counter-increment: line;
-  content: counter(line);
-  flex: 0 0 3ch;
-  color: var(--fds-semantic-text-neutral-strong);
-  background-color: rgb(216, 217, 225);
-  text-align: center;
-  padding: 0.2rem;
-}

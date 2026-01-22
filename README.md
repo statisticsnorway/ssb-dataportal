@@ -84,13 +84,14 @@ Configuration is primarily source from `.env*` files. This may be overridden in 
 
 #### Commonly used config
 
-| Key                          | Description                                                                                             |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `VARDEF_BASE_PATH`           | Which Vardef instance to point to. Can be set to `http://localhost:8081` to work with a local instance  |
-| `VARDEF_USE_STATIC_DATA`     | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. |
-| `KLASS_BASE_PATH`            | Which Klass instance to point to. Can be set to `http://localhost:8080` to work with a local instance   |
-| `KLASS_USE_STATIC_DATA`      | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. |
-| `METADATA_CATALOG_JWT_TOKEN` | A JWT token to use for auth. Can be obtained from via the [Dapla CLI](#local-auth).                     |
+| Key                            | Description                                                                                             |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| `VARDEF_BASE_PATH`             | Which Vardef instance to point to. Can be set to `http://localhost:8081` to work with a local instance  |
+| `VARDEF_USE_STATIC_DATA`       | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. |
+| `KLASS_BASE_PATH`              | Which Klass instance to point to. Can be set to `http://localhost:8080` to work with a local instance   |
+| `KLASS_USE_STATIC_DATA`        | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. |
+| `METADATA_CATALOG_JWT_TOKEN`   | A JWT token to use for auth. Can be obtained from via the [Dapla CLI](#local-auth).                     |
+| `DEV_ENVIRONMENT_NAME`         | Used to identify different dev and test instances. May for example be set to the branch name.           |
 
 ### Local auth
 
