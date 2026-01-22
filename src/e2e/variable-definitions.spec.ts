@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
-// This test should eventually test primarly what user can see and interact with on the
-// variable definitions overview page
+// These test depends on current testdata
+
 test.describe('Navigation variable definitions', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
@@ -9,8 +9,7 @@ test.describe('Navigation variable definitions', () => {
   });
 });
 
-// This test depends on current testdata subject fields
-test('Filter by subject field', async ({ page }) => {
+test('Filter by subject field displays tags (listitem) with close button (x)', async ({ page }) => {
   await page.goto('/variable-definitions');
   await page.getByRole('checkbox', { name: 'Arbeid og lønn' }).check();
   await page.getByRole('checkbox', { name: 'Inntekt og forbruk' }).check();
@@ -44,8 +43,8 @@ test('test', async ({ page }) => {
   await page.getByRole('button', { name: 'x', exact: true }).click();
 });
 
-test('test2', async ({ page }) => {
-  await page.goto('http://localhost:3000/variable-definitions');
+test('Display num hits', async ({ page }) => {
+  await page.goto('/variable-definitions');
   await expect(page.getByText('treff')).toBeVisible();
   await expect(page.getByRole('checkbox', { name: 'Bank og finansmarked' })).not.toBeChecked();
   await page.getByRole('checkbox', { name: 'Bank og finansmarked' }).check();
@@ -68,18 +67,12 @@ test('test2', async ({ page }) => {
 // Test tags - add and remove
 // num hits
 
-// Sort test
-test('test3', async ({ page }) => {
-  await page.goto('http://localhost:3000/variable-definitions');
+test('Sort variable definitions', async ({ page }) => {
+  await page.goto('/variable-definitions');
   await page.getByLabel('Select sort').selectOption('titleDesc');
   await expect(page.getByRole('main')).toContainText('Årslønn');
   await page.getByLabel('Select sort').selectOption('titleAsc');
   await expect(page.getByRole('main')).toContainText('Aksje');
-  await page.getByLabel('Select sort').selectOption('lastChanged');
-});
-
-test('test4', async ({ page }) => {
-  await page.goto('http://localhost:3000/variable-definitions');
   await page.getByLabel('Select sort').selectOption('lastChanged');
   await expect(
     page.getByText('Antall personer 18 år og over i husholdningenpers18plus_i_hushnrAntall personer'),
