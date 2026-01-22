@@ -6,7 +6,7 @@
   align-items: center;
   flex-wrap: wrap;
   height: 100%;
-  margin-bottom: var(--ds-size-8);
+  margin-bottom: 1rem;
   transition: height 0.2s ease;
 }
 
@@ -39,10 +39,4 @@
 .tagWithButton {
   padding: 0 0 0 0.5rem;
   border-radius: var(--ds-border-radius-lg);
-}
-
-@media (min-width: 886px) {
-  .tagsList {
-    margin: 0;
-  }
 }

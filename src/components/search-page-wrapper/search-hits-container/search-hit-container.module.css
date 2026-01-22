@@ -3,6 +3,7 @@
   flex-direction: column;
   width: 100%;
   gap: var(--medium-gap);
+  transition: height 0.2s ease;
 }
 
 .hitsList {

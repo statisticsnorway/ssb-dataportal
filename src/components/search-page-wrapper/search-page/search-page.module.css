@@ -9,6 +9,7 @@
   justify-items: center;
   justify-content: space-between;
   gap: var(--medium-gap);
+  transition: height 0.2s ease;
 }
 
 .searchFieldContent {
@@ -62,14 +63,9 @@
   margin-bottom: var(--ds-size-4);
 }
 
-.infoSection {
-  flex: 0 0 100%;
-  transition: height 0.2s ease;
-  margin-bottom: var(--ds-size-8);
-}
-
 .mainSection {
   flex: 1 1 0;
+  transition: height 0.2s ease;
 }
 
 .searchLabel {
