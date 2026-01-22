@@ -11,7 +11,6 @@ import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { FilterGroup, FilterItem } from '@/types/filters';
-import { REMOVE_ALL_FILTERS, SUBJECT_AREA } from '@/utils/constants';
 import { buildTagsLabel } from '@/utils/functions';
 import { VardefSearchHit } from '../components/vardefSearchHit';
 import { countHits } from './functions';
@@ -30,7 +29,7 @@ const VariableDefinitionsServicePage = ({
   subjectFields,
 }: VariableDefinitionsServicePageProps) => {
   if (isLoading) {
-    return <Spinner aria-label='Laster variabeldefinisjoner' />;
+    return <Spinner aria-label={localization.loadingVariableDefinitions} />;
   }
   const [selectedVariableDefinitions, setSelectedVariableDefinitions] = useState<FilterItem[]>([]);
 
@@ -54,7 +53,7 @@ const VariableDefinitionsServicePage = ({
   const filterGroups: FilterGroup[] = useMemo(
     () => [
       {
-        filterHeading: SUBJECT_AREA,
+        filterHeading: localization.subjectArea,
         filters: subjectFilters,
         selectedItems: selectedItemsWithCounts,
         onFilterChange: setSelectedVariableDefinitions,
@@ -79,7 +78,7 @@ const VariableDefinitionsServicePage = ({
   return (
     <SearchPage
       asideContent={filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
-      searchLabel='Søk i variabeldefinisjoner'
+      searchLabel={localization.searchVariableDefinitions}
       sortOptions={sortTypes}
       sortValue={sortKey}
       onSortChange={(key: string) => setSortKey(key as SortTypes)}
@@ -93,7 +92,7 @@ const VariableDefinitionsServicePage = ({
             setSelectedVariableDefinitions(newSelected);
           }}
           onClearAll={{
-            text: REMOVE_ALL_FILTERS,
+            text: localization.removeAlleFilters,
             action: () => setSelectedVariableDefinitions([]),
           }}
           tagData={
