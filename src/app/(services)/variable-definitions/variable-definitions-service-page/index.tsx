@@ -13,6 +13,7 @@ import { localization } from '@/libs/language';
 import { FilterGroup, FilterItem } from '@/types/filters';
 import { REMOVE_ALL_FILTERS, SUBJECT_AREA } from '@/utils/constants';
 import { VardefSearchHit } from '../components/vardefSearchHit';
+import { countHits } from './functions';
 
 interface VariableDefinitionsServicePageProps {
   rawHits: RenderedView[];
@@ -33,28 +34,7 @@ const VariableDefinitionsServicePage = ({
   const [selectedVariableDefinitions, setSelectedVariableDefinitions] = useState<FilterItem[]>([]);
 
   const hitCountsByCode = useMemo(() => {
-    if (!Array.isArray(rawHits)) return {};
-    if (!Array.isArray(selectedVariableDefinitions)) return {};
-
-    const counts: Record<string, number> = {};
-
-    selectedVariableDefinitions.forEach((def) => {
-      counts[def.value] = 0;
-    });
-
-    rawHits.forEach((hit) => {
-      if (!Array.isArray(hit.subject_fields)) return;
-
-      selectedVariableDefinitions.forEach((def) => {
-        const match = hit.subject_fields.some((f) => f?.code === def.value);
-
-        if (match) {
-          counts[def.value]++;
-        }
-      });
-    });
-
-    return counts;
+    return countHits(selectedVariableDefinitions, rawHits);
   }, [rawHits, selectedVariableDefinitions]);
 
   const selectedItemsWithCounts = useMemo(
@@ -109,7 +89,6 @@ const VariableDefinitionsServicePage = ({
 
   const { hits, sortKey, setSortKey, sortTypes } = useSearchStateVardef(filteredHits);
 
-  console.log('Selected with count', selectedItemsWithCounts);
   return (
     <SearchPage
       asideContent={filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
