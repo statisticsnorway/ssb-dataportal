@@ -26,7 +26,7 @@ export type TagData = Map<string, string>;
  */
 const TagWithCloseButton: React.FC<TagWithCloseButtonProps> = ({ label, id, onClose }) => {
   return (
-    <Tag>
+    <Tag variant={'outline'} data-size='md' data-color='accent' className={styles.tagWithButton}>
       {label}
       {onClose && (
         <Button className={styles.closeButton} onClick={() => onClose(id)} style={{ marginLeft: 4 }}>
