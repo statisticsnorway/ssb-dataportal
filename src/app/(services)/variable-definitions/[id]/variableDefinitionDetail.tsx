@@ -2,8 +2,6 @@
 
 import { Button, Tag } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
-import { CodeSnippet } from '@/app/(services)/variable-definitions/components/codeSnippet';
-import { COPIED_LABEL, COPY_ID_LABEL } from '@/app/(services)/variable-definitions/components/constants';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
 import { TextField } from '@/components/text-field';
@@ -11,6 +9,8 @@ import { useClipboard } from '@/hooks/useClipboard';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import { convertStatus, nonEmpty } from '@/utils/functions';
+import { CodeSnippet } from './components/codeSnippet';
+import { COPIED_LABEL, COPY_ID_LABEL } from './components/constants';
 import { VardefHeading } from './components/vardefHeading';
 
 import {

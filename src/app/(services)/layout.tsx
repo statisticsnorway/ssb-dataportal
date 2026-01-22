@@ -1,6 +1,6 @@
 'use client';
 import { usePathname } from 'next/navigation';
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from 'react';
 
 export default function ServicesLayout({ children, search }: { children: ReactNode; search: ReactNode }) {
   const pathname = usePathname();
@@ -13,5 +13,9 @@ export default function ServicesLayout({ children, search }: { children: ReactNo
 
   // On detail pages, only show children (detail page)
   // On list pages, only show listing (search page with tabs)
-  return <>{isDetailPage ? children : search}</>;
+  return (
+    <Suspense fallback={null} key={isDetailPage ? 'detail' : 'search'}>
+      {isDetailPage ? children : search}
+    </Suspense>
+  );
 }
