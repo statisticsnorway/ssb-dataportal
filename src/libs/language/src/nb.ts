@@ -3,6 +3,8 @@
  */
 
 export const nb = {
+  subjectArea: 'Statistikkområde',
+  removeAlleFilters: 'Fjern alle filtere',
   navigateHomeVariableDefinitions: 'Naviger til hovedside Variabeldefinisjoner',
   navigateHomeClassifications: 'Naviger til hovedside Klassifikasjoner',
   navigateHomeDatasets: 'Naviger til hovedside Datasett',
@@ -31,6 +33,8 @@ export const nb = {
   versionId: 'Versjons-ID',
   lastModified: 'Sist oppdatert',
   loading: 'Laster',
+  loadingVariableDefinitions: 'Laster variabeldefinisjoner',
+  searchVariableDefinitions: 'Søk i variabeldefinisjoner',
   name: 'Navn',
   no: 'Nei',
   to: 'Til',
@@ -50,7 +54,6 @@ export const nb = {
   shortName: 'Kortnavn',
   sorting: 'Sortering',
   status: 'Status',
-  subjectArea: 'Fagområde',
   subjectFields: 'Statistikkområder',
   title: 'Tittel',
   toAndIncluding: 'Til og med',
