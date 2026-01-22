@@ -62,16 +62,13 @@
   margin-bottom: var(--ds-size-4);
 }
 
-/*
 .infoSection {
-  min-height: 4rem;
-  margin-top: 0;
-  margin-bottom: 0;
   flex: 0 0 100%;
-}*/
+  transition: height 0.2s ease;
+  margin-bottom: var(--ds-size-8);
+}
 
 .mainSection {
-  margin-top: var(--medium-gap);
   flex: 1 1 0;
 }
 
@@ -100,15 +97,7 @@
   flex-direction: column;
   gap: var(--medium-gap);
   width: 100%;
-}
-
-.filterSection {
-  display: flex;
-  flex-direction: column;
-  gap: var(--medium-gap);
-  width: 100%;
-  margin-bottom: 1rem;
-  margin-top: 1.8rem;
+  margin-top: 0.8rem;
 }
 
 @media (min-width: 886px) {
