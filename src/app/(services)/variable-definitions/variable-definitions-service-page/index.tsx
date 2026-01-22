@@ -12,6 +12,7 @@ import { RenderedView } from '@/libs/data-access/variable-definitions/internal/m
 import { localization } from '@/libs/language';
 import { FilterGroup, FilterItem } from '@/types/filters';
 import { REMOVE_ALL_FILTERS, SUBJECT_AREA } from '@/utils/constants';
+import { buildTagsLabel } from '@/utils/functions';
 import { VardefSearchHit } from '../components/vardefSearchHit';
 import { countHits } from './functions';
 
@@ -33,6 +34,7 @@ const VariableDefinitionsServicePage = ({
   }
   const [selectedVariableDefinitions, setSelectedVariableDefinitions] = useState<FilterItem[]>([]);
 
+  /*
   const hitCountsByCode = useMemo(() => {
     return countHits(selectedVariableDefinitions, rawHits);
   }, [rawHits, selectedVariableDefinitions]);
@@ -44,7 +46,17 @@ const VariableDefinitionsServicePage = ({
         count: hitCountsByCode[item.value] ?? 0,
       })),
     [selectedVariableDefinitions, hitCountsByCode],
-  );
+  );*/
+
+  const selectedItemsWithCounts = useMemo(() => {
+    const hitCountsByCode = countHits(selectedVariableDefinitions, rawHits);
+
+    return selectedVariableDefinitions.map((item) => ({
+      ...item,
+      count: hitCountsByCode[item.value] ?? 0,
+    }));
+  }, [rawHits, selectedVariableDefinitions]);
+
   const subjectFilters = useMemo(
     () => subjectFields.map((f) => ({ label: String(f.name), value: String(f.code) })),
     [subjectFields],
@@ -52,9 +64,6 @@ const VariableDefinitionsServicePage = ({
 
   /**
    * Memoized array of filter groups used in the FiltersPanel.
-   *
-   * This array is memoized with `useMemo` and only recalculates when
-   * `selectedVariableDefinitions` or `subjectFields` change.
    */
   const filterGroups: FilterGroup[] = useMemo(
     () => [
@@ -70,14 +79,6 @@ const VariableDefinitionsServicePage = ({
 
   /**
    * Memoized array of filtered hits based on selected variable definitions.
-   *
-   * If no variables are selected, returns the original `rawHits`.
-   * Otherwise, filters `rawHits` to include only items whose `subject_fields`
-   * contain at least one field with a `code` that matches a selected variable's value.
-   *
-   * Dependencies:
-   * - `rawHits`: The full array of hits to filter.
-   * - `selectedVariableDefinitions`: Array of selected filter items used to determine which hits to include.
    */
   const filteredHits = useMemo(() => {
     if (!selectedVariableDefinitions.length) return rawHits;
@@ -112,7 +113,7 @@ const VariableDefinitionsServicePage = ({
           tagData={
             new Map(
               filterGroups.flatMap((group) =>
-                group.selectedItems.map((item) => [item.value, `${item.label} (${item.count ?? 0})`]),
+                group.selectedItems.map((item) => [item.value, buildTagsLabel(item.label, item.count)]),
               ),
             )
           }

@@ -85,3 +85,7 @@ export function parseClassification(json?: object | null): ClassificationResourc
 export function getDevEnvironmentName(): string | undefined {
   return process.env.DEV_ENVIRONMENT_NAME;
 }
+
+export const buildTagsLabel = (label?: string, count?: number) => {
+  return `${label} (${count ?? 0})`;
+};
