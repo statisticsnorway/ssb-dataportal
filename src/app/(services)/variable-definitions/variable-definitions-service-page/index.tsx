@@ -34,20 +34,6 @@ const VariableDefinitionsServicePage = ({
   }
   const [selectedVariableDefinitions, setSelectedVariableDefinitions] = useState<FilterItem[]>([]);
 
-  /*
-  const hitCountsByCode = useMemo(() => {
-    return countHits(selectedVariableDefinitions, rawHits);
-  }, [rawHits, selectedVariableDefinitions]);
-
-  const selectedItemsWithCounts = useMemo(
-    () =>
-      selectedVariableDefinitions.map((item) => ({
-        ...item,
-        count: hitCountsByCode[item.value] ?? 0,
-      })),
-    [selectedVariableDefinitions, hitCountsByCode],
-  );*/
-
   const selectedItemsWithCounts = useMemo(() => {
     const hitCountsByCode = countHits(selectedVariableDefinitions, rawHits);
 
