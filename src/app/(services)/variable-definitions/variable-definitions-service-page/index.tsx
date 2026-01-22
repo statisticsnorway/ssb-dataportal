@@ -78,7 +78,7 @@ const VariableDefinitionsServicePage = ({
   return (
     <SearchPage
       asideContent={filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
-      searchLabel={localization.searchVariableDefinitions}
+      searchLabel={localization.search.searchForVariableDefinitions}
       sortOptions={sortTypes}
       sortValue={sortKey}
       onSortChange={(key: string) => setSortKey(key as SortTypes)}
