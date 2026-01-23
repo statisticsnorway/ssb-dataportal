@@ -16,9 +16,3 @@
   justify-content: center;
   margin-top: var(--large-gap);
 }
-
-@media (min-width: 900px) {
-  .searchHitsContainer {
-    flex-direction: column;
-  }
-}
