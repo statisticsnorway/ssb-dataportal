@@ -6,7 +6,13 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useClipboard } from '@/hooks/useClipboard';
 import styles from './code-snippet.module.css';
-import { COPIED_LABEL, COPY_CODE_LABEL, DEFAULT_TITLE } from './constants';
+import {
+  COPIED_LABEL,
+  COPY_CODE_LABEL,
+  DAPLA_LAB_VARDEF_URL,
+  DEFAULT_TITLE,
+  VARDEF_DOCUMENTATION_URL,
+} from './constants';
 
 type Props = {
   title?: string;
@@ -51,6 +57,15 @@ export function CodeSnippet({
       >
         {codeString}
       </SyntaxHighlighter>
+      <footer className={styles.footer}>
+        <a href={DAPLA_LAB_VARDEF_URL} target='_blank' rel='noopener noreferrer'>
+          Dapla Lab
+        </a>
+        <span className={styles.divider}>•</span>
+        <a href={VARDEF_DOCUMENTATION_URL} target='_blank' rel='noopener noreferrer'>
+          Dokumentasjon
+        </a>
+      </footer>
     </section>
   );
 }
