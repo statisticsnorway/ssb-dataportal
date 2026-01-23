@@ -4,7 +4,6 @@
 
 export const nb = {
   subjectArea: 'Statistikkområde',
-  removeAlleFilters: 'Fjern alle filtere',
   navigateHomeVariableDefinitions: 'Naviger til hovedside Variabeldefinisjoner',
   navigateHomeClassifications: 'Naviger til hovedside Klassifikasjoner',
   navigateHomeDatasets: 'Naviger til hovedside Datasett',
@@ -162,7 +161,7 @@ export const nb = {
     importConcept: 'Importer',
     importLogo: 'Importer logo',
     importDataService: 'Importer OpenAPI',
-    removeFilter: 'Fjern filter',
+    removeFilter: 'Fjern alle filter',
     removeFromCodeList: 'Fjern fra kodeliste',
     restore: 'Gjenopprett',
     save: 'Lagre',

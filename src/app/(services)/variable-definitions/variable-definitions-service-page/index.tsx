@@ -100,7 +100,7 @@ const VariableDefinitionsServicePage = ({
             setSelectedFilters(newSelected);
           }}
           onClearAll={{
-            text: localization.removeAlleFilters,
+            text: localization.button.removeFilter,
             action: () => setSelectedFilters([]),
           }}
           tagData={
