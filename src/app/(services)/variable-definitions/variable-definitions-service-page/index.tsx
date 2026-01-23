@@ -11,9 +11,8 @@ import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { FilterGroup, FilterItem } from '@/types/filters';
-import { buildTagsLabel } from '@/utils/functions';
+import { buildTagsLabel, countHits } from '@/utils/functions';
 import { VardefSearchHit } from '../components/vardefSearchHit';
-import { countHits } from './functions';
 
 interface VariableDefinitionsServicePageProps {
   rawHits: RenderedView[];

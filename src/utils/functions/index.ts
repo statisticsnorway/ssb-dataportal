@@ -1,4 +1,6 @@
 import { ClassificationResource, ClassificationResourceFromJSONTyped } from '@/libs/data-access/klass';
+import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
+import { FilterItem } from '@/types/filters';
 import { Item } from '@/types/item';
 
 /**
@@ -86,6 +88,33 @@ export function getDevEnvironmentName(): string | undefined {
   return process.env.DEV_ENVIRONMENT_NAME;
 }
 
+/**
+ * Build a label string with an optional count.
+ */
 export const buildTagsLabel = (label?: string, count?: number) => {
   return `${label} (${count ?? 0})`;
+};
+
+export const countHits = (selected: FilterItem[], raw: RenderedView[]) => {
+  if (!Array.isArray(raw)) return {};
+  if (!Array.isArray(selected)) return {};
+
+  const counts: Record<string, number> = {};
+  selected.forEach((def) => {
+    counts[def.value] = 0;
+  });
+
+  raw.forEach((hit) => {
+    if (!Array.isArray(hit.subject_fields)) return;
+
+    selected.forEach((def) => {
+      const match = hit.subject_fields.some((f) => f?.code === def.value);
+
+      if (match) {
+        counts[def.value]++;
+      }
+    });
+  });
+
+  return counts;
 };
