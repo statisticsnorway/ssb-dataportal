@@ -71,15 +71,19 @@ export default function VariableDefinitionDetail({
           <DetailsPagePanel title='Eier' elements={ownerItems(variableDefinition)} columns={2} />
           <CodeSnippet
             title={
-              <span className={styles.codeSnippetTitle}>
+              <p className={styles.codeSnippetTitle}>
                 <span className={styles.titleMain}>
-                  <img src='/python-logo-only.svg' alt='' className={styles.pythonIcon} />
-                  <span>Hent variabeldefinisjon med </span>
+                  <img src='/python-logo-only.svg' alt='' className={styles.pythonIcon} /> Hent variabeldefinisjon med
                 </span>
-                <a href={PYPI_DAPLA_TOOLBELT_METADATA_URL} target='_blank' className={styles.titleLink}>
+                <a
+                  href={PYPI_DAPLA_TOOLBELT_METADATA_URL}
+                  target='_blank'
+                  rel='noreferrer'
+                  className={styles.titleLink}
+                >
                   dapla-toolbelt-metadata
                 </a>
-              </span>
+              </p>
             }
             code={[
               `Vardef.get_variable_definition_by_shortname(`,
