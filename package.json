@@ -27,7 +27,7 @@
     "@navikt/aksel-icons": "7.34.0",
     "@next/env": "16.1.1",
     "classnames": "2.5.1",
-    "lodash": "4.17.21",
+    "lodash": "4.17.23",
     "next": "15.5.9",
     "react": "19.2.0",
     "react-dom": "19.2.0",
