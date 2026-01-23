@@ -65,7 +65,6 @@
 
 .mainSection {
   flex: 1 1 0;
-  transition: height 0.2s ease;
 }
 
 .searchLabel {
@@ -98,11 +97,12 @@
 }
 
 @media (min-width: 768px) {
-  .searchHitsContainer {
+  .searchHitsContainerWrapper {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: var(--medium-gap);
+    transition: height 0.2s ease;
   }
 
   .tabsNavigation {
@@ -126,8 +126,14 @@
   }
 
   .filterSection {
-    flex: 0.3 0.3 0;
+    flex: 0 0 20%;
     gap: var(--small-gap);
+    max-width: 300px;
+  }
+
+  .mainSection {
+    flex: 1 1 auto;
+    min-width: 0;
   }
 }
 
