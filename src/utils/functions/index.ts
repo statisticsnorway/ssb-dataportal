@@ -88,6 +88,7 @@ export function getDevEnvironmentName(): string | undefined {
   return process.env.DEV_ENVIRONMENT_NAME;
 }
 
+//TODO: Add test
 /**
  * Build a label string with an optional count.
  */
@@ -95,6 +96,9 @@ export const buildTagsLabel = (label?: string, count?: number) => {
   return `${label} (${count ?? 0})`;
 };
 
+//TODO: Add test
+//TODO: Make generic for reusability
+//TODO: Add docstring
 export const countHits = (selected: FilterItem[], raw: RenderedView[]) => {
   if (!Array.isArray(raw)) return {};
   if (!Array.isArray(selected)) return {};

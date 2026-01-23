@@ -30,16 +30,16 @@ const VariableDefinitionsServicePage = ({
   if (isLoading) {
     return <Spinner aria-label={localization.loadingVariableDefinitions} />;
   }
-  const [selectedVariableDefinitions, setSelectedVariableDefinitions] = useState<FilterItem[]>([]);
+  const [selectedFilters, setSelectedFilters] = useState<FilterItem[]>([]);
 
   const selectedItemsWithCounts = useMemo(() => {
-    const hitCountsByCode = countHits(selectedVariableDefinitions, rawHits);
+    const hitCountsByCode = countHits(selectedFilters, rawHits);
 
-    return selectedVariableDefinitions.map((item) => ({
+    return selectedFilters.map((item) => ({
       ...item,
       count: hitCountsByCode[item.value] ?? 0,
     }));
-  }, [rawHits, selectedVariableDefinitions]);
+  }, [rawHits, selectedFilters]);
 
   const subjectFilters = useMemo(
     () => subjectFields.map((f) => ({ label: String(f.name), value: String(f.code) })),
@@ -47,7 +47,12 @@ const VariableDefinitionsServicePage = ({
   );
 
   /**
-   * Memoized array of filter groups used in the FiltersPanel.
+   * Returns a memoized array of filter groups used in the FiltersPanel.
+   *
+   * @param subjectFilters - Array of filters for the subject area.
+   * @param selectedItemsWithCounts - Currently selected filter items with their counts.
+   * @param setSelectedFilters  - Callback to update selected filters.
+   * @return An array of FilterGroup objects, memoized for performance.
    */
   const filterGroups: FilterGroup[] = useMemo(
     () => [
@@ -55,22 +60,26 @@ const VariableDefinitionsServicePage = ({
         filterHeading: localization.subjectArea,
         filters: subjectFilters,
         selectedItems: selectedItemsWithCounts,
-        onFilterChange: setSelectedVariableDefinitions,
+        onFilterChange: setSelectedFilters,
       },
     ],
     [subjectFields, selectedItemsWithCounts],
   );
 
   /**
-   * Memoized array of filtered hits based on selected variable definitions.
+   * Returns a memoized array of hits filtered by the selected filters.
+   *
+   * @param rawHits - The full array of hits to filter.
+   * @param selectedFilters - Array of currently selected FilterItem objects.
+   * @return An array of hits that match the selected filters; if none are selected, returns all hits.
    */
   const filteredHits = useMemo(() => {
-    if (!selectedVariableDefinitions.length) return rawHits;
+    if (!selectedFilters.length) return rawHits;
 
-    const selectedCodes = selectedVariableDefinitions.map((s) => s.value);
+    const selectedCodes = selectedFilters.map((s) => s.value);
 
     return rawHits.filter((hit) => hit.subject_fields?.some((f) => f.code != null && selectedCodes.includes(f.code)));
-  }, [rawHits, selectedVariableDefinitions]);
+  }, [rawHits, selectedFilters]);
 
   const { hits, sortKey, setSortKey, sortTypes } = useSearchStateVardef(filteredHits);
 
@@ -87,12 +96,12 @@ const VariableDefinitionsServicePage = ({
           maxTags={subjectFields.length}
           closeButton={true}
           onClose={(key) => {
-            const newSelected = selectedVariableDefinitions.filter((f) => f.value !== key);
-            setSelectedVariableDefinitions(newSelected);
+            const newSelected = selectedFilters.filter((f) => f.value !== key);
+            setSelectedFilters(newSelected);
           }}
           onClearAll={{
             text: localization.removeAlleFilters,
-            action: () => setSelectedVariableDefinitions([]),
+            action: () => setSelectedFilters([]),
           }}
           tagData={
             new Map(
