@@ -7,13 +7,7 @@ import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useClipboard } from '@/hooks/useClipboard';
 import styles from './code-snippet.module.css';
 
-import {
-  COPIED_LABEL,
-  COPY_CODE_LABEL,
-  DAPLA_LAB_VARDEF_URL,
-  DEFAULT_TITLE,
-  VARDEF_DOCUMENTATION_URL,
-} from './constants';
+import { COPIED_LABEL, COPY_CODE_LABEL, DAPLA_LAB_VARDEF_URL, VARDEF_DOCUMENTATION_URL } from './constants';
 
 type Props = {
   title?: React.ReactNode;
