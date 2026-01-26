@@ -5,7 +5,7 @@ import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useClipboard } from '@/hooks/useClipboard';
-import { useRuntimeConfig } from '@/hooks/useRuntimeConfig';
+import { useRuntimeConfig } from '@/libs/config/runtime-config-context';
 import styles from './code-snippet.module.css';
 import { COPIED_LABEL, COPY_CODE_LABEL, VARDEF_DOCUMENTATION_URL } from './constants';
 
@@ -26,8 +26,7 @@ export function CodeSnippet({
 }: Props) {
   const { copied, copyToClipboard } = useClipboard();
   const codeString = Array.isArray(code) ? code.join('\n') : code;
-  const { cfg, loading, error } = useRuntimeConfig();
-  const daplaUrl = cfg?.daplaLabVardefUrl ?? undefined;
+  const { daplaLabVardefUrl } = useRuntimeConfig();
   return (
     <section className={`${styles.snippet} ${className || ''}`}>
       <div className={styles.header}>
@@ -60,16 +59,10 @@ export function CodeSnippet({
         {codeString}
       </SyntaxHighlighter>
       <footer className={styles.footer}>
-        {loading && <span>Laster konfig…</span>}
-        {error && <span className={styles.error}>Feil ved lasting av konfig</span>}
-        {daplaUrl && (
-          <>
-            <a href={daplaUrl} target='_blank' rel='noopener noreferrer'>
-              Dapla Lab
-            </a>
-            <span className={styles.divider}>•</span>
-          </>
-        )}
+        <a href={daplaLabVardefUrl} target='_blank' rel='noopener noreferrer'>
+          Dapla Lab
+        </a>
+        <span className={styles.divider}>•</span>
         <a href={VARDEF_DOCUMENTATION_URL} target='_blank' rel='noopener noreferrer'>
           Dokumentasjon
         </a>
