@@ -5,7 +5,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import { FC, ReactElement, ReactNode } from 'react';
 import { SortFields } from '@/components/sort-fields';
 import { SortTypes } from '@/hooks/useSearchStateKlass';
-import { FilterGroup } from '@/types/filters';
 import styles from './search-page.module.css';
 
 interface SearchPageProps {
@@ -15,7 +14,6 @@ interface SearchPageProps {
   infoContent?: ReactNode;
   asideContent?: ReactNode;
   searchResult?: ReactElement;
-  filterGroups?: FilterGroup[];
   searchLabel?: string;
   sortOptions?: SortTypes[];
   sortValue?: SortTypes;
@@ -27,7 +25,6 @@ const SearchPage: FC<SearchPageProps> = ({
   infoContent,
   asideContent,
   searchResult,
-  filterGroups,
   searchLabel,
   sortOptions,
   sortValue,
@@ -82,8 +79,8 @@ const SearchPage: FC<SearchPageProps> = ({
         </div>
       </section>
       <div className={`${styles.pageContainer} container`}>
-        {infoContent ? <div className={styles.infoSection}>{infoContent}</div> : null}
-        <section className={styles.searchHitsContainer}>
+        {infoContent ? infoContent : null}
+        <section className={styles.searchHitsContainerWrapper}>
           {asideContent ? <aside className={styles.filterSection}>{asideContent}</aside> : null}
           <section className={styles.mainSection}>
             <div className={styles.hitsAndSort}>

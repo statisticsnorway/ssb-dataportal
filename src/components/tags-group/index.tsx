@@ -26,7 +26,7 @@ export type TagData = Map<string, string>;
  */
 const TagWithCloseButton: React.FC<TagWithCloseButtonProps> = ({ label, id, onClose }) => {
   return (
-    <Tag>
+    <Tag variant={'outline'} data-size='md' data-color='accent' className={styles.tagWithButton}>
       {label}
       {onClose && (
         <Button className={styles.closeButton} onClick={() => onClose(id)} style={{ marginLeft: 4 }}>
@@ -46,10 +46,14 @@ const TagWithCloseButton: React.FC<TagWithCloseButtonProps> = ({ label, id, onCl
  * @param onClose - Callback triggered when a tag's close button is clicked.
  * @param onClearAll - Optional "Remove All" button configuration.
  *
- * @returns An unordered list (<ul>) of tags, optionally with close buttons and a "Remove All" button.
+ * @returns An unordered list (<ul>) of tags, optionally with close buttons and a "Remove All" button
+ * or null if tagData is empty.
  */
 const TagsGroup = ({ maxTags, tagData, closeButton = false, onClose, onClearAll }: TagsGroupProps) => {
   const tagsArray = useMemo(() => Array.from(tagData.entries()).slice(0, maxTags), [tagData, maxTags]);
+
+  // Only render the list if there are tags to avoid whitespace
+  if (!tagsArray.length) return null;
 
   return (
     <ul className={styles.tagsList}>

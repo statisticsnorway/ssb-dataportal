@@ -59,6 +59,5 @@ test('Navigate to up to 4 variable definitions', async ({ goToVariable, page }) 
 
     // Wait for variable-defintions page to be ready for next iteration
     await expect(page.getByRole('tab', { name: VARIABELDEFINISJONER })).toBeVisible({ timeout: 5000 });
-    await page.waitForLoadState('networkidle');
   }
 });

@@ -18,6 +18,11 @@
         "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
         "code": "bf",
         "title": "Bank og finansmarked"
+      },
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
       }
     ],
     "contains_special_categories_of_personal_data": false,
