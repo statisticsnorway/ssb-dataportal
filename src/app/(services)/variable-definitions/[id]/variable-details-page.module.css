@@ -142,3 +142,42 @@
     padding-right: var(--medium-gap);
   }
 }
+
+.codeSnippetTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+  font-size: var(--font-size-sm);
+}
+
+.titleMain {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.pythonIcon {
+  height: 1.25em;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.titleLink {
+  white-space: nowrap;
+  flex-basis: 100%;
+  margin-left: calc(1.25em + 0.5rem);
+}
+
+@media (min-width: 480px) {
+  .codeSnippetTitle {
+    flex-wrap: nowrap;
+    font-size: var(--font-size-lg);
+  }
+
+  .titleLink {
+    flex-basis: auto;
+    margin-left: 0;
+  }
+}

@@ -120,6 +120,15 @@ div.ds-card {
   background: rgb(242, 242, 242);
 }
 
+.codeBlock {
+  margin: 0 1rem 1rem 1rem !important;
+}
+
+.codeBlock code {
+  display: block;
+  padding: 1rem 1rem 1rem 0.75rem;
+}
+
 .codeBlock,
 .codeBlock pre,
 .codeBlock code,
