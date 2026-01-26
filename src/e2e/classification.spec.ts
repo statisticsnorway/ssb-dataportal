@@ -45,6 +45,5 @@ test('Navigate to up to 4 classifications', async ({ goToClassification, page })
 
     // Wait for classifications page to be ready for next iteration
     await expect(page.getByRole('tab', { name: KLASSIFIKASJONER })).toBeVisible({ timeout: 5000 });
-    await page.waitForLoadState('networkidle');
   }
 });

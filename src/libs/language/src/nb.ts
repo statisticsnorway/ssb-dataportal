@@ -3,6 +3,7 @@
  */
 
 export const nb = {
+  subjectArea: 'Statistikkområde',
   navigateHomeVariableDefinitions: 'Naviger til hovedside Variabeldefinisjoner',
   navigateHomeClassifications: 'Naviger til hovedside Klassifikasjoner',
   navigateHomeDatasets: 'Naviger til hovedside Datasett',
@@ -31,6 +32,7 @@ export const nb = {
   versionId: 'Versjons-ID',
   lastModified: 'Sist oppdatert',
   loading: 'Laster',
+  loadingVariableDefinitions: 'Laster variabeldefinisjoner',
   name: 'Navn',
   no: 'Nei',
   to: 'Til',
@@ -50,7 +52,6 @@ export const nb = {
   shortName: 'Kortnavn',
   sorting: 'Sortering',
   status: 'Status',
-  subjectArea: 'Fagområde',
   subjectFields: 'Statistikkområder',
   title: 'Tittel',
   toAndIncluding: 'Til og med',
@@ -117,6 +118,7 @@ export const nb = {
     noHits: 'Ditt søk ga ingen treff',
     search: 'Søk',
     searchField: 'Søk i felt',
+    searchForVariableDefinitions: 'Søk i variabeldefinisjoner',
     searchForDataset: 'Søk etter datasettbeskrivelse',
     searchForService: 'Søk etter tjeneste...',
     searchForUsername: 'Søk etter brukernavn...',
@@ -159,7 +161,7 @@ export const nb = {
     importConcept: 'Importer',
     importLogo: 'Importer logo',
     importDataService: 'Importer OpenAPI',
-    removeFilter: 'Fjern filter',
+    removeFilter: 'Fjern alle filter',
     removeFromCodeList: 'Fjern fra kodeliste',
     restore: 'Gjenopprett',
     save: 'Lagre',

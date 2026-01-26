@@ -9,6 +9,7 @@
   justify-items: center;
   justify-content: space-between;
   gap: var(--medium-gap);
+  transition: height 0.2s ease;
 }
 
 .searchFieldContent {
@@ -62,16 +63,7 @@
   margin-bottom: var(--ds-size-4);
 }
 
-.infoSection {
-  min-height: 4rem;
-  margin-top: 0;
-  margin-bottom: 0;
-  flex: 0 0 100%;
-}
-
 .mainSection {
-  min-height: 200px;
-  margin-top: var(--medium-gap);
   flex: 1 1 0;
 }
 
@@ -87,7 +79,6 @@
 .hitsAndSort {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin-bottom: 1rem;
 }
 
@@ -101,15 +92,17 @@
   flex-direction: column;
   gap: var(--medium-gap);
   width: 100%;
+  margin-top: 0.8rem;
+  margin-bottom: 1rem;
 }
 
-@media (min-width: 886px) {
-  .searchHitsContainer {
+@media (min-width: 768px) {
+  .searchHitsContainerWrapper {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: var(--medium-gap);
-    margin-top: 1rem;
+    transition: height 0.2s ease;
   }
 
   .tabsNavigation {
@@ -133,7 +126,14 @@
   }
 
   .filterSection {
-    flex: 0.3 0.3 0;
+    flex: 0 0 20%;
+    gap: var(--small-gap);
+    max-width: 300px;
+  }
+
+  .mainSection {
+    flex: 1 1 auto;
+    min-width: 0;
   }
 }
 
