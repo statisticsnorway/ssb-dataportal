@@ -8,8 +8,11 @@ RUN corepack enable
 
 COPY package.json yarn.lock .yarnrc.yml ./
 
-# Install dependencies
-RUN yarn install --immutable --production
+# Stage 1: Check lockfile
+RUN yarn install --immutable
+
+# Stage 2: Install only production dependencies
+RUN yarn workspaces focus --all --production
 
 COPY . .
 
