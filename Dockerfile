@@ -9,7 +9,7 @@ RUN corepack enable
 COPY package.json yarn.lock .yarnrc.yml ./
 
 # Install dependencies
-RUN yarn install --immutable
+RUN yarn install --immutable --production
 
 COPY . .
 
