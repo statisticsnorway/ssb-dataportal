@@ -84,7 +84,7 @@ const SearchPage: FC<SearchPageProps> = ({
           {asideContent ? <aside className={styles.filterSection}>{asideContent}</aside> : null}
           <section className={styles.mainSection}>
             <div className={styles.hitsAndSort}>
-              {totalHits && totalHits > 0 ? <p className={styles.numHits}>{totalHits} treff</p> : null}
+              <p className={styles.numHits}>{totalHits} treff</p>
               {sortOptions && sortValue && onSortChange && (
                 <SortFields sortOptions={sortOptions} sortValue={sortValue} onSortChange={onSortChange} />
               )}
