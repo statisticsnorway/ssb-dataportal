@@ -2,15 +2,11 @@
 
 import { Button, Tag } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
-<<<<<<< HEAD
-=======
-import { CodeSnippet } from '@/app/(services)/variable-definitions/components/codeSnippet';
-import {
-  COPIED_LABEL,
-  COPY_ID_LABEL,
-  PYPI_DAPLA_TOOLBELT_METADATA_URL,
-} from '@/app/(services)/variable-definitions/components/constants';
->>>>>>> origin/main
+
+
+import { PYPI_DAPLA_TOOLBELT_METADATA_URL } from './components/constants';
+
+
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
 import { TextField } from '@/components/text-field';

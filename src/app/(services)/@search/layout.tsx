@@ -4,8 +4,8 @@ import { Field, Label, Search, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { ReactNode, Suspense } from 'react';
 import { SearchPageSkeleton } from '@/components/search-page-wrapper/search-page-skeleton';
-import styles from './search-layout.module.css';
 import { localization } from '@/libs/language/src/localization';
+import styles from './search-layout.module.css';
 
 const tabs = [
   {
@@ -17,13 +17,13 @@ const tabs = [
   {
     value: 'klassTab',
     label: 'Klassifikasjoner',
-    searchWord: localization.search.searchForClassifications,
+    searchLabel: localization.search.searchForClassifications,
     href: '/classifications',
   },
   {
     value: 'datasetTab',
     label: 'Datasett',
-    searchWord: localization.search.searchForDatasets,
+    searchLabel: localization.search.searchForDatasets,
     href: '/datasets',
   },
 ];
@@ -39,7 +39,7 @@ export default function SearchLayout({ children }: { children: ReactNode }) {
       <section className={styles.searchPageWrapper}>
         <div className={`${styles.searchFieldContent} container`}>
           <Field>
-            <Label className={styles.searchLabel}>Søk i {activeTab.searchWord.toLowerCase()}</Label>
+            <Label className={styles.searchLabel}>Søk i {activeTab.searchLabel.toLowerCase()}</Label>
             <Search id='searchId' data-color='accent' aria-disabled>
               <Search.Input id='searchValue' aria-label='Søk' />
               <Search.Clear />
