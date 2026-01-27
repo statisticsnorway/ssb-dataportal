@@ -5,8 +5,8 @@ import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useClipboard } from '@/hooks/useClipboard';
+import { localization } from '@/libs/language';
 import styles from './code-snippet.module.css';
-import { COPIED_LABEL, COPY_CODE_LABEL } from './constants';
 
 type Props = {
   title?: React.ReactNode;
@@ -19,8 +19,8 @@ type Props = {
 export function CodeSnippet({
   title,
   code,
-  copyLabel = COPY_CODE_LABEL,
-  copiedLabel = COPIED_LABEL,
+  copyLabel = localization.copy.code,
+  copiedLabel = localization.copy.copied,
   className,
 }: Props) {
   const { copied, copyToClipboard } = useClipboard();

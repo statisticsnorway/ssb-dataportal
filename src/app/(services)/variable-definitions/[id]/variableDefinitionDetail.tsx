@@ -3,11 +3,7 @@
 import { Button, Tag } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { CodeSnippet } from '@/app/(services)/variable-definitions/components/codeSnippet';
-import {
-  COPIED_LABEL,
-  COPY_ID_LABEL,
-  PYPI_DAPLA_TOOLBELT_METADATA_URL,
-} from '@/app/(services)/variable-definitions/components/constants';
+import { PYPI_DAPLA_TOOLBELT_METADATA_URL } from '@/app/(services)/variable-definitions/components/constants';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
 import { TextField } from '@/components/text-field';
@@ -36,7 +32,7 @@ export default function VariableDefinitionDetail({
     return <div>Variabeldefinisjon ikke funnet</div>;
   }
 
-  const homeUrl = { text: 'Variabeldefinisjoner', href: '/variable-definitions' };
+  const homeUrl = { text: localization.variableDefinition.labelPlural, href: '/variable-definitions' };
   const breadcrumbList = variableDefinition.id
     ? ([{ text: variableDefinition.name, href: '' }] as BreadcrumbType[])
     : [];
@@ -57,18 +53,22 @@ export default function VariableDefinitionDetail({
         <article className={styles.mainColumn}>
           <section
             className={styles.mainSection}
-            aria-label={variableDefinition.comment ? 'Variabeldefinisjon med kommentar' : 'Variabeldefinisjon'}
+            aria-label={
+              variableDefinition.comment
+                ? localization.variableDefinition.labelWithComment
+                : localization.variableDefinition.labelSingular
+            }
           >
             <p className={styles.definition}>{variableDefinition.definition}</p>
             {variableDefinition.comment && (
               <dl>
-                <TextField label='Kommentar' value={variableDefinition.comment} type='text' />
+                <TextField label={localization.comment} value={variableDefinition.comment} type='text' />
               </dl>
             )}
           </section>
           <DetailsPagePanel elements={contactItems(variableDefinition)} columns={2} />
           <DetailsPagePanel elements={personalDataItems(variableDefinition)} />
-          <DetailsPagePanel title='Eier' elements={ownerItems(variableDefinition)} columns={2} />
+          <DetailsPagePanel title={localization.owner.label} elements={ownerItems(variableDefinition)} columns={2} />
           <CodeSnippet
             title={
               <p className={styles.codeSnippetTitle}>
@@ -98,11 +98,11 @@ export default function VariableDefinitionDetail({
               <span className={styles.idLabel}>ID</span>
               <span className={styles.idValue}>{variableDefinition.id}</span>
               <Button
-                title={COPY_ID_LABEL}
+                title={localization.copy.id}
                 className='copyButton'
                 icon
                 onClick={() => copyToClipboard(variableDefinition.id)}
-                aria-label={copied ? COPIED_LABEL : COPY_ID_LABEL}
+                aria-label={copied ? localization.copy.copied : localization.copy.id}
               >
                 {copied ? <ClipboardCheckmarkIcon aria-hidden /> : <ClipboardIcon aria-hidden />}
               </Button>
@@ -111,14 +111,14 @@ export default function VariableDefinitionDetail({
               {convertStatus(variableDefinition.variable_status)}
             </Tag>
           </section>
-          <DetailsPagePanel title='Enhetstyper og statistikkområder' elements={unitTypesItems(variableDefinition)} />
-          {references.length > 0 && <DetailsPagePanel title='Referanser' elements={references} />}
-          <DetailsPagePanel title='Gyldighetsperiode' elements={validityItems(variableDefinition)} columns={2} />
+          <DetailsPagePanel title={localization.context} elements={unitTypesItems(variableDefinition)} />
+          {references.length > 0 && <DetailsPagePanel title={localization.references} elements={references} />}
           <DetailsPagePanel
-            title='Opprettet og siste endret'
-            elements={createdAndEditedItems(variableDefinition)}
+            title={localization.validity.label}
+            elements={validityItems(variableDefinition)}
             columns={2}
           />
+          <DetailsPagePanel elements={createdAndEditedItems(variableDefinition)} columns={2} />
         </aside>
       </div>
     </section>

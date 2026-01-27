@@ -8,8 +8,9 @@ export const nb = {
   navigateHomeClassifications: 'Naviger til hovedside Klassifikasjoner',
   navigateHomeDatasets: 'Naviger til hovedside Datasett',
   chooseLanguage: 'Velg språk',
+  comment: 'Kommentar',
   contactPage: 'Kontaktside',
-  containsSpecialCategoriesOfPersonalData: 'Inneholder sensitive personopplysninger',
+  context: 'Kontekst',
   deprecated: 'Utgått',
   description: 'Beskrivelse',
   definition: 'Definisjon',
@@ -62,6 +63,7 @@ export const nb = {
   choose: 'Velg',
   relation: 'Relasjon',
   relations: 'Relasjoner',
+  references: 'Referanser',
   serviceMessageSeeMore: 'Se detaljert driftsmelding for mer informasjon.',
   newConcept: 'Nytt begrep',
   helpText: 'Hjelpetekst',
@@ -71,6 +73,19 @@ export const nb = {
   by: 'av',
   unitTypes: 'Enhetstyper',
   valid: 'Aktiv',
+
+  editing: {
+    updatedBy: 'Sist oppdatert av',
+    updatedOn: 'Sist oppdatert på',
+    createdBy: 'Opprettet av',
+    createdOn: 'Opprettet på',
+  },
+
+  copy: {
+    copied: 'Kopiert',
+    id: 'Kopier ID',
+    code: 'Kopier kode',
+  },
 
   error: {
     error: 'Feil',
@@ -114,9 +129,32 @@ export const nb = {
     county: 'Fylke',
   },
 
-  contactPoint: {
-    contactInformation: 'Kontaktinformasjon',
-    form: 'Kontaktskjema',
+  contact: {
+    label: 'Kontakt',
+    fallbackTitle: 'Ta kontakt med spørsmål eller innspill',
+  },
+
+  owner: {
+    daplaTeam: 'Dapla Team',
+    groups: 'Grupper',
+    label: 'Eier',
+  },
+
+  // Labels specific to variable definitions
+  variableDefinition: {
+    labelPlural: 'Variabeldefinisjoner',
+    labelSingular: 'Variabeldefinisjon',
+    labelWithComment: 'Variabeldefinisjon med kommentar',
+    relevant: 'Relevante variabeldefinisjoner',
+    viewRelevant: 'Se relevant variabeldefinisjon',
+    personalData: 'Inneholder særlige kategorier av personopplysninger',
+    externalReference: 'Ekstern referanse',
+    viewExternalReference: 'Se ekstern referanse',
+  },
+
+  classification: {
+    label: 'Klassifikasjon',
+    view: 'Se klassifikasjon',
   },
 
   search: {
@@ -222,6 +260,7 @@ export const nb = {
   },
 
   validity: {
+    label: 'Gyldighet',
     expired: 'Utgått',
     willBeValid: 'blir gyldig',
   },
