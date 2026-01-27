@@ -3,6 +3,7 @@ import { listRenderedVariableDefinitions } from '@/libs/data/variable-definition
 import { CodeItem } from '@/libs/data-access/klass/models';
 import { ResponseError } from '@/libs/data-access/variable-definitions/internal';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models';
+import { localization } from '@/libs/language';
 import VariableDefinitionsServicePage from './variable-definitions-service-page';
 
 export default async function VariableDefinitions() {
@@ -16,14 +17,15 @@ export default async function VariableDefinitions() {
       switch (error.response.status) {
         case 401:
         case 403:
-          errorMessage = 'Unauthorized';
+        case 404:
+          errorMessage = localization.error.unauthorized;
           break;
         case 500:
         default:
-          errorMessage = 'Unknown';
+          errorMessage = localization.error.somethingWentWrong;
       }
     } else {
-      errorMessage = 'Unknown';
+      errorMessage = localization.error.somethingWentWrong;
     }
   }
   return (

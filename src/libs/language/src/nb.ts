@@ -18,7 +18,6 @@ export const nb = {
   link: 'Lenke',
   edit: 'Rediger',
   email: 'E-post',
-  error: 'Feil',
   filter: 'Filtrer',
   validFrom: 'Gyldig fra',
   validTo: 'Gyldig til',
@@ -48,7 +47,6 @@ export const nb = {
   showMore: 'Vis flere',
   seeMore: 'Se mer',
   seeLess: 'Se mindre',
-  somethingWentWrong: 'Beklager, noe gikk galt. Prøv på nytt litt senere.',
   shortName: 'Kortnavn',
   sorting: 'Sortering',
   status: 'Status',
@@ -64,7 +62,6 @@ export const nb = {
   choose: 'Velg',
   relation: 'Relasjon',
   relations: 'Relasjoner',
-  serviceMessageError: 'Kunne ikke laste inn tjenestemeldinger. Vennligst prøv igjen senere.',
   serviceMessageSeeMore: 'Se detaljert driftsmelding for mer informasjon.',
   newConcept: 'Nytt begrep',
   helpText: 'Hjelpetekst',
@@ -74,6 +71,14 @@ export const nb = {
   by: 'av',
   unitTypes: 'Enhetstyper',
   valid: 'Aktiv',
+
+  error: {
+    error: 'Feil',
+    unauthorized: 'Beklager, du har ikke tilgang.',
+    somethingWentWrong: 'Beklager, noe gikk galt. Prøv på nytt litt senere.',
+    serviceMessageError: 'Kunne ikke laste inn tjenestemeldinger. Vennligst prøv igjen senere.',
+    notImplemented: 'Funksjonaliteten er ikke enda tilgjengelig.',
+  },
 
   language: {
     en: 'Engelsk',

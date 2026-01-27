@@ -115,7 +115,7 @@ const VariableDefinitionsServicePage = ({
       searchResult={
         <>
           {errorMessage ? (
-            <div>Could not fetch data: {errorMessage}</div>
+            <div>{errorMessage}</div>
           ) : hits.length === 0 ? (
             <div>{localization.search.noHits}</div>
           ) : (
