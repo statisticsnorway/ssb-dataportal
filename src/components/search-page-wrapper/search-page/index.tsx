@@ -1,8 +1,8 @@
 import { FC, ReactElement, ReactNode } from 'react';
 import { SortFields } from '@/components/sort-fields';
 import { SortTypes } from '@/hooks/useSearchStateKlass';
-import { FilterGroup } from '@/types/filters';
 import styles from './search-page.module.css';
+import { FilterGroup } from '@/types/filters';
 
 interface SearchPageProps {
   infoContent?: ReactNode;

@@ -2,12 +2,14 @@
 
 import { Button } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useClipboard } from '@/hooks/useClipboard';
 import styles from './code-snippet.module.css';
-import { COPIED_LABEL, COPY_CODE_LABEL, DEFAULT_TITLE } from './constants';
+import { COPIED_LABEL, COPY_CODE_LABEL } from './constants';
 
 type Props = {
-  title?: string;
+  title?: React.ReactNode;
   code: string[];
   copyLabel?: string;
   copiedLabel?: string;
@@ -15,7 +17,7 @@ type Props = {
 };
 
 export function CodeSnippet({
-  title = DEFAULT_TITLE,
+  title,
   code,
   copyLabel = COPY_CODE_LABEL,
   copiedLabel = COPIED_LABEL,
@@ -38,15 +40,22 @@ export function CodeSnippet({
         </Button>
       </div>
 
-      <pre className={styles.pre}>
-        <code className={styles.code}>
-          {code.map((line, i) => (
-            <span key={`${i}-${line}`} className={styles.line}>
-              {line || '\u00A0'}
-            </span>
-          ))}
-        </code>
-      </pre>
+      <SyntaxHighlighter
+        language='python'
+        style={oneLight}
+        customStyle={{
+          fontSize: 'clamp(0.8rem, 1.1vw, 1.05rem)',
+          lineHeight: 1.5,
+          padding: 0,
+          margin: 0,
+        }}
+        className={`codeBlock ${styles.pre}`}
+        codeTagProps={{
+          className: styles.code,
+        }}
+      >
+        {codeString}
+      </SyntaxHighlighter>
     </section>
   );
 }

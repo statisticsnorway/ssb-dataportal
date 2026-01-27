@@ -5,24 +5,25 @@ import { usePathname, useRouter } from 'next/navigation';
 import { ReactNode, Suspense } from 'react';
 import { SearchPageSkeleton } from '@/components/search-page-wrapper/search-page-skeleton';
 import styles from './search-layout.module.css';
+import { localization } from '@/libs/language/src/localization';
 
 const tabs = [
   {
     value: 'vardefTab',
     label: 'Variabeldefinisjoner',
-    searchWord: 'Variabeldefinisjoner',
+    searchLabel: localization.search.searchForVariableDefinitions,
     href: '/variable-definitions',
   },
   {
     value: 'klassTab',
     label: 'Klassifikasjoner',
-    searchWord: 'Kodeverk',
+    searchWord: localization.search.searchForClassifications,
     href: '/classifications',
   },
   {
     value: 'datasetTab',
     label: 'Datasett',
-    searchWord: 'Datasett',
+    searchWord: localization.search.searchForDatasets,
     href: '/datasets',
   },
 ];

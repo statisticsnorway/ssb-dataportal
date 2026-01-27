@@ -3,6 +3,7 @@
   flex-direction: column;
   width: 100%;
   gap: var(--medium-gap);
+  transition: height 0.2s ease;
 }
 
 .hitsList {
@@ -14,10 +15,4 @@
   display: flex;
   justify-content: center;
   margin-top: var(--large-gap);
-}
-
-@media (min-width: 900px) {
-  .searchHitsContainer {
-    flex-direction: column;
-  }
 }

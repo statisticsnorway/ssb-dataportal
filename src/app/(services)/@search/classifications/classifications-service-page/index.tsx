@@ -143,7 +143,7 @@ const ClassificationsServicePage = ({
     <SearchPage
       asideContent={filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
       infoContent={
-        <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
+        <Alert data-color={'warning'} className='infoAlert' data-size={'md'} style={{ marginBottom: '1rem' }}>
           Klassifikasjoner er ikke klar for testing.
         </Alert>
       }
