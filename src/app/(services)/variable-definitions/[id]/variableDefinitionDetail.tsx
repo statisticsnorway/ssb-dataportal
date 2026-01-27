@@ -29,8 +29,10 @@ import styles from './variable-details-page.module.css';
 
 export default function VariableDefinitionDetail({
   variableDefinition,
+  daplaLabVardefUrl,
 }: {
   variableDefinition: RenderedView | undefined;
+  daplaLabVardefUrl: string | undefined;
 }) {
   if (!variableDefinition) {
     return <div>Variabeldefinisjon ikke funnet</div>;
@@ -70,6 +72,7 @@ export default function VariableDefinitionDetail({
           <DetailsPagePanel elements={personalDataItems(variableDefinition)} />
           <DetailsPagePanel title='Eier' elements={ownerItems(variableDefinition)} columns={2} />
           <CodeSnippet
+            daplaLabVardefUrl={daplaLabVardefUrl}
             title={
               <p className={styles.codeSnippetTitle}>
                 <span className={styles.titleMain}>

@@ -10,6 +10,7 @@ export default async function VariableDefinition({ params }: { params: Promise<{
   } catch (error: unknown) {
     console.error('Could not fetch variable definition', error);
   }
+  const daplaLabVardefUrl: string | undefined = process.env.DAPLA_LAB_VARDEF_URL;
 
-  return <VariableDefinitionDetail variableDefinition={variableDefinition} />;
+  return <VariableDefinitionDetail variableDefinition={variableDefinition} daplaLabVardefUrl={daplaLabVardefUrl} />;
 }

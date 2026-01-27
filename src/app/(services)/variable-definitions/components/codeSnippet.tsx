@@ -2,10 +2,10 @@
 
 import { Button } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
+import React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useClipboard } from '@/hooks/useClipboard';
-import { useRuntimeConfig } from '@/libs/config/runtime-config-context';
 import styles from './code-snippet.module.css';
 import { COPIED_LABEL, COPY_CODE_LABEL, VARDEF_DOCUMENTATION_URL } from './constants';
 
@@ -15,6 +15,8 @@ type Props = {
   copyLabel?: string;
   copiedLabel?: string;
   className?: string;
+  devEnvironmentName?: string;
+  daplaLabVardefUrl: string | undefined;
 };
 
 export function CodeSnippet({
@@ -23,10 +25,10 @@ export function CodeSnippet({
   copyLabel = COPY_CODE_LABEL,
   copiedLabel = COPIED_LABEL,
   className,
+  daplaLabVardefUrl,
 }: Props) {
   const { copied, copyToClipboard } = useClipboard();
   const codeString = Array.isArray(code) ? code.join('\n') : code;
-  const { daplaLabVardefUrl } = useRuntimeConfig();
   return (
     <section className={`${styles.snippet} ${className || ''}`}>
       <div className={styles.header}>
@@ -59,10 +61,14 @@ export function CodeSnippet({
         {codeString}
       </SyntaxHighlighter>
       <footer className={styles.footer}>
-        <a href={daplaLabVardefUrl} target='_blank' rel='noopener noreferrer'>
-          Dapla Lab
-        </a>
-        <span className={styles.divider}>•</span>
+        {daplaLabVardefUrl && (
+          <>
+            <a href={daplaLabVardefUrl} target='_blank' rel='noopener noreferrer'>
+              Dapla Lab
+            </a>
+            <span className={styles.divider}>•</span>
+          </>
+        )}
         <a href={VARDEF_DOCUMENTATION_URL} target='_blank' rel='noopener noreferrer'>
           Dokumentasjon
         </a>
