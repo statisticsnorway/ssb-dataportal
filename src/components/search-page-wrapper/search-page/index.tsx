@@ -34,11 +34,11 @@ const SearchPage: FC<SearchPageProps> = ({
         {asideContent ? <aside className={styles.filterSection}>{asideContent}</aside> : null}
         <main className={styles.mainSection}>
           <div className={styles.hitsAndSort}>
-            {totalHits ? (
-              <p className={styles.numHits}>
-                {totalHits == 0 ? localization.search.noHits : `${totalHits} ${localization.search.hits}`}
-              </p>
-            ) : undefined}
+            <p className={styles.numHits}>
+              {totalHits == null || totalHits == 0
+                ? localization.search.noHits
+                : `${totalHits} ${localization.search.hits}`}
+            </p>
             {sortOptions && sortValue && onSortChange && (
               <SortFields sortOptions={sortOptions} sortValue={sortValue} onSortChange={onSortChange} />
             )}

@@ -2,7 +2,6 @@ import { Pagination, usePagination } from '@digdir/designsystemet-react';
 import { ReactNode } from 'react';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
-import { localization } from '@/libs/language/src/localization';
 import styles from './search-hit-container.module.css';
 
 type Props = {
@@ -33,13 +32,8 @@ const SearchHitContainer = ({ searchHits = [], renderHit, paginationInfo, onPage
   const nextButtonProps = pagination.nextButtonProps;
   const pages = pagination.pages;
 
-  if (noSearchHits) return <div>No results</div>;
-
   return (
     <div className={styles.searchHitsContainer}>
-      {(noSearchHits || noSearchHits === undefined) && (
-        <div className={styles.noHits}>{localization.search.noHits}</div>
-      )}
       <div className={styles.hitsList}>{pagedHits.map((hit) => renderHit(hit))}</div>
 
       {hasPagination && (
