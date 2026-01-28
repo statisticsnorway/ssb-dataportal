@@ -168,6 +168,12 @@ To run tests with live data fetched from a remote API edit playwright.config.ts:
 
 Run your tests as usual, and they will fetch real data instead of using static fixtures.
 
+#### Run e2e tests in UI mode
+
+```bash
+yarn test:e2e:ui
+```
+
 #### Run e2e tests with visible browser
 
 ```bash
@@ -177,9 +183,7 @@ yarn test:e2e:headed
 #### Generate tests
 
 ```bash
-yarn dev
-
-npx playwright codegen http://localhost:3000
+yarn test:e2e:generate
 ```
 
 ### Generate client code
