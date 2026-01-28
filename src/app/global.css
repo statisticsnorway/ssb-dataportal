@@ -136,3 +136,10 @@ div.ds-card {
   font-family:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
 }
+
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  overflow-wrap: break-word;
+  margin-bottom: var(--ds-size-4);
+}
