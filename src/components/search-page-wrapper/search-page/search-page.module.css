@@ -17,45 +17,6 @@
   overflow-x: hidden;
 }
 
-.tabsNavigationContainer {
-  width: 100%;
-  overflow-x: hidden;
-}
-
-.tabs {
-  -webkit-box-align: center;
-  align-items: center;
-  display: flex;
-  -webkit-box-pack: start;
-  justify-content: flex-start;
-  flex-wrap: nowrap;
-  margin-bottom: 0;
-}
-
-.tabsNavigation {
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-}
-
-.tab {
-  -webkit-box-pack: center;
-  justify-content: center;
-  list-style-type: none;
-  position: relative;
-  overflow: hidden;
-  color: #e6eff8;
-  width: 95%;
-  margin: var(--center-element-no-top);
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-}
-
-.tab[aria-selected="true"] {
-  background-color: var(--light-light-blue-color);
-  color: var(--main-font-color);
-}
-
 .pageContainer {
   display: flex;
   flex-direction: column;
@@ -65,10 +26,6 @@
 
 .mainSection {
   flex: 1 1 0;
-}
-
-.searchLabel {
-  color: white;
 }
 
 .numHits {
@@ -105,21 +62,6 @@
     transition: height 0.2s ease;
   }
 
-  .tabsNavigation {
-    flex-direction: row;
-  }
-
-  .tab {
-    width: auto;
-    max-width: 200px;
-    flex: 0 0 auto;
-    white-space: normal;
-    overflow: visible;
-    height: auto;
-    text-align: center;
-    margin: 0;
-  }
-
   #searchValue.ds-input {
     margin: 0;
     min-width: 80%;
@@ -134,18 +76,5 @@
   .mainSection {
     flex: 1 1 auto;
     min-width: 0;
-  }
-}
-
-@media (min-width: 992px) {
-  .tabsContent {
-    margin: 0;
-    padding: 0;
-  }
-}
-
-@media (min-width: 1400px) {
-  .tabsContent {
-    margin: 0;
   }
 }
