@@ -9,7 +9,6 @@ import { Alert } from '@digdir/designsystemet-react';
 import { UrlItem } from '@/types/navigationTypes';
 import { getDevEnvironmentName } from '@/utils/functions';
 import ErrorBoundary from '../error-boundry';
-import styles from './layout.module.css';
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -34,7 +33,7 @@ export const AppLayout = ({
   displayFooter = true,
 }: AppLayoutProps) => {
   return (
-    <div className={cn(styles.layout, className)}>
+    <div className={cn(className)}>
       <Alert data-color={'info'} className='infoAlert' data-size={'md'}>
         Velkommen til testing av datakatalogen. Du er nå i en prototype under utvikling.
       </Alert>
