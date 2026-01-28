@@ -2,6 +2,7 @@
 
 import { Button } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
+import React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useClipboard } from '@/hooks/useClipboard';
@@ -14,6 +15,8 @@ type Props = {
   copyLabel?: string;
   copiedLabel?: string;
   className?: string;
+  devEnvironmentName?: string;
+  daplaLabVardefUrl: string | undefined;
 };
 
 export function CodeSnippet({
@@ -22,6 +25,7 @@ export function CodeSnippet({
   copyLabel = localization.copy.code,
   copiedLabel = localization.copy.copied,
   className,
+  daplaLabVardefUrl,
 }: Props) {
   const { copied, copyToClipboard } = useClipboard();
   const codeString = Array.isArray(code) ? code.join('\n') : code;
@@ -56,6 +60,19 @@ export function CodeSnippet({
       >
         {codeString}
       </SyntaxHighlighter>
+      <footer className={styles.footer}>
+        {daplaLabVardefUrl && (
+          <>
+            <a href={daplaLabVardefUrl} target='_blank' rel='noopener noreferrer'>
+              Dapla Lab
+            </a>
+            <span className={styles.divider}>•</span>
+          </>
+        )}
+        <a href='https://manual.dapla.ssb.no/statistikkere/vardef.html' target='_blank' rel='noopener noreferrer'>
+          Dokumentasjon
+        </a>
+      </footer>
     </section>
   );
 }

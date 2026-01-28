@@ -1,5 +1,5 @@
 import { test as base, expect } from '@playwright/test';
-import { tabsData } from '@/app/tabs';
+import { tabsData } from '@/app/(services)/tabs';
 import { RenderedView, RenderedViewFromJSON } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import variableDefinitionsJson from '@/static-data/variable-definitions.json';

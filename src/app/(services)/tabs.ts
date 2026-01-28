@@ -6,16 +6,27 @@ export enum Tabs {
   Datasets,
 }
 
-export type TabData = { label: string; route: string; id: string };
+export type TabData = { label: string; searchLabel: string; route: string; id: string };
 
 export let tabsData: Record<keyof typeof Tabs, TabData> = {
   VariableDefinitions: {
     label: localization.tabs.variableDefinitions,
+    searchLabel: localization.search.searchForVariableDefinitions,
     route: '/variable-definitions',
     id: 'variableDefinitionsTab',
   },
-  Classifications: { label: localization.tabs.classifications, route: '/classifications', id: 'classificationsTab' },
-  Datasets: { label: localization.tabs.datasets, route: '/datasets', id: 'datasetsTab' },
+  Classifications: {
+    label: localization.tabs.classifications,
+    searchLabel: localization.search.searchForClassifications,
+    route: '/classifications',
+    id: 'classificationsTab',
+  },
+  Datasets: {
+    label: localization.tabs.datasets,
+    searchLabel: localization.search.searchForDatasets,
+    route: '/datasets',
+    id: 'datasetsTab',
+  },
 };
 
 export function getTabForRoute(pathname: string): TabData | undefined {

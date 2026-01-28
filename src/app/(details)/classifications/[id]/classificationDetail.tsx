@@ -22,9 +22,11 @@ export default function ClassificationDetail({ classification }: { classificatio
           {classification.name}
         </Heading>
       </header>
-      <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
-        Detaljside for klassifikasjon er ikke klar for testing.
-      </Alert>
+      <main className={styles.classificationsDetail}>
+        <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
+          Detaljside for klassifikasjon er ikke klar for testing.
+        </Alert>
+      </main>
     </section>
   );
 }

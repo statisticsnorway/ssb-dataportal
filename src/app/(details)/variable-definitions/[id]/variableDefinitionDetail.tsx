@@ -2,17 +2,16 @@
 
 import { Button, Tag } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
-import { CodeSnippet } from '@/app/(services)/variable-definitions/components/codeSnippet';
-import { PYPI_DAPLA_TOOLBELT_METADATA_URL } from '@/app/(services)/variable-definitions/components/constants';
-import { tabsData } from '@/app/tabs';
+import { tabsData } from '@/app/(services)/tabs';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
 import { TextField } from '@/components/text-field';
+import { VardefHeading } from '@/components/vardef-heading/';
 import { useClipboard } from '@/hooks/useClipboard';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import { convertStatus, nonEmpty } from '@/utils/functions';
-import { VardefHeading } from '../components/vardefHeading';
+import { CodeSnippet } from './components/codeSnippet';
 import {
   contactItems,
   createdAndEditedItems,
@@ -26,8 +25,10 @@ import styles from './variable-details-page.module.css';
 
 export default function VariableDefinitionDetail({
   variableDefinition,
+  daplaLabVardefUrl,
 }: {
   variableDefinition: RenderedView | undefined;
+  daplaLabVardefUrl: string | undefined;
 }) {
   if (!variableDefinition) {
     return <div>Variabeldefinisjon ikke funnet</div>;
@@ -51,7 +52,7 @@ export default function VariableDefinitionDetail({
         <VardefHeading headingProps={{ 'data-size': 'xl', level: 1 }} variableDefinition={variableDefinition} />
       </header>
       <div className={styles.contentGrid}>
-        <article className={styles.mainColumn}>
+        <main className={styles.mainColumn}>
           <section
             className={styles.mainSection}
             aria-label={
@@ -71,6 +72,7 @@ export default function VariableDefinitionDetail({
           <DetailsPagePanel elements={personalDataItems(variableDefinition)} />
           <DetailsPagePanel title={localization.owner.label} elements={ownerItems(variableDefinition)} columns={2} />
           <CodeSnippet
+            daplaLabVardefUrl={daplaLabVardefUrl}
             title={
               <p className={styles.codeSnippetTitle}>
                 <span className={styles.titleMain}>
@@ -78,7 +80,7 @@ export default function VariableDefinitionDetail({
                   {localization.variableDefinition.fetchWith}
                 </span>
                 <a
-                  href={PYPI_DAPLA_TOOLBELT_METADATA_URL}
+                  href='https://pypi.org/project/dapla-toolbelt-metadata/'
                   target='_blank'
                   rel='noreferrer'
                   className={styles.titleLink}
@@ -93,7 +95,7 @@ export default function VariableDefinitionDetail({
               `)`,
             ]}
           />
-        </article>
+        </main>
         <aside className={styles.sidebar}>
           <section className={styles.idAndTagRow}>
             <div className={styles.idField}>

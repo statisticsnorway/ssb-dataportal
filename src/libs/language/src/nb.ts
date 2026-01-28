@@ -168,6 +168,8 @@ export const nb = {
     label: 'Søk',
     searchField: 'Søk i felt',
     searchForVariableDefinitions: 'Søk i variabeldefinisjoner',
+    searchForClassifications: 'Søk i kodeverk',
+    searchForDatasets: 'Søk i datasett',
     searchForDataset: 'Søk etter datasettbeskrivelse',
     searchForService: 'Søk etter tjeneste...',
     searchForUsername: 'Søk etter brukernavn...',

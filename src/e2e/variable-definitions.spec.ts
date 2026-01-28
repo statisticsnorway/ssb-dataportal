@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { tabsData } from '@/app/tabs';
+import { tabsData } from '@/app/(services)/tabs';
 
 // TODO: Improve use of hardcoded values, these test depends on current testdata in norwegian nb
 
@@ -26,7 +26,7 @@ test('Select more than one filter display a "remove all" tag', async ({ page }) 
   await expect(page.getByRole('main')).toContainText('76 treff');
   await page.getByRole('checkbox', { name: 'Arbeid og lønn' }).check();
   await page.getByRole('checkbox', { name: 'Befolkning' }).check();
-  await expect(page.getByRole('main')).toContainText('Fjern alle filterx');
+  await expect(page.locator('body')).toContainText('Fjern alle filterx');
   await expect(page.getByRole('main')).toContainText('31 treff');
   await page.getByRole('listitem').filter({ hasText: 'Fjern alle filterx' }).getByRole('button').click();
   await expect(page.getByRole('main')).toContainText('76 treff');
