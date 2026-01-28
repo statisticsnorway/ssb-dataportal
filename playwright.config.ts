@@ -66,6 +66,7 @@ export default defineConfig({
   webServer: {
     command: 'NODE_ENV=test yarn dev',
     url: 'http://localhost:3000',
+    timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,
   },
 });
