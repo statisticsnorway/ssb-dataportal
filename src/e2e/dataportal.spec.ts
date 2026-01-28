@@ -10,7 +10,6 @@ test.describe('Navigation variable definitions', () => {
 
 test('Navigate from landingpage', async ({ page }) => {
   await page.goto('/');
-
   await expect(page.getByRole('heading')).toContainText(localization.info.landingPageTitle);
   await page.getByRole('link', { name: localization.variableDefinitions }).click();
   await expect(page.getByRole('tab', { name: localization.variableDefinitions })).toBeVisible();
