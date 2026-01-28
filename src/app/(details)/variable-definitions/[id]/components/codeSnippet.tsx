@@ -70,7 +70,7 @@ export function CodeSnippet({
           </>
         )}
         <a href='https://manual.dapla.ssb.no/statistikkere/vardef.html' target='_blank' rel='noopener noreferrer'>
-          Dokumentasjon
+          {localization.documentation}
         </a>
       </footer>
     </section>

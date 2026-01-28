@@ -14,6 +14,7 @@ export const nb = {
   deprecated: 'Utgått',
   description: 'Beskrivelse',
   definition: 'Definisjon',
+  documentation: 'Dokumentasjon',
   validityPeriod: 'Gyldighetsperiode',
   code: 'Kode',
   link: 'Lenke',
