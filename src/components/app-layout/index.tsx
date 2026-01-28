@@ -39,12 +39,9 @@ export const AppLayout = ({
         Velkommen til testing av datakatalogen. Du er nå i en prototype under utvikling.
       </Alert>
       <Header homeUrl='https://www.ssb.no' devEnvironmentName={getDevEnvironmentName()} />
-      <main className={styles.main}>
-        {/* TODO(): Remove/change catalog-frontend props */}
-        <ErrorBoundary fdkRegistrationBaseUrl={fdkRegistrationBaseUrl} title={catalogTitle ?? ''}>
-          {children}
-        </ErrorBoundary>
-      </main>
+      <ErrorBoundary fdkRegistrationBaseUrl={fdkRegistrationBaseUrl} title={catalogTitle ?? ''}>
+        {children}
+      </ErrorBoundary>
       {displayFooter && <Footer footerLinks={footerLinks} />}
     </div>
   );

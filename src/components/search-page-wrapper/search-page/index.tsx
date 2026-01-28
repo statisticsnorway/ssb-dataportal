@@ -28,10 +28,10 @@ const SearchPage: FC<SearchPageProps> = ({
 }) => {
   return (
     <div className={`${styles.pageContainer} container`}>
-      {infoContent ? infoContent : null}
+      <header>{infoContent ? infoContent : null}</header>
       <section className={styles.searchHitsContainerWrapper}>
         {asideContent ? <aside className={styles.filterSection}>{asideContent}</aside> : null}
-        <section className={styles.mainSection}>
+        <main className={styles.mainSection}>
           <div className={styles.hitsAndSort}>
             <p className={styles.numHits}>{totalHits} treff</p>
             {sortOptions && sortValue && onSortChange && (
@@ -39,7 +39,7 @@ const SearchPage: FC<SearchPageProps> = ({
             )}
           </div>
           {searchResult}
-        </section>
+        </main>
       </section>
     </div>
   );
