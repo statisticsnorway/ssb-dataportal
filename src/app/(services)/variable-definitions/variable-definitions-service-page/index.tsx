@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import { FiltersPanel } from '@/components/filter/filters-panel';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
+import { SortFields } from '@/components/sort-fields';
 import { TagsGroup } from '@/components/tags-group';
 import { SortTypes, useSearchStateVardef } from '@/hooks/useSearchStateVardef';
 import { CodeItem } from '@/libs/data-access/klass/models';
@@ -86,10 +87,6 @@ const VariableDefinitionsServicePage = ({
   return (
     <SearchPage
       asideContent={filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
-      searchLabel={localization.search.searchForVariableDefinitions}
-      sortOptions={sortTypes}
-      sortValue={sortKey}
-      onSortChange={(key: string) => setSortKey(key as SortTypes)}
       totalHits={hits.length}
       infoContent={
         <TagsGroup
@@ -110,6 +107,13 @@ const VariableDefinitionsServicePage = ({
               ),
             )
           }
+        />
+      }
+      controlsContent={
+        <SortFields
+          sortOptions={sortTypes}
+          sortValue={sortKey}
+          onSortChange={(key: string) => setSortKey(key as SortTypes)}
         />
       }
       searchResult={

@@ -1,42 +1,40 @@
+'use client';
+
 import { FC, ReactElement, ReactNode } from 'react';
-import { SortFields } from '@/components/sort-fields';
-import { SortTypes } from '@/hooks/useSearchStateKlass';
 import styles from './search-page.module.css';
 
 interface SearchPageProps {
-  placeholder?: string;
-  value?: string;
-  onSearch?: (value: string) => void;
   infoContent?: ReactNode;
   asideContent?: ReactNode;
   searchResult?: ReactElement;
-  searchLabel?: string;
-  sortOptions?: SortTypes[];
-  sortValue?: SortTypes;
-  onSortChange?: (key: string) => void;
+  controlsContent?: ReactNode;
   totalHits?: number;
+  hitsLabel?: string;
 }
 
 const SearchPage: FC<SearchPageProps> = ({
   infoContent,
   asideContent,
   searchResult,
-  sortOptions,
-  sortValue,
-  onSortChange,
+  controlsContent,
   totalHits,
+  hitsLabel = 'treff', //TODO localization
 }) => {
   return (
     <div className={`${styles.pageContainer} container`}>
-      {infoContent ? infoContent : null}
+      {infoContent}
+
       <section className={styles.searchHitsContainerWrapper}>
-        {asideContent ? <aside className={styles.filterSection}>{asideContent}</aside> : null}
+        {asideContent && <aside className={styles.filterSection}>{asideContent}</aside>}
+
         <section className={styles.mainSection}>
           <div className={styles.hitsAndSort}>
-            <p className={styles.numHits}>{totalHits} treff</p>
-            {sortOptions && sortValue && onSortChange && (
-              <SortFields sortOptions={sortOptions} sortValue={sortValue} onSortChange={onSortChange} />
+            {totalHits !== undefined && (
+              <p className={styles.numHits}>
+                {totalHits} {hitsLabel}
+              </p>
             )}
+            {controlsContent}
           </div>
           {searchResult}
         </section>
