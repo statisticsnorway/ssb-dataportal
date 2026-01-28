@@ -154,6 +154,7 @@ export const nb = {
     personalData: 'Inneholder særlige kategorier av personopplysninger',
     externalReference: 'Ekstern referanse',
     viewExternalReference: 'Se ekstern referanse',
+    fetchWith: 'Hent variabeldefinisjon med',
   },
 
   classification: {

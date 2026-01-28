@@ -1,4 +1,5 @@
 import { Card, Paragraph } from '@digdir/designsystemet-react';
+import { tabsData } from '@/app/tabs';
 import { TagsGroup } from '@/components/tags-group';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { areFieldsDefinedAndNonNull } from '@/utils/functions';
@@ -13,7 +14,7 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
   return (
     <Card>
       <VardefHeading
-        href={`/variable-definitions/${variableDefinition.id}`}
+        href={`${tabsData.VariableDefinitions.route}/${variableDefinition.id}`}
         headingProps={{ 'data-size': 'md', level: 2 }}
         variableDefinition={variableDefinition}
       ></VardefHeading>

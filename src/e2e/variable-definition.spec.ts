@@ -1,4 +1,5 @@
 import { test as base, expect } from '@playwright/test';
+import { tabsData } from '@/app/tabs';
 import { RenderedView, RenderedViewFromJSON } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import variableDefinitionsJson from '@/static-data/variable-definitions.json';
@@ -13,7 +14,7 @@ const test = base.extend<{
 }>({
   goToVariable: async ({ page }, use) => {
     const goToVariable = async (variable: RenderedView) => {
-      await page.goto('/variable-definitions');
+      await page.goto(tabsData.VariableDefinitions.route);
       if (!variable.name) {
         throw new Error('Variable name is missing');
       }

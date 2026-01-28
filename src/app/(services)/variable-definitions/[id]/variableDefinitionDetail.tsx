@@ -4,6 +4,7 @@ import { Button, Tag } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { CodeSnippet } from '@/app/(services)/variable-definitions/components/codeSnippet';
 import { PYPI_DAPLA_TOOLBELT_METADATA_URL } from '@/app/(services)/variable-definitions/components/constants';
+import { tabsData } from '@/app/tabs';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
 import { TextField } from '@/components/text-field';
@@ -32,7 +33,7 @@ export default function VariableDefinitionDetail({
     return <div>Variabeldefinisjon ikke funnet</div>;
   }
 
-  const homeUrl = { text: localization.variableDefinition.labelPlural, href: '/variable-definitions' };
+  const homeUrl = { text: localization.variableDefinition.labelPlural, href: tabsData.VariableDefinitions.route };
   const breadcrumbList = variableDefinition.id
     ? ([{ text: variableDefinition.name, href: '' }] as BreadcrumbType[])
     : [];
@@ -73,7 +74,8 @@ export default function VariableDefinitionDetail({
             title={
               <p className={styles.codeSnippetTitle}>
                 <span className={styles.titleMain}>
-                  <img src='/python-logo-only.svg' alt='' className={styles.pythonIcon} /> Hent variabeldefinisjon med
+                  <img src='/python-logo-only.svg' alt='' className={styles.pythonIcon} />{' '}
+                  {localization.variableDefinition.fetchWith}
                 </span>
                 <a
                   href={PYPI_DAPLA_TOOLBELT_METADATA_URL}

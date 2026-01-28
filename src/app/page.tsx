@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
+import { tabsData } from './tabs';
 
 export default function Home() {
-  redirect('/variable-definitions');
+  redirect(tabsData.VariableDefinitions.route);
 }
