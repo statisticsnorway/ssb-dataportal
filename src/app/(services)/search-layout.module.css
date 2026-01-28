@@ -1,0 +1,68 @@
+.searchPageWrapper {
+  display: flex;
+  flex-flow: column wrap;
+  margin-bottom: var(--medium-gap);
+  background-color: var(--dark-blue-gray-color);
+  -webkit-box-align: center;
+  background-repeat: no-repeat;
+  background-position: right top;
+  justify-items: center;
+  justify-content: space-between;
+  gap: var(--medium-gap);
+}
+
+.searchFieldContent {
+  margin-top: var(--large-gap);
+  overflow-x: hidden;
+}
+
+.tabsNavigationContainer {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.tabsNavigation {
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+  position: relative;
+  overflow: hidden;
+  color: #e6eff8;
+  width: fit-content;
+  padding: 0.75rem 1.25rem;
+  margin: 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  white-space: nowrap;
+}
+
+.tab[aria-selected="true"] {
+  background-color: var(--light-light-blue-color);
+  color: var(--main-font-color);
+}
+
+.searchLabel {
+  color: white;
+}
+
+@media (min-width: 768px) {
+  .tabsNavigation {
+    flex-direction: row;
+  }
+
+  .tab {
+    margin: 0;
+  }
+
+  #searchValue.ds-input {
+    margin: 0;
+    min-width: 80%;
+  }
+}

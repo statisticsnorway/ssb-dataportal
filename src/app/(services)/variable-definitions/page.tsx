@@ -1,6 +1,5 @@
 import { fetchSubjectFields } from '@/libs/data/classifications/subjectFieldLookup';
 import { listRenderedVariableDefinitions } from '@/libs/data/variable-definitions/variableDefinitions';
-import { CodeItem } from '@/libs/data-access/klass/models';
 import { ResponseError } from '@/libs/data-access/variable-definitions/internal';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models';
 import VariableDefinitionsServicePage from './variable-definitions-service-page';
@@ -8,9 +7,12 @@ import VariableDefinitionsServicePage from './variable-definitions-service-page'
 export default async function VariableDefinitions() {
   let data: RenderedView[] = [];
   let errorMessage: string | null = null;
-  const subjectFields: CodeItem[] = await fetchSubjectFields();
+
+  const subjectFieldsPromise = fetchSubjectFields();
+  const variableDefsPromise = listRenderedVariableDefinitions();
+
   try {
-    data = await listRenderedVariableDefinitions();
+    data = await variableDefsPromise;
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
       switch (error.response.status) {
@@ -26,6 +28,9 @@ export default async function VariableDefinitions() {
       errorMessage = 'Unknown';
     }
   }
+
+  const subjectFields = await subjectFieldsPromise;
+
   return (
     <VariableDefinitionsServicePage
       rawHits={data}

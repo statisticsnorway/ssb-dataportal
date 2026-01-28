@@ -1,9 +1,9 @@
 import { Card, Paragraph } from '@digdir/designsystemet-react';
 import { TagsGroup } from '@/components/tags-group';
+import { VardefHeading } from '@/components/vardef-heading';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { areFieldsDefinedAndNonNull } from '@/utils/functions';
 import styles from './vardef.module.css';
-import { VardefHeading } from './vardefHeading';
 
 interface VardefSearchHitProps {
   variableDefinition: RenderedView;
