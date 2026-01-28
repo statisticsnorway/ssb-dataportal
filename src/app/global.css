@@ -24,6 +24,7 @@
 
   --blue-color: #335380;
   --dark-blue-color: #1e2b3c;
+  --main-background-color-2: #c3dcdc;
   --main-background-color: #f0f8f9;
   --shadow-color: #969ba0;
   --element-background-color: #fff;
@@ -141,9 +142,18 @@ div.ds-card {
   display: flex;
   flex-direction: column;
   margin-bottom: var(--ds-size-4);
+  gap: var(--medium-gap);
 }
 
 #landingPageContent {
   min-height: 60vh;
   flex: 1;
+  display: flex;
+  flex-direction: row;
+  gap: var(--medium-gap);
+}
+
+.linkCard {
+  max-height: 200px;
+  width: 100%;
 }

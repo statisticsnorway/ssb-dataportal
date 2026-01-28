@@ -1,4 +1,4 @@
-import { Heading } from '@digdir/designsystemet-react';
+import { Card, Heading } from '@digdir/designsystemet-react';
 import Link from 'next/link';
 import { localization } from '@/libs/language';
 import { tabs } from '@/utils/constants';
@@ -12,9 +12,11 @@ export default function Home() {
       </header>
       <main id='landingPageContent'>
         {tabs.map((item, index) => (
-          <Link key={index} href={item.href}>
-            {item.label}
-          </Link>
+          <Card key={index} className='linkCard'>
+            <Link key={index} href={item.href}>
+              {item.label}
+            </Link>
+          </Card>
         ))}
       </main>
     </div>
