@@ -3,8 +3,10 @@
 import { Field, Label, Search, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC, ReactElement, ReactNode } from 'react';
+import { getTabForId, getTabForRoute, tabsData } from '@/app/tabs';
 import { SortFields } from '@/components/sort-fields';
-import { SortTypes } from '@/hooks/useSearchStateKlass';
+import { localization } from '@/libs/language';
+import { SortTypes } from '@/types/sort';
 import styles from './search-page.module.css';
 
 interface SearchPageProps {
@@ -15,9 +17,9 @@ interface SearchPageProps {
   asideContent?: ReactNode;
   searchResult?: ReactElement;
   searchLabel?: string;
-  sortOptions?: SortTypes[];
+  sortOptions?: ReadonlyArray<SortTypes>;
   sortValue?: SortTypes;
-  onSortChange?: (key: string) => void;
+  onSortChange?: (key: SortTypes) => void;
   totalHits?: number;
 }
 
@@ -30,39 +32,25 @@ const SearchPage: FC<SearchPageProps> = ({
   sortValue,
   onSortChange,
   totalHits,
-}) => {
+}: SearchPageProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const derivedTab = pathname.includes('/classifications')
-    ? 'klassTab'
-    : pathname.includes('/variable-definitions')
-      ? 'vardefTab'
-      : pathname.includes('/datasets')
-        ? 'datasetTab'
-        : '';
-
-  const tabs = [
-    { value: 'vardefTab', label: 'Variabeldefinisjoner' },
-    { value: 'klassTab', label: 'Klassifikasjoner' },
-    { value: 'datasetTab', label: 'Datasett' },
-  ];
-
-  const tabRoutes: Record<string, string> = {
-    klassTab: '/classifications',
-    vardefTab: '/variable-definitions',
-    datasetTab: '/datasets',
-  };
+  const derivedTab = getTabForRoute(pathname);
 
   return (
-    <Tabs value={derivedTab} data-color='accent' onChange={(value) => router.push(tabRoutes[value] || '/')}>
+    <Tabs
+      value={derivedTab?.id}
+      data-color='accent'
+      onChange={(value: string) => router.push(getTabForId(value)?.route || '/')}
+    >
       <section className={styles.searchPageWrapper}>
         <div className={`${styles.searchFieldContent} container`}>
           <Field>
             <Label className={styles.searchLabel}>{searchLabel}</Label>
             {/*Use 'aria-disabled' because search is not implemented yet*/}
             <Search id='searchId' data-color={'accent'} aria-disabled>
-              <Search.Input id='searchValue' aria-label='Søk' />
+              <Search.Input id='searchValue' aria-label={localization.search.label} />
               <Search.Clear />
               <Search.Button>Søk</Search.Button>
             </Search>
@@ -70,8 +58,8 @@ const SearchPage: FC<SearchPageProps> = ({
         </div>
         <div className={`${styles.tabsNavigationContainer} container`}>
           <Tabs.List className={styles.tabsNavigation}>
-            {tabs.map((tab) => (
-              <Tabs.Tab key={tab.value} value={tab.value} className={styles.tab}>
+            {Object.values(tabsData).map((tab) => (
+              <Tabs.Tab key={tab.id} value={tab.id} className={styles.tab}>
                 {tab.label}
               </Tabs.Tab>
             ))}
@@ -84,7 +72,11 @@ const SearchPage: FC<SearchPageProps> = ({
           {asideContent ? <aside className={styles.filterSection}>{asideContent}</aside> : null}
           <section className={styles.mainSection}>
             <div className={styles.hitsAndSort}>
-              <p className={styles.numHits}>{totalHits} treff</p>
+              {totalHits ? (
+                <p className={styles.numHits}>
+                  {totalHits == 0 ? localization.search.noHits : `${totalHits} ${localization.search.hits}`}
+                </p>
+              ) : undefined}
               {sortOptions && sortValue && onSortChange && (
                 <SortFields sortOptions={sortOptions} sortValue={sortValue} onSortChange={onSortChange} />
               )}

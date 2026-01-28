@@ -1,15 +1,15 @@
-import { fetchSubjectFields } from '@/libs/data/classifications/subjectFieldLookup';
 import { listRenderedVariableDefinitions } from '@/libs/data/variable-definitions/variableDefinitions';
 import { CodeItem } from '@/libs/data-access/klass/models';
 import { ResponseError } from '@/libs/data-access/variable-definitions/internal';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models';
 import { localization } from '@/libs/language';
+import { fetchStaticSubjectFields } from '@/utils/mock-data';
 import VariableDefinitionsServicePage from './variable-definitions-service-page';
 
 export default async function VariableDefinitions() {
   let data: RenderedView[] = [];
   let errorMessage: string | null = null;
-  const subjectFields: CodeItem[] = await fetchSubjectFields();
+  const subjectFields: CodeItem[] = await fetchStaticSubjectFields();
   try {
     data = await listRenderedVariableDefinitions();
   } catch (error: unknown) {

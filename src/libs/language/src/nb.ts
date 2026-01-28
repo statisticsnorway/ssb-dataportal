@@ -19,7 +19,6 @@ export const nb = {
   link: 'Lenke',
   edit: 'Rediger',
   email: 'E-post',
-  filter: 'Filtrer',
   validFrom: 'Gyldig fra',
   validTo: 'Gyldig til',
   add: 'Legg til',
@@ -50,7 +49,6 @@ export const nb = {
   seeLess: 'Se mindre',
   shortName: 'Kortnavn',
   sorting: 'Sortering',
-  status: 'Status',
   subjectFields: 'Statistikkområder',
   title: 'Tittel',
   toAndIncluding: 'Til og med',
@@ -73,6 +71,12 @@ export const nb = {
   by: 'av',
   unitTypes: 'Enhetstyper',
   valid: 'Aktiv',
+
+  tabs: {
+    variableDefinitions: 'Variabeldefinisjoner',
+    classifications: 'Klassifikasjoner',
+    datasets: 'Datasett',
+  },
 
   editing: {
     updatedBy: 'Sist oppdatert av',
@@ -159,15 +163,21 @@ export const nb = {
 
   search: {
     noHits: 'Ditt søk ga ingen treff',
-    search: 'Søk',
+    hits: 'treff',
+    label: 'Søk',
     searchField: 'Søk i felt',
     searchForVariableDefinitions: 'Søk i variabeldefinisjoner',
     searchForDataset: 'Søk etter datasettbeskrivelse',
     searchForService: 'Søk etter tjeneste...',
     searchForUsername: 'Søk etter brukernavn...',
     searchInCatalogs: ['Søk i Felles datakatalog', 'Lenke til søk i felles datakatalog'],
-    sort: 'Sortering',
+
     clear: 'Tøm',
+    filter: {
+      label: 'Filter',
+      close: 'Lukk filter',
+      open: 'Åpne filter',
+    },
 
     fields: {
       alleFelter: 'Alle felter',
@@ -179,15 +189,14 @@ export const nb = {
       tillattTerm: 'Tillatt term',
     },
 
-    sortOptions: {
-      NEWEST_FIRST: 'Nyest først',
-      LAST_UPDATED_FIRST: 'Sist endret først',
-      LAST_UPDATED_LAST: 'Eldst først',
-      RECOMMENDED_TERM_AÅ: 'Anbefalt term A-Å',
-      RECOMMENDED_TERM_ÅA: 'Anbefalt term Å-A',
-      TITLE_ÅA: 'Tittel Å-A',
-      TITLE_AÅ: 'Tittel A-Å',
-      RELEVANCE: 'Relevans',
+    sort: {
+      label: 'Sortering',
+      newestFirst: 'Nyest først',
+      lastUpdatedFirst: 'Sist endret først',
+      lastUpdatedLast: 'Eldst først',
+      titleAlphabeticalAsc: 'Tittel A-Å',
+      titleAlphabeticalDesc: 'Tittel Å-A',
+      relevance: 'Relevans',
     },
   },
 
@@ -236,13 +245,11 @@ export const nb = {
     menu: 'Meny',
   },
 
-  tag: {
-    all: 'Alle',
-    approve: 'Godkjent',
+  status: {
+    label: 'Status',
     draft: 'Utkast',
-    publish: 'Publisert',
-    required: 'Må fylles ut',
-    recommended: 'Anbefalt',
+    publishedInternal: 'Publisert internt',
+    publishedExternal: 'Publisert eksternt',
   },
 
   searchHit: {

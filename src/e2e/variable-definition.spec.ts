@@ -2,7 +2,6 @@ import { test as base, expect } from '@playwright/test';
 import { RenderedView, RenderedViewFromJSON } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import variableDefinitionsJson from '@/static-data/variable-definitions.json';
-import { VARIABELDEFINISJONER } from '@/utils/constants';
 import { areFieldsDefinedAndNonNull } from '@/utils/functions';
 
 type VariablePageFixture = (variable: RenderedView) => Promise<void>;
@@ -58,6 +57,6 @@ test('Navigate to up to 4 variable definitions', async ({ goToVariable, page }) 
     await Promise.all([page.waitForURL(/\/variable-definitions$/), homeLink.click()]);
 
     // Wait for variable-defintions page to be ready for next iteration
-    await expect(page.getByRole('tab', { name: VARIABELDEFINISJONER })).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole('tab', { name: localization.tabs.variableDefinitions })).toBeVisible({ timeout: 5000 });
   }
 });
