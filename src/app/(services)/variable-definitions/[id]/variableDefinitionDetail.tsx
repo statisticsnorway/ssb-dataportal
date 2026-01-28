@@ -74,7 +74,7 @@ export default function VariableDefinitionDetail({
           <CodeSnippet
             daplaLabVardefUrl={daplaLabVardefUrl}
             title={
-              <p className={styles.codeSnippetTitle}>
+              <div className={styles.codeSnippetTitle}>
                 <span className={styles.titleMain}>
                   <img src='/python-logo-only.svg' alt='' className={styles.pythonIcon} /> Hent variabeldefinisjon med
                 </span>
@@ -86,7 +86,7 @@ export default function VariableDefinitionDetail({
                 >
                   dapla-toolbelt-metadata
                 </a>
-              </p>
+              </div>
             }
             code={[
               `Vardef.get_variable_definition_by_shortname(`,
@@ -102,7 +102,8 @@ export default function VariableDefinitionDetail({
               <span className={styles.idValue}>{variableDefinition.id}</span>
               <Button
                 title={COPY_ID_LABEL}
-                className='copyButton'
+                className={styles.copyIdButton}
+                variant='tertiary'
                 icon
                 onClick={() => copyToClipboard(variableDefinition.id)}
                 aria-label={copied ? COPIED_LABEL : COPY_ID_LABEL}
