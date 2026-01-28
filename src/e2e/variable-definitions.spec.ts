@@ -1,16 +1,17 @@
 import { expect, test } from '@playwright/test';
+import { variableDefinitionsPath } from '@/utils/constants';
 
 // TODO: Improve use of hardcoded values, these test depends on current testdata in norwegian nb
 
 test.describe('Navigation variable definitions', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
-    await expect(page).toHaveURL(/\/variable-definitions$/);
+    await page.goto(variableDefinitionsPath);
+    await expect(page).toHaveURL(variableDefinitionsPath);
   });
 });
 
 test('Filter by subject field displays tags (listitem) with count and close button (x)', async ({ page }) => {
-  await page.goto('/variable-definitions');
+  await page.goto(variableDefinitionsPath);
   await expect(page.getByRole('main')).toContainText('76 treff');
   await expect(page.locator('[id="filter-Statistikkområde"]')).toContainText('Sosiale forhold og kriminalitet');
   await page.getByRole('checkbox', { name: 'Sosiale forhold og' }).check();
@@ -21,7 +22,7 @@ test('Filter by subject field displays tags (listitem) with count and close butt
 });
 
 test('Select more than one filter display a "remove all" tag', async ({ page }) => {
-  await page.goto('/variable-definitions');
+  await page.goto(variableDefinitionsPath);
   await expect(page.getByRole('main')).toContainText('76 treff');
   await page.getByRole('checkbox', { name: 'Arbeid og lønn' }).check();
   await page.getByRole('checkbox', { name: 'Befolkning' }).check();
@@ -32,7 +33,7 @@ test('Select more than one filter display a "remove all" tag', async ({ page }) 
 });
 
 test('Variable "Aksje" has two subject fields', async ({ page }) => {
-  await page.goto('/variable-definitions');
+  await page.goto(variableDefinitionsPath);
   await expect(page.getByRole('main')).toContainText('76 treff');
   await page.getByRole('checkbox', { name: 'Bank og finansmarked' }).check();
   await expect(page.getByRole('main')).toContainText('1 treff');
@@ -46,7 +47,7 @@ test('Variable "Aksje" has two subject fields', async ({ page }) => {
 });
 
 test('Sort variable definitions', async ({ page }) => {
-  await page.goto('/variable-definitions');
+  await page.goto(variableDefinitionsPath);
   await page.getByLabel('Select sort').selectOption('titleDesc');
   await expect(page.getByRole('main')).toContainText('Årslønn');
   await page.getByLabel('Select sort').selectOption('titleAsc');

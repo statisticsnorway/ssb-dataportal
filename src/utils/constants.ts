@@ -5,12 +5,8 @@ export const ID = 'ID';
 export const NB = 'nb';
 export const ACCEPT_LANGUAGE = 'accept-language';
 
-//export const CLASSIFICATIONS = 'classifications';
+export const CLASSIFICATIONS = 'classifications';
 export const CLASSIFICATION_FAMILIES = 'classificationfamilies';
-
-export const KLASSIFIKASJONER = 'Klassifikasjoner';
-export const DATASETS = 'Datasett';
-export const VARIABELDEFINISJONER = 'Variabeldefinisjoner';
 
 export const LANDBAKGRUNN = 'Landbakgrunn';
 
