@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { tabsData } from '@/app/(services)/tabs';
+import { localization } from '@/libs/language';
 
 // TODO: Improve use of hardcoded values, these test depends on current testdata in norwegian nb
 
@@ -48,11 +49,11 @@ test('Variable "Aksje" has two subject fields', async ({ page }) => {
 
 test('Sort variable definitions', async ({ page }) => {
   await page.goto(tabsData.VariableDefinitions.route);
-  await page.getByLabel('Select sort').selectOption('titleDesc');
+  await page.getByLabel(localization.search.sort.label).selectOption('titleDesc');
   await expect(page.getByRole('main')).toContainText('Årslønn');
-  await page.getByLabel('Select sort').selectOption('titleAsc');
+  await page.getByLabel(localization.search.sort.label).selectOption('titleAsc');
   await expect(page.getByRole('main')).toContainText('Aksje');
-  await page.getByLabel('Select sort').selectOption('lastChanged');
+  await page.getByLabel(localization.search.sort.label).selectOption('lastChanged');
   await expect(
     page.getByText('Antall personer 18 år og over i husholdningenpers18plus_i_hushnrAntall personer'),
   ).toBeVisible();
