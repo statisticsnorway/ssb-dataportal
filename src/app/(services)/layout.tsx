@@ -3,29 +3,8 @@
 import { Field, Label, Search, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
-import { localization } from '@/libs/language/src/localization';
+import { tabs } from '@/utils/constants';
 import styles from './search-layout.module.css';
-
-const tabs = [
-  {
-    value: 'vardefTab',
-    label: 'Variabeldefinisjoner',
-    searchLabel: localization.search.searchForVariableDefinitions,
-    href: '/variable-definitions',
-  },
-  {
-    value: 'klassTab',
-    label: 'Klassifikasjoner',
-    searchLabel: localization.search.searchForClassifications,
-    href: '/classifications',
-  },
-  {
-    value: 'datasetTab',
-    label: 'Datasett',
-    searchLabel: localization.search.searchForDatasets,
-    href: '/datasets',
-  },
-];
 
 export default function SearchLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();

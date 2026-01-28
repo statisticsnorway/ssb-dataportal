@@ -1,6 +1,8 @@
 export interface TabItem {
-  label: string;
   value: string;
+  label: string;
+  searchLabel: string;
+  href: string;
 }
 
 export interface SearchFieldOption {
