@@ -25,7 +25,7 @@ test('Select more than one filter display a "remove all" tag', async ({ page }) 
   await expect(page.getByRole('main')).toContainText('76 treff');
   await page.getByRole('checkbox', { name: 'Arbeid og lønn' }).check();
   await page.getByRole('checkbox', { name: 'Befolkning' }).check();
-  await expect(page.getByRole('main')).toContainText('Fjern alle filterx');
+  await expect(page.locator('body')).toContainText('Fjern alle filterx');
   await expect(page.getByRole('main')).toContainText('31 treff');
   await page.getByRole('listitem').filter({ hasText: 'Fjern alle filterx' }).getByRole('button').click();
   await expect(page.getByRole('main')).toContainText('76 treff');

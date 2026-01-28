@@ -52,7 +52,7 @@ export default function VariableDefinitionDetail({
         <VardefHeading headingProps={{ 'data-size': 'xl', level: 1 }} variableDefinition={variableDefinition} />
       </header>
       <div className={styles.contentGrid}>
-        <article className={styles.mainColumn}>
+        <main className={styles.mainColumn}>
           <section
             className={styles.mainSection}
             aria-label={variableDefinition.comment ? 'Variabeldefinisjon med kommentar' : 'Variabeldefinisjon'}
@@ -90,7 +90,7 @@ export default function VariableDefinitionDetail({
               `)`,
             ]}
           />
-        </article>
+        </main>
         <aside className={styles.sidebar}>
           <section className={styles.idAndTagRow}>
             <div className={styles.idField}>
