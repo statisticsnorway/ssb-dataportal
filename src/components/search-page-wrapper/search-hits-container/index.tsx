@@ -2,6 +2,7 @@ import { Pagination, usePagination } from '@digdir/designsystemet-react';
 import { ReactNode } from 'react';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
+import { localization } from '@/libs/language';
 import styles from './search-hit-container.module.css';
 
 type Props = {
@@ -40,8 +41,8 @@ const SearchHitContainer = ({ searchHits = [], renderHit, paginationInfo, onPage
         <Pagination>
           <Pagination.List>
             <Pagination.Item>
-              <Pagination.Button aria-label='Forrige' {...prevButtonProps}>
-                Forrige
+              <Pagination.Button aria-label={localization.previous} {...prevButtonProps}>
+                {localization.previous}
               </Pagination.Button>
             </Pagination.Item>
 
@@ -56,8 +57,8 @@ const SearchHitContainer = ({ searchHits = [], renderHit, paginationInfo, onPage
             )}
 
             <Pagination.Item>
-              <Pagination.Button aria-label='Neste' {...nextButtonProps}>
-                Neste
+              <Pagination.Button aria-label={localization.next} {...nextButtonProps}>
+                {localization.next}
               </Pagination.Button>
             </Pagination.Item>
           </Pagination.List>

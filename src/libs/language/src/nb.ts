@@ -15,6 +15,8 @@ export const nb = {
   description: 'Beskrivelse',
   definition: 'Definisjon',
   documentation: 'Dokumentasjon',
+  next: 'Neste',
+  previous: 'Forrige',
   validityPeriod: 'Gyldighetsperiode',
   code: 'Kode',
   link: 'Lenke',
