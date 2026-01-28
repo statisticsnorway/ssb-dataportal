@@ -2,8 +2,6 @@ import { expect, test } from '@playwright/test';
 import { localization } from '@/libs/language';
 import { classificationsPath, datasetPath, variableDefinitionsPath } from '@/utils/constants';
 
-test.describe.configure({ mode: 'parallel' });
-
 test.describe('Tabs navigation', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/variable-definitions');
