@@ -5,12 +5,12 @@ import { tabs } from '@/utils/constants';
 
 export default function Home() {
   return (
-    <div className='pageContainer container'>
+    <div id='pageContainer' className='container'>
       <header>
         <Heading level={2}>{localization.info.landingPageTitle}</Heading>
         <section>{localization.info.landingPageInfo}</section>
       </header>
-      <main>
+      <main id='landingPageContent'>
         {tabs.map((item, index) => (
           <Link key={index} href={item.href}>
             {item.label}

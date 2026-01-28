@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import { ReactNode } from 'react';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
@@ -12,11 +11,9 @@ import ErrorBoundary from '../error-boundry';
 
 interface AppLayoutProps {
   children: ReactNode;
-  className?: string;
   fdkRegistrationBaseUrl?: string;
   fdkBaseUrl?: string;
   catalogTitle?: string;
-  displayFooter?: boolean;
 }
 
 const footerLinks: UrlItem[] = [
@@ -25,15 +22,9 @@ const footerLinks: UrlItem[] = [
     name: 'metadata@ssb.no',
   },
 ];
-export const AppLayout = ({
-  children,
-  className,
-  fdkRegistrationBaseUrl,
-  catalogTitle,
-  displayFooter = true,
-}: AppLayoutProps) => {
+export const AppLayout = ({ children, fdkRegistrationBaseUrl, catalogTitle }: AppLayoutProps) => {
   return (
-    <div className={cn(className)}>
+    <div className='rootContainer'>
       <Alert data-color={'info'} className='infoAlert' data-size={'md'}>
         Velkommen til testing av datakatalogen. Du er nå i en prototype under utvikling.
       </Alert>
@@ -41,7 +32,7 @@ export const AppLayout = ({
       <ErrorBoundary fdkRegistrationBaseUrl={fdkRegistrationBaseUrl} title={catalogTitle ?? ''}>
         {children}
       </ErrorBoundary>
-      {displayFooter && <Footer footerLinks={footerLinks} />}
+      <Footer footerLinks={footerLinks} />
     </div>
   );
 };
