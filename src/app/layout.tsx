@@ -10,9 +10,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='nb'>
       <body>
-        <AppLayout displayFooter={true} className='rootContainer'>
-          {children}
-        </AppLayout>
+        <AppLayout>{children}</AppLayout>
       </body>
     </html>
   );
