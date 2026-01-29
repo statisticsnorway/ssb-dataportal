@@ -8,18 +8,20 @@ export const nb = {
   navigateHomeClassifications: 'Naviger til hovedside Klassifikasjoner',
   navigateHomeDatasets: 'Naviger til hovedside Datasett',
   chooseLanguage: 'Velg språk',
+  comment: 'Kommentar',
   contactPage: 'Kontaktside',
-  containsSpecialCategoriesOfPersonalData: 'Inneholder sensitive personopplysninger',
+  context: 'Kontekst',
   deprecated: 'Utgått',
   description: 'Beskrivelse',
   definition: 'Definisjon',
+  documentation: 'Dokumentasjon',
+  next: 'Neste',
+  previous: 'Forrige',
   validityPeriod: 'Gyldighetsperiode',
   code: 'Kode',
   link: 'Lenke',
   edit: 'Rediger',
   email: 'E-post',
-  error: 'Feil',
-  filter: 'Filtrer',
   validFrom: 'Gyldig fra',
   validTo: 'Gyldig til',
   add: 'Legg til',
@@ -48,10 +50,8 @@ export const nb = {
   showMore: 'Vis flere',
   seeMore: 'Se mer',
   seeLess: 'Se mindre',
-  somethingWentWrong: 'Beklager, noe gikk galt. Prøv på nytt litt senere.',
   shortName: 'Kortnavn',
   sorting: 'Sortering',
-  status: 'Status',
   subjectFields: 'Statistikkområder',
   title: 'Tittel',
   toAndIncluding: 'Til og med',
@@ -64,7 +64,7 @@ export const nb = {
   choose: 'Velg',
   relation: 'Relasjon',
   relations: 'Relasjoner',
-  serviceMessageError: 'Kunne ikke laste inn tjenestemeldinger. Vennligst prøv igjen senere.',
+  references: 'Referanser',
   serviceMessageSeeMore: 'Se detaljert driftsmelding for mer informasjon.',
   newConcept: 'Nytt begrep',
   helpText: 'Hjelpetekst',
@@ -74,6 +74,33 @@ export const nb = {
   by: 'av',
   unitTypes: 'Enhetstyper',
   valid: 'Aktiv',
+
+  tabs: {
+    variableDefinitions: 'Variabeldefinisjoner',
+    classifications: 'Klassifikasjoner',
+    datasets: 'Datasett',
+  },
+
+  editing: {
+    updatedBy: 'Sist oppdatert av',
+    updatedOn: 'Sist oppdatert på',
+    createdBy: 'Opprettet av',
+    createdOn: 'Opprettet på',
+  },
+
+  copy: {
+    copied: 'Kopiert',
+    id: 'Kopier ID',
+    code: 'Kopier kode',
+  },
+
+  error: {
+    error: 'Feil',
+    unauthorized: 'Beklager, du har ikke tilgang.',
+    somethingWentWrong: 'Beklager, noe gikk galt. Prøv på nytt litt senere.',
+    serviceMessageError: 'Kunne ikke laste inn tjenestemeldinger. Vennligst prøv igjen senere.',
+    notImplemented: 'Funksjonaliteten er ikke enda tilgjengelig.',
+  },
 
   language: {
     en: 'Engelsk',
@@ -109,14 +136,39 @@ export const nb = {
     county: 'Fylke',
   },
 
-  contactPoint: {
-    contactInformation: 'Kontaktinformasjon',
-    form: 'Kontaktskjema',
+  contact: {
+    label: 'Kontakt',
+    fallbackTitle: 'Ta kontakt med spørsmål eller innspill',
+  },
+
+  owner: {
+    daplaTeam: 'Dapla Team',
+    groups: 'Grupper',
+    label: 'Eier',
+  },
+
+  // Labels specific to variable definitions
+  variableDefinition: {
+    labelPlural: 'Variabeldefinisjoner',
+    labelSingular: 'Variabeldefinisjon',
+    labelWithComment: 'Variabeldefinisjon med kommentar',
+    relevant: 'Relevante variabeldefinisjoner',
+    viewRelevant: 'Se relevant variabeldefinisjon',
+    personalData: 'Inneholder særlige kategorier av personopplysninger',
+    externalReference: 'Ekstern referanse',
+    viewExternalReference: 'Se ekstern referanse',
+    fetchWith: 'Hent variabeldefinisjon med',
+  },
+
+  classification: {
+    label: 'Klassifikasjon',
+    view: 'Se klassifikasjon',
   },
 
   search: {
     noHits: 'Ditt søk ga ingen treff',
-    search: 'Søk',
+    hits: 'treff',
+    label: 'Søk',
     searchField: 'Søk i felt',
     searchForVariableDefinitions: 'Søk i variabeldefinisjoner',
     searchForClassifications: 'Søk i kodeverk',
@@ -125,8 +177,13 @@ export const nb = {
     searchForService: 'Søk etter tjeneste...',
     searchForUsername: 'Søk etter brukernavn...',
     searchInCatalogs: ['Søk i Felles datakatalog', 'Lenke til søk i felles datakatalog'],
-    sort: 'Sortering',
+
     clear: 'Tøm',
+    filter: {
+      label: 'Filter',
+      close: 'Lukk filter',
+      open: 'Åpne filter',
+    },
 
     fields: {
       alleFelter: 'Alle felter',
@@ -138,15 +195,14 @@ export const nb = {
       tillattTerm: 'Tillatt term',
     },
 
-    sortOptions: {
-      NEWEST_FIRST: 'Nyest først',
-      LAST_UPDATED_FIRST: 'Sist endret først',
-      LAST_UPDATED_LAST: 'Eldst først',
-      RECOMMENDED_TERM_AÅ: 'Anbefalt term A-Å',
-      RECOMMENDED_TERM_ÅA: 'Anbefalt term Å-A',
-      TITLE_ÅA: 'Tittel Å-A',
-      TITLE_AÅ: 'Tittel A-Å',
-      RELEVANCE: 'Relevans',
+    sort: {
+      label: 'Sortering',
+      newestFirst: 'Nyest først',
+      lastUpdatedFirst: 'Sist endret først',
+      lastUpdatedLast: 'Eldst først',
+      titleAlphabeticalAsc: 'Tittel A-Å',
+      titleAlphabeticalDesc: 'Tittel Å-A',
+      relevance: 'Relevans',
     },
   },
 
@@ -195,13 +251,11 @@ export const nb = {
     menu: 'Meny',
   },
 
-  tag: {
-    all: 'Alle',
-    approve: 'Godkjent',
+  status: {
+    label: 'Status',
     draft: 'Utkast',
-    publish: 'Publisert',
-    required: 'Må fylles ut',
-    recommended: 'Anbefalt',
+    publishedInternal: 'Publisert internt',
+    publishedExternal: 'Publisert eksternt',
   },
 
   searchHit: {
@@ -219,6 +273,7 @@ export const nb = {
   },
 
   validity: {
+    label: 'Gyldighet',
     expired: 'Utgått',
     willBeValid: 'blir gyldig',
   },

@@ -1,7 +1,6 @@
 import { test as base, expect } from '@playwright/test';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
-import { KLASSIFIKASJONER } from '@/utils/constants';
 import { parseClassification } from '@/utils/functions';
 import classificationMock from '../static-data/classifications.json';
 
@@ -44,6 +43,6 @@ test('Navigate to up to 4 classifications', async ({ goToClassification, page })
     await Promise.all([page.waitForURL(/\/classifications$/), homeLink.click()]);
 
     // Wait for classifications page to be ready for next iteration
-    await expect(page.getByRole('tab', { name: KLASSIFIKASJONER })).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole('tab', { name: localization.tabs.classifications })).toBeVisible({ timeout: 5000 });
   }
 });

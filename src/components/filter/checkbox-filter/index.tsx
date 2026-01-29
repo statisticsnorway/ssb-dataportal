@@ -11,6 +11,7 @@ import {
 } from '@digdir/designsystemet-react';
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { useEffect, useMemo, useState } from 'react';
+import { localization } from '@/libs/language';
 import { FilterItem } from '@/types/filters';
 import styles from './checkbox.module.css';
 
@@ -68,9 +69,9 @@ export const CheckboxFilter = ({ filterHeading, filters, onFilterChange, selecte
         >
           <FieldsetLegend className={styles.filterHeader}>{filterHeading}</FieldsetLegend>
           {isOpen ? (
-            <ChevronDownIcon title='Lukk filter' className={styles.chevronUpDown} />
+            <ChevronDownIcon title={localization.search.filter.close} className={styles.chevronUpDown} />
           ) : (
-            <ChevronUpIcon title='Åpne filter' className={styles.chevronUpDown} />
+            <ChevronUpIcon title={localization.search.filter.open} className={styles.chevronUpDown} />
           )}
         </Button>
         {isOpen ? (

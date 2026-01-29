@@ -2,8 +2,7 @@ import LocalizedStrings, { LocalizedStringsMethods } from 'react-localization';
 import { nb } from './nb';
 
 interface LocaleStrings extends LocalizedStringsMethods {
-  // TODO: fix any type
-  // biome-ignore lint/suspicious/noExplicitAny: <Copied from catalog-frontend - must find out why any is used>
+  // biome-ignore lint/suspicious/noExplicitAny: Value may be a string or an object
   [key: string]: any;
 }
 

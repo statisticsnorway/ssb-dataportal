@@ -2,9 +2,10 @@
 
 import classificationsMock from '@/static-data/classifications.json';
 import { linkObj } from '@/types/classification';
-import { CLASSIFICATIONS } from '@/utils/constants';
 import { getClassification } from '@/utils/mock-data';
 import { ClassificationResource } from '../../data-access/klass';
+
+const CLASSIFICATIONS_URL_PATH_PART = 'classifications';
 
 const useStaticData = process.env.KLASS_USE_STATIC_DATA === 'true';
 
@@ -26,7 +27,7 @@ export async function fetchAllClassifications(pageSize = 20): Promise<Classifica
     console.log(`Using Klass base path: ${process.env.KLASS_BASE_PATH}`);
     while (currentPage < totalPages) {
       const res = await fetch(
-        `${process.env.KLASS_BASE_PATH}/${CLASSIFICATIONS}?includeCodelists=true&page=${currentPage}&size=${pageSize}`,
+        `${process.env.KLASS_BASE_PATH}/${CLASSIFICATIONS_URL_PATH_PART}?includeCodelists=true&page=${currentPage}&size=${pageSize}`,
         {
           cache: 'no-store',
         },
@@ -55,9 +56,12 @@ export async function fetchClassificationById(id: number): Promise<Classificatio
     console.warn('Using mock classifications');
     classification = getClassification(id);
   } else {
-    const res = await fetch(`${process.env.KLASS_BASE_PATH}/${CLASSIFICATIONS}/${id}?includeCodelists=true`, {
-      cache: 'no-store',
-    });
+    const res = await fetch(
+      `${process.env.KLASS_BASE_PATH}/${CLASSIFICATIONS_URL_PATH_PART}/${id}?includeCodelists=true`,
+      {
+        cache: 'no-store',
+      },
+    );
 
     if (!res.ok) {
       console.error(`Request to ${res.url} returned status code ${res.status}`, res);

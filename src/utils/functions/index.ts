@@ -1,5 +1,6 @@
 import { ClassificationResource, ClassificationResourceFromJSONTyped } from '@/libs/data-access/klass';
-import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
+import { RenderedView, VariableStatus } from '@/libs/data-access/variable-definitions/internal';
+import { localization } from '@/libs/language';
 import { FilterItem } from '@/types/filters';
 import { Item } from '@/types/item';
 
@@ -37,20 +38,20 @@ export const joinOrEmpty = (arr?: string[] | null) => arr?.join(', ') || '';
 export const formatDate = (date?: Date) => date?.toISOString().split('T')[0] || '-';
 export const formatArray = (arr?: string[]) => joinOrEmpty(arr || []);
 export const optionalString = (str?: string, fallback = '-') => str || fallback;
-export const yesNo = (flag?: boolean) => (flag ? 'Ja' : 'Nei');
+export const yesNo = (flag?: boolean) => (flag ? localization.yes : localization.no);
 export const nonEmpty = (items: Item[]) =>
   items.filter((i) => (Array.isArray(i.value) ? i.value.length > 0 : !!i.value));
 
-export const convertStatus = (status: string) => {
+export const convertStatus = (status: VariableStatus) => {
   switch (status) {
-    case 'Draft':
-      return 'Utkast';
-    case 'PUBLISHED_INTERNAL':
-      return 'Publisert internt';
-    case 'PUBLISHED_EXTERNAL':
-      return 'Publisert eksternt';
+    case VariableStatus.Draft:
+      return localization.status.draft;
+    case VariableStatus.PublishedInternal:
+      return localization.status.publishedInternal;
+    case VariableStatus.PublishedExternal:
+      return localization.status.publishedExternal;
     default:
-      return status;
+      status satisfies never;
   }
 };
 /**
