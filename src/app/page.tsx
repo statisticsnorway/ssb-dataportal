@@ -1,7 +1,7 @@
 import { Heading, Paragraph } from '@digdir/designsystemet-react';
 import Link from 'next/link';
 import { localization } from '@/libs/language';
-import { tabs } from '@/utils/constants';
+import { tabsData } from './(services)/tabs';
 import styles from './home.module.css';
 
 export default function Home() {
@@ -24,8 +24,8 @@ export default function Home() {
           </Paragraph>
         </header>
         <main className={styles.landingPageContent}>
-          {tabs.map((item, index) => (
-            <Link key={index} href={item.href}>
+          {Object.values(tabsData).map((item, index) => (
+            <Link key={index} href={item.route}>
               {item.label}
             </Link>
           ))}
