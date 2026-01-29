@@ -16,6 +16,8 @@
   background-color: var(--ds-color-surface-tinted);
   width: 100%;
   justify-content: space-between;
+  color: black;
+  font-weight: 700;
 }
 
 .hidden {

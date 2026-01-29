@@ -1,3 +1,4 @@
+import { Heading } from '@digdir/designsystemet-react';
 import { FC, ReactElement, ReactNode } from 'react';
 import { SortFields } from '@/components/sort-fields';
 import { localization } from '@/libs/language';
@@ -16,6 +17,7 @@ interface SearchPageProps {
   sortValue?: SortTypes;
   onSortChange?: (key: SortTypes) => void;
   totalHits?: number;
+  header?: string;
 }
 
 const SearchPage: FC<SearchPageProps> = ({
@@ -26,12 +28,20 @@ const SearchPage: FC<SearchPageProps> = ({
   sortValue,
   onSortChange,
   totalHits,
+  header,
 }) => {
   return (
-    <div className={`${styles.pageContainer} container`}>
-      <header>{infoContent ? infoContent : null}</header>
-      <section className={styles.searchHitsContainerWrapper}>
-        {asideContent ? <aside className={styles.filterSection}>{asideContent}</aside> : null}
+    <section className={`${styles.pageContainer} container`} aria-labelledby='pageTitle'>
+      <div>
+        <Heading level={1}>{header ? header : null}</Heading>
+        {infoContent ? infoContent : null}
+      </div>
+      <div className={styles.searchHitsContainerWrapper}>
+        {asideContent ? (
+          <aside className={styles.filterSection} aria-label='Filters'>
+            {asideContent}
+          </aside>
+        ) : null}
         <main className={styles.mainSection}>
           <div className={styles.hitsAndSort}>
             <p className={styles.numHits}>
@@ -45,8 +55,8 @@ const SearchPage: FC<SearchPageProps> = ({
           </div>
           {searchResult}
         </main>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 };
 
