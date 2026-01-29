@@ -15,7 +15,7 @@ interface FiltersPanelProps {
 const FiltersPanel = ({ children }: FiltersPanelProps) => {
   return (
     <>
-      <Heading level={3} data-size="sm">
+      <Heading level={3} data-size='sm'>
         {FILTER_HEADING}
       </Heading>
       {children}

@@ -1,13 +1,13 @@
 import { Button, Tag } from '@digdir/designsystemet-react';
-import styles from './filter-tags.module.css';
 import { localization } from '@/libs/language/src/localization';
 import { FilterItem } from '@/types/filters';
+import styles from './filter-tags.module.css';
 
 interface TagsGroupProps {
   activeFilters: FilterItem[];
   onClose?: (key: FilterItem) => void;
   onClearAll: () => void;
-};
+}
 
 /**
  * TagsGroup component displays a list of tags with optional close buttons.
@@ -20,7 +20,6 @@ interface TagsGroupProps {
  * or null if tagData is empty.
  */
 const FilterTags = ({ activeFilters, onClose, onClearAll }: TagsGroupProps) => {
-
   return (
     <ul className={styles.tagsList}>
       {activeFilters.length > 1 && (
@@ -35,14 +34,14 @@ const FilterTags = ({ activeFilters, onClose, onClearAll }: TagsGroupProps) => {
       )}
       {activeFilters.map((item) => (
         <li key={item.code} style={{ margin: 0 }}>
-            <Tag variant={'outline'} data-size='md' data-color='accent' className={styles.tagWithButton}>
-              {item.name}
-              {onClose && (
-                <Button className={styles.closeButton} onClick={() => onClose(item)} style={{ marginLeft: 4 }}>
-                  x
-                </Button>
-              )}
-            </Tag>
+          <Tag variant={'outline'} data-size='md' data-color='accent' className={styles.tagWithButton}>
+            {item.name}
+            {onClose && (
+              <Button className={styles.closeButton} onClick={() => onClose(item)} style={{ marginLeft: 4 }}>
+                x
+              </Button>
+            )}
+          </Tag>
         </li>
       ))}
     </ul>

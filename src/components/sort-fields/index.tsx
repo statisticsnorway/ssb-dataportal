@@ -1,5 +1,4 @@
 import { Select } from '@digdir/designsystemet-react';
-import React from 'react';
 import { SortTypes } from '@/types/tabs';
 import { filter } from '@/utils/constants';
 
@@ -18,7 +17,13 @@ const sortLabels: Record<string, string> = {
 const SortFields = ({ sortOptions, sortOption, setSortOption }: SortFieldsProps) => {
   return (
     <section>
-      <Select id='sortVariables' data-size='sm' aria-label='Select sort' onChange={e => setSortOption(e.target.value)} value={sortOption}>
+      <Select
+        id='sortVariables'
+        data-size='sm'
+        aria-label='Select sort'
+        onChange={(e) => setSortOption(e.target.value)}
+        value={sortOption}
+      >
         {sortOptions.map((key) => (
           <Select.Option key={key} value={key}>
             {sortLabels[key] || key}

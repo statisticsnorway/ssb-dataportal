@@ -1,17 +1,10 @@
 'use client';
 
-import {
-  Button,
-  Card,
-  Checkbox,
-  Fieldset,
-  FieldsetLegend,
-} from '@digdir/designsystemet-react';
+import { Button, Card, Checkbox, Fieldset, FieldsetLegend } from '@digdir/designsystemet-react';
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { useState } from 'react';
-import styles from './checkbox.module.css';
-import { CodeItem } from '@/libs/data-access/klass/models/CodeItem';
 import { FilterItem } from '@/types/filters';
+import styles from './checkbox.module.css';
 
 interface CheckboxFilterProps {
   filterHeading: string;
@@ -33,12 +26,7 @@ interface CheckboxFilterProps {
  *
  * @returns A Card component containing a collapsible filter group with checkboxes.
  */
-export const CheckboxFilter = ({
-  filterHeading,
-  filters,
-  selectedItems,
-  onFilterChange,
-}: CheckboxFilterProps) => {
+export const CheckboxFilter = ({ filterHeading, filters, selectedItems, onFilterChange }: CheckboxFilterProps) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const handleToggle = () => {
@@ -62,18 +50,14 @@ export const CheckboxFilter = ({
           )}
         </Button>
         {isOpen ? (
-          <div
-            id={`filter-items-${filterHeading}`}
-            className={`${styles.filterItems} ${!isOpen ? styles.hidden : ''}`}
-          >
+          <div id={`filter-items-${filterHeading}`} className={`${styles.filterItems} ${!isOpen ? styles.hidden : ''}`}>
             {filters.map((filter) => {
-
               return (
                 <Checkbox
                   key={filter.code}
                   label={filter.name}
                   className={styles.checkbox}
-                  checked={selectedItems.some(item => item.code === filter.code)}
+                  checked={selectedItems.some((item) => item.code === filter.code)}
                   onChange={() => onFilterChange(filter)}
                 />
               );
@@ -84,4 +68,3 @@ export const CheckboxFilter = ({
     </Card>
   );
 };
-

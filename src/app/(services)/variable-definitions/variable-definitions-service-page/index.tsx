@@ -1,21 +1,20 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { FilterTags } from '@/components/filter-tags';
+import { CheckboxFilter } from '@/components/filters/checkbox-filter';
 import { FiltersPanel } from '@/components/filters/filters-panel';
+import { TextFilter } from '@/components/filters/text-filter';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortFields } from '@/components/sort-fields';
-import { TagsGroup } from '@/components/tags-group';
 import { SortTypes } from '@/hooks/useSearchStateVardef';
 import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
-import { VardefSearchHit } from '../components/vardefSearchHit';
-import { filterAndSortVariables } from '@/utils/filterAndSort';
-import { CheckboxFilter } from '@/components/filters/checkbox-filter';
-import { FilterTags } from '@/components/filter-tags';
 import { FilterItem } from '@/types/filters';
-import { TextFilter } from '@/components/filters/text-filter';
+import { filterAndSortVariables } from '@/utils/filterAndSort';
+import { VardefSearchHit } from '../components/vardefSearchHit';
 
 interface VariableDefinitionsServicePageProps {
   variables: RenderedView[];
@@ -29,21 +28,19 @@ const VariableDefinitionsServicePage = ({
   subjectFields,
 }: VariableDefinitionsServicePageProps) => {
   const sortOptions: SortTypes[] = ['titleAsc', 'titleDesc', 'lastChanged']; // TODO: move to constants in a smart place
-  const [sortOption, setSortOption] = useState<SortTypes>("titleAsc");
+  const [sortOption, setSortOption] = useState<SortTypes>('titleAsc');
   const [subjectFilters, setSubjectFilters] = useState<FilterItem[]>([]);
   const [textFilters, setTextFilters] = useState<Record<string, string>>({});
 
   const displayedVariables = useMemo(
     () => filterAndSortVariables(variables, textFilters, subjectFilters, sortOption),
-    [variables, textFilters, subjectFilters, sortOption]
+    [variables, textFilters, subjectFilters, sortOption],
   );
 
   const toggleSubject = (filter: FilterItem) =>
-    setSubjectFilters(prev =>
-    prev.some(item => item.code === filter.code)
-      ? prev.filter(c => c.code !== filter.code)
-      : [...prev, filter]
-  );
+    setSubjectFilters((prev) =>
+      prev.some((item) => item.code === filter.code) ? prev.filter((c) => c.code !== filter.code) : [...prev, filter],
+    );
 
   const clearAll = () => {
     setTextFilters({});
@@ -51,38 +48,27 @@ const VariableDefinitionsServicePage = ({
   };
 
   const subjectFilterItems: FilterItem[] = subjectFields.map((item) => ({
-  code: item.code ?? '',
-  name: item.name ?? undefined, 
+    code: item.code ?? '',
+    name: item.name ?? undefined,
   }));
-  
+
   return (
     <SearchPage
       asideContent={
         <FiltersPanel>
-          <TextFilter
-            field="name"
-            filters={textFilters}
-            setFilters={setTextFilters}
-            placeholder="Search by name..."
-          />
+          <TextFilter field='name' filters={textFilters} setFilters={setTextFilters} placeholder='Search by name...' />
           <CheckboxFilter
-            filterHeading={"Statisitikkområde"}
-            key={"Statisitikkområde"}
+            filterHeading={'Statisitikkområde'}
+            key={'Statisitikkområde'}
             filters={subjectFilterItems}
             selectedItems={subjectFilters}
             onFilterChange={toggleSubject}
           />
-
-
-
         </FiltersPanel>
-        
       }
       totalHits={displayedVariables.length}
-      infoContent={<FilterTags activeFilters={subjectFilters} onClose={toggleSubject} onClearAll={clearAll}  />}
-      controlsContent={
-        <SortFields sortOptions={sortOptions} sortOption={sortOption} setSortOption={setSortOption} />
-      }
+      infoContent={<FilterTags activeFilters={subjectFilters} onClose={toggleSubject} onClearAll={clearAll} />}
+      controlsContent={<SortFields sortOptions={sortOptions} sortOption={sortOption} setSortOption={setSortOption} />}
       searchResult={
         <>
           {errorMessage ? (

@@ -17,7 +17,7 @@ export type TagData = Map<string, string>;
  *
  * @returns An unordered list (<ul>) of tags or null if tagData is empty.
  */
-const TagsGroup = ({ maxTags, tagData}: TagsGroupProps) => {
+const TagsGroup = ({ maxTags, tagData }: TagsGroupProps) => {
   const tagsArray = useMemo(() => Array.from(tagData.entries()).slice(0, maxTags), [tagData, maxTags]);
 
   // Only render the list if there are tags to avoid whitespace
@@ -27,7 +27,7 @@ const TagsGroup = ({ maxTags, tagData}: TagsGroupProps) => {
     <ul className={styles.tagsList}>
       {tagsArray.map(([key, label]) => (
         <li key={key} style={{ margin: 0 }}>
-            <Tag>{label}</Tag>
+          <Tag>{label}</Tag>
         </li>
       ))}
     </ul>

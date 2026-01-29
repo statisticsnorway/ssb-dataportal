@@ -1,5 +1,5 @@
-import { Search } from "@digdir/designsystemet-react";
-import { FormEvent } from "react";
+import { Search } from '@digdir/designsystemet-react';
+import { FormEvent } from 'react';
 
 interface TextFilterProps {
   field: string;
@@ -15,7 +15,7 @@ export function TextFilter({ field, filters, setFilters, placeholder }: TextFilt
   };
 
   return (
-    <Search defaultValue={filters[field] || ""} onChange={handleChange}>
+    <Search defaultValue={filters[field] || ''} onChange={handleChange}>
       <Search.Input aria-label='Søk' />
       <Search.Clear />
     </Search>
