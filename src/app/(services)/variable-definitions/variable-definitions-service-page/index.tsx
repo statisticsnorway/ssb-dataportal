@@ -56,10 +56,10 @@ const VariableDefinitionsServicePage = ({
     <SearchPage
       asideContent={
         <FiltersPanel>
-          <TextFilter field='name' filters={textFilters} setFilters={setTextFilters} placeholder='Search by name...' />
+          <TextFilter field='name' filters={textFilters} setFilters={setTextFilters} />
           <CheckboxFilter
-            filterHeading={'Statisitikkområde'}
-            key={'Statisitikkområde'}
+            filterHeading={'Statisitikkområde'} //TODO - move to localization
+            key={'Statisitikkområde'} //TODO - move to localization
             filters={subjectFilterItems}
             selectedItems={subjectFilters}
             onFilterChange={toggleSubject}
