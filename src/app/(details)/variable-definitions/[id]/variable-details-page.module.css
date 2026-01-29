@@ -132,6 +132,11 @@
   gap: 2.5rem;
 }
 
+.copyIdButton {
+  color: var(--main-font-color);
+  font-size: var(--font-size-md);
+}
+
 @media (min-width: 768px) {
   .contentGrid {
     flex-direction: row;
@@ -179,9 +184,4 @@
   .titleLink {
     flex-basis: auto;
   }
-}
-
-.copyIdButton {
-  color: var(--main-font-color);
-  font-size: var(--font-size-md);
 }
