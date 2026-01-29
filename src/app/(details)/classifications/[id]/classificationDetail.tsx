@@ -4,11 +4,10 @@ import { Alert, Heading } from '@digdir/designsystemet-react';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
-import { CLASSIFICATIONS, KLASSIFIKASJONER } from '@/utils/constants';
 import styles from './classification-page.module.css';
 
 export default function ClassificationDetail({ classification }: { classification: ClassificationResource }) {
-  const homeUrl = { text: KLASSIFIKASJONER, href: `/${CLASSIFICATIONS}` };
+  const homeUrl = { text: localization.tabs.classifications, href: `/classifications` };
   const breadcrumbList = classification.id ? ([{ text: classification.name, href: '' }] as BreadcrumbType[]) : [];
 
   return (
@@ -23,9 +22,11 @@ export default function ClassificationDetail({ classification }: { classificatio
           {classification.name}
         </Heading>
       </header>
-      <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
-        Detaljside for klassifikasjon er ikke klar for testing.
-      </Alert>
+      <main className={styles.classificationsDetail}>
+        <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
+          Detaljside for klassifikasjon er ikke klar for testing.
+        </Alert>
+      </main>
     </section>
   );
 }

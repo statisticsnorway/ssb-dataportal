@@ -1,8 +1,8 @@
 import { test as base, expect } from '@playwright/test';
+import { tabsData } from '@/app/(services)/tabs';
 import { RenderedView, RenderedViewFromJSON } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import variableDefinitionsJson from '@/static-data/variable-definitions.json';
-import { VARIABELDEFINISJONER } from '@/utils/constants';
 import { areFieldsDefinedAndNonNull } from '@/utils/functions';
 
 type VariablePageFixture = (variable: RenderedView) => Promise<void>;
@@ -14,7 +14,7 @@ const test = base.extend<{
 }>({
   goToVariable: async ({ page }, use) => {
     const goToVariable = async (variable: RenderedView) => {
-      await page.goto('/variable-definitions');
+      await page.goto(tabsData.VariableDefinitions.route);
       if (!variable.name) {
         throw new Error('Variable name is missing');
       }
@@ -58,6 +58,6 @@ test('Navigate to up to 4 variable definitions', async ({ goToVariable, page }) 
     await Promise.all([page.waitForURL(/\/variable-definitions$/), homeLink.click()]);
 
     // Wait for variable-defintions page to be ready for next iteration
-    await expect(page.getByRole('tab', { name: VARIABELDEFINISJONER })).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole('tab', { name: localization.tabs.variableDefinitions })).toBeVisible({ timeout: 5000 });
   }
 });

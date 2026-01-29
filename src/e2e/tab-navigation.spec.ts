@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { DATASETS, KLASSIFIKASJONER, VARIABELDEFINISJONER } from '@/utils/constants';
+import { localization } from '@/libs/language';
 
 test.describe.configure({ mode: 'parallel' });
 
@@ -9,7 +9,7 @@ test.describe('Tabs navigation', () => {
   });
 
   test('navigate to classifications', async ({ page }) => {
-    const klassTab = page.getByRole('tab', { name: KLASSIFIKASJONER });
+    const klassTab = page.getByRole('tab', { name: localization.tabs.classifications });
 
     // Wait for visible
     await expect(klassTab).toBeVisible({ timeout: 5000 });
@@ -22,7 +22,7 @@ test.describe('Tabs navigation', () => {
   });
 
   test('navigate to datasets', async ({ page }) => {
-    const datasetTab = page.getByRole('tab', { name: DATASETS });
+    const datasetTab = page.getByRole('tab', { name: localization.tabs.datasets });
 
     // Wait for visible
     await expect(datasetTab).toBeVisible({ timeout: 5000 });
@@ -36,7 +36,7 @@ test.describe('Tabs navigation', () => {
   });
 
   test('navigate to variable definitions', async ({ page }) => {
-    const vardefTab = page.getByRole('tab', { name: VARIABELDEFINISJONER });
+    const vardefTab = page.getByRole('tab', { name: localization.tabs.variableDefinitions });
 
     // Wait for visible
     await expect(vardefTab).toBeVisible({ timeout: 5000 });

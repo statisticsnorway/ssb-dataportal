@@ -55,7 +55,7 @@ class ErrorBoundary extends Component<Props, State> {
           />
           <CenterContainer>
             <Heading level={2} data-size='sm'>
-              {localization.somethingWentWrong}
+              {localization.error.somethingWentWrong}
             </Heading>
           </CenterContainer>
         </>

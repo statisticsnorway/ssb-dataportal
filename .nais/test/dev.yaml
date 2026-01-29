@@ -3,11 +3,12 @@ kind: Application
 metadata:
   labels:
     team: dapla-metadata
-  name: metadata-catalog-dev
+  name: dataportalen-dev
   namespace: dapla-metadata
 spec:
   ingresses:
-    - https://metadata-catalog-dev.test.ssb.no
+    - https://dataportal-dev.test.ssb.no
+    - https://metadata-catalog-dev.test.ssb.no # TODO: Remove once communicated
   port: 3000
   accessPolicy:
     outbound:
