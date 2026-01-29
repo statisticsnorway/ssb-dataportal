@@ -1,10 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
+import { SortTypes, sortTypes } from '@/types/sort';
 import { sortAscending, sortDateStringsDescending, sortDescending } from '@/utils/sort';
-
-const sortTypes: SortTypes[] = ['titleAsc', 'titleDesc', 'lastChanged'];
-
-export type SortTypes = 'titleAsc' | 'titleDesc' | 'lastChanged';
 
 export const useSearchStateVardef = (initialHits: RenderedView[] = []) => {
   const [sortKey, setSortKey] = useState<SortTypes>('titleAsc');
@@ -17,9 +14,9 @@ export const useSearchStateVardef = (initialHits: RenderedView[] = []) => {
   const getSortFunction = (key: SortTypes) => {
     switch (key) {
       case 'titleAsc':
-        return (a: RenderedView, b: RenderedView) => sortAscending(a.name || '', b.name || '');
+        return (a: RenderedView, b: RenderedView) => sortAscending(a.name, b.name);
       case 'titleDesc':
-        return (a: RenderedView, b: RenderedView) => sortDescending(a.name || '', b.name || '');
+        return (a: RenderedView, b: RenderedView) => sortDescending(a.name, b.name);
       case 'lastChanged':
         return (a: RenderedView, b: RenderedView) =>
           sortDateStringsDescending(
@@ -27,7 +24,7 @@ export const useSearchStateVardef = (initialHits: RenderedView[] = []) => {
             b.last_updated_at.toISOString().split('T')[0] || '',
           );
       default:
-        return () => 0;
+        throw key satisfies never;
     }
   };
 

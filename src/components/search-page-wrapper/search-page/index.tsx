@@ -1,6 +1,7 @@
 import { FC, ReactElement, ReactNode } from 'react';
 import { SortFields } from '@/components/sort-fields';
-import { SortTypes } from '@/hooks/useSearchStateKlass';
+import { localization } from '@/libs/language';
+import { SortTypes } from '@/types/sort';
 import styles from './search-page.module.css';
 
 interface SearchPageProps {
@@ -11,9 +12,9 @@ interface SearchPageProps {
   asideContent?: ReactNode;
   searchResult?: ReactElement;
   searchLabel?: string;
-  sortOptions?: SortTypes[];
+  sortOptions?: ReadonlyArray<SortTypes>;
   sortValue?: SortTypes;
-  onSortChange?: (key: string) => void;
+  onSortChange?: (key: SortTypes) => void;
   totalHits?: number;
 }
 
@@ -33,7 +34,11 @@ const SearchPage: FC<SearchPageProps> = ({
         {asideContent ? <aside className={styles.filterSection}>{asideContent}</aside> : null}
         <main className={styles.mainSection}>
           <div className={styles.hitsAndSort}>
-            <p className={styles.numHits}>{totalHits} treff</p>
+            <p className={styles.numHits}>
+              {totalHits == null || totalHits == 0
+                ? localization.search.noHits
+                : `${totalHits} ${localization.search.hits}`}
+            </p>
             {sortOptions && sortValue && onSortChange && (
               <SortFields sortOptions={sortOptions} sortValue={sortValue} onSortChange={onSortChange} />
             )}

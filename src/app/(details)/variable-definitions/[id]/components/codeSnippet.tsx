@@ -6,8 +6,8 @@ import React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useClipboard } from '@/hooks/useClipboard';
+import { localization } from '@/libs/language';
 import styles from './code-snippet.module.css';
-import { COPIED_LABEL, COPY_CODE_LABEL, VARDEF_DOCUMENTATION_URL } from './constants';
 
 type Props = {
   title?: React.ReactNode;
@@ -22,8 +22,8 @@ type Props = {
 export function CodeSnippet({
   title,
   code,
-  copyLabel = COPY_CODE_LABEL,
-  copiedLabel = COPIED_LABEL,
+  copyLabel = localization.copy.code,
+  copiedLabel = localization.copy.copied,
   className,
   daplaLabVardefUrl,
 }: Props) {
@@ -69,8 +69,8 @@ export function CodeSnippet({
             <span className={styles.divider}>•</span>
           </>
         )}
-        <a href={VARDEF_DOCUMENTATION_URL} target='_blank' rel='noopener noreferrer'>
-          Dokumentasjon
+        <a href='https://manual.dapla.ssb.no/statistikkere/vardef.html' target='_blank' rel='noopener noreferrer'>
+          {localization.documentation}
         </a>
       </footer>
     </section>

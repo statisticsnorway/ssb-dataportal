@@ -1,10 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ClassificationResource } from '@/libs/data-access/klass';
+import { SortTypes, sortTypes } from '@/types/sort';
 import { sortAscending, sortDatesDescendingSafe, sortDescending } from '@/utils/sort';
-
-const sortTypes: SortTypes[] = ['titleAsc', 'titleDesc', 'lastChanged'];
-
-export type SortTypes = 'titleAsc' | 'titleDesc' | 'lastChanged';
 
 export const useSearchStateKlass = (initialHits: ClassificationResource[] = []) => {
   const [sortKey, setSortKey] = useState<SortTypes>('titleAsc');
@@ -17,15 +14,15 @@ export const useSearchStateKlass = (initialHits: ClassificationResource[] = []) 
   const getSortFunction = (key: SortTypes) => {
     switch (key) {
       case 'titleAsc':
-        return (a: ClassificationResource, b: ClassificationResource) => sortAscending(a.name || '', b.name || '');
+        return (a: ClassificationResource, b: ClassificationResource) => sortAscending(a.name, b.name);
       case 'titleDesc':
-        return (a: ClassificationResource, b: ClassificationResource) => sortDescending(a.name || '', b.name || '');
+        return (a: ClassificationResource, b: ClassificationResource) => sortDescending(a.name, b.name);
       case 'lastChanged': {
         return (a: ClassificationResource, b: ClassificationResource) =>
           sortDatesDescendingSafe(a.lastModified, b.lastModified);
       }
       default:
-        return () => 0;
+        throw key satisfies never;
     }
   };
 

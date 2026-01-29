@@ -1,17 +1,18 @@
 import { expect, test } from '@playwright/test';
-import { variableDefinitionsPath } from '@/utils/constants';
+import { tabsData } from '@/app/(services)/tabs';
+import { localization } from '@/libs/language';
 
 // TODO: Improve use of hardcoded values, these test depends on current testdata in norwegian nb
 
 test.describe('Navigation variable definitions', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto(variableDefinitionsPath);
-    await expect(page).toHaveURL(variableDefinitionsPath);
+    await page.goto('/variable-definitions');
+    await expect(page).toHaveURL(/\/variable-definitions$/);
   });
 });
 
 test('Filter by subject field displays tags (listitem) with count and close button (x)', async ({ page }) => {
-  await page.goto(variableDefinitionsPath);
+  await page.goto(tabsData.VariableDefinitions.route);
   await expect(page.getByRole('main')).toContainText('76 treff');
   await expect(page.locator('[id="filter-Statistikkområde"]')).toContainText('Sosiale forhold og kriminalitet');
   await page.getByRole('checkbox', { name: 'Sosiale forhold og' }).check();
@@ -22,7 +23,7 @@ test('Filter by subject field displays tags (listitem) with count and close butt
 });
 
 test('Select more than one filter display a "remove all" tag', async ({ page }) => {
-  await page.goto(variableDefinitionsPath);
+  await page.goto(tabsData.VariableDefinitions.route);
   await expect(page.getByRole('main')).toContainText('76 treff');
   await page.getByRole('checkbox', { name: 'Arbeid og lønn' }).check();
   await page.getByRole('checkbox', { name: 'Befolkning' }).check();
@@ -33,7 +34,7 @@ test('Select more than one filter display a "remove all" tag', async ({ page }) 
 });
 
 test('Variable "Aksje" has two subject fields', async ({ page }) => {
-  await page.goto(variableDefinitionsPath);
+  await page.goto(tabsData.VariableDefinitions.route);
   await expect(page.getByRole('main')).toContainText('76 treff');
   await page.getByRole('checkbox', { name: 'Bank og finansmarked' }).check();
   await expect(page.getByRole('main')).toContainText('1 treff');
@@ -47,12 +48,12 @@ test('Variable "Aksje" has two subject fields', async ({ page }) => {
 });
 
 test('Sort variable definitions', async ({ page }) => {
-  await page.goto(variableDefinitionsPath);
-  await page.getByLabel('Select sort').selectOption('titleDesc');
+  await page.goto(tabsData.VariableDefinitions.route);
+  await page.getByLabel(localization.search.sort.label).selectOption('titleDesc');
   await expect(page.getByRole('main')).toContainText('Årslønn');
-  await page.getByLabel('Select sort').selectOption('titleAsc');
+  await page.getByLabel(localization.search.sort.label).selectOption('titleAsc');
   await expect(page.getByRole('main')).toContainText('Aksje');
-  await page.getByLabel('Select sort').selectOption('lastChanged');
+  await page.getByLabel(localization.search.sort.label).selectOption('lastChanged');
   await expect(
     page.getByText('Antall personer 18 år og over i husholdningenpers18plus_i_hushnrAntall personer'),
   ).toBeVisible();

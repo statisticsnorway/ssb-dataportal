@@ -4,11 +4,10 @@ import { Alert, Heading } from '@digdir/designsystemet-react';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
-import { classificationsPath } from '@/utils/constants';
 import styles from './classification-page.module.css';
 
 export default function ClassificationDetail({ classification }: { classification: ClassificationResource }) {
-  const homeUrl = { text: localization.classifications, href: classificationsPath };
+  const homeUrl = { text: localization.tabs.classifications, href: `/classifications` };
   const breadcrumbList = classification.id ? ([{ text: classification.name, href: '' }] as BreadcrumbType[]) : [];
 
   return (

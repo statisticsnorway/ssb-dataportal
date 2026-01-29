@@ -1,14 +1,15 @@
-import { fetchSubjectFields } from '@/libs/data/classifications/subjectFieldLookup';
 import { listRenderedVariableDefinitions } from '@/libs/data/variable-definitions/variableDefinitions';
 import { ResponseError } from '@/libs/data-access/variable-definitions/internal';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models';
+import { localization } from '@/libs/language';
+import { fetchStaticSubjectFields } from '@/utils/mock-data';
 import VariableDefinitionsServicePage from './variable-definitions-service-page';
 
 export default async function VariableDefinitions() {
   let data: RenderedView[] = [];
   let errorMessage: string | null = null;
 
-  const subjectFieldsPromise = fetchSubjectFields();
+  const subjectFieldsPromise = fetchStaticSubjectFields();
   const variableDefsPromise = listRenderedVariableDefinitions();
 
   try {
@@ -18,14 +19,15 @@ export default async function VariableDefinitions() {
       switch (error.response.status) {
         case 401:
         case 403:
-          errorMessage = 'Unauthorized';
+        case 404:
+          errorMessage = localization.error.unauthorized;
           break;
         case 500:
         default:
-          errorMessage = 'Unknown';
+          errorMessage = localization.error.somethingWentWrong;
       }
     } else {
-      errorMessage = 'Unknown';
+      errorMessage = localization.error.somethingWentWrong;
     }
   }
 

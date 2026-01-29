@@ -1,8 +1,8 @@
 import { test as base, expect } from '@playwright/test';
+import { tabsData } from '@/app/(services)/tabs';
 import { RenderedView, RenderedViewFromJSON } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import variableDefinitionsJson from '@/static-data/variable-definitions.json';
-import { variableDefinitionsPath } from '@/utils/constants';
 import { areFieldsDefinedAndNonNull } from '@/utils/functions';
 
 type VariablePageFixture = (variable: RenderedView) => Promise<void>;
@@ -14,7 +14,7 @@ const test = base.extend<{
 }>({
   goToVariable: async ({ page }, use) => {
     const goToVariable = async (variable: RenderedView) => {
-      await page.goto(variableDefinitionsPath);
+      await page.goto(tabsData.VariableDefinitions.route);
       if (!variable.name) {
         throw new Error('Variable name is missing');
       }
@@ -23,7 +23,10 @@ const test = base.extend<{
       const link = page.getByRole('link', { name: variable.name });
       await expect(link).toBeVisible({ timeout: 5000 });
 
-      await Promise.all([page.waitForURL(new RegExp(`${variableDefinitionsPath}/${variable.id}`)), link.click()]);
+      await Promise.all([
+        page.waitForURL(new RegExp(`${tabsData.VariableDefinitions.route}/${variable.id}`)),
+        link.click(),
+      ]);
     };
     await use(goToVariable);
   },
@@ -55,9 +58,9 @@ test('Navigate to up to 4 variable definitions', async ({ goToVariable, page }) 
     const homeLink = page.getByRole('link', { name: localization.navigateHomeVariableDefinitions });
     await expect(homeLink).toBeVisible({ timeout: 5000 });
 
-    await Promise.all([page.waitForURL(variableDefinitionsPath), homeLink.click()]);
+    await Promise.all([page.waitForURL(tabsData.VariableDefinitions.route), homeLink.click()]);
 
     // Wait for variable-defintions page to be ready for next iteration
-    await expect(page.getByRole('tab', { name: localization.variableDefinitions })).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole('tab', { name: localization.tabs.variableDefinitions })).toBeVisible({ timeout: 5000 });
   }
 });
