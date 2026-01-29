@@ -30,7 +30,7 @@ export const AppLayout = ({ children, fdkRegistrationBaseUrl, catalogTitle }: Ap
       <Alert data-color={'info'} className='infoAlert' data-size={'md'}>
         {localization.welcomeToTesting}
       </Alert>
-      <Header homeUrl='https://www.ssb.no' title={catalogTitle} devEnvironmentName={getDevEnvironmentName()} />
+      <Header homeUrl='/' title={catalogTitle} devEnvironmentName={getDevEnvironmentName()} />
       <ErrorBoundary fdkRegistrationBaseUrl={fdkRegistrationBaseUrl} title={catalogTitle ?? ''}>
         {children}
       </ErrorBoundary>
