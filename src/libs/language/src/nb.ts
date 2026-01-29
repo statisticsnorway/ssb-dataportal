@@ -15,6 +15,7 @@ export const nb = {
   from: 'Fra',
   id: 'ID',
   loadingVariableDefinitions: 'Laster variabeldefinisjoner',
+  navigateHome: 'Naviger til hjemmesiden',
   navigateHomeClassifications: 'Naviger til hovedside Klassifikasjoner',
   navigateHomeVariableDefinitions: 'Naviger til hovedside Variabeldefinisjoner',
   next: 'Neste',
@@ -27,6 +28,7 @@ export const nb = {
   subjectFields: 'Statistikkområder',
   to: 'Til',
   unitTypes: 'Enhetstyper',
+  welcomeToTesting: 'Velkommen til testing av datakatalogen. Du er nå i en prototype under utvikling.',
   yes: 'Ja',
 
   tabs: {
