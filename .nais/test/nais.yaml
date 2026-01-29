@@ -3,11 +3,12 @@ kind: Application
 metadata:
   labels:
     team: dapla-metadata
-  name: metadata-catalog
+  name: dataportalen
   namespace: dapla-metadata
 spec:
   ingresses:
-    - https://metadata-catalog.test.ssb.no
+    - https://dataportal.test.ssb.no
+    - https://metadata-catalog.test.ssb.no # TODO: Remove once communicated
   port: 3000
   accessPolicy:
     outbound:
@@ -24,14 +25,13 @@ spec:
     max: 1
     min: 1
   env:
-    env:
-      - name: VARDEF_BASE_PATH
-        value: http://metadata-api-gateway
-      - name: VARDEF_USE_STATIC_DATA
-        value: "false"
-      - name: KLASS_BASE_PATH
-        value: http://klass/api/klass/v1
-      - name: KLASS_USE_STATIC_DATA
-        value: "false"
-      - name: DAPLA_LAB_VARDEF_URL
-        value: "https://lab.dapla-test.ssb.no/launcher/dapla-lab-standard/vardef-forvaltning"
+    - name: VARDEF_BASE_PATH
+      value: http://metadata-api-gateway
+    - name: VARDEF_USE_STATIC_DATA
+      value: "false"
+    - name: KLASS_BASE_PATH
+      value: http://klass/api/klass/v1
+    - name: KLASS_USE_STATIC_DATA
+      value: "false"
+    - name: DAPLA_LAB_VARDEF_URL
+      value: "https://lab.dapla-test.ssb.no/launcher/dapla-lab-standard/vardef-forvaltning"
