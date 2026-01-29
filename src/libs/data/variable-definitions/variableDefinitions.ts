@@ -1,5 +1,6 @@
 'use server';
 
+import { localization } from '@/libs/language';
 import { getVariableDefinitionById, getVariableDefinitions } from '@/utils/mock-data';
 import { getEncodedJwt } from '../../auth/jwt';
 import {
@@ -7,7 +8,11 @@ import {
   ListVariableDefinitionsRequest,
   VariableDefinitionsApi,
 } from '../../data-access/variable-definitions/internal/apis';
-import { instanceOfRenderedView, RenderedView } from '../../data-access/variable-definitions/internal/models';
+import {
+  instanceOfRenderedView,
+  RenderedView,
+  SupportedLanguages,
+} from '../../data-access/variable-definitions/internal/models';
 import {
   Configuration,
   ConfigurationParameters,
@@ -47,7 +52,7 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
   if (!api) return Promise.reject('Could not access Vardef API!');
 
   const params = {
-    acceptLanguage: 'nb',
+    acceptLanguage: localization.getLanguage() as SupportedLanguages,
     render: true,
   } satisfies ListVariableDefinitionsRequest;
   var data: RenderedView[] = [];
@@ -80,7 +85,7 @@ export async function getRenderedVariableDefinition(id: string): Promise<Rendere
 
   const params = {
     variableDefinitionId: id,
-    acceptLanguage: 'nb',
+    acceptLanguage: localization.getLanguage() as SupportedLanguages,
     render: true,
   } satisfies GetVariableDefinitionByIdRequest;
   var data: RenderedView | undefined = undefined;
