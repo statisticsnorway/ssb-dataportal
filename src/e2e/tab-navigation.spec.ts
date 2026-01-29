@@ -1,8 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { localization } from '@/libs/language';
 
-test.describe.configure({ mode: 'parallel' });
-
 test.describe('Tabs navigation', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/variable-definitions');
@@ -29,10 +27,9 @@ test.describe('Tabs navigation', () => {
     await expect(datasetTab).toBeEnabled();
 
     // Wait before click tab
-    await Promise.all([page.waitForURL('/dataset'), datasetTab.click()]);
-
-    // Expect datasets url
-    await expect(page).toHaveURL('/dataset');
+    await Promise.all([page.waitForURL('/datasets'), datasetTab.click()]);
+    // Expect classifications url
+    await expect(page).toHaveURL('/datasets');
   });
 
   test('navigate to variable definitions', async ({ page }) => {
