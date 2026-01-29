@@ -1,144 +1,57 @@
 /**
- * The array/tuple notation is used to specify a second value which is the aria-label for form control elements.
+ * This is the default language.
+ *
+ * It should be used as the reference for which strings are to be defined in the app.
+ *
+ * Please maintain alphabetical order on variable name for ease of maintenance!
  */
 
 export const nb = {
-  subjectArea: 'Statistikkområde',
-  navigateHomeVariableDefinitions: 'Naviger til hovedside Variabeldefinisjoner',
-  navigateHomeClassifications: 'Naviger til hovedside Klassifikasjoner',
-  navigateHomeDatasets: 'Naviger til hovedside Datasett',
-  chooseLanguage: 'Velg språk',
-  comment: 'Kommentar',
-  contactPage: 'Kontaktside',
-  context: 'Kontekst',
-  deprecated: 'Utgått',
-  description: 'Beskrivelse',
-  definition: 'Definisjon',
-  documentation: 'Dokumentasjon',
-  next: 'Neste',
-  previous: 'Forrige',
-  validityPeriod: 'Gyldighetsperiode',
-  code: 'Kode',
-  link: 'Lenke',
-  edit: 'Rediger',
-  email: 'E-post',
-  validFrom: 'Gyldig fra',
-  validTo: 'Gyldig til',
-  add: 'Legg til',
-  remove: 'Fjern',
-  fromAndIncluding: 'Fra og med',
-  general: 'Generelt',
-  homepage: 'Hjemmeside',
-  id: 'ID',
-  conceptId: 'Begreps-ID',
-  versionId: 'Versjons-ID',
-  lastModified: 'Sist oppdatert',
-  loading: 'Laster',
-  loadingVariableDefinitions: 'Laster variabeldefinisjoner',
-  name: 'Navn',
-  no: 'Nei',
-  to: 'Til',
-  from: 'Fra',
-  access: 'Tilgang',
-  noAccess: 'Ingen tilgang',
-  youHaveNoAccess: 'Det ser ikke ut til at du har tilgang til denne siden.',
-  notFound: 'Ikke funnet',
-  notFoundPage: 'Fant ikke siden du lette etter.',
-  none: 'Ingen',
-  ok: 'Ok',
-  showLess: 'Vis færre',
-  showMore: 'Vis flere',
-  seeMore: 'Se mer',
-  seeLess: 'Se mindre',
-  shortName: 'Kortnavn',
-  sorting: 'Sortering',
-  subjectFields: 'Statistikkområder',
-  title: 'Tittel',
-  toAndIncluding: 'Til og med',
-  unknown: 'Ukjent',
-  yes: 'Ja',
-  allUsers: 'Alle brukere',
-  type: 'Type',
-  lastChanged: 'Sist endret',
-  noName: 'Uten navn',
-  choose: 'Velg',
-  relation: 'Relasjon',
-  relations: 'Relasjoner',
-  references: 'Referanser',
-  serviceMessageSeeMore: 'Se detaljert driftsmelding for mer informasjon.',
-  newConcept: 'Nytt begrep',
-  helpText: 'Hjelpetekst',
-  publisher: 'Utgiver',
-  changed: 'Endret',
-  created: 'Opprettet',
   by: 'av',
+  comment: 'Kommentar',
+  context: 'Kontekst',
+  documentation: 'Dokumentasjon',
+  from: 'Fra',
+  id: 'ID',
+  loadingVariableDefinitions: 'Laster variabeldefinisjoner',
+  navigateHomeClassifications: 'Naviger til hovedside Klassifikasjoner',
+  navigateHomeVariableDefinitions: 'Naviger til hovedside Variabeldefinisjoner',
+  next: 'Neste',
+  no: 'Nei',
+  on: 'på',
+  previous: 'Forrige',
+  references: 'Referanser',
+  subjectArea: 'Statistikkområde',
+  subjectFields: 'Statistikkområder',
+  to: 'Til',
   unitTypes: 'Enhetstyper',
-  valid: 'Aktiv',
+  yes: 'Ja',
 
   tabs: {
-    variableDefinitions: 'Variabeldefinisjoner',
     classifications: 'Klassifikasjoner',
     datasets: 'Datasett',
+    variableDefinitions: 'Variabeldefinisjoner',
   },
 
   editing: {
-    updatedBy: 'Sist oppdatert av',
-    updatedOn: 'Sist oppdatert på',
-    createdBy: 'Opprettet av',
-    createdOn: 'Opprettet på',
+    created: 'Opprettet',
+    updated: 'Sist oppdatert',
   },
 
   copy: {
+    code: 'Kopier kode',
     copied: 'Kopiert',
     id: 'Kopier ID',
-    code: 'Kopier kode',
   },
 
   error: {
-    error: 'Feil',
-    unauthorized: 'Beklager, du har ikke tilgang.',
     somethingWentWrong: 'Beklager, noe gikk galt. Prøv på nytt litt senere.',
-    serviceMessageError: 'Kunne ikke laste inn tjenestemeldinger. Vennligst prøv igjen senere.',
-    notImplemented: 'Funksjonaliteten er ikke enda tilgjengelig.',
-  },
-
-  language: {
-    en: 'Engelsk',
-    nb: 'Bokmål',
-    nn: 'Nynorsk',
-    no: 'Norsk',
-  },
-
-  auth: {
-    login: 'Logg inn',
-    logout: 'Logg ut',
-    loggingIn: 'Logger inn...',
-    loggingOut: 'Logger ut...',
-    sessionExpiredTitle: 'Sesjonen har utløpt',
-    sessionExpired:
-      'Din sesjon har utløpt på grunn av inaktivitet. For å fortsette arbeidet, vennligst logg inn på nytt. Hvis du ikke ønsker å logge inn nå, kan du avbryte og forbli på siden som utlogget.',
-    sessionExpiredWithStorage:
-      'Din sesjon har utløpt på grunn av inaktivitet. Endringene dine er lagret lokalt. For å fortsette arbeidet, vennligst logg inn på nytt. Hvis du ikke ønsker å logge inn nå, kan du avbryte og forbli på siden som utlogget.',
-    redirectedToLogin:
-      'Når du velger å forbli på siden, blir du sendt videre til innloggingssiden når du klikker på en lenke eller oppdaterer siden.',
-  },
-
-  userRole: {
-    sysAdminRole: 'Systemadministrator',
-    adminRole: 'Virksomhetsadministrator',
-    writerRole: 'Skrivebruker',
-    readerRole: 'Lesebruker',
-  },
-
-  spatial: {
-    municipality: 'Kommune',
-    country: 'Nasjon',
-    county: 'Fylke',
+    unauthorized: 'Beklager, du har ikke tilgang.',
   },
 
   contact: {
-    label: 'Kontakt',
     fallbackTitle: 'Ta kontakt med spørsmål eller innspill',
+    label: 'Kontakt',
   },
 
   owner: {
@@ -149,15 +62,15 @@ export const nb = {
 
   // Labels specific to variable definitions
   variableDefinition: {
+    externalReference: 'Ekstern referanse',
+    fetchWith: 'Hent variabeldefinisjon med',
     labelPlural: 'Variabeldefinisjoner',
     labelSingular: 'Variabeldefinisjon',
     labelWithComment: 'Variabeldefinisjon med kommentar',
-    relevant: 'Relevante variabeldefinisjoner',
-    viewRelevant: 'Se relevant variabeldefinisjon',
     personalData: 'Inneholder særlige kategorier av personopplysninger',
-    externalReference: 'Ekstern referanse',
+    relevant: 'Relevante variabeldefinisjoner',
     viewExternalReference: 'Se ekstern referanse',
-    fetchWith: 'Hent variabeldefinisjon med',
+    viewRelevant: 'Se relevant variabeldefinisjon',
   },
 
   classification: {
@@ -166,115 +79,39 @@ export const nb = {
   },
 
   search: {
-    noHits: 'Ditt søk ga ingen treff',
     hits: 'treff',
     label: 'Søk',
-    searchField: 'Søk i felt',
-    searchForVariableDefinitions: 'Søk i variabeldefinisjoner',
+    noHits: 'Ditt søk ga ingen treff',
     searchForClassifications: 'Søk i kodeverk',
     searchForDatasets: 'Søk i datasett',
-    searchForDataset: 'Søk etter datasettbeskrivelse',
-    searchForService: 'Søk etter tjeneste...',
-    searchForUsername: 'Søk etter brukernavn...',
-    searchInCatalogs: ['Søk i Felles datakatalog', 'Lenke til søk i felles datakatalog'],
+    searchForVariableDefinitions: 'Søk i variabeldefinisjoner',
 
-    clear: 'Tøm',
     filter: {
-      label: 'Filter',
       close: 'Lukk filter',
+      label: 'Filter',
       open: 'Åpne filter',
-    },
-
-    fields: {
-      alleFelter: 'Alle felter',
-      alleTermer: 'Alle termer',
-      anbefaltTerm: 'Anbefalt term',
-      definisjon: 'Definisjon',
-      frarådetTerm: 'Frarådet term',
-      merknad: 'Merknad',
-      tillattTerm: 'Tillatt term',
     },
 
     sort: {
       label: 'Sortering',
-      newestFirst: 'Nyest først',
       lastUpdatedFirst: 'Sist endret først',
-      lastUpdatedLast: 'Eldst først',
       titleAlphabeticalAsc: 'Tittel A-Å',
       titleAlphabeticalDesc: 'Tittel Å-A',
-      relevance: 'Relevans',
     },
   },
 
   button: {
-    bin: 'Søppelkasse',
-    cancel: 'Avbryt',
-    close: 'Lukk',
-    createConcept: 'Nytt begrep',
-    delete: 'Slett',
-    deleteWithFormat: 'Slett {text}',
-    discard: 'Forkast',
-    edit: 'Rediger',
-    expandAll: 'Vis alle felter',
-    importConcept: 'Importer',
-    importLogo: 'Importer logo',
-    importDataService: 'Importer OpenAPI',
     removeFilter: 'Fjern alle filter',
-    removeFromCodeList: 'Fjern fra kodeliste',
-    restore: 'Gjenopprett',
-    save: 'Lagre',
-    send: 'Send inn',
-    success: 'OK',
-    addUrl: 'Legg til lenke',
-    backToOverview: 'Tilbake til oversikten',
-    gotoConcept: 'Gå til begrepet',
-  },
-
-  dropdown: {
-    descriptionDataset: 'Beskrivelse av datasett',
-    descriptionDatasetSerie: 'Beskrivelse av datasettserie',
-    lastModified: 'Sist endret',
-    statusSearch: 'Filtrer på status',
-  },
-
-  footer: {
-    accessibility: 'Tilgjengelighetserklæring',
-    cookies: 'Informasjonskapsler',
-    digdirManagesNationalDataCatalog: 'Digitaliseringsdirektoratet forvalter Felles datakatalog.',
-    privacyStatement: 'Personvernerklæring',
-    termsOfUse: 'Bruksvilkår',
-  },
-
-  header: {
-    registerData: 'Registrere data',
-    contactUs: 'Kontakt oss',
-    menu: 'Meny',
   },
 
   status: {
-    label: 'Status',
     draft: 'Utkast',
-    publishedInternal: 'Publisert internt',
+    label: 'Status',
     publishedExternal: 'Publisert eksternt',
-  },
-
-  searchHit: {
-    lastEdited: 'Sist endret',
-    lastPublished: 'Gå til publisert versjon',
-  },
-
-  statusColors: {
-    DRAFT: 'second',
-    CANDIDATE: 'info',
-    WAITING: 'neutral',
-    CURRENT: 'success',
-    RETIRED: 'danger',
-    REJECTED: 'neutral',
+    publishedInternal: 'Publisert internt',
   },
 
   validity: {
     label: 'Gyldighet',
-    expired: 'Utgått',
-    willBeValid: 'blir gyldig',
   },
 };
