@@ -1,15 +1,17 @@
+import { localization } from '@/libs/language';
+
 // For sorting strings in ascending order (case-insensitive) using Norwegian locale
 export const sortAscending = (a: string | null | undefined, b: string | null | undefined) => {
   if (typeof a !== 'string' || a === '') return 1;
   if (typeof b !== 'string' || b === '') return -1;
-  return a.localeCompare(b, 'nb', { sensitivity: 'base' });
+  return a.localeCompare(b, localization.getLanguage(), { sensitivity: 'base' });
 };
 
 // For sorting strings in descending order (case-insensitive) using Norwegian locale
 export const sortDescending = (a: string | null | undefined, b: string | null | undefined) => {
   if (typeof a !== 'string' || a === '') return -1;
   if (typeof b !== 'string' || b === '') return 1;
-  return b.localeCompare(a, 'nb', { sensitivity: 'base' });
+  return b.localeCompare(a, localization.getLanguage(), { sensitivity: 'base' });
 };
 
 // For sorting ISO 8601 date strings in ascending order

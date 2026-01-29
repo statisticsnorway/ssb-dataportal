@@ -1,15 +1,8 @@
-import LocalizedStrings, { LocalizedStringsMethods } from 'react-localization';
+import LocalizedStrings from 'react-localization';
 import { nb } from './nb';
 
-interface LocaleStrings extends LocalizedStringsMethods {
-  // biome-ignore lint/suspicious/noExplicitAny: Value may be a string or an object
-  [key: string]: any;
-}
-
-export const localization: LocaleStrings = new LocalizedStrings({
+export const localization = new LocalizedStrings({
   nb: {
     ...nb,
   },
 });
-
-localization.setLanguage('nb');
