@@ -7,6 +7,7 @@
  */
 
 export const nb = {
+  appTitle: 'Dataportal',
   by: 'av',
   comment: 'Kommentar',
   context: 'Kontekst',
@@ -21,6 +22,7 @@ export const nb = {
   on: 'på',
   previous: 'Forrige',
   references: 'Referanser',
+  statisticsNorway: 'Statistisk sentralbyrå',
   subjectArea: 'Statistikkområde',
   subjectFields: 'Statistikkområder',
   to: 'Til',
