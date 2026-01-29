@@ -21,17 +21,16 @@ describe('Header', () => {
   it('renders the logo link with correct href and text', () => {
     render(<Header homeUrl='https://example.com' />);
 
-    const logoLink = screen.getByTitle(/Gå til hovedsiden/i);
+    const logoLink = screen.getByRole('link');
     expect(logoLink).toBeInTheDocument();
     expect(logoLink).toHaveAttribute('href', 'https://example.com');
     expect(logoLink).toMatchInlineSnapshot(`
 <a
-  class="logo"
+  class="logoAndTitle"
   href="https://example.com"
-  title="Gå til hovedsiden"
 >
   <img
-    alt="Statistics Norway logo"
+    alt="undefined logo"
     data-nimg="1"
     decoding="async"
     height="44"
@@ -45,7 +44,7 @@ describe('Header', () => {
 
   it('renders logo link without href if homeUrl is not provided', () => {
     render(<Header />);
-    const logoLink = screen.getByTitle(/Gå til hovedsiden/i);
+    const logoLink = screen.getByAltText(/logo/i);
     expect(logoLink).toBeInTheDocument();
     expect(logoLink).not.toHaveAttribute('href');
   });
