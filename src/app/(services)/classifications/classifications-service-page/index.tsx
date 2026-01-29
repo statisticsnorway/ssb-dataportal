@@ -2,7 +2,7 @@
 
 import { Alert, Spinner } from '@digdir/designsystemet-react';
 import { useEffect, useMemo, useState } from 'react';
-import { FiltersPanel } from '@/components/filter';
+import { FiltersPanel } from '@/components/filters/filters-panel';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortTypes, useSearchStateKlass } from '@/hooks/useSearchStateKlass';

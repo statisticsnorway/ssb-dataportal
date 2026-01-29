@@ -6,19 +6,18 @@ import {
   Checkbox,
   Fieldset,
   FieldsetLegend,
-  useCheckboxGroup,
-  ValidationMessage,
 } from '@digdir/designsystemet-react';
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
-import { useEffect, useMemo, useState } from 'react';
-import { FilterItem } from '@/types/filters';
+import { useState } from 'react';
 import styles from './checkbox.module.css';
+import { CodeItem } from '@/libs/data-access/klass/models/CodeItem';
+import { FilterItem } from '@/types/filters';
 
 interface CheckboxFilterProps {
-  filters: FilterItem[];
   filterHeading: string;
+  filters: FilterItem[];
   selectedItems: FilterItem[];
-  onFilterChange: (selected: FilterItem[]) => void;
+  onFilterChange: (filter: FilterItem) => void;
 }
 
 /**
@@ -34,23 +33,12 @@ interface CheckboxFilterProps {
  *
  * @returns A Card component containing a collapsible filter group with checkboxes.
  */
-export const CheckboxFilter = ({ filterHeading, filters, onFilterChange, selectedItems }: CheckboxFilterProps) => {
-  const selectedValues = useMemo(() => selectedItems.map((s) => s.value), [selectedItems]);
-
-  const { getCheckboxProps, validationMessageProps, setValue } = useCheckboxGroup({
-    value: selectedValues,
-    onChange: (values: string[]) => {
-      // map string values to FilterItem[]
-      const selectedObjects = filters.filter((f) => values.includes(f.value));
-      onFilterChange(selectedObjects);
-    },
-  });
-
-  // Sync checkboxes
-  useEffect(() => {
-    setValue(selectedValues);
-  }, [selectedValues, setValue]);
-
+export const CheckboxFilter = ({
+  filterHeading,
+  filters,
+  selectedItems,
+  onFilterChange,
+}: CheckboxFilterProps) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const handleToggle = () => {
@@ -74,14 +62,26 @@ export const CheckboxFilter = ({ filterHeading, filters, onFilterChange, selecte
           )}
         </Button>
         {isOpen ? (
-          <div id={`filter-${filterHeading}`}>
-            {filters.map(({ value, label }) => (
-              <Checkbox className={styles.checkbox} label={label} key={value} {...getCheckboxProps({ value: value })} />
-            ))}
-            <ValidationMessage {...validationMessageProps} />
+          <div
+            id={`filter-items-${filterHeading}`}
+            className={`${styles.filterItems} ${!isOpen ? styles.hidden : ''}`}
+          >
+            {filters.map((filter) => {
+
+              return (
+                <Checkbox
+                  key={filter.code}
+                  label={filter.name}
+                  className={styles.checkbox}
+                  checked={selectedItems.some(item => item.code === filter.code)}
+                  onChange={() => onFilterChange(filter)}
+                />
+              );
+            })}
           </div>
         ) : null}
       </Fieldset>
     </Card>
   );
 };
+

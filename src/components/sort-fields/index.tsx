@@ -5,8 +5,8 @@ import { filter } from '@/utils/constants';
 
 interface SortFieldsProps {
   sortOptions: SortTypes[];
-  sortValue: SortTypes;
-  onSortChange: (key: string) => void;
+  sortOption: SortTypes;
+  setSortOption: (v: any) => void;
 }
 
 const sortLabels: Record<string, string> = {
@@ -15,13 +15,10 @@ const sortLabels: Record<string, string> = {
   lastChanged: filter.sortLastUpdated,
 };
 
-const SortFields = ({ sortOptions, sortValue, onSortChange }: SortFieldsProps) => {
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onSortChange(e.target.value as SortTypes);
-  };
+const SortFields = ({ sortOptions, sortOption, setSortOption }: SortFieldsProps) => {
   return (
     <section>
-      <Select id='sortVariables' data-size='sm' aria-label='Select sort' onChange={handleSortChange} value={sortValue}>
+      <Select id='sortVariables' data-size='sm' aria-label='Select sort' onChange={e => setSortOption(e.target.value)} value={sortOption}>
         {sortOptions.map((key) => (
           <Select.Option key={key} value={key}>
             {sortLabels[key] || key}

@@ -33,8 +33,7 @@ export default async function VariableDefinitions() {
 
   return (
     <VariableDefinitionsServicePage
-      rawHits={data}
-      isLoading={false}
+      variables={data}
       errorMessage={errorMessage}
       subjectFields={subjectFields}
     />
