@@ -67,13 +67,12 @@
 }
 
 .backgroundSubTitle {
-  max-width: fit-content;
-  padding: 0 0.8rem 0 0.2rem;
-  border-radius: 5px;
+  background: linear-gradient(rgba(195, 220, 220, 0.8), rgba(195, 220, 220, 0.8));
 }
 .subTitle {
   color: var(--ssb-dark-color-5);
   font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(rgba(195, 220, 220, 0.8), rgba(195, 220, 220, 0.8));
 }
 div.ds-card {
   border-color: var(--ssb-dark-color-5) !important;
@@ -112,7 +111,7 @@ div.ds-card {
   .title {
     font-size: var(--ds-heading-2xl-font-size);
     background-color: var(--ssb-dark-color-2);
-    background: linear-gradient(rgba(195, 220, 220, 0.4), rgba(195, 220, 220, 0.4));
+    background: linear-gradient(rgba(195, 220, 220, 0.8), rgba(195, 220, 220, 0.8));
   }
   .subTitle {
     font-size: var(--ds-body-xl-font-size);
