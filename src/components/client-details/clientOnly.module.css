@@ -1,9 +1,6 @@
-.customDetails {
-  --dsc-details-border-color: var(--ssb-dark-color-5);
-}
-
 .summaryDetail {
   font-size: 1.4rem;
+  background-color: white;
 }
 
 .contentDetail {

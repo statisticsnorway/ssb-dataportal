@@ -27,7 +27,7 @@
   --dark-blue-color: #1e2b3c;
   --ssb-dark-color-2: #c3dcdc;
   --ssb-dark-color-5: #274247;
-  --main-background-color: #f0f8f9;
+  --ssb-dark-color-1: #f0f8f9;
   --shadow-color: #969ba0;
   --element-background-color: #fff;
   --light-light-blue-color: #e6eff8;
@@ -68,12 +68,13 @@ body {
   font-family: inherit;
   line-height: inherit;
   height: 100%;
-  background-color: var(--main-background-color);
+  background-color: var(--ssb-dark-color-1);
   padding: 0;
   margin: 0;
 }
 
 .rootContainer {
+  width: 100%;
   display: flex;
   flex-direction: column;
 }

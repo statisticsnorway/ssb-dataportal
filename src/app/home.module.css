@@ -1,6 +1,12 @@
 .pageContainer {
-  max-width: 100%;
+  /*max-width: 100%;*/
   padding: 1rem;
+  min-height: 66vh;
+  margin-top: 1rem;
+}
+
+.background {
+  background-color: var(--ssb-dark-color-1);
 }
 
 .landingPageContent {
@@ -14,17 +20,27 @@
 .title {
   font-family: "Roboto Condensed", sans-serif;
   font-weight: bold;
-  color: var(--ssb-dark-color-5);
   margin-bottom: 0.5rem;
+  color: var(--ssb-dark-color-5);
 }
 
 .paragraph {
   font-family: "Open Sans", sans-serif;
 }
 
+.infoCards {
+  background-color: white;
+  max-width: 900px;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
 .header {
-  padding: 1rem;
   max-width: 100%;
+  padding: 2rem;
+  background: linear-gradient(rgba(195, 220, 220, 0.3), rgba(195, 220, 220, 0.3)), url("/Artboard 160.svg");
+  background-repeat: no-repeat;
+  background-position: right;
 }
 
 .subTitle {
@@ -51,7 +67,6 @@
 }
 
 .backgroundSubTitle {
-  background-color: var(--ssb-dark-color-2);
   max-width: fit-content;
   padding: 0 0.8rem 0 0.2rem;
   border-radius: 5px;
@@ -59,6 +74,33 @@
 .subTitle {
   color: var(--ssb-dark-color-5);
   font-family: Arial, Helvetica, sans-serif;
+}
+div.ds-card {
+  border-color: var(--ssb-dark-color-5) !important;
+}
+
+.headerCard {
+  background-color: var(--ssb-dark-color-2);
+}
+
+.pageContainer::before {
+  content: "";
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  width: 40%;
+  height: 40%;
+  background-image: url("/Artboard 160.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.8;
+  z-index: -1;
+}
+
+.customDivider {
+  --dsc-divider-border-width: 4px;
+  --dsc-divider-border-color: var(--ssb-dark-color-2);
 }
 @media (min-width: 768px) {
   .title {
