@@ -9,13 +9,13 @@ import { useClipboard } from '@/hooks/useClipboard';
 import { localization } from '@/libs/language';
 import styles from './code-snippet.module.css';
 
+//TODO: The color green in codeString fails contrast checks and should be replaced by SSB green #00824d
+//TODO: Use variable for green-color in global.css :root section
 type Props = {
   title?: React.ReactNode;
   code: string[];
   copyLabel?: string;
   copiedLabel?: string;
-  className?: string;
-  devEnvironmentName?: string;
   daplaLabVardefUrl: string | undefined;
 };
 
@@ -24,42 +24,43 @@ export function CodeSnippet({
   code,
   copyLabel = localization.copy.code,
   copiedLabel = localization.copy.copied,
-  className,
   daplaLabVardefUrl,
 }: Props) {
   const { copied, copyToClipboard } = useClipboard();
   const codeString = Array.isArray(code) ? code.join('\n') : code;
   return (
-    <section className={`${styles.snippet} ${className || ''}`}>
+    <section className={styles.snippet}>
       <div className={styles.header}>
-        <span>{title}</span>
+        <div className={styles.title}>{title}</div>
+      </div>
+      <div className={styles.codeWrapper}>
         <Button
           title={copyLabel}
-          className='copyButton'
+          className={styles.copyCodeButton}
+          variant='tertiary'
           icon
           onClick={() => copyToClipboard(codeString)}
           aria-label={copied ? copiedLabel : copyLabel}
         >
           {copied ? <ClipboardCheckmarkIcon aria-hidden /> : <ClipboardIcon aria-hidden />}
         </Button>
+        <SyntaxHighlighter
+          language='python'
+          style={oneLight}
+          customStyle={{
+            paddingTop: '0.5rem',
+            paddingRight: '2.5rem',
+            paddingBottom: '0.25rem',
+            margin: 0,
+          }}
+          className={styles.pre}
+          codeTagProps={{
+            className: styles.code,
+          }}
+        >
+          {codeString}
+        </SyntaxHighlighter>
       </div>
-
-      <SyntaxHighlighter
-        language='python'
-        style={oneLight}
-        customStyle={{
-          fontSize: 'clamp(0.8rem, 1.1vw, 1.05rem)',
-          lineHeight: 1.5,
-          padding: 0,
-          margin: 0,
-        }}
-        className={`codeBlock ${styles.pre}`}
-        codeTagProps={{
-          className: styles.code,
-        }}
-      >
-        {codeString}
-      </SyntaxHighlighter>
       <footer className={styles.footer}>
         {daplaLabVardefUrl && (
           <>

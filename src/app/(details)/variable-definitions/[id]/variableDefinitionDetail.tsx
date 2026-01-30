@@ -23,6 +23,8 @@ import {
 } from './groups';
 import styles from './variable-details-page.module.css';
 
+//TODO: Should replace <div className={styles.codeSnippetTitle}> with correct semantic element (header?)
+
 export default function VariableDefinitionDetail({
   variableDefinition,
   daplaLabVardefUrl,
@@ -74,7 +76,7 @@ export default function VariableDefinitionDetail({
           <CodeSnippet
             daplaLabVardefUrl={daplaLabVardefUrl}
             title={
-              <p className={styles.codeSnippetTitle}>
+              <div className={styles.codeSnippetTitle}>
                 <span className={styles.titleMain}>
                   <img src='/python-logo-only.svg' alt='' className={styles.pythonIcon} />{' '}
                   {localization.variableDefinition.fetchWith}
@@ -87,7 +89,7 @@ export default function VariableDefinitionDetail({
                 >
                   dapla-toolbelt-metadata
                 </a>
-              </p>
+              </div>
             }
             code={[
               `Vardef.get_variable_definition_by_shortname(`,
@@ -103,7 +105,8 @@ export default function VariableDefinitionDetail({
               <span className={styles.idValue}>{variableDefinition.id}</span>
               <Button
                 title={localization.copy.id}
-                className='copyButton'
+                className={styles.copyIdButton}
+                variant='tertiary'
                 icon
                 onClick={() => copyToClipboard(variableDefinition.id)}
                 aria-label={copied ? localization.copy.copied : localization.copy.id}
