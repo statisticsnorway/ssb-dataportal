@@ -1,3 +1,4 @@
+import { Heading } from '@digdir/designsystemet-react';
 import { FC, ReactElement, ReactNode } from 'react';
 import { SortFields } from '@/components/sort-fields';
 import { localization } from '@/libs/language';
@@ -16,6 +17,7 @@ interface SearchPageProps {
   sortValue?: SortTypes;
   onSortChange?: (key: SortTypes) => void;
   totalHits?: number;
+  header?: string;
 }
 
 const SearchPage: FC<SearchPageProps> = ({
@@ -26,27 +28,41 @@ const SearchPage: FC<SearchPageProps> = ({
   sortValue,
   onSortChange,
   totalHits,
+  header,
 }) => {
   return (
-    <div className={`${styles.pageContainer} container`}>
-      <header>{infoContent ? infoContent : null}</header>
-      <section className={styles.searchHitsContainerWrapper}>
-        {asideContent ? <aside className={styles.filterSection}>{asideContent}</aside> : null}
-        <main className={styles.mainSection}>
-          <div className={styles.hitsAndSort}>
-            <p className={styles.numHits}>
-              {totalHits == null || totalHits == 0
-                ? localization.search.noHits
-                : `${totalHits} ${localization.search.hits}`}
-            </p>
-            {sortOptions && sortValue && onSortChange && (
-              <SortFields sortOptions={sortOptions} sortValue={sortValue} onSortChange={onSortChange} />
-            )}
-          </div>
-          {searchResult}
-        </main>
+    <>
+      <section role='region' aria-label='Page header' className='container'>
+        <header>
+          <Heading level={1}>{header}</Heading>
+        </header>
       </section>
-    </div>
+      <div className={`${styles.pageContainer} container`}>
+        <section role='region' aria-label='Tags list'>
+          {infoContent ? infoContent : null}
+        </section>
+        <div className={styles.searchHitsContainerWrapper}>
+          {asideContent ? (
+            <aside className={styles.filterSection} aria-label='Filters'>
+              {asideContent}
+            </aside>
+          ) : null}
+          <main className={styles.mainSection}>
+            <div className={styles.hitsAndSort}>
+              <p className={styles.numHits}>
+                {totalHits == null || totalHits == 0
+                  ? localization.search.noHits
+                  : `${totalHits} ${localization.search.hits}`}
+              </p>
+              {sortOptions && sortValue && onSortChange && (
+                <SortFields sortOptions={sortOptions} sortValue={sortValue} onSortChange={onSortChange} />
+              )}
+            </div>
+            {searchResult}
+          </main>
+        </div>
+      </div>
+    </>
   );
 };
 
