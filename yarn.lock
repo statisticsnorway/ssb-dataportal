@@ -25,6 +25,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@axe-core/playwright@npm:4.11.0":
+  version: 4.11.0
+  resolution: "@axe-core/playwright@npm:4.11.0"
+  dependencies:
+    axe-core: "npm:~4.11.0"
+  peerDependencies:
+    playwright-core: ">= 1.0.0"
+  checksum: 10/54de38082deeb1d9022b47f1412ebba7c9b93aa09a0dbc5b1609d35b4f5d05f43840968aeeea913b340b4d89ab1ec0c8bb18aeb1f4c609751ae95e7b8ae2b724
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.10.4, @babel/code-frame@npm:^7.27.1":
   version: 7.27.1
   resolution: "@babel/code-frame@npm:7.27.1"
@@ -3721,6 +3732,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axe-core@npm:~4.11.0":
+  version: 4.11.1
+  resolution: "axe-core@npm:4.11.1"
+  checksum: 10/bbc8e8959258a229b92fbaa73437050825579815051cac7b0fdbb6752946fea226e403bfeeef3d60d712477bdd4c01afdc8455f27c3d85e4251df88b032b6250
+  languageName: node
+  linkType: hard
+
 "axios@npm:1.13.2":
   version: 1.13.2
   resolution: "axios@npm:1.13.2"
@@ -6324,6 +6342,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "metadata-catalog-prototype@workspace:."
   dependencies:
+    "@axe-core/playwright": "npm:4.11.0"
     "@biomejs/biome": "npm:2.3.11"
     "@digdir/designsystemet-css": "npm:1.11.0"
     "@digdir/designsystemet-react": "npm:1.11.0"
@@ -6348,6 +6367,7 @@ __metadata:
     jest-environment-jsdom: "npm:30.2.0"
     lodash: "npm:4.17.23"
     next: "npm:15.5.10"
+    playwright-core: "npm:^1.58.0"
     react: "npm:19.2.0"
     react-dom: "npm:19.2.0"
     react-localization: "npm:2.0.6"
@@ -6931,7 +6951,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.58.0":
+"playwright-core@npm:1.58.0, playwright-core@npm:^1.58.0":
   version: 1.58.0
   resolution: "playwright-core@npm:1.58.0"
   bin:

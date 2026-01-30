@@ -92,6 +92,7 @@ const VariableDefinitionsServicePage = ({
       sortValue={sortKey}
       onSortChange={(key: SortTypes) => setSortKey(key)}
       totalHits={hits.length}
+      header={localization.tabs.variableDefinitions}
       infoContent={
         <TagsGroup
           maxTags={subjectFields.length}
