@@ -27,7 +27,7 @@ const footerLinks: UrlItem[] = [
 export const AppLayout = ({ children, fdkRegistrationBaseUrl, catalogTitle }: AppLayoutProps) => {
   return (
     <div className='rootContainer'>
-      {/*TODO: Remove Alert when dev face is over
+      {/*TODO: Remove Alert when transistioning from prototype to product
         The element overflows page under around 354px, but it should not be fixed since we are going to remove the alert*/}
       <Alert data-color={'info'} className='infoAlert' data-size={'md'}>
         {localization.welcomeToTesting}
