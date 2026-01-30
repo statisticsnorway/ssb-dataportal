@@ -9,7 +9,20 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  display: flex;
+}
+
+.appTitle {
+  font-family: "Roboto Condensed", sans-serif !important;
+  font-stretch: condensed;
+  font-weight: bold;
+  font-size: 28px;
+  text-decoration: none;
+  color: var(--ssb-dark-color-5);
+}
+
+.verticalDivider {
+  height: var(--font-size-2xl);
+  border-left: 1px solid var(--ssb-dark-color-5);
 }
 
 .rightGroup {
@@ -21,12 +34,11 @@
   text-decoration: none;
 }
 
-.logo {
-  font-weight: 800;
-  color: var(--dark-blue-gray-color);
+.logoAndTitle {
+  column-gap: var(--medium-gap);
+  color: var(--ssb-dark-color-5);
   text-decoration: none;
-}
-
-.headerText {
-  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
