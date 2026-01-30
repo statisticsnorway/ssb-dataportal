@@ -4,7 +4,6 @@
 }
 
 .landingPageContent {
-  min-height: 60vh;
   flex: 1;
   display: flex;
   flex-direction: row;
@@ -49,6 +48,17 @@
 
 .dsc-details-size {
   font-size: 1.2rem;
+}
+
+.backgroundSubTitle {
+  background-color: var(--ssb-dark-color-2);
+  max-width: fit-content;
+  padding: 0 0.8rem 0 0.2rem;
+  border-radius: 5px;
+}
+.subTitle {
+  color: var(--ssb-dark-color-5);
+  font-family: Arial, Helvetica, sans-serif;
 }
 @media (min-width: 768px) {
   .title {

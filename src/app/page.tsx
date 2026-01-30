@@ -27,21 +27,22 @@ export default function Home() {
       </Alert>
       <div className='container'>
         <main className={styles.pageContainer}>
-          <Card className={styles.headerCard}>
-            <header className={styles.header}>
-              <Heading level={1} data-size='xl' className={styles.title}>
-                {localization.info.landingPageTitle}
-              </Heading>
+          <header className={styles.header}>
+            <Heading level={1} data-size='xl' className={styles.title}>
+              {localization.info.landingPageTitle}
+            </Heading>
+            <div className={styles.backgroundSubTitle}>
               <Paragraph data-size='xl' className={styles.subTitle}>
                 {localization.info.landingPageSubTitle}
               </Paragraph>
-              {detailsList.map((detail, index) => (
-                <Card key={index} style={{ marginBottom: '1rem' }}>
-                  <ClientOnly summary={detail.summary} content={detail.content} />
-                </Card>
-              ))}
-            </header>
-          </Card>
+            </div>
+
+            {detailsList.map((detail, index) => (
+              <Card key={index} style={{ marginBottom: '1rem' }} data-color='brand1'>
+                <ClientOnly summary={detail.summary} content={detail.content} />
+              </Card>
+            ))}
+          </header>
           <nav className={styles.landingPageContent}>
             {Object.values(tabsData).map((item, index) => (
               <Link key={index} href={item.route}>
