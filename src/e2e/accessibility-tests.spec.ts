@@ -1,8 +1,10 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
+//TODO: Accessibility testing is still experimental and must be improved
+// Aiming to separate violations in order to generate readable and precise feedback to developers
 test.describe('Variable definitions – accessibility', () => {
-  test('filters are accessible', async ({ page }) => {
+  test('Filters are accessible', async ({ page }) => {
     await page.goto('/variable-definitions');
 
     await page.getByRole('checkbox', { name: 'Sosiale forhold og' }).check();
@@ -17,7 +19,7 @@ test.describe('Variable definitions – accessibility', () => {
     expect(results.violations).toEqual([]);
   });
 
-  test('color contrasts are accessible', async ({ page }) => {
+  test('Color contrasts are accessible', async ({ page }) => {
     await page.goto('/variable-definitions');
 
     await page.getByRole('checkbox', { name: 'Sosiale forhold og' }).check();
@@ -30,7 +32,7 @@ test.describe('Variable definitions – accessibility', () => {
     expect(results.violations).toEqual([]);
   });
 
-  test('filters apply to landmark rules', async ({ page }) => {
+  test('Filters apply to landmark rules', async ({ page }) => {
     await page.goto('/variable-definitions');
 
     await page.getByRole('checkbox', { name: 'Sosiale forhold og' }).check();
@@ -44,6 +46,7 @@ test.describe('Variable definitions – accessibility', () => {
   });
 });
 
+//TODO: this is not really a test, only prints violations
 test('Accessibility test with impact filter in config', async ({ page }) => {
   await page.goto('/variable-definitions');
 
