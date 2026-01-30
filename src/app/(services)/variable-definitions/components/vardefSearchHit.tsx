@@ -18,7 +18,7 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
         headingProps={{ 'data-size': 'md', level: 2 }}
         variableDefinition={variableDefinition}
       ></VardefHeading>
-      <Paragraph className={styles.truncateTo3Lines}>{String(variableDefinition.definition)}</Paragraph>
+      <Paragraph className={`${styles.truncateTo3Lines} ingress`}>{String(variableDefinition.definition)}</Paragraph>
       <TagsGroup
         maxTags={4}
         tagData={

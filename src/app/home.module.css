@@ -14,7 +14,6 @@
 
 .title {
   font-family: "Roboto Condensed", sans-serif;
-  font-weight: bold;
   color: var(--ssb-dark-color-5);
   margin: 1rem auto;
 }

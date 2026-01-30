@@ -28,6 +28,11 @@
 }
 
 .tab {
+  font-family:
+    Roboto,
+    Roboto Fallback,
+    sans-serif;
+  /*font-weight: var(--font-weight-medium);*/
   display: flex;
   justify-content: center;
   align-items: center;

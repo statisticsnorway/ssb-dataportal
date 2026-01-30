@@ -2,7 +2,6 @@
 
 @import url("@digdir/designsystemet-css");
 @import url("@digdir/designsystemet-css/theme");
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 @layer reset, ds;
 
@@ -23,10 +22,13 @@
   --medium-gap: 1rem;
   --large-gap: 2rem;
 
-  --blue-color: #335380;
-  --dark-blue-color: #1e2b3c;
+  /* Ref: https://design.ssb.no/#/components/color */
   --ssb-dark-color-2: #c3dcdc;
   --ssb-dark-color-5: #274247;
+  --ssb-dark-color-6: #162327;
+
+  --blue-color: #335380;
+  --dark-blue-color: #1e2b3c;
   --main-background-color: #f0f8f9;
   --shadow-color: #969ba0;
   --element-background-color: #fff;
@@ -50,6 +52,9 @@
   --font-size-2xl: 2.5rem;
   --font-size-3xl: 3rem;
 
+  --font-family-monospace:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
   --font-weight-medium: 500;
   --font-weight-heavy: 700;
   --search-hit-shortname-color: #666666;
@@ -61,7 +66,14 @@ html * {
   font-display: swap;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family:
+    Open Sans,
+    Open Sans Fallback,
+    Roboto,
+    Roboto Fallback,
+    Roboto Condensed,
+    Roboto Condensed Fallback,
+    sans-serif;
 }
 
 body {
@@ -106,6 +118,57 @@ div.ds-card {
   border-color: #c3dcdc;
 }
 
+/** Text styles based on https://design.ssb.no/#/components/typography-page */
+
+h1,
+h1.ds-heading {
+  font-family:
+    Robot Condensed,
+    Roboto Condensed Fallback,
+    sans-serif;
+  font-weight: var(--font-weight-heavy);
+}
+
+h2,
+h2.ds-heading {
+  font-family:
+    Robot Condensed,
+    Roboto Condensed Fallback,
+    sans-serif;
+  font-weight: var(--font-weight-heavy);
+}
+
+h3,
+h3.ds-heading {
+  font-family:
+    Roboto,
+    Roboto Fallback,
+    sans-serif;
+  font-weight: var(--font-weight-heavy);
+}
+
+p {
+  font-family:
+    Open Sans,
+    Open Sans Fallback,
+    sans-serif;
+  font-size: var(--font-size-md);
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: var(--ssb-dark-color-6);
+}
+
+/** Ingress is used to draw attention to a limited amount of introductory text.
+    Refer here for more information: https://design.ssb.no/#/components/typography-page
+*/
+.ingress {
+  font-size: var(--font-size-lg);
+  line-height: 2rem;
+}
+
 .infoAlert {
   width: 100%;
   min-width: var(--app-min-width);
@@ -135,6 +198,5 @@ div.ds-card {
 .codeBlock pre,
 .codeBlock code,
 .codeBlock span {
-  font-family:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+  font-family: var(--font-family-monospace);
 }
