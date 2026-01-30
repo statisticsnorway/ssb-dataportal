@@ -1,3 +1,4 @@
+/*TODO: check all class names - remove unused css*/
 .pageContainer {
   /*max-width: 100%;*/
   padding: 1rem;
@@ -22,6 +23,8 @@
   font-weight: bold;
   margin-bottom: 0.5rem;
   color: var(--ssb-dark-color-5);
+  background-color: var(--ssb-dark-color-2);
+  background: linear-gradient(rgba(195, 220, 220, 0.9), rgba(195, 220, 220, 0));
 }
 
 .paragraph {
@@ -38,9 +41,6 @@
 .header {
   max-width: 100%;
   padding: 2rem;
-  background: linear-gradient(rgba(195, 220, 220, 0.3), rgba(195, 220, 220, 0.3)), url("/Artboard 160.svg");
-  background-repeat: no-repeat;
-  background-position: right;
 }
 
 .subTitle {
@@ -102,11 +102,33 @@ div.ds-card {
   --dsc-divider-border-width: 4px;
   --dsc-divider-border-color: var(--ssb-dark-color-2);
 }
+.header {
+  background: linear-gradient(rgba(195, 220, 220, 0.6), rgba(195, 220, 220, 0.6)), url("/Artboard 160.svg");
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
 @media (min-width: 768px) {
   .title {
     font-size: var(--ds-heading-2xl-font-size);
+    background-color: var(--ssb-dark-color-2);
+    background: linear-gradient(rgba(195, 220, 220, 0.4), rgba(195, 220, 220, 0.4));
   }
   .subTitle {
     font-size: var(--ds-body-xl-font-size);
+  }
+
+  .header {
+    background: linear-gradient(rgba(195, 220, 220, 0.5), rgba(195, 220, 220, 0.5)), url("/Artboard 160.svg");
+    background-repeat: no-repeat;
+    background-position: right;
+  }
+}
+
+@media (min-width: 1200px) {
+  .header {
+    background: linear-gradient(rgba(195, 220, 220, 0.5), rgba(195, 220, 220, 0.5)), url("/Artboard 160.svg");
+    background-repeat: no-repeat;
+    background-position: right;
   }
 }

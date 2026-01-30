@@ -5,6 +5,8 @@ import { localization } from '@/libs/language';
 import { tabsData } from './(services)/tabs';
 import styles from './home.module.css';
 
+//TODO: check class names - remove unused div
+// Add div to background
 export default function Home() {
   const detailsList = [
     {
