@@ -44,24 +44,40 @@ test.describe('Variable definitions – accessibility', () => {
 
     expect(results.violations).toEqual([]);
   });
+  //TODO: this is not really a test, only prints violations
+  test('Accessibility test with impact filter in config', async ({ page }) => {
+    await page.goto('/variable-definitions');
+
+    const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
+
+    console.log(JSON.stringify(results.violations, null, 2));
+  });
+
+  test('Page has header one', async ({ page }) => {
+    await page.goto('/variable-definitions');
+
+    const results = await new AxeBuilder({ page })
+      .withRules('page-has-heading-one')
+      .exclude('.ds-alert.infoAlert')
+      .analyze();
+
+    expect(results.violations).toEqual([]);
+  });
 });
 
-//TODO: this is not really a test, only prints violations
-test('Accessibility test with impact filter in config', async ({ page }) => {
-  await page.goto('/variable-definitions');
+test.describe('Landingpage – accessibility', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+  });
 
-  const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
+  test('Landing Page has header one', async ({ page }) => {
+    await page.goto('/');
+    const results = await new AxeBuilder({ page }).withRules('page-has-heading-one').analyze();
+    expect(results.violations).toEqual([]);
+  });
 
-  console.log(JSON.stringify(results.violations, null, 2));
-});
-
-test('Page has header one', async ({ page }) => {
-  await page.goto('/variable-definitions');
-
-  const results = await new AxeBuilder({ page })
-    .withRules('page-has-heading-one')
-    .exclude('.ds-alert.infoAlert')
-    .analyze();
-
-  expect(results.violations).toEqual([]);
+  test('Landing Page has correct landmarks', async ({ page }) => {
+    const results = await new AxeBuilder({ page }).withRules('region').exclude('.ds-alert.infoAlert').analyze();
+    expect(results.violations).toEqual([]);
+  });
 });
