@@ -23,6 +23,8 @@ import {
 } from './groups';
 import styles from './variable-details-page.module.css';
 
+//TODO: Should replace <div className={styles.codeSnippetTitle}> with correct semantic element (header?)
+
 export default function VariableDefinitionDetail({
   variableDefinition,
   daplaLabVardefUrl,

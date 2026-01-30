@@ -9,6 +9,8 @@ import { useClipboard } from '@/hooks/useClipboard';
 import { localization } from '@/libs/language';
 import styles from './code-snippet.module.css';
 
+//TODO: The color green in codeString fails contrast checks and should be replaced by SSB green #00824d
+//TODO: Use variable for green-color in global.css :root section
 type Props = {
   title?: React.ReactNode;
   code: string[];
