@@ -1,6 +1,6 @@
 import { Alert, Card, Heading, Paragraph } from '@digdir/designsystemet-react';
 import Link from 'next/link';
-import ClientOnly from '@/components/clientOnly';
+import ClientOnly from '@/components/client-details/clientOnly';
 import { localization } from '@/libs/language';
 import { tabsData } from './(services)/tabs';
 import styles from './home.module.css';
@@ -32,11 +32,13 @@ export default function Home() {
               <Heading level={2} data-size='xl' className={styles.title}>
                 {localization.info.landingPageTitle}
               </Heading>
-              <Paragraph data-size='lg' className={styles.subTitle}>
+              <Paragraph data-size='xl' className={styles.subTitle}>
                 {localization.info.landingPageSubTitle}
               </Paragraph>
               {detailsList.map((detail, index) => (
-                <ClientOnly key={index} summary={detail.summary} content={detail.content} />
+                <Card key={index} style={{ marginBottom: '1rem' }}>
+                  <ClientOnly summary={detail.summary} content={detail.content} />
+                </Card>
               ))}
             </header>
           </Card>
