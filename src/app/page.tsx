@@ -29,7 +29,7 @@ export default function Home() {
         <main className={styles.pageContainer}>
           <Card className={styles.headerCard}>
             <header className={styles.header}>
-              <Heading level={2} data-size='xl' className={styles.title}>
+              <Heading level={1} data-size='xl' className={styles.title}>
                 {localization.info.landingPageTitle}
               </Heading>
               <Paragraph data-size='xl' className={styles.subTitle}>
