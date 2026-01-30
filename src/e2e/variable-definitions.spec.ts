@@ -6,7 +6,7 @@ import { localization } from '@/libs/language';
 
 test.describe('Navigation variable definitions', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/variable-definitions');
     await expect(page).toHaveURL(/\/variable-definitions$/);
   });
 });

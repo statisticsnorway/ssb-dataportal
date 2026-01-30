@@ -1,6 +1,8 @@
 .detailsPage {
   width: 100%;
-  padding-bottom: 1rem;
+  margin-bottom: var(--ds-size-4);
+  flex: 1;
+  min-height: 55vh;
 }
 
 .contentGrid {

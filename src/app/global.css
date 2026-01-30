@@ -2,6 +2,7 @@
 
 @import url("@digdir/designsystemet-css");
 @import url("@digdir/designsystemet-css/theme");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 @layer reset, ds;
 
@@ -24,11 +25,12 @@
 
   --blue-color: #335380;
   --dark-blue-color: #1e2b3c;
+  --ssb-dark-color-2: #c3dcdc;
+  --ssb-dark-color-5: #274247;
   --main-background-color: #f0f8f9;
   --shadow-color: #969ba0;
   --element-background-color: #fff;
   --light-light-blue-color: #e6eff8;
-  --dark-blue-gray-color: #274247;
   --main-font-color: #000;
 
   --text-color-primary: #111827;
@@ -72,8 +74,8 @@ body {
 }
 
 .rootContainer {
-  width: 100%;
-  margin: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .grow {

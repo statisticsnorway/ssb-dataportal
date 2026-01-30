@@ -16,6 +16,8 @@
     "test:update-snapshots": "jest -u",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:generate": "playwright codegen http://localhost:3000",
     "codegen:vardef-internal": "openapi-generator-cli generate --generator-key vardef-internal",
     "codegen:klass": "openapi-generator-cli generate --generator-key klass"
   },

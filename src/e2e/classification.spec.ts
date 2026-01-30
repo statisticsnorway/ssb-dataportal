@@ -40,7 +40,7 @@ test('Navigate to up to 4 classifications', async ({ goToClassification, page })
     const homeLink = page.getByRole('link', { name: localization.navigateHomeClassifications });
     await expect(homeLink).toBeVisible({ timeout: 10000 });
 
-    await Promise.all([page.waitForURL(/\/classifications$/), homeLink.click()]);
+    await Promise.all([page.waitForURL('/classifications'), homeLink.click()]);
 
     // Wait for classifications page to be ready for next iteration
     await expect(page.getByRole('tab', { name: localization.tabs.classifications })).toBeVisible({ timeout: 5000 });

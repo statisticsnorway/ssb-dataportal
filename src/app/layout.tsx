@@ -14,9 +14,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang={localization.getLanguage()}>
       <body>
-        <AppLayout displayFooter={true} catalogTitle={localization.appTitle} className='rootContainer'>
-          {children}
-        </AppLayout>
+        <AppLayout catalogTitle={localization.appTitle}>{children}</AppLayout>
       </body>
     </html>
   );
