@@ -31,32 +31,38 @@ const SearchPage: FC<SearchPageProps> = ({
   header,
 }) => {
   return (
-    <section className={`${styles.pageContainer} container`} aria-labelledby='pageTitle'>
-      <div>
-        <Heading level={1}>{header ? header : null}</Heading>
-        {infoContent ? infoContent : null}
+    <>
+      <section role='region' aria-label='Page header' className='container'>
+        <header>
+          <Heading level={1}>{header}</Heading>
+        </header>
+      </section>
+      <div className={`${styles.pageContainer} container`}>
+        <section role='region' aria-label='Tags list'>
+          {infoContent ? infoContent : null}
+        </section>
+        <div className={styles.searchHitsContainerWrapper}>
+          {asideContent ? (
+            <aside className={styles.filterSection} aria-label='Filters'>
+              {asideContent}
+            </aside>
+          ) : null}
+          <main className={styles.mainSection}>
+            <div className={styles.hitsAndSort}>
+              <p className={styles.numHits}>
+                {totalHits == null || totalHits == 0
+                  ? localization.search.noHits
+                  : `${totalHits} ${localization.search.hits}`}
+              </p>
+              {sortOptions && sortValue && onSortChange && (
+                <SortFields sortOptions={sortOptions} sortValue={sortValue} onSortChange={onSortChange} />
+              )}
+            </div>
+            {searchResult}
+          </main>
+        </div>
       </div>
-      <div className={styles.searchHitsContainerWrapper}>
-        {asideContent ? (
-          <aside className={styles.filterSection} aria-label='Filters'>
-            {asideContent}
-          </aside>
-        ) : null}
-        <main className={styles.mainSection}>
-          <div className={styles.hitsAndSort}>
-            <p className={styles.numHits}>
-              {totalHits == null || totalHits == 0
-                ? localization.search.noHits
-                : `${totalHits} ${localization.search.hits}`}
-            </p>
-            {sortOptions && sortValue && onSortChange && (
-              <SortFields sortOptions={sortOptions} sortValue={sortValue} onSortChange={onSortChange} />
-            )}
-          </div>
-          {searchResult}
-        </main>
-      </div>
-    </section>
+    </>
   );
 };
 
