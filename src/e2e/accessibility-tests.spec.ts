@@ -97,6 +97,7 @@ test.describe('Landingpage – accessibility', () => {
     expect(results.violations).toEqual([]);
   });
 
+  //TODO: If wcag AAA is required add 'wcag21aaa'
   test('Page follows wcag standard', async ({ page }) => {
     await page.goto('/');
 
