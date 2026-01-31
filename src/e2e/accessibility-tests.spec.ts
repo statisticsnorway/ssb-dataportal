@@ -45,7 +45,7 @@ test.describe('Variable definitions – accessibility', () => {
     expect(results.violations).toEqual([]);
   });
   //TODO: this is not really a test, only prints violations
-  test('Accessibility test with impact filter in config', async ({ page }) => {
+  test('Follow wcag standard', async ({ page }) => {
     await page.goto('/variable-definitions');
 
     const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
@@ -70,14 +70,33 @@ test.describe('Landingpage – accessibility', () => {
     await page.goto('/');
   });
 
-  test('Landing Page has header one', async ({ page }) => {
+  test('Page has header one', async ({ page }) => {
     await page.goto('/');
     const results = await new AxeBuilder({ page }).withRules('page-has-heading-one').analyze();
     expect(results.violations).toEqual([]);
   });
 
-  test('Landing Page has correct landmarks', async ({ page }) => {
+  test('Page has correct landmarks', async ({ page }) => {
     const results = await new AxeBuilder({ page }).withRules('region').exclude('.ds-alert.infoAlert').analyze();
+    expect(results.violations).toEqual([]);
+  });
+
+  test('Color contrasts are accessible', async ({ page }) => {
+    await page.goto('/');
+
+    const results = await new AxeBuilder({ page })
+      .withRules(['color-contrast'])
+      .exclude('.ds-alert.infoAlert')
+      .analyze();
+
+    expect(results.violations).toEqual([]);
+  });
+
+  test('Page follows wcag standard', async ({ page }) => {
+    await page.goto('/');
+
+    const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
+
     expect(results.violations).toEqual([]);
   });
 });
