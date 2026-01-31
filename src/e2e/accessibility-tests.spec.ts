@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
+import { localization } from '@/libs/language';
 
 //TODO: Accessibility testing is still experimental and must be improved
 // Aiming to separate violations in order to generate readable and precise feedback to developers
@@ -48,7 +49,7 @@ test.describe('Variable definitions – accessibility', () => {
   test('Follow wcag standard', async ({ page }) => {
     await page.goto('/variable-definitions');
 
-    const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
+    const results = await new AxeBuilder({ page }).withTags(['wcag21a', 'wcag21aa']).analyze();
 
     console.log(JSON.stringify(results.violations, null, 2));
   });
@@ -84,7 +85,10 @@ test.describe('Landingpage – accessibility', () => {
   test('Color contrasts are accessible', async ({ page }) => {
     await page.goto('/');
 
-    await page.getByRole('button', { name: 'Hva er Dataportalen?' }).click();
+    await page.getByRole('button', { name: localization.info.landingPageInfoIntroTitle }).click();
+
+    await page.getByText(localization.info.landingPageInfoIntro).waitFor();
+
     const results = await new AxeBuilder({ page })
       .withRules(['color-contrast'])
       .exclude('.ds-alert.infoAlert')
@@ -96,7 +100,7 @@ test.describe('Landingpage – accessibility', () => {
   test('Page follows wcag standard', async ({ page }) => {
     await page.goto('/');
 
-    const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
+    const results = await new AxeBuilder({ page }).withTags(['wcag21a', 'wcag21aa']).analyze();
 
     expect(results.violations).toEqual([]);
   });
