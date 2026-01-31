@@ -10,6 +10,10 @@ interface ClientOnlyDetailsProps {
   content: string;
 }
 
+/**
+ * This component handles 'Details' component only mounts on client
+ * so it can be rendered in a server component.
+ */
 export default function ClientOnlyDetails({ summary, content }: ClientOnlyDetailsProps) {
   const [mounted, setMounted] = useState(false);
 
