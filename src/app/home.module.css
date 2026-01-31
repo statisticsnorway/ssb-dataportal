@@ -10,7 +10,7 @@
 }
 
 .pageHeader {
-  background: linear-gradient(rgba(195, 220, 220, 0.6), rgba(195, 220, 220, 0.6)), url("/Artboard 160.svg");
+  background: linear-gradient(rgba(195, 220, 220, 0.6), rgba(195, 220, 220, 0.6)), url("/magnifying-glass.svg");
   background-repeat: no-repeat;
   background-position: right;
   padding: 1rem;
@@ -55,7 +55,7 @@
 
 @media (min-width: 768px) {
   .pageHeader {
-    background: linear-gradient(rgba(195, 220, 220, 0.5), rgba(195, 220, 220, 0.5)), url("/Artboard 160.svg");
+    background: linear-gradient(rgba(195, 220, 220, 0.5), rgba(195, 220, 220, 0.5)), url("/magnifying-glass.svg");
     background-repeat: no-repeat;
     background-position: right;
   }
@@ -76,7 +76,7 @@
 
 @media (min-width: 1200px) {
   .pageHeader {
-    background: linear-gradient(rgba(195, 220, 220, 0.5), rgba(195, 220, 220, 0.5)), url("/Artboard 160.svg");
+    background: linear-gradient(rgba(195, 220, 220, 0.5), rgba(195, 220, 220, 0.5)), url("/magnifying-glass.svg");
     background-repeat: no-repeat;
     background-position: right;
   }
