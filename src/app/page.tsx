@@ -5,17 +5,14 @@ import { localization } from '@/libs/language';
 import { tabsData } from './(services)/tabs';
 import styles from './home.module.css';
 
-//TODO: check class names - remove unused div
-// Add div to background
-// add titles to localization
 export default function Home() {
   const detailsList = [
     {
-      summary: 'Hva er Dataportalen?',
+      summary: localization.info.landingPageInfoIntroTitle,
       content: localization.info.landingPageInfoIntro,
     },
     {
-      summary: 'Hvorfor Dataportalen?',
+      summary: localization.info.landingPageInfoGoalTitle,
       content: localization.info.landingPageInfoGoal,
     },
     {
@@ -23,16 +20,16 @@ export default function Home() {
       content: localization.info.landingPageInfoPrototype,
     },
   ];
+
   return (
     <>
       <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
         Dataportalens forside er under arbeid.
       </Alert>
-      {/* <div className={`${styles.background} rootContainer`}>*/}
       <main className={`${styles.pageContainer} container`}>
         <Card data-color='brand1' variant='tinted' className={styles.headerCard}>
-          <header className={styles.header}>
-            <Heading level={1} data-size='xl' className={styles.title}>
+          <header className={styles.pageHeader}>
+            <Heading level={1} data-size='xl' className={styles.pageTitle}>
               {localization.info.landingPageTitle}
             </Heading>
             <Paragraph data-size='xl' className={styles.subTitle}>
@@ -40,7 +37,7 @@ export default function Home() {
             </Paragraph>
             <div className={styles.infoDetails}>
               {detailsList.map((detail, index) => (
-                <Card key={index} className={styles.infoCards}>
+                <Card key={index} className={styles.infoCard}>
                   <ClientOnly summary={detail.summary} content={detail.content} />
                 </Card>
               ))}
@@ -48,7 +45,7 @@ export default function Home() {
           </header>
         </Card>
         <Divider className={styles.customDivider} />
-        <nav className={styles.landingPageContent}>
+        <nav className={styles.pageNavigation}>
           {Object.values(tabsData).map((item, index) => (
             <Link key={index} href={item.route}>
               {item.label}
@@ -56,7 +53,6 @@ export default function Home() {
           ))}
         </nav>
       </main>
-      {/* </div>*/}
     </>
   );
 }
