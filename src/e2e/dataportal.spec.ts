@@ -1,13 +1,33 @@
 import { expect, test } from '@playwright/test';
 import { localization } from '@/libs/language';
 
-test.describe('Navigation variable definitions', () => {
+test.describe('Landing page', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
     await expect(page).toHaveURL('/');
   });
 
-  test('Navigate from landingpage', async ({ page }) => {
+  test('Heading one', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.getByRole('heading')).toContainText(localization.info.landingPageTitle);
+    await expect(page.getByRole('heading')).toMatchAriaSnapshot(
+      `- heading "${localization.info.landingPageTitle}" [level=1]`,
+    );
+  });
+
+  test('Details', async ({ page }) => {
+    await page.goto('/');
+    await page.getByRole('button', { name: localization.info.landingPageInfoIntroTitle }).click();
+    await expect(page.getByRole('main')).toContainText(localization.info.landingPageInfoIntro);
+    await page.getByRole('button', { name: localization.info.landingPageInfoIntroTitle }).click();
+    await page.getByRole('button', { name: localization.info.landingPageInfoGoalTitle }).click();
+    await expect(page.getByText(localization.info.landingPageInfoGoal)).toBeVisible();
+    await page.getByRole('button', { name: localization.info.landingPageInfoGoalTitle }).click();
+    await page.getByRole('button', { name: localization.info.landingPagePrototypeTitle }).click();
+    await expect(page.getByRole('main')).toContainText(localization.info.landingPageInfoPrototype);
+  });
+
+  test('Navigate from landingpage to variable definitions', async ({ page }) => {
     await page.goto('/');
     await expect(page.getByRole('heading')).toContainText(localization.info.landingPageTitle);
     await page.getByRole('link', { name: localization.tabs.variableDefinitions }).click();

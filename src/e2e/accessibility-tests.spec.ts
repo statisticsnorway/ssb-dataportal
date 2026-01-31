@@ -84,6 +84,7 @@ test.describe('Landingpage – accessibility', () => {
   test('Color contrasts are accessible', async ({ page }) => {
     await page.goto('/');
 
+    await page.getByRole('button', { name: 'Hva er Dataportalen?' }).click();
     const results = await new AxeBuilder({ page })
       .withRules(['color-contrast'])
       .exclude('.ds-alert.infoAlert')
