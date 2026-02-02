@@ -72,7 +72,6 @@ html * {
 }
 
 body {
-  font-family: inherit;
   line-height: inherit;
   height: 100%;
   background-color: var(--ssb-dark-color-1);
@@ -142,12 +141,15 @@ p {
   color: var(--ssb-dark-color-6);
 }
 
-/** Ingress is used to draw attention to a limited amount of introductory text.
-    Refer here for more information: https://design.ssb.no/#/components/typography-page
-*/
+/** Ingress is used to draw attention to a limited amount of introductory text. */
 .ingress {
   font-size: var(--font-size-lg);
   line-height: 2rem;
+}
+
+/** SSBs design system specifies the use of Roboto to distinguish interactive elements */
+button {
+  font-family: var(--font-roboto), sans-serif;
 }
 
 .font-roboto {
