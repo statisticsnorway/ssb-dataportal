@@ -47,8 +47,6 @@ export default function Home() {
     }),
   );
 
-  console.log(navigationItems);
-
   return (
     <main className={`${styles.pageContainer} container`}>
       <Card data-color='brand1' variant='tinted' className={styles.headerCard}>
@@ -69,11 +67,12 @@ export default function Home() {
         </header>
       </Card>
       <Divider className={styles.customDivider} />
-      <nav className={styles.pageNavigation}>
+      <nav className={styles.pageNavigation} id='menu'>
         {Object.values(navigationItems).map((item, index) => (
           <NavigationCard key={index} title={item.label} href={item.route} icon={item.icon} />
         ))}
       </nav>
+      <div role='scrollbar' aria-controls='menu' aria-orientation='vertical' aria-label='Navigation scrollbar'></div>
     </main>
   );
 }
