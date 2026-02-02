@@ -4,13 +4,11 @@ import { Button } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useClipboard } from '@/hooks/useClipboard';
 import { localization } from '@/libs/language';
 import styles from './code-snippet.module.css';
 
-//TODO: The color green in codeString fails contrast checks and should be replaced by SSB green #00824d
-//TODO: Use variable for green-color in global.css :root section
 type Props = {
   title?: React.ReactNode;
   code: string[];
@@ -46,7 +44,7 @@ export function CodeSnippet({
         </Button>
         <SyntaxHighlighter
           language='python'
-          style={oneLight}
+          style={vs}
           customStyle={{
             paddingTop: '0.5rem',
             paddingRight: '2.5rem',
