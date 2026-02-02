@@ -3,9 +3,9 @@
 import { Details, DetailsContent, DetailsSummary } from '@digdir/designsystemet-react';
 import { useEffect, useState } from 'react';
 
-import styles from './clientOnly.module.css';
+import styles from './clientDetails.module.css';
 
-interface ClientOnlyDetailsProps {
+interface ClientDetailsProps {
   summary: string;
   content: string;
 }
@@ -14,7 +14,7 @@ interface ClientOnlyDetailsProps {
  * This component handles 'Details' component only mounts on client
  * so it can be rendered in a server component.
  */
-export default function ClientOnlyDetails({ summary, content }: ClientOnlyDetailsProps) {
+const ClientDetails = ({ summary, content }: ClientDetailsProps) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -29,4 +29,6 @@ export default function ClientOnlyDetails({ summary, content }: ClientOnlyDetail
       <DetailsContent className={styles.contentDetail}>{content}</DetailsContent>
     </Details>
   );
-}
+};
+
+export { ClientDetails };

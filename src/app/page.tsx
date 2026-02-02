@@ -1,6 +1,6 @@
 import { Alert, Card, Divider, Heading, Paragraph } from '@digdir/designsystemet-react';
 import Link from 'next/link';
-import ClientOnly from '@/components/client-details/clientOnly';
+import { ClientDetails } from '@/components/client-details/clientDetails';
 import { localization } from '@/libs/language';
 import { tabsData } from './(services)/tabs';
 import styles from './home.module.css';
@@ -38,7 +38,7 @@ export default function Home() {
             <div className={styles.infoDetails}>
               {detailsList.map((detail, index) => (
                 <Card key={index} className={styles.infoCard}>
-                  <ClientOnly summary={detail.summary} content={detail.content} />
+                  <ClientDetails summary={detail.summary} content={detail.content} />
                 </Card>
               ))}
             </div>
