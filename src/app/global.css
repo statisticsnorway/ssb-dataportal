@@ -115,7 +115,8 @@ div.ds-card {
 
 /** Text styles based on https://design.ssb.no/#/components/typography-page
 
-We don't set font-size for the headings, this can be controlled using
+We don't set font-size for the headings, this can be controlled using the
+level prop on the Heading component from Designsystemet
 */
 
 :is(h1, h1.ds-heading, h2, h2.ds-heading, .heading12) {
