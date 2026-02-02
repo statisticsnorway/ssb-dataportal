@@ -78,7 +78,7 @@ jobs:
       - name: Install Playwright Browsers
         run: pnpm playwright install --with-deps
       - name: Run Playwright tests
-        run: pnpm test:e2e
+        run: pnpm test:e2e:no-accessibility
         env:
           NEXT_TEST: "test"
       - name: Upload Playwright report

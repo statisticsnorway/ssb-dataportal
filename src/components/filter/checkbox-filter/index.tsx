@@ -61,23 +61,31 @@ export const CheckboxFilter = ({ filterHeading, filters, onFilterChange, selecte
   return (
     <Card data-color={'accent'} className={`${styles.filterCard} ${!isOpen ? styles.hidden : ''}`}>
       <Fieldset>
-        <Button
-          className={styles.toggleFilter}
-          onClick={handleToggle}
-          aria-expanded={isOpen}
-          aria-controls={`filter-${filterHeading}`}
-        >
-          <FieldsetLegend className={styles.filterHeader}>{filterHeading}</FieldsetLegend>
-          {isOpen ? (
-            <ChevronDownIcon title={localization.search.filter.close} className={styles.chevronUpDown} />
-          ) : (
-            <ChevronUpIcon title={localization.search.filter.open} className={styles.chevronUpDown} />
-          )}
-        </Button>
+        <FieldsetLegend className={styles.filterHeader}>
+          <Button
+            className={styles.toggleFilter}
+            onClick={handleToggle}
+            aria-expanded={isOpen}
+            aria-controls={`filter-${filterHeading}`}
+          >
+            {filterHeading}
+            {isOpen ? (
+              <ChevronDownIcon title={localization.search.filter.close} className={styles.chevronUpDown} />
+            ) : (
+              <ChevronUpIcon title={localization.search.filter.open} className={styles.chevronUpDown} />
+            )}
+          </Button>
+        </FieldsetLegend>
         {isOpen ? (
           <div id={`filter-${filterHeading}`}>
             {filters.map(({ value, label }) => (
-              <Checkbox className={styles.checkbox} label={label} key={value} {...getCheckboxProps({ value: value })} />
+              <Checkbox
+                id={value}
+                className={styles.checkbox}
+                label={label}
+                key={value}
+                {...getCheckboxProps({ value: value })}
+              />
             ))}
             <ValidationMessage {...validationMessageProps} />
           </div>

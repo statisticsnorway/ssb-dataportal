@@ -17,7 +17,7 @@ import { FilterGroup } from '@/types/filters';
 const FiltersPanel = ({ filterGroups }: { filterGroups: FilterGroup[] }) => {
   return (
     <>
-      <Heading level={3} data-size='sm'>
+      <Heading level={2} data-size='sm'>
         {filterGroups.length > 0 ? localization.search.filter.label : null}
       </Heading>
       {filterGroups.map(({ filterHeading, filters, selectedItems, onFilterChange }) => (

@@ -5,7 +5,7 @@ import { ClassificationType } from '@/types/classification';
 import { transformClassificationFamilies } from '@/utils/mock-data';
 import { ClassificationFamilyResource } from '../../data-access/klass';
 
-const CLASSIFICATION_FAMILIES_URL_PATH_PART = 'classificationFamilies';
+const CLASSIFICATION_FAMILIES_URL_PATH_PART = 'classificationfamilies';
 
 const useStaticData = process.env.KLASS_USE_STATIC_DATA === 'true';
 

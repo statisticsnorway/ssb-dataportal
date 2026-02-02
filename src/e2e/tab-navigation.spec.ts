@@ -1,11 +1,9 @@
 import { expect, test } from '@playwright/test';
 import { localization } from '@/libs/language';
 
-test.describe.configure({ mode: 'parallel' });
-
 test.describe('Tabs navigation', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/variable-definitions');
   });
 
   test('navigate to classifications', async ({ page }) => {
@@ -16,9 +14,9 @@ test.describe('Tabs navigation', () => {
     await expect(klassTab).toBeEnabled();
 
     // Wait before click tab
-    await Promise.all([page.waitForURL(/\/classifications$/), klassTab.click()]);
+    await Promise.all([page.waitForURL('/classifications'), klassTab.click()]);
     // Expect classifications url
-    await expect(page).toHaveURL(/\/classifications$/);
+    await expect(page).toHaveURL('/classifications');
   });
 
   test('navigate to datasets', async ({ page }) => {
@@ -29,10 +27,9 @@ test.describe('Tabs navigation', () => {
     await expect(datasetTab).toBeEnabled();
 
     // Wait before click tab
-    await Promise.all([page.waitForURL(/\/datasets$/), datasetTab.click()]);
-
-    // Expect datasets url
-    await expect(page).toHaveURL(/\/datasets$/);
+    await Promise.all([page.waitForURL('/datasets'), datasetTab.click()]);
+    // Expect classifications url
+    await expect(page).toHaveURL('/datasets');
   });
 
   test('navigate to variable definitions', async ({ page }) => {
@@ -43,9 +40,9 @@ test.describe('Tabs navigation', () => {
     await expect(vardefTab).toBeEnabled();
 
     // Wait before click tab
-    await Promise.all([page.waitForURL(/\/variable-definitions$/), vardefTab.click()]);
+    await Promise.all([page.waitForURL('/variable-definitions'), vardefTab.click()]);
 
     // Expect variable definitions url
-    await expect(page).toHaveURL(/\/variable-definitions$/);
+    await expect(page).toHaveURL('/variable-definitions');
   });
 });

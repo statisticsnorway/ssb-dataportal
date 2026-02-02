@@ -2,6 +2,7 @@
 
 @import url("@digdir/designsystemet-css");
 @import url("@digdir/designsystemet-css/theme");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 @layer reset, ds;
 
@@ -24,11 +25,11 @@
 
   --blue-color: #335380;
   --dark-blue-color: #1e2b3c;
-  --main-background-color: #f0f8f9;
+  --ssb-dark-color-2: #c3dcdc;
+  --ssb-dark-color-5: #274247;
+  --ssb-dark-color-1: #f0f8f9;
   --shadow-color: #969ba0;
   --element-background-color: #fff;
-  --light-light-blue-color: #e6eff8;
-  --dark-blue-gray-color: #274247;
   --main-font-color: #000;
 
   --text-color-primary: #111827;
@@ -51,8 +52,6 @@
   --font-weight-medium: 500;
   --font-weight-heavy: 700;
   --search-hit-shortname-color: #666666;
-
-  --search-card-border-color: #c3dcdc;
 }
 
 html * {
@@ -66,14 +65,13 @@ body {
   font-family: inherit;
   line-height: inherit;
   height: 100%;
-  background-color: var(--main-background-color);
+  background-color: var(--ssb-dark-color-1);
   padding: 0;
   margin: 0;
 }
 
 .rootContainer {
   width: 100%;
-  margin: 0;
 }
 
 .grow {
@@ -91,6 +89,7 @@ body {
   box-sizing: border-box;
 }
 
+/*TODO: we should avoid setting global values for local elements*/
 select#sortVariables.ds-input {
   padding: 0.5rem;
   border-radius: 5px;
@@ -108,31 +107,4 @@ div.ds-card {
   width: 100%;
   min-width: var(--app-min-width);
   --dsc-alert-padding-block: var(--ds-size-4);
-}
-
-.copyButton {
-  background-color: var(--element-background-color);
-  color: var(--main-font-color);
-  font-size: var(--font-size-md);
-}
-
-.react-syntax-highlighter-line-number {
-  background: rgb(242, 242, 242);
-}
-
-.codeBlock {
-  margin: 0 1rem 1rem 1rem !important;
-}
-
-.codeBlock code {
-  display: block;
-  padding: 1rem 1rem 1rem 0.75rem;
-}
-
-.codeBlock,
-.codeBlock pre,
-.codeBlock code,
-.codeBlock span {
-  font-family:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
 }

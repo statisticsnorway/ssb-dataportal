@@ -17,12 +17,12 @@
   font-weight: bold;
   font-size: 28px;
   text-decoration: none;
-  color: var(--dark-blue-gray-color);
+  color: var(--ssb-dark-color-5);
 }
 
 .verticalDivider {
   height: var(--font-size-2xl);
-  border-left: 1px solid var(--dark-blue-gray-color);
+  border-left: 1px solid var(--ssb-dark-color-5);
 }
 
 .rightGroup {
@@ -36,7 +36,7 @@
 
 .logoAndTitle {
   column-gap: var(--medium-gap);
-  color: var(--dark-blue-gray-color);
+  color: var(--ssb-dark-color-5);
   text-decoration: none;
   display: flex;
   align-items: center;

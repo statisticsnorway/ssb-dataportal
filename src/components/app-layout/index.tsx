@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import { ReactNode } from 'react';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
@@ -13,11 +12,10 @@ import ErrorBoundary from '../error-boundry';
 
 interface AppLayoutProps {
   children: ReactNode;
-  className?: string;
   fdkRegistrationBaseUrl?: string;
   fdkBaseUrl?: string;
   catalogTitle?: string;
-  displayFooter?: boolean;
+  className?: string;
 }
 
 const footerLinks: UrlItem[] = [
@@ -26,23 +24,19 @@ const footerLinks: UrlItem[] = [
     name: 'metadata@ssb.no',
   },
 ];
-export const AppLayout = ({
-  children,
-  className,
-  fdkRegistrationBaseUrl,
-  catalogTitle,
-  displayFooter = true,
-}: AppLayoutProps) => {
+export const AppLayout = ({ children, fdkRegistrationBaseUrl, catalogTitle }: AppLayoutProps) => {
   return (
-    <div className={cn(className)}>
+    <div className='rootContainer'>
+      {/*TODO: Remove Alert when transistioning from prototype to product
+        The element overflows page under around 354px, but it should not be fixed since we are going to remove the alert*/}
       <Alert data-color={'info'} className='infoAlert' data-size={'md'}>
         {localization.welcomeToTesting}
       </Alert>
-      <Header homeUrl='https://www.ssb.no' title={catalogTitle} devEnvironmentName={getDevEnvironmentName()} />
+      <Header homeUrl='/' title={catalogTitle} devEnvironmentName={getDevEnvironmentName()} />
       <ErrorBoundary fdkRegistrationBaseUrl={fdkRegistrationBaseUrl} title={catalogTitle ?? ''}>
         {children}
       </ErrorBoundary>
-      {displayFooter && <Footer footerLinks={footerLinks} />}
+      <Footer footerLinks={footerLinks} />
     </div>
   );
 };
