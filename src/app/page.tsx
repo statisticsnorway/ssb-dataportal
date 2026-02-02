@@ -1,6 +1,10 @@
-import { Alert, Card, Divider, Heading, Paragraph } from '@digdir/designsystemet-react';
-import Link from 'next/link';
+import { Card, Divider, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { ReactNode } from 'react';
 import { ClientDetails } from '@/components/client-details/clientDetails';
+import { NavigationCard } from '@/components/navigation-card';
+import AlphabetIcon from '@/icons/alphabet.svg';
+import DatasetIcon from '@/icons/dataset.svg';
+import NetworkIcon from '@/icons/networks.svg';
 import { localization } from '@/libs/language';
 import { tabsData } from './(services)/tabs';
 import styles from './home.module.css';
@@ -21,38 +25,55 @@ export default function Home() {
     },
   ];
 
+  const navigationItems: Record<string, { label: string; route: string; icon: ReactNode | null }> = Object.fromEntries(
+    Object.entries(tabsData).map(([key, value]) => {
+      let icon: ReactNode | null = null;
+
+      switch (value.label) {
+        case localization.tabs.variableDefinitions:
+          icon = <AlphabetIcon title='a11y-title' fontSize={'4rem'} />;
+          break;
+        case localization.tabs.classifications:
+          icon = <NetworkIcon title='a11y-title' fontSize={'4rem'} />;
+          break;
+        case localization.tabs.datasets:
+          icon = <DatasetIcon title='a11y-title' fontSize={'4rem'} />;
+          break;
+        default:
+          icon = null;
+      }
+
+      return [key, { ...value, icon }];
+    }),
+  );
+
+  console.log(navigationItems);
+
   return (
-    <>
-      <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
-        Dataportalens forside er under arbeid.
-      </Alert>
-      <main className={`${styles.pageContainer} container`}>
-        <Card data-color='brand1' variant='tinted' className={styles.headerCard}>
-          <header className={styles.pageHeader}>
-            <Heading level={1} data-size='xl' className={styles.pageTitle}>
-              {localization.info.landingPageTitle}
-            </Heading>
-            <Paragraph data-size='xl' className={styles.subTitle}>
-              {localization.info.landingPageSubTitle}
-            </Paragraph>
-            <div className={styles.infoDetails}>
-              {detailsList.map((detail, index) => (
-                <Card key={index} className={styles.infoCard}>
-                  <ClientDetails summary={detail.summary} content={detail.content} />
-                </Card>
-              ))}
-            </div>
-          </header>
-        </Card>
-        <Divider className={styles.customDivider} />
-        <nav className={styles.pageNavigation}>
-          {Object.values(tabsData).map((item, index) => (
-            <Link key={index} href={item.route}>
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      </main>
-    </>
+    <main className={`${styles.pageContainer} container`}>
+      <Card data-color='brand1' variant='tinted' className={styles.headerCard}>
+        <header className={styles.pageHeader}>
+          <Heading level={1} data-size='lg' className={styles.pageTitle}>
+            {localization.info.landingPageTitle}
+          </Heading>
+          <Paragraph data-size='md' className={styles.subTitle}>
+            {localization.info.landingPageSubTitle}
+          </Paragraph>
+          <div className={styles.infoDetails}>
+            {detailsList.map((detail, index) => (
+              <Card key={index} className={styles.infoCard}>
+                <ClientDetails summary={detail.summary} content={detail.content} />
+              </Card>
+            ))}
+          </div>
+        </header>
+      </Card>
+      <Divider className={styles.customDivider} />
+      <nav className={styles.pageNavigation}>
+        {Object.values(navigationItems).map((item, index) => (
+          <NavigationCard key={index} title={item.label} href={item.route} icon={item.icon} />
+        ))}
+      </nav>
+    </main>
   );
 }
