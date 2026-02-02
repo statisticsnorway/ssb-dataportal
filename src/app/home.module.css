@@ -54,7 +54,6 @@
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
   gap: 1rem;
 }
 
