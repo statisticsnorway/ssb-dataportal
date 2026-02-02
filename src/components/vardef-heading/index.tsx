@@ -1,11 +1,8 @@
 import { Heading, HeadingProps } from '@digdir/designsystemet-react';
-import { Roboto_Condensed } from 'next/font/google';
 import Link from 'next/link';
 import { JSX } from 'react';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import styles from './vardefHeading.module.css';
-
-const robotoCondensed = Roboto_Condensed({ subsets: ['latin-ext'] });
 
 const withLink = ({ href, children }: { href: string | object; children: JSX.Element }) => {
   return (
@@ -35,7 +32,7 @@ const VardefHeading = ({
 }) => {
   const headingText = (
     <>
-      <span className={robotoCondensed.className}>{variableDefinition.name}</span>
+      <span className='heading12'>{variableDefinition.name}</span>
       <span className={styles.vardefShortName}>{variableDefinition.short_name}</span>
     </>
   );

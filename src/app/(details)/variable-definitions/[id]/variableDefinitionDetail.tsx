@@ -2,7 +2,6 @@
 
 import { Button, Tag } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
-import { Roboto_Condensed } from 'next/font/google';
 import { tabsData } from '@/app/(services)/tabs';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
@@ -23,10 +22,6 @@ import {
   validityItems,
 } from './groups';
 import styles from './variable-details-page.module.css';
-
-// Ensure font is loaded
-// biome-ignore lint/correctness/noUnusedVariables: <Required by Next>
-const robotoCondensed = Roboto_Condensed({ subsets: ['latin-ext'] });
 
 export default function VariableDefinitionDetail({
   variableDefinition,

@@ -13,7 +13,7 @@ export default function Home() {
       <div className='container'>
         <div className={styles.pageContainer}>
           <header>
-            <Heading level={2} data-size='xl' className={styles.title}>
+            <Heading level={2} data-size='xl' className={`${styles.title} heading12`}>
               {localization.info.landingPageTitle}
             </Heading>
             <Paragraph data-size='md' className={styles.paragraph}>

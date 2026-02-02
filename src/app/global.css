@@ -45,6 +45,10 @@
   --border-radius-xl: 1.5rem;
   --box-shadow-sm: 0 0 0.5rem rgba(0, 0, 0, 0.1);
 
+  --font-open-sans: var(--font-open-sans);
+  --font-roboto: var(--font-roboto);
+  --font-roboto-condensed: var(--font-roboto-condensed);
+
   --font-size-sm: 0.85rem;
   --font-size-md: 1rem;
   --font-size-lg: 1.25rem;
@@ -66,14 +70,7 @@ html * {
   font-display: swap;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family:
-    Open Sans,
-    Open Sans Fallback,
-    Roboto,
-    Roboto Fallback,
-    Roboto Condensed,
-    Roboto Condensed Fallback,
-    sans-serif;
+  font-family: var(--font-open-sans), var(--font-roboto), var(--font-roboto-condensed), sans-serif;
 }
 
 body {
@@ -118,40 +115,25 @@ div.ds-card {
   border-color: #c3dcdc;
 }
 
-/** Text styles based on https://design.ssb.no/#/components/typography-page */
+/** Text styles based on https://design.ssb.no/#/components/typography-page
 
-h1,
-h1.ds-heading {
-  font-family:
-    Robot Condensed,
-    Roboto Condensed Fallback,
-    sans-serif;
+We don't set font-size for the headings, this can be controlled using
+*/
+
+:is(h1, h1.ds-heading, h2, h2.ds-heading, .heading12) {
+  font-family: var(--font-roboto-condensed), sans-serif;
   font-weight: var(--font-weight-heavy);
+  color: var(--ssb-dark-color-6);
 }
 
-h2,
-h2.ds-heading {
-  font-family:
-    Robot Condensed,
-    Roboto Condensed Fallback,
-    sans-serif;
+:is(h3, h3.ds-heading, h4, h4.ds-heading, h5, h5.ds-heading, .heading345) {
+  font-family: var(--font-roboto), sans-serif;
   font-weight: var(--font-weight-heavy);
-}
-
-h3,
-h3.ds-heading {
-  font-family:
-    Roboto,
-    Roboto Fallback,
-    sans-serif;
-  font-weight: var(--font-weight-heavy);
+  color: var(--ssb-dark-color-6);
 }
 
 p {
-  font-family:
-    Open Sans,
-    Open Sans Fallback,
-    sans-serif;
+  font-family: var(--font-open-sans), sans-serif;
   font-size: var(--font-size-md);
   font-weight: normal;
   font-style: normal;
@@ -167,6 +149,10 @@ p {
 .ingress {
   font-size: var(--font-size-lg);
   line-height: 2rem;
+}
+
+.font-roboto {
+  font-family: var(--font-roboto), sans-serif;
 }
 
 .infoAlert {

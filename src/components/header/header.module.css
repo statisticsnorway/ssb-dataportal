@@ -12,9 +12,7 @@
 }
 
 .appTitle {
-  font-family:
-    Roboto Condensed,
-    sans-serif !important;
+  font-family: var(--font-roboto-condensed), sans-serif;
   font-weight: 700;
   font-size: 28px;
   text-decoration: none;
