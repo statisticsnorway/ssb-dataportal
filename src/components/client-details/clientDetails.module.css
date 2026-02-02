@@ -1,10 +1,21 @@
 .summaryDetail {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   background-color: white;
 }
 
 .contentDetail {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-family: "Open sans", Arial, Helvetica, sans-serif;
-  line-height: 1.5;
+  line-height: 1.4;
+}
+
+@media (min-width: 768px) {
+  .summaryDetail {
+    font-size: 1.4rem;
+  }
+
+  .contentDetail {
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
 }
