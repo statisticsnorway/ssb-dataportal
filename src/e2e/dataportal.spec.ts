@@ -32,8 +32,9 @@ test.describe('Landing page', () => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText(localization.info.landingPageTitle);
     await page.getByRole('link', { name: localization.tabs.variableDefinitions }).click();
     await expect(page.getByRole('tab', { name: localization.tabs.variableDefinitions })).toBeVisible();
-    // correct test
-    await expect(page.locator('#tab-_r_1_')).toContainText(localization.tabs.variableDefinitions);
+    await expect(page.getByRole('tab', { name: localization.tabs.variableDefinitions })).toContainText(
+      localization.tabs.variableDefinitions,
+    );
     await page.getByRole('link', { name: localization.statisticsNorway }).click();
     await expect(page.getByRole('heading', { level: 1 })).toContainText(localization.info.landingPageTitle);
   });

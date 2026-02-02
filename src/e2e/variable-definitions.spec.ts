@@ -2,8 +2,7 @@ import { expect, test } from '@playwright/test';
 import { tabsData } from '@/app/(services)/tabs';
 import { localization } from '@/libs/language';
 
-// TODO: Improve use of hardcoded values, these test depends on current testdata in norwegian nb
-
+// TODO(cbi): Improve use of hardcoded values, these test depends on current testdata in norwegian nb [https://github.com/statisticsnorway/metadata-catalog-prototype/issues/106]
 test.describe('Navigation variable definitions', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/variable-definitions');
