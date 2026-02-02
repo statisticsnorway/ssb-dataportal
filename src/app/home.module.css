@@ -50,12 +50,12 @@
 }
 
 .pageNavigation {
-  flex: 1;
+  margin-top: 1rem;
   display: flex;
-  flex-direction: row;
-  gap: var(--medium-gap);
-  flex-wrap: nowrap;
-  margin-top: 2rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+  gap: 1rem;
 }
 
 @media (min-width: 768px) {
