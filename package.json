@@ -15,9 +15,11 @@
     "test:watch": "jest --watchAll",
     "test:update-snapshots": "jest -u",
     "test:e2e": "playwright test",
+    "test:e2e:no-accessibility": "playwright test --grep-invert 'Accessibility'",
+    "test:e2e:accessibility": "playwright test src/e2e/accessibility-tests.spec.ts",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:ui": "playwright test --ui",
-    "test:e2e:generate": "playwright codegen http://localhost:3000",
+    "test:e2e:generate": "yarn dev & playwright codegen http://localhost:3000",
     "codegen:vardef-internal": "openapi-generator-cli generate --generator-key vardef-internal",
     "codegen:klass": "openapi-generator-cli generate --generator-key klass"
   },
@@ -36,6 +38,7 @@
     "react-syntax-highlighter": "16.1.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.11.0",
     "@digdir/designsystemet-types": "1.11.0",
     "@openapitools/openapi-generator-cli": "2.27.0",
     "@playwright/test": "1.58.0",
@@ -52,6 +55,7 @@
     "@types/webpack": "5.28.5",
     "jest": "30.2.0",
     "jest-environment-jsdom": "30.2.0",
+    "playwright-core": "^1.58.0",
     "ts-node": "10.9.2",
     "typescript": "5.9.3"
   },

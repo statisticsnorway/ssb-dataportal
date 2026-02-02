@@ -1,0 +1,10 @@
+.summaryDetail {
+  font-size: 1.4rem;
+  background-color: white;
+}
+
+.contentDetail {
+  font-size: 1.2rem;
+  font-family: "Open sans", Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+}

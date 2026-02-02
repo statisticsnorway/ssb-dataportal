@@ -128,6 +128,11 @@
   gap: 2.5rem;
 }
 
+.copyIdButton {
+  color: var(--main-font-color);
+  font-size: var(--font-size-md);
+}
+
 @media (min-width: 768px) {
   .contentGrid {
     flex-direction: row;
@@ -140,38 +145,39 @@
 }
 
 .codeSnippetTitle {
+  margin: 0;
+  padding-top: 0.25rem;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 0.25rem 0.5rem;
+  gap: 0.2rem 0.35rem;
+  min-width: 0;
 }
 
 .titleMain {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  white-space: nowrap;
+  gap: 0.25rem;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .pythonIcon {
-  height: 1.25em;
-  width: auto;
-  flex-shrink: 0;
+  flex: 0 0 auto;
+  width: 1.15em;
+  height: 1.15em;
 }
 
 .titleLink {
-  white-space: nowrap;
   flex-basis: 100%;
-  margin-left: calc(1.25em + 0.5rem);
+  text-decoration: none;
+}
+
+.titleLink:hover {
+  text-decoration: underline;
 }
 
 @media (min-width: 480px) {
-  .codeSnippetTitle {
-    flex-wrap: nowrap;
-  }
-
   .titleLink {
     flex-basis: auto;
-    margin-left: 0;
   }
 }
