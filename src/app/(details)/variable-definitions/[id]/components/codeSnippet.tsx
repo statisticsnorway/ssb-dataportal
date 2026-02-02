@@ -70,7 +70,11 @@ export function CodeSnippet({
             <span className={styles.divider}>•</span>
           </>
         )}
-        <a href='https://manual.dapla.ssb.no/statistikkere/vardef.html' target='_blank' rel='noopener noreferrer'>
+        <a
+          href='https://manual.dapla.ssb.no/statistikkere/vardef-toolbelt.html'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
           {localization.documentation}
         </a>
       </footer>
