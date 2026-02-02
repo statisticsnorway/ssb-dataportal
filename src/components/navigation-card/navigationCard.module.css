@@ -1,0 +1,8 @@
+.navigationCard {
+  background-color: var(--ssb-dark-color-2);
+  background: linear-gradient(30deg, var(--ssb-dark-color-2) 50%, white 50%);
+  background-blend-mode: screen;
+}
+.linkService {
+  text-decoration: none;
+}
