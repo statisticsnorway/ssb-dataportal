@@ -1,0 +1,10 @@
+#menu {
+  max-height: 300px;
+  overflow-y: auto;
+}
+@media (min-width: 768px) {
+  #menu {
+    max-height: none;
+    overflow-y: visible;
+  }
+}
