@@ -1,4 +1,4 @@
-import { Card, CardBlock, Heading, Link } from '@digdir/designsystemet-react';
+import { Card, Heading, Link } from '@digdir/designsystemet-react';
 import { ReactNode } from 'react';
 import styles from './navigationCard.module.css';
 
@@ -7,17 +7,16 @@ interface NavigationCardProps {
   href: string;
   icon?: ReactNode;
 }
+// TODO(cbi): Check header rank
 const NavigationCard = ({ title, icon, href }: NavigationCardProps) => {
   return (
     <Card className={styles.navigationCard}>
-      <CardBlock>{icon}</CardBlock>
-      <CardBlock>
-        <Heading className={styles.navigationHeading}>
-          <Link className={styles.linkService} href={href}>
-            {title}
-          </Link>
-        </Heading>
-      </CardBlock>
+      <div className={styles.icon}>{icon}</div>
+      <Heading level={2} className={styles.navigationHeading}>
+        <Link className={styles.linkService} href={href}>
+          {title}
+        </Link>
+      </Heading>
     </Card>
   );
 };
