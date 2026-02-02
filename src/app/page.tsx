@@ -8,6 +8,7 @@ import NetworkIcon from '@/icons/networks.svg';
 import { localization } from '@/libs/language';
 import { tabsData } from './(services)/tabs';
 import styles from './home.module.css';
+import './home.css';
 
 export default function Home() {
   const detailsList = [
