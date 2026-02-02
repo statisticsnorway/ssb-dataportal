@@ -27,10 +27,9 @@
   --dark-blue-color: #1e2b3c;
   --ssb-dark-color-2: #c3dcdc;
   --ssb-dark-color-5: #274247;
-  --main-background-color: #f0f8f9;
+  --ssb-dark-color-1: #f0f8f9;
   --shadow-color: #969ba0;
   --element-background-color: #fff;
-  --light-light-blue-color: #e6eff8;
   --main-font-color: #000;
 
   --text-color-primary: #111827;
@@ -53,8 +52,6 @@
   --font-weight-medium: 500;
   --font-weight-heavy: 700;
   --search-hit-shortname-color: #666666;
-
-  --search-card-border-color: #c3dcdc;
 }
 
 html * {
@@ -68,14 +65,13 @@ body {
   font-family: inherit;
   line-height: inherit;
   height: 100%;
-  background-color: var(--main-background-color);
+  background-color: var(--ssb-dark-color-1);
   padding: 0;
   margin: 0;
 }
 
 .rootContainer {
-  display: flex;
-  flex-direction: column;
+  width: 100%;
 }
 
 .grow {
@@ -93,6 +89,7 @@ body {
   box-sizing: border-box;
 }
 
+/*TODO: we should avoid setting global values for local elements*/
 select#sortVariables.ds-input {
   padding: 0.5rem;
   border-radius: 5px;

@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
+import { localization } from '@/libs/language';
 
 //TODO: Accessibility testing is still experimental and must be improved
 // Aiming to separate violations in order to generate readable and precise feedback to developers
@@ -44,24 +45,64 @@ test.describe('Variable definitions – accessibility', () => {
 
     expect(results.violations).toEqual([]);
   });
+  //TODO: this is not really a test, only prints violations
+  test('Follow wcag standard', async ({ page }) => {
+    await page.goto('/variable-definitions');
+
+    const results = await new AxeBuilder({ page }).withTags(['wcag21a', 'wcag21aa']).analyze();
+
+    console.log(JSON.stringify(results.violations, null, 2));
+  });
+
+  test('Page has header one', async ({ page }) => {
+    await page.goto('/variable-definitions');
+
+    const results = await new AxeBuilder({ page })
+      .withRules('page-has-heading-one')
+      .exclude('.ds-alert.infoAlert')
+      .analyze();
+
+    expect(results.violations).toEqual([]);
+  });
 });
 
-//TODO: this is not really a test, only prints violations
-test('Accessibility test with impact filter in config', async ({ page }) => {
-  await page.goto('/variable-definitions');
+test.describe('Landingpage – accessibility', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+  });
 
-  const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
+  test('Page has header one', async ({ page }) => {
+    await page.goto('/');
+    const results = await new AxeBuilder({ page }).withRules('page-has-heading-one').analyze();
+    expect(results.violations).toEqual([]);
+  });
 
-  console.log(JSON.stringify(results.violations, null, 2));
-});
+  test('Page has correct landmarks', async ({ page }) => {
+    const results = await new AxeBuilder({ page }).withRules('region').exclude('.ds-alert.infoAlert').analyze();
+    expect(results.violations).toEqual([]);
+  });
 
-test('Page has header one', async ({ page }) => {
-  await page.goto('/variable-definitions');
+  test('Color contrasts are accessible', async ({ page }) => {
+    await page.goto('/');
 
-  const results = await new AxeBuilder({ page })
-    .withRules('page-has-heading-one')
-    .exclude('.ds-alert.infoAlert')
-    .analyze();
+    await page.getByRole('button', { name: localization.info.landingPageInfoIntroTitle }).click();
 
-  expect(results.violations).toEqual([]);
+    await page.getByText(localization.info.landingPageInfoIntro).waitFor();
+
+    const results = await new AxeBuilder({ page })
+      .withRules(['color-contrast'])
+      .exclude('.ds-alert.infoAlert')
+      .analyze();
+
+    expect(results.violations).toEqual([]);
+  });
+
+  //TODO: If wcag AAA is required add 'wcag21aaa'
+  test('Page follows wcag standard', async ({ page }) => {
+    await page.goto('/');
+
+    const results = await new AxeBuilder({ page }).withTags(['wcag21a', 'wcag21aa']).analyze();
+
+    expect(results.violations).toEqual([]);
+  });
 });
