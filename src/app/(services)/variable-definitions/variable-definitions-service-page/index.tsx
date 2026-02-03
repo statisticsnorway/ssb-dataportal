@@ -38,7 +38,7 @@ const VariableDefinitionsServicePage = ({
    * @param subjectFilters - Currently selected subject filters.
    * @param textFilter     - Current text filter input.
    * @param sortOption     - Currently selected sort option.
-   * @return An array of RenderedView objects, memoized for performance.
+   * @return An array of sorted RenderedView objects, memoized for performance.
    */
   const displayedVariables = useMemo(
     () => filterAndSortVariables(variables, textFilter, subjectFilters, sortOption),
