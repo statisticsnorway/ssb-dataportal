@@ -30,7 +30,12 @@ export default function SearchLayout({ children }: { children: ReactNode }) {
         <div className={`${styles.tabsNavigationContainer} container`}>
           <Tabs.List className={styles.tabsNavigation}>
             {Object.values(tabsData).map((tab) => (
-              <Tabs.Tab key={tab.id} value={tab.id} className={styles.tab} onClick={() => router.push(tab.route)}>
+              <Tabs.Tab
+                key={tab.id}
+                value={tab.id}
+                className={`${styles.tab} font-roboto`}
+                onClick={() => router.push(tab.route)}
+              >
                 {tab.label}
               </Tabs.Tab>
             ))}

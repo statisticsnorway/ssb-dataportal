@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { AppLayout } from '@/components/app-layout';
 import { localization } from '@/libs/language';
+import { openSans, roboto, robotoCondensed } from './fonts';
 
 // Hardcoded until we implement multi-language support
 localization.setLanguage('nb');
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang={localization.getLanguage()}>
-      <body>
+      <body className={`${robotoCondensed.variable} ${roboto.variable} ${openSans.variable}`}>
         <AppLayout catalogTitle={localization.appTitle}>{children}</AppLayout>
       </body>
     </html>

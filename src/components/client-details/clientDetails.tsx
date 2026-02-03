@@ -25,7 +25,7 @@ const ClientDetails = ({ summary, content }: ClientDetailsProps) => {
 
   return (
     <Details className={styles.customDetails}>
-      <DetailsSummary className={styles.summaryDetail}>{summary}</DetailsSummary>
+      <DetailsSummary className={`${styles.summaryDetail} font-roboto`}>{summary}</DetailsSummary>
       <DetailsContent className={styles.contentDetail}>{content}</DetailsContent>
     </Details>
   );
