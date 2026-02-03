@@ -1,7 +1,6 @@
 import { Heading } from '@digdir/designsystemet-react';
 import { ReactNode } from 'react';
-
-const FILTER_HEADING = 'Filter'; // TODO localize
+import { localization } from '@/libs/language/src/localization';
 
 interface FiltersPanelProps {
   children: ReactNode;
@@ -16,7 +15,7 @@ const FiltersPanel = ({ children }: FiltersPanelProps) => {
   return (
     <>
       <Heading level={3} data-size='sm'>
-        {FILTER_HEADING}
+        {localization.search.filter.label}
       </Heading>
       {children}
     </>
