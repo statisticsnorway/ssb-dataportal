@@ -27,7 +27,7 @@ const VariableDefinitionsServicePage = ({
   errorMessage,
   subjectFields,
 }: VariableDefinitionsServicePageProps) => {
-  const [sortOption, setSortOption] = useState<SortTypes>('titleAsc' as SortTypes);
+  const [sortOption, setSortOption] = useState<SortTypes>('titleAsc');
   const [subjectFilters, setSubjectFilters] = useState<FilterItem[]>([]);
   const [textFilter, setTextFilter] = useState<string>('');
 
@@ -57,10 +57,10 @@ const VariableDefinitionsServicePage = ({
     setSubjectFilters([]);
   };
 
-  const subjectFilterItems: FilterItem[] = subjectFields.map((item) => ({
-    label: item.name ?? undefined,
-    value: item.code ?? '',
-  }));
+  const subjectFilterItems = useMemo(
+    () => subjectFields.map((f) => ({ label: String(f.name), value: String(f.code) })),
+    [subjectFields],
+  );
 
   return (
     <SearchPage
