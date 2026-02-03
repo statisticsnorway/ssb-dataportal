@@ -73,7 +73,6 @@ export default function Home() {
           <NavigationCard key={index} title={item.label} href={item.route} icon={item.icon} />
         ))}
       </nav>
-      <div className={styles.scrollbarNav} aria-hidden='true'></div>
     </main>
   );
 }
