@@ -16,14 +16,13 @@ interface CheckboxFilterProps {
  * CheckboxFilter component renders a collapsible card containing a group of checkboxes.
  *
  * Each checkbox represents a filter option, and users can select multiple items.
- * The component manages syncing selected items with external state and provides validation messaging.
  *
  * @param filterHeading - Title for the filter group.
  * @param filters - Array of available filter options, each with `value` and `label`.
  * @param selectedItems - Array of currently selected filter items.
  * @param onFilterChange - Callback fired when selection changes. Receives the updated array of selected `FilterItem`s.
  *
- * @returns A Card component containing a collapsible filter group with checkboxes.
+ * @returns A Card collapsible card component with checkboxes for filtering.
  */
 export const CheckboxFilter = ({ filterHeading, filters, selectedItems, onFilterChange }: CheckboxFilterProps) => {
   return (
