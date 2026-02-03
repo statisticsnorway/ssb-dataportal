@@ -26,27 +26,28 @@ export default function Home() {
     },
   ];
 
-  const navigationItems: Record<string, { label: string; route: string; icon: ReactNode | null }> = Object.fromEntries(
-    Object.entries(tabsData).map(([key, value]) => {
-      let icon: ReactNode | null = null;
+  const navigationItems: Record<string, { label: string; route: string; icon: ReactNode | null; id: string }> =
+    Object.fromEntries(
+      Object.entries(tabsData).map(([key, value]) => {
+        let icon: ReactNode | null = null;
 
-      switch (value.label) {
-        case localization.tabs.variableDefinitions:
-          icon = <AlphabetIcon title='a11y-title' />;
-          break;
-        case localization.tabs.classifications:
-          icon = <NetworkIcon title='a11y-title' />;
-          break;
-        case localization.tabs.datasets:
-          icon = <DatasetIcon title='a11y-title' />;
-          break;
-        default:
-          icon = null;
-      }
+        switch (value.label) {
+          case localization.tabs.variableDefinitions:
+            icon = <AlphabetIcon title='a11y-title' />;
+            break;
+          case localization.tabs.classifications:
+            icon = <NetworkIcon title='a11y-title' />;
+            break;
+          case localization.tabs.datasets:
+            icon = <DatasetIcon title='a11y-title' />;
+            break;
+          default:
+            icon = null;
+        }
 
-      return [key, { ...value, icon }];
-    }),
-  );
+        return [key, { ...value, icon }];
+      }),
+    );
 
   return (
     <main className={`${styles.pageContainer} container`}>
@@ -70,7 +71,7 @@ export default function Home() {
       <Divider className={styles.customDivider} />
       <nav className={styles.pageNavigation} id='menu'>
         {Object.values(navigationItems).map((item, index) => (
-          <NavigationCard key={index} title={item.label} href={item.route} icon={item.icon} />
+          <NavigationCard id={item.id} key={index} title={item.label} href={item.route} icon={item.icon} />
         ))}
       </nav>
     </main>
