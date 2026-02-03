@@ -105,4 +105,11 @@ test.describe('Landingpage – accessibility', () => {
 
     expect(results.violations).toEqual([]);
   });
+
+  test('Landingpage navigation', async ({ page }) => {
+    await page.goto('/');
+    const results = await new AxeBuilder({ page }).include('nav#menu').exclude('.ds-alert.infoAlert').analyze();
+
+    expect(results.violations).toEqual([]);
+  });
 });
