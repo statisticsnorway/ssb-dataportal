@@ -33,13 +33,13 @@ export default function Home() {
 
         switch (value.label) {
           case localization.tabs.variableDefinitions:
-            icon = <AlphabetIcon title='Variable definitions icon' />;
+            icon = <AlphabetIcon aria-hidden='true' />;
             break;
           case localization.tabs.classifications:
-            icon = <NetworkIcon title='Classifications icon' />;
+            icon = <NetworkIcon aria-hidden='true' />;
             break;
           case localization.tabs.datasets:
-            icon = <DatasetIcon title='Datasets icon' />;
+            icon = <DatasetIcon aria-hidden='true' />;
             break;
           default:
             icon = null;
