@@ -43,7 +43,7 @@
 }
 
 .pageNavigation {
-  margin-top: 1rem;
+  margin-top: 2rem;
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
