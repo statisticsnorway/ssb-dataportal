@@ -29,10 +29,10 @@ export default function Home() {
       <main className={`${styles.pageContainer} container`}>
         <Card data-color='brand1' variant='tinted' className={styles.headerCard}>
           <header className={styles.pageHeader}>
-            <Heading level={1} data-size='xl' className={styles.pageTitle}>
+            <Heading level={1} className={`${styles.pageTitle} heading12`}>
               {localization.info.landingPageTitle}
             </Heading>
-            <Paragraph data-size='xl' className={styles.subTitle}>
+            <Paragraph data-size='xl' className={`${styles.subTitle} heading345`}>
               {localization.info.landingPageSubTitle}
             </Paragraph>
             <div className={styles.infoDetails}>
