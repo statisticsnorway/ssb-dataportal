@@ -1,7 +1,6 @@
 .pageContainer {
-  max-width: 100%;
   min-height: 66vh;
-  padding: 2rem;
+  margin-top: 2rem;
 }
 .headerCard {
   margin-bottom: 2rem;
@@ -12,6 +11,7 @@
   background: linear-gradient(rgba(195, 220, 220, 0.6), rgba(195, 220, 220, 0.6)), url("/magnifying-glass.svg");
   background-repeat: no-repeat;
   background-position: right;
+  padding: 1rem;
 }
 
 .pageTitle {
