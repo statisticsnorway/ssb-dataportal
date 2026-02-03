@@ -12,7 +12,6 @@ interface SearchPageProps {
   searchResult?: ReactElement;
   controlsContent?: ReactNode;
   totalHits?: number;
-  hitsLabel?: string;
   searchLabel?: string;
   sortOptions?: ReadonlyArray<SortTypes>;
   sortValue?: SortTypes;
@@ -26,7 +25,6 @@ const SearchPage: FC<SearchPageProps> = ({
   searchResult,
   controlsContent,
   totalHits,
-  hitsLabel = 'treff', //TODO localization
   header,
 }) => {
   return (
