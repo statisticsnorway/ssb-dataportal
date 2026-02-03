@@ -27,7 +27,7 @@ export function CodeSnippet({
   const { copied, copyToClipboard } = useClipboard();
   const codeString = Array.isArray(code) ? code.join('\n') : code;
   return (
-    <section className={styles.snippet}>
+    <section className={styles.snippet} data-testid='code-snippet'>
       <div className={styles.header}>
         <div className={styles.title}>{title}</div>
       </div>
