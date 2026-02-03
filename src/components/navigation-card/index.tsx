@@ -6,11 +6,12 @@ interface NavigationCardProps {
   title: string;
   href: string;
   icon?: ReactNode;
+  id: string;
 }
-// TODO(cbi): Check header rank
-const NavigationCard = ({ title, icon, href }: NavigationCardProps) => {
+
+const NavigationCard = ({ title, icon, href, id }: NavigationCardProps) => {
   return (
-    <Card className={styles.navigationCard}>
+    <Card className={styles.navigationCard} id={id}>
       <div className={styles.icon}>{icon}</div>
       <Heading level={2} className={styles.navigationHeading}>
         <Link className={styles.linkService} href={href}>
