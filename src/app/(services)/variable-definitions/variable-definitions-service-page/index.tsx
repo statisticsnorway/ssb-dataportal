@@ -65,7 +65,7 @@ const VariableDefinitionsServicePage = ({
       asideContent={
         <FiltersPanel>
           <TextFilter
-            label='Navn' /* TODO - move to localization */
+            label={localization.search.textFilter.label} /* TODO - move to localization */
             searchTerm={textFilter}
             setSearchTerm={setTextFilter}
           />

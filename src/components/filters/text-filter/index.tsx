@@ -11,7 +11,7 @@ interface TextFilterProps {
 export function TextFilter({ label, searchTerm, setSearchTerm }: TextFilterProps) {
   return (
     <CollapsibleCard heading='Filtrer'>
-      <Label htmlFor='search-input'>Filtrer på {label}</Label> {/* TODO - move to localization */}
+      <Label htmlFor='search-input'>{label}</Label>
       <div className={styles.searchScope}>
         <Search>
           <Search.Input id='search-input' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />

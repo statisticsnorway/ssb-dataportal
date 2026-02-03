@@ -36,10 +36,7 @@ const FilterTags = ({ activeFilters, searchTerm, onClose, onClearAll, onClearSea
       {showClearAll && <FilterTag label={localization.button.removeFilter} onClose={onClearAll} isClearAll />}
 
       {hasSearch && (
-        <FilterTag
-          label={`Navn: ${trimmedSearch}`} //TODO - move to localization // Since we currently only filter by name this is hardcoded but show be more dynamic in the future
-          onClose={onClearSearch}
-        />
+        <FilterTag label={`${localization.search.textFilter.tagLabel} ${trimmedSearch}`} onClose={onClearSearch} />
       )}
 
       {activeFilters.map((item) => (
