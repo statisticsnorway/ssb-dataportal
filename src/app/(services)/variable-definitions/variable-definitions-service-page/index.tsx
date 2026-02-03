@@ -8,7 +8,7 @@ import { TextFilter } from '@/components/filters/text-filter';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortFields } from '@/components/sort-fields';
-import { SortTypes } from '@/hooks/useSearchStateVardef';
+import { SortTypes, sortTypes } from '@/hooks/useSearchStateVardef';
 import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
@@ -27,7 +27,6 @@ const VariableDefinitionsServicePage = ({
   errorMessage,
   subjectFields,
 }: VariableDefinitionsServicePageProps) => {
-  const sortOptions: SortTypes[] = ['titleAsc', 'titleDesc', 'lastChanged']; // TODO: move to constants in a smart place
   const [sortOption, setSortOption] = useState<SortTypes>('titleAsc');
   const [subjectFilters, setSubjectFilters] = useState<FilterItem[]>([]);
   const [textFilters, setTextFilters] = useState<Record<string, string>>({});
@@ -76,7 +75,7 @@ const VariableDefinitionsServicePage = ({
           onClearSearch={() => setTextFilters({})}
         />
       }
-      controlsContent={<SortFields sortOptions={sortOptions} sortOption={sortOption} setSortOption={setSortOption} />}
+      controlsContent={<SortFields sortOptions={sortTypes} sortOption={sortOption} setSortOption={setSortOption} />}
       searchResult={
         <>
           {errorMessage ? (

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { sortAscending, sortDateStringsDescending, sortDescending } from '@/utils/sort';
 
-const sortTypes: SortTypes[] = ['titleAsc', 'titleDesc', 'lastChanged'];
+export const sortTypes: SortTypes[] = ['titleAsc', 'titleDesc', 'lastChanged'];
 
 export type SortTypes = 'titleAsc' | 'titleDesc' | 'lastChanged';
 

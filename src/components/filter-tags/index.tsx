@@ -17,6 +17,7 @@ interface TagsGroupProps {
  * @param tagData - Map of tag keys and their corresponding labels.
  * @param onClose - Callback triggered when a tag's close button is clicked.
  * @param onClearAll - Optional "Remove All" button configuration.
+ * @param onClearSearch - Callback triggered when a search tag close button is clicked.
  *
  * @returns An unordered list (<ul>) of tags, optionally with close buttons and a "Remove All" button
  * or null if tagData is empty.
@@ -40,7 +41,7 @@ const FilterTags = ({ activeFilters, searchTerms, onClose, onClearAll, onClearSe
       {searchEntries.map(([key, value]) => (
         <FilterTag
           key={key}
-          label={`Søk: ${value}`} //TODO - move to localization
+          label={`${key}: ${value}`} //TODO - move key to localization
           onClose={onClearSearch ? () => onClearSearch(key) : undefined}
         />
       ))}

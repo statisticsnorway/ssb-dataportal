@@ -13,7 +13,7 @@ export function TextFilter({
 }) {
   return (
     <CollapsibleCard heading='Filtrer'>
-      <Label htmlFor={`search-${field}`}>Filtrer på navn</Label>
+      <Label htmlFor={`search-${field}`}>Filtrer på navn</Label> {/*TODO - move to localization*/}
       <div className={styles.searchScope}>
         <Search>
           <Search.Input
