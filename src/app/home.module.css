@@ -1,9 +1,7 @@
 .pageContainer {
-  padding: 1rem;
   min-height: 66vh;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
-
 .headerCard {
   margin-bottom: 2rem;
   background-color: var(--ssb-dark-color-2);
@@ -13,15 +11,18 @@
   background: linear-gradient(rgba(195, 220, 220, 0.6), rgba(195, 220, 220, 0.6)), url("/magnifying-glass.svg");
   background-repeat: no-repeat;
   background-position: right;
+  padding: 1rem;
 }
 
 .pageTitle {
   margin-bottom: 0.5rem;
+  background-color: var(--ssb-dark-color-2);
   padding: 0 1rem;
 }
 
 .subTitle {
   margin-bottom: 1rem;
+  background-color: var(--ssb-dark-color-2);
   padding: 0 1rem;
 }
 
@@ -42,11 +43,11 @@
 }
 
 .pageNavigation {
-  flex: 1;
+  margin-top: 2rem;
   display: flex;
-  flex-direction: row;
-  gap: var(--medium-gap);
-  flex-wrap: wrap;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 1rem;
 }
 
 @media (min-width: 768px) {
@@ -62,6 +63,23 @@
   }
   .subTitle {
     font-size: var(--ds-body-xl-font-size);
+    padding-left: 1rem;
+    background: linear-gradient(rgba(195, 220, 220, 0.8), rgba(195, 220, 220, 0.8));
+  }
+}
+
+@media (min-width: 768px) {
+  .pageHeader {
+    background: linear-gradient(rgba(195, 220, 220, 0.5), rgba(195, 220, 220, 0.5)), url("/magnifying-glass.svg");
+    background-repeat: no-repeat;
+    background-position: right;
+  }
+  .pageTitle {
+    font-size: var(--ds-heading-2xl-font-size);
+    background: linear-gradient(rgba(195, 220, 220, 0.8), rgba(195, 220, 220, 0.8));
+    padding-left: 1rem;
+  }
+  .subTitle {
     padding-left: 1rem;
     background: linear-gradient(rgba(195, 220, 220, 0.8), rgba(195, 220, 220, 0.8));
   }

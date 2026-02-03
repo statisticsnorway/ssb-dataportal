@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 import { localization } from '@/libs/language';
 
-//TODO: Accessibility testing is still experimental and must be improved
+// Exclude search until we implement logic
 // Aiming to separate violations in order to generate readable and precise feedback to developers
 test.describe('Variable definitions – accessibility', () => {
   test('Filters are accessible', async ({ page }) => {
@@ -45,7 +45,7 @@ test.describe('Variable definitions – accessibility', () => {
 
     expect(results.violations).toEqual([]);
   });
-  //TODO: this is not really a test, only prints violations
+  //This is not really a test, only prints violations
   test('Follow wcag standard', async ({ page }) => {
     await page.goto('/variable-definitions');
 
@@ -97,11 +97,18 @@ test.describe('Landingpage – accessibility', () => {
     expect(results.violations).toEqual([]);
   });
 
-  //TODO: If wcag AAA is required add 'wcag21aaa'
+  // When wcag AAA is required add 'wcag21aaa'
   test('Page follows wcag standard', async ({ page }) => {
     await page.goto('/');
 
     const results = await new AxeBuilder({ page }).withTags(['wcag21a', 'wcag21aa']).analyze();
+
+    expect(results.violations).toEqual([]);
+  });
+
+  test('Landingpage navigation', async ({ page }) => {
+    await page.goto('/');
+    const results = await new AxeBuilder({ page }).include('nav#menu').exclude('.ds-alert.infoAlert').analyze();
 
     expect(results.violations).toEqual([]);
   });

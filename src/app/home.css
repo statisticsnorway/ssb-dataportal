@@ -1,0 +1,17 @@
+#menu {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* Tone down visibility until pages are ready for use*/
+#classificationsTab,
+#datasetsTab {
+  opacity: 60%;
+}
+
+@media (min-width: 768px) {
+  #menu {
+    max-height: none;
+    overflow-y: visible;
+  }
+}

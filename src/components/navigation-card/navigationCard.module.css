@@ -1,0 +1,33 @@
+.navigationCard {
+  background: linear-gradient(30deg, var(--ssb-dark-color-2) 50%, white 50%);
+  background-blend-mode: screen;
+  scroll-snap-align: start;
+  align-items: flex-end;
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.navigationHeading {
+  font-weight: 700;
+  width: 100%;
+  text-align: center;
+}
+
+.linkService {
+  text-decoration: none;
+}
+
+.icon {
+  width: 150px;
+  height: auto;
+}
+
+@media (min-width: 768px) {
+  .icon {
+    max-width: 250px;
+  }
+  .navigationCard {
+    max-width: 300px;
+  }
+}

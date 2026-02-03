@@ -1,9 +1,20 @@
 .summaryDetail {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   background-color: white;
 }
 
 .contentDetail {
-  font-size: 1.2rem;
-  line-height: 1.5;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+@media (min-width: 768px) {
+  .summaryDetail {
+    font-size: 1.4rem;
+  }
+
+  .contentDetail {
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
 }
