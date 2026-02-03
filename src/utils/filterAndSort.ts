@@ -13,7 +13,7 @@ export function filterAndSortVariables(
 
   const matchesSubject = (v: RenderedView) =>
     subjectFilters.length === 0 ||
-    v.subject_fields.some((ref) => ref.code && subjectFilters.some((filter) => filter.code === ref.code));
+    v.subject_fields.some((ref) => ref.code && subjectFilters.some((filter) => filter.value === ref.code));
 
   const matchesSearch = (v: RenderedView) => {
     if (!trimmedSearch) return true;
