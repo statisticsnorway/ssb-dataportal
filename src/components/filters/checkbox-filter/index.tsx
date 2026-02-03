@@ -30,10 +30,10 @@ export const CheckboxFilter = ({ filterHeading, filters, selectedItems, onFilter
     <CollapsibleCard heading={filterHeading}>
       {filters.map((filter) => (
         <Checkbox
-          key={filter.code}
-          label={filter.name}
+          key={filter.value}
+          label={filter.label}
           className={styles.checkbox}
-          checked={selectedItems.some((item) => item.code === filter.code)}
+          checked={selectedItems.some((item) => item.value === filter.value)}
           onChange={() => onFilterChange(filter)}
         />
       ))}

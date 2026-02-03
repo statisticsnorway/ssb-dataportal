@@ -47,7 +47,9 @@ const VariableDefinitionsServicePage = ({
 
   const toggleSubject = (filter: FilterItem) =>
     setSubjectFilters((prev) =>
-      prev.some((item) => item.code === filter.code) ? prev.filter((c) => c.code !== filter.code) : [...prev, filter],
+      prev.some((item) => item.value === filter.value)
+        ? prev.filter((c) => c.value !== filter.value)
+        : [...prev, filter],
     );
 
   const clearAll = () => {
@@ -56,8 +58,8 @@ const VariableDefinitionsServicePage = ({
   };
 
   const subjectFilterItems: FilterItem[] = subjectFields.map((item) => ({
-    code: item.code ?? '',
-    name: item.name ?? undefined,
+    label: item.name ?? undefined,
+    value: item.code ?? '',
   }));
 
   return (

@@ -40,7 +40,7 @@ const FilterTags = ({ activeFilters, searchTerm, onClose, onClearAll, onClearSea
       )}
 
       {activeFilters.map((item) => (
-        <FilterTag key={item.code} label={item.name} onClose={onClose ? () => onClose(item) : undefined} />
+        <FilterTag key={item.value} label={item.label} onClose={onClose ? () => onClose(item) : undefined} />
       ))}
     </ul>
   );

@@ -5,6 +5,6 @@ export interface FilterGroup {
   onFilterChange: (selected: FilterItem[]) => void;
 }
 export interface FilterItem {
-  name: string | undefined;
-  code: string;
+  label: string | undefined;
+  value: string;
 }
