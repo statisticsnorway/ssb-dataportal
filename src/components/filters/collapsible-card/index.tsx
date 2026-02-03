@@ -1,6 +1,7 @@
 import { Button, Card, Fieldset, FieldsetLegend } from '@digdir/designsystemet-react';
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { ReactNode, useState } from 'react';
+import { localization } from '@/libs/language/src/localization';
 import styles from './collapsable-card.module.css';
 
 interface CollapsibleCardProps {
@@ -33,9 +34,9 @@ export function CollapsibleCard({
         >
           <FieldsetLegend className={styles.filterHeader}>{heading}</FieldsetLegend>
           {isOpen ? (
-            <ChevronDownIcon title='Lukk filter' className={styles.chevronUpDown} />
+            <ChevronDownIcon title={localization.search.filter.close} className={styles.chevronUpDown} />
           ) : (
-            <ChevronUpIcon title='Åpne filter' className={styles.chevronUpDown} />
+            <ChevronUpIcon title={localization.search.filter.open} className={styles.chevronUpDown} />
           )}
         </Button>
 
