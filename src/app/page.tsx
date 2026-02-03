@@ -41,8 +41,6 @@ export default function Home() {
           case localization.tabs.datasets:
             icon = <DatasetIcon aria-hidden='true' />;
             break;
-          default:
-            icon = null;
         }
 
         return [key, { ...value, icon }];
@@ -70,8 +68,8 @@ export default function Home() {
       </Card>
       <Divider className={styles.customDivider} />
       <nav className={styles.pageNavigation} id='menu'>
-        {Object.values(navigationItems).map((item, index) => (
-          <NavigationCard id={item.id} key={index} title={item.label} href={item.route} icon={item.icon} />
+        {Object.values(navigationItems).map((item) => (
+          <NavigationCard id={item.id} key={item.id} title={item.label} href={item.route} icon={item.icon} />
         ))}
       </nav>
     </main>
