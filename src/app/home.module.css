@@ -1,13 +1,17 @@
+.background {
+  margin: 0;
+  padding: 0;
+}
 .pageContainer {
   min-height: 66vh;
   margin-top: 2rem;
-  background: linear-gradient(rgba(240, 248, 249, 0.6), rgba(240, 248, 249, 0.6)), url("/magnifying-glass.svg");
-  background-repeat: no-repeat;
-  background-position: right;
 }
+
 .headerCard {
   margin-bottom: 2rem;
   background-color: var(--ssb-dark-color-2);
+  max-width: 800px;
+  width: 100%;
 }
 
 .pageHeader {
@@ -40,6 +44,9 @@
 .customDivider {
   --dsc-divider-border-width: 4px;
   --dsc-divider-border-color: var(--ssb-dark-color-2);
+  max-width: 800px;
+  margin-left: 0;
+  padding-left: 0;
 }
 
 .pageNavigation {
@@ -51,11 +58,22 @@
 }
 
 @media (min-width: 768px) {
+  /*subtle background?*/
   /*.pageHeader {
     background: linear-gradient(rgba(195, 220, 220, 0.5), rgba(195, 220, 220, 0.5)), url("/magnifying-glass.svg");
     background-repeat: no-repeat;
     background-position: right;
   }*/
+  .background {
+    background: linear-gradient(rgba(240, 248, 249, 1), rgba(240, 248, 249, 1)), url("/magnifying-glass.svg");
+    background-repeat: no-repeat;
+    background-origin: border-box;
+    background-position: top;
+    background-size: 600px auto;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
   .pageTitle {
     font-size: var(--ds-heading-2xl-font-size);
     padding-left: 1rem;
@@ -66,12 +84,40 @@
   }
 }
 
-@media (min-width: 768px) {
-  .pageTitle {
-    font-size: var(--ds-heading-2xl-font-size);
-    padding-left: 1rem;
+@media (min-width: 840px) {
+  .background {
+    background: linear-gradient(rgba(240, 248, 249, 0.9), rgba(240, 248, 249, 0.9)), url("/magnifying-glass.svg");
+    background-repeat: no-repeat;
+    background-origin: border-box;
+    background-position: top;
+    background-size: 600px auto;
+    width: 100%;
+    margin: 0;
+    padding: 0;
   }
-  .subTitle {
-    padding-left: 1rem;
+}
+@media (min-width: 1000px) {
+  .background {
+    background: linear-gradient(rgba(240, 248, 249, 0.9), rgba(240, 248, 249, 0.9)), url("/magnifying-glass.svg");
+    background-repeat: no-repeat;
+    background-origin: border-box;
+    background-position: right 10% bottom 45%;
+    background-size: 700px auto;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@media (min-width: 1400px) {
+  .background {
+    background: linear-gradient(rgba(240, 248, 249, 0.8), rgba(240, 248, 249, 0.8)), url("/magnifying-glass.svg");
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    background-position: right 5% bottom 55%;
+    background-size: auto 700px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
   }
 }
