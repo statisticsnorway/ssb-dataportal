@@ -10,6 +10,7 @@ import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortFields } from '@/components/sort-fields';
 import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
+import { localization } from '@/libs/language/src/localization';
 import { FilterItem } from '@/types/filters';
 import { SortTypes, sortTypes } from '@/types/sortTypes';
 import { filterAndSortVariables } from '@/utils/filterAndSort';
@@ -69,8 +70,7 @@ const VariableDefinitionsServicePage = ({
             setSearchTerm={setTextFilter}
           />
           <CheckboxFilter
-            filterHeading={'Statisitikkområde'} //TODO - move to localization
-            key={'Statisitikkområde'} //TODO - move to localization
+            filterHeading={localization.subjectArea} //TODO - move to localization
             filters={subjectFilterItems}
             selectedItems={subjectFilters}
             onFilterChange={toggleSubject}
