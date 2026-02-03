@@ -2,33 +2,27 @@ import { RenderedView } from '@/libs/data-access/variable-definitions/internal/m
 import { FilterItem } from '@/types/filters';
 import { sortAscending, sortDateStringsDescending, sortDescending } from './sort';
 
-type TextFilterFields = keyof RenderedView;
-
 export function filterAndSortVariables(
   variables: RenderedView[] | undefined,
-  textFilters: Partial<Record<TextFilterFields, string>>,
+  searchTerm: string | undefined,
   subjectFilters: FilterItem[],
   sortOption: 'titleAsc' | 'titleDesc' | 'lastChanged',
 ) {
   if (!variables) return [];
+  const trimmedSearch = searchTerm?.trim().toLowerCase() || '';
 
   const matchesSubject = (v: RenderedView) =>
     subjectFilters.length === 0 ||
     v.subject_fields.some((ref) => ref.code && subjectFilters.some((filter) => filter.code === ref.code));
 
-  const matchesTextFilters = (v: RenderedView) =>
-    Object.entries(textFilters).every(([field, value]) => {
-      if (!value) return true;
-      const key = field as TextFilterFields;
-      const fieldValue = v[key];
-      return String(fieldValue ?? '')
-        .toLowerCase()
-        .includes(value.toLowerCase());
-    });
+  const matchesSearch = (v: RenderedView) => {
+    if (!trimmedSearch) return true;
+    return (v.name ?? '').toLowerCase().includes(trimmedSearch);
+  };
 
   return [...variables]
     .filter(matchesSubject)
-    .filter(matchesTextFilters)
+    .filter(matchesSearch)
     .sort((a, b) => {
       switch (sortOption) {
         case 'titleAsc':

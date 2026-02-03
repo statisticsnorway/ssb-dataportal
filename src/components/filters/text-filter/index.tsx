@@ -4,23 +4,18 @@ import styles from '../collapsible-card/collapsable-card.module.css';
 
 interface TextFilterProps {
   label: string;
-  field: string;
-  filters: Record<string, string>;
-  setFilters: (f: Record<string, string>) => void;
+  searchTerm: string;
+  setSearchTerm: (value: string) => void;
 }
 
-export function TextFilter({ label, field, filters, setFilters }: TextFilterProps) {
+export function TextFilter({ label, searchTerm, setSearchTerm }: TextFilterProps) {
   return (
     <CollapsibleCard heading='Filtrer'>
-      <Label htmlFor={`search-${field}`}>Filtrer på {label}</Label> {/*TODO - move to localization*/}
+      <Label htmlFor='search-input'>Filtrer på {label}</Label> {/* TODO - move to localization */}
       <div className={styles.searchScope}>
         <Search>
-          <Search.Input
-            id={`search-${field}`}
-            value={filters[field] || ''}
-            onChange={(e) => setFilters({ ...filters, [field]: e.target.value })}
-          />
-          <Search.Clear onClick={() => setFilters({ ...filters, [field]: '' })} />
+          <Search.Input id='search-input' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+          <Search.Clear onClick={() => setSearchTerm('')} />
         </Search>
       </div>
     </CollapsibleCard>

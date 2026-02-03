@@ -8,11 +8,11 @@ import { TextFilter } from '@/components/filters/text-filter';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortFields } from '@/components/sort-fields';
-import { SortTypes, sortTypes } from '@/hooks/useSearchStateVardef';
 import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { FilterItem } from '@/types/filters';
+import { SortTypes, sortTypes } from '@/types/sortTypes';
 import { filterAndSortVariables } from '@/utils/filterAndSort';
 import { VardefSearchHit } from '../components/vardefSearchHit';
 
@@ -29,11 +29,11 @@ const VariableDefinitionsServicePage = ({
 }: VariableDefinitionsServicePageProps) => {
   const [sortOption, setSortOption] = useState<SortTypes>('titleAsc');
   const [subjectFilters, setSubjectFilters] = useState<FilterItem[]>([]);
-  const [textFilters, setTextFilters] = useState<Record<string, string>>({});
+  const [textFilter, setTextFilter] = useState<string>('');
 
   const displayedVariables = useMemo(
-    () => filterAndSortVariables(variables, textFilters, subjectFilters, sortOption),
-    [variables, textFilters, subjectFilters, sortOption],
+    () => filterAndSortVariables(variables, textFilter, subjectFilters, sortOption),
+    [variables, textFilter, subjectFilters, sortOption],
   );
 
   const toggleSubject = (filter: FilterItem) =>
@@ -42,7 +42,7 @@ const VariableDefinitionsServicePage = ({
     );
 
   const clearAll = () => {
-    setTextFilters({});
+    setTextFilter('');
     setSubjectFilters([]);
   };
 
@@ -57,9 +57,8 @@ const VariableDefinitionsServicePage = ({
         <FiltersPanel>
           <TextFilter
             label='Navn' /* TODO - move to localization */
-            field='name' /*TODO - move to localization*/
-            filters={textFilters}
-            setFilters={setTextFilters}
+            searchTerm={textFilter}
+            setSearchTerm={setTextFilter}
           />
           <CheckboxFilter
             filterHeading={'Statisitikkområde'} //TODO - move to localization
@@ -74,10 +73,10 @@ const VariableDefinitionsServicePage = ({
       infoContent={
         <FilterTags
           activeFilters={subjectFilters}
-          searchTerms={textFilters}
+          searchTerm={textFilter}
           onClose={toggleSubject}
           onClearAll={clearAll}
-          onClearSearch={() => setTextFilters({})}
+          onClearSearch={() => setTextFilter('')}
         />
       }
       controlsContent={<SortFields sortOptions={sortTypes} sortOption={sortOption} setSortOption={setSortOption} />}
