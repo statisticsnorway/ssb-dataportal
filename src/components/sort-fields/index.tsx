@@ -1,37 +1,40 @@
 import { Select } from '@digdir/designsystemet-react';
+import React from 'react';
 import { localization } from '@/libs/language';
 import { SortTypes } from '@/types/sort';
 
 interface SortFieldsProps {
-  sortOptions: readonly SortTypes[];
-  sortOption: SortTypes;
-  setSortOption: (key: SortTypes) => void;
+  sortOptions: ReadonlyArray<SortTypes>;
+  sortValue: SortTypes;
+  onSortChange: (key: SortTypes) => void;
 }
 
-const sortLabels: Record<SortTypes, string> = {
+const sortLabels: Record<string, string> = {
   titleAsc: localization.search.sort.titleAlphabeticalAsc,
   titleDesc: localization.search.sort.titleAlphabeticalDesc,
   lastChanged: localization.search.sort.lastUpdatedFirst,
 };
 
-const SortFields = ({ sortOptions, sortOption, setSortOption }: SortFieldsProps) => {
+const SortFields = ({ sortOptions, sortValue, onSortChange }: SortFieldsProps) => {
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    onSortChange(e.target.value as SortTypes);
+  };
   return (
     <section>
       <Select
         id='sortVariables'
         data-size='sm'
         aria-label={localization.search.sort.label}
-        value={sortOption}
-        onChange={(e) => setSortOption(e.target.value as SortTypes)}
+        onChange={handleSortChange}
+        value={sortValue}
       >
         {sortOptions.map((key) => (
           <Select.Option key={key} value={key}>
-            {sortLabels[key]}
+            {sortLabels[key] || key}
           </Select.Option>
         ))}
       </Select>
     </section>
   );
 };
-
 export { SortFields };

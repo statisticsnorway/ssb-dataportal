@@ -89,7 +89,7 @@ const VariableDefinitionsServicePage = ({
           onClearSearch={() => setTextFilter('')}
         />
       }
-      controlsContent={<SortFields sortOptions={sortTypes} sortOption={sortOption} setSortOption={setSortOption} />}
+      controlsContent={<SortFields sortOptions={sortTypes} sortValue={sortOption} onSortChange={setSortOption} />}
       searchResult={
         <>
           {errorMessage ? (
