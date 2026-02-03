@@ -1,4 +1,4 @@
-import { Card, Divider, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Card, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { ReactNode } from 'react';
 import { NavigationCard } from '@/components/navigation-card';
 import AlphabetIcon from '@/icons/alphabet.svg';
@@ -69,7 +69,7 @@ export default function Home() {
             </div>
           </header>
         </Card>
-        <Divider className={styles.customDivider} />
+        {/* <Divider className={styles.customDivider} />*/}
         <nav className={styles.pageNavigation} id='menu'>
           {Object.values(navigationItems).map((item, index) => (
             <NavigationCard id={item.id} key={index} title={item.label} href={item.route} icon={item.icon} />
