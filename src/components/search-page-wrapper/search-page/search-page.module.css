@@ -25,9 +25,9 @@
   margin-bottom: var(--ds-size-4);
   flex: 1;
   min-height: 55vh;
-  background: linear-gradient(rgba(154, 215, 223, 0.6), rgba(145, 217, 226, 0.6)), url("/magnifying-glass.svg");
-  background-repeat: no-repeat;
+  background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass-3.svg");
   background-position: right;
+  background-size: 800px auto;
 }
 
 .mainSection {

@@ -1,4 +1,9 @@
 .background {
+  background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass-3.svg");
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  background-position: right;
+  background-size: auto 650px;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -65,7 +70,7 @@
 
 @media (min-width: 768px) {
   .background {
-    background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass.svg");
+    background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass-3.svg");
     background-repeat: no-repeat;
     background-origin: content-box;
     background-position: right;
@@ -87,7 +92,7 @@
 
 @media (min-width: 840px) {
   .background {
-    background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass.svg");
+    background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass-3.svg");
     background-repeat: no-repeat;
     background-origin: content-box;
     background-position: right 5% bottom 62%;
@@ -96,7 +101,7 @@
 }
 @media (min-width: 1000px) {
   .background {
-    background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass.svg");
+    background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass-3.svg");
     background-repeat: no-repeat;
     background-origin: content-box;
     background-position: right 5% bottom 62%;
@@ -106,7 +111,7 @@
 
 @media (min-width: 1400px) {
   .background {
-    background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass.svg");
+    background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass-3.svg");
     background-repeat: no-repeat;
     background-origin: content-box;
     background-position: right 5% bottom 62%;
