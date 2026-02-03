@@ -2,37 +2,44 @@ import { RenderedView } from '@/libs/data-access/variable-definitions/internal/m
 import { FilterItem } from '@/types/filters';
 import { sortAscending, sortDateStringsDescending, sortDescending } from './sort';
 
+type TextFilterFields = keyof RenderedView;
+
 export function filterAndSortVariables(
   variables: RenderedView[] | undefined,
-  textFilters: Record<string, string>, // e.g., { name: 'foo', definition: 'bar' }
+  textFilters: Partial<Record<TextFilterFields, string>>,
   subjectFilters: FilterItem[],
   sortOption: 'titleAsc' | 'titleDesc' | 'lastChanged',
 ) {
   if (!variables) return [];
 
-  let filtered = [...variables];
+  const matchesSubject = (v: RenderedView) =>
+    subjectFilters.length === 0 ||
+    v.subject_fields.some((ref) => ref.code && subjectFilters.some((filter) => filter.code === ref.code));
 
-  filtered = filtered.filter(
-    (v) =>
-      subjectFilters.length === 0 ||
-      v.subject_fields.some((ref) => ref.code && subjectFilters.some((filter) => filter.code === ref.code)),
-  );
+  const matchesTextFilters = (v: RenderedView) =>
+    Object.entries(textFilters).every(([field, value]) => {
+      if (!value) return true;
+      const key = field as TextFilterFields;
+      const fieldValue = v[key];
+      return String(fieldValue ?? '')
+        .toLowerCase()
+        .includes(value.toLowerCase());
+    });
 
-  Object.entries(textFilters).forEach(([field, value]) => {
-    filtered = filtered.filter((v) => !value || (v as any)[field]?.toLowerCase().includes(value.toLowerCase()));
-  });
-
-  return filtered.sort((a, b) => {
-    switch (sortOption) {
-      case 'titleAsc':
-        return sortAscending(a.name || '', b.name || '');
-      case 'titleDesc':
-        return sortDescending(a.name || '', b.name || '');
-      case 'lastChanged':
-        return sortDateStringsDescending(
-          a.last_updated_at.toISOString().split('T')[0] || '',
-          b.last_updated_at.toISOString().split('T')[0] || '',
-        );
-    }
-  });
+  return [...variables]
+    .filter(matchesSubject)
+    .filter(matchesTextFilters)
+    .sort((a, b) => {
+      switch (sortOption) {
+        case 'titleAsc':
+          return sortAscending(a.name || '', b.name || '');
+        case 'titleDesc':
+          return sortDescending(a.name || '', b.name || '');
+        case 'lastChanged':
+          return sortDateStringsDescending(
+            a.last_updated_at.toISOString().split('T')[0],
+            b.last_updated_at.toISOString().split('T')[0],
+          );
+      }
+    });
 }

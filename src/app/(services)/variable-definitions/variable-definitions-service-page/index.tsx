@@ -56,7 +56,7 @@ const VariableDefinitionsServicePage = ({
     <SearchPage
       asideContent={
         <FiltersPanel>
-          <TextFilter field='name' filters={textFilters} setFilters={setTextFilters} />
+          <TextFilter field='name' /*TODO - move to localization*/ filters={textFilters} setFilters={setTextFilters} />
           <CheckboxFilter
             filterHeading={'Statisitikkområde'} //TODO - move to localization
             key={'Statisitikkområde'} //TODO - move to localization
@@ -67,7 +67,15 @@ const VariableDefinitionsServicePage = ({
         </FiltersPanel>
       }
       totalHits={displayedVariables.length}
-      infoContent={<FilterTags activeFilters={subjectFilters} onClose={toggleSubject} onClearAll={clearAll} />}
+      infoContent={
+        <FilterTags
+          activeFilters={subjectFilters}
+          searchTerms={textFilters}
+          onClose={toggleSubject}
+          onClearAll={clearAll}
+          onClearSearch={() => setTextFilters({})}
+        />
+      }
       controlsContent={<SortFields sortOptions={sortOptions} sortOption={sortOption} setSortOption={setSortOption} />}
       searchResult={
         <>
