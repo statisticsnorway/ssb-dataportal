@@ -1,6 +1,5 @@
 import { Card, Divider, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { ReactNode } from 'react';
-import { ClientDetails } from '@/components/client-details/clientDetails';
 import { NavigationCard } from '@/components/navigation-card';
 import AlphabetIcon from '@/icons/alphabet.svg';
 import DatasetIcon from '@/icons/dataset.svg';
@@ -9,6 +8,7 @@ import { localization } from '@/libs/language';
 import { tabsData } from './(services)/tabs';
 import styles from './home.module.css';
 import './home.css';
+import { ClientDetails } from '@/components/client-details/clientDetails';
 
 export default function Home() {
   const detailsList = [
@@ -53,10 +53,10 @@ export default function Home() {
     <main className={`${styles.pageContainer} container`}>
       <Card data-color='brand1' variant='tinted' className={styles.headerCard}>
         <header className={styles.pageHeader}>
-          <Heading level={1} data-size='lg' className={styles.pageTitle}>
+          <Heading level={1} className={`${styles.pageTitle} heading12`}>
             {localization.info.landingPageTitle}
           </Heading>
-          <Paragraph data-size='md' className={styles.subTitle}>
+          <Paragraph data-size='md' className={`${styles.subTitle} heading345`}>
             {localization.info.landingPageSubTitle}
           </Paragraph>
           <div className={styles.infoDetails}>

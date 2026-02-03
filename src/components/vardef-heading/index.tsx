@@ -32,7 +32,7 @@ const VardefHeading = ({
 }) => {
   const headingText = (
     <>
-      {variableDefinition.name}
+      <span className='heading12'>{variableDefinition.name}</span>
       <span className={styles.vardefShortName}>{variableDefinition.short_name}</span>
     </>
   );

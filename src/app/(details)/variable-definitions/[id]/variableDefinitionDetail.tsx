@@ -63,7 +63,7 @@ export default function VariableDefinitionDetail({
                 : localization.variableDefinition.labelSingular
             }
           >
-            <p className={styles.definition}>{variableDefinition.definition}</p>
+            <p className={`${styles.definition} ingress`}>{variableDefinition.definition}</p>
             {variableDefinition.comment && (
               <dl>
                 <TextField label={localization.comment} value={variableDefinition.comment} type='text' />
