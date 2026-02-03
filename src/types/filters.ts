@@ -1,5 +1,3 @@
-export type FilterType = 'status' | 'published';
-
 export interface FilterGroup {
   filterHeading: string;
   filters: FilterItem[];

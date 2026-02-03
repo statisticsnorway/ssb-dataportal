@@ -1,225 +1,134 @@
 /**
- * The array/tuple notation is used to specify a second value which is the aria-label for form control elements.
+ * This is the default language.
+ *
+ * It should be used as the reference for which strings are to be defined in the app.
+ *
+ * Please maintain alphabetical order on variable name for ease of maintenance!
  */
 
 export const nb = {
-  subjectArea: 'Statistikkområde',
-  navigateHomeVariableDefinitions: 'Naviger til hovedside Variabeldefinisjoner',
-  navigateHomeClassifications: 'Naviger til hovedside Klassifikasjoner',
-  navigateHomeDatasets: 'Naviger til hovedside Datasett',
-  chooseLanguage: 'Velg språk',
-  contactPage: 'Kontaktside',
-  containsSpecialCategoriesOfPersonalData: 'Inneholder sensitive personopplysninger',
-  deprecated: 'Utgått',
-  description: 'Beskrivelse',
-  definition: 'Definisjon',
-  validityPeriod: 'Gyldighetsperiode',
-  code: 'Kode',
-  link: 'Lenke',
-  edit: 'Rediger',
-  email: 'E-post',
-  error: 'Feil',
-  filter: 'Filtrer',
-  validFrom: 'Gyldig fra',
-  validTo: 'Gyldig til',
-  add: 'Legg til',
-  remove: 'Fjern',
-  fromAndIncluding: 'Fra og med',
-  general: 'Generelt',
-  homepage: 'Hjemmeside',
-  id: 'ID',
-  conceptId: 'Begreps-ID',
-  versionId: 'Versjons-ID',
-  lastModified: 'Sist oppdatert',
-  loading: 'Laster',
-  loadingVariableDefinitions: 'Laster variabeldefinisjoner',
-  name: 'Navn',
-  no: 'Nei',
-  to: 'Til',
-  from: 'Fra',
-  access: 'Tilgang',
-  noAccess: 'Ingen tilgang',
-  youHaveNoAccess: 'Det ser ikke ut til at du har tilgang til denne siden.',
-  notFound: 'Ikke funnet',
-  notFoundPage: 'Fant ikke siden du lette etter.',
-  none: 'Ingen',
-  ok: 'Ok',
-  showLess: 'Vis færre',
-  showMore: 'Vis flere',
-  seeMore: 'Se mer',
-  seeLess: 'Se mindre',
-  somethingWentWrong: 'Beklager, noe gikk galt. Prøv på nytt litt senere.',
-  shortName: 'Kortnavn',
-  sorting: 'Sortering',
-  status: 'Status',
-  subjectFields: 'Statistikkområder',
-  title: 'Tittel',
-  toAndIncluding: 'Til og med',
-  unknown: 'Ukjent',
-  yes: 'Ja',
-  allUsers: 'Alle brukere',
-  type: 'Type',
-  lastChanged: 'Sist endret',
-  noName: 'Uten navn',
-  choose: 'Velg',
-  relation: 'Relasjon',
-  relations: 'Relasjoner',
-  serviceMessageError: 'Kunne ikke laste inn tjenestemeldinger. Vennligst prøv igjen senere.',
-  serviceMessageSeeMore: 'Se detaljert driftsmelding for mer informasjon.',
-  newConcept: 'Nytt begrep',
-  helpText: 'Hjelpetekst',
-  publisher: 'Utgiver',
-  changed: 'Endret',
-  created: 'Opprettet',
+  appTitle: 'Dataportal',
   by: 'av',
+  comment: 'Kommentar',
+  context: 'Kontekst',
+  documentation: 'Dokumentasjon',
+  from: 'Fra',
+  id: 'ID',
+  loadingVariableDefinitions: 'Laster variabeldefinisjoner',
+  navigateHome: 'Naviger til hjemmesiden',
+  navigateHomeClassifications: 'Naviger til hovedside Klassifikasjoner',
+  navigateHomeVariableDefinitions: 'Naviger til hovedside Variabeldefinisjoner',
+  next: 'Neste',
+  no: 'Nei',
+  on: 'på',
+  previous: 'Forrige',
+  references: 'Referanser',
+  statisticsNorway: 'Statistisk sentralbyrå',
+  subjectArea: 'Statistikkområde',
+  subjectFields: 'Statistikkområder',
+  to: 'Til',
   unitTypes: 'Enhetstyper',
-  valid: 'Aktiv',
+  welcomeToTesting: 'Velkommen til testing av datakatalogen. Du er nå i en prototype under utvikling.',
+  yes: 'Ja',
 
-  language: {
-    en: 'Engelsk',
-    nb: 'Bokmål',
-    nn: 'Nynorsk',
-    no: 'Norsk',
+  tabs: {
+    classifications: 'Klassifikasjoner',
+    datasets: 'Datasett',
+    variableDefinitions: 'Variabeldefinisjoner',
   },
 
-  auth: {
-    login: 'Logg inn',
-    logout: 'Logg ut',
-    loggingIn: 'Logger inn...',
-    loggingOut: 'Logger ut...',
-    sessionExpiredTitle: 'Sesjonen har utløpt',
-    sessionExpired:
-      'Din sesjon har utløpt på grunn av inaktivitet. For å fortsette arbeidet, vennligst logg inn på nytt. Hvis du ikke ønsker å logge inn nå, kan du avbryte og forbli på siden som utlogget.',
-    sessionExpiredWithStorage:
-      'Din sesjon har utløpt på grunn av inaktivitet. Endringene dine er lagret lokalt. For å fortsette arbeidet, vennligst logg inn på nytt. Hvis du ikke ønsker å logge inn nå, kan du avbryte og forbli på siden som utlogget.',
-    redirectedToLogin:
-      'Når du velger å forbli på siden, blir du sendt videre til innloggingssiden når du klikker på en lenke eller oppdaterer siden.',
+  editing: {
+    created: 'Opprettet',
+    updated: 'Sist oppdatert',
   },
 
-  userRole: {
-    sysAdminRole: 'Systemadministrator',
-    adminRole: 'Virksomhetsadministrator',
-    writerRole: 'Skrivebruker',
-    readerRole: 'Lesebruker',
+  copy: {
+    code: 'Kopier kode',
+    copied: 'Kopiert',
+    id: 'Kopier ID',
   },
 
-  spatial: {
-    municipality: 'Kommune',
-    country: 'Nasjon',
-    county: 'Fylke',
+  error: {
+    somethingWentWrong: 'Beklager, noe gikk galt. Prøv på nytt litt senere.',
+    unauthorized: 'Beklager, du har ikke tilgang.',
   },
 
-  contactPoint: {
-    contactInformation: 'Kontaktinformasjon',
-    form: 'Kontaktskjema',
+  contact: {
+    fallbackTitle: 'Ta kontakt med spørsmål eller innspill',
+    label: 'Kontakt',
+  },
+
+  owner: {
+    daplaTeam: 'Dapla Team',
+    groups: 'Grupper',
+    label: 'Eier',
+  },
+
+  // Labels specific to variable definitions
+  variableDefinition: {
+    externalReference: 'Ekstern referanse',
+    fetchWith: 'Hent variabeldefinisjon med',
+    labelPlural: 'Variabeldefinisjoner',
+    labelSingular: 'Variabeldefinisjon',
+    labelWithComment: 'Variabeldefinisjon med kommentar',
+    personalData: 'Inneholder særlige kategorier av personopplysninger',
+    relevant: 'Relevante variabeldefinisjoner',
+    viewExternalReference: 'Se ekstern referanse',
+    viewRelevant: 'Se relevant variabeldefinisjon',
+  },
+
+  classification: {
+    label: 'Klassifikasjon',
+    view: 'Se klassifikasjon',
   },
 
   search: {
+    hits: 'treff',
+    label: 'Søk',
     noHits: 'Ditt søk ga ingen treff',
-    search: 'Søk',
-    searchField: 'Søk i felt',
-    searchForVariableDefinitions: 'Søk i variabeldefinisjoner',
     searchForClassifications: 'Søk i kodeverk',
     searchForDatasets: 'Søk i datasett',
-    searchForDataset: 'Søk etter datasettbeskrivelse',
-    searchForService: 'Søk etter tjeneste...',
-    searchForUsername: 'Søk etter brukernavn...',
-    searchInCatalogs: ['Søk i Felles datakatalog', 'Lenke til søk i felles datakatalog'],
-    sort: 'Sortering',
-    clear: 'Tøm',
+    searchForVariableDefinitions: 'Søk i variabeldefinisjoner',
 
-    fields: {
-      alleFelter: 'Alle felter',
-      alleTermer: 'Alle termer',
-      anbefaltTerm: 'Anbefalt term',
-      definisjon: 'Definisjon',
-      frarådetTerm: 'Frarådet term',
-      merknad: 'Merknad',
-      tillattTerm: 'Tillatt term',
+    filter: {
+      close: 'Lukk filter',
+      label: 'Filter',
+      open: 'Åpne filter',
     },
 
-    sortOptions: {
-      NEWEST_FIRST: 'Nyest først',
-      LAST_UPDATED_FIRST: 'Sist endret først',
-      LAST_UPDATED_LAST: 'Eldst først',
-      RECOMMENDED_TERM_AÅ: 'Anbefalt term A-Å',
-      RECOMMENDED_TERM_ÅA: 'Anbefalt term Å-A',
-      TITLE_ÅA: 'Tittel Å-A',
-      TITLE_AÅ: 'Tittel A-Å',
-      RELEVANCE: 'Relevans',
+    sort: {
+      label: 'Sortering',
+      lastUpdatedFirst: 'Sist endret først',
+      titleAlphabeticalAsc: 'Tittel A-Å',
+      titleAlphabeticalDesc: 'Tittel Å-A',
     },
   },
 
   button: {
-    bin: 'Søppelkasse',
-    cancel: 'Avbryt',
-    close: 'Lukk',
-    createConcept: 'Nytt begrep',
-    delete: 'Slett',
-    deleteWithFormat: 'Slett {text}',
-    discard: 'Forkast',
-    edit: 'Rediger',
-    expandAll: 'Vis alle felter',
-    importConcept: 'Importer',
-    importLogo: 'Importer logo',
-    importDataService: 'Importer OpenAPI',
     removeFilter: 'Fjern alle filter',
-    removeFromCodeList: 'Fjern fra kodeliste',
-    restore: 'Gjenopprett',
-    save: 'Lagre',
-    send: 'Send inn',
-    success: 'OK',
-    addUrl: 'Legg til lenke',
-    backToOverview: 'Tilbake til oversikten',
-    gotoConcept: 'Gå til begrepet',
   },
 
-  dropdown: {
-    descriptionDataset: 'Beskrivelse av datasett',
-    descriptionDatasetSerie: 'Beskrivelse av datasettserie',
-    lastModified: 'Sist endret',
-    statusSearch: 'Filtrer på status',
-  },
-
-  footer: {
-    accessibility: 'Tilgjengelighetserklæring',
-    cookies: 'Informasjonskapsler',
-    digdirManagesNationalDataCatalog: 'Digitaliseringsdirektoratet forvalter Felles datakatalog.',
-    privacyStatement: 'Personvernerklæring',
-    termsOfUse: 'Bruksvilkår',
-  },
-
-  header: {
-    registerData: 'Registrere data',
-    contactUs: 'Kontakt oss',
-    menu: 'Meny',
-  },
-
-  tag: {
-    all: 'Alle',
-    approve: 'Godkjent',
+  status: {
     draft: 'Utkast',
-    publish: 'Publisert',
-    required: 'Må fylles ut',
-    recommended: 'Anbefalt',
-  },
-
-  searchHit: {
-    lastEdited: 'Sist endret',
-    lastPublished: 'Gå til publisert versjon',
-  },
-
-  statusColors: {
-    DRAFT: 'second',
-    CANDIDATE: 'info',
-    WAITING: 'neutral',
-    CURRENT: 'success',
-    RETIRED: 'danger',
-    REJECTED: 'neutral',
+    label: 'Status',
+    publishedExternal: 'Publisert eksternt',
+    publishedInternal: 'Publisert internt',
   },
 
   validity: {
-    expired: 'Utgått',
-    willBeValid: 'blir gyldig',
+    label: 'Gyldighet',
+  },
+
+  info: {
+    landingPageTitle: 'Velkommen til Dataportalen',
+    landingPageSubTitle: 'Din inngang til SSBs felles kunnskap om data',
+    landingPageInfoIntroTitle: 'Hva er Dataportalen?',
+    landingPageInfoIntro: 'Her samler vi informasjon om våre datasett, variabler, kodelister og API-er på ett sted.',
+    landingPageInfoGoalTitle: 'Hvorfor Dataportalen?',
+    landingPageInfoGoal:
+      'Målet er å gjøre det enklere for alle i SSB å finne, forstå og bruke dataene våre på en korrekt og effektiv måte.',
+    landingPagePrototypeTitle: 'Dataportal prototype',
+    landingPageInfoPrototype:
+      'I denne første versjonen kan du utforske SSBs variabeldefinisjoner. Portalen vil gradvis utvides med oversikt over datasett, kodelister og API-er, slik at du kan se hele sammenhengen fra konsept til ferdig datafil. Ved å koble definisjoner fra Vardef med kodelister fra Klass og dokumentasjon fra Datadoc, etablerer vi en "felles sannhet" som sikrer at vi alltid tolker og bruker dataene våre på samme måte.',
   },
 };

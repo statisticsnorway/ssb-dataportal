@@ -2,9 +2,11 @@ import {
   ClassificationFamilyResource,
   ClassificationResource,
   ClassificationSummaryResource,
+  CodeItem,
 } from '@/libs/data-access/klass';
 import { RenderedView, RenderedViewFromJSON } from '@/libs/data-access/variable-definitions/internal';
 import classificationsMock from '@/static-data/classifications.json';
+import subjectFieldsMock from '@/static-data/subject-fields.json';
 import variableDefinitionsJson from '@/static-data/variable-definitions.json';
 import { RawClassificationFamily } from '@/types/classification';
 import { parseClassification } from './functions';
@@ -33,5 +35,14 @@ export function transformClassificationFamilies(rawData: RawClassificationFamily
         lastModified: new Date(c.lastModified),
       }),
     ),
+  }));
+}
+
+export async function fetchStaticSubjectFields(): Promise<CodeItem[]> {
+  return subjectFieldsMock.codes.map((item) => ({
+    ...item,
+    parentCode: item.parentCode ?? undefined,
+    validFrom: item.validFrom ?? undefined,
+    validTo: item.validTo ?? undefined,
   }));
 }

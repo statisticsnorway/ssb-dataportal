@@ -1,7 +1,6 @@
 .filterHeader {
   background-color: var(--ds-color-surface-tinted);
-  color: black;
-  font-weight: 700;
+  width: 100%;
 }
 
 .filterCard {
@@ -12,6 +11,8 @@
   background-color: var(--ds-color-surface-tinted);
   width: 100%;
   justify-content: space-between;
+  color: black;
+  font-weight: 700;
 }
 
 .hidden {

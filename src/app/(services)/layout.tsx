@@ -3,44 +3,24 @@
 import { Field, Label, Search, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
-import { localization } from '@/libs/language/src/localization';
+import { localization } from '@/libs/language';
 import styles from './search-layout.module.css';
-
-const tabs = [
-  {
-    value: 'vardefTab',
-    label: 'Variabeldefinisjoner',
-    searchLabel: localization.search.searchForVariableDefinitions,
-    href: '/variable-definitions',
-  },
-  {
-    value: 'klassTab',
-    label: 'Klassifikasjoner',
-    searchLabel: localization.search.searchForClassifications,
-    href: '/classifications',
-  },
-  {
-    value: 'datasetTab',
-    label: 'Datasett',
-    searchLabel: localization.search.searchForDatasets,
-    href: '/datasets',
-  },
-];
+import { getTabForRoute, tabsData } from './tabs';
 
 export default function SearchLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
 
-  const activeTab = tabs.find((tab) => pathname === tab.href || pathname.startsWith(`${tab.href}/`)) ?? tabs[0];
+  const activeTab = getTabForRoute(pathname) ?? tabsData.VariableDefinitions;
 
   return (
-    <Tabs value={activeTab.value} data-color='accent'>
+    <Tabs value={activeTab.id} data-color='accent'>
       <section className={styles.searchPageWrapper}>
         <div className={`${styles.searchFieldContent} container`}>
           <Field>
             <Label className={styles.searchLabel}>{activeTab.searchLabel}</Label>
             <Search id='searchId' data-color='accent' aria-disabled>
-              <Search.Input id='searchValue' aria-label='Søk' />
+              <Search.Input id='searchValue' aria-label={localization.search.label} />
               <Search.Clear />
               <Search.Button>Søk</Search.Button>
             </Search>
@@ -49,8 +29,13 @@ export default function SearchLayout({ children }: { children: ReactNode }) {
 
         <div className={`${styles.tabsNavigationContainer} container`}>
           <Tabs.List className={styles.tabsNavigation}>
-            {tabs.map((tab) => (
-              <Tabs.Tab key={tab.value} value={tab.value} className={styles.tab} onClick={() => router.push(tab.href)}>
+            {Object.values(tabsData).map((tab) => (
+              <Tabs.Tab
+                key={tab.id}
+                value={tab.id}
+                className={`${styles.tab} font-roboto`}
+                onClick={() => router.push(tab.route)}
+              >
                 {tab.label}
               </Tabs.Tab>
             ))}

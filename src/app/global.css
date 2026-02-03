@@ -1,7 +1,7 @@
 /* This is a global stylesheet */
 
 @import url("@digdir/designsystemet-css");
-@import url("@digdir/designsystemet-theme/digdir.css");
+@import url("@digdir/designsystemet-css/theme");
 
 @layer reset, ds;
 
@@ -22,13 +22,17 @@
   --medium-gap: 1rem;
   --large-gap: 2rem;
 
+  /* Ref: https://design.ssb.no/#/components/color */
+  --ssb-dark-color-1: #f0f8f9;
+  --ssb-dark-color-2: #c3dcdc;
+  --ssb-dark-color-5: #274247;
+  --ssb-dark-color-6: #162327;
+
   --blue-color: #335380;
   --dark-blue-color: #1e2b3c;
   --main-background-color: #f0f8f9;
   --shadow-color: #969ba0;
   --element-background-color: #fff;
-  --light-light-blue-color: #e6eff8;
-  --dark-blue-gray-color: #2d3741;
   --main-font-color: #000;
 
   --text-color-primary: #111827;
@@ -41,6 +45,10 @@
   --border-radius-xl: 1.5rem;
   --box-shadow-sm: 0 0 0.5rem rgba(0, 0, 0, 0.1);
 
+  --font-open-sans: var(--font-open-sans);
+  --font-roboto: var(--font-roboto);
+  --font-roboto-condensed: var(--font-roboto-condensed);
+
   --font-size-sm: 0.85rem;
   --font-size-md: 1rem;
   --font-size-lg: 1.25rem;
@@ -48,32 +56,31 @@
   --font-size-2xl: 2.5rem;
   --font-size-3xl: 3rem;
 
+  --font-family-monospace:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
   --font-weight-medium: 500;
   --font-weight-heavy: 700;
   --search-hit-shortname-color: #666666;
-
-  --search-card-border-color: #c3dcdc;
 }
 
 html * {
   font-display: swap;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-open-sans), var(--font-roboto), var(--font-roboto-condensed), sans-serif;
 }
 
 body {
-  font-family: inherit;
   line-height: inherit;
   height: 100%;
-  background-color: var(--main-background-color);
+  background-color: var(--ssb-dark-color-1);
   padding: 0;
   margin: 0;
 }
 
 .rootContainer {
   width: 100%;
-  margin: 0;
 }
 
 .grow {
@@ -91,6 +98,7 @@ body {
   box-sizing: border-box;
 }
 
+/*TODO: we should avoid setting global values for local elements*/
 select#sortVariables.ds-input {
   padding: 0.5rem;
   border-radius: 5px;
@@ -104,35 +112,52 @@ div.ds-card {
   border-color: #c3dcdc;
 }
 
+/** Text styles based on https://design.ssb.no/#/components/typography-page
+
+We don't set font-size for the headings, this can be controlled using the
+level prop on the Heading component from Designsystemet
+*/
+
+:is(h1, h1.ds-heading, h2, h2.ds-heading, .heading12) {
+  font-family: var(--font-roboto-condensed), sans-serif;
+  font-weight: var(--font-weight-heavy);
+  color: var(--ssb-dark-color-6);
+}
+
+:is(h3, h3.ds-heading, h4, h4.ds-heading, h5, h5.ds-heading, .heading345) {
+  font-family: var(--font-roboto), sans-serif;
+  font-weight: var(--font-weight-heavy);
+  color: var(--ssb-dark-color-6);
+}
+
+p {
+  font-family: var(--font-open-sans), sans-serif;
+  font-size: var(--font-size-md);
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: var(--ssb-dark-color-6);
+}
+
+/** Ingress is used to draw attention to a limited amount of introductory text. */
+.ingress {
+  font-size: var(--font-size-lg);
+  line-height: 2rem;
+}
+
+/** SSBs design system specifies the use of Roboto to distinguish interactive elements */
+button {
+  font-family: var(--font-roboto), sans-serif;
+}
+
+.font-roboto {
+  font-family: var(--font-roboto), sans-serif;
+}
+
 .infoAlert {
   width: 100%;
   min-width: var(--app-min-width);
   --dsc-alert-padding-block: var(--ds-size-4);
-}
-
-.copyButton {
-  background-color: var(--element-background-color);
-  color: var(--main-font-color);
-  font-size: var(--font-size-md);
-}
-
-.react-syntax-highlighter-line-number {
-  background: rgb(242, 242, 242);
-}
-
-.codeBlock {
-  margin: 0 1rem 1rem 1rem !important;
-}
-
-.codeBlock code {
-  display: block;
-  padding: 1rem 1rem 1rem 0.75rem;
-}
-
-.codeBlock,
-.codeBlock pre,
-.codeBlock code,
-.codeBlock span {
-  font-family:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
 }

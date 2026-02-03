@@ -16,32 +16,31 @@ It's currently in the prototype stage, with a goal of displaying Variable defini
 ### Environment
 
 1. Install Node: <https://nodejs.org/en/download>
-1. Install dev dependencies: `yarn install`
+1. Install dev dependencies: `pnpm install`
 1. Install pre-commit: `pipx install pre-commit`
 1. Install pre-commit hooks: `pre-commit install`
 
 ### Run the development server
 
 ```bash
-yarn dev
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### Yarn
+### Package manager
 
-Yarn is our package manager.
-We use [corepack](https://yarnpkg.com/corepack) for locking project version.
+Pnpm is our package manager.
+We use [corepack](https://github.com/nodejs/corepack#readme) for locking project version. This is still experimental and must be manually enabled:
 
 ```bash
 corepack enable
 ```
 
-Update Yarn version
+#### Update
 
 ```bash
-yarn set version stable
-yarn install
+corepack use pnpm@latest-10
 ```
 
 ### Lint and format
@@ -51,25 +50,25 @@ We use [`biome`](https://biomejs.dev/guides/getting-started/).
 #### Lint
 
 ```bash
-yarn lint:check
+pnpm lint:check
 ```
 
 Fix linting
 
 ```bash
-yarn lint:fix
+pnpm lint:fix
 ```
 
 #### Format
 
 ```bash
-yarn format:check
+pnpm format:check
 ```
 
 Fix linting
 
 ```bash
-yarn format:fix
+pnpm format:fix
 ```
 
 ### Config
@@ -113,25 +112,25 @@ Name testfiles: `<componentName>.spec.tsx`
 Run unit tests
 
 ```bash
-yarn test
+pnpm test
 ```
 
 Remove cache
 
 ```bash
-yarn jest --clearCache
+pnpm jest --clearCache
 ```
 
 Start watch session - interactive mode
 
 ```bash
-yarn test:watch
+pnpm test:watch
 ```
 
 Update snapshots
 
 ```bash
-yarn test:update-snapshots
+pnpm test:update-snapshots
 ```
 
 ### Playwright
@@ -141,7 +140,7 @@ Install the Playwright Test for VSCode extension to run and debug tests directly
 If tests not working
 
 ```bash
-yarn playwright install
+pnpm playwright install
 ```
 
 #### Configure Environment for Tests
@@ -151,7 +150,7 @@ Config can be added in `.env.test`. This file is included in the repo so _no sec
 #### Running Tests
 
 ```bash
-yarn test:e2e
+pnpm test:e2e
 ```
 
 #### Using Real API Data
@@ -160,7 +159,7 @@ To run tests with live data fetched from a remote API edit playwright.config.ts:
 
 ```
   webServer: {
-    command: 'yarn dev',
+    command: 'pnpm dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
   },
@@ -168,30 +167,34 @@ To run tests with live data fetched from a remote API edit playwright.config.ts:
 
 Run your tests as usual, and they will fetch real data instead of using static fixtures.
 
+#### Run e2e tests in UI mode
+
+```bash
+pnpm test:e2e:ui
+```
+
 #### Run e2e tests with visible browser
 
 ```bash
-yarn test:e2e:headed
+pnpm test:e2e:headed
 ```
 
 #### Generate tests
 
 ```bash
-yarn dev
-
-npx playwright codegen http://localhost:3000
+pnpm test:e2e:generate
 ```
 
 ### Generate client code
 
 This project uses OpenAPI Generator to generate TypeScript clients from OpenAPI specs.
 
-You can generate the clients one at a time using the yarn scripts defined in package.json.
+You can generate the clients one at a time using the scripts defined in package.json.
 
 Generate Vardef internal:
 
 ```bash
-yarn codegen:vardef-internal
+pnpm codegen:vardef-internal
 ```
 
 Uses the OpenAPI spec from:
@@ -202,7 +205,7 @@ Output directory: src/libs/data-access/variable-definitions/internal
 Generate Klass:
 
 ```bash
-yarn codegen:klass
+pnpm codegen:klass
 ```
 
 Uses the OpenAPI spec from:

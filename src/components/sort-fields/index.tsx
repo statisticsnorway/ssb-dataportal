@@ -1,17 +1,17 @@
 import { Select } from '@digdir/designsystemet-react';
-import { SortTypes } from '@/types/tabs';
-import { filter } from '@/utils/constants';
+import { localization } from '@/libs/language';
+import { SortTypes } from '@/types/sort';
 
 interface SortFieldsProps {
   sortOptions: SortTypes[];
   sortOption: SortTypes;
-  setSortOption: (v: any) => void;
+  setSortOption: (key: SortTypes) => void;
 }
 
 const sortLabels: Record<string, string> = {
-  titleAsc: filter.sortNameAsc,
-  titleDesc: filter.sortNameDesc,
-  lastChanged: filter.sortLastUpdated,
+  titleAsc: localization.search.sort.titleAlphabeticalAsc,
+  titleDesc: localization.search.sort.titleAlphabeticalDesc,
+  lastChanged: localization.search.sort.lastUpdatedFirst,
 };
 
 const SortFields = ({ sortOptions, sortOption, setSortOption }: SortFieldsProps) => {
@@ -20,8 +20,8 @@ const SortFields = ({ sortOptions, sortOption, setSortOption }: SortFieldsProps)
       <Select
         id='sortVariables'
         data-size='sm'
-        aria-label='Select sort'
-        onChange={(e) => setSortOption(e.target.value)}
+        aria-label={localization.search.sort.label}
+        onChange={(e) => setSortOption(e.target.value as SortTypes)}
         value={sortOption}
       >
         {sortOptions.map((key) => (

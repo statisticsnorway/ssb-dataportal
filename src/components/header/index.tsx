@@ -3,19 +3,28 @@
 import { Link } from '@digdir/designsystemet-react';
 import Image from 'next/image';
 import { FC } from 'react';
+import { localization } from '@/libs/language';
 import styles from './header.module.css';
 
 export interface HeaderProps {
   homeUrl?: string;
+  title?: string;
   devEnvironmentName?: string;
 }
 
-export const Header: FC<HeaderProps> = ({ homeUrl, devEnvironmentName }) => {
+export const Header: FC<HeaderProps> = ({ homeUrl, title, devEnvironmentName }) => {
   return (
-    <header className={styles.header}>
+    <header className={styles.header} role='banner'>
       <div className={`${styles.headerContainer} container`}>
-        <Link href={homeUrl} title='Gå til hovedsiden' className={styles.logo}>
-          <Image src='/ssb-logo.svg' alt='Statistics Norway logo' width={240} height={44} priority />
+        {/*TODO: Logo overflows at around 450px */}
+        <Link href={homeUrl} title={localization.navigateHome} className={styles.logoAndTitle}>
+          <Image src='/ssb-logo.svg' alt={`${localization.statisticsNorway} logo`} width={240} height={44} priority />
+          {title ? (
+            <div className={styles.logoAndTitle}>
+              <div className={styles.verticalDivider} />
+              <div className={styles.appTitle}>{title}</div>
+            </div>
+          ) : undefined}
         </Link>
         <div className={`${styles.rightGroup}`}>
           {devEnvironmentName ? <p className={styles.environmentName}>{devEnvironmentName}</p> : undefined}

@@ -1,4 +1,5 @@
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
+import { localization } from '@/libs/language';
 import { Item } from '@/types/item';
 import { areFieldsDefinedAndNonNull, formatDate, yesNo } from '@/utils/functions';
 
@@ -8,8 +9,8 @@ import { areFieldsDefinedAndNonNull, formatDate, yesNo } from '@/utils/functions
  * ------------------------------
  */
 export const validityItems = (v: RenderedView): Item[] => [
-  { label: 'Fra', value: formatDate(v.valid_from), type: 'text' },
-  { label: 'Til', value: formatDate(v.valid_until ?? undefined), type: 'text' },
+  { label: localization.from, value: formatDate(v.valid_from), type: 'text' },
+  { label: localization.to, value: formatDate(v.valid_until ?? undefined), type: 'text' },
 ];
 
 /**
@@ -18,10 +19,10 @@ export const validityItems = (v: RenderedView): Item[] => [
  * ------------------------------
  */
 export const createdAndEditedItems = (v: RenderedView): Item[] => [
-  { label: 'Sist oppdatert på', value: formatDate(v.last_updated_at), type: 'text' },
-  { label: 'Sist oppdatert av', value: v.last_updated_by, type: 'text' },
-  { label: 'Opprettet på', value: formatDate(v.created_at), type: 'text' },
-  { label: 'Opprettet av', value: v.created_by, type: 'text' },
+  { label: `${localization.editing.updated} ${localization.on}`, value: formatDate(v.last_updated_at), type: 'text' },
+  { label: `${localization.editing.updated} ${localization.by}`, value: v.last_updated_by, type: 'text' },
+  { label: `${localization.editing.created} ${localization.on}`, value: formatDate(v.created_at), type: 'text' },
+  { label: `${localization.editing.created} ${localization.by}`, value: v.created_by, type: 'text' },
 ];
 
 /**
@@ -31,12 +32,12 @@ export const createdAndEditedItems = (v: RenderedView): Item[] => [
  */
 export const unitTypesItems = (v: RenderedView): Item[] => [
   {
-    label: 'Enhetstyper',
+    label: localization.unitTypes,
     value: v.unit_types.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
     type: 'tags',
   },
   {
-    label: 'Statistikkområder',
+    label: localization.subjectFields,
     value: v.subject_fields.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
     type: 'tags',
   },
@@ -49,26 +50,26 @@ export const unitTypesItems = (v: RenderedView): Item[] => [
  */
 export const referencesItems = (v: RenderedView): Item[] => [
   {
-    label: 'Klassifikasjon',
+    label: localization.classification.label,
     value: v.classification_uri ?? null,
     type: 'link',
-    display: 'Se klassifikasjon',
+    display: localization.classification.view,
   },
   {
-    label: 'Ekstern referanse',
+    label: localization.variableDefinition.externalReference,
     value: v.external_reference_uri ?? null,
     type: 'link',
-    display: 'Se ekstern referanse',
+    display: localization.variableDefinition.viewExternalReference,
   },
   {
-    label: 'Relevante variabeldefinisjoner',
+    label: localization.variableDefinition.relevant,
     value: Array.isArray(v.related_variable_definition_uris)
       ? v.related_variable_definition_uris.join(', ')
       : (v.related_variable_definition_uris ?? null),
     type: 'link',
     display: Array.isArray(v.related_variable_definition_uris)
-      ? v.related_variable_definition_uris.map((_, i) => `Se relevant variabeldefinisjon ${i + 1}`)
-      : 'Se relevant variabeldefinisjon',
+      ? v.related_variable_definition_uris.map((_, i) => `${localization.variableDefinition.viewRelevant} ${i + 1}`)
+      : localization.variableDefinition.viewRelevant,
   },
 ];
 
@@ -78,8 +79,8 @@ export const referencesItems = (v: RenderedView): Item[] => [
  * ------------------------------
  */
 export const ownerItems = (v: RenderedView): Item[] => [
-  { label: 'Dapla Team', value: v.owner.team || '-', type: 'text' },
-  { label: 'Grupper', value: v.owner.groups.join(', '), type: 'text' },
+  { label: localization.owner.daplaTeam, value: v.owner.team || '-', type: 'text' },
+  { label: localization.owner.groups, value: v.owner.groups.join(', '), type: 'text' },
 ];
 
 /**
@@ -91,14 +92,14 @@ export const contactItems = (v: RenderedView): Item[] => {
   if (v.contact?.email != null) {
     return [
       {
-        label: 'Kontakt',
+        label: localization.contact.label,
         value: `mailto:${v.contact?.email}`,
         type: 'link',
-        display: v.contact?.title || 'Ta kontakt med spørsmål eller innspill',
+        display: v.contact?.title || localization.contact.fallbackTitle,
       },
     ];
   } else {
-    return [{ label: 'Kontakt', value: v.contact?.title, type: 'text' }];
+    return [{ label: localization.contact.label, value: v.contact?.title, type: 'text' }];
   }
 };
 
@@ -109,7 +110,7 @@ export const contactItems = (v: RenderedView): Item[] => {
  */
 export const personalDataItems = (v: RenderedView): Item[] => [
   {
-    label: 'Inneholder særlige kategorier av personopplysninger',
+    label: localization.variableDefinition.personalData,
     value: yesNo(v.contains_special_categories_of_personal_data),
     type: 'text',
   },

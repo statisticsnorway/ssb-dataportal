@@ -1,18 +1,21 @@
 import { Metadata } from 'next';
 import { AppLayout } from '@/components/app-layout';
+import { localization } from '@/libs/language';
+import { openSans, roboto, robotoCondensed } from './fonts';
+
+// Hardcoded until we implement multi-language support
+localization.setLanguage('nb');
 
 export const metadata: Metadata = {
-  title: 'Metadata catalog | Statistics Norway',
-  description: 'Metadata catalog | Statistics Norway',
+  title: `${localization.appTitle} | ${localization.statisticsNorway}`,
+  description: `${localization.appTitle} | ${localization.statisticsNorway}`,
 };
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang='nb'>
-      <body>
-        <AppLayout displayFooter={true} className='rootContainer'>
-          {children}
-        </AppLayout>
+    <html lang={localization.getLanguage()}>
+      <body className={`${robotoCondensed.variable} ${roboto.variable} ${openSans.variable}`}>
+        <AppLayout catalogTitle={localization.appTitle}>{children}</AppLayout>
       </body>
     </html>
   );

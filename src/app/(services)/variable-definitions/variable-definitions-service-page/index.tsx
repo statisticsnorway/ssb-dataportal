@@ -10,7 +10,6 @@ import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortFields } from '@/components/sort-fields';
 import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
-import { localization } from '@/libs/language';
 import { FilterItem } from '@/types/filters';
 import { SortTypes, sortTypes } from '@/types/sortTypes';
 import { filterAndSortVariables } from '@/utils/filterAndSort';
@@ -92,9 +91,7 @@ const VariableDefinitionsServicePage = ({
       searchResult={
         <>
           {errorMessage ? (
-            <div>Could not fetch data: {errorMessage}</div>
-          ) : displayedVariables.length === 0 ? (
-            <div>{localization.search.noHits}</div>
+            <div>{errorMessage}</div>
           ) : (
             <SearchHitContainer
               searchHits={displayedVariables}
