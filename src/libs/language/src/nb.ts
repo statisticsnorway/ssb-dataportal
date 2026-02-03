@@ -106,6 +106,7 @@ export const nb = {
       lastUpdatedFirst: 'Sist endret først',
       titleAlphabeticalAsc: 'Tittel A-Å',
       titleAlphabeticalDesc: 'Tittel Å-A',
+      defaultSortOrder: 'titleAsc',
     },
   },
 

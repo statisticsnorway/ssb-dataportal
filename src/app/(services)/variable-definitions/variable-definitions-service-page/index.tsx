@@ -27,7 +27,7 @@ const VariableDefinitionsServicePage = ({
   errorMessage,
   subjectFields,
 }: VariableDefinitionsServicePageProps) => {
-  const [sortOption, setSortOption] = useState<SortTypes>('titleAsc');
+  const [sortOption, setSortOption] = useState<SortTypes>(localization.search.sort.defaultSortOrder as SortTypes);
   const [subjectFilters, setSubjectFilters] = useState<FilterItem[]>([]);
   const [textFilter, setTextFilter] = useState<string>('');
 
@@ -65,12 +65,12 @@ const VariableDefinitionsServicePage = ({
       asideContent={
         <FiltersPanel>
           <TextFilter
-            label={localization.search.textFilter.label} /* TODO - move to localization */
+            label={localization.search.textFilter.label}
             searchTerm={textFilter}
             setSearchTerm={setTextFilter}
           />
           <CheckboxFilter
-            filterHeading={localization.subjectArea} //TODO - move to localization
+            filterHeading={localization.subjectArea}
             filters={subjectFilterItems}
             selectedItems={subjectFilters}
             onFilterChange={toggleSubject}
