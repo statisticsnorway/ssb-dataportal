@@ -2,18 +2,17 @@ import { Label, Search } from '@digdir/designsystemet-react';
 import { CollapsibleCard } from '@/components/filters/collapsible-card/';
 import styles from '../collapsible-card/collapsable-card.module.css';
 
-export function TextFilter({
-  field,
-  filters,
-  setFilters,
-}: {
+interface TextFilterProps {
+  label: string;
   field: string;
   filters: Record<string, string>;
   setFilters: (f: Record<string, string>) => void;
-}) {
+}
+
+export function TextFilter({ label, field, filters, setFilters }: TextFilterProps) {
   return (
     <CollapsibleCard heading='Filtrer'>
-      <Label htmlFor={`search-${field}`}>Filtrer på navn</Label> {/*TODO - move to localization*/}
+      <Label htmlFor={`search-${field}`}>Filtrer på {label}</Label> {/*TODO - move to localization*/}
       <div className={styles.searchScope}>
         <Search>
           <Search.Input
