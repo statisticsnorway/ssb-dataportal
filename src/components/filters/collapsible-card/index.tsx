@@ -12,6 +12,21 @@ interface CollapsibleCardProps {
   contentClassName?: string;
 }
 
+/**
+ * A reusable card component with collapsible content.
+ *
+ * Displays a heading inside a card and allows the user to toggle
+ * the visibility of its children.
+ *
+ * @param props - The props for the CollapsibleCard component.
+ * @param props.heading - The title displayed at the top of the card.
+ * @param props.children - The content shown inside the card when expanded.
+ * @param props.defaultOpen - Whether the card is open by default. Defaults to `true`.
+ * @param props.cardClassName - Optional additional class names applied to the Card.
+ * @param props.contentClassName - Optional additional class names applied to the content container.
+ *
+ * @returns A collapsible card UI component.
+ */
 export function CollapsibleCard({
   heading,
   children,
