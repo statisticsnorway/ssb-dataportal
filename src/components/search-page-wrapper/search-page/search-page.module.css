@@ -26,8 +26,11 @@
   flex: 1;
   min-height: 55vh;
   background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass-3.svg");
-  background-position: right;
-  background-size: 800px auto;
+  background-position: calc(100% - 40px) 50px;
+  background-position: right 40px center;
+  background-size: 1200px auto;
+  background-repeat: repeat-x;
+  background-attachment: fixed;
 }
 
 .mainSection {
@@ -59,11 +62,6 @@
   margin-bottom: 1rem;
 }
 
-.ds-tabs {
-  background: linear-gradient(rgba(240, 248, 249, 0.6), rgba(240, 248, 249, 0.6)), url("/magnifying-glass.svg");
-  background-repeat: no-repeat;
-  background-position: right;
-}
 @media (min-width: 768px) {
   .searchHitsContainerWrapper {
     display: flex;

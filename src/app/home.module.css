@@ -1,6 +1,7 @@
 .background {
   background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass-3.svg");
   background-repeat: no-repeat;
+  background-attachment: fixed;
   background-origin: content-box;
   background-position: right;
   background-size: auto 650px;
@@ -72,9 +73,9 @@
   .background {
     background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass-3.svg");
     background-repeat: no-repeat;
-    background-origin: content-box;
     background-position: right;
     background-size: auto 650px;
+    background-attachment: fixed;
   }
   .pageTitle {
     font-size: var(--ds-heading-2xl-font-size);
@@ -94,18 +95,18 @@
   .background {
     background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass-3.svg");
     background-repeat: no-repeat;
-    background-origin: content-box;
     background-position: right 5% bottom 62%;
     background-size: auto 650px;
+    background-attachment: fixed;
   }
 }
 @media (min-width: 1000px) {
   .background {
     background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass-3.svg");
     background-repeat: no-repeat;
-    background-origin: content-box;
     background-position: right 5% bottom 62%;
     background-size: auto 650px;
+    background-attachment: fixed;
   }
 }
 
@@ -116,5 +117,6 @@
     background-origin: content-box;
     background-position: right 5% bottom 62%;
     background-size: auto 650px;
+    background-attachment: fixed;
   }
 }
