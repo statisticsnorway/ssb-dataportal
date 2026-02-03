@@ -1,12 +1,13 @@
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { FilterItem } from '@/types/filters';
+import { SortTypes } from '@/types/sort';
 import { sortAscending, sortDateStringsDescending, sortDescending } from './sort';
 
 export function filterAndSortVariables(
   variables: RenderedView[] | undefined,
   searchTerm: string | undefined,
   subjectFilters: FilterItem[],
-  sortOption: 'titleAsc' | 'titleDesc' | 'lastChanged',
+  sortOption: SortTypes,
 ) {
   if (!variables) return [];
   const trimmedSearch = searchTerm?.trim().toLowerCase() || '';

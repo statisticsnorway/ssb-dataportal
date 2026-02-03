@@ -12,7 +12,7 @@ import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language/src/localization';
 import { FilterItem } from '@/types/filters';
-import { SortTypes, sortTypes } from '@/types/sortTypes';
+import { SortTypes, sortTypes } from '@/types/sort';
 import { filterAndSortVariables } from '@/utils/filterAndSort';
 import { VardefSearchHit } from '../components/vardefSearchHit';
 
@@ -27,7 +27,7 @@ const VariableDefinitionsServicePage = ({
   errorMessage,
   subjectFields,
 }: VariableDefinitionsServicePageProps) => {
-  const [sortOption, setSortOption] = useState<SortTypes>(localization.search.sort.defaultSortOrder as SortTypes);
+  const [sortOption, setSortOption] = useState<SortTypes>('titleAsc' as SortTypes);
   const [subjectFilters, setSubjectFilters] = useState<FilterItem[]>([]);
   const [textFilter, setTextFilter] = useState<string>('');
 
