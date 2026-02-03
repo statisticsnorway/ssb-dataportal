@@ -34,10 +34,11 @@ const VariableDefinitionsServicePage = ({
   /**
    * Returns a memoized array of the variable definitions to display after applying text and subject filters, as well as sorting.
    *
-   * @param subjectFilters - Array of filters for the subject area.
-   * @param selectedItemsWithCounts - Currently selected filter items with their counts.
-   * @param setSelectedFilters  - Callback to update selected filters.
-   * @return An array of FilterGroup objects, memoized for performance.
+   * @param variables     - The full list of variable definitions.
+   * @param subjectFilters - Currently selected subject filters.
+   * @param textFilter     - Current text filter input.
+   * @param sortOption     - Currently selected sort option.
+   * @return An array of RenderedView objects, memoized for performance.
    */
   const displayedVariables = useMemo(
     () => filterAndSortVariables(variables, textFilter, subjectFilters, sortOption),
