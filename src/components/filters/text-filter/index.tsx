@@ -1,5 +1,6 @@
 import { Label, Search } from '@digdir/designsystemet-react';
 import { CollapsibleCard } from '@/components/filters/collapsible-card/';
+import { localization } from '@/libs/language';
 import styles from '../collapsible-card/collapsable-card.module.css';
 
 interface TextFilterProps {
@@ -10,7 +11,7 @@ interface TextFilterProps {
 
 export function TextFilter({ label, searchTerm, setSearchTerm }: TextFilterProps) {
   return (
-    <CollapsibleCard heading='Filtrer'>
+    <CollapsibleCard heading={localization.search.textFilter.collapsableLabel}>
       <Label htmlFor='search-input'>{label}</Label>
       <div className={styles.searchScope}>
         <Search>
