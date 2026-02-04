@@ -158,6 +158,5 @@ button {
 
 .infoAlert {
   width: 100%;
-  min-width: var(--app-min-width);
   --dsc-alert-padding-block: var(--ds-size-4);
 }

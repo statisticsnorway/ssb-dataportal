@@ -9,8 +9,8 @@ test.describe('Landing page', () => {
 
   test('Heading one', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByRole('heading')).toContainText(localization.info.landingPageTitle);
-    await expect(page.getByRole('heading')).toMatchAriaSnapshot(
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(localization.info.landingPageTitle);
+    await expect(page.getByRole('heading', { level: 1 })).toMatchAriaSnapshot(
       `- heading "${localization.info.landingPageTitle}" [level=1]`,
     );
   });
@@ -29,11 +29,13 @@ test.describe('Landing page', () => {
 
   test('Navigate from landingpage to variable definitions', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByRole('heading')).toContainText(localization.info.landingPageTitle);
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(localization.info.landingPageTitle);
     await page.getByRole('link', { name: localization.tabs.variableDefinitions }).click();
     await expect(page.getByRole('tab', { name: localization.tabs.variableDefinitions })).toBeVisible();
-    await expect(page.locator('#tab-_r_3_')).toContainText(localization.tabs.variableDefinitions);
+    await expect(page.getByRole('tab', { name: localization.tabs.variableDefinitions })).toContainText(
+      localization.tabs.variableDefinitions,
+    );
     await page.getByRole('link', { name: localization.statisticsNorway }).click();
-    await expect(page.getByRole('heading')).toContainText(localization.info.landingPageTitle);
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(localization.info.landingPageTitle);
   });
 });
