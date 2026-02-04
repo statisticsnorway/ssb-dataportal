@@ -1,7 +1,7 @@
 .background {
   background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass-dark-2.svg");
   background-origin: content-box;
-  background-position: right 5% top 30%;
+  background-position: right 5% top 38%;
   background-size: auto 650px;
   background-attachment: fixed;
   background-repeat: no-repeat;
@@ -15,6 +15,7 @@
   padding-bottom: var(--ds-size-4);
 }
 .headerCard {
+  margin-top: 2rem;
   margin-bottom: 2rem;
   background-color: var(--ssb-dark-color-2);
   max-width: 768px;
