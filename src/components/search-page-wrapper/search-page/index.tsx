@@ -31,7 +31,7 @@ const SearchPage: FC<SearchPageProps> = ({
     <>
       <section role='region' aria-label='Page header' className='container'>
         <header>
-          <Heading level={1} className={styles.hidden}>
+          <Heading level={1} className='ds-sr-only'>
             {header}
           </Heading>
         </header>

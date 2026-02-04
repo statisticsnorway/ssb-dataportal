@@ -56,13 +56,6 @@
   margin-bottom: 1rem;
 }
 
-.hidden {
-  visibility: hidden;
-  height: 0;
-  margin: 0;
-  padding: 0;
-}
-
 @media (min-width: 768px) {
   .searchHitsContainerWrapper {
     display: flex;

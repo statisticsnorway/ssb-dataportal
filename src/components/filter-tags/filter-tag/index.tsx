@@ -5,9 +5,10 @@ interface FilterTagProps {
   label: string | undefined;
   onClose?: () => void;
   isClearAll?: boolean;
+  filterCount?: number;
 }
 
-const FilterTag = ({ label, onClose, isClearAll }: FilterTagProps) => {
+export const FilterTag = ({ label, onClose, isClearAll, filterCount }: FilterTagProps) => {
   return (
     <li className={styles.listItem}>
       <Tag
@@ -17,7 +18,7 @@ const FilterTag = ({ label, onClose, isClearAll }: FilterTagProps) => {
         className={isClearAll ? styles.closeAllTag : styles.tagWithButton}
       >
         {label}
-
+        {filterCount !== undefined && ` (${filterCount})`}
         {onClose && (
           <Button
             className={isClearAll ? styles.closeAllButton : styles.closeButton}
@@ -31,5 +32,3 @@ const FilterTag = ({ label, onClose, isClearAll }: FilterTagProps) => {
     </li>
   );
 };
-
-export { FilterTag };

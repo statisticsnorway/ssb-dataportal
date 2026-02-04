@@ -45,6 +45,24 @@ const VariableDefinitionsServicePage = ({
     [variables, textFilter, subjectFilters, sortOption],
   );
 
+  /**
+   * Returns a memoized array of the counts per selected filter.
+   *
+   * @param displayedVariables - The full list of variable definitions currently being displayed.
+   * @param subjectFilters - Currently selected subject filters.
+   * @return An array of counts per filter, memoized for performance.
+   */
+  const filterCounts = useMemo(
+    () =>
+      Object.fromEntries(
+        subjectFilters.map((f) => [
+          f.value,
+          displayedVariables.filter((v) => v.subject_fields.some((sf) => sf.code === f.value)).length,
+        ]),
+      ),
+    [subjectFilters, displayedVariables],
+  );
+
   const toggleSubject = (filter: FilterItem) =>
     setSubjectFilters((prev) =>
       prev.some((item) => item.value === filter.value)
@@ -88,6 +106,7 @@ const VariableDefinitionsServicePage = ({
           onClose={toggleSubject}
           onClearAll={clearAll}
           onClearSearch={() => setTextFilter('')}
+          filterCounts={filterCounts}
         />
       }
       controlsContent={<SortFields sortOptions={sortTypes} sortValue={sortOption} onSortChange={setSortOption} />}

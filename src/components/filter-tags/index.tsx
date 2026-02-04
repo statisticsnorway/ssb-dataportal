@@ -9,6 +9,7 @@ interface TagsGroupProps {
   onClose?: (key: FilterItem) => void;
   onClearAll: () => void;
   onClearSearch?: () => void;
+  filterCounts?: Record<string, number>;
 }
 
 /**
@@ -23,7 +24,14 @@ interface TagsGroupProps {
  * @returns An unordered list (<ul>) of tags, optionally with close buttons and a "Remove All" button,
  * or null if no filters or search term exist.
  */
-const FilterTags = ({ activeFilters, searchTerm, onClose, onClearAll, onClearSearch }: TagsGroupProps) => {
+const FilterTags = ({
+  activeFilters,
+  searchTerm,
+  onClose,
+  onClearAll,
+  onClearSearch,
+  filterCounts,
+}: TagsGroupProps) => {
   const trimmedSearch = searchTerm?.trim();
   const hasSearch = !!trimmedSearch;
   const hasFilters = activeFilters.length > 0;
@@ -40,7 +48,11 @@ const FilterTags = ({ activeFilters, searchTerm, onClose, onClearAll, onClearSea
       )}
 
       {activeFilters.map((item) => (
-        <FilterTag key={item.value} label={item.label} onClose={onClose ? () => onClose(item) : undefined} />
+        <FilterTag
+          key={item.value}
+          label={`${item.label} (${filterCounts?.[item.value] ?? 0})`}
+          onClose={onClose ? () => onClose(item) : undefined}
+        />
       ))}
     </ul>
   );
