@@ -94,6 +94,7 @@ export const nb = {
       search: 'Søk',
       label: 'Filtrer på navn',
       tagLabel: 'Navn:',
+      inputId: 'søk-input',
     },
 
     filter: {

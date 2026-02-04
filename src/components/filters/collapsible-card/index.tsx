@@ -38,16 +38,12 @@ export function CollapsibleCard({
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   const toggleOpen = () => setIsOpen((prev) => !prev);
+  const panelId = `collapsible-${sanitizeId(heading)}`;
 
   return (
     <Card className={`${styles.filterCard} ${cardClassName} ${!isOpen ? styles.hidden : ''}`}>
       <Fieldset>
-        <Button
-          className={styles.toggleFilter}
-          onClick={toggleOpen}
-          aria-expanded={isOpen}
-          aria-controls={`collapsible-${sanitizeId(heading)}`}
-        >
+        <Button className={styles.toggleFilter} onClick={toggleOpen} aria-expanded={isOpen} aria-controls={panelId}>
           <FieldsetLegend className={styles.filterHeader}>{heading}</FieldsetLegend>
           {isOpen ? (
             <ChevronDownIcon title={localization.search.filter.close} className={styles.chevronUpDown} />
@@ -57,7 +53,7 @@ export function CollapsibleCard({
         </Button>
 
         {isOpen && (
-          <div id={`collapsible-${heading}`} className={`${styles.filterItems} ${contentClassName}`}>
+          <div id={panelId} className={`${styles.filterItems} ${contentClassName}`}>
             {children}
           </div>
         )}
