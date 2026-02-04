@@ -12,7 +12,7 @@ interface TextFilterProps {
 export function TextFilter({ label, searchTerm, setSearchTerm }: TextFilterProps) {
   return (
     <CollapsibleCard heading={localization.search.textFilter.label}>
-      <div className={styles.searchScope}>
+      <div className={styles.searchScope} aria-label={localization.search.label}>
         <Search>
           <Search.Input id='search-input' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
           <Search.Clear onClick={() => setSearchTerm('')} />
