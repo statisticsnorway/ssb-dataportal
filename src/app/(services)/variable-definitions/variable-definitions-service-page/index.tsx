@@ -64,6 +64,7 @@ const VariableDefinitionsServicePage = ({
 
   return (
     <SearchPage
+      header={localization.tabs.variableDefinitions}
       asideContent={
         <FiltersPanel>
           <TextFilter
