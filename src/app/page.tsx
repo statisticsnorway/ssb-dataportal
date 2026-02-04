@@ -1,4 +1,4 @@
-import { Card, Divider, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Card, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { ReactNode } from 'react';
 import { NavigationCard } from '@/components/navigation-card';
 import AlphabetIcon from '@/icons/alphabet.svg';
@@ -48,30 +48,31 @@ export default function Home() {
     );
 
   return (
-    <main className={`${styles.pageContainer} container`}>
-      <Card data-color='brand1' variant='tinted' className={styles.headerCard}>
-        <header className={styles.pageHeader}>
-          <Heading level={1} className={`${styles.pageTitle} heading12`}>
-            {localization.info.landingPageTitle}
-          </Heading>
-          <Paragraph data-size='md' className={`${styles.subTitle} heading345`}>
-            {localization.info.landingPageSubTitle}
-          </Paragraph>
-          <div className={styles.infoDetails}>
-            {detailsList.map((detail, index) => (
-              <Card key={index} className={styles.infoCard}>
-                <ClientDetails summary={detail.summary} content={detail.content} />
-              </Card>
-            ))}
-          </div>
-        </header>
-      </Card>
-      <Divider className={styles.customDivider} />
-      <nav className={styles.pageNavigation} id='menu'>
-        {Object.values(navigationItems).map((item) => (
-          <NavigationCard id={item.id} key={item.id} title={item.label} href={item.route} icon={item.icon} />
-        ))}
-      </nav>
-    </main>
+    <div className={styles.background}>
+      <main className={`${styles.pageContainer} container`}>
+        <Card data-color='brand1' variant='tinted' className={styles.headerCard}>
+          <header className={styles.pageHeader}>
+            <Heading level={1} data-size='xl' className={`${styles.pageTitle} heading12`}>
+              {localization.info.landingPageTitle}
+            </Heading>
+            <Paragraph data-size='md' className={`${styles.subTitle} heading345`}>
+              {localization.info.landingPageSubTitle}
+            </Paragraph>
+            <div className={styles.infoDetails}>
+              {detailsList.map((detail, index) => (
+                <Card key={index} className={styles.infoCard}>
+                  <ClientDetails summary={detail.summary} content={detail.content} />
+                </Card>
+              ))}
+            </div>
+          </header>
+        </Card>
+        <nav className={styles.pageNavigation} id='menu'>
+          {Object.values(navigationItems).map((item, index) => (
+            <NavigationCard id={item.id} key={item.id} title={item.label} href={item.route} icon={item.icon} />
+          ))}
+        </nav>
+      </main>
+    </div>
   );
 }

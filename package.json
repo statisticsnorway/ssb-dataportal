@@ -30,7 +30,7 @@
     "@digdir/designsystemet-react": "1.11.0",
     "@navikt/aksel-icons": "7.34.0",
     "@next/env": "16.1.1",
-    "@svgr/webpack": "^8.1.0",
+    "@svgr/webpack": "8.1.0",
     "@types/node": "25.0.3",
     "classnames": "2.5.1",
     "lodash": "4.17.23",
