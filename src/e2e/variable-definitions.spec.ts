@@ -17,8 +17,12 @@ test('Filter by subject field displays tags (listitem) with count and close butt
   await expect(page.getByRole('checkbox', { name: 'Sosiale forhold og' })).toBeVisible();
   await page.getByRole('checkbox', { name: 'Sosiale forhold og' }).check();
   await expect(page.getByRole('main')).toContainText('2 treff');
-  await expect(page.locator('span.ds-tag').filter({ hasText: 'Sosiale forhold og kriminalitet×' })).toBeVisible();
-  await page.locator('span.ds-tag').filter({ hasText: 'Sosiale forhold og kriminalitet×' }).getByRole('button').click();
+  await expect(page.locator('span.ds-tag').filter({ hasText: 'Sosiale forhold og kriminalitet ×' })).toBeVisible();
+  await page
+    .locator('span.ds-tag')
+    .filter({ hasText: 'Sosiale forhold og kriminalitet ×' })
+    .getByRole('button')
+    .click();
   await expect(page.getByRole('main')).toContainText('76 treff');
 });
 
@@ -27,9 +31,9 @@ test('Select more than one filter display a "remove all" tag', async ({ page }) 
   await expect(page.getByRole('main')).toContainText('76 treff');
   await page.getByRole('checkbox', { name: 'Arbeid og lønn' }).check();
   await page.getByRole('checkbox', { name: 'Befolkning' }).check();
-  await expect(page.locator('body')).toContainText('Fjern alle filter×');
+  await expect(page.locator('body')).toContainText('Fjern alle filter ×');
   await expect(page.getByRole('main')).toContainText('31 treff');
-  await page.getByRole('listitem').filter({ hasText: 'Fjern alle filter×' }).getByRole('button').click();
+  await page.getByRole('listitem').filter({ hasText: 'Fjern alle filter ×' }).getByRole('button').click();
   await expect(page.getByRole('main')).toContainText('76 treff');
 });
 
@@ -75,6 +79,6 @@ test('Filter by name remove all', async ({ page }) => {
   await page.getByRole('checkbox', { name: 'Befolkning' }).check();
   await page.getByRole('searchbox', { name: 'Filtrer på Navn' }).fill('Baderom');
   await expect(page.getByRole('main')).toContainText('1 treff');
-  await page.getByRole('listitem').filter({ hasText: 'Fjern alle filter×' }).getByRole('button').click();
+  await page.getByRole('listitem').filter({ hasText: 'Fjern alle filter ×' }).getByRole('button').click();
   await expect(page.getByRole('main')).toContainText('76 treff');
 });
