@@ -63,9 +63,9 @@ test('Sort variable definitions', async ({ page }) => {
 });
 test('Filter by name', async ({ page }) => {
   await page.goto(tabsData.VariableDefinitions.route);
-  await page.locator('#search-input').click();
+  await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).click();
   await page.getByRole('checkbox', { name: 'Befolkning' }).check();
-  await page.locator('#search-input').fill('Baderom');
+  await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).fill('Baderom');
   await expect(page.getByRole('main')).toContainText('1 treff');
   await page.getByRole('button', { name: 'Remove Navn: Baderom' }).click();
   await expect(page.getByRole('main')).toContainText('25 treff');
@@ -73,9 +73,9 @@ test('Filter by name', async ({ page }) => {
 
 test('Filter by name remove all', async ({ page }) => {
   await page.goto(tabsData.VariableDefinitions.route);
-  await page.locator('#search-input').click();
   await page.getByRole('checkbox', { name: 'Befolkning' }).check();
-  await page.locator('#search-input').fill('Baderom');
+  await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).click();
+  await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).fill('Baderom');
   await expect(page.getByRole('main')).toContainText('1 treff');
   await page.getByRole('button', { name: 'Remove Fjern alle filter' }).click();
   await expect(page.getByRole('main')).toContainText('76 treff');
