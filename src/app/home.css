@@ -6,7 +6,7 @@
 /* Tone down visibility until pages are ready for use*/
 #classificationsTab,
 #datasetsTab {
-  opacity: 100%;
+  opacity: 60%;
 }
 
 @media (min-width: 768px) {

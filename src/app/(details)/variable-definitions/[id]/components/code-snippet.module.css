@@ -40,21 +40,23 @@
 
 .codeWrapper {
   position: relative;
-  background: #f8f8f8;
   overflow: hidden;
   container-type: inline-size;
 }
 
 .copyCodeButton {
   position: absolute;
-  top: 0.5rem;
   right: 0.5rem;
   z-index: 1;
   color: var(--main-font-color);
 }
 
 .pre {
-  margin: 0;
+  background-color: #f8f8f8 !important;
+}
+
+.pre code {
+  font-size: clamp(0.7rem, 1.6vw, 0.95rem);
 }
 
 .pre,
@@ -62,14 +64,4 @@
 .pre span {
   font-family:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
-}
-
-.code {
-  display: block;
-}
-
-@container (max-width: 540px) {
-  .pre {
-    font-size: 0.73rem;
-  }
 }
