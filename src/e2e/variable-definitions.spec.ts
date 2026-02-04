@@ -17,12 +17,11 @@ test('Filter by subject field displays tags (listitem) with count and close butt
   await expect(page.getByRole('checkbox', { name: 'Sosiale forhold og' })).toBeVisible();
   await page.getByRole('checkbox', { name: 'Sosiale forhold og' }).check();
   await expect(page.getByRole('main')).toContainText('2 treff');
-  await expect(page.locator('span.ds-tag').filter({ hasText: 'Sosiale forhold og kriminalitet ×' })).toBeVisible();
-  await page
-    .locator('span.ds-tag')
-    .filter({ hasText: 'Sosiale forhold og kriminalitet ×' })
-    .getByRole('button')
-    .click();
+  const filterTag = page.getByRole('listitem').filter({
+    hasText: 'Sosiale forhold og kriminalitet (2)',
+  });
+  await expect(filterTag).toBeVisible();
+  await page.getByRole('button', { name: 'Remove Sosiale forhold og kriminalitet (2)' }).click();
   await expect(page.getByRole('main')).toContainText('76 treff');
 });
 
@@ -31,9 +30,9 @@ test('Select more than one filter display a "remove all" tag', async ({ page }) 
   await expect(page.getByRole('main')).toContainText('76 treff');
   await page.getByRole('checkbox', { name: 'Arbeid og lønn' }).check();
   await page.getByRole('checkbox', { name: 'Befolkning' }).check();
-  await expect(page.locator('body')).toContainText('Fjern alle filter ×');
+  await expect(page.getByText('Fjern alle filter')).toBeVisible();
   await expect(page.getByRole('main')).toContainText('31 treff');
-  await page.getByRole('listitem').filter({ hasText: 'Fjern alle filter ×' }).getByRole('button').click();
+  await page.getByRole('button', { name: 'Remove Fjern alle filter' }).click();
   await expect(page.getByRole('main')).toContainText('76 treff');
 });
 
@@ -62,7 +61,6 @@ test('Sort variable definitions', async ({ page }) => {
     page.getByText('Antall personer 18 år og over i husholdningenpers18plus_i_hushnrAntall personer'),
   ).toBeVisible();
 });
-
 test('Filter by name', async ({ page }) => {
   await page.goto(tabsData.VariableDefinitions.route);
   await page.getByRole('searchbox', { name: 'Filtrer på Navn' }).click();
