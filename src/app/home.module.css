@@ -23,14 +23,13 @@
 }
 
 .pageHeader {
-  padding: 0.5rem;
+  padding: 1rem 0.5rem;
 }
 
 .pageTitle {
   margin-bottom: 0.5rem;
   background-color: var(--ssb-dark-color-2);
   padding: 0 1rem;
-  font-size: var(--ds-heading-lg-font-size);
 }
 
 .subTitle {
@@ -66,7 +65,6 @@
     padding-left: 1rem;
   }
   .subTitle {
-    font-size: var(--ds-body-lg-font-size);
     padding-left: 1rem;
   }
   .headerCard {
