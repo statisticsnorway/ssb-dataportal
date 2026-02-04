@@ -43,14 +43,16 @@ export function CollapsibleCard({
   return (
     <Card className={`${styles.filterCard} ${cardClassName} ${!isOpen ? styles.hidden : ''}`}>
       <Fieldset>
-        <Button className={styles.toggleFilter} onClick={toggleOpen} aria-expanded={isOpen} aria-controls={panelId}>
-          <FieldsetLegend className={styles.filterHeader}>{heading}</FieldsetLegend>
-          {isOpen ? (
-            <ChevronDownIcon title={localization.search.filter.close} className={styles.chevronUpDown} />
-          ) : (
-            <ChevronUpIcon title={localization.search.filter.open} className={styles.chevronUpDown} />
-          )}
-        </Button>
+        <FieldsetLegend className={styles.filterHeader}>
+          <Button className={styles.toggleFilter} onClick={toggleOpen} aria-expanded={isOpen} aria-controls={panelId}>
+            {heading}
+            {isOpen ? (
+              <ChevronDownIcon title={localization.search.filter.close} className={styles.chevronUpDown} />
+            ) : (
+              <ChevronUpIcon title={localization.search.filter.open} className={styles.chevronUpDown} />
+            )}
+          </Button>
+        </FieldsetLegend>
 
         {isOpen && (
           <div id={panelId} className={`${styles.filterItems} ${contentClassName}`}>
