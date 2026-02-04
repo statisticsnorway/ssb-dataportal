@@ -1,5 +1,5 @@
 .background {
-  background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass-3.svg");
+  background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass-dark-2.svg");
   background-origin: content-box;
   background-position: right 5% top 30%;
   background-size: auto 650px;
@@ -52,14 +52,6 @@
   margin-bottom: 1rem;
 }
 
-.customDivider {
-  --dsc-divider-border-width: 10px;
-  --dsc-divider-border-color: #bdcacd;
-  max-width: 800px;
-  margin-left: 0;
-  padding-left: 0;
-}
-
 .pageNavigation {
   margin-bottom: 2rem;
   display: flex;
@@ -69,14 +61,6 @@
 }
 
 @media (min-width: 768px) {
-  .background {
-    background: linear-gradient(rgba(240, 248, 249, 0.7), rgba(240, 248, 249, 0.7)), url("/magnifying-glass-3.svg");
-    background-origin: content-box;
-    background-repeat: no-repeat;
-    background-position: right 5% top 30%;
-    background-size: auto 650px;
-    background-attachment: fixed;
-  }
   .pageTitle {
     font-size: var(--ds-heading-2xl-font-size);
     padding-left: 1rem;

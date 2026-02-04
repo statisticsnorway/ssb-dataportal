@@ -69,7 +69,6 @@ export default function Home() {
             </div>
           </header>
         </Card>
-        {/* <Divider className={styles.customDivider} />*/}
         <nav className={styles.pageNavigation} id='menu'>
           {Object.values(navigationItems).map((item, index) => (
             <NavigationCard id={item.id} key={index} title={item.label} href={item.route} icon={item.icon} />
