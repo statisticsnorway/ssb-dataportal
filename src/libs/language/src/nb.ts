@@ -91,7 +91,7 @@ export const nb = {
     searchForVariableDefinitions: 'Søk i variabeldefinisjoner',
 
     textFilter: {
-      label: 'Filtrer på Navn',
+      label: 'Filtrer på navn',
       tagLabel: 'Navn:',
     },
 
