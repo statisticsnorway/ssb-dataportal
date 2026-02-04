@@ -2,7 +2,7 @@
 
 import { Alert, Spinner } from '@digdir/designsystemet-react';
 import { useEffect, useMemo, useState } from 'react';
-import { FiltersPanel } from '@/components/filter';
+import { CheckboxFilter, FiltersPanel } from '@/components/filters';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { useSearchStateKlass } from '@/hooks/useSearchStateKlass';
@@ -10,7 +10,7 @@ import { getClassificationFamily } from '@/libs/data/classifications/classificat
 import { ClassificationFamilyResource, ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import { ClassificationType } from '@/types/classification';
-import { FilterGroup, FilterItem } from '@/types/filters';
+import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
 import { ClassificationSearchHit } from './classificationSearchHit';
 
@@ -38,46 +38,36 @@ const ClassificationsServicePage = ({
 
   const [selectedFamilies, setSelectedFamilies] = useState<FilterItem[]>([]);
 
-  // Default are all classificationtypes selected
-  const [selectedClassificationTypes, setSelectedClassificationTypes] = useState<FilterItem[]>([
+  //TODO: Very temporary solution to get it to work with the new checkbox component
+  const classificationTypes = [
     { label: ClassificationType.Klassifikasjon, value: ClassificationType.Klassifikasjon },
     { label: ClassificationType.Kodeliste, value: ClassificationType.Kodeliste },
-  ]);
+  ];
+
+  const classificationFamilyTypes = rawClassificationFamilies.map((f: ClassificationFamilyResource) => ({
+    label: f.name,
+    value: String(f.id),
+  }));
+
+  // Default are all classificationtypes selected
+  const [selectedClassificationTypes, setSelectedClassificationTypes] = useState<FilterItem[]>(classificationTypes);
 
   const totalPages = Math.ceil(classifications.length / PAGE_SIZE);
   const [currentPage, setCurrentPage] = useState(0);
 
-  /**
-   * Creating a list of filters
-   */
-  const filterGroups: FilterGroup[] = useMemo(() => {
-    const groups: FilterGroup[] = [];
+  const toggleClassificationType = (filter: FilterItem) =>
+    setSelectedClassificationTypes((prev) =>
+      prev.some((item) => item.value === filter.value)
+        ? prev.filter((c) => c.value !== filter.value)
+        : [...prev, filter],
+    );
 
-    // Type filter
-    groups.push({
-      filterHeading: 'Kodeverk type',
-      filters: [
-        { label: ClassificationType.Klassifikasjon, value: ClassificationType.Klassifikasjon },
-        { label: ClassificationType.Kodeverk, value: ClassificationType.Kodeliste },
-      ],
-      selectedItems: selectedClassificationTypes,
-      onFilterChange: setSelectedClassificationTypes,
-    });
-
-    // Only add this filter if it is possible to fetch clasification families
-    if (rawClassificationFamilies?.length > 0) {
-      groups.push({
-        filterHeading: 'Område',
-        filters: rawClassificationFamilies.map((f: ClassificationFamilyResource) => ({
-          label: f.name,
-          value: String(f.id),
-        })),
-        selectedItems: selectedFamilies,
-        onFilterChange: setSelectedFamilies,
-      });
-    }
-    return groups;
-  }, [selectedFamilies, selectedClassificationTypes]);
+  const toggleFamily = (filter: FilterItem) =>
+    setSelectedFamilies((prev) =>
+      prev.some((item) => item.value === filter.value)
+        ? prev.filter((c) => c.value !== filter.value)
+        : [...prev, filter],
+    );
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage - 1);
@@ -142,7 +132,22 @@ const ClassificationsServicePage = ({
 
   return (
     <SearchPage
-      asideContent={filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
+      asideContent={
+        <FiltersPanel>
+          <CheckboxFilter
+            filterHeading='Område'
+            filters={classificationTypes}
+            selectedItems={selectedClassificationTypes}
+            onFilterChange={toggleClassificationType}
+          />
+          <CheckboxFilter
+            filterHeading='Familie'
+            filters={classificationFamilyTypes}
+            selectedItems={selectedFamilies}
+            onFilterChange={toggleFamily}
+          />
+        </FiltersPanel>
+      }
       searchLabel='Søk i klassifikasjoner'
       infoContent={
         <Alert data-color={'warning'} className='infoAlert' data-size={'md'} style={{ marginBottom: '1rem' }}>

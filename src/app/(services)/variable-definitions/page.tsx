@@ -33,12 +33,5 @@ export default async function VariableDefinitions() {
 
   const subjectFields = await subjectFieldsPromise;
 
-  return (
-    <VariableDefinitionsServicePage
-      rawHits={data}
-      isLoading={false}
-      errorMessage={errorMessage}
-      subjectFields={subjectFields}
-    />
-  );
+  return <VariableDefinitionsServicePage variables={data} errorMessage={errorMessage} subjectFields={subjectFields} />;
 }

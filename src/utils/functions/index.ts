@@ -1,7 +1,6 @@
 import { ClassificationResource, ClassificationResourceFromJSONTyped } from '@/libs/data-access/klass';
-import { RenderedView, VariableStatus } from '@/libs/data-access/variable-definitions/internal';
+import { VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
-import { FilterItem } from '@/types/filters';
 import { Item } from '@/types/item';
 
 /**
@@ -97,29 +96,8 @@ export const buildTagsLabel = (label?: string, count?: number) => {
   return `${label} (${count ?? 0})`;
 };
 
-//TODO: Add test
-//TODO: Make generic for reusability
-//TODO: Add docstring
-export const countHits = (selected: FilterItem[], raw: RenderedView[]) => {
-  if (!Array.isArray(raw)) return {};
-  if (!Array.isArray(selected)) return {};
-
-  const counts: Record<string, number> = {};
-  selected.forEach((def) => {
-    counts[def.value] = 0;
-  });
-
-  raw.forEach((hit) => {
-    if (!Array.isArray(hit.subject_fields)) return;
-
-    selected.forEach((def) => {
-      const match = hit.subject_fields.some((f) => f?.code === def.value);
-
-      if (match) {
-        counts[def.value]++;
-      }
-    });
-  });
-
-  return counts;
-};
+export const sanitizeId = (str: string) =>
+  str
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-_]/g, '');

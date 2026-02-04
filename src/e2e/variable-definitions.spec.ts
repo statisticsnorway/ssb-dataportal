@@ -13,11 +13,14 @@ test.describe('Navigation variable definitions', () => {
 test('Filter by subject field displays tags (listitem) with count and close button (x)', async ({ page }) => {
   await page.goto(tabsData.VariableDefinitions.route);
   await expect(page.getByRole('main')).toContainText('76 treff');
-  await expect(page.locator('[id="filter-Statistikkområde"]')).toContainText('Sosiale forhold og kriminalitet');
+  await expect(page.getByRole('checkbox', { name: 'Sosiale forhold og' })).toBeVisible();
   await page.getByRole('checkbox', { name: 'Sosiale forhold og' }).check();
   await expect(page.getByRole('main')).toContainText('2 treff');
-  await expect(page.getByText('Sosiale forhold og kriminalitet (2)x')).toBeVisible();
-  await page.getByRole('button', { name: 'x', exact: true }).click();
+  const filterTag = page.getByRole('listitem').filter({
+    hasText: 'Sosiale forhold og kriminalitet (2)',
+  });
+  await expect(filterTag).toBeVisible();
+  await page.getByRole('button', { name: 'Remove Sosiale forhold og kriminalitet (2)' }).click();
   await expect(page.getByRole('main')).toContainText('76 treff');
 });
 
@@ -26,9 +29,9 @@ test('Select more than one filter display a "remove all" tag', async ({ page }) 
   await expect(page.getByRole('main')).toContainText('76 treff');
   await page.getByRole('checkbox', { name: 'Arbeid og lønn' }).check();
   await page.getByRole('checkbox', { name: 'Befolkning' }).check();
-  await expect(page.locator('body')).toContainText('Fjern alle filterx');
+  await expect(page.getByText('Fjern alle filter')).toBeVisible();
   await expect(page.getByRole('main')).toContainText('31 treff');
-  await page.getByRole('listitem').filter({ hasText: 'Fjern alle filterx' }).getByRole('button').click();
+  await page.getByRole('button', { name: 'Remove Fjern alle filter' }).click();
   await expect(page.getByRole('main')).toContainText('76 treff');
 });
 
@@ -56,4 +59,23 @@ test('Sort variable definitions', async ({ page }) => {
   await expect(
     page.getByText('Antall personer 18 år og over i husholdningenpers18plus_i_hushnrAntall personer'),
   ).toBeVisible();
+});
+test('Filter by name', async ({ page }) => {
+  await page.goto(tabsData.VariableDefinitions.route);
+  await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).click();
+  await page.getByRole('checkbox', { name: 'Befolkning' }).check();
+  await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).fill('Baderom');
+  await expect(page.getByRole('main')).toContainText('1 treff');
+  await page.getByRole('button', { name: 'Remove Navn: Baderom' }).click();
+  await expect(page.getByRole('main')).toContainText('25 treff');
+});
+
+test('Filter by name remove all', async ({ page }) => {
+  await page.goto(tabsData.VariableDefinitions.route);
+  await page.getByRole('checkbox', { name: 'Befolkning' }).check();
+  await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).click();
+  await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).fill('Baderom');
+  await expect(page.getByRole('main')).toContainText('1 treff');
+  await page.getByRole('button', { name: 'Remove Fjern alle filter' }).click();
+  await expect(page.getByRole('main')).toContainText('76 treff');
 });

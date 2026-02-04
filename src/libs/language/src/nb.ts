@@ -90,6 +90,13 @@ export const nb = {
     searchForDatasets: 'Søk i datasett',
     searchForVariableDefinitions: 'Søk i variabeldefinisjoner',
 
+    textFilter: {
+      search: 'Søk',
+      label: 'Filtrer på navn',
+      tagLabel: 'Navn:',
+      inputId: 'søk-input',
+    },
+
     filter: {
       close: 'Lukk filter',
       label: 'Filter',

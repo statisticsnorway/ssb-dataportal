@@ -1,128 +1,124 @@
 'use client';
 
-import { Spinner } from '@digdir/designsystemet-react';
 import { useMemo, useState } from 'react';
-import { FiltersPanel } from '@/components/filter/filters-panel';
+import { FilterTags } from '@/components/filter-tags';
+import { CheckboxFilter } from '@/components/filters/checkbox-filter';
+import { FiltersPanel } from '@/components/filters/filters-panel';
+import { TextFilter } from '@/components/filters/text-filter';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
-import { TagsGroup } from '@/components/tags-group';
-import { useSearchStateVardef } from '@/hooks/useSearchStateVardef';
+import { SortFields } from '@/components/sort-fields';
 import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
-import { localization } from '@/libs/language';
-import { FilterGroup, FilterItem } from '@/types/filters';
-import { SortTypes } from '@/types/sort';
-import { buildTagsLabel, countHits } from '@/utils/functions';
+import { localization } from '@/libs/language/src/localization';
+import { FilterItem } from '@/types/filters';
+import { SortTypes, sortTypes } from '@/types/sort';
+import { filterAndSortVariables } from '@/utils/filterAndSort';
 import { VardefSearchHit } from '../components/vardefSearchHit';
 
 interface VariableDefinitionsServicePageProps {
-  rawHits: RenderedView[];
-  isLoading?: boolean;
+  variables: RenderedView[];
   errorMessage: string | null;
   subjectFields: CodeItem[];
 }
 
 const VariableDefinitionsServicePage = ({
-  rawHits,
-  isLoading,
+  variables,
   errorMessage,
   subjectFields,
 }: VariableDefinitionsServicePageProps) => {
-  if (isLoading) {
-    return <Spinner aria-label={localization.loadingVariableDefinitions} />;
-  }
-  const [selectedFilters, setSelectedFilters] = useState<FilterItem[]>([]);
+  const [sortOption, setSortOption] = useState<SortTypes>('titleAsc');
+  const [subjectFilters, setSubjectFilters] = useState<FilterItem[]>([]);
+  const [textFilter, setTextFilter] = useState<string>('');
 
-  const selectedItemsWithCounts = useMemo(() => {
-    const hitCountsByCode = countHits(selectedFilters, rawHits);
+  /**
+   * Returns a memoized array of the variable definitions to display after applying text and subject filters, as well as sorting.
+   *
+   * @param variables     - The full list of variable definitions.
+   * @param subjectFilters - Currently selected subject filters.
+   * @param textFilter     - Current text filter input.
+   * @param sortOption     - Currently selected sort option.
+   * @return An array of sorted RenderedView objects, memoized for performance.
+   */
+  const displayedVariables = useMemo(
+    () => filterAndSortVariables(variables, textFilter, subjectFilters, sortOption),
+    [variables, textFilter, subjectFilters, sortOption],
+  );
 
-    return selectedFilters.map((item: FilterItem) => ({
-      ...item,
-      count: hitCountsByCode[item.value] ?? 0,
-    }));
-  }, [rawHits, selectedFilters]);
+  /**
+   * Returns a memoized array of the counts per selected filter.
+   *
+   * @param displayedVariables - The full list of variable definitions currently being displayed.
+   * @param subjectFilters - Currently selected subject filters.
+   * @return An array of counts per filter, memoized for performance.
+   */
+  const filterCounts = useMemo(
+    () =>
+      Object.fromEntries(
+        subjectFilters.map((f) => [
+          f.value,
+          displayedVariables.filter((v) => v.subject_fields.some((sf) => sf.code === f.value)).length,
+        ]),
+      ),
+    [subjectFilters, displayedVariables],
+  );
 
-  const subjectFilters = useMemo(
+  const toggleSubject = (filter: FilterItem) =>
+    setSubjectFilters((prev) =>
+      prev.some((item) => item.value === filter.value)
+        ? prev.filter((c) => c.value !== filter.value)
+        : [...prev, filter],
+    );
+
+  const clearAll = () => {
+    setTextFilter('');
+    setSubjectFilters([]);
+  };
+
+  const subjectFilterItems = useMemo(
     () => subjectFields.map((f) => ({ label: String(f.name), value: String(f.code) })),
     [subjectFields],
   );
 
-  /**
-   * Returns a memoized array of filter groups used in the FiltersPanel.
-   *
-   * @param subjectFilters - Array of filters for the subject area.
-   * @param selectedItemsWithCounts - Currently selected filter items with their counts.
-   * @param setSelectedFilters  - Callback to update selected filters.
-   * @return An array of FilterGroup objects, memoized for performance.
-   */
-  const filterGroups: FilterGroup[] = useMemo(
-    () => [
-      {
-        filterHeading: localization.subjectArea,
-        filters: subjectFilters,
-        selectedItems: selectedItemsWithCounts,
-        onFilterChange: setSelectedFilters,
-      },
-    ],
-    [subjectFields, selectedItemsWithCounts],
-  );
-
-  /**
-   * Returns a memoized array of hits filtered by the selected filters.
-   *
-   * @param rawHits - The full array of hits to filter.
-   * @param selectedFilters - Array of currently selected FilterItem objects.
-   * @return An array of hits that match the selected filters; if none are selected, returns all hits.
-   */
-  const filteredHits = useMemo(() => {
-    if (!selectedFilters.length) return rawHits;
-
-    const selectedCodes = selectedFilters.map((s) => s.value);
-
-    return rawHits.filter((hit) => hit.subject_fields?.some((f) => f.code != null && selectedCodes.includes(f.code)));
-  }, [rawHits, selectedFilters]);
-
-  const { hits, sortKey, setSortKey, sortTypes } = useSearchStateVardef(filteredHits);
-
   return (
     <SearchPage
-      asideContent={filterGroups ? <FiltersPanel filterGroups={filterGroups} /> : null}
-      searchLabel={localization.search.searchForVariableDefinitions}
-      sortOptions={sortTypes}
-      sortValue={sortKey}
-      onSortChange={(key: SortTypes) => setSortKey(key)}
-      totalHits={hits.length}
       header={localization.tabs.variableDefinitions}
+      asideContent={
+        <FiltersPanel>
+          <TextFilter
+            label={localization.search.textFilter.label}
+            searchTerm={textFilter}
+            setSearchTerm={setTextFilter}
+          />
+          <CheckboxFilter
+            filterHeading={localization.subjectArea}
+            filters={subjectFilterItems}
+            selectedItems={subjectFilters}
+            onFilterChange={toggleSubject}
+          />
+        </FiltersPanel>
+      }
+      totalHits={displayedVariables.length}
       infoContent={
-        <TagsGroup
-          maxTags={subjectFields.length}
-          closeButton={true}
-          onClose={(key) => {
-            const newSelected = selectedFilters.filter((f) => f.value !== key);
-            setSelectedFilters(newSelected);
-          }}
-          onClearAll={{
-            text: localization.button.removeFilter,
-            action: () => setSelectedFilters([]),
-          }}
-          tagData={
-            new Map(
-              filterGroups.flatMap((group) =>
-                group.selectedItems.map((item) => [item.value, buildTagsLabel(item.label, item.count)]),
-              ),
-            )
-          }
+        <FilterTags
+          activeFilters={subjectFilters}
+          searchTerm={textFilter}
+          onClose={toggleSubject}
+          onClearAll={clearAll}
+          onClearSearch={() => setTextFilter('')}
+          filterCounts={filterCounts}
         />
       }
+      controlsContent={<SortFields sortOptions={sortTypes} sortValue={sortOption} onSortChange={setSortOption} />}
       searchResult={
         <>
           {errorMessage ? (
             <div>{errorMessage}</div>
           ) : (
             <SearchHitContainer
-              searchHits={hits}
+              searchHits={displayedVariables}
               renderHit={(hit) => <VardefSearchHit key={hit.id} variableDefinition={hit as RenderedView} />}
-              noSearchHits={hits.length === 0}
+              noSearchHits={displayedVariables.length === 0}
               onPageChange={function (): void {
                 throw new Error('Function not implemented.');
               }}

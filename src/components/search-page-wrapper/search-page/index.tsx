@@ -1,22 +1,21 @@
+'use client';
+
 import { Heading } from '@digdir/designsystemet-react';
 import { FC, ReactElement, ReactNode } from 'react';
-import { SortFields } from '@/components/sort-fields';
 import { localization } from '@/libs/language';
 import { SortTypes } from '@/types/sort';
 import styles from './search-page.module.css';
 
 interface SearchPageProps {
-  placeholder?: string;
-  value?: string;
-  onSearch?: (value: string) => void;
   infoContent?: ReactNode;
   asideContent?: ReactNode;
   searchResult?: ReactElement;
+  controlsContent?: ReactNode;
+  totalHits?: number;
   searchLabel?: string;
   sortOptions?: ReadonlyArray<SortTypes>;
   sortValue?: SortTypes;
   onSortChange?: (key: SortTypes) => void;
-  totalHits?: number;
   header?: string;
 }
 
@@ -24,9 +23,7 @@ const SearchPage: FC<SearchPageProps> = ({
   infoContent,
   asideContent,
   searchResult,
-  sortOptions,
-  sortValue,
-  onSortChange,
+  controlsContent,
   totalHits,
   header,
 }) => {
@@ -34,7 +31,9 @@ const SearchPage: FC<SearchPageProps> = ({
     <>
       <section role='region' aria-label='Page header' className='container'>
         <header>
-          <Heading level={1}>{header}</Heading>
+          <Heading level={1} className='ds-sr-only'>
+            {header}
+          </Heading>
         </header>
       </section>
       <div className={`${styles.pageContainer} container`}>
@@ -54,9 +53,7 @@ const SearchPage: FC<SearchPageProps> = ({
                   ? localization.search.noHits
                   : `${totalHits} ${localization.search.hits}`}
               </p>
-              {sortOptions && sortValue && onSortChange && (
-                <SortFields sortOptions={sortOptions} sortValue={sortValue} onSortChange={onSortChange} />
-              )}
+              {controlsContent}
             </div>
             {searchResult}
           </main>

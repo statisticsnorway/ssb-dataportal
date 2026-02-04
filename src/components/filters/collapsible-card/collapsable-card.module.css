@@ -4,11 +4,7 @@
 }
 
 .filterCard {
-  padding: 0 0 1rem 0;
-}
-
-.checkbox {
-  padding: 0.5rem 1rem;
+  padding: 0 0;
 }
 
 .toggleFilter {
@@ -27,4 +23,8 @@
   color: var(--text-color-primary);
   font-size: 2rem;
   margin-left: 0.5rem;
+}
+
+.filterItems {
+  padding: 0.5rem 0.5rem;
 }
