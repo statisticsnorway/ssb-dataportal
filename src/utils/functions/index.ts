@@ -95,3 +95,9 @@ export function getDevEnvironmentName(): string | undefined {
 export const buildTagsLabel = (label?: string, count?: number) => {
   return `${label} (${count ?? 0})`;
 };
+
+export const sanitizeId = (str: string) =>
+  str
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-_]/g, '');

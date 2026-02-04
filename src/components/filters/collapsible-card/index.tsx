@@ -2,6 +2,7 @@ import { Button, Card, Fieldset, FieldsetLegend } from '@digdir/designsystemet-r
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { ReactNode, useState } from 'react';
 import { localization } from '@/libs/language/src/localization';
+import { sanitizeId } from '@/utils/functions';
 import styles from './collapsable-card.module.css';
 
 interface CollapsibleCardProps {
@@ -45,7 +46,7 @@ export function CollapsibleCard({
           className={styles.toggleFilter}
           onClick={toggleOpen}
           aria-expanded={isOpen}
-          aria-controls={`collapsible-${heading}`}
+          aria-controls={`collapsible-${sanitizeId(heading)}`}
         >
           <FieldsetLegend className={styles.filterHeader}>{heading}</FieldsetLegend>
           {isOpen ? (
