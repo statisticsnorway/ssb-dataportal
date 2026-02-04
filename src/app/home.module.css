@@ -10,13 +10,12 @@
   width: 100%;
 }
 .pageContainer {
-  min-height: 60vh;
-  flex: 1;
-  margin-bottom: var(--ds-size-4);
+  padding-top: 3rem;
+  min-height: 66vh;
+  padding-bottom: var(--ds-size-4);
 }
 
 .headerCard {
-  margin-top: 3rem;
   margin-bottom: 2rem;
   background-color: var(--ssb-dark-color-2);
   max-width: 768px;
@@ -87,7 +86,7 @@
     padding-left: 1rem;
   }
   .headerCard {
-    max-width: 900px;
+    max-width: 930px;
     width: 100%;
   }
   .pageHeader {
