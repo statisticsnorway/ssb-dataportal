@@ -23,10 +23,8 @@ const test = base.extend<{
       const link = page.getByRole('link', { name: variable.name });
       await expect(link).toBeVisible({ timeout: 5000 });
 
-      await Promise.all([
-        page.waitForURL(new RegExp(`${tabsData.VariableDefinitions.route}/${variable.short_name}`)),
-        link.click(),
-      ]);
+      await link.click();
+      await expect(page).toHaveURL(new RegExp(`${tabsData.VariableDefinitions.route}/${variable.short_name}`));
     };
     await use(goToVariable);
   },
