@@ -142,6 +142,6 @@ export const nb = {
       'Denne siden vil i fremtiden inneholde vår nye løsning for beskrivelser av datasett. Utviklingen starter for fullt i 2026.',
     classificationsPrototypeIntro: 'Under utvikling:',
     classificationsPrototypeInfo:
-      'En ny og forbedret visning av Klass lanseres ila 2026. Frem til lansering må du bruke dagens løsning på ssb.no/klass.',
+      'En ny og forbedret visning av Klass lanseres ila 2026. Frem til lansering må du bruke dagens løsning på',
   },
 };

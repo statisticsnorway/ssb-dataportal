@@ -1,9 +1,15 @@
-import { Alert } from '@digdir/designsystemet-react';
+import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { localization } from '@/libs/language';
 
 export default async function Datasets() {
-  const pageContent = <div>{localization.info.datasetPrototypeIntro}</div>;
+  const pageContent = (
+    <Alert data-color='info'>
+      <Heading>{localization.info.datasetPrototypeIntro}</Heading>
+      <Paragraph>{localization.info.datasetProtoypeInfo}</Paragraph>
+    </Alert>
+  );
+
   return (
     <SearchPage
       header={localization.tabs.datasets}
