@@ -97,7 +97,7 @@ export async function getRenderedVariableDefinition(shortName: string): Promise<
       console.error(`Received data which could not be decoded to RenderedView: ${rawData}`);
       throw Error('Could not decode data');
     });
-    console.log(`Fetched variable definition ID: ${data?.short_name} short name: ${data?.short_name}`);
+    console.log(`Fetched variable definition ID: ${data?.id} short name: ${data?.short_name}`);
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
       console.error(`Request to ${error.response.url} returned status code ${error.response.status}`);
