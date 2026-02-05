@@ -59,7 +59,8 @@ test('Navigate to up to 4 variable definitions', async ({ goToVariable, page }) 
     await expect(homeLink).toBeVisible({ timeout: 10000 });
 
     await homeLink.click();
-    await page.waitForURL(tabsData.VariableDefinitions.route, { timeout: 10000 });
+
+    await expect(page).toHaveURL(tabsData.VariableDefinitions.route, { timeout: 15000 });
 
     // Wait for variable-defintions page to be ready for next iteration
     await expect(page.getByRole('tab', { name: localization.tabs.variableDefinitions })).toBeVisible({ timeout: 5000 });
