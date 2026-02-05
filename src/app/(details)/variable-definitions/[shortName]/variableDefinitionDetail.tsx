@@ -5,6 +5,7 @@ import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { tabsData } from '@/app/(services)/tabs';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
+import { ExternalLink } from '@/components/external-link';
 import { TextField } from '@/components/text-field';
 import { VardefHeading } from '@/components/vardef-heading/';
 import { useClipboard } from '@/hooks/useClipboard';
@@ -81,14 +82,11 @@ export default function VariableDefinitionDetail({
                   <img src='/python-logo-only.svg' alt='' className={styles.pythonIcon} />{' '}
                   {localization.variableDefinition.fetchWith}
                 </span>
-                <a
-                  href='https://pypi.org/project/dapla-toolbelt-metadata/'
-                  target='_blank'
-                  rel='noreferrer'
+                <ExternalLink
                   className={styles.titleLink}
-                >
-                  dapla-toolbelt-metadata
-                </a>
+                  href='https://pypi.org/project/dapla-toolbelt-metadata/'
+                  linkText='dapla-toolbelt-metadata (pypi.org)'
+                />
               </div>
             }
             code={[

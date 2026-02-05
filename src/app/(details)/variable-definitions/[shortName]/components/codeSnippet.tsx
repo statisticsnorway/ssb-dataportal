@@ -5,6 +5,7 @@ import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { ExternalLink } from '@/components/external-link';
 import { useClipboard } from '@/hooks/useClipboard';
 import { localization } from '@/libs/language';
 import styles from './code-snippet.module.css';
@@ -62,19 +63,14 @@ export function CodeSnippet({
       <footer className={styles.footer}>
         {daplaLabVardefUrl && (
           <>
-            <a href={daplaLabVardefUrl} target='_blank' rel='noopener noreferrer'>
-              Dapla Lab
-            </a>
+            <ExternalLink linkText='Dapla Lab' href={daplaLabVardefUrl} />
             <span className={styles.divider}>•</span>
           </>
         )}
-        <a
+        <ExternalLink
+          linkText={localization.documentation}
           href='https://manual.dapla.ssb.no/statistikkere/vardef-toolbelt.html'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          {localization.documentation}
-        </a>
+        />
       </footer>
     </section>
   );
