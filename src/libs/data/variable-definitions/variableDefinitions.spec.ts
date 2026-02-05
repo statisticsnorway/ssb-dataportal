@@ -86,5 +86,15 @@ describe('vardef data fetching', () => {
           'Multiple variable definitions found for shortName="antall"',
         );
       });
+      it('throws an error if no variable definitions are returned', async () => {
+        process.env.VARDEF_USE_STATIC_DATA = 'false';
+        process.env.METADATA_CATALOG_JWT_TOKEN = 'my-cool-token';
+
+        jest.spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions').mockResolvedValue([]);
+
+        await expect(getRenderedVariableDefinition('antall')).rejects.toThrow(
+          'No variable definition found for shortName="antall"',
+        );
+      });
     });
 });
