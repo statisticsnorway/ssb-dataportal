@@ -1,10 +1,9 @@
 'use server';
 
 import { localization } from '@/libs/language';
-import { getVariableDefinitionById, getVariableDefinitions } from '@/utils/mock-data';
+import { getVariableDefinitionByShortName, getVariableDefinitions } from '@/utils/mock-data';
 import { getEncodedJwt } from '../../auth/jwt';
 import {
-  GetVariableDefinitionByIdRequest,
   ListVariableDefinitionsRequest,
   VariableDefinitionsApi,
 } from '../../data-access/variable-definitions/internal/apis';
@@ -72,10 +71,10 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
   return data;
 }
 
-export async function getRenderedVariableDefinition(id: string): Promise<RenderedView> {
+export async function getRenderedVariableDefinition(shortName: string): Promise<RenderedView> {
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
     console.warn('Using static mock data for Vardef');
-    const variable = getVariableDefinitionById(id);
+    const variable = getVariableDefinitionByShortName(shortName);
     if (!variable) return Promise.reject('Not found');
     return variable;
   }
@@ -84,21 +83,27 @@ export async function getRenderedVariableDefinition(id: string): Promise<Rendere
   if (!api) return Promise.reject('Could not access Vardef API!');
 
   const params = {
-    variableDefinitionId: id,
+    shortName,
     acceptLanguage: localization.getLanguage() as SupportedLanguages,
     render: true,
-  } satisfies GetVariableDefinitionByIdRequest;
-  var data: RenderedView | undefined = undefined;
+  } satisfies ListVariableDefinitionsRequest;
 
   try {
-    data = await api.getVariableDefinitionById(params).then((rawData) => {
-      if (instanceOfRenderedView(rawData)) {
-        return rawData;
-      }
-      console.error(`Received data which could not be decoded to RenderedView: ${rawData}`);
-      throw Error('Could not decode data');
-    });
-    console.log(`Fetched variable definition ID: ${data?.short_name} short name: ${data?.short_name}`);
+    const rawDataArray = await api.listVariableDefinitions(params);
+
+    if (rawDataArray.length === 0) {
+      throw new Error(`No variable definition found for shortName="${shortName}"`);
+    }
+    if (rawDataArray.length > 1) {
+      throw new Error(`Multiple variable definitions found for shortName="${shortName}"`);
+    }
+    const data = rawDataArray[0];
+    if (!instanceOfRenderedView(data)) {
+      console.error(`Received data which could not be decoded to RenderedView:`, data);
+      throw new Error('Could not decode data');
+    }
+    console.log(`Fetched variable definition ID: ${data.id} short name: ${data.short_name}`);
+    return data;
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
       console.error(`Request to ${error.response.url} returned status code ${error.response.status}`);
@@ -107,6 +112,4 @@ export async function getRenderedVariableDefinition(id: string): Promise<Rendere
     }
     throw error;
   }
-  if (!data) return Promise.reject('Could not retrieve variable');
-  return data;
 }

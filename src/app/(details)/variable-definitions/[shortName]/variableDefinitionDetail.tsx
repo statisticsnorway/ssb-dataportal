@@ -37,7 +37,7 @@ export default function VariableDefinitionDetail({
   }
 
   const homeUrl = { text: localization.variableDefinition.labelPlural, href: tabsData.VariableDefinitions.route };
-  const breadcrumbList = variableDefinition.id
+  const breadcrumbList = variableDefinition.short_name
     ? ([{ text: variableDefinition.name, href: '' }] as BreadcrumbType[])
     : [];
   const references = nonEmpty(referencesItems(variableDefinition));

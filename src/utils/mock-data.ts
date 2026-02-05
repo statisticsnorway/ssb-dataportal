@@ -14,8 +14,8 @@ import { parseClassification } from './functions';
 export function getVariableDefinitions(): Array<RenderedView> {
   return variableDefinitionsJson.map(RenderedViewFromJSON);
 }
-export function getVariableDefinitionById(id: string | number): RenderedView | undefined {
-  return getVariableDefinitions().find((v) => String(v.id) === String(id));
+export function getVariableDefinitionByShortName(shortName: string | number): RenderedView | undefined {
+  return getVariableDefinitions().find((v) => String(v.short_name) === String(shortName));
 }
 
 export function getClassification(id: number): ClassificationResource | undefined {
