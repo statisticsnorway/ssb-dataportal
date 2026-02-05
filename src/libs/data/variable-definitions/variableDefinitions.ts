@@ -1,10 +1,9 @@
 'use server';
 
 import { localization } from '@/libs/language';
-import { getVariableDefinitionById, getVariableDefinitions } from '@/utils/mock-data';
+import { getVariableDefinitionByShortName, getVariableDefinitions } from '@/utils/mock-data';
 import { getEncodedJwt } from '../../auth/jwt';
 import {
-  GetVariableDefinitionByIdRequest,
   ListVariableDefinitionsRequest,
   VariableDefinitionsApi,
 } from '../../data-access/variable-definitions/internal/apis';
@@ -72,10 +71,10 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
   return data;
 }
 
-export async function getRenderedVariableDefinition(id: string): Promise<RenderedView> {
+export async function getRenderedVariableDefinition(shortName: string): Promise<RenderedView> {
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
     console.warn('Using static mock data for Vardef');
-    const variable = getVariableDefinitionById(id);
+    const variable = getVariableDefinitionByShortName(shortName);
     if (!variable) return Promise.reject('Not found');
     return variable;
   }
@@ -84,14 +83,14 @@ export async function getRenderedVariableDefinition(id: string): Promise<Rendere
   if (!api) return Promise.reject('Could not access Vardef API!');
 
   const params = {
-    variableDefinitionId: id,
+    shortName: shortName,
     acceptLanguage: localization.getLanguage() as SupportedLanguages,
     render: true,
-  } satisfies GetVariableDefinitionByIdRequest;
+  } satisfies ListVariableDefinitionsRequest;
   var data: RenderedView | undefined = undefined;
 
   try {
-    data = await api.getVariableDefinitionById(params).then((rawData) => {
+    data = await api.listVariableDefinitions(params).then((rawData) => {
       if (instanceOfRenderedView(rawData)) {
         return rawData;
       }

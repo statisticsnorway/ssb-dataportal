@@ -14,7 +14,7 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
   return (
     <Card>
       <VardefHeading
-        href={`${tabsData.VariableDefinitions.route}/${variableDefinition.id}`}
+        href={`${tabsData.VariableDefinitions.route}/${variableDefinition.short_name}`}
         headingProps={{ 'data-size': 'md', level: 2 }}
         variableDefinition={variableDefinition}
       ></VardefHeading>
