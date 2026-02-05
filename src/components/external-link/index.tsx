@@ -3,6 +3,7 @@ import { Link } from '@digdir/designsystemet-react';
 interface ExternalLinkProps {
   linkText: string;
   href: string;
+  className?: string;
 }
 
 /**
@@ -13,9 +14,9 @@ interface ExternalLinkProps {
  * @param linkText - Text to display for the link.
  * @returns A `Link` component rendering the given text and URL.
  */
-const ExternalLink = ({ linkText, href }: ExternalLinkProps) => {
+const ExternalLink = ({ linkText, href, className }: ExternalLinkProps) => {
   return (
-    <Link rel='noreferrer' href={href}>
+    <Link rel='noreferrer' href={href} className={className}>
       {linkText}
     </Link>
   );
