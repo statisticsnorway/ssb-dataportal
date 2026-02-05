@@ -1,10 +1,9 @@
-import { Heading, HeadingProps } from '@digdir/designsystemet-react';
-import Link from 'next/link';
+import { Heading, HeadingProps, Link } from '@digdir/designsystemet-react';
 import { JSX } from 'react';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import styles from './vardefHeading.module.css';
 
-const withLink = ({ href, children }: { href: string | object; children: JSX.Element }) => {
+const withLink = ({ href, children }: { href: string; children: JSX.Element }) => {
   return (
     <Link href={href} className={styles.vardefHeadingLink}>
       {children}
@@ -22,11 +21,11 @@ const withLink = ({ href, children }: { href: string | object; children: JSX.Ele
  * @returns
  */
 const VardefHeading = ({
-  href = undefined,
+  href,
   headingProps,
   variableDefinition,
 }: {
-  href?: string | object | undefined;
+  href?: string;
   headingProps: HeadingProps;
   variableDefinition: RenderedView;
 }) => {
