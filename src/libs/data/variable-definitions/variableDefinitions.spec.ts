@@ -68,11 +68,23 @@ describe('vardef data fetching', () => {
         process.env.VARDEF_USE_STATIC_DATA = 'false';
         process.env.METADATA_CATALOG_JWT_TOKEN = 'my-cool-token';
 
-        jest.spyOn(VariableDefinitionsApi.prototype, 'getVariableDefinitionById').mockResolvedValue(staticDefs[5]);
+        jest.spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions').mockResolvedValue([staticDefs[5]]);
 
         getRenderedVariableDefinition('antall').then((result) => {
           expect(result).toEqual(staticDefs[5]);
         });
+      });
+      it('throws an error if multiple variable definitions are returned', async () => {
+        process.env.VARDEF_USE_STATIC_DATA = 'false';
+        process.env.METADATA_CATALOG_JWT_TOKEN = 'my-cool-token';
+
+        jest
+          .spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions')
+          .mockResolvedValue([staticDefs[5], staticDefs[6]]);
+
+        await expect(getRenderedVariableDefinition('antall')).rejects.toThrow(
+          'Multiple variable definitions found for shortName="antall"',
+        );
       });
     });
 });
