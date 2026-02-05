@@ -24,7 +24,7 @@ const test = base.extend<{
       await expect(link).toBeVisible({ timeout: 5000 });
 
       await Promise.all([
-        page.waitForURL(new RegExp(`${tabsData.VariableDefinitions.route}/${variable.id}`)),
+        page.waitForURL(new RegExp(`${tabsData.VariableDefinitions.route}/${variable.short_name}`)),
         link.click(),
       ]);
     };
@@ -33,7 +33,9 @@ const test = base.extend<{
 });
 
 test('Navigate to up to 4 variable definitions', async ({ goToVariable, page }) => {
-  const validVariables = variableDefinitions.filter((v) => areFieldsDefinedAndNonNull(v, ['id', 'name'])).slice(0, 4);
+  const validVariables = variableDefinitions
+    .filter((v) => areFieldsDefinedAndNonNull(v, ['short_name', 'name']))
+    .slice(0, 4);
 
   if (validVariables.length === 0) {
     test.skip();
@@ -41,7 +43,7 @@ test('Navigate to up to 4 variable definitions', async ({ goToVariable, page }) 
   }
 
   for (const variable of validVariables) {
-    if (!areFieldsDefinedAndNonNull(variable, ['id', 'name'])) {
+    if (!areFieldsDefinedAndNonNull(variable, ['short_name', 'name'])) {
       test.skip();
       continue;
     }
