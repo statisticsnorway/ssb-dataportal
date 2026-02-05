@@ -128,10 +128,10 @@ export const nb = {
   },
 
   info: {
-    classificationsPrototypeIntro: 'Under utvikling:',
+    classificationsPrototypeIntro: 'Under utvikling',
     classificationsPrototypeInfo:
       'En ny og forbedret visning av Klass lanseres ila 2026. Frem til lansering må du bruke dagens løsning på',
-    datasetPrototypeIntro: 'Planlagt utvidelse:',
+    datasetPrototypeIntro: 'Planlagt utvidelse',
     datasetProtoypeInfo:
       'Denne siden vil i fremtiden inneholde vår nye løsning for beskrivelser av datasett. Utviklingen starter for fullt i 2026.',
     landingPageInfoGoal:
