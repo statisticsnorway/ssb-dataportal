@@ -58,21 +58,43 @@ describe('vardef data fetching', () => {
     }),
     describe('getRenderedVariableDefinition', () => {
       it('static data', () => {
-        expect(getRenderedVariableDefinition('Xd3Ueog_')).resolves.toEqual(staticDefs[5]);
+        expect(getRenderedVariableDefinition('antall')).resolves.toEqual(staticDefs[5]);
       });
       it('no token available', () => {
         process.env.VARDEF_USE_STATIC_DATA = 'false';
-        expect(getRenderedVariableDefinition('Xd3Ueog_')).rejects.toEqual('Could not retrieve access token!');
+        expect(getRenderedVariableDefinition('antall')).rejects.toEqual('Could not retrieve access token!');
       });
       it('mock api call happy path', () => {
         process.env.VARDEF_USE_STATIC_DATA = 'false';
         process.env.METADATA_CATALOG_JWT_TOKEN = 'my-cool-token';
 
-        jest.spyOn(VariableDefinitionsApi.prototype, 'getVariableDefinitionById').mockResolvedValue(staticDefs[5]);
+        jest.spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions').mockResolvedValue([staticDefs[5]]);
 
-        getRenderedVariableDefinition('Xd3Ueog_').then((result) => {
+        getRenderedVariableDefinition('antall').then((result) => {
           expect(result).toEqual(staticDefs[5]);
         });
+      });
+      it('throws an error if multiple variable definitions are returned', async () => {
+        process.env.VARDEF_USE_STATIC_DATA = 'false';
+        process.env.METADATA_CATALOG_JWT_TOKEN = 'my-cool-token';
+
+        jest
+          .spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions')
+          .mockResolvedValue([staticDefs[5], staticDefs[6]]);
+
+        await expect(getRenderedVariableDefinition('antall')).rejects.toThrow(
+          'Multiple variable definitions found for shortName="antall"',
+        );
+      });
+      it('throws an error if no variable definitions are returned', async () => {
+        process.env.VARDEF_USE_STATIC_DATA = 'false';
+        process.env.METADATA_CATALOG_JWT_TOKEN = 'my-cool-token';
+
+        jest.spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions').mockResolvedValue([]);
+
+        await expect(getRenderedVariableDefinition('antall')).rejects.toThrow(
+          'No variable definition found for shortName="antall"',
+        );
       });
     });
 });
