@@ -93,6 +93,7 @@ export const contactItems = (v: RenderedView): Item[] => {
     return [
       {
         label: localization.contact.label,
+        //TODO(cbi): Check valid pattern for link to email [https://github.com/statisticsnorway/metadata-catalog-prototype/issues/115]
         value: `mailto:${v.contact?.email}`,
         type: 'link',
         display: v.contact?.title || localization.contact.fallbackTitle,

@@ -1,6 +1,7 @@
 import { Link } from '@digdir/designsystemet-react';
 import { Item } from '@/types/item';
 
+//TODO(cbi): Check that we use recommended guidelines for links [https://github.com/statisticsnorway/metadata-catalog-prototype/issues/115]
 export function LinkRenderer({ value, display }: Item) {
   if (!value) return null;
 
