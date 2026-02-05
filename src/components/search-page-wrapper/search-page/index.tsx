@@ -19,6 +19,14 @@ interface SearchPageProps {
   header?: string;
 }
 
+/**
+ * Wrapper for search page content.
+ *
+ * Wrapper with correct semantic structure and header level 1 for accessibility hidden.
+ *
+ * @param param0
+ * @returns
+ */
 const SearchPage: FC<SearchPageProps> = ({
   infoContent,
   asideContent,
