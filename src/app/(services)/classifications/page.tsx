@@ -1,13 +1,15 @@
-import { Alert, Heading, Link, Paragraph } from '@digdir/designsystemet-react';
+import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { ExternalLink } from '@/components/external-link';
 import { SearchPage } from '@/components/search-page-wrapper';
 import { localization } from '@/libs/language';
 
 export default async function Classifications() {
   const pageContent = (
-    <Alert data-color='info'>
-      <Heading>{localization.info.classificationsPrototypeIntro}</Heading>
+    <Alert data-color='info' data-size='lg'>
+      <Heading level={2}>{localization.info.classificationsPrototypeIntro}</Heading>
       <Paragraph>
-        {localization.info.classificationsPrototypeInfo} <Link href={'https://www.ssb.no/klass/'}>ssb.no/klass</Link>
+        {localization.info.classificationsPrototypeInfo}{' '}
+        <ExternalLink href={'https://www.ssb.no/klass/'} linkText='ssb.no/klass' />
       </Paragraph>
     </Alert>
   );

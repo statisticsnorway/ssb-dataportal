@@ -4,8 +4,8 @@ import { localization } from '@/libs/language';
 
 export default async function Datasets() {
   const pageContent = (
-    <Alert data-color='info'>
-      <Heading>{localization.info.datasetPrototypeIntro}</Heading>
+    <Alert data-color='info' data-size='lg'>
+      <Heading level={2}>{localization.info.datasetPrototypeIntro}</Heading>
       <Paragraph>{localization.info.datasetProtoypeInfo}</Paragraph>
     </Alert>
   );
