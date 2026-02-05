@@ -127,21 +127,21 @@ export const nb = {
   },
 
   info: {
-    landingPageTitle: 'Velkommen til Dataportalen',
-    landingPageSubTitle: 'Din inngang til SSBs felles kunnskap om data',
-    landingPageInfoIntroTitle: 'Hva er Dataportalen?',
-    landingPageInfoIntro: 'Her samler vi informasjon om våre datasett, variabler, kodelister og API-er på ett sted.',
-    landingPageInfoGoalTitle: 'Hvorfor Dataportalen?',
-    landingPageInfoGoal:
-      'Målet er å gjøre det enklere for alle i SSB å finne, forstå og bruke dataene våre på en korrekt og effektiv måte.',
-    landingPagePrototypeTitle: 'Dataportal prototype',
-    landingPageInfoPrototype:
-      'I denne første versjonen kan du utforske SSBs variabeldefinisjoner. Portalen vil gradvis utvides med oversikt over datasett, kodelister og API-er, slik at du kan se hele sammenhengen fra konsept til ferdig datafil. Ved å koble definisjoner fra Vardef med kodelister fra Klass og dokumentasjon fra Datadoc, etablerer vi en "felles sannhet" som sikrer at vi alltid tolker og bruker dataene våre på samme måte.',
-    datasetPrototypeIntro: 'Planlagt utvidelse:',
-    datasetProtoypeInfo:
-      'Denne siden vil i fremtiden inneholde vår nye løsning for beskrivelser av datasett. Utviklingen starter for fullt i 2026.',
     classificationsPrototypeIntro: 'Under utvikling:',
     classificationsPrototypeInfo:
       'En ny og forbedret visning av Klass lanseres ila 2026. Frem til lansering må du bruke dagens løsning på',
+    datasetPrototypeIntro: 'Planlagt utvidelse:',
+    datasetProtoypeInfo:
+      'Denne siden vil i fremtiden inneholde vår nye løsning for beskrivelser av datasett. Utviklingen starter for fullt i 2026.',
+    landingPageInfoGoal:
+      'Målet er å gjøre det enklere for alle i SSB å finne, forstå og bruke dataene våre på en korrekt og effektiv måte.',
+    landingPageInfoGoalTitle: 'Hvorfor Dataportalen?',
+    landingPageInfoIntro: 'Her samler vi informasjon om våre datasett, variabler, kodelister og API-er på ett sted.',
+    landingPageInfoIntroTitle: 'Hva er Dataportalen?',
+    landingPageInfoPrototype:
+      'I denne første versjonen kan du utforske SSBs variabeldefinisjoner. Portalen vil gradvis utvides med oversikt over datasett, kodelister og API-er, slik at du kan se hele sammenhengen fra konsept til ferdig datafil. Ved å koble definisjoner fra Vardef med kodelister fra Klass og dokumentasjon fra Datadoc, etablerer vi en "felles sannhet" som sikrer at vi alltid tolker og bruker dataene våre på samme måte.',
+    landingPagePrototypeTitle: 'Dataportal prototype',
+    landingPageSubTitle: 'Din inngang til SSBs felles kunnskap om data',
+    landingPageTitle: 'Velkommen til Dataportalen',
   },
 };
