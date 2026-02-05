@@ -11,6 +11,7 @@ export const nb = {
   by: 'av',
   comment: 'Kommentar',
   context: 'Kontekst',
+  daplaManual: 'Dapla-manualen',
   documentation: 'Dokumentasjon',
   from: 'Fra',
   id: 'ID',

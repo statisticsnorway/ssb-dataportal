@@ -68,7 +68,7 @@ export function CodeSnippet({
           </>
         )}
         <ExternalLink
-          linkText={localization.documentation}
+          linkText={localization.daplaManual}
           href='https://manual.dapla.ssb.no/statistikkere/vardef-toolbelt.html'
         />
       </footer>
