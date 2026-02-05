@@ -33,4 +33,4 @@ spec:
     - name: KLASS_USE_STATIC_DATA
       value: "false"
     - name: DAPLA_LAB_VARDEF_URL
-      value: "https://lab.dapla-test.ssb.no/launcher/dapla-lab-standard/vardef-forvaltning"
+      value: "https://lab.dapla.ssb.no/launcher/dapla-lab-standard/vardef-forvaltning"
