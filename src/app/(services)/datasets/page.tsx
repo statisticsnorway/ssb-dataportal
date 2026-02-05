@@ -13,7 +13,6 @@ export default async function Datasets() {
   return (
     <SearchPage
       header={localization.tabs.datasets}
-      searchLabel={localization.search.searchForDatasets}
       infoContent={
         <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
           Datasett er ikke klar for testing.
