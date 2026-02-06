@@ -1,7 +1,7 @@
 import { Alert, Heading, Link, Paragraph } from '@digdir/designsystemet-react';
 import { FC } from 'react';
+import { ExternalLink } from '@/components/external-link';
 import { UrlItem } from '@/types/navigationTypes';
-import { ExternalLink } from '../external-link';
 import styles from './footer.module.css';
 
 export interface FooterProps {
