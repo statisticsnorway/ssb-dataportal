@@ -1,9 +1,21 @@
 name: Image Build and Deploy
 
 on:
+  release:
+    types: [published]
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      cluster:
+        description: "Which cluster to deploy to?"
+        required: true
+        default: "test"
+        type: choice
+        options:
+          - test
+          - prod
 
 jobs:
   docker-build:
@@ -11,36 +23,82 @@ jobs:
     permissions:
       contents: "read"
       id-token: "write"
+      packages: "read"
     runs-on: ubuntu-latest
     outputs:
-      nais_cluster: ${{ steps.nais-deploy-vars.outputs.nais_cluster }}
-      nais_config_path: ${{ steps.nais-deploy-vars.outputs.nais_config_path }}
+      image: ${{ steps.docker-build-push.outputs.image }}
+      telemetry: ${{ steps.docker-build-push.outputs.telemetry }}
+      prod-config-changed: ${{ steps.prod-config-changed.outputs.changed != 'non-inputs' }}
+      test-config-changed: ${{ steps.test-config-changed.outputs.changed != 'non-inputs' }}
+      only-config-changed: ${{ steps.changed-files.outputs.changed == 'only-inputs'}}
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Check what changed
+        id: changed-files
+        uses: "nais/what-changed@main"
+        with:
+          files: .nais/**/nais.yaml
+      - name: Check for test config changes
+        id: test-config-changed
+        uses: "nais/what-changed@main"
+        with:
+          files: .nais/test/nais.yaml
+      - name: Check for prod config changes
+        id: prod-config-changed
+        uses: "nais/what-changed@main"
+        with:
+          files: .nais/prod/nais.yaml
 
       - name: Build and push
+        if: steps.changed-files.outputs.changed != 'only-inputs' || github.event.inputs.cluster == 'test' || github.event.inputs.cluster == 'prod'
         uses: nais/docker-build-push@v0
         id: docker-build-push
         with:
           team: dapla-metadata
 
-      - name: Set nais environment variables
-        id: nais-deploy-vars
-        run: |
-          if [[ ${{ github.event_name }} == "release" ]]; then
-            echo "nais_cluster=prod" >> "$GITHUB_OUTPUT"
-            echo "nais_config_path=.nais/prod/nais.yaml" >> "$GITHUB_OUTPUT"
-          else
-            echo "nais_cluster=test" >> "$GITHUB_OUTPUT"
-            echo "nais_config_path=.nais/test/nais.yaml" >> "$GITHUB_OUTPUT"
-          fi
+  deploy-test:
+    name: Deploy to test
+    needs: docker-build
+    permissions:
+      contents: "read"
+      id-token: "write"
+      packages: "read"
+    runs-on: ubuntu-latest
+    if: github.event_name != 'release' || github.event.inputs.cluster == 'test' || needs.docker-build.outputs.test-config-changed == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
       - uses: nais/deploy/actions/deploy@v2
         env:
-          CLUSTER: ${{ steps.nais-deploy-vars.outputs.nais_cluster }}
-          RESOURCE: ${{ steps.nais-deploy-vars.outputs.nais_config_path }}
+          CLUSTER: test
+          RESOURCE: .nais/test/nais.yaml
           DEPLOY_SERVER: deploy.ssb.cloud.nais.io:443
-          WORKLOAD_IMAGE: ${{ steps.docker-build-push.outputs.image }}
-          TELEMETRY: ${{ steps.docker-build-push.outputs.telemetry }}
+          WORKLOAD_IMAGE: ${{ needs.docker-build.outputs.image }}
+          TELEMETRY: ${{ needs.docker-build.outputs.telemetry }}
+
+  deploy-prod:
+    name: Deploy to prod
+    needs: docker-build
+    permissions:
+      contents: "read"
+      id-token: "write"
+      packages: "read"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' || github.event.inputs.cluster == 'prod' || (needs.docker-build.outputs.prod-config-changed == 'true' && needs.docker-build.outputs.only-config-changed == 'true')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: prod
+          RESOURCE: .nais/prod/nais.yaml
+          DEPLOY_SERVER: deploy.ssb.cloud.nais.io:443
+          WORKLOAD_IMAGE: ${{ needs.docker-build.outputs.image }}
+          TELEMETRY: ${{ needs.docker-build.outputs.telemetry }}
