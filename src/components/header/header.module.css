@@ -14,7 +14,7 @@
 .appTitle {
   font-family: var(--font-roboto-condensed), sans-serif;
   font-weight: 700;
-  font-size: 28px;
+  font-size: 22px;
   text-decoration: none;
   color: var(--ssb-dark-color-5);
 }
@@ -33,11 +33,35 @@
   text-decoration: none;
 }
 
+.logo {
+  width: 180px;
+  height: auto;
+}
+
 .logoAndTitle {
-  column-gap: var(--medium-gap);
+  column-gap: var(--small-gap);
   color: var(--ssb-dark-color-5);
   text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+}
+
+@media (min-width: 360px) {
+  .appTitle {
+    font-size: 24px;
+  }
+  .logoAndTitle {
+    column-gap: var(--medium-gap);
+  }
+}
+
+@media (min-width: 768px) {
+  .appTitle {
+    font-size: 28px;
+  }
+  .logo {
+    width: 240px;
+    height: auto;
+  }
 }
