@@ -20,7 +20,7 @@ type Props = {
 const SearchHitContainer = ({ searchHits = [], renderHit, paginationInfo, onPageChange, noSearchHits }: Props) => {
   let pagedHits: RenderedView[] | ClassificationResource[] = searchHits;
 
-  const hasPagination = !!paginationInfo;
+  const hasPagination = !!paginationInfo && !noSearchHits;
 
   const pagination = usePagination({
     currentPage: paginationInfo?.currentPage ?? 1,
@@ -35,10 +35,12 @@ const SearchHitContainer = ({ searchHits = [], renderHit, paginationInfo, onPage
 
   return (
     <div className={styles.searchHitsContainer}>
-      <div className={styles.hitsList}>{pagedHits.map((hit) => renderHit(hit))}</div>
+      <div className={styles.hitsList} data-testid='hits-list'>
+        {pagedHits.map((hit) => renderHit(hit))}
+      </div>
 
       {hasPagination && (
-        <Pagination>
+        <Pagination data-testid={'pagination'}>
           <Pagination.List>
             <Pagination.Item>
               <Pagination.Button aria-label={localization.previous} {...prevButtonProps}>
@@ -49,7 +51,12 @@ const SearchHitContainer = ({ searchHits = [], renderHit, paginationInfo, onPage
             {pages.map((p) =>
               p.buttonProps ? (
                 <Pagination.Item key={p.itemKey}>
-                  <Pagination.Button {...p.buttonProps}>{p.page}</Pagination.Button>
+                  <Pagination.Button
+                    {...p.buttonProps}
+                    data-testid={paginationInfo?.currentPage === p.page ? 'page-active' : 'page'}
+                  >
+                    {p.page}
+                  </Pagination.Button>
                 </Pagination.Item>
               ) : (
                 <Pagination.Item key={p.itemKey} />
