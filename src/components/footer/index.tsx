@@ -1,6 +1,7 @@
 import { Alert, Heading, Link, Paragraph } from '@digdir/designsystemet-react';
 import { FC } from 'react';
 import { ExternalLink } from '@/components/external-link';
+import { localization } from '@/libs/language';
 import { UrlItem } from '@/types/navigationTypes';
 import styles from './footer.module.css';
 
@@ -15,10 +16,10 @@ export const Footer: FC<FooterProps> = ({ footerLinks }) => (
     <Alert data-color='info' className={styles.infoSection}>
       <Heading level={3}>Tilbakemeldinger</Heading>
       <Paragraph>
-        Dataportalen er under utvikling, og dine innspill er viktige for oss. Hjelp oss gjerne ved å fylle ut
+        Dataportalen er under utvikling, og dine innspill er viktige for oss. Hjelp oss gjerne ved å fylle ut{' '}
         <ExternalLink
           willOpenNewTab={true}
-          linkText='tilbakemeldingsskjema for Dataportalen'
+          linkText={localization.feedBackForm}
           href='https://forms.office.com/Pages/ResponsePage.aspx?id=knAhx0CyHU69YfqXupdcvG8mQNraR5ZAu3es4-se84xUN0VFME5BSVFSUTZDRUZCTzNTVUlFTDlUNC4u'
         />
       </Paragraph>

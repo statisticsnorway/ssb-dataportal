@@ -13,6 +13,7 @@ export const nb = {
   context: 'Kontekst',
   daplaManual: 'Dapla-manualen',
   documentation: 'Dokumentasjon',
+  feedBackForm: 'tilbakemeldingsskjema for Dataportalen',
   from: 'Fra',
   id: 'ID',
   loadingVariableDefinitions: 'Laster variabeldefinisjoner',

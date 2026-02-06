@@ -22,11 +22,10 @@ const ExternalLink = ({ linkText, href, className, willOpenNewTab = false }: Ext
     <>
       {willOpenNewTab ? (
         <Link target='_blank' rel='noreferrer' href={href} className={className}>
-          {`${' '}${linkText} (${localization.opensInNewTab})`}
+          {`${linkText} (${localization.opensInNewTab})`}
         </Link>
       ) : (
         <Link rel='noreferrer' href={href} className={className}>
-          {' '}
           {linkText}
         </Link>
       )}
