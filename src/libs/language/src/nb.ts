@@ -22,6 +22,7 @@ export const nb = {
   next: 'Neste',
   no: 'Nei',
   on: 'på',
+  opensInNewTab: 'åpnes i ny fane',
   previous: 'Forrige',
   references: 'Referanser',
   statisticsNorway: 'Statistisk sentralbyrå',
