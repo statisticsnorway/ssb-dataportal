@@ -19,7 +19,7 @@
     "test:e2e:accessibility": "playwright test src/e2e/accessibility-tests.spec.ts",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:ui": "playwright test --ui",
-    "test:e2e:generate": "yarn dev & playwright codegen http://localhost:3000",
+    "test:e2e:generate": "pnpm dev & playwright codegen http://localhost:3000",
     "codegen:vardef-internal": "openapi-generator-cli generate --generator-key vardef-internal",
     "codegen:klass": "openapi-generator-cli generate --generator-key klass",
     "preinstall": "npx only-allow pnpm"

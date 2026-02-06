@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@digdir/designsystemet-react';
 import { hashCode } from '@/utils/functions';
 import styles from './breadcrumbs.module.css';
 

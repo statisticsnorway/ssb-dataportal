@@ -1,17 +1,29 @@
-import { fetchAllClassifications } from '@/libs/data/classifications/classificationData';
-import { fetchClassificationFamilies } from '@/libs/data/classifications/classificationFamilyData';
-import { ClassificationFamilyResource, ClassificationResource } from '@/libs/data-access/klass';
-import ClassificationsServicePage from './classifications-service-page';
+import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { ExternalLink } from '@/components/external-link';
+import { SearchPage } from '@/components/search-page-wrapper';
+import { localization } from '@/libs/language';
 
 export default async function Classifications() {
-  const classificationFamilies: ClassificationFamilyResource[] = await fetchClassificationFamilies();
-
-  const allClassifications: ClassificationResource[] = await fetchAllClassifications();
+  const pageContent = (
+    <Alert data-color='info' data-size='lg'>
+      <Heading level={2}>{localization.info.classificationsPrototypeIntro}</Heading>
+      <Paragraph>
+        {localization.info.classificationsPrototypeInfo}{' '}
+        <ExternalLink href={'https://www.ssb.no/klass/'} linkText='ssb.no/klass' />
+      </Paragraph>
+    </Alert>
+  );
 
   return (
-    <ClassificationsServicePage
-      rawClassifications={allClassifications}
-      rawClassificationFamilies={classificationFamilies}
-    />
+    <SearchPage
+      header={localization.tabs.classifications}
+      searchLabel={localization.search.searchForClassifications}
+      infoContent={
+        <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
+          Klassifikasjoner er ikke klar for testing.
+        </Alert>
+      }
+      searchResult={pageContent}
+    ></SearchPage>
   );
 }

@@ -1,5 +1,4 @@
-import { Card, Heading, Paragraph } from '@digdir/designsystemet-react';
-import Link from 'next/link';
+import { Card, Heading, Link, Paragraph } from '@digdir/designsystemet-react';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 

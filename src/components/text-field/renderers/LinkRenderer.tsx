@@ -1,6 +1,7 @@
 import { Link } from '@digdir/designsystemet-react';
 import { Item } from '@/types/item';
 
+//TODO(cbi): Check that we use recommended guidelines for links [https://github.com/statisticsnorway/metadata-catalog-prototype/issues/115]
 export function LinkRenderer({ value, display }: Item) {
   if (!value) return null;
 
@@ -10,7 +11,7 @@ export function LinkRenderer({ value, display }: Item) {
     return (
       <>
         {value.map((v, i) => (
-          <Link key={i} href={v} target='_blank' rel='noopener noreferrer' style={{ display: 'block' }}>
+          <Link key={i} href={v} style={{ display: 'block' }}>
             {displayArray[i]}
           </Link>
         ))}
@@ -19,9 +20,5 @@ export function LinkRenderer({ value, display }: Item) {
   }
 
   const text = display ?? value;
-  return (
-    <Link href={value} target='_blank' rel='noopener noreferrer'>
-      {text}
-    </Link>
-  );
+  return <Link href={value}>{text}</Link>;
 }

@@ -23,7 +23,7 @@ const test = base.extend<{
   },
 });
 
-test('Navigate to up to 4 classifications', async ({ goToClassification, page }) => {
+test.skip('Navigate to up to 4 classifications', async ({ goToClassification, page }) => {
   const validClassifications = classifications.slice(0, 4);
 
   if (validClassifications.length === 0) {
