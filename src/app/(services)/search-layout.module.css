@@ -12,18 +12,20 @@
 }
 
 .searchFieldContent {
-  margin-top: var(--large-gap);
+  margin-top: var(--medium-gap);
   overflow-x: hidden;
 }
 
 .tabsNavigationContainer {
   width: 100%;
   overflow-x: hidden;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .tabsNavigation {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   overflow-x: hidden;
 }
 
@@ -41,8 +43,12 @@
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   white-space: nowrap;
+  font-size: small;
 }
 
+.tab:hover {
+  background-color: var(--lighter-shade-of-ssb-5);
+}
 .tab[aria-selected="true"] {
   background-color: var(--ssb-dark-color-1);
   color: var(--main-font-color);
@@ -52,9 +58,18 @@
   color: white;
 }
 
+@media (min-width: 400px) {
+  .tab {
+    font-size: medium;
+  }
+}
 @media (min-width: 768px) {
   .tabsNavigation {
     flex-direction: row;
+  }
+  .tabsNavigationContainer {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   .tab {
@@ -64,5 +79,8 @@
   #searchValue.ds-input {
     margin: 0;
     min-width: 80%;
+  }
+  .searchFieldContent {
+    margin-top: var(--large-gap);
   }
 }

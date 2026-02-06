@@ -28,6 +28,8 @@
   --ssb-dark-color-5: #274247;
   --ssb-dark-color-6: #162327;
 
+  --lighter-shade-of-ssb-5: #386067;
+
   --blue-color: #335380;
   --dark-blue-color: #1e2b3c;
   --main-background-color: #f0f8f9;
@@ -107,8 +109,27 @@ select#sortVariables.ds-input {
 }
 
 /* Global overrides for selected Design System components */
+.ds-tabs {
+  --dsc-tabs-tab-padding: var(--ds-size-3) var(--ds-size-5);
+  --dsc-tabs-tab-color: var(--ds-color-neutral-text-subtle);
+  --dsc-tabs-tab-color--hover: var(--ssb-dark-color-2);
+  --dsc-tabs-tab-color--selected: var(--main-background-color);
+  --dsc-tabs-content-padding: var(--ds-size-4) var(--ds-size-5);
+  --dsc-tabs-list-border-color: none;
+  --dsc-tabs-list-border-bottom-width: none;
+  --dsc-tabs-list-border-bottom-style: none;
+  outline: none;
+}
+
+.ds-tabs::after {
+  --dsc-tabs-tab-color: var(--main-background-color);
+}
+.ds-tabs:focus {
+  outline: none;
+}
+
 div.ds-card {
-  border-color: #c3dcdc;
+  border-color: var(--ssb-dark-color-2);
 }
 
 /** Text styles based on https://design.ssb.no/#/components/typography-page
