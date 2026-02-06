@@ -20,7 +20,7 @@ exports[`Footer should render successfully 1`] = `
           data-variant="default"
         >
           Dataportalen er under utvikling, og dine innspill er viktige for oss. Hjelp oss gjerne ved å fylle ut
-
+           
           <a
             class="ds-link"
             href="https://forms.office.com/Pages/ResponsePage.aspx?id=knAhx0CyHU69YfqXupdcvG8mQNraR5ZAu3es4-se84xUN0VFME5BSVFSUTZDRUZCTzNTVUlFTDlUNC4u"
