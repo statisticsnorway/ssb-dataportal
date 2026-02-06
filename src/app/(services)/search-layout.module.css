@@ -36,22 +36,14 @@
   list-style-type: none;
   position: relative;
   overflow: hidden;
-  color: #e6eff8;
+  color: white;
   width: fit-content;
-  padding: 0.75rem 1.25rem;
+  padding: 0.5rem 1.25rem;
   margin: 0;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   white-space: nowrap;
   font-size: small;
-}
-
-.tab:hover {
-  background-color: var(--lighter-shade-of-ssb-5);
-}
-.tab[aria-selected="true"] {
-  background-color: var(--ssb-dark-color-1);
-  color: var(--main-font-color);
 }
 
 .searchLabel {
