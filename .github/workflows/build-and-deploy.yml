@@ -24,6 +24,7 @@ jobs:
       contents: "read"
       id-token: "write"
       packages: "read"
+      actions: "read"
     runs-on: ubuntu-latest
     outputs:
       image: ${{ steps.docker-build-push.outputs.image }}
