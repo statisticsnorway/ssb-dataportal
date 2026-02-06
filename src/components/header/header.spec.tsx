@@ -31,6 +31,7 @@ describe('Header', () => {
 >
   <img
     alt="undefined logo"
+    class="logo"
     data-nimg="1"
     decoding="async"
     height="44"
