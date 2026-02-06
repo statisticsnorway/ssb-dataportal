@@ -4,7 +4,7 @@ exports[`Footer should render successfully 1`] = `
 <body>
   <div>
     <footer
-      class="footer container"
+      class="footer"
     >
       <div
         class="ds-alert infoSection"
@@ -20,13 +20,14 @@ exports[`Footer should render successfully 1`] = `
           data-variant="default"
         >
           Dataportalen er under utvikling, og dine innspill er viktige for oss. Hjelp oss gjerne ved å fylle ut
+
           <a
             class="ds-link"
             href="https://forms.office.com/Pages/ResponsePage.aspx?id=knAhx0CyHU69YfqXupdcvG8mQNraR5ZAu3es4-se84xUN0VFME5BSVFSUTZDRUZCTzNTVUlFTDlUNC4u"
             rel="noreferrer"
             target="_blank"
           >
-             tilbakemeldingsskjema for Dataportalen (undefined)
+            undefined (undefined)
           </a>
         </p>
       </div>
