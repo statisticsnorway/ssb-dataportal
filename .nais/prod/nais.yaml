@@ -1,0 +1,36 @@
+apiVersion: nais.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    team: dapla-metadata
+  name: dataportalen
+  namespace: dapla-metadata
+spec:
+  ingresses:
+    - https://dataportal.ssb.no
+  port: 3000
+  accessPolicy:
+    outbound:
+      rules:
+        - application: metadata-api-gateway
+        - application: klass
+      external:
+        - host: auth.ssb.no
+  login:
+    provider: openid
+    enforce:
+      enabled: true
+  replicas:
+    max: 2
+    min: 2
+  env:
+    - name: VARDEF_BASE_PATH
+      value: http://metadata-api-gateway
+    - name: VARDEF_USE_STATIC_DATA
+      value: "false"
+    - name: KLASS_BASE_PATH
+      value: http://klass/api/klass/v1
+    - name: KLASS_USE_STATIC_DATA
+      value: "false"
+    - name: DAPLA_LAB_VARDEF_URL
+      value: "https://lab.dapla.ssb.no/launcher/dapla-lab-standard/vardef-forvaltning"
