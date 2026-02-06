@@ -8,11 +8,10 @@
   margin: 0;
   padding: 0;
   width: 100%;
+  flex: 1 0 auto;
 }
 .pageContainer {
-  padding-top: 2rem;
-  min-height: 66vh;
-  padding-bottom: var(--ds-size-4);
+  padding-top: 1rem;
 }
 .headerCard {
   margin-top: 2rem;
