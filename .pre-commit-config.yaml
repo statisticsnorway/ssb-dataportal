@@ -7,6 +7,7 @@ repos:
       - id: check-case-conflict
       - id: end-of-file-fixer
       - id: trailing-whitespace
+        exclude: \.snap$|__snapshots__/
       - id: mixed-line-ending
 
   - repo: local
@@ -15,7 +16,6 @@ repos:
         name: biome format
         entry: pnpm exec biome format --write --files-ignore-unknown=true --no-errors-on-unmatched
         language: system
-        exclude: \.snap$|__snapshots__/
         types: [text]
         # Taken from https://github.com/biomejs/pre-commit?tab=readme-ov-file#using-biome-with-a-local-pre-commit-hook
         files: "\\.(jsx?|tsx?|c(js|ts)|m(js|ts)|d\\.(ts|cts|mts)|jsonc?|css|svelte|vue|astro|graphql|gql)$"
@@ -23,7 +23,6 @@ repos:
         name: biome lint
         entry: pnpm exec biome check --write --files-ignore-unknown=true --no-errors-on-unmatched
         language: system
-        exclude: \.snap$|__snapshots__/
         types: [text]
         # Taken from https://github.com/biomejs/pre-commit?tab=readme-ov-file#using-biome-with-a-local-pre-commit-hook
         files: "\\.(jsx?|tsx?|c(js|ts)|m(js|ts)|d\\.(ts|cts|mts)|jsonc?|css|svelte|vue|astro|graphql|gql)$"
