@@ -11,7 +11,7 @@ export interface FooterProps {
 }
 
 export const Footer: FC<FooterProps> = ({ footerLinks }) => (
-  <footer className={`${styles.footer} container`}>
+  <footer className={styles.footer}>
     <Alert data-color='info' className={styles.infoSection}>
       <Heading level={3}>Tilbakemeldinger</Heading>
       <Paragraph>
