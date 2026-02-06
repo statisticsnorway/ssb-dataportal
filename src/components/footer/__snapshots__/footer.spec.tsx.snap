@@ -4,8 +4,32 @@ exports[`Footer should render successfully 1`] = `
 <body>
   <div>
     <footer
-      class="footer"
+      class="footer container"
     >
+      <div
+        class="ds-alert infoSection"
+        data-color="info"
+      >
+        <h3
+          class="ds-heading"
+        >
+          Tilbakemeldinger
+        </h3>
+        <p
+          class="ds-paragraph"
+          data-variant="default"
+        >
+          Dataportalen er under utvikling, og dine innspill er viktige for oss. Hjelp oss gjerne ved å fylle ut
+          <a
+            class="ds-link"
+            href="https://forms.office.com/Pages/ResponsePage.aspx?id=knAhx0CyHU69YfqXupdcvG8mQNraR5ZAu3es4-se84xUN0VFME5BSVFSUTZDRUZCTzNTVUlFTDlUNC4u"
+            rel="noreferrer"
+            target="_blank"
+          >
+             tilbakemeldingsskjema for Dataportalen (undefined)
+          </a>
+        </p>
+      </div>
       <section
         class="footerLinkSection"
       />
