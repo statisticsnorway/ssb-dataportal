@@ -102,8 +102,8 @@ body {
 select#sortVariables.ds-input {
   padding: 0.5rem;
   border-radius: 5px;
-  border-color: #c3dcdc;
-  width: 300px;
+  border-color: var(--ssb-dark-color-2);
+  width: 200px;
   max-width: 100%;
 }
 
@@ -159,4 +159,11 @@ button {
 .infoAlert {
   width: 100%;
   --dsc-alert-padding-block: var(--ds-size-4);
+}
+
+@media (min-width: 768px) {
+  select#sortVariables.ds-input {
+    width: 300px;
+    max-width: 100%;
+  }
 }

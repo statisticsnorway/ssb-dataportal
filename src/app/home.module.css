@@ -10,7 +10,7 @@
   width: 100%;
 }
 .pageContainer {
-  padding-top: 3rem;
+  padding-top: 2rem;
   min-height: 66vh;
   padding-bottom: var(--ds-size-4);
 }
@@ -61,6 +61,11 @@
   gap: 1rem;
 }
 
+@media (min-width: 400px) {
+  .pageTitle {
+    font-size: var(--ds-heading-xl-font-size);
+  }
+}
 @media (min-width: 768px) {
   .pageTitle {
     font-size: var(--ds-heading-2xl-font-size);
@@ -75,5 +80,8 @@
   }
   .pageHeader {
     padding: 1rem;
+  }
+  .pageContainer {
+    padding-top: 3rem;
   }
 }

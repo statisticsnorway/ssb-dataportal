@@ -9,7 +9,6 @@
   background-color: var(--element-background-color);
   color: var(--main-font-color);
   gap: var(--medium-gap);
-  min-width: var(--app-min-width);
 }
 
 .footerLinkSection {

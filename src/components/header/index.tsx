@@ -18,7 +18,14 @@ export const Header: FC<HeaderProps> = ({ homeUrl, title, devEnvironmentName }) 
       <div className={`${styles.headerContainer} container`}>
         {/*TODO: Logo overflows at around 450px */}
         <Link href={homeUrl} title={localization.navigateHome} className={styles.logoAndTitle}>
-          <Image src='/ssb-logo.svg' alt={`${localization.statisticsNorway} logo`} width={240} height={44} priority />
+          <Image
+            className={styles.logo}
+            src='/ssb-logo.svg'
+            alt={`${localization.statisticsNorway} logo`}
+            width={240}
+            height={44}
+            priority
+          />
           {title ? (
             <div className={styles.logoAndTitle}>
               <div className={styles.verticalDivider} />
