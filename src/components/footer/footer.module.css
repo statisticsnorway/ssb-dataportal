@@ -14,9 +14,15 @@
   justify-content: flex-start;
 }
 
+.iconImage {
+  margin-right: 1rem;
+}
 .infoSection {
+  display: flex;
+  align-items: center;
   max-width: 100%;
   margin-bottom: 1rem;
+  font-size: larger;
 }
 .footerLinkSection {
   max-width: 100%;
@@ -25,6 +31,9 @@
   gap: 0.5rem;
 }
 
+.icon {
+  width: 60px;
+}
 @media (min-width: 768px) {
 }
 
