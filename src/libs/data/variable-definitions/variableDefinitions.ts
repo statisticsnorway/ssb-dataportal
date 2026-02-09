@@ -56,7 +56,6 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
   } satisfies ListVariableDefinitionsRequest;
   var data: RenderedView[] = [];
 
-  console.log('h');
   try {
     let rawData = await api.listVariableDefinitions(params, {
       next: { revalidate: 200 },
