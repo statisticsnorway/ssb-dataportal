@@ -56,8 +56,11 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
   } satisfies ListVariableDefinitionsRequest;
   var data: RenderedView[] = [];
 
+  console.log('h');
   try {
-    let rawData = await api.listVariableDefinitions(params);
+    let rawData = await api.listVariableDefinitions(params, {
+      next: { revalidate: 200 },
+    } as RequestInit);
     data = rawData.filter((each) => instanceOfRenderedView(each));
     console.log(`Fetched ${data.length} variable definitions`);
   } catch (error: unknown) {
