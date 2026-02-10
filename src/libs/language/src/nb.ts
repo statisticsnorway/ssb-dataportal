@@ -49,6 +49,7 @@ export const nb = {
     code: 'Kopier kode',
     copied: 'Kopiert',
     id: 'Kopier ID',
+    shortName: 'Kopier kortnavn',
   },
 
   error: {
