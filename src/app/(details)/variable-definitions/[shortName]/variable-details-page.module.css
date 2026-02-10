@@ -117,7 +117,6 @@
 
 .sidebar {
   flex: 1;
-  padding-top: var(--large-gap);
 }
 
 .heroTitle {
@@ -169,7 +168,7 @@
 }
 
 .codeSnippet {
-  margin-bottom: 1rem;
+  margin-bottom: var(--large-gap);
 }
 
 @media (min-width: 480px) {
