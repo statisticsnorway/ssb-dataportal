@@ -38,7 +38,17 @@ export async function getVardefClient(): Promise<VariableDefinitionsApi> {
     console.log(`Using Vardef base path: ${basePath}`);
     configParams.basePath = basePath;
   }
-  return new VariableDefinitionsApi(new Configuration(configParams));
+
+  return new VariableDefinitionsApi(
+    new Configuration({
+      ...configParams,
+      fetchApi: (url, init) =>
+        fetch(url, {
+          ...init,
+          next: { revalidate: 150 },
+        }),
+    }),
+  );
 }
 
 export async function listRenderedVariableDefinitions(): Promise<Array<RenderedView>> {
@@ -57,9 +67,7 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
   var data: RenderedView[] = [];
 
   try {
-    let rawData = await api.listVariableDefinitions(params, {
-      next: { revalidate: 150 },
-    } as RequestInit);
+    let rawData = await api.listVariableDefinitions(params);
     data = rawData.filter((each) => instanceOfRenderedView(each));
     console.log(`Fetched ${data.length} variable definitions`);
   } catch (error: unknown) {
