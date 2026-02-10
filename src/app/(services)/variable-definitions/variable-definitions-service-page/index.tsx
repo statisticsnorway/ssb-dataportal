@@ -30,6 +30,8 @@ const VariableDefinitionsServicePage = ({
   const [sortOption, setSortOption] = useState<SortTypes>('titleAsc');
   const [subjectFilters, setSubjectFilters] = useState<FilterItem[]>([]);
   const [textFilter, setTextFilter] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const pageSize = 20;
 
   /**
    * Returns a memoized array of the variable definitions to display after applying text and subject filters, as well as sorting.
@@ -44,6 +46,17 @@ const VariableDefinitionsServicePage = ({
     () => filterAndSortVariables(variables, textFilter, subjectFilters, sortOption),
     [variables, textFilter, subjectFilters, sortOption],
   );
+
+  useMemo(() => {
+    setCurrentPage(1);
+  }, [textFilter, subjectFilters, sortOption]);
+
+  const totalHits = displayedVariables.length;
+  const totalPages = Math.ceil(totalHits / pageSize);
+  const paginatedVariables = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return displayedVariables.slice(start, start + pageSize);
+  }, [displayedVariables, currentPage, pageSize]);
 
   /**
    * Returns a memoized array of the counts per selected filter.
@@ -79,6 +92,10 @@ const VariableDefinitionsServicePage = ({
     () => subjectFields.map((f) => ({ label: String(f.name), value: String(f.code) })),
     [subjectFields],
   );
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <SearchPage
@@ -116,12 +133,11 @@ const VariableDefinitionsServicePage = ({
             <div>{errorMessage}</div>
           ) : (
             <SearchHitContainer
-              searchHits={displayedVariables}
+              searchHits={paginatedVariables}
               renderHit={(hit) => <VardefSearchHit key={hit.id} variableDefinition={hit as RenderedView} />}
-              noSearchHits={displayedVariables.length === 0}
-              onPageChange={function (): void {
-                throw new Error('Function not implemented.');
-              }}
+              noSearchHits={totalHits === 0}
+              onPageChange={handlePageChange}
+              paginationInfo={{ currentPage, totalPages }}
             />
           )}
         </>

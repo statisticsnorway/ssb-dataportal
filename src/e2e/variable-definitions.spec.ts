@@ -79,3 +79,41 @@ test('Filter by name remove all', async ({ page }) => {
   await page.getByRole('button', { name: 'Remove Fjern alle filter' }).click();
   await expect(page.getByRole('main')).toContainText('76 treff');
 });
+
+test.describe('Variable definitions - pagination', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto(tabsData.VariableDefinitions.route);
+  });
+
+  test('Display 20 hits on first page and active page is 1', async ({ page }) => {
+    const hits = page.getByTestId('vardef-search-card');
+    await expect(hits).toHaveCount(20);
+    await expect(page.getByTestId('page-active')).toHaveText('1');
+  });
+  test('Next/previous navigation keeps 20 hits', async ({ page }) => {
+    await page.getByRole('button', { name: /neste|next/i }).click();
+    await expect(page.getByTestId('page-active')).toHaveText('2');
+    await expect(page.getByTestId('vardef-search-card')).toHaveCount(20);
+    await page.getByRole('button', { name: /forrige|previous/i }).click();
+    await expect(page.getByTestId('page-active')).toHaveText('1');
+    await expect(page.getByTestId('vardef-search-card')).toHaveCount(20);
+  });
+  test('Filter resets to page 1', async ({ page }) => {
+    await page.getByRole('button', { name: /neste|next/i }).click();
+    await expect(page.getByTestId('page-active')).toHaveText('2');
+    await page.getByRole('checkbox', { name: 'Befolkning' }).check();
+    await expect(page.getByTestId('page-active')).toHaveText('1');
+  });
+  test('Sorting resets to page 1', async ({ page }) => {
+    await page.getByRole('button', { name: /neste|next/i }).click();
+    await expect(page.getByTestId('page-active')).toHaveText('2');
+    await page.getByLabel(localization.search.sort.label).selectOption('titleDesc');
+    await expect(page.getByTestId('page-active')).toHaveText('1');
+  });
+  test('Behavior when no hits', async ({ page }) => {
+    const searchInput = page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true });
+    await searchInput.fill('asdasdasd');
+    await expect(page.getByRole('main')).toContainText('Ditt søk ga ingen treff');
+    await expect(page.getByTestId('pagination')).toHaveCount(0);
+  });
+});

@@ -12,7 +12,7 @@ interface VardefSearchHitProps {
 
 const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
   return (
-    <Card>
+    <Card data-testid='vardef-search-card'>
       <VardefHeading
         href={`${tabsData.VariableDefinitions.route}/${variableDefinition.short_name}`}
         headingProps={{ 'data-size': 'md', level: 2 }}
