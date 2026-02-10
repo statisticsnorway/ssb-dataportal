@@ -100,11 +100,14 @@ export default function VariableDefinitionDetail({
         </main>
         <aside className={styles.sidebar}>
           <section className={styles.idAndTagRow}>
+            <Tag className={styles.variableStatusTag} data-size='lg' data-color='info'>
+              {convertStatus(variableDefinition.variable_status)}
+            </Tag>
             <div className={styles.idField}>
               <span className={styles.idLabel}>Kortnavn</span>
               <span className={styles.idValue}>{variableDefinition.short_name}</span>
               <Button
-                title={localization.copy.id}
+                title={localization.copy.shortName}
                 className={styles.copyIdButton}
                 variant='tertiary'
                 icon
@@ -114,9 +117,6 @@ export default function VariableDefinitionDetail({
                 {copied ? <ClipboardCheckmarkIcon aria-hidden /> : <ClipboardIcon aria-hidden />}
               </Button>
             </div>
-            <Tag className={styles.variableStatusTag} data-size='lg' data-color='info'>
-              {convertStatus(variableDefinition.variable_status)}
-            </Tag>
           </section>
           <DetailsPagePanel title={localization.context} elements={unitTypesItems(variableDefinition)} />
           {references.length > 0 && <DetailsPagePanel title={localization.references} elements={references} />}
