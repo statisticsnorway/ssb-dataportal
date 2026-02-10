@@ -1,4 +1,4 @@
-import { listRenderedVariableDefinitions } from '@/libs/data/variable-definitions/variableDefinitions';
+import { getVariableDefinitionsCached } from '@/libs/data/variable-definitions/cachedVariableDefinitions';
 import { ResponseError } from '@/libs/data-access/variable-definitions/internal';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models';
 import { localization } from '@/libs/language';
@@ -10,10 +10,9 @@ export default async function VariableDefinitions() {
   let errorMessage: string | null = null;
 
   const subjectFieldsPromise = fetchStaticSubjectFields();
-  const variableDefsPromise = listRenderedVariableDefinitions();
 
   try {
-    data = await variableDefsPromise;
+    data = await getVariableDefinitionsCached();
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
       switch (error.response.status) {
