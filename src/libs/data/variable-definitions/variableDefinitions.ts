@@ -18,7 +18,8 @@ import {
 import { localization } from '@/libs/language';
 import { getVariableDefinitionByShortName, getVariableDefinitions } from '@/utils/mock-data';
 
-export async function getVardefClient(): Promise<VariableDefinitionsApi> {
+export async function getVardefClient(options?: { cache?: boolean }): Promise<VariableDefinitionsApi> {
+  const useCache = options?.cache !== false;
   let token = process.env.METADATA_CATALOG_JWT_TOKEN;
   if (token) {
     console.warn('Using hardcoded access token from environment! (METADATA_CATALOG_JWT_TOKEN)');
@@ -38,7 +39,21 @@ export async function getVardefClient(): Promise<VariableDefinitionsApi> {
     console.log(`Using Vardef base path: ${basePath}`);
     configParams.basePath = basePath;
   }
-  return new VariableDefinitionsApi(new Configuration(configParams));
+
+  return new VariableDefinitionsApi(
+    new Configuration({
+      ...configParams,
+      fetchApi: (url, init) => {
+        const cacheConfig = useCache
+          ? { next: { revalidate: 300, tags: ['variable-definitions'] } }
+          : { cache: 'no-store' as const };
+        return fetch(url, {
+          ...init,
+          ...cacheConfig,
+        });
+      },
+    }),
+  );
 }
 
 export async function listRenderedVariableDefinitions(): Promise<Array<RenderedView>> {
@@ -46,8 +61,7 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
     console.warn('Using static mock data for Vardef');
     return getVariableDefinitions();
   }
-
-  const api = await getVardefClient();
+  const api = await getVardefClient({ cache: true });
   if (!api) return Promise.reject('Could not access Vardef API!');
 
   const params = {
@@ -57,9 +71,7 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
   var data: RenderedView[] = [];
 
   try {
-    let rawData = await api.listVariableDefinitions(params, {
-      next: { revalidate: 150 },
-    } as RequestInit);
+    let rawData = await api.listVariableDefinitions(params);
     data = rawData.filter((each) => instanceOfRenderedView(each));
     console.log(`Fetched ${data.length} variable definitions`);
   } catch (error: unknown) {
@@ -81,7 +93,7 @@ export async function getRenderedVariableDefinition(shortName: string): Promise<
     return variable;
   }
 
-  const api = await getVardefClient();
+  const api = await getVardefClient({ cache: false });
   if (!api) return Promise.reject('Could not access Vardef API!');
 
   const params = {
@@ -92,7 +104,6 @@ export async function getRenderedVariableDefinition(shortName: string): Promise<
 
   try {
     const rawDataArray = await api.listVariableDefinitions(params);
-
     if (rawDataArray.length === 0) {
       throw new Error(`No variable definition found for shortName="${shortName}"`);
     }
