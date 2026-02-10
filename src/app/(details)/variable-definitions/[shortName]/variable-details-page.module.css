@@ -30,7 +30,6 @@
   margin-left: auto;
   height: auto;
   box-shadow: var(--box-shadow-sm);
-  background-color: antiquewhite;
 }
 
 .idAndTagRow {
@@ -198,7 +197,7 @@
 @media (min-width: 768px) {
   .contentGrid {
     flex-direction: row;
-    gap: var(--large-gap);
+    gap: var(--medium-gap);
   }
 
   .mainColumn {
@@ -206,5 +205,11 @@
   }
   .mainSection {
     padding-right: 1rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .contentGrid {
+    gap: var(--large-gap);
   }
 }
