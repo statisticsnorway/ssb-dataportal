@@ -1,25 +1,24 @@
 'use server';
 
-import { getEncodedJwt } from '@/libs/auth/jwt';
+import { localization } from '@/libs/language';
+import { getVariableDefinitionByShortName, getVariableDefinitions } from '@/utils/mock-data';
+import { getEncodedJwt } from '../../auth/jwt';
 import {
   ListVariableDefinitionsRequest,
   VariableDefinitionsApi,
-} from '@/libs/data-access/variable-definitions/internal/apis';
+} from '../../data-access/variable-definitions/internal/apis';
 import {
   instanceOfRenderedView,
   RenderedView,
   SupportedLanguages,
-} from '@/libs/data-access/variable-definitions/internal/models';
+} from '../../data-access/variable-definitions/internal/models';
 import {
   Configuration,
   ConfigurationParameters,
   ResponseError,
-} from '@/libs/data-access/variable-definitions/internal/runtime';
-import { localization } from '@/libs/language';
-import { getVariableDefinitionByShortName, getVariableDefinitions } from '@/utils/mock-data';
+} from '../../data-access/variable-definitions/internal/runtime';
 
-export async function getVardefClient(options?: { cache?: boolean }): Promise<VariableDefinitionsApi> {
-  const useCache = options?.cache !== false;
+export async function getVardefClient(): Promise<VariableDefinitionsApi> {
   let token = process.env.METADATA_CATALOG_JWT_TOKEN;
   if (token) {
     console.warn('Using hardcoded access token from environment! (METADATA_CATALOG_JWT_TOKEN)');
@@ -39,21 +38,7 @@ export async function getVardefClient(options?: { cache?: boolean }): Promise<Va
     console.log(`Using Vardef base path: ${basePath}`);
     configParams.basePath = basePath;
   }
-
-  return new VariableDefinitionsApi(
-    new Configuration({
-      ...configParams,
-      fetchApi: (url, init) => {
-        const cacheConfig = useCache
-          ? { next: { revalidate: 300, tags: ['variable-definitions'] } }
-          : { cache: 'no-store' as const };
-        return fetch(url, {
-          ...init,
-          ...cacheConfig,
-        });
-      },
-    }),
-  );
+  return new VariableDefinitionsApi(new Configuration(configParams));
 }
 
 export async function listRenderedVariableDefinitions(): Promise<Array<RenderedView>> {
@@ -61,7 +46,8 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
     console.warn('Using static mock data for Vardef');
     return getVariableDefinitions();
   }
-  const api = await getVardefClient({ cache: true });
+
+  const api = await getVardefClient();
   if (!api) return Promise.reject('Could not access Vardef API!');
 
   const params = {
@@ -93,7 +79,7 @@ export async function getRenderedVariableDefinition(shortName: string): Promise<
     return variable;
   }
 
-  const api = await getVardefClient({ cache: false });
+  const api = await getVardefClient();
   if (!api) return Promise.reject('Could not access Vardef API!');
 
   const params = {

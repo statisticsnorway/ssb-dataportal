@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import { listRenderedVariableDefinitions } from '@/libs/data/variable-definitions/variableDefinitions';
 import { ResponseError } from '@/libs/data-access/variable-definitions/internal';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models';
@@ -5,15 +6,18 @@ import { localization } from '@/libs/language';
 import { fetchStaticSubjectFields } from '@/utils/mock-data';
 import VariableDefinitionsServicePage from './variable-definitions-service-page';
 
+const getVariableDefinitionsCached = cache(async () => {
+  return listRenderedVariableDefinitions();
+});
+
 export default async function VariableDefinitions() {
   let data: RenderedView[] = [];
   let errorMessage: string | null = null;
 
   const subjectFieldsPromise = fetchStaticSubjectFields();
-  const variableDefsPromise = listRenderedVariableDefinitions();
 
   try {
-    data = await variableDefsPromise;
+    data = await getVariableDefinitionsCached();
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
       switch (error.response.status) {
