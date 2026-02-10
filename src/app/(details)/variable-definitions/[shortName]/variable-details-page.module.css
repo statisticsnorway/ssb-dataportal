@@ -15,7 +15,7 @@
   flex-direction: column;
   gap: 0.25rem;
   padding-bottom: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 2rem;
 }
 
 .statusRow {
@@ -78,6 +78,10 @@
   margin-bottom: 2rem;
   text-align: left;
   text-wrap: initial;
+  word-break: auto-phrase;
+  text-wrap: wrap;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .infoText {
@@ -186,5 +190,8 @@
   }
   .sidebar {
     order: 2;
+  }
+  .mainSection {
+    padding-right: 1rem;
   }
 }
