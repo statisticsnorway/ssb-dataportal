@@ -1,9 +1,9 @@
 'use server';
 
+import { ClassificationFamilyResource } from '@/libs/data-access/klass';
 import classificationMockFamilies from '@/static-data/classification-families.json';
 import { ClassificationType } from '@/types/classification';
 import { transformClassificationFamilies } from '@/utils/mock-data';
-import { ClassificationFamilyResource } from '../../data-access/klass';
 
 const CLASSIFICATION_FAMILIES_URL_PATH_PART = 'classificationfamilies';
 

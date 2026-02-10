@@ -23,8 +23,6 @@
   flex-direction: column;
   overflow-wrap: break-word;
   margin-bottom: var(--ds-size-4);
-  flex: 1;
-  min-height: 60vh;
 }
 
 .mainSection {

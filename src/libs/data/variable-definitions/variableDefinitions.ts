@@ -57,9 +57,7 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
   var data: RenderedView[] = [];
 
   try {
-    let rawData = await api.listVariableDefinitions(params, {
-      next: { revalidate: 150 },
-    } as RequestInit);
+    let rawData = await api.listVariableDefinitions(params);
     data = rawData.filter((each) => instanceOfRenderedView(each));
     console.log(`Fetched ${data.length} variable definitions`);
   } catch (error: unknown) {
@@ -92,7 +90,6 @@ export async function getRenderedVariableDefinition(shortName: string): Promise<
 
   try {
     const rawDataArray = await api.listVariableDefinitions(params);
-
     if (rawDataArray.length === 0) {
       throw new Error(`No variable definition found for shortName="${shortName}"`);
     }

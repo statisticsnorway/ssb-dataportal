@@ -6,9 +6,60 @@ exports[`Footer should render successfully 1`] = `
     <footer
       class="footer"
     >
-      <section
-        class="footerLinkSection"
-      />
+      <div
+        class="footerWrapper container"
+      >
+        <div
+          class="ds-card infoSection"
+          data-variant="default"
+        >
+          <img
+            alt=""
+            class="iconImage"
+            src="/pencil.svg"
+            width="50"
+          />
+          <p
+            class="ds-paragraph"
+            data-variant="default"
+          >
+            Dataportalen er under utvikling, og dine innspill er viktige for oss. Hjelp oss gjerne ved å fylle ut
+             
+            <a
+              class="ds-link"
+              href="https://forms.office.com/Pages/ResponsePage.aspx?id=knAhx0CyHU69YfqXupdcvG8mQNraR5ZAu3es4-se84xUN0VFME5BSVFSUTZDRUZCTzNTVUlFTDlUNC4u"
+              rel="noreferrer"
+            />
+          </p>
+        </div>
+        <section
+          class="footerLinkSection"
+        >
+          <svg
+            fill="none"
+            focusable="false"
+            font-size="2rem"
+            height="1em"
+            role="img"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M12.364 2.344a.75.75 0 0 0-.728 0l-9 5A.75.75 0 0 0 2.25 8v11c0 .414.336.75.75.75h18a.75.75 0 0 0 .75-.75V8a.75.75 0 0 0-.386-.656zM3.75 17.19l5.088-5.088L3.75 9.275zM4.544 8l5.85 3.25h3.212L19.456 8 12 3.858zm10.618 4.102 5.088 5.087V9.275zm4.027 6.148-5.5-5.5h-3.378l-5.5 5.5z"
+              fill="currentColor"
+              fill-rule="evenodd"
+            />
+          </svg>
+          <a
+            class="ds-link"
+            href="mailto:metadata@ssb.no"
+          >
+            metadata@ssb.no
+          </a>
+        </section>
+      </div>
     </footer>
   </div>
 </body>
