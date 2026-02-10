@@ -75,14 +75,20 @@ html * {
 
 body {
   line-height: inherit;
-  height: 100%;
   background-color: var(--ssb-dark-color-1);
   padding: 0;
+}
+
+html,
+body {
+  height: 100%;
   margin: 0;
 }
 
 .rootContainer {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* full viewport height */
 }
 
 .grow {

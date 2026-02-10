@@ -1,9 +1,11 @@
 import { Link } from '@digdir/designsystemet-react';
+import { localization } from '@/libs/language';
 
 interface ExternalLinkProps {
   linkText: string;
   href: string;
   className?: string;
+  willOpenNewTab?: boolean;
 }
 
 /**
@@ -12,13 +14,22 @@ interface ExternalLinkProps {
  *
  * @param href - The URL to navigate to.
  * @param linkText - Text to display for the link.
+ * @param willOpenNewTab - When true, adds `target="_blank"` and appends text indicating the link opens in a new tab.
  * @returns A `Link` component rendering the given text and URL.
  */
-const ExternalLink = ({ linkText, href, className }: ExternalLinkProps) => {
+const ExternalLink = ({ linkText, href, className, willOpenNewTab = false }: ExternalLinkProps) => {
   return (
-    <Link rel='noreferrer' href={href} className={className}>
-      {linkText}
-    </Link>
+    <>
+      {willOpenNewTab ? (
+        <Link target='_blank' rel='noreferrer' href={href} className={className}>
+          {`${linkText} (${localization.opensInNewTab})`}
+        </Link>
+      ) : (
+        <Link rel='noreferrer' href={href} className={className}>
+          {linkText}
+        </Link>
+      )}
+    </>
   );
 };
 
