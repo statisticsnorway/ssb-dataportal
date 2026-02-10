@@ -1,0 +1,17 @@
+import { ResponseError } from '@/libs/data-access/variable-definitions/internal';
+import { localization } from '@/libs/language/src/localization';
+
+export const mapErrorMessage = (error: unknown): string => {
+  if (error instanceof ResponseError) {
+    switch (error.response.status) {
+      case 401:
+      case 403:
+      case 404:
+        return localization.error.unauthorized;
+      case 500:
+      default:
+        return localization.error.somethingWentWrong;
+    }
+  }
+  return localization.error.somethingWentWrong;
+};

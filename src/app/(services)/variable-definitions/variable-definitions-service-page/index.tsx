@@ -1,6 +1,7 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { Spinner } from '@digdir/designsystemet-react';
+import { useMemo, useState, Suspense, use } from 'react';
 import { FilterTags } from '@/components/filter-tags';
 import { CheckboxFilter } from '@/components/filters/checkbox-filter';
 import { FiltersPanel } from '@/components/filters/filters-panel';
@@ -8,6 +9,7 @@ import { TextFilter } from '@/components/filters/text-filter';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortFields } from '@/components/sort-fields';
+import { ResponseError } from '@/libs/data-access/variable-definitions/internal';
 import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language/src/localization';
@@ -15,17 +17,19 @@ import { FilterItem } from '@/types/filters';
 import { SortTypes, sortTypes } from '@/types/sort';
 import { filterAndSortVariables } from '@/utils/filterAndSort';
 import { VardefSearchHit } from '../components/vardefSearchHit';
+import { FilterTagsSection } from './components/FilterTagsSection';
+import { ResultsSection } from './components/ResultsSection';
+import { ResultsCount } from './components/ResultsCount';
+import { FiltersSection } from './components/FiltersSection';
 
 interface VariableDefinitionsServicePageProps {
-  variables: RenderedView[];
-  errorMessage: string | null;
-  subjectFields: CodeItem[];
+  variablesPromise: Promise<{ data: RenderedView[]; error: any }>;
+  subjectFieldsPromise: Promise<{ data: CodeItem[]; error: any }>;
 }
 
 const VariableDefinitionsServicePage = ({
-  variables,
-  errorMessage,
-  subjectFields,
+  variablesPromise,
+  subjectFieldsPromise,
 }: VariableDefinitionsServicePageProps) => {
   const [sortOption, setSortOption] = useState<SortTypes>('titleAsc');
   const [subjectFilters, setSubjectFilters] = useState<FilterItem[]>([]);
@@ -33,48 +37,9 @@ const VariableDefinitionsServicePage = ({
   const [currentPage, setCurrentPage] = useState<number>(1);
   const pageSize = 20;
 
-  /**
-   * Returns a memoized array of the variable definitions to display after applying text and subject filters, as well as sorting.
-   *
-   * @param variables     - The full list of variable definitions.
-   * @param subjectFilters - Currently selected subject filters.
-   * @param textFilter     - Current text filter input.
-   * @param sortOption     - Currently selected sort option.
-   * @return An array of sorted RenderedView objects, memoized for performance.
-   */
-  const displayedVariables = useMemo(
-    () => filterAndSortVariables(variables, textFilter, subjectFilters, sortOption),
-    [variables, textFilter, subjectFilters, sortOption],
-  );
-
   useMemo(() => {
     setCurrentPage(1);
   }, [textFilter, subjectFilters, sortOption]);
-
-  const totalHits = displayedVariables.length;
-  const totalPages = Math.ceil(totalHits / pageSize);
-  const paginatedVariables = useMemo(() => {
-    const start = (currentPage - 1) * pageSize;
-    return displayedVariables.slice(start, start + pageSize);
-  }, [displayedVariables, currentPage, pageSize]);
-
-  /**
-   * Returns a memoized array of the counts per selected filter.
-   *
-   * @param displayedVariables - The full list of variable definitions currently being displayed.
-   * @param subjectFilters - Currently selected subject filters.
-   * @return An array of counts per filter, memoized for performance.
-   */
-  const filterCounts = useMemo(
-    () =>
-      Object.fromEntries(
-        subjectFilters.map((f) => [
-          f.value,
-          displayedVariables.filter((v) => v.subject_fields.some((sf) => sf.code === f.value)).length,
-        ]),
-      ),
-    [subjectFilters, displayedVariables],
-  );
 
   const toggleSubject = (filter: FilterItem) =>
     setSubjectFilters((prev) =>
@@ -87,11 +52,6 @@ const VariableDefinitionsServicePage = ({
     setTextFilter('');
     setSubjectFilters([]);
   };
-
-  const subjectFilterItems = useMemo(
-    () => subjectFields.map((f) => ({ label: String(f.name), value: String(f.code) })),
-    [subjectFields],
-  );
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -107,40 +67,50 @@ const VariableDefinitionsServicePage = ({
             searchTerm={textFilter}
             setSearchTerm={setTextFilter}
           />
-          <CheckboxFilter
-            filterHeading={localization.subjectArea}
-            filters={subjectFilterItems}
-            selectedItems={subjectFilters}
-            onFilterChange={toggleSubject}
-          />
+          <Suspense fallback={<Spinner aria-label='Laster filtere...' />}>
+            <FiltersSection
+              subjectFieldsPromise={subjectFieldsPromise}
+              selectedItems={subjectFilters}
+              onFilterChange={toggleSubject}
+            />
+          </Suspense>
         </FiltersPanel>
       }
-      totalHits={displayedVariables.length}
+      totalHits={
+        <Suspense fallback={null}>
+          <ResultsCount
+            variablesPromise={variablesPromise}
+            textFilter={textFilter}
+            subjectFilters={subjectFilters}
+            sortOption={sortOption}
+          />
+        </Suspense>
+      }
       infoContent={
-        <FilterTags
-          activeFilters={subjectFilters}
-          searchTerm={textFilter}
-          onClose={toggleSubject}
-          onClearAll={clearAll}
-          onClearSearch={() => setTextFilter('')}
-          filterCounts={filterCounts}
-        />
+        <Suspense fallback={null}>
+          <FilterTagsSection
+            variablesPromise={variablesPromise}
+            activeFilters={subjectFilters}
+            searchTerm={textFilter}
+            onClose={toggleSubject}
+            onClearAll={clearAll}
+            onClearSearch={() => setTextFilter('')}
+          />
+        </Suspense>
       }
       controlsContent={<SortFields sortOptions={sortTypes} sortValue={sortOption} onSortChange={setSortOption} />}
       searchResult={
-        <>
-          {errorMessage ? (
-            <div>{errorMessage}</div>
-          ) : (
-            <SearchHitContainer
-              searchHits={paginatedVariables}
-              renderHit={(hit) => <VardefSearchHit key={hit.id} variableDefinition={hit as RenderedView} />}
-              noSearchHits={totalHits === 0}
-              onPageChange={handlePageChange}
-              paginationInfo={{ currentPage, totalPages }}
-            />
-          )}
-        </>
+        <Suspense fallback={<Spinner aria-label='Laster resultater...' />}>
+          <ResultsSection
+            variablesPromise={variablesPromise}
+            textFilter={textFilter}
+            subjectFilters={subjectFilters}
+            sortOption={sortOption}
+            currentPage={currentPage}
+            pageSize={pageSize}
+            handlePageChange={handlePageChange}
+          />
+        </Suspense>
       }
     />
   );

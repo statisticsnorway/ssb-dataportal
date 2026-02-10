@@ -43,6 +43,8 @@ export async function getVardefClient(): Promise<VariableDefinitionsApi> {
 
 export async function listRenderedVariableDefinitions(): Promise<Array<RenderedView>> {
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
+    const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+    await sleep(3000);
     console.warn('Using static mock data for Vardef');
     return getVariableDefinitions();
   }

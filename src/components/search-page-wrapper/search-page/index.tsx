@@ -11,7 +11,7 @@ interface SearchPageProps {
   asideContent?: ReactNode;
   searchResult?: ReactElement;
   controlsContent?: ReactNode;
-  totalHits?: number;
+  totalHits?: ReactNode;
   searchLabel?: string;
   sortOptions?: ReadonlyArray<SortTypes>;
   sortValue?: SortTypes;
@@ -30,7 +30,7 @@ interface SearchPageProps {
  * @param asideContent    Optional sidebar content for filters
  * @param searchResult    Rendered search results
  * @param controlsContent Sorting or control UI for the results list
- * @param totalHits       Total number of search results
+ * @param totalHits       Total number of search results (can be a number or a ReactNode for Suspend)
  * @param header          Page title announced to screen readers
  */
 const SearchPage: FC<SearchPageProps> = ({
@@ -41,10 +41,13 @@ const SearchPage: FC<SearchPageProps> = ({
   totalHits,
   header,
 }) => {
-  const hitsLabel = (totalHits?: number | null): string | null => {
+  const hitsLabel = (totalHits?: ReactNode): ReactNode => {
     if (totalHits == null) return null;
-    if (totalHits === 0) return localization.search.noHits;
-    return `${totalHits} ${localization.search.hits}`;
+    if (typeof totalHits === 'number') {
+      if (totalHits === 0) return localization.search.noHits;
+      return `${totalHits} ${localization.search.hits}`;
+    }
+    return totalHits;
   };
 
   return (
