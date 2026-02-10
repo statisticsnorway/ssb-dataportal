@@ -1,17 +1,18 @@
 'use client';
 
-import { Button, Tag } from '@digdir/designsystemet-react';
+import { Button } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { tabsData } from '@/app/(services)/tabs';
 import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
 import { ExternalLink } from '@/components/external-link';
+import { StatusTag } from '@/components/statusTag';
 import { TextField } from '@/components/text-field';
 import { VardefHeading } from '@/components/vardef-heading/';
 import { useClipboard } from '@/hooks/useClipboard';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
-import { convertStatus, nonEmpty } from '@/utils/functions';
+import { nonEmpty } from '@/utils/functions';
 import { CodeSnippet } from './components/codeSnippet';
 import {
   contactItems,
@@ -23,8 +24,6 @@ import {
   validityItems,
 } from './groups';
 import styles from './variable-details-page.module.css';
-
-//TODO: Should replace <div className={styles.codeSnippetTitle}> with correct semantic element (header?)
 
 export default function VariableDefinitionDetail({
   variableDefinition,
@@ -74,6 +73,7 @@ export default function VariableDefinitionDetail({
           <div className={styles.codeSnippet}>
             <CodeSnippet
               daplaLabVardefUrl={daplaLabVardefUrl}
+              //TODO(jan): Should replace <div className={styles.codeSnippetTitle}> with correct semantic element (header?)
               title={
                 <div className={styles.codeSnippetTitle}>
                   <span className={styles.titleMain}>
@@ -100,9 +100,7 @@ export default function VariableDefinitionDetail({
         </main>
         <aside className={styles.sidebar}>
           <section className={styles.idAndTagRow}>
-            <Tag className={styles.variableStatusTag} data-size='lg' data-color='info'>
-              {convertStatus(variableDefinition.variable_status)}
-            </Tag>
+            <StatusTag className={styles.variableStatusTag} variableStatus={variableDefinition.variable_status} />
             <div className={styles.idField}>
               <span className={styles.idLabel}>Kortnavn</span>
               <span className={styles.idValue}>{variableDefinition.short_name}</span>
