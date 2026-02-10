@@ -180,17 +180,19 @@
 @media (min-width: 768px) {
   .contentGrid {
     flex-direction: row;
-    gap: var(--large-gap);
+    gap: var(--medium-gap);
   }
 
   .mainColumn {
     padding-right: var(--medium-gap);
-    order: 1;
-  }
-  .sidebar {
-    order: 2;
   }
   .mainSection {
     padding-right: 1rem;
+  }
+}
+
+@media (min-width: 1000px) {
+  .contentGrid {
+    gap: var(--large-gap);
   }
 }
