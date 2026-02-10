@@ -2,7 +2,6 @@ import { Tag } from '@digdir/designsystemet-react';
 import classNames from 'classnames';
 import { VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { convertStatus, statusColors } from '@/utils/functions';
-import styles from './status-tag.module.css';
 
 interface StatusTagProps {
   variableStatus: VariableStatus;
@@ -21,7 +20,7 @@ interface StatusTagProps {
 const StatusTag = ({ variableStatus, className }: StatusTagProps) => {
   const color = statusColors[variableStatus];
   return (
-    <Tag className={classNames(styles.variableStatusTag, className)} data-size='lg' style={{ backgroundColor: color }}>
+    <Tag className={classNames(className)} data-size='lg' style={{ backgroundColor: color }}>
       {convertStatus(variableStatus)}
     </Tag>
   );
