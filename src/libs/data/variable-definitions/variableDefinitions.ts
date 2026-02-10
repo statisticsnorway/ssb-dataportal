@@ -73,6 +73,7 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
   try {
     let rawData = await api.listVariableDefinitions(params);
     data = rawData.filter((each) => instanceOfRenderedView(each));
+    console.log(`Fetched ${data.length} variable definitions`);
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
       console.error(`Request to ${error.response.url} returned status code ${error.response.status}`, error);
@@ -114,6 +115,7 @@ export async function getRenderedVariableDefinition(shortName: string): Promise<
       console.error(`Received data which could not be decoded to RenderedView:`, data);
       throw new Error('Could not decode data');
     }
+    console.log(`Fetched variable definition ID: ${data.id} short name: ${data.short_name}`);
     return data;
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
