@@ -18,7 +18,8 @@ import {
   ResponseError,
 } from '../../data-access/variable-definitions/internal/runtime';
 
-export async function getVardefClient(): Promise<VariableDefinitionsApi> {
+export async function getVardefClient(options?: { cache?: boolean }): Promise<VariableDefinitionsApi> {
+  const useCache = options?.cache !== false;
   let token = process.env.METADATA_CATALOG_JWT_TOKEN;
   if (token) {
     console.warn('Using hardcoded access token from environment! (METADATA_CATALOG_JWT_TOKEN)');
@@ -42,22 +43,37 @@ export async function getVardefClient(): Promise<VariableDefinitionsApi> {
   return new VariableDefinitionsApi(
     new Configuration({
       ...configParams,
-      fetchApi: (url, init) =>
-        fetch(url, {
+      fetchApi: (url, init) => {
+        const cacheConfig = useCache
+          ? { next: { revalidate: 300, tags: ['variable-definitions'] } }
+          : { cache: 'no-store' as const };
+
+        console.log(`${useCache ? '🟢 [CACHED]' : '🔴 [UNCACHED]'} Fetching: ${url}`);
+        console.log(
+          `${useCache ? '🟢 [CACHED]' : '🔴 [UNCACHED]'} Cache config:`,
+          useCache ? 'revalidate: 300s, tags: [variable-definitions]' : 'no-store',
+        );
+
+        return fetch(url, {
           ...init,
-          next: { revalidate: 150 },
-        }),
+          ...cacheConfig,
+        });
+      },
     }),
   );
 }
 
 export async function listRenderedVariableDefinitions(): Promise<Array<RenderedView>> {
+  const startTime = performance.now();
+  console.log('\n═══════════════════════════════════════════════════════');
+  console.log('🟢 [CACHED] listRenderedVariableDefinitions() called');
+  console.log('🕐 Time:', new Date().toISOString());
+  console.log('═══════════════════════════════════════════════════════');
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
     console.warn('Using static mock data for Vardef');
     return getVariableDefinitions();
   }
-
-  const api = await getVardefClient();
+  const api = await getVardefClient({ cache: true });
   if (!api) return Promise.reject('Could not access Vardef API!');
 
   const params = {
@@ -69,19 +85,37 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
   try {
     let rawData = await api.listVariableDefinitions(params);
     data = rawData.filter((each) => instanceOfRenderedView(each));
-    console.log(`Fetched ${data.length} variable definitions`);
+
+    const duration = (performance.now() - startTime).toFixed(2);
+    console.log(`🟢 [CACHED] Fetched ${data.length} variable definitions`);
+    console.log(`🟢 [CACHED] Duration: ${duration}ms`);
+    if (parseFloat(duration) < 100) {
+      console.log(`🟢 [CACHED] 🚀 FAST - Likely from cache!`);
+    } else {
+      console.log(`🟢 [CACHED] 🐌 SLOW - First call or cache expired`);
+    }
+    console.log('═══════════════════════════════════════════════════════\n');
   } catch (error: unknown) {
+    const duration = (performance.now() - startTime).toFixed(2);
+    console.error(`🟢 [CACHED] Error after ${duration}ms:`);
     if (error instanceof ResponseError) {
       console.error(`Request to ${error.response.url} returned status code ${error.response.status}`, error);
     } else {
       console.error(error);
     }
+    console.log('═══════════════════════════════════════════════════════\n');
     throw error;
   }
   return data;
 }
 
 export async function getRenderedVariableDefinition(shortName: string): Promise<RenderedView> {
+  const startTime = performance.now();
+  console.log('\n═══════════════════════════════════════════════════════');
+  console.log('🔴 [UNCACHED] getRenderedVariableDefinition() called');
+  console.log('🔴 [UNCACHED] Short name:', shortName);
+  console.log('🕐 Time:', new Date().toISOString());
+  console.log('═══════════════════════════════════════════════════════');
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
     console.warn('Using static mock data for Vardef');
     const variable = getVariableDefinitionByShortName(shortName);
@@ -89,7 +123,7 @@ export async function getRenderedVariableDefinition(shortName: string): Promise<
     return variable;
   }
 
-  const api = await getVardefClient();
+  const api = await getVardefClient({ cache: false });
   if (!api) return Promise.reject('Could not access Vardef API!');
 
   const params = {
@@ -99,9 +133,7 @@ export async function getRenderedVariableDefinition(shortName: string): Promise<
   } satisfies ListVariableDefinitionsRequest;
 
   try {
-    const rawDataArray = await api.listVariableDefinitions(params, {
-      cache: 'no-store',
-    });
+    const rawDataArray = await api.listVariableDefinitions(params);
     if (rawDataArray.length === 0) {
       throw new Error(`No variable definition found for shortName="${shortName}"`);
     }
@@ -113,7 +145,17 @@ export async function getRenderedVariableDefinition(shortName: string): Promise<
       console.error(`Received data which could not be decoded to RenderedView:`, data);
       throw new Error('Could not decode data');
     }
-    console.log(`Fetched variable definition ID: ${data.id} short name: ${data.short_name}`);
+
+    const duration = (performance.now() - startTime).toFixed(2);
+    console.log(`🔴 [UNCACHED] Fetched variable definition ID: ${data.id} short name: ${data.short_name}`);
+    console.log(`🔴 [UNCACHED] Duration: ${duration}ms`);
+
+    if (parseFloat(duration) < 100) {
+      console.log(`🔴 [UNCACHED] ⚠️ UNEXPECTEDLY FAST - Should NOT be cached!`);
+    } else {
+      console.log(`🔴 [UNCACHED] ✅ SLOW - Correctly not cached`);
+    }
+
     return data;
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
