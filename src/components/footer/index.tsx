@@ -12,7 +12,6 @@ export const Footer = () => (
         <Paragraph>
           Dataportalen er under utvikling, og dine innspill er viktige for oss. Hjelp oss gjerne ved å fylle ut{' '}
           <ExternalLink
-            willOpenNewTab={true}
             linkText={localization.feedBackForm}
             href='https://forms.office.com/Pages/ResponsePage.aspx?id=knAhx0CyHU69YfqXupdcvG8mQNraR5ZAu3es4-se84xUN0VFME5BSVFSUTZDRUZCTzNTVUlFTDlUNC4u'
           />
