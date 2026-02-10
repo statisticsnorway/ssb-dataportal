@@ -53,6 +53,7 @@ export const convertStatus = (status: VariableStatus) => {
       status satisfies never;
   }
 };
+
 /**
  * Check if an object is compatible with type 'ClassificationResource'
  *
@@ -101,3 +102,12 @@ export const sanitizeId = (str: string) =>
     .toLowerCase()
     .replace(/\s+/g, '-')
     .replace(/[^a-z0-9-_]/g, '');
+
+/**
+ * Maps each VariableStatus to a corresponding CSS color variable.
+ */
+export const statusColors: Record<VariableStatus, string> = {
+  [VariableStatus.Draft]: 'var(--status-draft)',
+  [VariableStatus.PublishedInternal]: 'var(--status-published-internal',
+  [VariableStatus.PublishedExternal]: 'var(--status-published-external',
+};
