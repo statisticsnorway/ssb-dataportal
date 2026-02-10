@@ -29,10 +29,7 @@ exports[`Footer should render successfully 1`] = `
               class="ds-link"
               href="https://forms.office.com/Pages/ResponsePage.aspx?id=knAhx0CyHU69YfqXupdcvG8mQNraR5ZAu3es4-se84xUN0VFME5BSVFSUTZDRUZCTzNTVUlFTDlUNC4u"
               rel="noreferrer"
-              target="_blank"
-            >
-              undefined (undefined)
-            </a>
+            />
           </p>
         </div>
         <section
