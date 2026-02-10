@@ -92,7 +92,6 @@ export async function getRenderedVariableDefinition(shortName: string): Promise<
 
   try {
     const rawDataArray = await api.listVariableDefinitions(params);
-
     if (rawDataArray.length === 0) {
       throw new Error(`No variable definition found for shortName="${shortName}"`);
     }
