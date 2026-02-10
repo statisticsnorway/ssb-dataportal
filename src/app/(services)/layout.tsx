@@ -14,7 +14,7 @@ export default function SearchLayout({ children }: { children: ReactNode }) {
   const activeTab = getTabForRoute(pathname) ?? tabsData.VariableDefinitions;
 
   return (
-    <Tabs value={activeTab.id} data-color='accent'>
+    <Tabs className={styles.tabsContainer} value={activeTab.id} data-color='accent'>
       <section className={styles.searchPageWrapper}>
         <div className={`${styles.searchFieldContent} container`}>
           <Field>

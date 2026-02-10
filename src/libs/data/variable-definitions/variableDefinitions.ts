@@ -1,22 +1,22 @@
 'use server';
 
-import { localization } from '@/libs/language';
-import { getVariableDefinitionByShortName, getVariableDefinitions } from '@/utils/mock-data';
-import { getEncodedJwt } from '../../auth/jwt';
+import { getEncodedJwt } from '@/libs/auth/jwt';
 import {
   ListVariableDefinitionsRequest,
   VariableDefinitionsApi,
-} from '../../data-access/variable-definitions/internal/apis';
+} from '@/libs/data-access/variable-definitions/internal/apis';
 import {
   instanceOfRenderedView,
   RenderedView,
   SupportedLanguages,
-} from '../../data-access/variable-definitions/internal/models';
+} from '@/libs/data-access/variable-definitions/internal/models';
 import {
   Configuration,
   ConfigurationParameters,
   ResponseError,
-} from '../../data-access/variable-definitions/internal/runtime';
+} from '@/libs/data-access/variable-definitions/internal/runtime';
+import { localization } from '@/libs/language';
+import { getVariableDefinitionByShortName, getVariableDefinitions } from '@/utils/mock-data';
 
 export async function getVardefClient(): Promise<VariableDefinitionsApi> {
   let token = process.env.METADATA_CATALOG_JWT_TOKEN;

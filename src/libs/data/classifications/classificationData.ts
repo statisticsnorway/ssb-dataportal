@@ -1,9 +1,9 @@
 'use server';
 
+import { ClassificationResource } from '@/libs/data-access/klass';
 import classificationsMock from '@/static-data/classifications.json';
 import { linkObj } from '@/types/classification';
 import { getClassification } from '@/utils/mock-data';
-import { ClassificationResource } from '../../data-access/klass';
 
 const CLASSIFICATIONS_URL_PATH_PART = 'classifications';
 
