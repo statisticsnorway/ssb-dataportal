@@ -61,16 +61,6 @@ export const referencesItems = (v: RenderedView): Item[] => [
     type: 'link',
     display: localization.variableDefinition.viewExternalReference,
   },
-  {
-    label: localization.variableDefinition.relevant,
-    value: Array.isArray(v.related_variable_definition_uris)
-      ? v.related_variable_definition_uris.join(', ')
-      : (v.related_variable_definition_uris ?? null),
-    type: 'link',
-    display: Array.isArray(v.related_variable_definition_uris)
-      ? v.related_variable_definition_uris.map((_, i) => `${localization.variableDefinition.viewRelevant} ${i + 1}`)
-      : localization.variableDefinition.viewRelevant,
-  },
 ];
 
 /**
