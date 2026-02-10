@@ -101,15 +101,15 @@ export default function VariableDefinitionDetail({
         <aside className={styles.sidebar}>
           <section className={styles.idAndTagRow}>
             <div className={styles.idField}>
-              <span className={styles.idLabel}>ID</span>
-              <span className={styles.idValue}>{variableDefinition.id}</span>
+              <span className={styles.idLabel}>Kortnavn</span>
+              <span className={styles.idValue}>{variableDefinition.short_name}</span>
               <Button
                 title={localization.copy.id}
                 className={styles.copyIdButton}
                 variant='tertiary'
                 icon
-                onClick={() => copyToClipboard(variableDefinition.id)}
-                aria-label={copied ? localization.copy.copied : localization.copy.id}
+                onClick={() => copyToClipboard(variableDefinition.short_name)}
+                aria-label={copied ? localization.copy.copied : localization.copy.shortName}
               >
                 {copied ? <ClipboardCheckmarkIcon aria-hidden /> : <ClipboardIcon aria-hidden />}
               </Button>
