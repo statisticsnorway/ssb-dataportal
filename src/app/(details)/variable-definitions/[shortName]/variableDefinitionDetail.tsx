@@ -71,30 +71,32 @@ export default function VariableDefinitionDetail({
               </dl>
             )}
           </section>
+          <div className={styles.codeSnippet}>
+            <CodeSnippet
+              daplaLabVardefUrl={daplaLabVardefUrl}
+              title={
+                <div className={styles.codeSnippetTitle}>
+                  <span className={styles.titleMain}>
+                    <img src='/python-logo-only.svg' alt='' className={styles.pythonIcon} />{' '}
+                    {localization.variableDefinition.fetchWith}
+                  </span>
+                  <ExternalLink
+                    className={styles.titleLink}
+                    href='https://pypi.org/project/dapla-toolbelt-metadata/'
+                    linkText='dapla-toolbelt-metadata (pypi.org)'
+                  />
+                </div>
+              }
+              code={[
+                `Vardef.get_variable_definition_by_shortname(`,
+                `    short_name="${variableDefinition.short_name}"`,
+                `)`,
+              ]}
+            />
+          </div>
           <DetailsPagePanel elements={contactItems(variableDefinition)} columns={2} />
           <DetailsPagePanel elements={personalDataItems(variableDefinition)} />
           <DetailsPagePanel title={localization.owner.label} elements={ownerItems(variableDefinition)} columns={2} />
-          <CodeSnippet
-            daplaLabVardefUrl={daplaLabVardefUrl}
-            title={
-              <div className={styles.codeSnippetTitle}>
-                <span className={styles.titleMain}>
-                  <img src='/python-logo-only.svg' alt='' className={styles.pythonIcon} />{' '}
-                  {localization.variableDefinition.fetchWith}
-                </span>
-                <ExternalLink
-                  className={styles.titleLink}
-                  href='https://pypi.org/project/dapla-toolbelt-metadata/'
-                  linkText='dapla-toolbelt-metadata (pypi.org)'
-                />
-              </div>
-            }
-            code={[
-              `Vardef.get_variable_definition_by_shortname(`,
-              `    short_name="${variableDefinition.short_name}"`,
-              `)`,
-            ]}
-          />
         </main>
         <aside className={styles.sidebar}>
           <section className={styles.idAndTagRow}>

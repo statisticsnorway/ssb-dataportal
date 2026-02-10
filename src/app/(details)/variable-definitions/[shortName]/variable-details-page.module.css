@@ -103,8 +103,7 @@
 .mainSection {
   display: flex;
   flex-direction: column;
-  margin-bottom: var(--large-gap);
-  padding-bottom: 1.5rem;
+  margin-bottom: var(--medium-gap);
 }
 
 .mainColumn {
@@ -165,6 +164,10 @@
   text-decoration: underline;
 }
 
+.codeSnippet {
+  margin-bottom: 1rem;
+}
+
 @media (min-width: 480px) {
   .titleLink {
     flex-basis: auto;
@@ -179,5 +182,9 @@
 
   .mainColumn {
     padding-right: var(--medium-gap);
+    order: 1;
+  }
+  .sidebar {
+    order: 2;
   }
 }
