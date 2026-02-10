@@ -1,14 +1,9 @@
-import { cache } from 'react';
-import { listRenderedVariableDefinitions } from '@/libs/data/variable-definitions/variableDefinitions';
+import { getVariableDefinitionsCached } from '@/libs/data/variable-definitions/cachedVariableDefinitions';
 import { ResponseError } from '@/libs/data-access/variable-definitions/internal';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models';
 import { localization } from '@/libs/language';
 import { fetchStaticSubjectFields } from '@/utils/mock-data';
 import VariableDefinitionsServicePage from './variable-definitions-service-page';
-
-const getVariableDefinitionsCached = cache(async () => {
-  return listRenderedVariableDefinitions();
-});
 
 export default async function VariableDefinitions() {
   let data: RenderedView[] = [];
