@@ -1,7 +1,7 @@
 'use client';
 
 import { Alert, Heading } from '@digdir/designsystemet-react';
-import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
+import { Breadcrumbs, BreadcrumbType } from '@/components/vardef-breadcrumbs';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import styles from './classification-page.module.css';
@@ -15,7 +15,7 @@ export default function ClassificationDetail({ classification }: { classificatio
       <Breadcrumbs
         breadcrumbList={breadcrumbList}
         homeUrl={homeUrl}
-        breadcrumbHomeAriaLabel={localization.navigateHomeClassifications}
+        ariaLabel={localization.navigateHomeClassifications}
       />
       <header>
         <Heading className={styles.classificationHeading} level={1} data-size='lg'>

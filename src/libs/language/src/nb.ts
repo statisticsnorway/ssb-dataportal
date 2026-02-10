@@ -8,12 +8,14 @@
 
 export const nb = {
   appTitle: 'Dataportal',
+  breadcrumbsLabel: 'Brødsmulesti',
   by: 'av',
   comment: 'Kommentar',
   context: 'Kontekst',
   daplaManual: 'Dapla-manualen',
   documentation: 'Dokumentasjon',
   from: 'Fra',
+  home: 'Hjem',
   id: 'ID',
   loadingVariableDefinitions: 'Laster variabeldefinisjoner',
   navigateHome: 'Naviger til hjemmesiden',

@@ -3,10 +3,10 @@
 import { Button, Tag } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { tabsData } from '@/app/(services)/tabs';
-import { Breadcrumbs, BreadcrumbType } from '@/components/breadcrumbs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
 import { ExternalLink } from '@/components/external-link';
 import { TextField } from '@/components/text-field';
+import { BreadcrumbType, VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
 import { VardefHeading } from '@/components/vardef-heading/';
 import { useClipboard } from '@/hooks/useClipboard';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
@@ -37,20 +37,17 @@ export default function VariableDefinitionDetail({
     return <div>Variabeldefinisjon ikke funnet</div>;
   }
 
-  const homeUrl = { text: localization.variableDefinition.labelPlural, href: tabsData.VariableDefinitions.route };
-  const breadcrumbList = variableDefinition.short_name
-    ? ([{ text: variableDefinition.name, href: '' }] as BreadcrumbType[])
-    : [];
+  const homeUrl = { text: localization.home, href: '/' };
+  const breadcrumbList: BreadcrumbType[] = [
+    { text: localization.variableDefinition.labelPlural, href: tabsData.VariableDefinitions.route },
+    ...(variableDefinition.short_name && variableDefinition.name ? [{ text: variableDefinition.name, href: '' }] : []),
+  ];
   const references = nonEmpty(referencesItems(variableDefinition));
   const { copied, copyToClipboard } = useClipboard();
 
   return (
     <section className={`${styles.detailsPage} container`}>
-      <Breadcrumbs
-        breadcrumbList={breadcrumbList}
-        homeUrl={homeUrl}
-        breadcrumbHomeAriaLabel={localization.navigateHomeVariableDefinitions}
-      />
+      <VardefBreadcrumbs breadcrumbList={breadcrumbList} homeUrl={homeUrl} />
       <header className={styles.detailsPageHeader}>
         <VardefHeading headingProps={{ 'data-size': 'xl', level: 1 }} variableDefinition={variableDefinition} />
       </header>

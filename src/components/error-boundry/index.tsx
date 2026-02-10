@@ -3,8 +3,8 @@
 import { Heading } from '@digdir/designsystemet-react';
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { localization } from '@/libs/language';
-import { Breadcrumbs } from '../breadcrumbs';
 import CenterContainer from '../center-container';
+import { Breadcrumbs } from '../vardef-breadcrumbs';
 
 interface Props {
   children?: ReactNode;
@@ -51,7 +51,7 @@ class ErrorBoundary extends Component<Props, State> {
               href: '',
               text: '',
             }}
-            breadcrumbHomeAriaLabel={''}
+            ariaLabel={''}
           />
           <CenterContainer>
             <Heading level={2} data-size='sm'>
