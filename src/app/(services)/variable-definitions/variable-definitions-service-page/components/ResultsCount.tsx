@@ -8,18 +8,13 @@ import { SortTypes } from '@/types/sort';
 import { filterAndSortVariables } from '@/utils/filterAndSort';
 
 interface ResultsCountProps {
-  variablesPromise: Promise<{ data: RenderedView[]; error: any }>;
+  variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
   textFilter: string;
   subjectFilters: FilterItem[];
   sortOption: SortTypes;
 }
 
-export const ResultsCount = ({
-  variablesPromise,
-  textFilter,
-  subjectFilters,
-  sortOption,
-}: ResultsCountProps) => {
+export const ResultsCount = ({ variablesPromise, textFilter, subjectFilters, sortOption }: ResultsCountProps) => {
   const { data: variables, error } = use(variablesPromise);
   if (error) return null;
 

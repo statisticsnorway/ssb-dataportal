@@ -1,5 +1,6 @@
 'use client';
 
+import { Alert } from '@digdir/designsystemet-react';
 import { use, useMemo } from 'react';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
@@ -10,7 +11,7 @@ import { VardefSearchHit } from '../../components/vardefSearchHit';
 import { mapErrorMessage } from './utils';
 
 interface ResultsSectionProps {
-  variablesPromise: Promise<{ data: RenderedView[]; error: any }>;
+  variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
   textFilter: string;
   subjectFilters: FilterItem[];
   sortOption: SortTypes;
@@ -31,7 +32,11 @@ export const ResultsSection = ({
   const { data: variables, error } = use(variablesPromise);
 
   if (error) {
-    return <div>{mapErrorMessage(error)}</div>;
+    return (
+      <div>
+        <Alert data-color='danger'>{mapErrorMessage(error)}</Alert>
+      </div>
+    );
   }
 
   const displayedVariables = useMemo(
