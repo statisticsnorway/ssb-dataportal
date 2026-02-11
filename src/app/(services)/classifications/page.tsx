@@ -4,7 +4,7 @@ import { SearchPage } from '@/components/search-page-wrapper';
 import { localization } from '@/libs/language';
 
 export default async function Classifications() {
-  const pageContent = (
+  const pageInfo = (
     <Alert data-color='info' data-size='lg'>
       <Heading level={2}>{localization.info.classificationsPrototypeIntro}</Heading>
       <Paragraph>
@@ -18,12 +18,7 @@ export default async function Classifications() {
     <SearchPage
       header={localization.tabs.classifications}
       searchLabel={localization.search.searchForClassifications}
-      infoContent={
-        <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
-          Klassifikasjoner er ikke klar for testing.
-        </Alert>
-      }
-      searchResult={pageContent}
+      searchResult={pageInfo}
     ></SearchPage>
   );
 }
