@@ -1,12 +1,12 @@
 'use client';
 
 import { Alert } from '@digdir/designsystemet-react';
-import { use, useMemo } from 'react';
+import { useMemo } from 'react';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
+import { useFilteredVariables } from '@/hooks/useFilterdVariables';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
-import { filterAndSortVariables } from '@/utils/filterAndSort';
 import { VardefSearchHit } from '../../components/vardefSearchHit';
 import { mapErrorMessage } from './utils';
 
@@ -29,7 +29,12 @@ export const ResultsSection = ({
   pageSize,
   handlePageChange,
 }: ResultsSectionProps) => {
-  const { data: variables, error } = use(variablesPromise);
+  const { filteredVariables, error } = useFilteredVariables({
+    variablesPromise,
+    textFilter,
+    subjectFilters,
+    sortOption,
+  });
 
   if (error) {
     return (
@@ -39,26 +44,12 @@ export const ResultsSection = ({
     );
   }
 
-  /**
-   * Returns a memoized array of the variable definitions to display after applying text and subject filters, as well as sorting.
-   *
-   * @param variables     - The full list of variable definitions.
-   * @param subjectFilters - Currently selected subject filters.
-   * @param textFilter     - Current text filter input.
-   * @param sortOption     - Currently selected sort option.
-   * @return An array of sorted RenderedView objects, memoized for performance.
-   */
-  const displayedVariables = useMemo(
-    () => filterAndSortVariables(variables, textFilter, subjectFilters, sortOption),
-    [variables, textFilter, subjectFilters, sortOption],
-  );
-
-  const totalHits = displayedVariables.length;
+  const totalHits = filteredVariables.length;
   const totalPages = Math.ceil(totalHits / pageSize);
   const paginatedVariables = useMemo(() => {
     const start = (currentPage - 1) * pageSize;
-    return displayedVariables.slice(start, start + pageSize);
-  }, [displayedVariables, currentPage, pageSize]);
+    return filteredVariables.slice(start, start + pageSize);
+  }, [filteredVariables, currentPage, pageSize]);
 
   return (
     <SearchHitContainer

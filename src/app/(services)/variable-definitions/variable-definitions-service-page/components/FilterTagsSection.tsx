@@ -1,15 +1,17 @@
 'use client';
 
-import { use, useMemo } from 'react';
+import { useMemo } from 'react';
 import { FilterTags } from '@/components/filter-tags';
+import { useFilteredVariables } from '@/hooks/useFilterdVariables';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { FilterItem } from '@/types/filters';
-import { filterAndSortVariables } from '@/utils/filterAndSort';
+import { SortTypes } from '@/types/sort';
 
 interface FilterTagsSectionProps {
   variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
-  activeFilters: FilterItem[];
-  searchTerm: string;
+  subjectFilters: FilterItem[];
+  textFilter: string;
+  sortOption: SortTypes;
   onClose: (filter: FilterItem) => void;
   onClearAll: () => void;
   onClearSearch: () => void;
@@ -17,20 +19,21 @@ interface FilterTagsSectionProps {
 
 export const FilterTagsSection = ({
   variablesPromise,
-  activeFilters,
-  searchTerm,
+  subjectFilters,
+  textFilter,
+  sortOption,
   onClose,
   onClearAll,
   onClearSearch,
 }: FilterTagsSectionProps) => {
-  const { data: variables, error } = use(variablesPromise);
+  const { filteredVariables, error } = useFilteredVariables({
+    variablesPromise,
+    textFilter,
+    subjectFilters,
+    sortOption,
+  });
 
   if (error) return null;
-
-  const displayedVariables = useMemo(
-    () => filterAndSortVariables(variables, searchTerm, activeFilters, 'titleAsc'),
-    [variables, searchTerm, activeFilters],
-  );
 
   /**
    * Returns a memoized array of the counts per selected filter.
@@ -42,18 +45,18 @@ export const FilterTagsSection = ({
   const filterCounts = useMemo(
     () =>
       Object.fromEntries(
-        activeFilters.map((f) => [
+        subjectFilters.map((f) => [
           f.value,
-          displayedVariables.filter((v) => v.subject_fields.some((sf) => sf.code === f.value)).length,
+          filteredVariables.filter((v) => v.subject_fields.some((sf) => sf.code === f.value)).length,
         ]),
       ),
-    [activeFilters, displayedVariables],
+    [subjectFilters, filteredVariables],
   );
 
   return (
     <FilterTags
-      activeFilters={activeFilters}
-      searchTerm={searchTerm}
+      activeFilters={subjectFilters}
+      searchTerm={textFilter}
       onClose={onClose}
       onClearAll={onClearAll}
       onClearSearch={onClearSearch}

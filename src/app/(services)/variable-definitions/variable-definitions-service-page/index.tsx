@@ -84,8 +84,9 @@ const VariableDefinitionsServicePage = ({
         <Suspense fallback={null}>
           <FilterTagsSection
             variablesPromise={variablesPromise}
-            activeFilters={subjectFilters}
-            searchTerm={textFilter}
+            subjectFilters={subjectFilters}
+            textFilter={textFilter}
+            sortOption={sortOption}
             onClose={toggleSubject}
             onClearAll={clearAll}
             onClearSearch={() => setTextFilter('')}
