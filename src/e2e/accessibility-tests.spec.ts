@@ -11,9 +11,7 @@ test.describe('Variable definitions – accessibility', () => {
     await page.getByRole('checkbox', { name: 'Sosiale forhold og' }).check();
     const results = await new AxeBuilder({ page })
       .exclude('.ds-alert.infoAlert')
-      .exclude('.search-layout_searchLabel__lAQ7Q')
-      .exclude('#searchValue')
-      .exclude('.search-layout_tabsNavigationContainer__1TNsL')
+      .exclude('[data-axe-ignore]')
       .analyze();
     expect(results.violations).toEqual([]);
   });

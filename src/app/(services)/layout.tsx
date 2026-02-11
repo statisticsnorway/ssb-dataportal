@@ -16,18 +16,20 @@ export default function SearchLayout({ children }: { children: ReactNode }) {
   return (
     <Tabs className={styles.tabsContainer} value={activeTab.id} data-color='accent'>
       <section className={styles.searchPageWrapper}>
-        <div className={`${styles.searchFieldContent} container`}>
-          <Field>
-            <Label className={styles.searchLabel}>{activeTab.searchLabel}</Label>
-            <Search id='searchId' data-color='accent' aria-disabled>
-              <Search.Input id='searchValue' aria-label={localization.search.label} />
-              <Search.Clear />
-              <Search.Button>Søk</Search.Button>
-            </Search>
-          </Field>
+        <div data-axe-ignore>
+          <div className={`${styles.searchFieldContent} container`}>
+            <Field>
+              <Label className={styles.searchLabel}>{activeTab.searchLabel}</Label>
+              <Search id='searchId' data-color='accent' aria-disabled>
+                <Search.Input id='searchValue' aria-label={localization.search.label} />
+                <Search.Clear />
+                <Search.Button>Søk</Search.Button>
+              </Search>
+            </Field>
+          </div>
         </div>
 
-        <div className={`${styles.tabsNavigationContainer} container`}>
+        <nav className={`${styles.tabsNavigationContainer} container`}>
           <Tabs.List className={styles.tabsNavigation}>
             {Object.values(tabsData).map((tab) => (
               <Tabs.Tab
@@ -40,7 +42,7 @@ export default function SearchLayout({ children }: { children: ReactNode }) {
               </Tabs.Tab>
             ))}
           </Tabs.List>
-        </div>
+        </nav>
       </section>
 
       {children}
