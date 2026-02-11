@@ -5,6 +5,19 @@ import path from 'path';
 const isTest = process.env.NODE_ENV === 'test';
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: path.resolve(__dirname), // project root
+    resolveAlias: {
+      '@': path.resolve(__dirname, 'src'),
+      '@global-css': path.resolve(__dirname, 'src/app/global.css'),
+    },
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'], // basic support svg ?
+        as: '*.js',
+      },
+    },
+  },
   /* config options here */
   webpack(config: { module: { rules: any[] }; resolve: { alias: any } }) {
     const fileLoaderRule = config.module.rules.find(
