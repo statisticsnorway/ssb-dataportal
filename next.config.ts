@@ -1,7 +1,6 @@
 import type { NextConfig } from 'next';
 import type { RuleSetRule } from 'webpack';
 import path from 'path';
-import bundleAnalyzer from '@next/bundle-analyzer';
 
 const nextConfig: NextConfig = {
   /* config options here */
