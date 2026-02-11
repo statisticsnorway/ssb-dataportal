@@ -8,6 +8,7 @@
 
 export const nb = {
   appTitle: 'Dataportal',
+  breadcrumbsLabel: 'Brødsmulesti',
   by: 'av',
   comment: 'Kommentar',
   context: 'Kontekst',
@@ -15,6 +16,7 @@ export const nb = {
   documentation: 'Dokumentasjon',
   feedBackForm: 'tilbakemeldingsskjema for Dataportalen',
   from: 'Fra',
+  home: 'Hjem',
   id: 'ID',
   loadingVariableDefinitions: 'Laster variabeldefinisjoner',
   navigateHome: 'Naviger til hjemmesiden',
