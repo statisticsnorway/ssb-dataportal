@@ -8,7 +8,7 @@ import variableDefinitions from '@/static-data/variable-definitions.json';
 test.describe('Variable definitions – accessibility', () => {
   test('Filters are accessible', async ({ page }) => {
     await page.goto('/variable-definitions');
-    await page.getByRole('checkbox', { name: 'Sosiale forhold og' }).check();
+    await page.getByRole('checkbox', { name: 'Sosiale forhold og kriminalitet' }).check();
     const results = await new AxeBuilder({ page })
       .exclude('.ds-alert.infoAlert')
       .exclude('.search-layout_searchLabel__lAQ7Q')
@@ -20,7 +20,7 @@ test.describe('Variable definitions – accessibility', () => {
 
   test('Color contrasts are accessible', async ({ page }) => {
     await page.goto('/variable-definitions');
-    await page.getByRole('checkbox', { name: 'Sosiale forhold og' }).check();
+    await page.getByRole('checkbox', { name: 'Sosiale forhold og kriminalitet' }).check();
     const results = await new AxeBuilder({ page })
       .withRules(['color-contrast'])
       .exclude('.ds-alert.infoAlert')
@@ -30,7 +30,7 @@ test.describe('Variable definitions – accessibility', () => {
 
   test('Filters apply to landmark rules', async ({ page }) => {
     await page.goto('/variable-definitions');
-    await page.getByRole('checkbox', { name: 'Sosiale forhold og' }).check();
+    await page.getByRole('checkbox', { name: 'Sosiale forhold og kriminalitet' }).check();
     const results = await new AxeBuilder({ page })
       .withRules(['landmark-no-duplicate-banner'])
       .exclude('.ds-alert.infoAlert')
