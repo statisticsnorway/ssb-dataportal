@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { AppLayout } from '@/components/app-layout';
 import { localization } from '@/libs/language';
 import { openSans, roboto, robotoCondensed } from './fonts';
+import './global.css';
 
 // Hardcoded until we implement multi-language support
 localization.setLanguage('nb');

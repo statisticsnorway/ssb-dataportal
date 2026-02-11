@@ -1,10 +1,7 @@
+import { Alert } from '@digdir/designsystemet-react';
 import { ReactNode } from 'react';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
-
-import '@global-css';
-
-import { Alert } from '@digdir/designsystemet-react';
 import { localization } from '@/libs/language';
 import { getDevEnvironmentName } from '@/utils/functions';
 import ErrorBoundary from '../error-boundry';
