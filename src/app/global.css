@@ -27,6 +27,8 @@
   --ssb-dark-color-2: #c3dcdc;
   --ssb-dark-color-5: #274247;
   --ssb-dark-color-6: #162327;
+  --ssb-purple-2: #d2ceff;
+  --ssb-green-2: #b6e8b8;
 
   --lighter-shade-of-ssb-5: #386067;
 
@@ -64,6 +66,10 @@
   --font-weight-medium: 500;
   --font-weight-heavy: 700;
   --search-hit-shortname-color: #666666;
+
+  --status-draft: #faebd7;
+  --status-published-internal: var(--ssb-purple-2);
+  --status-published-external: var(--ssb-green-2);
 }
 
 html * {
