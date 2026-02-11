@@ -2,6 +2,8 @@ import type { NextConfig } from 'next';
 import type { RuleSetRule } from 'webpack';
 import path from 'path';
 
+const isTest = process.env.NODE_ENV === 'test';
+
 const nextConfig: NextConfig = {
   /* config options here */
   webpack(config: { module: { rules: any[] }; resolve: { alias: any } }) {
@@ -37,7 +39,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  output: 'standalone',
+  output: isTest ? undefined : 'standalone',
 };
 
 export default nextConfig;
