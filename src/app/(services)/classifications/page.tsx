@@ -18,11 +18,6 @@ export default async function Classifications() {
     <SearchPage
       header={localization.tabs.classifications}
       searchLabel={localization.search.searchForClassifications}
-      infoContent={
-        <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
-          Klassifikasjoner er ikke klar for testing.
-        </Alert>
-      }
       searchResult={pageContent}
     ></SearchPage>
   );
