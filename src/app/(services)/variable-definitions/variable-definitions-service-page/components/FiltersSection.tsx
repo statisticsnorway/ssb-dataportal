@@ -7,16 +7,12 @@ import { localization } from '@/libs/language/src/localization';
 import { FilterItem } from '@/types/filters';
 
 interface FiltersSectionProps {
-  subjectFieldsPromise: Promise<{ data: CodeItem[]; error: any }>;
+  subjectFieldsPromise: Promise<{ data: CodeItem[]; error: Error | null }>;
   selectedItems: FilterItem[];
   onFilterChange: (filter: FilterItem) => void;
 }
 
-export const FiltersSection = ({
-  subjectFieldsPromise,
-  selectedItems,
-  onFilterChange,
-}: FiltersSectionProps) => {
+export const FiltersSection = ({ subjectFieldsPromise, selectedItems, onFilterChange }: FiltersSectionProps) => {
   const { data: subjectFields } = use(subjectFieldsPromise);
   const subjectFilterItems = useMemo(
     () => subjectFields.map((f) => ({ label: String(f.name), value: String(f.code) })),

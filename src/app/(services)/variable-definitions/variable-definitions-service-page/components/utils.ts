@@ -1,7 +1,7 @@
 import { ResponseError } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language/src/localization';
 
-export const mapErrorMessage = (error: unknown): string => {
+export const mapErrorMessage = (error: Error): string => {
   if (error instanceof ResponseError) {
     switch (error.response.status) {
       case 401:

@@ -7,7 +7,7 @@ import { FilterItem } from '@/types/filters';
 import { filterAndSortVariables } from '@/utils/filterAndSort';
 
 interface FilterTagsSectionProps {
-  variablesPromise: Promise<{ data: RenderedView[]; error: any }>;
+  variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
   activeFilters: FilterItem[];
   searchTerm: string;
   onClose: (filter: FilterItem) => void;
