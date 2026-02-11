@@ -1,13 +1,13 @@
 .detailsPage {
   width: 100%;
   margin-bottom: var(--ds-size-4);
-  flex: 1;
   min-height: 55vh;
 }
 
 .contentGrid {
   display: flex;
   flex-direction: column;
+  max-width: 100%;
 }
 
 .detailsPageHeader {
@@ -15,7 +15,7 @@
   flex-direction: column;
   gap: 0.25rem;
   padding-bottom: 1rem;
-  margin-bottom: 1rem;
+  margin: 2rem 0;
 }
 
 .statusRow {
@@ -24,48 +24,63 @@
 }
 
 .variableStatusTag {
+  align-self: stretch;
+  display: inline-flex;
+  align-items: center;
   margin-left: auto;
+  height: auto;
   box-shadow: var(--box-shadow-sm);
-  padding: 0.5rem 0.75rem;
 }
 
 .idAndTagRow {
   display: flex;
-  align-items: center;
-  justify-content: right;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: stretch;
   gap: 1rem;
-  padding: 0.5rem 0;
+  padding: 0.5rem 0.75rem 0.5rem 0;
   margin-bottom: 1rem;
 }
 
 .idField {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   box-shadow: var(--box-shadow-sm);
-  border-radius: var(--border-radius-xl);
+  border-radius: var(--border-radius-md);
   overflow: hidden;
   background: white;
+  align-items: stretch;
+  max-width: 100%;
+  font-size: var(--font-size-sm);
 }
 
 .idLabel,
 .idValue {
   display: flex;
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem;
   white-space: nowrap;
-  font-size: var(--font-size-sm);
 }
 
 .idLabel {
-  background-color: #737373;
-  color: #ffffff;
+  background-color: var(--ssb-dark-color-5);
+  color: white;
   font-weight: 500;
   align-items: center;
+  flex-shrink: 0;
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .idValue {
   background-color: white;
   align-items: center;
   font-family: var(--font-family-monospace);
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .variableStatusTag {
@@ -78,6 +93,10 @@
   margin-bottom: 2rem;
   text-align: left;
   text-wrap: initial;
+  word-break: auto-phrase;
+  text-wrap: wrap;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .infoText {
@@ -103,18 +122,17 @@
 .mainSection {
   display: flex;
   flex-direction: column;
-  margin-bottom: var(--large-gap);
-  padding-bottom: 1.5rem;
+  margin-bottom: var(--medium-gap);
 }
 
 .mainColumn {
-  flex: 2;
+  flex: 6 1 0;
   min-width: 0;
 }
 
 .sidebar {
-  flex: 1;
-  padding-top: var(--large-gap);
+  flex: 3 1 0;
+  min-width: 0;
 }
 
 .heroTitle {
@@ -131,8 +149,9 @@
 .copyIdButton {
   color: var(--main-font-color);
   font-size: var(--font-size-md);
+  cursor: pointer;
+  flex-shrink: 0;
 }
-
 .codeSnippetTitle {
   margin: 0;
   padding-top: 0.25rem;
@@ -165,6 +184,10 @@
   text-decoration: underline;
 }
 
+.codeSnippet {
+  margin-bottom: var(--large-gap);
+}
+
 @media (min-width: 480px) {
   .titleLink {
     flex-basis: auto;
@@ -174,10 +197,19 @@
 @media (min-width: 768px) {
   .contentGrid {
     flex-direction: row;
-    gap: var(--large-gap);
+    gap: var(--medium-gap);
   }
 
   .mainColumn {
     padding-right: var(--medium-gap);
+  }
+  .mainSection {
+    padding-right: 1rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .contentGrid {
+    gap: var(--large-gap);
   }
 }

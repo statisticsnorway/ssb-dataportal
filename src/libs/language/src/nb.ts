@@ -49,6 +49,7 @@ export const nb = {
     code: 'Kopier kode',
     copied: 'Kopiert',
     id: 'Kopier ID',
+    shortName: 'Kopier kortnavn',
   },
 
   error: {
@@ -139,10 +140,10 @@ export const nb = {
     landingPageInfoGoal:
       'Målet er å gjøre det enklere for alle i SSB å finne, forstå og bruke dataene våre på en korrekt og effektiv måte.',
     landingPageInfoGoalTitle: 'Hvorfor Dataportalen?',
-    landingPageInfoIntro: 'Her samler vi informasjon om våre datasett, variabler, kodelister og API-er på ett sted.',
+    landingPageInfoIntro: 'Her samler vi informasjon om våre datasett, variabler, kodeverk og API-er på ett sted.',
     landingPageInfoIntroTitle: 'Hva er Dataportalen?',
     landingPageInfoPrototype:
-      'I denne første versjonen kan du utforske SSBs variabeldefinisjoner. Portalen vil gradvis utvides med oversikt over datasett, kodelister og API-er, slik at du kan se hele sammenhengen fra konsept til ferdig datafil. Ved å koble definisjoner fra Vardef med kodelister fra Klass og dokumentasjon fra Datadoc, etablerer vi en "felles sannhet" som sikrer at vi alltid tolker og bruker dataene våre på samme måte.',
+      'I denne første versjonen kan du utforske SSBs variabeldefinisjoner. Portalen vil gradvis utvides med oversikt over datasett, kodeverk og API-er, slik at du kan se hele sammenhengen fra konsept til ferdig datafil. Ved å koble definisjoner fra Vardef med kodeverk fra Klass og dokumentasjon fra Datadoc, etablerer vi en "felles sannhet" som sikrer at vi alltid tolker og bruker dataene våre på samme måte.',
     landingPagePrototypeTitle: 'Dataportal prototype',
     landingPageSubTitle: 'Din inngang til SSBs felles kunnskap om data',
     landingPageTitle: 'Velkommen til Dataportalen',

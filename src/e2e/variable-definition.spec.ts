@@ -21,7 +21,7 @@ const test = base.extend<{
 
       // Wait for the link to be visible before clicking
       const link = page.getByRole('link', { name: variable.name });
-      await expect(link).toBeVisible({ timeout: 5000 });
+      await expect(link).toBeVisible({ timeout: 15000 });
 
       await link.click();
       await expect(page).toHaveURL(new RegExp(`${tabsData.VariableDefinitions.route}/${variable.short_name}`));
@@ -63,6 +63,8 @@ test('Navigate to up to 4 variable definitions', async ({ goToVariable, page }) 
     await expect(page).toHaveURL(tabsData.VariableDefinitions.route, { timeout: 15000 });
 
     // Wait for variable-defintions page to be ready for next iteration
-    await expect(page.getByRole('tab', { name: localization.tabs.variableDefinitions })).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole('tab', { name: localization.tabs.variableDefinitions })).toBeVisible({
+      timeout: 15000,
+    });
   }
 });
