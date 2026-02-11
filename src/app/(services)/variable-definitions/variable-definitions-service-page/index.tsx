@@ -61,7 +61,7 @@ const VariableDefinitionsServicePage = ({
             searchTerm={textFilter}
             setSearchTerm={setTextFilter}
           />
-          <Suspense fallback={<Spinner aria-label='Laster filtere...' />}>
+          <Suspense fallback={<Spinner aria-label={localization.loading.filters} />}>
             <FiltersSection
               subjectFieldsPromise={subjectFieldsPromise}
               selectedItems={subjectFilters}
@@ -95,7 +95,7 @@ const VariableDefinitionsServicePage = ({
       }
       controlsContent={<SortFields sortOptions={sortTypes} sortValue={sortOption} onSortChange={setSortOption} />}
       searchResult={
-        <Suspense fallback={<Spinner aria-label='Laster resultater...' />}>
+        <Suspense fallback={<Spinner aria-label={localization.loading.results} />}>
           <ResultsSection
             variablesPromise={variablesPromise}
             textFilter={textFilter}
