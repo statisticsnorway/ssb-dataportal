@@ -32,6 +32,13 @@ export const FilterTagsSection = ({
     [variables, searchTerm, activeFilters],
   );
 
+  /**
+   * Returns a memoized array of the counts per selected filter.
+   *
+   * @param displayedVariables - The full list of variable definitions currently being displayed.
+   * @param subjectFilters - Currently selected subject filters.
+   * @return An array of counts per filter, memoized for performance.
+   */
   const filterCounts = useMemo(
     () =>
       Object.fromEntries(

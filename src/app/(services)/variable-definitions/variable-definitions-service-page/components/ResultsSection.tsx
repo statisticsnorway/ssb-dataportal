@@ -39,6 +39,15 @@ export const ResultsSection = ({
     );
   }
 
+  /**
+   * Returns a memoized array of the variable definitions to display after applying text and subject filters, as well as sorting.
+   *
+   * @param variables     - The full list of variable definitions.
+   * @param subjectFilters - Currently selected subject filters.
+   * @param textFilter     - Current text filter input.
+   * @param sortOption     - Currently selected sort option.
+   * @return An array of sorted RenderedView objects, memoized for performance.
+   */
   const displayedVariables = useMemo(
     () => filterAndSortVariables(variables, textFilter, subjectFilters, sortOption),
     [variables, textFilter, subjectFilters, sortOption],
