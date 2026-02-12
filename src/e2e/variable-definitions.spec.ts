@@ -88,21 +88,21 @@ test.describe('Variable definitions - pagination', () => {
     await expect(page.getByTestId('page-active')).toHaveText('1');
   });
   test('Next/previous navigation keeps 20 hits', async ({ page }) => {
-    await page.getByRole('button', { name: /neste|next/i }).click();
+    await page.getByRole('button', { name: localization.next }).click();
     await expect(page.getByTestId('page-active')).toHaveText('2');
     await expect(page.getByTestId('vardef-search-card')).toHaveCount(20);
-    await page.getByRole('button', { name: /forrige|previous/i }).click();
+    await page.getByRole('button', { name: localization.previous }).click();
     await expect(page.getByTestId('page-active')).toHaveText('1');
     await expect(page.getByTestId('vardef-search-card')).toHaveCount(20);
   });
   test('Filter resets to page 1', async ({ page }) => {
-    await page.getByRole('button', { name: /neste|next/i }).click();
+    await page.getByRole('button', { name: localization.next }).click();
     await expect(page.getByTestId('page-active')).toHaveText('2');
     await page.getByRole('checkbox', { name: 'Befolkning' }).check();
     await expect(page.getByTestId('page-active')).toHaveText('1');
   });
   test('Sorting resets to page 1', async ({ page }) => {
-    await page.getByRole('button', { name: /neste|next/i }).click();
+    await page.getByRole('button', { name: localization.next }).click();
     await expect(page.getByTestId('page-active')).toHaveText('2');
     await page.getByLabel(localization.search.sort.label).selectOption('titleDesc');
     await expect(page.getByTestId('page-active')).toHaveText('1');
