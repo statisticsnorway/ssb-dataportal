@@ -92,6 +92,7 @@ export const nb = {
     hits: 'treff',
     label: 'Søk',
     noHits: 'Ditt søk ga ingen treff',
+    searchDataportal: 'Søk i Dataportalen',
     searchForClassifications: 'Søk i kodeverk',
     searchForDatasets: 'Søk i datasett',
     searchForVariableDefinitions: 'Søk i variabeldefinisjoner',
@@ -133,6 +134,7 @@ export const nb = {
   },
 
   info: {
+    comingSoon: 'Kommer snart',
     classificationsPrototypeIntro: 'Under utvikling',
     classificationsPrototypeInfo:
       'En ny og forbedret visning av Klass lanseres ila 2026. Frem til lansering må du bruke dagens løsning på',
