@@ -37,9 +37,10 @@ export const FilterTagsSection = ({ onClose, onClearAll, onClearSearch }: Filter
     return counts;
   }, [subjectFilters, statusFilters, filteredVariables]);
 
+  const activeFilters = subjectFilters.concat(statusFilters);
   return (
     <FilterTags
-      activeFilters={subjectFilters}
+      activeFilters={activeFilters}
       searchTerm={textFilter}
       onClose={onClose}
       onClearAll={onClearAll}
