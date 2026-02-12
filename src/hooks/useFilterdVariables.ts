@@ -8,6 +8,7 @@ interface UseFilteredVariablesProps {
   variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
   textFilter: string;
   subjectFilters: FilterItem[];
+  statusFilters: FilterItem[];
   sortOption: SortTypes;
 }
 
@@ -15,13 +16,14 @@ export function useFilteredVariables({
   variablesPromise,
   textFilter,
   subjectFilters,
+  statusFilters,
   sortOption,
 }: UseFilteredVariablesProps) {
   const { data: variables, error } = use(variablesPromise);
 
   const filteredVariables = useMemo(
-    () => filterAndSortVariables(variables, textFilter, subjectFilters, sortOption),
-    [variables, textFilter, subjectFilters, sortOption],
+    () => filterAndSortVariables(variables, textFilter, subjectFilters, statusFilters, sortOption),
+    [variables, textFilter, statusFilters, subjectFilters, sortOption],
   );
 
   return { filteredVariables, error, variables };

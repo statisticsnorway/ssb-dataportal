@@ -7,10 +7,14 @@ export function filterAndSortVariables(
   variables: RenderedView[] | undefined,
   searchTerm: string | undefined,
   subjectFilters: FilterItem[],
+  statusFilters: FilterItem[],
   sortOption: SortTypes,
 ) {
   if (!variables) return [];
   const trimmedSearch = searchTerm?.trim().toLowerCase() || '';
+
+  const matchesStatus = (v: RenderedView) =>
+    statusFilters.length === 0 || statusFilters.some((filter) => filter.value === v.variable_status);
 
   const matchesSubject = (v: RenderedView) =>
     subjectFilters.length === 0 ||
@@ -23,6 +27,7 @@ export function filterAndSortVariables(
 
   return [...variables]
     .filter(matchesSubject)
+    .filter(matchesStatus)
     .filter(matchesSearch)
     .sort((a, b) => {
       switch (sortOption) {
