@@ -1,6 +1,6 @@
 'use client';
 import { createContext, ReactNode, useContext } from 'react';
-import { useFilteredVariables } from '@/hooks/useFilterdVariables';
+import { useFilteredVariables } from '@/hooks/useFilteredVariables';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
