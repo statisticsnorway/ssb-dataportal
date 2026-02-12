@@ -1,5 +1,4 @@
 'use client';
-
 import { Spinner } from '@digdir/designsystemet-react';
 import { Suspense, useMemo, useState } from 'react';
 import { FiltersPanel } from '@/components/filters/filters-panel';
@@ -15,6 +14,7 @@ import { FiltersSection } from './components/FiltersSection';
 import { FilterTagsSection } from './components/FilterTagsSection';
 import { ResultsCount } from './components/ResultsCount';
 import { ResultsSection } from './components/ResultsSection';
+import { VariableDefinitionsProvider } from './components/variableDefinitionContext';
 
 interface VariableDefinitionsServicePageProps {
   variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
@@ -52,62 +52,48 @@ const VariableDefinitionsServicePage = ({
   };
 
   return (
-    <SearchPage
-      header={localization.tabs.variableDefinitions}
-      asideContent={
-        <FiltersPanel>
-          <TextFilter
-            label={localization.search.textFilter.label}
-            searchTerm={textFilter}
-            setSearchTerm={setTextFilter}
-          />
-          <Suspense fallback={<Spinner aria-label={localization.loading.filters} />}>
-            <FiltersSection
-              subjectFieldsPromise={subjectFieldsPromise}
-              selectedItems={subjectFilters}
-              onFilterChange={toggleSubject}
+    <VariableDefinitionsProvider
+      variablesPromise={variablesPromise}
+      textFilter={textFilter}
+      subjectFilters={subjectFilters}
+      sortOption={sortOption}
+    >
+      <SearchPage
+        header={localization.tabs.variableDefinitions}
+        asideContent={
+          <FiltersPanel>
+            <TextFilter
+              label={localization.search.textFilter.label}
+              searchTerm={textFilter}
+              setSearchTerm={setTextFilter}
             />
+            <Suspense fallback={<Spinner aria-label={localization.loading.filters} />}>
+              <FiltersSection
+                subjectFieldsPromise={subjectFieldsPromise}
+                selectedItems={subjectFilters}
+                onFilterChange={toggleSubject}
+              />
+            </Suspense>
+          </FiltersPanel>
+        }
+        totalHits={
+          <Suspense fallback={null}>
+            <ResultsCount />
           </Suspense>
-        </FiltersPanel>
-      }
-      totalHits={
-        <Suspense fallback={null}>
-          <ResultsCount
-            variablesPromise={variablesPromise}
-            textFilter={textFilter}
-            subjectFilters={subjectFilters}
-            sortOption={sortOption}
-          />
-        </Suspense>
-      }
-      infoContent={
-        <Suspense fallback={null}>
-          <FilterTagsSection
-            variablesPromise={variablesPromise}
-            subjectFilters={subjectFilters}
-            textFilter={textFilter}
-            sortOption={sortOption}
-            onClose={toggleSubject}
-            onClearAll={clearAll}
-            onClearSearch={() => setTextFilter('')}
-          />
-        </Suspense>
-      }
-      controlsContent={<SortFields sortOptions={sortTypes} sortValue={sortOption} onSortChange={setSortOption} />}
-      searchResult={
-        <Suspense fallback={<Spinner aria-label={localization.loading.results} />}>
-          <ResultsSection
-            variablesPromise={variablesPromise}
-            textFilter={textFilter}
-            subjectFilters={subjectFilters}
-            sortOption={sortOption}
-            currentPage={currentPage}
-            pageSize={pageSize}
-            handlePageChange={handlePageChange}
-          />
-        </Suspense>
-      }
-    />
+        }
+        infoContent={
+          <Suspense fallback={null}>
+            <FilterTagsSection onClose={toggleSubject} onClearAll={clearAll} onClearSearch={() => setTextFilter('')} />
+          </Suspense>
+        }
+        controlsContent={<SortFields sortOptions={sortTypes} sortValue={sortOption} onSortChange={setSortOption} />}
+        searchResult={
+          <Suspense fallback={<Spinner aria-label={localization.loading.results} />}>
+            <ResultsSection currentPage={currentPage} pageSize={pageSize} handlePageChange={handlePageChange} />
+          </Suspense>
+        }
+      />
+    </VariableDefinitionsProvider>
   );
 };
 

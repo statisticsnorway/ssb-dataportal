@@ -1,38 +1,17 @@
 'use client';
-
 import { useMemo } from 'react';
 import { FilterTags } from '@/components/filter-tags';
-import { useFilteredVariables } from '@/hooks/useFilterdVariables';
-import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { FilterItem } from '@/types/filters';
-import { SortTypes } from '@/types/sort';
+import { useVariableDefinitionsContext } from './variableDefinitionContext';
 
 interface FilterTagsSectionProps {
-  variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
-  subjectFilters: FilterItem[];
-  textFilter: string;
-  sortOption: SortTypes;
   onClose: (filter: FilterItem) => void;
   onClearAll: () => void;
   onClearSearch: () => void;
 }
 
-export const FilterTagsSection = ({
-  variablesPromise,
-  subjectFilters,
-  textFilter,
-  sortOption,
-  onClose,
-  onClearAll,
-  onClearSearch,
-}: FilterTagsSectionProps) => {
-  const { filteredVariables, error } = useFilteredVariables({
-    variablesPromise,
-    textFilter,
-    subjectFilters,
-    sortOption,
-  });
-
+export const FilterTagsSection = ({ onClose, onClearAll, onClearSearch }: FilterTagsSectionProps) => {
+  const { filteredVariables, subjectFilters, textFilter, error } = useVariableDefinitionsContext();
   if (error) return null;
 
   /**

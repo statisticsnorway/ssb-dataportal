@@ -1,40 +1,20 @@
 'use client';
-
 import { Alert } from '@digdir/designsystemet-react';
 import { useMemo } from 'react';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
-import { useFilteredVariables } from '@/hooks/useFilterdVariables';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
-import { FilterItem } from '@/types/filters';
-import { SortTypes } from '@/types/sort';
 import { VardefSearchHit } from '../../components/vardefSearchHit';
 import { mapErrorMessage } from './utils';
+import { useVariableDefinitionsContext } from './variableDefinitionContext';
 
 interface ResultsSectionProps {
-  variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
-  textFilter: string;
-  subjectFilters: FilterItem[];
-  sortOption: SortTypes;
   currentPage: number;
   pageSize: number;
   handlePageChange: (page: number) => void;
 }
 
-export const ResultsSection = ({
-  variablesPromise,
-  textFilter,
-  subjectFilters,
-  sortOption,
-  currentPage,
-  pageSize,
-  handlePageChange,
-}: ResultsSectionProps) => {
-  const { filteredVariables, error } = useFilteredVariables({
-    variablesPromise,
-    textFilter,
-    subjectFilters,
-    sortOption,
-  });
+export const ResultsSection = ({ currentPage, pageSize, handlePageChange }: ResultsSectionProps) => {
+  const { filteredVariables, error } = useVariableDefinitionsContext();
 
   if (error) {
     return (
@@ -46,6 +26,7 @@ export const ResultsSection = ({
 
   const totalHits = filteredVariables.length;
   const totalPages = Math.ceil(totalHits / pageSize);
+
   const paginatedVariables = useMemo(() => {
     const start = (currentPage - 1) * pageSize;
     return filteredVariables.slice(start, start + pageSize);
