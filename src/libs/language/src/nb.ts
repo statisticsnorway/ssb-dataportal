@@ -81,6 +81,7 @@ export const nb = {
     relevant: 'Relevante variabeldefinisjoner',
     viewExternalReference: 'Se ekstern referanse',
     viewRelevant: 'Se relevant variabeldefinisjon',
+    notFound: 'Variabeldefinisjon ikke funnet',
   },
 
   classification: {
