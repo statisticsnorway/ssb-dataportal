@@ -115,7 +115,7 @@ const pageSize = 20;
             />
             <CheckboxFilter
               filterHeading={localization.status.label}
-              filters={statuses}
+              filters={STATUSES}
               selectedItems={statusFilters}
               onFilterChange={toggleStatus}
             />
