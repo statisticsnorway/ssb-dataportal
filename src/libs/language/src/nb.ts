@@ -152,4 +152,9 @@ export const nb = {
     landingPageSubTitle: 'Din inngang til SSBs felles kunnskap om data',
     landingPageTitle: 'Velkommen til Dataportalen',
   },
+
+  loading: {
+    filters: 'Laster filtere...',
+    results: 'Laster resultater...',
+  },
 };

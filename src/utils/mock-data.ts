@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import {
   ClassificationFamilyResource,
   ClassificationResource,
@@ -38,11 +39,11 @@ export function transformClassificationFamilies(rawData: RawClassificationFamily
   }));
 }
 
-export async function fetchStaticSubjectFields(): Promise<CodeItem[]> {
+export const fetchStaticSubjectFields = cache(async (): Promise<CodeItem[]> => {
   return subjectFieldsMock.codes.map((item) => ({
     ...item,
     parentCode: item.parentCode ?? undefined,
     validFrom: item.validFrom ?? undefined,
     validTo: item.validTo ?? undefined,
   }));
-}
+});
