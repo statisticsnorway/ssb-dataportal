@@ -140,8 +140,12 @@ test('Filter by status draft', async ({ page }) => {
 
 test('Filter by status published', async ({ page }) => {
   await expect(page.getByRole('main')).toContainText('76 treff');
-  await page.getByRole('checkbox', { name: localization.status.publishedInternal }).check();
+  const publishedInternalFilter = page.getByRole('checkbox', { name: localization.status.publishedInternal });
 
+  await expect(publishedInternalFilter).toBeVisible();
+  await publishedInternalFilter.check();
+
+  await expect(publishedInternalFilter).toBeChecked();
   await expect(page.getByRole('main')).toContainText('2 treff');
 
   await page.getByRole('checkbox', { name: localization.status.publishedExternal }).check();
