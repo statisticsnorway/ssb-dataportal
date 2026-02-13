@@ -23,7 +23,7 @@ export function useFilteredVariables({
 
   const filteredVariables = useMemo(
     () => filterAndSortVariables(variables, textFilter, subjectFilters, statusFilters, sortOption),
-    [variables, textFilter, subjectFilters, sortOption],
+    [variables, textFilter, subjectFilters, statusFilters, sortOption],
   );
 
   return { filteredVariables, error, variables };
