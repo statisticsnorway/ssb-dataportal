@@ -92,7 +92,7 @@ const VariableDefinitionsServicePage = ({
               setSearchTerm={setTextFilter}
             />
             <CheckboxFilter
-              filterHeading={'Status'}
+              filterHeading={localization.status.label}
               filters={statuses}
               selectedItems={statusFilters}
               onFilterChange={toggleStatus}
