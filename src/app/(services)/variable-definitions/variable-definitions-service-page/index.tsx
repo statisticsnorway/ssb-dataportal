@@ -35,34 +35,11 @@ const VariableDefinitionsServicePage = ({
   const [currentPage, setCurrentPage] = useState<number>(1);
   const pageSize = 20;
 
-  const statuses: FilterItem[] = [
-    { value: VariableStatus.Draft, label: convertStatus(VariableStatus.Draft) },
-    { value: VariableStatus.PublishedInternal, label: convertStatus(VariableStatus.PublishedInternal) },
-    { value: VariableStatus.PublishedExternal, label: convertStatus(VariableStatus.PublishedExternal) },
-  ];
   const STATUSES: FilterItem[] = [
     { value: VariableStatus.Draft, label: convertStatus(VariableStatus.Draft) },
     { value: VariableStatus.PublishedInternal, label: convertStatus(VariableStatus.PublishedInternal) },
     { value: VariableStatus.PublishedExternal, label: convertStatus(VariableStatus.PublishedExternal) },
   ];
-
-const VariableDefinitionsServicePage = ({
-variablesPromise,
-subjectFieldsPromise,
-}: VariableDefinitionsServicePageProps) => {
-const [sortOption, setSortOption] = useState<SortTypes>('titleAsc');
-const [subjectFilters, setSubjectFilters] = useState<FilterItem[]>([]);
-const [textFilter, setTextFilter] = useState<string>('');
-  const [statusFilters, setStatusFilters] = useState<FilterItem[]>([]);
-const [currentPage, setCurrentPage] = useState<number>(1);
-const pageSize = 20;
-
-  const statuses: FilterItem[] = [
-    { value: VariableStatus.Draft, label: convertStatus(VariableStatus.Draft) },
-    { value: VariableStatus.PublishedInternal, label: convertStatus(VariableStatus.PublishedInternal) },
-    { value: VariableStatus.PublishedExternal, label: convertStatus(VariableStatus.PublishedExternal) },
-  ];
-
   useMemo(() => {
     setCurrentPage(1);
   }, [textFilter, subjectFilters, statusFilters, sortOption]);
