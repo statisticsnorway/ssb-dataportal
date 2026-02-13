@@ -4,11 +4,19 @@ import { localization } from '@/libs/language';
 import variableDefinitions from '@/static-data/variable-definitions.json';
 
 // Exclude search until we implement logic
-// Aiming to separate violations in order to generate readable and precise feedback to developers
 test.describe('Variable definitions – accessibility', () => {
   test('Filters are accessible', async ({ page }) => {
     await page.goto('/variable-definitions');
-    await page.getByRole('checkbox', { name: 'Sosiale forhold og kriminalitet' }).check();
+
+    const checkbox = page.getByRole('checkbox', { name: localization.status.draft });
+
+    await expect(checkbox).toBeVisible();
+    await expect(checkbox).toBeEnabled();
+
+    await expect(checkbox).toHaveAccessibleName(localization.status.draft);
+
+    await checkbox.check();
+
     const results = await new AxeBuilder({ page })
       .exclude('.ds-alert.infoAlert')
       .exclude('[data-axe-ignore]')
@@ -18,28 +26,41 @@ test.describe('Variable definitions – accessibility', () => {
 
   test('Color contrasts are accessible', async ({ page }) => {
     await page.goto('/variable-definitions');
-    await page.getByRole('checkbox', { name: 'Sosiale forhold og kriminalitet' }).check();
+    const checkbox = page.getByRole('checkbox', { name: 'Arbeid og lønn' });
+
+    await expect(checkbox).toBeVisible();
+    await expect(checkbox).toBeEnabled();
+
+    await expect(checkbox).toHaveAccessibleName('Arbeid og lønn');
+
+    await checkbox.check();
     const results = await new AxeBuilder({ page })
       .withRules(['color-contrast'])
       .exclude('.ds-alert.infoAlert')
+      .exclude('[data-axe-ignore]')
       .analyze();
     expect(results.violations).toEqual([]);
   });
 
   test('Filters apply to landmark rules', async ({ page }) => {
     await page.goto('/variable-definitions');
-    await page.getByRole('checkbox', { name: 'Sosiale forhold og kriminalitet' }).check();
+    const checkbox = page.getByRole('checkbox', { name: 'Sosiale forhold og kriminalitet' });
+
+    await expect(checkbox).toBeVisible();
+    await expect(checkbox).toBeEnabled();
+
+    await expect(checkbox).toHaveAccessibleName('Sosiale forhold og kriminalitet');
     const results = await new AxeBuilder({ page })
       .withRules(['landmark-no-duplicate-banner'])
       .exclude('.ds-alert.infoAlert')
+      .exclude('[data-axe-ignore]')
       .analyze();
     expect(results.violations).toEqual([]);
   });
-  //This is not really a test, only prints violations
   test('Follow wcag standard', async ({ page }) => {
     await page.goto('/variable-definitions');
     const results = await new AxeBuilder({ page }).withTags(['wcag21a', 'wcag21aa']).analyze();
-    console.log(JSON.stringify(results.violations, null, 2));
+    expect(results.violations).toEqual([]);
   });
 
   test('Page has header one', async ({ page }) => {

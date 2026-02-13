@@ -9,6 +9,7 @@ interface VariableDefinitionsContextValue {
   variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
   textFilter: string;
   subjectFilters: FilterItem[];
+  statusFilters: FilterItem[];
   sortOption: SortTypes;
   filteredVariables: RenderedView[];
   error: Error | null;
@@ -28,6 +29,7 @@ interface VariableDefinitionsProviderProps {
   variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
   textFilter: string;
   subjectFilters: FilterItem[];
+  statusFilters: FilterItem[];
   sortOption: SortTypes;
   children: ReactNode;
 }
@@ -37,12 +39,14 @@ export const VariableDefinitionsProvider = ({
   variablesPromise,
   textFilter,
   subjectFilters,
+  statusFilters,
   sortOption,
 }: VariableDefinitionsProviderProps) => {
   const { filteredVariables, error } = useFilteredVariables({
     variablesPromise,
     textFilter,
     subjectFilters,
+    statusFilters,
     sortOption,
   });
 
@@ -52,6 +56,7 @@ export const VariableDefinitionsProvider = ({
         variablesPromise,
         textFilter,
         subjectFilters,
+        statusFilters,
         sortOption,
         filteredVariables,
         error,
