@@ -8,7 +8,7 @@ export enum Tabs {
 
 export type TabData = { label: string; searchLabel: string; route: string; id: string };
 
-export let tabsData: Record<keyof typeof Tabs, TabData> = {
+export const tabsData: Record<keyof typeof Tabs, TabData> = {
   VariableDefinitions: {
     label: localization.tabs.variableDefinitions,
     searchLabel: localization.search.searchForVariableDefinitions,
