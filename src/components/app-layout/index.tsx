@@ -1,9 +1,6 @@
 import { ReactNode } from 'react';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
-
-import '@global-css';
-
 import { getDevEnvironmentName } from '@/utils/functions';
 import ErrorBoundary from '../error-boundry';
 

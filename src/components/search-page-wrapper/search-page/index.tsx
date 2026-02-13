@@ -11,7 +11,7 @@ interface SearchPageProps {
   asideContent?: ReactNode;
   searchResult?: ReactElement;
   controlsContent?: ReactNode;
-  totalHits?: number;
+  totalHits?: ReactNode;
   searchLabel?: string;
   sortOptions?: ReadonlyArray<SortTypes>;
   sortValue?: SortTypes;
@@ -41,10 +41,13 @@ const SearchPage: FC<SearchPageProps> = ({
   totalHits,
   header,
 }) => {
-  const hitsLabel = (totalHits?: number | null): string | null => {
+  const hitsLabel = (totalHits?: ReactNode): ReactNode => {
     if (totalHits == null) return null;
-    if (totalHits === 0) return localization.search.noHits;
-    return `${totalHits} ${localization.search.hits}`;
+    if (typeof totalHits === 'number') {
+      if (totalHits === 0) return localization.search.noHits;
+      return `${totalHits} ${localization.search.hits}`;
+    }
+    return totalHits;
   };
 
   return (

@@ -55,12 +55,6 @@ export const referencesItems = (v: RenderedView): Item[] => [
     type: 'link',
     display: localization.classification.view,
   },
-  {
-    label: localization.variableDefinition.externalReference,
-    value: v.external_reference_uri ?? null,
-    type: 'link',
-    display: localization.variableDefinition.viewExternalReference,
-  },
 ];
 
 /**
