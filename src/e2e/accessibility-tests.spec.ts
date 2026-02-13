@@ -2,18 +2,19 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 import { localization } from '@/libs/language';
 import variableDefinitions from '@/static-data/variable-definitions.json';
+import { socialConditionsAndCrime, statusDraft, workAndPay } from './utils';
 
 // Exclude search until we implement logic
 test.describe('Variable definitions – accessibility', () => {
   test('Filters are accessible', async ({ page }) => {
     await page.goto('/variable-definitions');
 
-    const checkbox = page.getByRole('checkbox', { name: localization.status.draft });
+    const checkbox = page.getByRole('checkbox', { name: statusDraft });
 
     await expect(checkbox).toBeVisible();
     await expect(checkbox).toBeEnabled();
 
-    await expect(checkbox).toHaveAccessibleName(localization.status.draft);
+    await expect(checkbox).toHaveAccessibleName(statusDraft);
 
     await checkbox.check();
 
@@ -26,12 +27,12 @@ test.describe('Variable definitions – accessibility', () => {
 
   test('Color contrasts are accessible', async ({ page }) => {
     await page.goto('/variable-definitions');
-    const checkbox = page.getByRole('checkbox', { name: 'Arbeid og lønn' });
+    const checkbox = page.getByRole('checkbox', { name: workAndPay });
 
     await expect(checkbox).toBeVisible();
     await expect(checkbox).toBeEnabled();
 
-    await expect(checkbox).toHaveAccessibleName('Arbeid og lønn');
+    await expect(checkbox).toHaveAccessibleName(workAndPay);
 
     await checkbox.check();
     const results = await new AxeBuilder({ page })
@@ -44,12 +45,12 @@ test.describe('Variable definitions – accessibility', () => {
 
   test('Filters apply to landmark rules', async ({ page }) => {
     await page.goto('/variable-definitions');
-    const checkbox = page.getByRole('checkbox', { name: 'Sosiale forhold og kriminalitet' });
+    const checkbox = page.getByRole('checkbox', { name: socialConditionsAndCrime });
 
     await expect(checkbox).toBeVisible();
     await expect(checkbox).toBeEnabled();
 
-    await expect(checkbox).toHaveAccessibleName('Sosiale forhold og kriminalitet');
+    await expect(checkbox).toHaveAccessibleName(socialConditionsAndCrime);
     const results = await new AxeBuilder({ page })
       .withRules(['landmark-no-duplicate-banner'])
       .exclude('.ds-alert.infoAlert')
