@@ -1,6 +1,12 @@
 import { ResponseError } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language/src/localization';
 
+/**
+ * Maps an error to a user-friendly error message.
+ *
+ * @param error - The error to map.
+ * @returns A user-friendly error message.
+ */
 export const mapErrorMessage = (error: Error): string => {
   if (error instanceof ResponseError) {
     switch (error.response.status) {

@@ -13,6 +13,21 @@ interface ResultsSectionProps {
   handlePageChange: (page: number) => void;
 }
 
+/**
+ * ResultsSection renders the search results.
+ *
+ * It uses the `useVariableDefinitionsContext` to access the filtered list
+ * of variables and calculates the total number of hits and pages. It then
+ * paginates the results and renders them using the `SearchHitContainer`
+ * component, which in turn uses the `VardefSearchHit` component to render
+ * each individual hit.
+ *
+ * @param currentPage - The current page number.
+ * @param pageSize - The number of results per page.
+ * @param handlePageChange - Callback triggered when the page changes.
+ *
+ * @returns A SearchHitContainer component populated with paginated search results.
+ */
 export const ResultsSection = ({ currentPage, pageSize, handlePageChange }: ResultsSectionProps) => {
   const { filteredVariables, error } = useVariableDefinitionsContext();
 

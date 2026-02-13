@@ -26,6 +26,14 @@ test.describe('Variable definitions – accessibility', () => {
 
   test('Color contrasts are accessible', async ({ page }) => {
     await page.goto('/variable-definitions');
+    const checkbox = page.getByRole('checkbox', { name: 'Arbeid og lønn' });
+
+    await expect(checkbox).toBeVisible();
+    await expect(checkbox).toBeEnabled();
+
+    await expect(checkbox).toHaveAccessibleName('Arbeid og lønn');
+
+    await checkbox.check();
     const results = await new AxeBuilder({ page })
       .withRules(['color-contrast'])
       .exclude('.ds-alert.infoAlert')
@@ -36,6 +44,12 @@ test.describe('Variable definitions – accessibility', () => {
 
   test('Filters apply to landmark rules', async ({ page }) => {
     await page.goto('/variable-definitions');
+    const checkbox = page.getByRole('checkbox', { name: 'Sosiale forhold og kriminalitet' });
+
+    await expect(checkbox).toBeVisible();
+    await expect(checkbox).toBeEnabled();
+
+    await expect(checkbox).toHaveAccessibleName('Sosiale forhold og kriminalitet');
     const results = await new AxeBuilder({ page })
       .withRules(['landmark-no-duplicate-banner'])
       .exclude('.ds-alert.infoAlert')

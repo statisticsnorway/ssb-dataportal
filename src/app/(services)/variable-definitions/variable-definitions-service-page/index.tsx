@@ -13,10 +13,10 @@ import { localization } from '@/libs/language/src/localization';
 import { FilterItem } from '@/types/filters';
 import { SortTypes, sortTypes } from '@/types/sort';
 import { convertStatus } from '@/utils/functions';
-import { FiltersSection } from './components/FiltersSection';
 import { FilterTagsSection } from './components/FilterTagsSection';
 import { ResultsCount } from './components/ResultsCount';
 import { ResultsSection } from './components/ResultsSection';
+import { SubjectFiltersSection } from './components/SubjectFiltersSection';
 import { VariableDefinitionsProvider } from './components/variableDefinitionContext';
 
 interface VariableDefinitionsServicePageProps {
@@ -93,7 +93,7 @@ const VariableDefinitionsServicePage = ({
               onFilterChange={toggleStatus}
             />
             <Suspense fallback={<Spinner aria-label={localization.loading.filters} />}>
-              <FiltersSection
+              <SubjectFiltersSection
                 subjectFieldsPromise={subjectFieldsPromise}
                 selectedItems={subjectFilters}
                 onFilterChange={toggleSubject}
