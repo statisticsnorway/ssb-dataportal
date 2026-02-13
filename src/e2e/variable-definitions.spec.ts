@@ -15,8 +15,15 @@ export const test = base.extend<{
 // TODO(cbi): Improve use of hardcoded values, these test depends on current testdata in norwegian nb [https://github.com/statisticsnorway/metadata-catalog-prototype/issues/106]
 test('Filter by subject field displays tags (listitem) with count and close button (x)', async ({ page }) => {
   await expect(page.getByRole('main')).toContainText('76 treff');
-  await expect(page.getByRole('checkbox', { name: 'Sosiale forhold og' })).toBeVisible();
-  await page.getByRole('checkbox', { name: 'Sosiale forhold og' }).check();
+  await page.waitForTimeout(200); // just to stabilize
+  const checkbox = page.getByRole('checkbox', { name: 'Sosiale forhold og kriminalitet' });
+
+  await expect(checkbox).toBeVisible();
+  await expect(checkbox).toBeEnabled();
+
+  await expect(checkbox).toHaveAccessibleName('Sosiale forhold og kriminalitet');
+
+  await checkbox.check();
   await expect(page.getByRole('main')).toContainText('2 treff');
   const filterTag = page.getByRole('listitem').filter({
     hasText: 'Sosiale forhold og kriminalitet (2)',
@@ -28,8 +35,27 @@ test('Filter by subject field displays tags (listitem) with count and close butt
 
 test('Select more than one filter display a "remove all" tag', async ({ page }) => {
   await expect(page.getByRole('main')).toContainText('76 treff');
-  await page.getByRole('checkbox', { name: 'Arbeid og lønn' }).check();
-  await page.getByRole('checkbox', { name: 'Befolkning' }).check();
+
+  await page.waitForTimeout(200); // just to stabilize
+
+  const filterOne = page.getByRole('checkbox', { name: 'Arbeid og lønn' });
+  const filterTwo = page.getByRole('checkbox', { name: 'Befolkning' });
+
+  await expect(filterOne).toBeVisible();
+  await expect(filterOne).toBeEnabled();
+  await expect(filterOne).toHaveAccessibleName('Arbeid og lønn');
+
+  await filterOne.check();
+  await expect(filterOne).toBeChecked();
+
+  await expect(filterTwo).toBeVisible();
+  await expect(filterTwo).toBeEnabled();
+
+  await expect(filterTwo).toHaveAccessibleName('Befolkning');
+
+  await filterTwo.check();
+  await expect(filterTwo).toBeChecked();
+
   await expect(page.getByText('Fjern alle filter')).toBeVisible();
   await expect(page.getByRole('main')).toContainText('31 treff');
   await page.getByRole('button', { name: 'Remove Fjern alle filter' }).click();
@@ -38,13 +64,35 @@ test('Select more than one filter display a "remove all" tag', async ({ page }) 
 
 test('Variable "Aksje" has two subject fields', async ({ page }) => {
   await expect(page.getByRole('main')).toContainText('76 treff');
-  await page.getByRole('checkbox', { name: 'Bank og finansmarked' }).check();
+
+  await page.waitForTimeout(200); // just to stabilize
+
+  const filterNameOne = 'Bank og finansmarked';
+  const filterNameTwo = 'Bedrifter, foretak og regnskap';
+  const filterOne = page.getByRole('checkbox', { name: filterNameOne });
+  const filterTwo = page.getByRole('checkbox', { name: filterNameTwo });
+
+  await expect(filterOne).toBeVisible();
+  await expect(filterOne).toBeEnabled();
+  await expect(filterOne).toHaveAccessibleName(filterNameOne);
+  await filterOne.check();
+
+  await expect(filterOne).toBeChecked();
   await expect(page.getByRole('main')).toContainText('1 treff');
   await expect(page.getByRole('main')).toContainText('Aksjeaksje');
-  await page.getByRole('checkbox', { name: 'Bedrifter, foretak og regnskap' }).check();
+
+  await expect(filterTwo).toBeVisible();
+  await expect(filterTwo).toBeEnabled();
+  await expect(filterTwo).toHaveAccessibleName(filterNameTwo);
+  await filterTwo.check();
+
+  await expect(filterOne).toBeChecked();
   await expect(page.getByRole('main')).toContainText('20 treff');
   await expect(page.getByRole('main')).toContainText('Aksjeaksje');
-  await page.getByRole('checkbox', { name: 'Bank og finansmarked' }).uncheck();
+
+  await filterOne.uncheck();
+  await expect(filterOne).not.toBeChecked();
+
   await expect(page.getByRole('main')).toContainText('20 treff');
   await expect(page.getByRole('main')).toContainText('Aksjeaksje');
 });
@@ -60,6 +108,7 @@ test('Sort variable definitions', async ({ page }) => {
   ).toBeVisible();
 });
 test('Filter by name', async ({ page }) => {
+  await page.waitForTimeout(200); // just to stabilize
   await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).click();
   await page.getByRole('checkbox', { name: 'Befolkning' }).check();
   await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).fill('Baderom');
@@ -69,10 +118,35 @@ test('Filter by name', async ({ page }) => {
 });
 
 test('Filter by name remove all', async ({ page }) => {
+  await page.waitForTimeout(200); // just to stabilize
   await page.getByRole('checkbox', { name: 'Befolkning' }).check();
   await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).click();
   await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).fill('Baderom');
   await expect(page.getByRole('main')).toContainText('1 treff');
+  await page.getByRole('button', { name: 'Remove Fjern alle filter' }).click();
+  await expect(page.getByRole('main')).toContainText('76 treff');
+});
+
+test('Filter by status draft', async ({ page }) => {
+  await expect(page.getByRole('main')).toContainText('76 treff');
+  await page.getByRole('checkbox', { name: localization.status.draft }).check();
+
+  await expect(page.getByRole('main')).toContainText('73 treff');
+
+  await expect(page.getByRole('button', { name: 'Remove Utkast (73)' })).toBeVisible();
+  await page.getByRole('button', { name: 'Remove Utkast (73)' }).click();
+  await expect(page.getByRole('main')).toContainText('76 treff');
+});
+
+test('Filter by status published', async ({ page }) => {
+  await expect(page.getByRole('main')).toContainText('76 treff');
+  await page.getByRole('checkbox', { name: localization.status.publishedInternal }).check();
+
+  await expect(page.getByRole('main')).toContainText('2 treff');
+
+  await page.getByRole('checkbox', { name: localization.status.publishedExternal }).check();
+  await expect(page.getByRole('main')).toContainText('3 treff');
+
   await page.getByRole('button', { name: 'Remove Fjern alle filter' }).click();
   await expect(page.getByRole('main')).toContainText('76 treff');
 });

@@ -8,12 +8,12 @@ test.describe('Variable definitions – accessibility', () => {
   test('Filters are accessible', async ({ page }) => {
     await page.goto('/variable-definitions');
 
-    const checkbox = page.getByRole('checkbox', { name: 'Utkast' });
+    const checkbox = page.getByRole('checkbox', { name: localization.status.draft });
 
     await expect(checkbox).toBeVisible();
     await expect(checkbox).toBeEnabled();
 
-    await expect(checkbox).toHaveAccessibleName('Utkast');
+    await expect(checkbox).toHaveAccessibleName(localization.status.draft);
 
     await checkbox.check();
 

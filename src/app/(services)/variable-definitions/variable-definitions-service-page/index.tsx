@@ -69,6 +69,11 @@ const VariableDefinitionsServicePage = ({
     setCurrentPage(page);
   };
 
+  const removeFilter = (filter: FilterItem) => {
+    setStatusFilters((prev) => prev.filter((f) => f.value !== filter.value));
+    setSubjectFilters((prev) => prev.filter((f) => f.value !== filter.value));
+  };
+
   return (
     <VariableDefinitionsProvider
       variablesPromise={variablesPromise}
@@ -108,7 +113,7 @@ const VariableDefinitionsServicePage = ({
         }
         infoContent={
           <Suspense fallback={null}>
-            <FilterTagsSection onClose={toggleSubject} onClearAll={clearAll} onClearSearch={() => setTextFilter('')} />
+            <FilterTagsSection onClose={removeFilter} onClearAll={clearAll} onClearSearch={() => setTextFilter('')} />
           </Suspense>
         }
         controlsContent={<SortFields sortOptions={sortTypes} sortValue={sortOption} onSortChange={setSortOption} />}
