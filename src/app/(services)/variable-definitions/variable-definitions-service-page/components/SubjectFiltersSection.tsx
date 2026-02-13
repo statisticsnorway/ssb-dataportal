@@ -2,12 +2,15 @@
 
 import { use, useMemo } from 'react';
 import { CheckboxFilter } from '@/components/filters/checkbox-filter';
+import { useSubjectFieldCounts } from '@/hooks/useVariableCounts';
 import { CodeItem } from '@/libs/data-access/klass/models';
+import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language/src/localization';
 import { FilterItem } from '@/types/filters';
 
 interface SubjectFiltersSectionProps {
   subjectFieldsPromise: Promise<{ data: CodeItem[]; error: Error | null }>;
+  variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
   selectedItems: FilterItem[];
   onFilterChange: (filter: FilterItem) => void;
 }
@@ -27,6 +30,7 @@ interface SubjectFiltersSectionProps {
  */
 export const SubjectFiltersSection = ({
   subjectFieldsPromise,
+  variablesPromise,
   selectedItems,
   onFilterChange,
 }: SubjectFiltersSectionProps) => {
@@ -39,10 +43,20 @@ export const SubjectFiltersSection = ({
     [subjectFields],
   );
 
+  const { counts } = useSubjectFieldCounts({
+    variablesPromise,
+    allSubjectFilters: subjectFilterItems,
+  });
+
+  const SUBJECT_FIELDS_WITH_COUNT = subjectFilterItems.map((field) => ({
+    ...field,
+    count: counts.subjectCounts[field.value] ?? 0,
+  }));
+
   return (
     <CheckboxFilter
       filterHeading={localization.subjectArea}
-      filters={subjectFilterItems}
+      filters={SUBJECT_FIELDS_WITH_COUNT}
       selectedItems={selectedItems}
       onFilterChange={onFilterChange}
     />
