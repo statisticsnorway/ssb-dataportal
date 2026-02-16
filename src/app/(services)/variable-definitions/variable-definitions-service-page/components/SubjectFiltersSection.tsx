@@ -48,7 +48,7 @@ export const SubjectFiltersSection = ({
     allSubjectFilters: subjectFilterItems,
   });
 
-  const SUBJECT_FIELDS_WITH_COUNT = subjectFilterItems.map((field) => ({
+  const statusesWithCount = subjectFilterItems.map((field) => ({
     ...field,
     count: counts.subjectCounts[field.value] ?? 0,
   }));
@@ -56,7 +56,7 @@ export const SubjectFiltersSection = ({
   return (
     <CheckboxFilter
       filterHeading={localization.subjectArea}
-      filters={SUBJECT_FIELDS_WITH_COUNT}
+      filters={statusesWithCount}
       selectedItems={selectedItems}
       onFilterChange={onFilterChange}
     />
