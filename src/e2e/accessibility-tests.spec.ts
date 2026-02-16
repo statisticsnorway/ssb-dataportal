@@ -1,19 +1,29 @@
 import AxeBuilder from '@axe-core/playwright';
-import { expect, test } from '@playwright/test';
+import { test as base, expect, Page } from '@playwright/test';
+import { tabsData } from '@/app/(services)/tabs';
 import { localization } from '@/libs/language';
 import variableDefinitions from '@/static-data/variable-definitions.json';
+import { socialConditionsAndCrime, statusDraft, workAndPay } from './utils';
+
+export const test = base.extend<{
+  pageage: Page;
+}>({
+  page: async ({ page }, use) => {
+    await page.goto(tabsData.VariableDefinitions.route);
+    await expect(page).toHaveURL(/\/variable-definitions$/);
+    await use(page);
+  },
+});
 
 // Exclude search until we implement logic
 test.describe('Variable definitions – accessibility', () => {
   test('Filters are accessible', async ({ page }) => {
-    await page.goto('/variable-definitions');
-
-    const checkbox = page.getByRole('checkbox', { name: localization.status.draft });
+    const checkbox = page.getByRole('checkbox', { name: statusDraft });
 
     await expect(checkbox).toBeVisible();
     await expect(checkbox).toBeEnabled();
 
-    await expect(checkbox).toHaveAccessibleName(localization.status.draft);
+    await expect(checkbox).toHaveAccessibleName(statusDraft);
 
     await checkbox.check();
 
@@ -25,13 +35,13 @@ test.describe('Variable definitions – accessibility', () => {
   });
 
   test('Color contrasts are accessible', async ({ page }) => {
-    await page.goto('/variable-definitions');
-    const checkbox = page.getByRole('checkbox', { name: 'Arbeid og lønn' });
+    await page.waitForTimeout(200); // just to stabilize
+    const checkbox = page.getByRole('checkbox', { name: workAndPay });
 
     await expect(checkbox).toBeVisible();
     await expect(checkbox).toBeEnabled();
 
-    await expect(checkbox).toHaveAccessibleName('Arbeid og lønn');
+    await expect(checkbox).toHaveAccessibleName(workAndPay);
 
     await checkbox.check();
     const results = await new AxeBuilder({ page })
@@ -43,13 +53,13 @@ test.describe('Variable definitions – accessibility', () => {
   });
 
   test('Filters apply to landmark rules', async ({ page }) => {
-    await page.goto('/variable-definitions');
-    const checkbox = page.getByRole('checkbox', { name: 'Sosiale forhold og kriminalitet' });
+    await page.waitForTimeout(200); // just to stabilize
+    const checkbox = page.getByRole('checkbox', { name: socialConditionsAndCrime });
 
     await expect(checkbox).toBeVisible();
     await expect(checkbox).toBeEnabled();
 
-    await expect(checkbox).toHaveAccessibleName('Sosiale forhold og kriminalitet');
+    await expect(checkbox).toHaveAccessibleName(socialConditionsAndCrime);
     const results = await new AxeBuilder({ page })
       .withRules(['landmark-no-duplicate-banner'])
       .exclude('.ds-alert.infoAlert')
@@ -58,13 +68,11 @@ test.describe('Variable definitions – accessibility', () => {
     expect(results.violations).toEqual([]);
   });
   test('Follow wcag standard', async ({ page }) => {
-    await page.goto('/variable-definitions');
     const results = await new AxeBuilder({ page }).withTags(['wcag21a', 'wcag21aa']).analyze();
     expect(results.violations).toEqual([]);
   });
 
   test('Page has header one', async ({ page }) => {
-    await page.goto('/variable-definitions');
     const results = await new AxeBuilder({ page })
       .withRules('page-has-heading-one')
       .exclude('.ds-alert.infoAlert')

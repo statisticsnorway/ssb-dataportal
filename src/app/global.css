@@ -144,6 +144,11 @@ div.ds-card {
   border-color: var(--ssb-dark-color-2);
 }
 
+.ds-input:checked {
+  background-color: var(--ssb-dark-color-5);
+  --dsc-input-accent-color: var(--ssb-dark-color-5);
+}
+
 /** Text styles based on https://design.ssb.no/#/components/typography-page
 
 We don't set font-size for the headings, this can be controlled using the

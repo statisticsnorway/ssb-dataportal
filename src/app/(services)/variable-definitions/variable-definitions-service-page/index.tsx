@@ -6,6 +6,7 @@ import { FiltersPanel } from '@/components/filters/filters-panel';
 import { TextFilter } from '@/components/filters/text-filter';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortFields } from '@/components/sort-fields';
+import { useStatusCounts } from '@/hooks/useVariableCounts';
 import { CodeItem } from '@/libs/data-access/klass/models';
 import { VariableStatus } from '@/libs/data-access/variable-definitions/internal/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
@@ -73,6 +74,16 @@ const VariableDefinitionsServicePage = ({
     setSubjectFilters((prev) => prev.filter((f) => f.value !== filter.value));
   };
 
+  const { counts } = useStatusCounts({
+    variablesPromise,
+    allStatusFilters: STATUSES,
+  });
+
+  const STATUSES_WITH_COUNTS = STATUSES.map((status) => ({
+    ...status,
+    count: counts.statusCounts[status.value] ?? 0,
+  }));
+
   return (
     <VariableDefinitionsProvider
       variablesPromise={variablesPromise}
@@ -92,12 +103,13 @@ const VariableDefinitionsServicePage = ({
             />
             <CheckboxFilter
               filterHeading={localization.status.label}
-              filters={STATUSES}
+              filters={STATUSES_WITH_COUNTS}
               selectedItems={statusFilters}
               onFilterChange={toggleStatus}
             />
             <Suspense fallback={<Spinner aria-label={localization.loading.filters} />}>
               <SubjectFiltersSection
+                variablesPromise={variablesPromise}
                 subjectFieldsPromise={subjectFieldsPromise}
                 selectedItems={subjectFilters}
                 onFilterChange={toggleSubject}
