@@ -18,7 +18,7 @@ interface CheckboxFilterProps {
  * Each checkbox represents a filter option, and users can select multiple items.
  *
  * @param filterHeading - Title for the filter group.
- * @param filters - Array of available filter options, each with `value` and `label`.
+ * @param filters - Array of available filter options, each with `value`, `label` and optional `count`.
  * @param selectedItems - Array of currently selected filter items.
  * @param onFilterChange - Callback fired when selection changes. Receives the updated array of selected `FilterItem`s.
  *
@@ -30,7 +30,7 @@ export const CheckboxFilter = ({ filterHeading, filters, selectedItems, onFilter
       {filters.map((filter) => (
         <Checkbox
           key={filter.value}
-          label={filter.label}
+          label={`${filter.label}${filter.count != null ? ` (${filter.count})` : ''}`}
           className={styles.checkbox}
           checked={selectedItems.some((item) => item.value === filter.value)}
           onChange={() => onFilterChange(filter)}

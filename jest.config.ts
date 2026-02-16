@@ -12,6 +12,7 @@ const config: Config = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'], // load jest-dom matchers
   moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1', //  Makes "@/..." resolve to src/...
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy', // mock CSS modules
     '\\.(svg)$': '<rootDir>/__mocks__/svgMock.tsx',
   },

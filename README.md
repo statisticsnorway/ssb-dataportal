@@ -213,6 +213,22 @@ https://data.ssb.no/api/klass/v3/api-docs
 
 Output directory: src/libs/data-access/klass
 
+## Release process
+
+Update the version using `pnpm version <version bump type>`. This project follows [semantic versioning](https://semver.org/):
+
+```bash
+pnpm version patch   # bug fixes
+pnpm version minor   # new features
+pnpm version major   # breaking changes
+```
+
+Create a new branch for the release.
+
+Commit with message like `Bump version x.x.x -> y.y.y`.
+
+Open and merge a PR.
+
 ## Next.js
 
 To learn more about Next.js, take a look at the following resources:

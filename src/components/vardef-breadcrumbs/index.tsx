@@ -10,7 +10,7 @@ export type VardefBreadcrumbsProps = { homeUrl: BreadcrumbType; breadcrumbList: 
 
 export const VardefBreadcrumbs = ({ homeUrl, breadcrumbList }: VardefBreadcrumbsProps) => {
   return (
-    <div style={{ padding: '1rem 0' }}>
+    <div style={{ padding: '1rem 0' }} data-testid='vardefBreadcrumbs'>
       <Breadcrumbs aria-label={localization.breadcrumbsLabel}>
         <Breadcrumbs.List>
           <Breadcrumbs.Item>

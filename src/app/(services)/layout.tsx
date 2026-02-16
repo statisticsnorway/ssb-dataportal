@@ -19,7 +19,9 @@ export default function SearchLayout({ children }: { children: ReactNode }) {
         <div data-axe-ignore>
           <div className={`${styles.searchFieldContent} container`}>
             <Field>
-              <Label className={styles.searchLabel}>{activeTab.searchLabel}</Label>
+              <Label
+                className={styles.searchLabel}
+              >{`${localization.search.searchDataportal} (${localization.info.comingSoon})`}</Label>
               <Search id='searchId' data-color='accent' aria-disabled>
                 <Search.Input id='searchValue' aria-label={localization.search.label} />
                 <Search.Clear />

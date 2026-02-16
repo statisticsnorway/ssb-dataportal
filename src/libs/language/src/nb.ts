@@ -81,6 +81,7 @@ export const nb = {
     relevant: 'Relevante variabeldefinisjoner',
     viewExternalReference: 'Se ekstern referanse',
     viewRelevant: 'Se relevant variabeldefinisjon',
+    notFound: 'Variabeldefinisjon ikke funnet',
   },
 
   classification: {
@@ -151,5 +152,10 @@ export const nb = {
     landingPagePrototypeTitle: 'Dataportal prototype',
     landingPageSubTitle: 'Din inngang til SSBs felles kunnskap om data',
     landingPageTitle: 'Velkommen til Dataportalen',
+  },
+
+  loading: {
+    filters: 'Laster filtere...',
+    results: 'Laster resultater...',
   },
 };

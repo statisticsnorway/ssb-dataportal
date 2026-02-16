@@ -43,6 +43,8 @@ export async function getVardefClient(): Promise<VariableDefinitionsApi> {
 
 export async function listRenderedVariableDefinitions(): Promise<Array<RenderedView>> {
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
+    const sleep = (ms: number | undefined) => new Promise((r) => setTimeout(r, ms));
+    await sleep(5000);
     console.warn('Using static mock data for Vardef');
     return getVariableDefinitions();
   }
@@ -57,7 +59,9 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
   var data: RenderedView[] = [];
 
   try {
-    let rawData = await api.listVariableDefinitions(params);
+    let rawData = await api.listVariableDefinitions(params, {
+      next: { revalidate: 150 },
+    } as RequestInit);
     data = rawData.filter((each) => instanceOfRenderedView(each));
     console.log(`Fetched ${data.length} variable definitions`);
   } catch (error: unknown) {

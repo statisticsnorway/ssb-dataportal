@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@digdir/designsystemet-react';
+import { Alert, Button } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { tabsData } from '@/app/(services)/tabs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
@@ -33,7 +33,13 @@ export default function VariableDefinitionDetail({
   daplaLabVardefUrl: string | undefined;
 }) {
   if (!variableDefinition) {
-    return <div>Variabeldefinisjon ikke funnet</div>;
+    return (
+      <div className={`${styles.detailsPage} container`}>
+        <Alert className={styles.alert} data-color='warning'>
+          {localization.variableDefinition.notFound}
+        </Alert>
+      </div>
+    );
   }
 
   const homeUrl = { text: localization.home, href: '/' };
