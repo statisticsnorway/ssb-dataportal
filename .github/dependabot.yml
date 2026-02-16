@@ -16,6 +16,6 @@ updates:
       development:
         dependency-type: "development
       biome:
-        package-name-patterns:
+        patterns:
           - "@biomejs/biome"
 
