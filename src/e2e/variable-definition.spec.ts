@@ -48,7 +48,6 @@ test.describe('Variable definitions navigation', () => {
 
 test.describe('Variable definitions breadcrumbs', () => {
   test.skip(noVariables, 'No variable definitions available to test');
-
   test('renders correct breadcrumb structure and current page', async ({ goToVariable, page }) => {
     const variable = variableDefinitions[0];
     await goToVariable(variable);
@@ -69,6 +68,7 @@ test.describe('Variable definitions breadcrumbs', () => {
   });
 
   test('click on "Home" navigates to /', async ({ page, goToVariable }) => {
+    test.skip(noVariables, 'No variable definitions available to test');
     const variable = variableDefinitions[0];
     await goToVariable(variable);
     const nav = page.getByRole('navigation', { name: localization.breadcrumbsLabel });
@@ -77,6 +77,7 @@ test.describe('Variable definitions breadcrumbs', () => {
   });
 
   test('click on "Variabeldefinisjoner" navigates to search result', async ({ page, goToVariable }) => {
+    test.skip(noVariables, 'No variable definitions available to test');
     const variable = variableDefinitions[0];
     await goToVariable(variable);
     const nav = page.getByRole('navigation', { name: localization.breadcrumbsLabel });
