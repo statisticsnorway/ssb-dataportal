@@ -11,11 +11,12 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 99  
     groups:
+      biome:
+        patterns:
+          - "@biomejs/biome"
       production:
         dependency-type: "production"
       development:
         dependency-type: "development"
-      biome:
-        patterns:
-          -"@biomejs/biome"
+     
 
