@@ -14,4 +14,8 @@ updates:
       production:
         dependency-type: "production"
       development:
-        dependency-type: "development"
+        dependency-type: "development
+      biome:
+        package-name-patterns:
+          - "@biomejs/biome"
+
