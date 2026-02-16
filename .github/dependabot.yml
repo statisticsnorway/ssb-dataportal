@@ -14,8 +14,8 @@ updates:
       production:
         dependency-type: "production"
       development:
-        dependency-type: "development
+        dependency-type: "development"
       biome:
         patterns:
-          - "@biomejs/biome"
+          -"@biomejs/biome"
 
