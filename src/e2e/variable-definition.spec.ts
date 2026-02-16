@@ -30,20 +30,18 @@ const test = base.extend<{
 
 test.describe('Variable definitions navigation', () => {
   test.skip(noVariables, 'No variable definitions available to test');
-  test.describe
-    .parallel('Navigation per variable definition', () => {
-      for (const variable of variableDefinitions) {
-        test(`Navigate to ${variable.name}`, async ({ goToVariable, page }) => {
-          await goToVariable(variable);
-          await expect(
-            page.getByRole('heading', {
-              level: 1,
-              name: `${variable.name}${variable.short_name}`,
-            }),
-          ).toBeVisible();
-        });
-      }
+  test.describe;
+  for (const variable of variableDefinitions) {
+    test(`Navigate to ${variable.name}`, async ({ goToVariable, page }) => {
+      await goToVariable(variable);
+      await expect(
+        page.getByRole('heading', {
+          level: 1,
+          name: `${variable.name}${variable.short_name}`,
+        }),
+      ).toBeVisible();
     });
+  }
 });
 
 test.describe('Variable definitions breadcrumbs', () => {
