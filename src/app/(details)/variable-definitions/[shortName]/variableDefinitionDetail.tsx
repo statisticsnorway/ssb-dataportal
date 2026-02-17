@@ -29,7 +29,7 @@ export default function VariableDefinitionDetail({
   variableDefinition,
   daplaLabVardefUrl,
 }: {
-  variableDefinition: RenderedView | undefined;
+  variableDefinition: RenderedView;
   daplaLabVardefUrl: string | undefined;
 }) {
   const homeUrl = { text: localization.home, href: '/' };
