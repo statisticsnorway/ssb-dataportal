@@ -1,6 +1,6 @@
 'use client';
 
-import { Alert, Button } from '@digdir/designsystemet-react';
+import { Button } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { tabsData } from '@/app/(services)/tabs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
@@ -32,16 +32,6 @@ export default function VariableDefinitionDetail({
   variableDefinition: RenderedView | undefined;
   daplaLabVardefUrl: string | undefined;
 }) {
-  if (!variableDefinition) {
-    return (
-      <div className={`${styles.detailsPage} container`}>
-        <Alert className={styles.alert} data-color='warning'>
-          {localization.variableDefinition.notFound}
-        </Alert>
-      </div>
-    );
-  }
-
   const homeUrl = { text: localization.home, href: '/' };
   const breadcrumbList: BreadcrumbType[] = [
     { text: localization.variableDefinition.labelPlural, href: tabsData.VariableDefinitions.route },
