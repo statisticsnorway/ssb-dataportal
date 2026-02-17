@@ -10,7 +10,7 @@ export default function NotFound() {
   const homeUrl = { text: localization.home, href: '/' };
   const breadcrumbList: BreadcrumbType[] = [
     { text: localization.variableDefinition.labelPlural, href: tabsData.VariableDefinitions.route },
-    { text: localization.variableDefinition.notFound, href: '' },
+    { text: '404', href: '' },
   ];
 
   return (
