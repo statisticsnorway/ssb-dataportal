@@ -55,7 +55,9 @@ export const nb = {
   },
 
   error: {
+    breadcrumbs: 'Feil',
     somethingWentWrong: 'Beklager, noe gikk galt. Prøv på nytt litt senere.',
+    tryAgain: 'Prøv igjen',
     unauthorized: 'Beklager, du har ikke tilgang.',
   },
 

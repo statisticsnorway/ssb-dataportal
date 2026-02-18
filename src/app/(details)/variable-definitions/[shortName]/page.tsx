@@ -5,16 +5,11 @@ import VariableDefinitionDetail from './variableDefinitionDetail';
 
 export default async function VariableDefinition({ params }: { params: Promise<{ shortName: string }> }) {
   const { shortName } = await params;
-  let variableDefinition: RenderedView | undefined = undefined;
-  try {
-    variableDefinition = await getRenderedVariableDefinition(shortName);
-  } catch (error: unknown) {
-    console.error('Could not fetch variable definition', error);
+  //TODO: Remove this when we have tests that can reliably cause an error in getRenderedVariableDefinition
+  if (shortName === 'aka') {
+    throw new Error('Forced crash for testing purposes');
   }
-  if (!variableDefinition) {
-    notFound();
-  }
+  const variableDefinition: RenderedView = await getRenderedVariableDefinition(shortName).catch(() => notFound());
   const daplaLabVardefUrl: string | undefined = process.env.DAPLA_LAB_VARDEF_URL;
-
   return <VariableDefinitionDetail variableDefinition={variableDefinition} daplaLabVardefUrl={daplaLabVardefUrl} />;
 }
