@@ -132,6 +132,8 @@ Update snapshots
 ```bash
 pnpm test:update-snapshots
 ```
+### Vitest
+
 
 ### Playwright
 
