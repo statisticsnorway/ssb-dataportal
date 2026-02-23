@@ -62,7 +62,7 @@ test.describe('Variable definitions breadcrumbs', () => {
     await currentElement.click({ trial: true });
     await currentElement.click();
     await expect(page).toHaveURL(before);
-    await expect(current).toContainText(variable.name);
+    await expect(current).toContainText(variable.name.toLowerCase());
   });
 
   test('click on "Home" navigates to /', async ({ page, goToVariable }) => {
