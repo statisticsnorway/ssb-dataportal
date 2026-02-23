@@ -55,7 +55,7 @@ export const nb = {
   },
 
   error: {
-    breadcrumbLabel: 'Detaljer',
+    notFound: '404 - ikke funnet',
     somethingWentWrong: 'Beklager, noe gikk galt. Prøv på nytt litt senere.',
     tryAgainButtonText: 'Prøv igjen',
     unauthorized: 'Beklager, du har ikke tilgang.',
@@ -79,11 +79,11 @@ export const nb = {
     labelPlural: 'Variabeldefinisjoner',
     labelSingular: 'Variabeldefinisjon',
     labelWithComment: 'Variabeldefinisjon med kommentar',
+    notFoundAlertText: 'Variabeldefinisjon ikke funnet',
     personalData: 'Inneholder særlige kategorier av personopplysninger',
     relevant: 'Relevante variabeldefinisjoner',
     viewExternalReference: 'Se ekstern referanse',
     viewRelevant: 'Se relevant variabeldefinisjon',
-    notFound: 'Variabeldefinisjon ikke funnet',
   },
 
   classification: {

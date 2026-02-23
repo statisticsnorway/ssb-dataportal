@@ -1,14 +1,14 @@
 'use client';
 
 import { Alert, Heading } from '@digdir/designsystemet-react';
-import { BreadcrumbType, VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
+import { BreadcrumbItem, VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import styles from './classification-page.module.css';
 
 export default function ClassificationDetail({ classification }: { classification: ClassificationResource }) {
   const homeUrl = { text: localization.tabs.classifications, href: `/classifications` };
-  const breadcrumbList = classification.id ? ([{ text: classification.name, href: '' }] as BreadcrumbType[]) : [];
+  const breadcrumbList = classification.id ? ([{ text: classification.name, href: '' }] as BreadcrumbItem[]) : [];
 
   return (
     <section className={`${styles.detailsPage} container`}>

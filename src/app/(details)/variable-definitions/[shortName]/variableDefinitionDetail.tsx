@@ -7,11 +7,12 @@ import { DetailsPagePanel } from '@/components/details-page-panel/details-page-p
 import { ExternalLink } from '@/components/external-link';
 import { StatusTag } from '@/components/statusTag';
 import { TextField } from '@/components/text-field';
-import { BreadcrumbType, VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
+import { VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
 import { VardefHeading } from '@/components/vardef-heading/';
 import { useClipboard } from '@/hooks/useClipboard';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
+import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { nonEmpty } from '@/utils/functions';
 import { CodeSnippet } from './components/codeSnippet';
 import {
@@ -32,17 +33,16 @@ export default function VariableDefinitionDetail({
   variableDefinition: RenderedView;
   daplaLabVardefUrl: string | undefined;
 }) {
-  const homeUrl = { text: localization.home, href: '/' };
-  const breadcrumbList: BreadcrumbType[] = [
-    { text: localization.variableDefinition.labelPlural, href: tabsData.VariableDefinitions.route },
-    ...(variableDefinition.short_name && variableDefinition.name ? [{ text: variableDefinition.name, href: '' }] : []),
-  ];
   const references = nonEmpty(referencesItems(variableDefinition));
   const { copied, copyToClipboard } = useClipboard();
 
   return (
     <section className={`${styles.detailsPage} container`}>
-      <VardefBreadcrumbs breadcrumbList={breadcrumbList} homeUrl={homeUrl} />
+      <VardefBreadcrumbs
+        homeUrl={getHomeBreadcrumb()}
+        items={[{ text: localization.variableDefinition.labelPlural, href: tabsData.VariableDefinitions.route }]}
+        currentText={variableDefinition.short_name}
+      />
       <header className={styles.detailsPageHeader}>
         <VardefHeading headingProps={{ 'data-size': 'xl', level: 1 }} variableDefinition={variableDefinition} />
       </header>
