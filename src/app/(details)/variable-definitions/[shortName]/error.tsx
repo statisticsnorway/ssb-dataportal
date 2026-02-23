@@ -11,7 +11,7 @@ export default function VariableDefinitionError({ error, reset }: { error: Error
   const homeUrl = { text: localization.home, href: '/' };
   const breadcrumbList: BreadcrumbType[] = [
     { text: localization.variableDefinition.labelPlural, href: tabsData.VariableDefinitions.route },
-    { text: localization.error.breadcrumbs, href: '' },
+    { text: localization.error.breadcrumbLabel, href: '' },
   ];
   useEffect(() => {
     console.error('Failed to render variable definition details page', error);
