@@ -23,7 +23,7 @@ export default function VariableDefinitionError({ error, reset }: { error: Error
         {localization.error.somethingWentWrong}
       </Alert>
       <div style={{ marginTop: '1rem' }}>
-        <Button onClick={() => reset()}>{localization.error.tryAgain}</Button>
+        <Button onClick={() => reset()}>{localization.error.tryAgainButtonText}</Button>
       </div>
     </div>
   );

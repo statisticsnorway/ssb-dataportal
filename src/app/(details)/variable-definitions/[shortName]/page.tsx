@@ -5,7 +5,7 @@ import VariableDefinitionDetail from './variableDefinitionDetail';
 
 export default async function VariableDefinition({ params }: { params: Promise<{ shortName: string }> }) {
   const { shortName } = await params;
-  //TODO: Remove this when we have tests that can reliably cause an error in getRenderedVariableDefinition
+  //TODO: Remove this when we have tests for error.tsx and can verify that it works as expected
   if (shortName === 'aka') {
     throw new Error('Forced crash for testing purposes');
   }
