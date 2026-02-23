@@ -46,7 +46,7 @@ class ErrorBoundary extends Component<Props, State> {
       return (
         <>
           <VardefBreadcrumbs
-            breadcrumbList={[]}
+            items={[]}
             homeUrl={{
               href: '',
               text: '',
