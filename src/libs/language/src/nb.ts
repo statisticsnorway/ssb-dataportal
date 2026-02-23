@@ -55,7 +55,6 @@ export const nb = {
   },
 
   error: {
-    notFound: '404 - ikke funnet',
     somethingWentWrong: 'Beklager, noe gikk galt. Prøv på nytt litt senere.',
     tryAgainButtonText: 'Prøv igjen',
     unauthorized: 'Beklager, du har ikke tilgang.',

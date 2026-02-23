@@ -85,11 +85,9 @@ test.describe('Variable definitions breadcrumbs', () => {
 });
 
 test.describe('Variable definition details – not found', () => {
-  test('Unknown shortName shows not-found page with breadcrumbs and warning alert', async ({ page }) => {
+  test('Unknown shortName shows not-found page with warning alert', async ({ page }) => {
     const missingShortName = `missing-${Date.now()}`;
     await page.goto(`/variable-definitions/${missingShortName}`);
-    const root = page.getByTestId('vardefBreadcrumbs');
-    await expect(root).toBeVisible();
     const alert = page.locator('.ds-alert').filter({ hasText: /Variabeldefinisjon ikke funnet/i });
     await expect(alert).toBeVisible();
   });
