@@ -1,17 +1,18 @@
 'use client';
 
-import { Alert, Button } from '@digdir/designsystemet-react';
+import { Button } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { tabsData } from '@/app/(services)/tabs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
 import { ExternalLink } from '@/components/external-link';
 import { StatusTag } from '@/components/statusTag';
 import { TextField } from '@/components/text-field';
-import { BreadcrumbType, VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
+import { VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
 import { VardefHeading } from '@/components/vardef-heading/';
 import { useClipboard } from '@/hooks/useClipboard';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
+import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { nonEmpty } from '@/utils/functions';
 import { CodeSnippet } from './components/codeSnippet';
 import {
@@ -29,30 +30,19 @@ export default function VariableDefinitionDetail({
   variableDefinition,
   daplaLabVardefUrl,
 }: {
-  variableDefinition: RenderedView | undefined;
+  variableDefinition: RenderedView;
   daplaLabVardefUrl: string | undefined;
 }) {
-  if (!variableDefinition) {
-    return (
-      <div className={`${styles.detailsPage} container`}>
-        <Alert className={styles.alert} data-color='warning'>
-          {localization.variableDefinition.notFound}
-        </Alert>
-      </div>
-    );
-  }
-
-  const homeUrl = { text: localization.home, href: '/' };
-  const breadcrumbList: BreadcrumbType[] = [
-    { text: localization.variableDefinition.labelPlural, href: tabsData.VariableDefinitions.route },
-    ...(variableDefinition.short_name && variableDefinition.name ? [{ text: variableDefinition.name, href: '' }] : []),
-  ];
   const references = nonEmpty(referencesItems(variableDefinition));
   const { copied, copyToClipboard } = useClipboard();
 
   return (
     <section className={`${styles.detailsPage} container`}>
-      <VardefBreadcrumbs breadcrumbList={breadcrumbList} homeUrl={homeUrl} />
+      <VardefBreadcrumbs
+        homeUrl={getHomeBreadcrumb()}
+        items={[{ text: localization.variableDefinition.labelPlural, href: tabsData.VariableDefinitions.route }]}
+        currentText={variableDefinition.short_name}
+      />
       <header className={styles.detailsPageHeader}>
         <VardefHeading headingProps={{ 'data-size': 'xl', level: 1 }} variableDefinition={variableDefinition} />
       </header>

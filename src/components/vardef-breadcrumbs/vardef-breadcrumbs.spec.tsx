@@ -29,12 +29,12 @@ import { VardefBreadcrumbs } from './index';
 
 describe('VardefBreadcrumbs', () => {
   test('renders nav with aria-label from localization', () => {
-    render(<VardefBreadcrumbs homeUrl={{ href: '/', text: 'Hjem' }} breadcrumbList={[{ href: '/a', text: 'A' }]} />);
+    render(<VardefBreadcrumbs homeUrl={{ href: '/', text: 'Hjem' }} items={[{ href: '/a', text: 'A' }]} />);
     expect(screen.getByRole('navigation', { name: 'MinBrødsmulesti' })).toBeInTheDocument();
   });
 
   test('renders home crumb as a link', () => {
-    render(<VardefBreadcrumbs homeUrl={{ href: '/', text: 'Hjem' }} breadcrumbList={[{ href: '/a', text: 'A' }]} />);
+    render(<VardefBreadcrumbs homeUrl={{ href: '/', text: 'Hjem' }} items={[{ href: '/a', text: 'A' }]} />);
     const homeLink = screen.getByRole('link', { name: 'Hjem' });
     expect(homeLink).toHaveAttribute('href', '/');
   });
@@ -43,10 +43,8 @@ describe('VardefBreadcrumbs', () => {
     render(
       <VardefBreadcrumbs
         homeUrl={{ href: '/', text: 'Hjem' }}
-        breadcrumbList={[
-          { href: '/variabeldefinisjoner', text: 'Variabeldefinisjoner' },
-          { href: '/variabeldefinisjoner/akap', text: 'Annen kapital' },
-        ]}
+        items={[{ href: '/variabeldefinisjoner', text: 'Variabeldefinisjoner' }]}
+        currentText={'Annen kapital'}
       />,
     );
     const intermediateCrumb = screen.getByRole('link', { name: 'Variabeldefinisjoner' });
