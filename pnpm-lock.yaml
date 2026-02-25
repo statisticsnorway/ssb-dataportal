@@ -62,8 +62,8 @@ importers:
         specifier: 4.11.1
         version: 4.11.1(playwright-core@1.58.2)
       '@digdir/designsystemet-types':
-        specifier: 1.11.1
-        version: 1.11.1
+        specifier: 1.12.1
+        version: 1.12.1
       '@openapitools/openapi-generator-cli':
         specifier: 2.29.0
         version: 2.29.0(@types/node@25.2.3)
@@ -83,8 +83,8 @@ importers:
         specifier: 30.0.0
         version: 30.0.0
       '@types/lodash':
-        specifier: 4.17.23
-        version: 4.17.23
+        specifier: 4.17.24
+        version: 4.17.24
       '@types/react':
         specifier: 19.2.14
         version: 19.2.14
@@ -852,8 +852,8 @@ packages:
       react: '>=18.3.1 || ^19.0.0'
       react-dom: '>=18.3.1 || ^19.0.0'
 
-  '@digdir/designsystemet-types@1.11.1':
-    resolution: {integrity: sha512-sCPTFx1FplAfFIO8LMP68ts3HeUFgw/5Py9D+d5y4CPFJzxYk05/Bk7fHiKbVr57ZhbkKO4C88o7B2s63bOTlg==}
+  '@digdir/designsystemet-types@1.12.1':
+    resolution: {integrity: sha512-HE6D81h9IuNofEq1Gx1/FEVomxDID4SxCo7tcCYT16ZOQzHsUpSjirJD4Z3cIBY1SDDknwUTszyGz7QsBb5a8A==}
 
   '@emnapi/core@1.7.1':
     resolution: {integrity: sha512-o1uhUASyo921r2XtHYOHy7gdkGLge8ghBEQHMWmyJFoXlpU58kIrhhN3w26lpQb6dspetweapMn2CSNwQ8I4wg==}
@@ -1499,8 +1499,8 @@ packages:
   '@types/jsdom@21.1.7':
     resolution: {integrity: sha512-yOriVnggzrnQ3a9OKOCxaVuSug3w3/SbOj5i7VwXWZEyUNl3bLF9V3MfxGbZKuwqJOQyRfqXyROBB1CoZLFWzA==}
 
-  '@types/lodash@4.17.23':
-    resolution: {integrity: sha512-RDvF6wTulMPjrNdCoYRC8gNR880JNGT8uB+REUpC2Ns4pRqQJhGz90wh7rgdXDPpCczF3VGktDuFGVnz8zP7HA==}
+  '@types/lodash@4.17.24':
+    resolution: {integrity: sha512-gIW7lQLZbue7lRSWEFql49QJJWThrTFFeIMJdp3eH4tKoxm1OvEPg02rm4wCCSHS0cL3/Fizimb35b7k8atwsQ==}
 
   '@types/node@25.2.3':
     resolution: {integrity: sha512-m0jEgYlYz+mDJZ2+F4v8D1AyQb+QzsNqRuI7xg1VQX/KlKS0qT9r1Mo16yo5F/MtifXFgaofIFsdFMox2SxIbQ==}
@@ -4259,11 +4259,11 @@ snapshots:
 
   '@digdir/designsystemet-css@1.11.1':
     dependencies:
-      '@digdir/designsystemet-types': 1.11.1
+      '@digdir/designsystemet-types': 1.12.1
 
   '@digdir/designsystemet-react@1.11.1(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
-      '@digdir/designsystemet-types': 1.11.1
+      '@digdir/designsystemet-types': 1.12.1
       '@floating-ui/dom': 1.7.5
       '@floating-ui/react': 0.26.23(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@navikt/aksel-icons': 8.5.0
@@ -4278,7 +4278,7 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
 
-  '@digdir/designsystemet-types@1.11.1': {}
+  '@digdir/designsystemet-types@1.12.1': {}
 
   '@emnapi/core@1.7.1':
     dependencies:
@@ -4998,7 +4998,7 @@ snapshots:
       '@types/tough-cookie': 4.0.5
       parse5: 7.3.0
 
-  '@types/lodash@4.17.23': {}
+  '@types/lodash@4.17.24': {}
 
   '@types/node@25.2.3':
     dependencies:
