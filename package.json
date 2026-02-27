@@ -15,7 +15,7 @@
     "format:fix": "biome format --write . ",
     "types:check": "tsc --noEmit",
     "test": "vitest",
-    "test:watch": "vitest --watchAll",
+    "test:watch": "vitest --watch",
     "test:update-snapshots": "vitest -u",
     "test:e2e": "playwright test",
     "test:e2e:no-accessibility": "playwright test --grep-invert 'Accessibility'",
