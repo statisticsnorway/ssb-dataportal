@@ -16,7 +16,6 @@ export const Header: FC<HeaderProps> = ({ homeUrl, title, devEnvironmentName }) 
   return (
     <header className={styles.header} role='banner'>
       <div className={`${styles.headerContainer} container`}>
-        {/*TODO: Logo overflows at around 450px */}
         <Link href={homeUrl} title={localization.navigateHome} className={styles.logoAndTitle}>
           <Image
             className={styles.logo}
