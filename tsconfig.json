@@ -22,7 +22,7 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "types": ["vitest"]
+    "types": ["vitest/globals"]
   },
   "include": [
     "svgr.d.ts",
