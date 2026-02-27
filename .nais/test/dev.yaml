@@ -21,7 +21,7 @@ spec:
     provider: openid
     enforce:
       enabled: true
-  ttl: 8h
+  #ttl: 8h
   replicas:
     max: 1
     min: 1

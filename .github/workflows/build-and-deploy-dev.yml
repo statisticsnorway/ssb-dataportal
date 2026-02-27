@@ -1,7 +1,10 @@
 name: Deploy dev instance
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - chore/prepare-dataportal-for-user-test
+  #workflow_dispatch:
 
 jobs:
   docker-build:
