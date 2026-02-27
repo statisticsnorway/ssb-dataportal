@@ -1,9 +1,10 @@
 'use client';
 import { render, screen } from '@testing-library/react';
 import React, { ReactNode } from 'react';
+import { vi } from 'vitest';
 import { TextField } from '.';
 
-jest.mock('@digdir/designsystemet-react', () => {
+vi.mock('@digdir/designsystemet-react', () => {
   const passthrough =
     (tag: string) =>
     ({ children, ...props }: { children?: ReactNode } & Record<string, string>) =>
