@@ -1,9 +1,7 @@
 name: Deploy dev instance
 
+# No triggers temporarily
 on:
-  push:
-    branches:
-      - chore/prepare-dataportal-for-user-test
   #workflow_dispatch:
 
 jobs:
