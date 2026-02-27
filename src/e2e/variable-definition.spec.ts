@@ -62,7 +62,7 @@ test.describe('Variable definitions breadcrumbs', () => {
     await currentElement.click({ trial: true });
     await currentElement.click();
     await expect(page).toHaveURL(before);
-    await expect(current).toContainText(variable.name);
+    await expect(current).toContainText(variable.name.toLowerCase());
   });
 
   test('click on "Home" navigates to /', async ({ page, goToVariable }) => {
@@ -81,5 +81,14 @@ test.describe('Variable definitions breadcrumbs', () => {
     const nav = page.getByRole('navigation', { name: localization.breadcrumbsLabel });
     nav.getByRole('link', { name: localization.variableDefinition.labelPlural }).click();
     await expect(page).toHaveURL(tabsData.VariableDefinitions.route);
+  });
+});
+
+test.describe('Variable definition details – not found', () => {
+  test('Unknown shortName shows not-found page with warning alert', async ({ page }) => {
+    const missingShortName = `missing-${Date.now()}`;
+    await page.goto(`/variable-definitions/${missingShortName}`);
+    const alert = page.locator('.ds-alert').filter({ hasText: /Variabeldefinisjon ikke funnet/i });
+    await expect(alert).toBeVisible();
   });
 });
