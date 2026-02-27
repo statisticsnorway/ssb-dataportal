@@ -1,7 +1,7 @@
 'use client';
 import { render, screen } from '@testing-library/react';
 import React, { ReactNode } from 'react';
-import { vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { TextField } from '.';
 
 vi.mock('@digdir/designsystemet-react', () => {

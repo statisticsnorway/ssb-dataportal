@@ -16,7 +16,7 @@
     "bracketSpacing": true,
     "expand": "auto",
     "useEditorconfig": true,
-    "includes": ["**", "!./dist", "!./coverage", "!src/libs/data-access/**", "!jest.config.ts"]
+    "includes": ["**", "!./dist", "!./coverage", "!src/libs/data-access/**", "!vitest.config.ts"]
   },
   "linter": {
     "enabled": true,
@@ -107,8 +107,7 @@
       "!**/build/**/*/*.js",
       "!**/build/**/*.js",
       "!**/public/**/*.js",
-      "!jest.config.ts",
-      "!jest.setup.ts"
+      "!vitest.config.ts"
     ]
   },
   "javascript": {
@@ -123,7 +122,7 @@
       "attributePosition": "auto",
       "bracketSpacing": true
     },
-    "globals": ["afterEach", "afterAll", "beforeEach", "beforeAll", "describe", "expect", "it", "test", "jest"]
+    "globals": ["afterEach", "afterAll", "beforeEach", "beforeAll", "describe", "expect", "it", "test"]
   },
   "html": {
     "formatter": {
@@ -134,6 +133,6 @@
   "assist": {
     "enabled": true,
     "actions": { "source": { "organizeImports": "on" } },
-    "includes": ["**/src/**", "!src/libs/data-access/**", "!jest.config.ts"]
+    "includes": ["**/src/**", "!src/libs/data-access/**"]
   }
 }

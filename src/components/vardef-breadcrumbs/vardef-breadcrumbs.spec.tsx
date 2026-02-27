@@ -1,6 +1,7 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: Use any in mocks for convenience */
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { describe, expect, test, vi } from 'vitest';
+import { VardefBreadcrumbs } from './index';
 
 vi.mock('@/libs/language', () => ({
   localization: {
@@ -25,13 +26,10 @@ vi.mock('@digdir/designsystemet-react', () => {
   return { Breadcrumbs };
 });
 
-import { vi } from 'vitest';
-import { VardefBreadcrumbs } from './index';
-
 describe('VardefBreadcrumbs', () => {
   test('renders nav with aria-label from localization', () => {
     render(<VardefBreadcrumbs homeUrl={{ href: '/', text: 'Hjem' }} items={[{ href: '/a', text: 'A' }]} />);
-    expect(screen.getByRole('navigation', { name: 'MinBrødsmulesti' })).toBeInTheDocument();
+    expect(screen.getByRole('navigation', { name: 'MinBrødsmulesti' })).toBeTruthy();
   });
 
   test('renders home crumb as a link', () => {

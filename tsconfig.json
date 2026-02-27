@@ -22,7 +22,7 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "types": ["@testing-library/jest-dom"]
+    "types": ["vitest"]
   },
   "include": [
     "svgr.d.ts",
@@ -30,7 +30,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "./jest.setup.ts",
     ".next/dev/types/**/*.ts",
     ".next/dev/dev/types/**/*.ts"
   ],

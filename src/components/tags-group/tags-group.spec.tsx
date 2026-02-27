@@ -1,7 +1,7 @@
 'use client';
 import { render, screen } from '@testing-library/react';
 import React, { JSX } from 'react';
-import { vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { TagsGroup } from '.';
 
 vi.mock('@digdir/designsystemet-react', () => {

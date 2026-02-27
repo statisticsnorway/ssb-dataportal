@@ -1,4 +1,4 @@
-import { vi } from 'vitest';
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { VariableDefinitionsApi } from '@/libs/data-access/variable-definitions/internal/apis/VariableDefinitionsApi';
 import { getVariableDefinitions as getStaticVariableDefinitions } from '@/utils/mock-data';
 import { getRenderedVariableDefinition, getVardefClient, listRenderedVariableDefinitions } from './variableDefinitions';
@@ -18,8 +18,8 @@ afterAll(() => {
 
 describe('vardef data fetching', () => {
   describe('getVardefClient', () => {
-    it('no token available', () => {
-      expect(getVardefClient()).rejects.toEqual('Could not retrieve access token!');
+    it('no token available', async () => {
+      await expect(getVardefClient()).rejects.toEqual('Could not retrieve access token!');
     });
     it('hardcoded token', () => {
       process.env.METADATA_CATALOG_JWT_TOKEN = 'my-cool-token';
@@ -43,7 +43,7 @@ describe('vardef data fetching', () => {
         vi.stubEnv('VARDEF_USE_STATIC_DATA', 'true');
         expect(listRenderedVariableDefinitions()).resolves.toContainEqual(staticDefs[0]);
         vi.unstubAllEnvs();
-      }, 10000);
+      }, 6000);
       it('no token available', () => {
         process.env.VARDEF_USE_STATIC_DATA = 'false';
         expect(listRenderedVariableDefinitions()).rejects.toEqual('Could not retrieve access token!');
