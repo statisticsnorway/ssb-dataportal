@@ -9,14 +9,17 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 99  
+    open-pull-requests-limit: 99
     groups:
-      biome:
+      designsystem:
         patterns:
-          - "@biomejs/biome"
+          - "@digdir/**"
       production:
         dependency-type: "production"
+        exclude-patterns:
+          - "@digdir/**"
+          - "@biomejs/biome"
       development:
         dependency-type: "development"
-     
-
+        exclude-patterns:
+          - "@digdir/**"

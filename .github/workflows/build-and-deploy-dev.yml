@@ -1,7 +1,11 @@
 name: Deploy dev instance
 
+# No triggers temporarily
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - "no-branches-should-match"
+  #workflow_dispatch:
 
 jobs:
   docker-build:
