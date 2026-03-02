@@ -1,9 +1,10 @@
 'use client';
 import { render, screen } from '@testing-library/react';
 import React, { JSX } from 'react';
+import { describe, expect, it, vi } from 'vitest';
 import { Header } from '.';
 
-jest.mock('@digdir/designsystemet-react', () => {
+vi.mock('@digdir/designsystemet-react', () => {
   const passthrough =
     (tag: keyof JSX.IntrinsicElements) =>
     ({ children, ...props }: { children?: React.ReactNode } & React.HTMLAttributes<HTMLElement>) =>
@@ -25,22 +26,23 @@ describe('Header', () => {
     expect(logoLink).toBeInTheDocument();
     expect(logoLink).toHaveAttribute('href', 'https://example.com');
     expect(logoLink).toMatchInlineSnapshot(`
-<a
-  class="logoAndTitle"
-  href="https://example.com"
->
-  <img
-    alt="undefined logo"
-    class="logo"
-    data-nimg="1"
-    decoding="async"
-    height="44"
-    src="/ssb-logo.svg"
-    style="color: transparent;"
-    width="240"
-  />
-</a>
-`);
+      <a
+        class="_logoAndTitle_05898b"
+        href="https://example.com"
+        title="Naviger til hjemmesiden"
+      >
+        <img
+          alt="Statistisk sentralbyrå logo"
+          class="_logo_05898b"
+          data-nimg="1"
+          decoding="async"
+          height="44"
+          src="/ssb-logo.svg"
+          style="color: transparent;"
+          width="240"
+        />
+      </a>
+    `);
   });
 
   it('renders logo link without href if homeUrl is not provided', () => {

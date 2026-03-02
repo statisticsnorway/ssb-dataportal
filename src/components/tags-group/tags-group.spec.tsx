@@ -1,9 +1,10 @@
 'use client';
 import { render, screen } from '@testing-library/react';
 import React, { JSX } from 'react';
+import { describe, expect, it, vi } from 'vitest';
 import { TagsGroup } from '.';
 
-jest.mock('@digdir/designsystemet-react', () => {
+vi.mock('@digdir/designsystemet-react', () => {
   const passthrough =
     (tag: keyof JSX.IntrinsicElements) =>
     ({ children, ...props }: { children?: React.ReactNode } & React.HTMLAttributes<HTMLElement>) =>

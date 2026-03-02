@@ -1,14 +1,15 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: Use any in mocks for convenience */
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { describe, expect, test, vi } from 'vitest';
+import { VardefBreadcrumbs } from './index';
 
-jest.mock('@/libs/language', () => ({
+vi.mock('@/libs/language', () => ({
   localization: {
     breadcrumbsLabel: 'MinBrødsmulesti',
   },
 }));
 
-jest.mock('@digdir/designsystemet-react', () => {
+vi.mock('@digdir/designsystemet-react', () => {
   const Breadcrumbs = ({ children, ...props }: any) => <nav {...props}>{children}</nav>;
   Breadcrumbs.List = ({ children }: any) => <ol>{children}</ol>;
   Breadcrumbs.Item = ({ children }: any) => <li>{children}</li>;
@@ -25,12 +26,10 @@ jest.mock('@digdir/designsystemet-react', () => {
   return { Breadcrumbs };
 });
 
-import { VardefBreadcrumbs } from './index';
-
 describe('VardefBreadcrumbs', () => {
   test('renders nav with aria-label from localization', () => {
     render(<VardefBreadcrumbs homeUrl={{ href: '/', text: 'Hjem' }} items={[{ href: '/a', text: 'A' }]} />);
-    expect(screen.getByRole('navigation', { name: 'MinBrødsmulesti' })).toBeInTheDocument();
+    expect(screen.getByRole('navigation', { name: 'MinBrødsmulesti' })).toBeTruthy();
   });
 
   test('renders home crumb as a link', () => {
