@@ -13,11 +13,11 @@ import { useVariableDefinitionsContext } from './variableDefinitionContext';
  * @returns A string indicating the number of hits, or null if there is an error.
  */
 export const ResultsCount = () => {
-  const { filteredVariables, error } = useVariableDefinitionsContext();
+  const { error } = useVariableDefinitionsContext();
 
   if (error) return null;
 
-  const totalHits = filteredVariables.length;
+  const totalHits = 0; // filteredVariables.length;
   if (totalHits === 0) return localization.search.noHits;
 
   return `${totalHits} ${localization.search.hits}`;
