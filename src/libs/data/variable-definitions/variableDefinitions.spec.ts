@@ -43,7 +43,7 @@ describe('vardef data fetching', () => {
         vi.stubEnv('VARDEF_USE_STATIC_DATA', 'true');
         expect(listRenderedVariableDefinitions()).resolves.toContainEqual(staticDefs[0]);
         vi.unstubAllEnvs();
-      }, 6000);
+      });
       it('no token available', () => {
         process.env.VARDEF_USE_STATIC_DATA = 'false';
         expect(listRenderedVariableDefinitions()).rejects.toEqual('Could not retrieve access token!');
