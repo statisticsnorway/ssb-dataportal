@@ -1,22 +1,19 @@
 'use client';
 import { Spinner } from '@digdir/designsystemet-react';
 import { Suspense, useMemo, useState } from 'react';
-import { CheckboxFilter } from '@/components/filters';
 import { FiltersPanel } from '@/components/filters/filters-panel';
 import { TextFilter } from '@/components/filters/text-filter';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortFields } from '@/components/sort-fields';
-import { useStatusCounts } from '@/hooks/useVariableCounts';
 import { CodeItem } from '@/libs/data-access/klass/models';
-import { VariableStatus } from '@/libs/data-access/variable-definitions/internal/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language/src/localization';
 import { FilterItem } from '@/types/filters';
 import { SortTypes, sortTypes } from '@/types/sort';
-import { convertStatus } from '@/utils/functions';
 import { FilterTagsSection } from './components/FilterTagsSection';
 import { ResultsCount } from './components/ResultsCount';
 import { ResultsSection } from './components/ResultsSection';
+import { StatusFiltersSection } from './components/StatusFiltersSection';
 import { SubjectFiltersSection } from './components/SubjectFiltersSection';
 import { VariableDefinitionsProvider } from './components/variableDefinitionContext';
 
@@ -36,11 +33,6 @@ const VariableDefinitionsServicePage = ({
   const [currentPage, setCurrentPage] = useState<number>(1);
   const pageSize = 20;
 
-  const STATUSES: FilterItem[] = [
-    { value: VariableStatus.Draft, label: convertStatus(VariableStatus.Draft) },
-    { value: VariableStatus.PublishedInternal, label: convertStatus(VariableStatus.PublishedInternal) },
-    { value: VariableStatus.PublishedExternal, label: convertStatus(VariableStatus.PublishedExternal) },
-  ];
   useMemo(() => {
     setCurrentPage(1);
   }, [textFilter, subjectFilters, statusFilters, sortOption]);
@@ -74,16 +66,6 @@ const VariableDefinitionsServicePage = ({
     setSubjectFilters((prev) => prev.filter((f) => f.value !== filter.value));
   };
 
-  const { counts } = useStatusCounts({
-    variablesPromise,
-    allStatusFilters: STATUSES,
-  });
-
-  const STATUSES_WITH_COUNTS = STATUSES.map((status) => ({
-    ...status,
-    count: counts.statusCounts[status.value] ?? 0,
-  }));
-
   return (
     <VariableDefinitionsProvider
       variablesPromise={variablesPromise}
@@ -101,12 +83,13 @@ const VariableDefinitionsServicePage = ({
               searchTerm={textFilter}
               setSearchTerm={setTextFilter}
             />
-            <CheckboxFilter
-              filterHeading={localization.status.label}
-              filters={STATUSES_WITH_COUNTS}
-              selectedItems={statusFilters}
-              onFilterChange={toggleStatus}
-            />
+            <Suspense fallback={<Spinner aria-label={localization.loading.filters} />}>
+              <StatusFiltersSection
+                variablesPromise={variablesPromise}
+                selectedItems={statusFilters}
+                onFilterChange={toggleStatus}
+              />
+            </Suspense>
             <Suspense fallback={<Spinner aria-label={localization.loading.filters} />}>
               <SubjectFiltersSection
                 variablesPromise={variablesPromise}

@@ -48,6 +48,7 @@ export const VariableDefinitionsProvider = ({
         subjectFilters,
         statusFilters,
         sortOption,
+        error: null,
       }}
     >
       {children}

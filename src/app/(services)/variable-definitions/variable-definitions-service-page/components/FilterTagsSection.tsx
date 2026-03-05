@@ -1,6 +1,7 @@
 'use client';
 import { useMemo } from 'react';
 import { FilterTags } from '@/components/filter-tags';
+import { useFilteredVariables } from '@/hooks/useFilteredVariables';
 import { FilterItem } from '@/types/filters';
 import { useVariableDefinitionsContext } from './variableDefinitionContext';
 
@@ -26,8 +27,17 @@ interface FilterTagsSectionProps {
  * @returns A FilterTags component populated with active filters and search term.
  */
 export const FilterTagsSection = ({ onClose, onClearAll, onClearSearch }: FilterTagsSectionProps) => {
-  const { subjectFilters, statusFilters, textFilter, error } = useVariableDefinitionsContext();
+  const { variablesPromise, subjectFilters, statusFilters, textFilter, sortOption, error } =
+    useVariableDefinitionsContext();
   if (error) return null;
+
+  const { filteredVariables } = useFilteredVariables({
+    variablesPromise,
+    textFilter,
+    subjectFilters,
+    statusFilters,
+    sortOption,
+  });
 
   /**
    * Returns a memoized array of the counts per selected filter.
@@ -39,12 +49,12 @@ export const FilterTagsSection = ({ onClose, onClearAll, onClearSearch }: Filter
 
     // Count subject filters
     subjectFilters.forEach((f) => {
-      counts[f.value] = 0; //filteredVariables.filter((v) => v.subject_fields?.some((sf) => sf.code === f.value)).length;
+      counts[f.value] = filteredVariables.filter((v) => v.subject_fields?.some((sf) => sf.code === f.value)).length;
     });
 
     // Count status filters
     statusFilters.forEach((f) => {
-      counts[f.value] = 0; //filteredVariables.filter((v) => v.variable_status === f.value).length;
+      counts[f.value] = filteredVariables.filter((v) => v.variable_status === f.value).length;
     });
 
     return counts;

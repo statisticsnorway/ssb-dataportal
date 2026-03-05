@@ -1,7 +1,8 @@
 'use client';
 import { Alert } from '@digdir/designsystemet-react';
-import { use, useMemo } from 'react';
+import { useMemo } from 'react';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
+import { useFilteredVariables } from '@/hooks/useFilteredVariables';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { VardefSearchHit } from '../../components/vardefSearchHit';
 import { mapErrorMessage } from './utils';
@@ -29,7 +30,8 @@ interface ResultsSectionProps {
  * @returns A SearchHitContainer component populated with paginated search results.
  */
 export const ResultsSection = ({ currentPage, pageSize, handlePageChange }: ResultsSectionProps) => {
-  const { variablesPromise, error } = useVariableDefinitionsContext();
+  const { variablesPromise, textFilter, subjectFilters, statusFilters, sortOption, error } =
+    useVariableDefinitionsContext();
 
   if (error) {
     return (
@@ -39,7 +41,13 @@ export const ResultsSection = ({ currentPage, pageSize, handlePageChange }: Resu
     );
   }
 
-  const { data: filteredVariables } = use(variablesPromise);
+  const { filteredVariables } = useFilteredVariables({
+    variablesPromise,
+    textFilter,
+    subjectFilters,
+    statusFilters,
+    sortOption,
+  });
 
   const totalHits = filteredVariables.length;
   const totalPages = Math.ceil(totalHits / pageSize);

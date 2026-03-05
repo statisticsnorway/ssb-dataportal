@@ -1,4 +1,5 @@
 'use client';
+import { useFilteredVariables } from '@/hooks/useFilteredVariables';
 import { localization } from '@/libs/language/src/localization';
 import { useVariableDefinitionsContext } from './variableDefinitionContext';
 
@@ -13,11 +14,20 @@ import { useVariableDefinitionsContext } from './variableDefinitionContext';
  * @returns A string indicating the number of hits, or null if there is an error.
  */
 export const ResultsCount = () => {
-  const { error } = useVariableDefinitionsContext();
+  const { error, variablesPromise, textFilter, subjectFilters, statusFilters, sortOption } =
+    useVariableDefinitionsContext();
 
   if (error) return null;
 
-  const totalHits = 0; // filteredVariables.length;
+  const { filteredVariables } = useFilteredVariables({
+    variablesPromise,
+    textFilter,
+    subjectFilters,
+    statusFilters,
+    sortOption,
+  });
+
+  const totalHits = filteredVariables.length;
   if (totalHits === 0) return localization.search.noHits;
 
   return `${totalHits} ${localization.search.hits}`;
