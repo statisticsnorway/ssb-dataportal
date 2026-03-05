@@ -34,7 +34,7 @@
     "@navikt/aksel-icons": "8.6.0",
     "@next/env": "16.1.6",
     "@svgr/webpack": "8.1.0",
-    "@types/node": "25.3.2",
+    "@types/node": "25.3.3",
     "classnames": "2.5.1",
     "lodash": "4.17.23",
     "next": "16.1.6",
