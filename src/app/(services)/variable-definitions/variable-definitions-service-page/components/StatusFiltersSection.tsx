@@ -13,17 +13,13 @@ interface StatusFiltersSectionProps {
 }
 
 /**
- * FiltersSection renders a checkbox-based filter for subject areas.
+ * Render checkbox-based filter for lifecycle status.
  *
- * It resolves the provided `subjectFieldsPromise`, transforms the returned
- * subject fields into filter items, sorts them alphabetically by label,
- * and passes them to the `CheckboxFilter` component.
- *
- * @param subjectFieldsPromise - Promise resolving to subject field data.
+ * @param variablesPromise - Promise resolving variable definitions.
  * @param selectedItems - The currently selected filter items.
  * @param onFilterChange - Callback triggered when a filter item is toggled.
  *
- * @returns A CheckboxFilter component populated with sorted subject filters.
+ * @returns A CheckboxFilter component.
  */
 export const StatusFiltersSection = ({
   variablesPromise,
