@@ -1,35 +1,33 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": false,
-    "strict": true,
-    "noEmit": true,
     "esModuleInterop": true,
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "skipLibCheck": true,
+    "target": "es2022",
+    "allowJs": true,
     "resolveJsonModule": true,
+    "noEmit": true,
+    "moduleDetection": "force",
     "isolatedModules": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
     "jsx": "react-jsx",
     "incremental": true,
-    "skipLibCheck": true,
     "plugins": [
       {
         "name": "next"
+      },
+      {
+        "name": "typescript-plugin-css-modules",
+        "options": {
+          "goToDefinition": true
+        }
       }
     ],
     "paths": {
       "@/*": ["./src/*"]
-    }
-  },
-  "include": [
-    "svgr.d.ts",
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    ".next/dev/dev/types/**/*.ts"
-  ],
-  "exclude": ["node_modules"]
+    },
+    "lib": ["dom", "dom.iterable", "esnext"]
+  }
 }
