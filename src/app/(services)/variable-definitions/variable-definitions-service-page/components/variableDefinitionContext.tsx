@@ -1,6 +1,5 @@
 'use client';
 import { createContext, ReactNode, useContext } from 'react';
-import { useFilteredVariables } from '@/hooks/useFilteredVariables';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
@@ -11,7 +10,6 @@ interface VariableDefinitionsContextValue {
   subjectFilters: FilterItem[];
   statusFilters: FilterItem[];
   sortOption: SortTypes;
-  filteredVariables: RenderedView[];
   error: Error | null;
 }
 
@@ -42,14 +40,6 @@ export const VariableDefinitionsProvider = ({
   statusFilters,
   sortOption,
 }: VariableDefinitionsProviderProps) => {
-  const { filteredVariables, error } = useFilteredVariables({
-    variablesPromise,
-    textFilter,
-    subjectFilters,
-    statusFilters,
-    sortOption,
-  });
-
   return (
     <VariableDefinitionsContext.Provider
       value={{
@@ -58,8 +48,7 @@ export const VariableDefinitionsProvider = ({
         subjectFilters,
         statusFilters,
         sortOption,
-        filteredVariables,
-        error,
+        error: null,
       }}
     >
       {children}

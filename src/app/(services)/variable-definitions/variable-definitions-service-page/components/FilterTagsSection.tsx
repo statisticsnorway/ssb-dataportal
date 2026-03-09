@@ -1,6 +1,7 @@
 'use client';
 import { useMemo } from 'react';
 import { FilterTags } from '@/components/filter-tags';
+import { useFilteredVariables } from '@/hooks/useFilteredVariables';
 import { FilterItem } from '@/types/filters';
 import { useVariableDefinitionsContext } from './variableDefinitionContext';
 
@@ -26,8 +27,17 @@ interface FilterTagsSectionProps {
  * @returns A FilterTags component populated with active filters and search term.
  */
 export const FilterTagsSection = ({ onClose, onClearAll, onClearSearch }: FilterTagsSectionProps) => {
-  const { filteredVariables, subjectFilters, statusFilters, textFilter, error } = useVariableDefinitionsContext();
+  const { variablesPromise, subjectFilters, statusFilters, textFilter, sortOption, error } =
+    useVariableDefinitionsContext();
   if (error) return null;
+
+  const { filteredVariables } = useFilteredVariables({
+    variablesPromise,
+    textFilter,
+    subjectFilters,
+    statusFilters,
+    sortOption,
+  });
 
   /**
    * Returns a memoized array of the counts per selected filter.
@@ -48,7 +58,7 @@ export const FilterTagsSection = ({ onClose, onClearAll, onClearSearch }: Filter
     });
 
     return counts;
-  }, [subjectFilters, statusFilters, filteredVariables]);
+  }, [subjectFilters, statusFilters]);
 
   const activeFilters = subjectFilters.concat(statusFilters);
   return (

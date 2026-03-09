@@ -1,15 +1,14 @@
 import { use, useMemo } from 'react';
+import { VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { FilterItem } from '@/types/filters';
+import { convertStatus } from '@/utils/functions';
 
-interface UseStatusCountsProps {
-  variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
-  allStatusFilters: FilterItem[];
-}
-
-interface FilterCounts {
-  statusCounts: Record<string, number>;
-}
+export const STATUSES: FilterItem[] = [
+  { value: VariableStatus.Draft, label: convertStatus(VariableStatus.Draft) },
+  { value: VariableStatus.PublishedInternal, label: convertStatus(VariableStatus.PublishedInternal) },
+  { value: VariableStatus.PublishedExternal, label: convertStatus(VariableStatus.PublishedExternal) },
+];
 
 /**
  * Computes the count of variables per status.
@@ -19,27 +18,32 @@ interface FilterCounts {
  * in `allStatusFilters`. The counts are memoized with `useMemo`.
  *
  */
-export function useStatusCounts({ variablesPromise, allStatusFilters }: UseStatusCountsProps) {
-  const { data: variables, error } = use(variablesPromise);
+export function useStatusCounts(
+  variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>,
+): FilterItem[] {
+  const { data: variables } = use(variablesPromise);
 
-  const counts: FilterCounts = useMemo(() => {
+  const counts: FilterItem[] = useMemo(() => {
     const statusCounts: Record<string, number> = {};
 
-    if (!variables?.length) return { statusCounts };
+    if (!variables?.length) return STATUSES;
 
-    allStatusFilters.forEach((f) => (statusCounts[f.value] = 0));
+    STATUSES.forEach((f) => (statusCounts[f.value] = 0));
 
-    variables.forEach((variable) => {
+    variables.forEach((variable: RenderedView) => {
       const status = String(variable.variable_status);
       if (Object.hasOwn(statusCounts, status)) {
         statusCounts[status] += 1;
       }
     });
 
-    return { statusCounts };
-  }, [variables, allStatusFilters]);
+    return STATUSES.map((status) => ({
+      ...status,
+      count: statusCounts[status.value] ?? 0,
+    }));
+  }, [variables, STATUSES]);
 
-  return { counts, error, variables };
+  return counts;
 }
 
 interface UseSubjectFieldCountsProps {
