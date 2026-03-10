@@ -29,9 +29,6 @@ const ClassificationsServicePage = ({
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(true);
 
-  console.log(`Hits: ${rawClassifications.length}, isLoading: ${isLoading}, errorMessage: ${error}`);
-  console.log(`Hits: ${rawClassificationFamilies.length}, isLoading: ${isLoading}, errorMessage: ${error}`);
-
   const [classifications, setClassifications] = useState<ClassificationResource[]>([]);
   const memoizedHits = useMemo(() => (isLoading ? [] : classifications), [isLoading, classifications]);
   const { hits, sortKey, setSortKey, sortTypes } = useSearchStateKlass(memoizedHits);

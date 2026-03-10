@@ -7,7 +7,9 @@ import styles from './variable-details-page.module.css';
 
 export default function VariableDefinitionError({ error, reset }: { error: Error; reset: () => void }) {
   useEffect(() => {
-    console.error('Failed to render variable definition details page', error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Failed to render variable definition details page', error);
+    }
   }, [error]);
   return (
     <div className={`${styles.detailsPage} container`}>
