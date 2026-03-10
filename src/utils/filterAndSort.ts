@@ -1,6 +1,7 @@
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
+import { extractSubjectAreaCode } from './functions';
 import { sortAscending, sortDateStringsDescending, sortDescending } from './sort';
 
 export function filterAndSortVariables(
@@ -18,7 +19,11 @@ export function filterAndSortVariables(
 
   const matchesSubject = (v: RenderedView) =>
     subjectFilters.length === 0 ||
-    v.subject_fields.some((ref) => ref.code && subjectFilters.some((filter) => filter.value === ref.code));
+    v.subject_fields.some(
+      (ref) =>
+        extractSubjectAreaCode(ref.code) &&
+        subjectFilters.some((filter) => filter.value === extractSubjectAreaCode(ref.code)),
+    );
 
   const matchesSearch = (v: RenderedView) => {
     if (!trimmedSearch) return true;
