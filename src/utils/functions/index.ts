@@ -111,3 +111,15 @@ export const statusColors: Record<VariableStatus, string> = {
   [VariableStatus.PublishedInternal]: 'var(--status-published-internal',
   [VariableStatus.PublishedExternal]: 'var(--status-published-external',
 };
+
+// handle null defined better
+export const extractSubjectAreaCode = (code: string | undefined | null) => {
+  if (code == undefined || code == null) {
+    return '';
+  }
+  if (code.length > 2) {
+    const firstTwoLetters = code.slice(0, 2);
+    return firstTwoLetters;
+  }
+  return code;
+};

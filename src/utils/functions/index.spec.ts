@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { ClassificationType } from '@/types/classification';
 import { Item } from '@/types/item';
-import { areFieldsDefinedAndNonNull, nonEmpty, parseClassification } from '.';
+import { areFieldsDefinedAndNonNull, extractSubjectAreaCode, nonEmpty, parseClassification } from '.';
 
 describe('areFieldsDefinedAndNonNull filter', () => {
   it('non-null objects pass through', () => {
@@ -115,5 +115,32 @@ describe('nonEmpty', () => {
     ];
 
     expect(nonEmpty(items)).toEqual([{ label: 'C', value: 'ok' }]);
+  });
+});
+
+describe('Extract parent code', () => {
+  it('extracts parent code', () => {
+    const code: string = 'al03';
+    expect(extractSubjectAreaCode(code)).toEqual('al');
+  });
+
+  it('parent code', () => {
+    const code: string = 'al';
+    expect(extractSubjectAreaCode(code)).toEqual('al');
+  });
+
+  it('extracts parent code', () => {
+    const code: string = 'be08';
+    expect(extractSubjectAreaCode(code)).toEqual('be');
+  });
+
+  it('parent code', () => {
+    const code: string = 'bf';
+    expect(extractSubjectAreaCode(code)).toEqual('bf');
+  });
+
+  it('', () => {
+    const code: string = '';
+    expect(extractSubjectAreaCode(code)).toEqual('');
   });
 });
