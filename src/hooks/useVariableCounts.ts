@@ -77,7 +77,7 @@ export function useSubjectFieldCounts({ variablesPromise, allSubjectFilters }: U
     variables.forEach((variable) => {
       variable.subject_fields?.forEach((sf) => {
         // can not return empty string
-        const code = String(extractSubjectAreaCode(sf.code));
+        const code = String(extractSubjectAreaCode(String(sf.code)));
         if (Object.hasOwn(subjectCounts, code)) {
           subjectCounts[code] += 1;
         }
