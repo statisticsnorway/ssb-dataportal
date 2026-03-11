@@ -21,7 +21,7 @@ async function checkCheckbox(checkboxLocator: Locator, expectedName: string) {
   await expect(checkboxLocator).toBeChecked();
 }
 
-// await page.waitForTimeout(200); to stabilize slower Firefox
+// await page.waitForTimeout(200); to stabilize tests
 test('Filter by subject field displays tags (listitem) with count and close button (x)', async ({ page }) => {
   const main = page.getByRole('main');
   await expect(main).toContainText(variables.totalHits);
@@ -58,14 +58,19 @@ test('Select more than one filter display a "remove all" tag', async ({ page }) 
 });
 
 test('Subject area level 2 filters on level 1', async ({ page }) => {
-  const main = page.getByRole('main');
-  await expect(main).toContainText(variables.totalHits);
-
   await page.waitForTimeout(200);
 
-  const checkbox = page.getByRole('checkbox', { name: variables.health });
+  const checkbox = page.getByRole('checkbox', { name: variables.health.label });
 
-  await checkCheckbox(checkbox, variables.health);
+  await checkCheckbox(checkbox, variables.health.label);
+
+  const levelTwoTag = page.getByRole('list').filter({ hasText: variables.health.tagLevelTwo });
+  await expect(levelTwoTag).toBeVisible();
+  await expect(levelTwoTag).toContainText(variables.health.tagLevelTwo);
+
+  const levelOneTag = page.getByRole('list').filter({ hasText: variables.health.tagLevelOne });
+  await expect(levelOneTag).toBeVisible();
+  await expect(levelOneTag).toContainText(variables.health.tagLevelOne);
 });
 
 test('Variable "Aksje" has two subject fields', async ({ page }) => {
