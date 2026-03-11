@@ -4,7 +4,6 @@ import path from 'path';
 const isTest = process.env.NODE_ENV === 'test';
 
 const nextConfig: NextConfig = {
-  /* config options for Turbopack here */
   turbopack: {
     root: path.resolve(__dirname),
     resolveAlias: {
@@ -19,9 +18,13 @@ const nextConfig: NextConfig = {
     },
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   output: isTest ? undefined : 'standalone',
+  // This is just the default cacheHandler.
+  // We set it like this as a workaround for Next.js arbitrary maxiumum 2MB cache size
+  // Ref: https://github.com/vercel/next.js/discussions/48324#discussioncomment-10748690
+  cacheHandler: require.resolve('next/dist/server/lib/incremental-cache/file-system-cache.js'),
 };
 
 export default nextConfig;

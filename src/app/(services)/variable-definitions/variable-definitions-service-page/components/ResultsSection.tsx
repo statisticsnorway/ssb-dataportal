@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 import { Alert } from '@digdir/designsystemet-react';
 import { useMemo } from 'react';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
