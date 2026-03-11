@@ -18,7 +18,7 @@ interface State {
 }
 
 //TODO(): This component is from catalog-frontend and has not has not been updated
-class ErrorBoundary extends Component<Props, State> {
+class ErrorBoundry extends Component<Props, State> {
   private title: string | undefined;
 
   constructor(props: Props) {
@@ -35,7 +35,7 @@ class ErrorBoundary extends Component<Props, State> {
     return { hasError: true };
   }
 
-  public componentDidCatch(error: Error, _errorInfo: ErrorInfo) {
+  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     clientLogger.error({ error: sanitizeError(error) }, 'Uncaught React error');
   }
 
@@ -59,4 +59,4 @@ class ErrorBoundary extends Component<Props, State> {
   }
 }
 
-export default ErrorBoundary;
+export default ErrorBoundry;
