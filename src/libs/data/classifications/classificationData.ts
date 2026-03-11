@@ -24,7 +24,7 @@ export async function fetchAllClassifications(pageSize = 20): Promise<Classifica
   let totalPages = 1;
 
   if (useStaticData) {
-    logger.warn('Using static mock data');
+    logger.warn('Using static mock data for classifications');
     allClassifications = classificationsMock.classifications;
   } else {
     logger.debug({ basePath: process.env.KLASS_BASE_PATH }, 'Klass API base path configured');
@@ -56,7 +56,7 @@ export async function fetchClassificationById(id: number): Promise<Classificatio
   let classification: ClassificationResource | undefined;
 
   if (useStaticData) {
-    logger.warn('Using static mock data');
+    logger.warn('Using static mock data for classifications');
     classification = getClassification(id);
   } else {
     const res = await fetch(
