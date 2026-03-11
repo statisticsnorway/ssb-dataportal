@@ -53,9 +53,6 @@ export function CodeSnippet({
             margin: 0,
           }}
           className={styles.pre}
-          codeTagProps={{
-            className: styles.code,
-          }}
         >
           {codeString}
         </SyntaxHighlighter>
@@ -64,7 +61,7 @@ export function CodeSnippet({
         {daplaLabVardefUrl && (
           <>
             <ExternalLink linkText='Dapla Lab' href={daplaLabVardefUrl} />
-            <span className={styles.divider}>•</span>
+            <span>•</span>
           </>
         )}
         <ExternalLink
