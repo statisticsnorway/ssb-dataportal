@@ -18,7 +18,7 @@ interface State {
 }
 
 //TODO(): This component is from catalog-frontend and has not has not been updated
-class ErrorBoundry extends Component<Props, State> {
+class ErrorBoundary extends Component<Props, State> {
   private title: string | undefined;
 
   constructor(props: Props) {
@@ -59,4 +59,4 @@ class ErrorBoundry extends Component<Props, State> {
   }
 }
 
-export default ErrorBoundry;
+export default ErrorBoundary;
