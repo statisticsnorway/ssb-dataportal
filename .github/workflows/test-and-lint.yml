@@ -52,7 +52,7 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install --prod
-      - name: Type check
+      - name: Prod build
         run: pnpm run build
 
   unit-tests:
