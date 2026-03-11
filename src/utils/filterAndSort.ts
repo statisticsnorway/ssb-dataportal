@@ -21,8 +21,8 @@ export function filterAndSortVariables(
     subjectFilters.length === 0 ||
     v.subject_fields.some(
       (ref) =>
-        extractSubjectAreaCode(ref.code) &&
-        subjectFilters.some((filter) => filter.value === extractSubjectAreaCode(ref.code)),
+        extractSubjectAreaCode(String(ref.code)) &&
+        subjectFilters.some((filter) => filter.value === extractSubjectAreaCode(String(ref.code))),
     );
 
   const matchesSearch = (v: RenderedView) => {
