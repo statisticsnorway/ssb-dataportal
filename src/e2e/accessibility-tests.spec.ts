@@ -19,7 +19,7 @@ export const test = base.extend<{
 test.describe('Variable definitions – accessibility', () => {
   test('Filters are accessible', async ({ page }) => {
     const checkbox = page.getByRole('checkbox', { name: statusDraft });
-
+    await page.waitForTimeout(200); // just to stabilize
     await expect(checkbox).toBeVisible();
     await expect(checkbox).toBeEnabled();
 

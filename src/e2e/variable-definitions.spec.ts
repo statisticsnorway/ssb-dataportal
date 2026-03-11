@@ -13,10 +13,9 @@ import {
   statusInternal,
   statusInternalPlusExternalTotalHits,
   statusInternalTotalHits,
-  totalVariables,
   totalVariablesHits,
   workAndPay,
-  workAndPayPlusPopulation,
+  workAndPayPlusPopulationHits,
 } from './utils';
 
 export const test = base.extend<{
@@ -31,7 +30,7 @@ export const test = base.extend<{
 
 // TODO(cbi): Improve use of hardcoded values, these test depends on current testdata in norwegian nb [https://github.com/statisticsnorway/metadata-catalog-prototype/issues/106]
 test('Filter by subject field displays tags (listitem) with count and close button (x)', async ({ page }) => {
-  await expect(page.getByRole('main')).toContainText(totalVariables);
+  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
   await page.waitForTimeout(200); // just to stabilize
   const checkbox = page.getByRole('checkbox', { name: socialConditionsAndCrime });
 
@@ -47,11 +46,11 @@ test('Filter by subject field displays tags (listitem) with count and close butt
   });
   await expect(filterTag).toBeVisible();
   await page.getByRole('button', { name: 'Remove Sosiale forhold og kriminalitet (2)' }).click();
-  await expect(page.getByRole('main')).toContainText(totalVariables);
+  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
 });
 
 test('Select more than one filter display a "remove all" tag', async ({ page }) => {
-  await expect(page.getByRole('main')).toContainText(totalVariables);
+  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
 
   await page.waitForTimeout(200); // just to stabilize
 
@@ -74,13 +73,13 @@ test('Select more than one filter display a "remove all" tag', async ({ page }) 
   await expect(filterTwo).toBeChecked();
 
   await expect(page.getByText('Fjern alle filter')).toBeVisible();
-  await expect(page.getByRole('main')).toContainText(workAndPayPlusPopulation);
+  await expect(page.getByRole('main')).toContainText(workAndPayPlusPopulationHits);
   await page.getByRole('button', { name: 'Remove Fjern alle filter' }).click();
-  await expect(page.getByRole('main')).toContainText(totalVariables);
+  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
 });
 
 test('Variable "Aksje" has two subject fields', async ({ page }) => {
-  await expect(page.getByRole('main')).toContainText(totalVariables);
+  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
 
   await page.waitForTimeout(200); // just to stabilize
 
@@ -138,13 +137,12 @@ test('Filter by name remove all', async ({ page }) => {
   await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).fill('Baderom');
   await expect(page.getByRole('main')).toContainText('1 treff');
   await page.getByRole('button', { name: 'Remove Fjern alle filter' }).click();
-  await expect(page.getByRole('main')).toContainText(totalVariables);
+  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
 });
 
 test('Filter by status draft', async ({ page }) => {
-  await expect(page.getByRole('main')).toContainText(totalVariables);
-  //await page.getByRole('checkbox', { name: statusDraft }).check();
-
+  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
+  await page.waitForTimeout(200); // just to stabilize
   const draftFilter = page.getByRole('checkbox', { name: statusDraft });
 
   await expect(draftFilter).toBeVisible();
@@ -155,13 +153,13 @@ test('Filter by status draft', async ({ page }) => {
 
   await expect(page.getByRole('button', { name: removeStatusDraft })).toBeVisible();
   await page.getByRole('button', { name: removeStatusDraft }).click();
-  await expect(page.getByRole('main')).toContainText(totalVariables);
+  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
 });
 
 test('Filter by status published', async ({ page }) => {
   await expect(page.getByRole('main')).toContainText(totalVariablesHits);
   const publishedInternalFilter = page.getByRole('checkbox', { name: statusInternal });
-
+  await page.waitForTimeout(200); // just to stabilize
   await expect(publishedInternalFilter).toBeVisible();
   await expect(publishedInternalFilter).toBeEnabled();
   await publishedInternalFilter.check();
@@ -173,7 +171,7 @@ test('Filter by status published', async ({ page }) => {
   await expect(page.getByRole('main')).toContainText(statusInternalPlusExternalTotalHits);
 
   await page.getByRole('button', { name: 'Remove Fjern alle filter' }).click();
-  await expect(page.getByRole('main')).toContainText(totalVariables);
+  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
 });
 
 test.describe('Variable definitions - pagination', () => {
