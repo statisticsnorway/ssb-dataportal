@@ -118,29 +118,23 @@ describe('nonEmpty', () => {
   });
 });
 
-describe('Extract parent code', () => {
+describe('Extract subject area parent code', () => {
   it('extracts parent code', () => {
-    const code: string = 'al03';
-    expect(extractSubjectAreaCode(code)).toEqual('al');
+    expect(extractSubjectAreaCode('al03')).toEqual('al');
+  });
+  it('returns parent code unchanged', () => {
+    expect(extractSubjectAreaCode('al')).toEqual('al');
+  });
+  it('throws if empty string is provided', () => {
+    expect(() => extractSubjectAreaCode(' ')).toThrowError('Subject area code cannot be empty');
   });
 
-  it('parent code', () => {
-    const code: string = 'al';
-    expect(extractSubjectAreaCode(code)).toEqual('al');
+  it('code is null', () => {
+    // biome-ignore lint/suspicious/noExplicitAny: necessary for testing
+    expect(() => extractSubjectAreaCode(null as any)).toThrow('Subject area code cannot be empty');
   });
-
-  it('extracts parent code', () => {
-    const code: string = 'be08';
-    expect(extractSubjectAreaCode(code)).toEqual('be');
-  });
-
-  it('parent code', () => {
-    const code: string = 'bf';
-    expect(extractSubjectAreaCode(code)).toEqual('bf');
-  });
-
-  it('', () => {
-    const code: string = '';
-    expect(extractSubjectAreaCode(code)).toEqual('');
+  it('code is undefined', () => {
+    // biome-ignore lint/suspicious/noExplicitAny: necessary for testing
+    expect(() => extractSubjectAreaCode(undefined as any)).toThrow('Subject area code cannot be empty');
   });
 });
