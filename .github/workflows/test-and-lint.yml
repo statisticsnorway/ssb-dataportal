@@ -40,6 +40,21 @@ jobs:
       - name: Type check
         run: pnpm tsc --noEmit
 
+  check-prod-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install --prod
+      - name: Type check
+        run: pnpm run build
+
   unit-tests:
     runs-on: ubuntu-latest
     steps:
