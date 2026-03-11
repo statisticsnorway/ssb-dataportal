@@ -1,22 +1,7 @@
-import { test as base, expect, Page } from '@playwright/test';
+import { test as base, expect, Locator, Page } from '@playwright/test';
 import { tabsData } from '@/app/(services)/tabs';
 import { localization } from '@/libs/language';
-import {
-  bankingAndFinancialMarked,
-  companiesEnterprises,
-  population,
-  removeStatusDraft,
-  socialConditionsAndCrime,
-  statusDraft,
-  statusDraftTotalHits,
-  statusExternal,
-  statusInternal,
-  statusInternalPlusExternalTotalHits,
-  statusInternalTotalHits,
-  totalVariablesHits,
-  workAndPay,
-  workAndPayPlusPopulationHits,
-} from './utils';
+import { statuses, variables } from './variables';
 
 export const test = base.extend<{
   pageage: Page;
@@ -28,150 +13,142 @@ export const test = base.extend<{
   },
 });
 
-// TODO(cbi): Improve use of hardcoded values, these test depends on current testdata in norwegian nb [https://github.com/statisticsnorway/metadata-catalog-prototype/issues/106]
+async function checkCheckbox(checkboxLocator: Locator, expectedName: string) {
+  await expect(checkboxLocator).toBeVisible();
+  await expect(checkboxLocator).toBeEnabled();
+  await expect(checkboxLocator).toHaveAccessibleName(expectedName);
+  await checkboxLocator.check();
+  await expect(checkboxLocator).toBeChecked();
+}
+
 test('Filter by subject field displays tags (listitem) with count and close button (x)', async ({ page }) => {
-  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
-  await page.waitForTimeout(200); // just to stabilize
-  const checkbox = page.getByRole('checkbox', { name: socialConditionsAndCrime });
+  const main = page.getByRole('main');
+  await expect(main).toContainText(variables.totalHits);
+  const checkbox = page.getByRole('checkbox', { name: variables.socialConditionsAndCrime });
+  await page.waitForTimeout(200);
+  await checkCheckbox(checkbox, variables.socialConditionsAndCrime);
 
-  await expect(checkbox).toBeVisible();
-  await expect(checkbox).toBeEnabled();
-
-  await expect(checkbox).toHaveAccessibleName(socialConditionsAndCrime);
-
-  await checkbox.check();
-  await expect(page.getByRole('main')).toContainText('2 treff');
+  await expect(main).toContainText('2 treff');
   const filterTag = page.getByRole('listitem').filter({
-    hasText: 'Sosiale forhold og kriminalitet (2)',
+    hasText: variables.socialConditionsAndCrime,
   });
   await expect(filterTag).toBeVisible();
-  await page.getByRole('button', { name: 'Remove Sosiale forhold og kriminalitet (2)' }).click();
-  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
+  await page.getByRole('button', { name: `Remove ${variables.socialConditionsAndCrime}` }).click();
+  await expect(main).toContainText(variables.totalHits);
 });
 
 test('Select more than one filter display a "remove all" tag', async ({ page }) => {
-  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
+  const main = page.getByRole('main');
+  await expect(main).toContainText(variables.totalHits);
 
   await page.waitForTimeout(200); // just to stabilize
 
-  const filterOne = page.getByRole('checkbox', { name: workAndPay });
-  const filterTwo = page.getByRole('checkbox', { name: population });
+  const filterOne = page.getByRole('checkbox', { name: variables.workAndPay });
 
-  await expect(filterOne).toBeVisible();
-  await expect(filterOne).toBeEnabled();
-  await expect(filterOne).toHaveAccessibleName(workAndPay);
+  await checkCheckbox(filterOne, variables.workAndPay);
 
-  await filterOne.check();
-  await expect(filterOne).toBeChecked();
+  const filterTwo = page.getByRole('checkbox', { name: variables.population });
+  await checkCheckbox(filterTwo, variables.population);
 
-  await expect(filterTwo).toBeVisible();
-  await expect(filterTwo).toBeEnabled();
-
-  await expect(filterTwo).toHaveAccessibleName(population);
-
-  await filterTwo.check();
-  await expect(filterTwo).toBeChecked();
-
-  await expect(page.getByText('Fjern alle filter')).toBeVisible();
-  await expect(page.getByRole('main')).toContainText(workAndPayPlusPopulationHits);
-  await page.getByRole('button', { name: 'Remove Fjern alle filter' }).click();
-  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
+  await expect(main).toContainText(variables.workAndPayPlusPopulationHits);
+  const removeAllButton = page.getByRole('button', { name: localization.button.removeFilter });
+  await removeAllButton.click();
+  await expect(main).toContainText(variables.totalHits);
 });
 
 test('Variable "Aksje" has two subject fields', async ({ page }) => {
-  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
+  const main = page.getByRole('main');
+  await expect(main).toContainText(variables.totalHits);
 
   await page.waitForTimeout(200); // just to stabilize
 
-  const filterOne = page.getByRole('checkbox', { name: bankingAndFinancialMarked });
-  const filterTwo = page.getByRole('checkbox', { name: companiesEnterprises });
+  const filterOne = page.getByRole('checkbox', { name: variables.bankingAndFinancialMarket });
+  const filterTwo = page.getByRole('checkbox', { name: variables.companiesEnterprises });
 
-  await expect(filterOne).toBeVisible();
-  await expect(filterOne).toBeEnabled();
-  await expect(filterOne).toHaveAccessibleName(bankingAndFinancialMarked);
-  await filterOne.check();
+  await checkCheckbox(filterOne, variables.bankingAndFinancialMarket);
 
-  await expect(filterOne).toBeChecked();
-  await expect(page.getByRole('main')).toContainText('1 treff');
-  await expect(page.getByRole('main')).toContainText('Aksjeaksje');
+  await expect(main).toContainText('1 treff');
+  await expect(main).toContainText('Aksjeaksje');
 
-  await expect(filterTwo).toBeVisible();
-  await expect(filterTwo).toBeEnabled();
-  await expect(filterTwo).toHaveAccessibleName(companiesEnterprises);
-  await filterTwo.check();
+  await checkCheckbox(filterTwo, variables.companiesEnterprises);
 
-  await expect(filterOne).toBeChecked();
-  await expect(page.getByRole('main')).toContainText('20 treff');
-  await expect(page.getByRole('main')).toContainText('Aksjeaksje');
+  await expect(main).toContainText('20 treff');
+  await expect(main).toContainText('Aksjeaksje');
 
   await filterOne.uncheck();
   await expect(filterOne).not.toBeChecked();
 
-  await expect(page.getByRole('main')).toContainText('20 treff');
-  await expect(page.getByRole('main')).toContainText('Aksjeaksje');
+  await expect(main).toContainText('20 treff');
+  await expect(main).toContainText('Aksjeaksje');
 });
 
 test('Sort variable definitions', async ({ page }) => {
-  await page.getByLabel(localization.search.sort.label).selectOption('titleDesc');
-  await expect(page.getByRole('main')).toContainText('Årslønn');
-  await page.getByLabel(localization.search.sort.label).selectOption('titleAsc');
-  await expect(page.getByRole('main')).toContainText('Aksje');
-  await page.getByLabel(localization.search.sort.label).selectOption('lastChanged');
-  await expect(page.getByRole('main')).toContainText('Antall personer 18 år og over i husholdningen');
+  const main = page.getByRole('main');
+  await main.getByLabel(localization.search.sort.label).selectOption('titleDesc');
+  await expect(main).toContainText('Årslønn');
+  await main.getByLabel(localization.search.sort.label).selectOption('titleAsc');
+  await expect(main).toContainText('Aksje');
+  await main.getByLabel(localization.search.sort.label).selectOption('lastChanged');
+  await expect(main).toContainText('Antall personer 18 år og over i husholdningen');
 });
 
 test('Filter by name', async ({ page }) => {
+  const main = page.getByRole('main');
   await page.waitForTimeout(200); // just to stabilize
   await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).click();
   await page.getByRole('checkbox', { name: 'Befolkning' }).check();
   await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).fill('Baderom');
-  await expect(page.getByRole('main')).toContainText('1 treff');
+  await expect(main).toContainText('1 treff');
   await page.getByRole('button', { name: 'Remove Navn: Baderom' }).click();
-  await expect(page.getByRole('main')).toContainText('25 treff');
+  await expect(main).toContainText('25 treff');
 });
 
 test('Filter by name remove all', async ({ page }) => {
+  const main = page.getByRole('main');
   await page.waitForTimeout(200); // just to stabilize
-  await page.getByRole('checkbox', { name: population }).check();
+  await page.getByRole('checkbox', { name: variables.population }).check();
   await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).click();
   await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).fill('Baderom');
-  await expect(page.getByRole('main')).toContainText('1 treff');
-  await page.getByRole('button', { name: 'Remove Fjern alle filter' }).click();
-  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
+  await expect(main).toContainText('1 treff');
+  await page.getByRole('button', { name: `Remove ${localization.button.removeFilter}` }).click();
+  await expect(main).toContainText(variables.totalHits);
 });
 
 test('Filter by status draft', async ({ page }) => {
-  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
+  const main = page.getByRole('main');
+  await expect(main).toContainText(variables.totalHits);
   await page.waitForTimeout(200); // just to stabilize
-  const draftFilter = page.getByRole('checkbox', { name: statusDraft });
+  const draftFilter = page.getByRole('checkbox', { name: statuses.draft.label });
 
   await expect(draftFilter).toBeVisible();
   await expect(draftFilter).toBeEnabled();
   await draftFilter.check();
 
-  await expect(page.getByRole('main')).toContainText(statusDraftTotalHits);
+  await expect(main).toContainText(statuses.draft.totalHits);
 
-  await expect(page.getByRole('button', { name: removeStatusDraft })).toBeVisible();
-  await page.getByRole('button', { name: removeStatusDraft }).click();
-  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
+  const button = page.getByRole('button', { name: statuses.draft.removeLabel });
+  await expect(button).toBeVisible();
+  await button.click();
+  await expect(main).toContainText(variables.totalHits);
 });
 
 test('Filter by status published', async ({ page }) => {
-  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
-  const publishedInternalFilter = page.getByRole('checkbox', { name: statusInternal });
+  const main = page.getByRole('main');
+  await expect(main).toContainText(variables.totalHits);
   await page.waitForTimeout(200); // just to stabilize
-  await expect(publishedInternalFilter).toBeVisible();
-  await expect(publishedInternalFilter).toBeEnabled();
-  await publishedInternalFilter.check();
+  const publishedInternalFilter = page.getByRole('checkbox', { name: statuses.internal.label });
+  const publishedExternalFilter = page.getByRole('checkbox', { name: statuses.external.label });
 
-  await expect(publishedInternalFilter).toBeChecked();
-  await expect(page.getByRole('main')).toContainText(statusInternalTotalHits);
+  await checkCheckbox(publishedInternalFilter, statuses.internal.label);
 
-  await page.getByRole('checkbox', { name: statusExternal }).check();
-  await expect(page.getByRole('main')).toContainText(statusInternalPlusExternalTotalHits);
+  await expect(main).toContainText(statuses.internal.totalHits);
 
-  await page.getByRole('button', { name: 'Remove Fjern alle filter' }).click();
-  await expect(page.getByRole('main')).toContainText(totalVariablesHits);
+  await checkCheckbox(publishedExternalFilter, statuses.external.label);
+
+  await expect(main).toContainText(statuses.internalPlusExternal.totalHits);
+
+  await page.getByRole('button', { name: `Remove ${localization.button.removeFilter}` }).click();
+  await expect(main).toContainText(variables.totalHits);
 });
 
 test.describe('Variable definitions - pagination', () => {
