@@ -69,7 +69,7 @@
         "useArrayLiterals": "off"
       },
       "suspicious": {
-        "noConsole": "warn",
+        "noConsole": "error",
         "noAsyncPromiseExecutor": "error",
         "noCatchAssign": "error",
         "noClassAssign": "error",

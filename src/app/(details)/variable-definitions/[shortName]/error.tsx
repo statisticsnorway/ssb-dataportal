@@ -3,13 +3,13 @@
 import { Alert, Button } from '@digdir/designsystemet-react';
 import { useEffect } from 'react';
 import { localization } from '@/libs/language';
+import { clientLogger } from '@/libs/logger/client-logger';
+import { sanitizeError } from '@/libs/logger/sanitize';
 import styles from './variable-details-page.module.css';
 
 export default function VariableDefinitionError({ error, reset }: { error: Error; reset: () => void }) {
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      console.error('Failed to render variable definition details page', error);
-    }
+    clientLogger.error({ error: sanitizeError(error) }, 'Variable definition details page error');
   }, [error]);
   return (
     <div className={`${styles.detailsPage} container`}>

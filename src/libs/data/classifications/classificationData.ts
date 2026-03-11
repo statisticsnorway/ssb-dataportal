@@ -1,9 +1,12 @@
 'use server';
 
 import { ClassificationResource } from '@/libs/data-access/klass';
+import { createLogger } from '@/libs/logger/server-logger';
 import classificationsMock from '@/static-data/classifications.json';
 import { linkObj } from '@/types/classification';
 import { getClassification } from '@/utils/mock-data';
+
+const logger = createLogger('classification-data');
 
 const CLASSIFICATIONS_URL_PATH_PART = 'classifications';
 
@@ -21,10 +24,10 @@ export async function fetchAllClassifications(pageSize = 20): Promise<Classifica
   let totalPages = 1;
 
   if (useStaticData) {
-    console.warn('Using mock classifications');
+    logger.warn('Using static mock data');
     allClassifications = classificationsMock.classifications;
   } else {
-    console.log(`Using Klass base path: ${process.env.KLASS_BASE_PATH}`);
+    logger.debug({ basePath: process.env.KLASS_BASE_PATH }, 'Klass API base path configured');
     while (currentPage < totalPages) {
       const res = await fetch(
         `${process.env.KLASS_BASE_PATH}/${CLASSIFICATIONS_URL_PATH_PART}?includeCodelists=true&page=${currentPage}&size=${pageSize}`,
@@ -33,7 +36,7 @@ export async function fetchAllClassifications(pageSize = 20): Promise<Classifica
         },
       );
       if (!res.ok) {
-        console.error(`Request to ${res.url} returned status code ${res.status}`, res);
+        logger.error({ statusCode: res.status, url: res.url }, 'Classification fetch failed');
         throw new Error('Failed to fetch classifications');
       }
 
@@ -53,7 +56,7 @@ export async function fetchClassificationById(id: number): Promise<Classificatio
   let classification: ClassificationResource | undefined;
 
   if (useStaticData) {
-    console.warn('Using mock classifications');
+    logger.warn('Using static mock data');
     classification = getClassification(id);
   } else {
     const res = await fetch(
@@ -64,7 +67,7 @@ export async function fetchClassificationById(id: number): Promise<Classificatio
     );
 
     if (!res.ok) {
-      console.error(`Request to ${res.url} returned status code ${res.status}`, res);
+      logger.error({ statusCode: res.status, url: res.url }, 'Classification fetch by ID failed');
       if (res.status === 404) return undefined; // not found
       throw new Error('Failed to fetch classification');
     }

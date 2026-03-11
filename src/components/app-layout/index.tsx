@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { getDevEnvironmentName } from '@/utils/functions';
-import ErrorBoundary from '../error-boundry';
+import ErrorBoundary from '../error-boundary';
 
 interface AppLayoutProps {
   children: ReactNode;

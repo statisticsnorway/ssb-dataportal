@@ -3,6 +3,8 @@
 import { Heading } from '@digdir/designsystemet-react';
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { localization } from '@/libs/language';
+import { clientLogger } from '@/libs/logger/client-logger';
+import { sanitizeError } from '@/libs/logger/sanitize';
 import CenterContainer from '../center-container';
 
 interface Props {
@@ -33,10 +35,8 @@ class ErrorBoundary extends Component<Props, State> {
     return { hasError: true };
   }
 
-  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    if (process.env.NODE_ENV === 'development') {
-      console.error('Uncaught error:', error, errorInfo);
-    }
+  public componentDidCatch(error: Error, _errorInfo: ErrorInfo) {
+    clientLogger.error({ error: sanitizeError(error) }, 'Uncaught React error');
   }
 
   public render() {
