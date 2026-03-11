@@ -40,6 +40,8 @@ export function filterAndSortVariables(
             a.last_updated_at.toISOString().split('T')[0],
             b.last_updated_at.toISOString().split('T')[0],
           );
+        default:
+          throw sortOption satisfies never;
       }
     });
 }
