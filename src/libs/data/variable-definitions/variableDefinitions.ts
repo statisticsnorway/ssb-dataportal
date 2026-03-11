@@ -33,7 +33,7 @@ export async function getVardefClient(): Promise<VariableDefinitionsApi> {
       return undefined;
     });
     if (!token) return Promise.reject('Could not retrieve access token!');
-    logger.debug('Acquired access token from authorization header');
+    logger.debug('Got access token from authorization header');
   }
   let configParams = {
     accessToken: token,
@@ -48,7 +48,7 @@ export async function getVardefClient(): Promise<VariableDefinitionsApi> {
 
 export async function listRenderedVariableDefinitions(): Promise<Array<RenderedView>> {
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
-    logger.warn({ fn: 'listRenderedVariableDefinitions' }, 'Using static mock data');
+    logger.warn({ fn: 'listRenderedVariableDefinitions' }, 'Using static mock data for vardef');
     return getVariableDefinitions();
   }
 
@@ -80,7 +80,7 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
 
 export async function getRenderedVariableDefinition(shortName: string): Promise<RenderedView> {
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
-    logger.warn({ fn: 'getRenderedVariableDefinition' }, 'Using static mock data');
+    logger.warn({ fn: 'getRenderedVariableDefinition' }, 'Using static mock data for vardef');
     const variable = getVariableDefinitionByShortName(shortName);
     if (!variable) return Promise.reject('Not found');
     return variable;
@@ -105,7 +105,7 @@ export async function getRenderedVariableDefinition(shortName: string): Promise<
     }
     const data = rawDataArray[0];
     if (!instanceOfRenderedView(data)) {
-      logger.error({ shortName }, 'Response could not be decoded to RenderedView');
+      logger.error({ shortName: shortName, data: data }, 'Response could not be decoded to RenderedView');
       throw new Error('Could not decode data');
     }
     logger.info({ id: data.id, shortName: data.short_name }, 'Fetched variable definition');
