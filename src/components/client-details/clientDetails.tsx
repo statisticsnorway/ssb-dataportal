@@ -24,7 +24,7 @@ const ClientDetails = ({ summary, content }: ClientDetailsProps) => {
   if (!mounted) return null;
 
   return (
-    <Details className={styles.customDetails}>
+    <Details>
       <DetailsSummary className={`${styles.summaryDetail} font-roboto`}>{summary}</DetailsSummary>
       <DetailsContent className={styles.contentDetail}>{content}</DetailsContent>
     </Details>

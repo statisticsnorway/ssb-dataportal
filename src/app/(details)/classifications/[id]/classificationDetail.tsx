@@ -14,7 +14,7 @@ export default function ClassificationDetail({ classification }: { classificatio
     <section className={`${styles.detailsPage} container`}>
       <VardefBreadcrumbs items={breadcrumbList} homeUrl={homeUrl} />
       <header>
-        <Heading className={styles.classificationHeading} level={1} data-size='lg'>
+        <Heading className={styles.detailsPageHeader} level={1} data-size='lg'>
           {classification.name}
         </Heading>
       </header>
