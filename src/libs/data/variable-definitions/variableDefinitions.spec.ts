@@ -1,3 +1,4 @@
+import assert from 'assert';
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { VariableDefinitionsApi } from '@/libs/data-access/variable-definitions/internal/apis/VariableDefinitionsApi';
 import { getVariableDefinitions as getStaticVariableDefinitions } from '@/utils/mock-data';
@@ -72,8 +73,9 @@ describe('vardef data fetching', () => {
       it('mock api call happy path', () => {
         process.env.VARDEF_USE_STATIC_DATA = 'false';
         process.env.METADATA_CATALOG_JWT_TOKEN = 'my-cool-token';
-
-        vi.spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions').mockResolvedValue([staticDefs[5]]);
+        let variable = staticDefs[5];
+        assert(variable);
+        vi.spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions').mockResolvedValue([variable]);
 
         getRenderedVariableDefinition('antall').then((result) => {
           expect(result).toEqual(staticDefs[5]);
@@ -82,11 +84,11 @@ describe('vardef data fetching', () => {
       it('throws an error if multiple variable definitions are returned', async () => {
         process.env.VARDEF_USE_STATIC_DATA = 'false';
         process.env.METADATA_CATALOG_JWT_TOKEN = 'my-cool-token';
-
-        vi.spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions').mockResolvedValue([
-          staticDefs[5],
-          staticDefs[6],
-        ]);
+        let variable1 = staticDefs[5];
+        assert(variable1);
+        let variable2 = staticDefs[5];
+        assert(variable2);
+        vi.spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions').mockResolvedValue([variable1, variable2]);
 
         await expect(getRenderedVariableDefinition('antall')).rejects.toThrow(
           'Multiple variable definitions found for shortName="antall"',
