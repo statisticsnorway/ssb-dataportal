@@ -36,7 +36,7 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    clientLogger.error({ error: sanitizeError(error) }, 'Uncaught React error');
+    clientLogger.error({ error: sanitizeError(error) }, 'Uncaught error');
   }
 
   public render() {
