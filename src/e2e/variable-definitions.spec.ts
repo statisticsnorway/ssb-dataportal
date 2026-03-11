@@ -68,9 +68,9 @@ test('Subject area level 2 filters on level 1', async ({ page }) => {
   await expect(levelTwoTag).toBeVisible();
   await expect(levelTwoTag).toContainText(variables.health.tagLevelTwo);
 
-  const levelOneTag = page.getByRole('list').filter({ hasText: variables.health.tagLevelOne });
+  const levelOneTag = page.getByRole('list').filter({ hasText: new RegExp(`^${variables.health.tagLevelOne}$`) });
   await expect(levelOneTag).toBeVisible();
-  await expect(levelOneTag).toContainText(variables.health.tagLevelOne);
+  await expect(levelOneTag).toContainText(new RegExp(variables.health.tagLevelOne));
 });
 
 test('Variable "Aksje" has two subject fields', async ({ page }) => {
