@@ -104,7 +104,7 @@ export async function getRenderedVariableDefinition(shortName: string): Promise<
       throw new Error(`Multiple variable definitions found for shortName="${shortName}"`);
     }
     const data = rawDataArray[0];
-    if (!instanceOfRenderedView(data)) {
+    if (data == undefined || !instanceOfRenderedView(data)) {
       logger.error({ shortName: shortName, data: data }, 'Response could not be decoded to RenderedView');
       throw new Error('Could not decode data');
     }
