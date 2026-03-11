@@ -43,6 +43,7 @@ export const statuses = {
 export const variables = {
   socialConditionsAndCrime: 'Sosiale forhold og kriminalitet (2)',
   workAndPay: 'Arbeid og lønn (7)',
+  health: 'Helse (2)',
   population: 'Befolkning (25)',
   workAndPayPlusPopulationHits: '32 treff',
   bankingAndFinancialMarket: 'Bank og finansmarked (1)',

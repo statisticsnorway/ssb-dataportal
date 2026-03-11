@@ -21,6 +21,7 @@ async function checkCheckbox(checkboxLocator: Locator, expectedName: string) {
   await expect(checkboxLocator).toBeChecked();
 }
 
+// await page.waitForTimeout(200); to stabilize slower Firefox
 test('Filter by subject field displays tags (listitem) with count and close button (x)', async ({ page }) => {
   const main = page.getByRole('main');
   await expect(main).toContainText(variables.totalHits);
@@ -41,7 +42,7 @@ test('Select more than one filter display a "remove all" tag', async ({ page }) 
   const main = page.getByRole('main');
   await expect(main).toContainText(variables.totalHits);
 
-  await page.waitForTimeout(200); // just to stabilize
+  await page.waitForTimeout(200);
 
   const filterOne = page.getByRole('checkbox', { name: variables.workAndPay });
 
@@ -56,11 +57,22 @@ test('Select more than one filter display a "remove all" tag', async ({ page }) 
   await expect(main).toContainText(variables.totalHits);
 });
 
+test('Subject area level 2 filters on level 1', async ({ page }) => {
+  const main = page.getByRole('main');
+  await expect(main).toContainText(variables.totalHits);
+
+  await page.waitForTimeout(200);
+
+  const checkbox = page.getByRole('checkbox', { name: variables.health });
+
+  await checkCheckbox(checkbox, variables.health);
+});
+
 test('Variable "Aksje" has two subject fields', async ({ page }) => {
   const main = page.getByRole('main');
   await expect(main).toContainText(variables.totalHits);
 
-  await page.waitForTimeout(200); // just to stabilize
+  await page.waitForTimeout(200);
 
   const filterOne = page.getByRole('checkbox', { name: variables.bankingAndFinancialMarket });
   const filterTwo = page.getByRole('checkbox', { name: variables.companiesEnterprises });
@@ -94,7 +106,7 @@ test('Sort variable definitions', async ({ page }) => {
 
 test('Filter by name', async ({ page }) => {
   const main = page.getByRole('main');
-  await page.waitForTimeout(200); // just to stabilize
+  await page.waitForTimeout(200);
   await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).click();
   await page.getByRole('checkbox', { name: 'Befolkning' }).check();
   await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).fill('Baderom');
@@ -105,7 +117,7 @@ test('Filter by name', async ({ page }) => {
 
 test('Filter by name remove all', async ({ page }) => {
   const main = page.getByRole('main');
-  await page.waitForTimeout(200); // just to stabilize
+  await page.waitForTimeout(200);
   await page.getByRole('checkbox', { name: variables.population }).check();
   await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).click();
   await page.getByRole('complementary', { name: 'Filters' }).getByLabel('Søk', { exact: true }).fill('Baderom');
@@ -117,7 +129,7 @@ test('Filter by name remove all', async ({ page }) => {
 test('Filter by status draft', async ({ page }) => {
   const main = page.getByRole('main');
   await expect(main).toContainText(variables.totalHits);
-  await page.waitForTimeout(200); // just to stabilize
+  await page.waitForTimeout(200);
   const draftFilter = page.getByRole('checkbox', { name: statuses.draft.label });
 
   await expect(draftFilter).toBeVisible();
@@ -135,7 +147,7 @@ test('Filter by status draft', async ({ page }) => {
 test('Filter by status published', async ({ page }) => {
   const main = page.getByRole('main');
   await expect(main).toContainText(variables.totalHits);
-  await page.waitForTimeout(200); // just to stabilize
+  await page.waitForTimeout(200);
   const publishedInternalFilter = page.getByRole('checkbox', { name: statuses.internal.label });
   const publishedExternalFilter = page.getByRole('checkbox', { name: statuses.external.label });
 
