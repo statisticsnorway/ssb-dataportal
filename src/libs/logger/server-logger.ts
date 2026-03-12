@@ -1,5 +1,4 @@
 import 'server-only';
-
 import pino from 'pino';
 
 /**
@@ -7,6 +6,10 @@ import pino from 'pino';
  *
  * - Outputs JSON to stdout (compatible with any log aggregator)
  * - Log level is controlled by the LOG_LEVEL environment variable (default: 'info')
+ * - In production, outputs GCP Cloud Logging-compatible JSON:
+ *     - Uses `severity` instead of `level` for GCP log level filtering
+ *     - Uses `message` instead of `msg` for GCP log display
+ * - In development, uses pino-pretty for human-readable colorized output
  * - Use createLogger(module) to create a child logger with module context
  *
  * Usage:
@@ -14,18 +17,36 @@ import pino from 'pino';
  *   const logger = createLogger('variable-definitions');
  *   logger.info({ count: 42 }, 'Fetched variable definitions');
  */
+const GCP_SEVERITY_MAP: Record<string, string> = {
+  trace: 'DEBUG',
+  debug: 'DEBUG',
+  info: 'INFO',
+  warn: 'WARNING',
+  error: 'ERROR',
+  fatal: 'CRITICAL',
+};
+
+const isDevelopment = process.env.NODE_ENV === 'development';
 
 const rootLogger = pino({
   level: process.env.LOG_LEVEL ?? 'info',
-  transport:
-    process.env.NODE_ENV === 'development'
-      ? {
+  ...(isDevelopment
+    ? {
+        transport: {
           target: 'pino-pretty',
           options: {
             colorize: true,
           },
-        }
-      : undefined,
+        },
+      }
+    : {
+        messageKey: 'message',
+        formatters: {
+          level(label) {
+            return { severity: GCP_SEVERITY_MAP[label] ?? 'INFO' };
+          },
+        },
+      }),
 });
 
 /**
