@@ -29,11 +29,14 @@ export async function getVardefClient(): Promise<VariableDefinitionsApi> {
     logger.warn('Using hardcoded access token from environment! (METADATA_CATALOG_JWT_TOKEN)');
   } else {
     token = await getEncodedJwt().catch((reason) => {
-      logger.error({ error: sanitizeError(reason) }, 'JWT retrieval failed');
+      logger.error({ error: sanitizeError(reason) }, 'JWT retrieval unexpectedly failed');
       return undefined;
     });
-    if (!token) return Promise.reject('Could not retrieve access token!');
-    logger.debug('Got access token from authorization header');
+    if (!token) {
+      logger.debug('No JWT token found in request headers');
+      return Promise.reject('Could not retrieve access token!');
+    }
+    logger.debug('Successfully retrieved JWT from authorization header');
   }
   let configParams = {
     accessToken: token,
@@ -62,11 +65,13 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
   var data: RenderedView[] = [];
 
   try {
+    const startTime = Date.now();
     let rawData = await api.listVariableDefinitions(params, {
       next: { revalidate: 150 },
     } as RequestInit);
+    const durationMs = Date.now() - startTime;
     data = rawData.filter((each) => instanceOfRenderedView(each));
-    logger.info({ count: data.length }, 'Fetched variable definitions');
+    logger.info({ count: data.length, durationMs }, 'Fetched variable definitions from API');
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
       logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
