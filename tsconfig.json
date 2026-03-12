@@ -41,7 +41,8 @@
     "**/*.mts",
     "**/*.ts",
     "**/*.tsx",
-    "**/*.module.css"
+    "**/*.module.css",
+    ".next/dev/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "*.config.ts"]
+  "exclude": ["node_modules", "*.config.ts", "e2e"]
 }
