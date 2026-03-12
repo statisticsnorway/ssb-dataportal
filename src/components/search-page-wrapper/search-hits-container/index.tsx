@@ -1,24 +1,22 @@
 import { Pagination, usePagination } from '@digdir/designsystemet-react';
-import { ReactNode } from 'react';
-import { ClassificationResource } from '@/libs/data-access/klass';
-import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
+import { JSX, ReactNode } from 'react';
 import { localization } from '@/libs/language';
 import styles from './search-hit-container.module.css';
 
 type Props = {
-  searchHits: RenderedView[] | ClassificationResource[];
+  searchHits: unknown[];
   paginationInfo?: { currentPage: number; totalPages: number };
   onPageChange: (page: number) => void;
   noSearchHits: boolean;
   pageSize?: number;
-  renderHit: (hit: RenderedView | ClassificationResource) => ReactNode;
+  renderHit: (hit: unknown) => ReactNode | JSX.Element;
 };
 
 /**
  * Display search hits paginated
  */
 const SearchHitContainer = ({ searchHits = [], renderHit, paginationInfo, onPageChange, noSearchHits }: Props) => {
-  let pagedHits: RenderedView[] | ClassificationResource[] = searchHits;
+  let pagedHits: unknown[] = searchHits;
 
   const hasPagination = !!paginationInfo && !noSearchHits;
 

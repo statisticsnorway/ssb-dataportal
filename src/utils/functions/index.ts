@@ -111,3 +111,20 @@ export const statusColors: Record<VariableStatus, string> = {
   [VariableStatus.PublishedInternal]: 'var(--status-published-internal',
   [VariableStatus.PublishedExternal]: 'var(--status-published-external',
 };
+
+/**
+ * Normalizes a subject area code to its top-level code.
+ *
+ * If the provided code represents a level 2 code (length > 2),
+ * the parent code is returned by extracting the first two characters.
+ * Otherwise, the code is returned unchanged.
+ *
+ * @param code - Subject area code.
+ * @returns The normalized top-level subject area code.
+ */
+export const extractSubjectAreaCode = (code: string): string => {
+  if (!code || code.trim() == '') {
+    throw new Error('Subject area code cannot be empty');
+  }
+  return code?.length > 2 ? code?.slice(0, 2) : code;
+};

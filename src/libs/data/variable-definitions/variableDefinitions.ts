@@ -23,6 +23,8 @@ import {
   ResponseError,
 } from '../../data-access/variable-definitions/internal/runtime';
 
+const ttl = Number(process.env.VARDEF_CACHE_TTL);
+
 export async function getVardefClient(): Promise<VariableDefinitionsApi> {
   let token = process.env.METADATA_CATALOG_JWT_TOKEN;
   if (token) {
@@ -67,7 +69,8 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
   try {
     const startTime = Date.now();
     let rawData = await api.listVariableDefinitions(params, {
-      next: { revalidate: 150 },
+      cache: 'force-cache',
+      next: { revalidate: ttl },
     } as RequestInit);
     const durationMs = Date.now() - startTime;
     data = rawData.filter((each) => instanceOfRenderedView(each));

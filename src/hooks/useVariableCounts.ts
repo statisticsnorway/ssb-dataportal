@@ -2,7 +2,7 @@ import { use, useMemo } from 'react';
 import { VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { FilterItem } from '@/types/filters';
-import { convertStatus } from '@/utils/functions';
+import { convertStatus, extractSubjectAreaCode } from '@/utils/functions';
 
 export const STATUSES: FilterItem[] = [
   { value: VariableStatus.Draft, label: convertStatus(VariableStatus.Draft) },
@@ -79,7 +79,7 @@ export function useSubjectFieldCounts({ variablesPromise, allSubjectFilters }: U
 
     variables.forEach((variable) => {
       variable.subject_fields?.forEach((sf) => {
-        const code = String(sf.code);
+        const code = extractSubjectAreaCode(String(sf.code));
         if (Object.hasOwn(subjectCounts, code)) {
           if (subjectCounts[code] == undefined) {
             subjectCounts[code] = 0;

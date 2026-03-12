@@ -1,4 +1,4 @@
-import { getVariableDefinitionsCached } from '@/libs/data/variable-definitions/cachedVariableDefinitions';
+import { listRenderedVariableDefinitions } from '@/libs/data/variable-definitions/variableDefinitions';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import { fetchStaticSubjectFields } from '@/utils/mock-data';
@@ -21,7 +21,7 @@ export default async function VariableDefinitions({
       return { data: [], error };
     });
 
-  const variableDefsPromise = getVariableDefinitionsCached()
+  const variableDefsPromise = listRenderedVariableDefinitions()
     .then((data) => ({ data, error: null }))
     .catch((error) => {
       logger.error({ error: sanitizeError(error) }, 'Failed to load variable definitions');

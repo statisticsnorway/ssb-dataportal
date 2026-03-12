@@ -1,4 +1,3 @@
-'use client';
 import { use, useMemo } from 'react';
 import { CheckboxFilter } from '@/components/filters/checkbox-filter';
 import { useSubjectFieldCounts } from '@/hooks/useVariableCounts';
