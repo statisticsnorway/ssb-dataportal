@@ -5,6 +5,9 @@ metadata:
     team: dapla-metadata
   name: dataportalen
   namespace: dapla-metadata
+  annotations:
+    # Allow nextjs to create cache directories inside /app
+    nais.io/read-only-file-system: "false"
 spec:
   ingresses:
     - https://dataportal.test.ssb.no
