@@ -1,7 +1,8 @@
 'use client';
 
 import { Button } from '@digdir/designsystemet-react';
-import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
+import ClipboardIcon from '@navikt/aksel-icons/svg/Clipboard.svg';
+import ClipboardCheckmarkIcon from '@navikt/aksel-icons/svg/ClipboardCheckmark.svg';
 import { tabsData } from '@/app/(services)/tabs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
 import { ExternalLink } from '@/components/external-link';

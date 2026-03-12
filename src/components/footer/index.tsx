@@ -1,5 +1,5 @@
 import { Card, Link, Paragraph } from '@digdir/designsystemet-react';
-import { EnvelopeOpenIcon } from '@navikt/aksel-icons';
+import EnvelopeOpenIcon from '@navikt/aksel-icons/svg/EnvelopeOpen.svg';
 import { ExternalLink } from '@/components/external-link';
 import { localization } from '@/libs/language';
 import styles from './footer.module.css';
