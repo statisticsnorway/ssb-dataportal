@@ -8,11 +8,11 @@ vi.mock('next/headers', () => ({
   headers: vi.fn().mockResolvedValue({ get: () => `Bearer ${JWT}` }),
 }));
 
-describe('jwt functions', () => {
-  it('getAuthorizationHeader', () => {
-    expect(getAuthorizationHeader()).resolves.toEqual(`Bearer ${JWT}`);
+describe('jwt functions', async () => {
+  it('getAuthorizationHeader', async () => {
+    await expect(getAuthorizationHeader()).resolves.toEqual(`Bearer ${JWT}`);
   });
-  it('getEncodedJwt', () => {
-    expect(getEncodedJwt()).resolves.toEqual(JWT);
+  it('getEncodedJwt', async () => {
+    await expect(getEncodedJwt()).resolves.toEqual(JWT);
   });
 });

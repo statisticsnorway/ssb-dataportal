@@ -33,6 +33,9 @@ export function useStatusCounts(
     variables.forEach((variable: RenderedView) => {
       const status = String(variable.variable_status);
       if (Object.hasOwn(statusCounts, status)) {
+        if (statusCounts[status] == undefined) {
+          statusCounts[status] = 0;
+        }
         statusCounts[status] += 1;
       }
     });
@@ -78,6 +81,9 @@ export function useSubjectFieldCounts({ variablesPromise, allSubjectFilters }: U
       variable.subject_fields?.forEach((sf) => {
         const code = extractSubjectAreaCode(String(sf.code));
         if (Object.hasOwn(subjectCounts, code)) {
+          if (subjectCounts[code] == undefined) {
+            subjectCounts[code] = 0;
+          }
           subjectCounts[code] += 1;
         }
       });
