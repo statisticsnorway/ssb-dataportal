@@ -43,5 +43,5 @@
     "**/*.tsx",
     "**/*.module.css"
   ],
-  "exclude": ["node_modules", "*.config.ts", "**/*.fixture.ts"]
+  "exclude": ["node_modules", "*.config.ts"]
 }

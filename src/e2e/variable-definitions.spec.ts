@@ -1,5 +1,5 @@
 import { localization } from '@/libs/language';
-import { expect, test } from './fixtures/variableDefinitions.fixture';
+import { expect, test } from './fixtures/variableDefinitions-fixture';
 import { checkCheckbox } from './utils/commonUtils';
 import { statuses, variables } from './utils/variables';
 
