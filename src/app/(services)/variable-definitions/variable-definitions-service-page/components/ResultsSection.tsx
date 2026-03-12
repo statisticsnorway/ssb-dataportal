@@ -59,7 +59,7 @@ export const ResultsSection = ({ currentPage, pageSize, handlePageChange }: Resu
   return (
     <SearchHitContainer
       searchHits={paginatedVariables}
-      renderHit={(hit: RenderedView) => <VardefSearchHit key={hit.id} variableDefinition={hit} />}
+      renderHit={(hit) => <VardefSearchHit key={(hit as RenderedView).id} variableDefinition={hit as RenderedView} />}
       noSearchHits={totalHits === 0}
       onPageChange={handlePageChange}
       paginationInfo={{ currentPage, totalPages }}
