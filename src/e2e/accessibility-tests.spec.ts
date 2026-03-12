@@ -3,7 +3,7 @@ import { test as base, expect, Page } from '@playwright/test';
 import { tabsData } from '@/app/(services)/tabs';
 import { localization } from '@/libs/language';
 import variableDefinitions from '@/static-data/variable-definitions.json';
-import { statuses, variables } from './variables';
+import { statuses, variables } from './utils/variables';
 
 export const test = base.extend<{
   pageage: Page;
