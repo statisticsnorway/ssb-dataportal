@@ -15,12 +15,16 @@ export const sortDescending = (a: string | null | undefined, b: string | null | 
 };
 
 // For sorting ISO 8601 date strings in ascending order
-export const sortDateStringsAscending = (a: string, b: string) => {
+export const sortDateStringsAscending = (a: string | null | undefined, b: string | null | undefined) => {
+  if (typeof a !== 'string' || a === '') return 1;
+  if (typeof b !== 'string' || b === '') return -1;
   return new Date(a).getTime() - new Date(b).getTime();
 };
 
 // For sorting ISO 8601 date strings in descending order
-export const sortDateStringsDescending = (a: string, b: string) => {
+export const sortDateStringsDescending = (a: string | null | undefined, b: string | null | undefined) => {
+  if (typeof a !== 'string' || a === '') return -1;
+  if (typeof b !== 'string' || b === '') return 1;
   return new Date(b).getTime() - new Date(a).getTime();
 };
 

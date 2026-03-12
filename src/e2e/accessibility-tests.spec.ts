@@ -81,7 +81,7 @@ test.describe('Variable definitions – accessibility', () => {
   });
 
   test('CodeSnippet meets WCAG contrast requirements', async ({ page }) => {
-    const shortName = variableDefinitions[0].short_name;
+    const shortName = variableDefinitions[0]?.short_name;
     await page.goto(`/variable-definitions/${shortName}`);
     await expect(page.getByTestId('code-snippet')).toBeVisible();
     const results = await new AxeBuilder({ page })
