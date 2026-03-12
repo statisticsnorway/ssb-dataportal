@@ -31,10 +31,16 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 COPY --from=builder /app/public ./public
 
+# Set the correct permission for prerender cache
+SHELL ["mkdir", "-p", ".next/cache"]
+SHELL ["chown", "1069:1069", ".next"]
+SHELL ["chown", "1069:1069", ".next/cache"]
+
+
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=1069:1069 /app/.next/standalone ./
+COPY --from=builder --chown=1069:1069 /app/.next/static ./.next/static
 
 EXPOSE 3000
 ENV PORT=3000
