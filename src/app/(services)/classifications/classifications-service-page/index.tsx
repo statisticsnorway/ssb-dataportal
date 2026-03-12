@@ -165,7 +165,10 @@ const ClassificationsServicePage = ({
             <SearchHitContainer
               searchHits={pagedHits}
               renderHit={(hit) => (
-                <ClassificationSearchHit key={hit.id} classification={hit as ClassificationResource} />
+                <ClassificationSearchHit
+                  key={(hit as ClassificationResource).id}
+                  classification={hit as ClassificationResource}
+                />
               )}
               noSearchHits={hits.length === 0}
               onPageChange={handlePageChange}

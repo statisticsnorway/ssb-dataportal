@@ -1,9 +1,8 @@
-'use client';
 import { describe, expect, it } from 'vitest';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { ClassificationType } from '@/types/classification';
 import { Item } from '@/types/item';
-import { areFieldsDefinedAndNonNull, nonEmpty, parseClassification } from '.';
+import { areFieldsDefinedAndNonNull, extractSubjectAreaCode, nonEmpty, parseClassification } from '.';
 
 describe('areFieldsDefinedAndNonNull filter', () => {
   it('non-null objects pass through', () => {
@@ -115,5 +114,26 @@ describe('nonEmpty', () => {
     ];
 
     expect(nonEmpty(items)).toEqual([{ label: 'C', value: 'ok' }]);
+  });
+});
+
+describe('Extract subject area parent code', () => {
+  it('extracts parent code', () => {
+    expect(extractSubjectAreaCode('al03')).toEqual('al');
+  });
+  it('returns parent code unchanged', () => {
+    expect(extractSubjectAreaCode('al')).toEqual('al');
+  });
+  it('throws if empty string is provided', () => {
+    expect(() => extractSubjectAreaCode(' ')).toThrowError('Subject area code cannot be empty');
+  });
+
+  it('code is null', () => {
+    // biome-ignore lint/suspicious/noExplicitAny: necessary for testing
+    expect(() => extractSubjectAreaCode(null as any)).toThrow('Subject area code cannot be empty');
+  });
+  it('code is undefined', () => {
+    // biome-ignore lint/suspicious/noExplicitAny: necessary for testing
+    expect(() => extractSubjectAreaCode(undefined as any)).toThrow('Subject area code cannot be empty');
   });
 });

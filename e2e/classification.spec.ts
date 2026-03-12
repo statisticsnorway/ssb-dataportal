@@ -2,7 +2,7 @@ import { test as base, expect } from '@playwright/test';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import { parseClassification } from '@/utils/functions';
-import classificationMock from '../static-data/classifications.json';
+import classificationMock from '@/static-data/classifications.json';
 
 type ClassificationPageFixture = (classification: ClassificationResource) => Promise<void>;
 const classifications = classificationMock.classifications;
