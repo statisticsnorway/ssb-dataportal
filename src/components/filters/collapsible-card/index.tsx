@@ -1,6 +1,5 @@
 import { Button, Card, Fieldset, FieldsetLegend } from '@digdir/designsystemet-react';
-import ChevronDownIcon from '@navikt/aksel-icons/svg/ChevronDown.svg';
-import ChevronUpIcon from '@navikt/aksel-icons/svg/ChevronUp.svg';
+import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { ReactNode, useState } from 'react';
 import { localization } from '@/libs/language/src/localization';
 import { sanitizeId } from '@/utils/functions';

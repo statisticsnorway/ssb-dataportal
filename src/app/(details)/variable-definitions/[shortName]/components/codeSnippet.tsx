@@ -1,8 +1,7 @@
 'use client';
 
 import { Button } from '@digdir/designsystemet-react';
-import ClipboardIcon from '@navikt/aksel-icons/svg/Clipboard.svg';
-import ClipboardCheckmarkIcon from '@navikt/aksel-icons/svg/ClipboardCheckmark.svg';
+import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
