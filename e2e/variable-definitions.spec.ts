@@ -38,6 +38,8 @@ test('Select more than one filter display a "remove all" tag', async ({ variable
 });
 
 test('Subject area level 2 filters on level 1', async ({ variableDefinitionsPage }) => {
+  const main = variableDefinitionsPage.getByRole('main');
+  await expect(main).toContainText(variables.totalHits);
   const checkbox = variableDefinitionsPage.getByRole('checkbox', { name: variables.health.label });
 
   await checkCheckbox(checkbox, variables.health.label);
