@@ -1,5 +1,3 @@
-'use client';
-
 import { CheckboxFilter } from '@/components/filters/checkbox-filter';
 import { useStatusCounts } from '@/hooks/useVariableCounts';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';

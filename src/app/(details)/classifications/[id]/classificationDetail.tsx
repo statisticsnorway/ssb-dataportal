@@ -1,5 +1,3 @@
-'use client';
-
 import { Alert, Heading } from '@digdir/designsystemet-react';
 import { BreadcrumbItem, VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
 import { ClassificationResource } from '@/libs/data-access/klass';

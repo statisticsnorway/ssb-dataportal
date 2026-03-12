@@ -1,4 +1,4 @@
-import { getVariableDefinitionsCached } from '@/libs/data/variable-definitions/cachedVariableDefinitions';
+import { listRenderedVariableDefinitions } from '@/libs/data/variable-definitions/variableDefinitions';
 import { fetchStaticSubjectFields } from '@/utils/mock-data';
 import VariableDefinitionsServicePage from './variable-definitions-service-page';
 
@@ -7,7 +7,7 @@ export default async function VariableDefinitions() {
     .then((data) => ({ data, error: null }))
     .catch((error) => ({ data: [], error }));
 
-  const variableDefsPromise = getVariableDefinitionsCached()
+  const variableDefsPromise = listRenderedVariableDefinitions()
     .then((data) => ({ data, error: null }))
     .catch((error) => ({ data: [], error }));
 

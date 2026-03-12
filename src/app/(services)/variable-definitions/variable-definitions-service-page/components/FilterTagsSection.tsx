@@ -1,4 +1,3 @@
-'use client';
 import { useMemo } from 'react';
 import { FilterTags } from '@/components/filter-tags';
 import { useFilteredVariables } from '@/hooks/useFilteredVariables';
