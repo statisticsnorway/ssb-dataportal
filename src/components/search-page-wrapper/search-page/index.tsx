@@ -1,5 +1,3 @@
-'use client';
-
 import { Heading } from '@digdir/designsystemet-react';
 import { FC, ReactElement, ReactNode } from 'react';
 import { localization } from '@/libs/language';

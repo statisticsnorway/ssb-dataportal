@@ -1,4 +1,3 @@
-'use client';
 import { useFilteredVariables } from '@/hooks/useFilteredVariables';
 import { localization } from '@/libs/language/src/localization';
 import { useVariableDefinitionsContext } from './variableDefinitionContext';

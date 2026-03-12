@@ -1,4 +1,3 @@
-'use client';
 import { createContext, ReactNode, useContext } from 'react';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { FilterItem } from '@/types/filters';

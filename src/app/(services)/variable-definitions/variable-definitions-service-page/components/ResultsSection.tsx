@@ -1,4 +1,3 @@
-// 'use client';
 import { Alert } from '@digdir/designsystemet-react';
 import { useMemo } from 'react';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
@@ -60,7 +59,7 @@ export const ResultsSection = ({ currentPage, pageSize, handlePageChange }: Resu
   return (
     <SearchHitContainer
       searchHits={paginatedVariables}
-      renderHit={(hit) => <VardefSearchHit key={hit.id} variableDefinition={hit as RenderedView} />}
+      renderHit={(hit: RenderedView) => <VardefSearchHit key={hit.id} variableDefinition={hit} />}
       noSearchHits={totalHits === 0}
       onPageChange={handlePageChange}
       paginationInfo={{ currentPage, totalPages }}

@@ -1,5 +1,3 @@
-'use client';
-
 import { Checkbox } from '@digdir/designsystemet-react';
 import { FilterItem } from '@/types/filters';
 import { CollapsibleCard } from '../collapsible-card';
