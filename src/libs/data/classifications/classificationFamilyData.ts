@@ -1,9 +1,12 @@
 'use server';
 
 import { ClassificationFamilyResource } from '@/libs/data-access/klass';
+import { createLogger } from '@/libs/logger/server-logger';
 import classificationMockFamilies from '@/static-data/classification-families.json';
 import { ClassificationType } from '@/types/classification';
 import { transformClassificationFamilies } from '@/utils/mock-data';
+
+const logger = createLogger('classification-family-data');
 
 const CLASSIFICATION_FAMILIES_URL_PATH_PART = 'classificationfamilies';
 
@@ -13,7 +16,7 @@ export async function fetchClassificationFamilies(): Promise<ClassificationFamil
   let allClassificationFamilies: ClassificationFamilyResource[];
 
   if (useStaticData) {
-    console.log('Using mock classification families');
+    logger.warn('Using static mock data');
     allClassificationFamilies = allClassificationFamilies = transformClassificationFamilies(classificationMockFamilies);
   } else {
     const res = await fetch(`${process.env.KLASS_BASE_PATH}/${CLASSIFICATION_FAMILIES_URL_PATH_PART}`, {
@@ -33,7 +36,7 @@ export const getClassificationFamily = async (
   includeCodelists: boolean,
 ): Promise<ClassificationFamilyResource> => {
   if (useStaticData) {
-    console.log('Using mock classification family');
+    logger.warn({ id }, 'Using static mock data');
     const family = classificationMockFamilies.find((f) => String(f.id) === id);
     if (!family) throw new Error(`Mock classification family with id ${id} not found`);
     return {

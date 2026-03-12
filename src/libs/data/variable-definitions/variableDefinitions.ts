@@ -1,6 +1,8 @@
 'use server';
 
 import { localization } from '@/libs/language';
+import { sanitizeError } from '@/libs/logger/sanitize';
+import { createLogger } from '@/libs/logger/server-logger';
 import { getVariableDefinitionByShortName, getVariableDefinitions } from '@/utils/mock-data';
 import { getEncodedJwt } from '../../auth/jwt';
 import {
@@ -12,6 +14,9 @@ import {
   RenderedView,
   SupportedLanguages,
 } from '../../data-access/variable-definitions/internal/models';
+
+const logger = createLogger('variable-definitions');
+
 import {
   Configuration,
   ConfigurationParameters,
@@ -23,21 +28,21 @@ const ttl = Number(process.env.VARDEF_CACHE_TTL);
 export async function getVardefClient(): Promise<VariableDefinitionsApi> {
   let token = process.env.METADATA_CATALOG_JWT_TOKEN;
   if (token) {
-    console.warn('Using hardcoded access token from environment! (METADATA_CATALOG_JWT_TOKEN)');
+    logger.warn('Using hardcoded access token from environment! (METADATA_CATALOG_JWT_TOKEN)');
   } else {
     token = await getEncodedJwt().catch((reason) => {
-      console.error(reason);
+      logger.error({ error: sanitizeError(reason) }, 'JWT retrieval failed');
       return undefined;
     });
     if (!token) return Promise.reject('Could not retrieve access token!');
-    console.debug('Got access token from authorization header');
+    logger.debug('Got access token from authorization header');
   }
   let configParams = {
     accessToken: token,
   } as ConfigurationParameters;
   const basePath = process.env.VARDEF_BASE_PATH;
   if (basePath) {
-    console.log(`Using Vardef base path: ${basePath}`);
+    logger.debug({ basePath }, 'Vardef API base path configured');
     configParams.basePath = basePath;
   }
   return new VariableDefinitionsApi(new Configuration(configParams));
@@ -45,7 +50,7 @@ export async function getVardefClient(): Promise<VariableDefinitionsApi> {
 
 export async function listRenderedVariableDefinitions(): Promise<Array<RenderedView>> {
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
-    console.warn('Using static mock data for Vardef');
+    logger.warn({ fn: 'listRenderedVariableDefinitions' }, 'Using static mock data for vardef');
     return getVariableDefinitions();
   }
 
@@ -64,12 +69,12 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
       next: { revalidate: ttl },
     } as RequestInit);
     data = rawData.filter((each) => instanceOfRenderedView(each));
-    console.log(`Fetched ${data.length} variable definitions`);
+    logger.info({ count: data.length }, 'Fetched variable definitions');
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
-      console.error(`Request to ${error.response.url} returned status code ${error.response.status}`, error);
+      logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
     } else {
-      console.error(error);
+      logger.error({ error: sanitizeError(error) }, 'Unexpected error during fetch');
     }
     throw error;
   }
@@ -78,7 +83,7 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
 
 export async function getRenderedVariableDefinition(shortName: string): Promise<RenderedView> {
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
-    console.warn('Using static mock data for Vardef');
+    logger.warn({ fn: 'getRenderedVariableDefinition' }, 'Using static mock data for vardef');
     const variable = getVariableDefinitionByShortName(shortName);
     if (!variable) return Promise.reject('Not found');
     return variable;
@@ -103,16 +108,16 @@ export async function getRenderedVariableDefinition(shortName: string): Promise<
     }
     const data = rawDataArray[0];
     if (data == undefined || !instanceOfRenderedView(data)) {
-      console.error(`Received data which could not be decoded to RenderedView:`, data);
+      logger.error({ shortName: shortName, data: data }, 'Response could not be decoded to RenderedView');
       throw new Error('Could not decode data');
     }
-    console.log(`Fetched variable definition ID: ${data.id} short name: ${data.short_name}`);
+    logger.info({ id: data.id, shortName: data.short_name }, 'Fetched variable definition');
     return data;
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
-      console.error(`Request to ${error.response.url} returned status code ${error.response.status}`);
+      logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
     } else {
-      console.error(error);
+      logger.error({ error: sanitizeError(error) }, 'Unexpected error during fetch');
     }
     throw error;
   }

@@ -1,4 +1,6 @@
 import { useCallback, useState } from 'react';
+import { clientLogger } from '@/libs/logger/client-logger';
+import { sanitizeError } from '@/libs/logger/sanitize';
 
 export function useClipboard(timeout = 2500) {
   const [copied, setCopied] = useState(false);
@@ -10,7 +12,7 @@ export function useClipboard(timeout = 2500) {
         setCopied(true);
         setTimeout(() => setCopied(false), timeout);
       } catch (err) {
-        console.error('Kopiering mislyktes', err);
+        clientLogger.warn({ error: sanitizeError(err) }, 'Clipboard copy failed');
       }
     },
     [timeout],
