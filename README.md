@@ -185,29 +185,32 @@ pnpm test:e2e:generate
 
 #### Lighthouse
 
-Run checks with dev tools - but this are very lightweight
+Run accessibility checks directly from browser dev tools.
+
+Note: These checks are lightweight and provide a quick overview.
 
 #### Wave
 
-Wave is an accessibility web tool - https://wave.webaim.org/
-It provides a good check for webpages.
-For internal applications download wave browser extension https://wave.webaim.org/extension/
+Wave is a web accessibility evaluation tool.
+
+- For external websites, use the online tool: https://wave.webaim.org/
+- For internal applications, download the [Wave browser extension](https://wave.webaim.org/extension/)
 
 #### Playwright/axe
 
-SSB Dataportal uses Playwright with axe for testing accessibility.
+SSB Dataportal uses Playwright with axe for accessibility testing.
 
-When you create a new file always inlcude 'accessibility' in the file name.
+##### Guidelines:
 
-You can test specific rules
+- When creating a new test file, include **accessibility** in the file name.
+- You can test specific rules using:
 
-```bash
+```TypeScript
  .withRules(['color-contrast'])
 ```
+- Full list of Axe HTML rules: https://dequeuniversity.com/rules/axe/4.1
 
-List of Axe HTML rules https://dequeuniversity.com/rules/axe/4.1
-
-Run only accessibility tests
+##### Run only accessibility tests:
 
 ```bash
 pnpm test:e2e:accessibility
