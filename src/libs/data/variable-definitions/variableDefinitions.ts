@@ -26,9 +26,9 @@ import {
 const ttl = Number(process.env.VARDEF_CACHE_TTL);
 
 export async function getVardefClient(): Promise<VariableDefinitionsApi> {
-  let token = process.env.METADATA_CATALOG_JWT_TOKEN;
+  let token = process.env.SSB_DATAPORTAL_JWT_TOKEN;
   if (token) {
-    logger.warn('Using hardcoded access token from environment! (METADATA_CATALOG_JWT_TOKEN)');
+    logger.warn('Using hardcoded access token from environment! (SSB_DATAPORTAL_JWT_TOKEN)');
   } else {
     token = await getEncodedJwt().catch((reason) => {
       logger.error({ error: sanitizeError(reason) }, 'JWT retrieval unexpectedly failed');
