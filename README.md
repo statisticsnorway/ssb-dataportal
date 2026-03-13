@@ -83,15 +83,15 @@ Configuration is primarily source from `.env*` files. This may be overridden in 
 
 #### Commonly used config
 
-| Key                           | Description                                                                                             |
-|-------------------------------| ------------------------------------------------------------------------------------------------------- |
-| `VARDEF_BASE_PATH`            | Which Vardef instance to point to. Can be set to `http://localhost:8081` to work with a local instance  |
-| `VARDEF_USE_STATIC_DATA`      | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. |
-| `KLASS_BASE_PATH`             | Which Klass instance to point to. Can be set to `http://localhost:8080` to work with a local instance   |
-| `KLASS_USE_STATIC_DATA`       | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. |
-| `SSB_DATAPORTAL_JWT_TOKEN`  | A JWT token to use for auth. Can be obtained from via the [Dapla CLI](#local-auth).                     |
-| `DEV_ENVIRONMENT_NAME`        | Used to identify different dev and test instances. May for example be set to the branch name.           |
-| `DAPLA_LAB_VARDEF_URL`        | URL to Vardef instance used in Dapla Lab integration.                                                   |
+| Key                        | Description                                                                                             |
+| -------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `VARDEF_BASE_PATH`         | Which Vardef instance to point to. Can be set to `http://localhost:8081` to work with a local instance  |
+| `VARDEF_USE_STATIC_DATA`   | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. |
+| `KLASS_BASE_PATH`          | Which Klass instance to point to. Can be set to `http://localhost:8080` to work with a local instance   |
+| `KLASS_USE_STATIC_DATA`    | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. |
+| `SSB_DATAPORTAL_JWT_TOKEN` | A JWT token to use for auth. Can be obtained from via the [Dapla CLI](#local-auth).                     |
+| `DEV_ENVIRONMENT_NAME`     | Used to identify different dev and test instances. May for example be set to the branch name.           |
+| `DAPLA_LAB_VARDEF_URL`     | URL to Vardef instance used in Dapla Lab integration.                                                   |
 
 ### Local auth
 
@@ -181,10 +181,37 @@ pnpm test:e2e:headed
 pnpm test:e2e:generate
 ```
 
-### Accessibility testing
-For testing in browser download wave browser extension
+### Accessibility
 
-Testing with Playwright/axe
+#### Lighthouse
+
+Run checks with dev tools - but this are very lightweight
+
+#### Wave
+
+Wave is an accessibility web tool - https://wave.webaim.org/
+It provides a good check for webpages.
+For internal applications download wave browser extension https://wave.webaim.org/extension/
+
+#### Playwright/axe
+
+SSB Dataportal uses Playwright with axe for testing accessibility.
+
+When you create a new file always inlcude 'accessibility' in the file name.
+
+You can test specific rules
+
+```bash
+ .withRules(['color-contrast'])
+```
+
+List of Axe HTML rules https://dequeuniversity.com/rules/axe/4.1
+
+Run only accessibility tests
+
+```bash
+pnpm test:e2e:accessibility
+```
 
 ### Generate client code
 
