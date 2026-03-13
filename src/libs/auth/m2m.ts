@@ -1,17 +1,43 @@
 'use server';
 
-const keycloakHost = String(process.env.KEYCLOAK_HOST);
-const vardefM2mClientId = Number(process.env.VARDEF_M2M_CLIENT_ID);
-const vardefM2mClientSecret = Number(process.env.VARDEF_M2M_CLIENT_SECRET);
+import { sanitizeError } from '../logger/sanitize';
+import { createLogger } from '../logger/server-logger';
+
+const keycloakHost = process.env.KEYCLOAK_HOST;
+if (keycloakHost === undefined) {
+  throw new Error('KEYCLOAK_HOST environment variable not set');
+}
+const vardefM2mClientId = process.env.VARDEF_M2M_CLIENT_ID;
+if (vardefM2mClientId === undefined) {
+  throw new Error('VARDEF_M2M_CLIENT_ID environment variable not set');
+}
+const vardefM2mClientSecret = process.env.VARDEF_M2M_CLIENT_SECRET;
+if (!vardefM2mClientSecret) {
+  throw new Error('VARDEF_M2M_CLIENT_SECRET environment variable not set');
+}
+
+const logger = createLogger('m2m-token');
+const ttlSeconds = Number(process.env.M2M_TOKEN_TTL_SECONDS);
 
 export async function getM2mToken() {
-  let response = await fetch(keycloakHost + '/realms/ssb/protocol/openid-connect/token', {
-    method: 'POST',
-    body: JSON.stringify({
-      grant_type: 'client_credentials',
-      client_id: vardefM2mClientId,
-      client_secret: vardefM2mClientSecret,
-    }),
-  });
-  return (await response.json())['access_token'];
+  logger.debug('Fetching M2M token from Keycloak');
+  try {
+    let response = await fetch(keycloakHost + '/realms/ssb/protocol/openid-connect/token', {
+      method: 'POST',
+      body: new URLSearchParams({
+        grant_type: 'client_credentials',
+        client_id: vardefM2mClientId,
+        client_secret: vardefM2mClientSecret,
+      }),
+      cache: 'force-cache',
+      next: { revalidate: ttlSeconds },
+    });
+    logger.debug({ statusCode: response.status, url: response.url }, 'Response from Keycloak');
+    let json = await response.json();
+    logger.debug(json, 'JSON from Keycloak');
+    return json['access_token'];
+  } catch (error: unknown) {
+    logger.error({ error: sanitizeError(error) }, 'Unexpected error during fetch');
+    throw error;
+  }
 }
