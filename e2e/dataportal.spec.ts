@@ -15,10 +15,8 @@ test.describe('Landing page', () => {
   });
 
   test('Details', async ({ page }) => {
-    // Locate all Details components
     const details = page.locator('.ds-details');
 
-    // --- Info Intro ---
     const introSummary = details.locator('summary', { hasText: localization.info.landingPageInfoIntroTitle });
     const introContent = details.locator('div', { hasText: localization.info.landingPageInfoIntro });
 
@@ -26,7 +24,6 @@ test.describe('Landing page', () => {
     await expect(introContent).toBeVisible();
     await introSummary.click(); // collapse
 
-    // --- Info Goal ---
     const goalSummary = details.locator('summary', { hasText: localization.info.landingPageInfoGoalTitle });
     const goalContent = details.locator('div', { hasText: localization.info.landingPageInfoGoal });
 
@@ -34,7 +31,6 @@ test.describe('Landing page', () => {
     await expect(goalContent).toBeVisible();
     await goalSummary.click(); // collapse
 
-    // --- Info Prototype ---
     const prototypeSummary = details.locator('summary', { hasText: localization.info.landingPagePrototypeTitle });
     const prototypeContent = details.locator('div', { hasText: localization.info.landingPageInfoPrototype });
 
