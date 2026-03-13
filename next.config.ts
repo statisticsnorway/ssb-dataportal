@@ -19,6 +19,7 @@ const nextConfig: NextConfig = {
   },
   typescript: {
     ignoreBuildErrors: false,
+    tsconfigPath: './tsconfig.prod.json',
   },
   output: isTest ? undefined : 'standalone',
   // This is just the default cacheHandler.
