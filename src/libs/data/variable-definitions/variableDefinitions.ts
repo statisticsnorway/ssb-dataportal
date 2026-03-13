@@ -17,6 +17,7 @@ import {
 
 const logger = createLogger('variable-definitions');
 
+import { getM2mToken } from '@/libs/auth/m2m';
 import {
   Configuration,
   ConfigurationParameters,
@@ -29,6 +30,8 @@ export async function getVardefClient(): Promise<VariableDefinitionsApi> {
   let token = process.env.METADATA_CATALOG_JWT_TOKEN;
   if (token) {
     logger.warn('Using hardcoded access token from environment! (METADATA_CATALOG_JWT_TOKEN)');
+  } else if (process.env.VARDEF_USE_M2M_TOKEN === 'true') {
+    token = await getM2mToken();
   } else {
     token = await getEncodedJwt().catch((reason) => {
       logger.error({ error: sanitizeError(reason) }, 'JWT retrieval unexpectedly failed');
