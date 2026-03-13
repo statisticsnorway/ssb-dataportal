@@ -28,7 +28,6 @@ export async function getM2mToken() {
     });
     logger.debug({ statusCode: response.status, url: response.url }, 'Response from Keycloak');
     let json = await response.json();
-    logger.debug(json, 'JSON from Keycloak');
     return json['access_token'];
   } catch (error: unknown) {
     logger.error({ error: sanitizeError(error) }, 'Unexpected error during fetch');
