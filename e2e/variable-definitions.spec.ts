@@ -9,7 +9,7 @@ test('Filter by subject field displays tags (listitem) with count and close butt
   const main = variableDefinitionsPage.getByRole('main');
   await expect(main).toContainText(variables.totalHits);
   const checkbox = variableDefinitionsPage.getByRole('checkbox', { name: variables.socialConditionsAndCrime });
-  await checkCheckbox(checkbox, variables.socialConditionsAndCrime);
+  await checkCheckbox(checkbox);
 
   await expect(main).toContainText('2 treff');
   const filterTag = variableDefinitionsPage.getByRole('listitem').filter({
@@ -26,10 +26,10 @@ test('Select more than one filter display a "remove all" tag', async ({ variable
 
   const filterOne = variableDefinitionsPage.getByRole('checkbox', { name: variables.workAndPay });
 
-  await checkCheckbox(filterOne, variables.workAndPay);
+  await checkCheckbox(filterOne);
 
   const filterTwo = variableDefinitionsPage.getByRole('checkbox', { name: variables.population });
-  await checkCheckbox(filterTwo, variables.population);
+  await checkCheckbox(filterTwo);
 
   await expect(main).toContainText(variables.workAndPayPlusPopulationHits);
   const removeAllButton = variableDefinitionsPage.getByRole('button', { name: localization.button.removeFilter });
@@ -42,7 +42,7 @@ test('Subject area level 2 filters on level 1', async ({ variableDefinitionsPage
   await expect(main).toContainText(variables.totalHits);
   const checkbox = variableDefinitionsPage.getByRole('checkbox', { name: variables.health.label });
 
-  await checkCheckbox(checkbox, variables.health.label);
+  await checkCheckbox(checkbox);
 
   const levelTwoTag = variableDefinitionsPage.getByRole('list').filter({ hasText: variables.health.tagLevelTwo });
   await expect(levelTwoTag).toBeVisible();
@@ -62,12 +62,12 @@ test('Variable "Aksje" has two subject fields', async ({ variableDefinitionsPage
   const filterOne = variableDefinitionsPage.getByRole('checkbox', { name: variables.bankingAndFinancialMarket });
   const filterTwo = variableDefinitionsPage.getByRole('checkbox', { name: variables.companiesEnterprises });
 
-  await checkCheckbox(filterOne, variables.bankingAndFinancialMarket);
+  await checkCheckbox(filterOne);
 
   await expect(main).toContainText('1 treff');
   await expect(main).toContainText('Aksjeaksje');
 
-  await checkCheckbox(filterTwo, variables.companiesEnterprises);
+  await checkCheckbox(filterTwo);
 
   await expect(main).toContainText('20 treff');
   await expect(main).toContainText('Aksjeaksje');
@@ -144,11 +144,11 @@ test('Filter by status published', async ({ variableDefinitionsPage }) => {
   const publishedInternalFilter = variableDefinitionsPage.getByRole('checkbox', { name: statuses.internal.label });
   const publishedExternalFilter = variableDefinitionsPage.getByRole('checkbox', { name: statuses.external.label });
 
-  await checkCheckbox(publishedInternalFilter, statuses.internal.label);
+  await checkCheckbox(publishedInternalFilter);
 
   await expect(main).toContainText(statuses.internal.totalHits);
 
-  await checkCheckbox(publishedExternalFilter, statuses.external.label);
+  await checkCheckbox(publishedExternalFilter);
 
   await expect(main).toContainText(statuses.internalPlusExternal.totalHits);
 

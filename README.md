@@ -181,6 +181,11 @@ pnpm test:e2e:headed
 pnpm test:e2e:generate
 ```
 
+### Accessibility testing
+For testing in browser download wave browser extension
+
+Testing with Playwright/axe
+
 ### Generate client code
 
 This project uses OpenAPI Generator to generate TypeScript clients from OpenAPI specs.
