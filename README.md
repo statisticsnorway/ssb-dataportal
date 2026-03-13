@@ -1,4 +1,4 @@
-# Metadata catalog
+# SSB Dataportal
 
 > _What we know about our data when everyone goes home for the night_
 
@@ -83,22 +83,22 @@ Configuration is primarily source from `.env*` files. This may be overridden in 
 
 #### Commonly used config
 
-| Key                           | Description                                                                                             |
-|-------------------------------| ------------------------------------------------------------------------------------------------------- |
-| `VARDEF_BASE_PATH`            | Which Vardef instance to point to. Can be set to `http://localhost:8081` to work with a local instance  |
-| `VARDEF_USE_STATIC_DATA`      | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. |
-| `KLASS_BASE_PATH`             | Which Klass instance to point to. Can be set to `http://localhost:8080` to work with a local instance   |
-| `KLASS_USE_STATIC_DATA`       | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. |
-| `METADATA_CATALOG_JWT_TOKEN`  | A JWT token to use for auth. Can be obtained from via the [Dapla CLI](#local-auth).                     |
-| `DEV_ENVIRONMENT_NAME`        | Used to identify different dev and test instances. May for example be set to the branch name.           |
-| `DAPLA_LAB_VARDEF_URL`        | URL to Vardef instance used in Dapla Lab integration.                                                   |
+| Key                        | Description                                                                                             |
+| -------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `VARDEF_BASE_PATH`         | Which Vardef instance to point to. Can be set to `http://localhost:8081` to work with a local instance  |
+| `VARDEF_USE_STATIC_DATA`   | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. |
+| `KLASS_BASE_PATH`          | Which Klass instance to point to. Can be set to `http://localhost:8080` to work with a local instance   |
+| `KLASS_USE_STATIC_DATA`    | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. |
+| `SSB_DATAPORTAL_JWT_TOKEN` | A JWT token to use for auth. Can be obtained from via the [Dapla CLI](#local-auth).                     |
+| `DEV_ENVIRONMENT_NAME`     | Used to identify different dev and test instances. May for example be set to the branch name.           |
+| `DAPLA_LAB_VARDEF_URL`     | URL to Vardef instance used in Dapla Lab integration.                                                   |
 
 ### Local auth
 
 1. Install Dapla CLI: <https://github.com/statisticsnorway/dapla-cli?tab=readme-ov-file#installation>
 1. Log in: `dp auth login --client metadata-local --env test`
 1. Copy your access token: `dp auth show-access-token --to-clipboard --client metadata-local --env test`
-1. Save it in the `METADATA_CATALOG_JWT_TOKEN` environment variable.
+1. Save it in the `SSB_DATAPORTAL_JWT_TOKEN` environment variable.
 
 ## Test
 
@@ -179,6 +179,41 @@ pnpm test:e2e:headed
 
 ```bash
 pnpm test:e2e:generate
+```
+
+### Accessibility
+
+#### Lighthouse
+
+Run accessibility checks directly from browser dev tools.
+
+Note: These checks are lightweight and provide a quick overview.
+
+#### Wave
+
+Wave is a web accessibility evaluation tool.
+
+- For external websites, use the online tool: https://wave.webaim.org/
+- For internal applications, download the [Wave browser extension](https://wave.webaim.org/extension/)
+
+#### Playwright/axe
+
+SSB Dataportal uses Playwright with axe for accessibility testing.
+
+##### Guidelines:
+
+- When creating a new test file, include **accessibility** in the file name.
+- You can test specific rules using:
+
+```TypeScript
+ .withRules(['color-contrast'])
+```
+- Full list of Axe HTML rules: https://dequeuniversity.com/rules/axe/4.1
+
+##### Run only accessibility tests:
+
+```bash
+pnpm test:e2e:accessibility
 ```
 
 ### Generate client code

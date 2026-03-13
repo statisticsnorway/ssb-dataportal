@@ -19,7 +19,7 @@
     "test:update-snapshots": "vitest -u",
     "test:e2e": "playwright test",
     "test:e2e:no-accessibility": "playwright test --grep-invert 'Accessibility'",
-    "test:e2e:accessibility": "playwright test src/e2e/accessibility-tests.spec.ts",
+    "test:e2e:accessibility": "playwright test --grep 'Accessibility'",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:generate": "pnpm dev & playwright codegen http://localhost:3000",

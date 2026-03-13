@@ -25,7 +25,7 @@ describe('vardef data fetching', () => {
       await expect(getVardefClient()).rejects.toEqual('Could not retrieve access token!');
     });
     it('hardcoded token', () => {
-      process.env.METADATA_CATALOG_JWT_TOKEN = 'my-cool-token';
+      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
       process.env.VARDEF_BASE_PATH = 'my-cool-base-path';
       getVardefClient().then((client) => {
         expect(client).toBeInstanceOf(VariableDefinitionsApi);
@@ -33,7 +33,7 @@ describe('vardef data fetching', () => {
         const tokenReturn = client.configuration.accessToken?.();
         if (tokenReturn instanceof Promise) {
           tokenReturn.then((token: String) => {
-            expect(token).toEqual(process.env.METADATA_CATALOG_JWT_TOKEN);
+            expect(token).toEqual(process.env.SSB_DATAPORTAL_JWT_TOKEN);
           });
         }
         // @ts-ignore only protected access in test
@@ -53,7 +53,7 @@ describe('vardef data fetching', () => {
       });
       it('mock api call happy path', () => {
         process.env.VARDEF_USE_STATIC_DATA = 'false';
-        process.env.METADATA_CATALOG_JWT_TOKEN = 'my-cool-token';
+        process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
 
         vi.spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions').mockResolvedValue(staticDefs);
 
@@ -74,7 +74,7 @@ describe('vardef data fetching', () => {
       });
       it('mock api call happy path', () => {
         process.env.VARDEF_USE_STATIC_DATA = 'false';
-        process.env.METADATA_CATALOG_JWT_TOKEN = 'my-cool-token';
+        process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
         let variable = staticDefs[5];
         assert(variable);
         vi.spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions').mockResolvedValue([variable]);
@@ -85,7 +85,7 @@ describe('vardef data fetching', () => {
       });
       it('throws an error if multiple variable definitions are returned', async () => {
         process.env.VARDEF_USE_STATIC_DATA = 'false';
-        process.env.METADATA_CATALOG_JWT_TOKEN = 'my-cool-token';
+        process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
         let variable1 = staticDefs[5];
         assert(variable1);
         let variable2 = staticDefs[5];
@@ -98,7 +98,7 @@ describe('vardef data fetching', () => {
       });
       it('throws an error if no variable definitions are returned', async () => {
         process.env.VARDEF_USE_STATIC_DATA = 'false';
-        process.env.METADATA_CATALOG_JWT_TOKEN = 'my-cool-token';
+        process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
 
         vi.spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions').mockResolvedValue([]);
 
