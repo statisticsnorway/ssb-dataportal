@@ -1,0 +1,22 @@
+apiVersion: "monitoring.coreos.com/v1"
+kind: PrometheusRule
+metadata:
+  name: alert-dataportalen
+  namespace: dapla-metadata
+  labels:
+    team: dapla-metadata
+spec:
+  groups:
+    - name: dapla-metadata
+      rules:
+        - alert: Dataportalen is unavailable
+          expr: kube_deployment_status_replicas_available{deployment="dataportalen"} == 0
+          for: 1m
+          annotations:
+            title: "Dataportalen is unavailable"
+            consequence: "Service is unavailable to users. "
+          labels:
+            service: dataportalen
+            namespace: dapla-metadata
+            severity: critical
+            environment: test
