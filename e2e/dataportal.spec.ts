@@ -8,7 +8,6 @@ test.describe('Landing page', () => {
   });
 
   test('Heading one', async ({ page }) => {
-    await page.goto('/');
     await expect(page.getByRole('heading', { level: 1 })).toContainText(localization.info.landingPageTitle);
     await expect(page.getByRole('heading', { level: 1 })).toMatchAriaSnapshot(
       `- heading "${localization.info.landingPageTitle}" [level=1]`,
@@ -16,19 +15,34 @@ test.describe('Landing page', () => {
   });
 
   test('Details', async ({ page }) => {
-    await page.goto('/');
-    await page.getByRole('button', { name: localization.info.landingPageInfoIntroTitle }).click();
-    await expect(page.getByRole('main')).toContainText(localization.info.landingPageInfoIntro);
-    await page.getByRole('button', { name: localization.info.landingPageInfoIntroTitle }).click();
-    await page.getByRole('button', { name: localization.info.landingPageInfoGoalTitle }).click();
-    await expect(page.getByText(localization.info.landingPageInfoGoal)).toBeVisible();
-    await page.getByRole('button', { name: localization.info.landingPageInfoGoalTitle }).click();
-    await page.getByRole('button', { name: localization.info.landingPagePrototypeTitle }).click();
-    await expect(page.getByRole('main')).toContainText(localization.info.landingPageInfoPrototype);
+    // Locate all Details components
+    const details = page.locator('.ds-details');
+
+    // --- Info Intro ---
+    const introSummary = details.locator('summary', { hasText: localization.info.landingPageInfoIntroTitle });
+    const introContent = details.locator('div', { hasText: localization.info.landingPageInfoIntro });
+
+    await introSummary.click();
+    await expect(introContent).toBeVisible();
+    await introSummary.click(); // collapse
+
+    // --- Info Goal ---
+    const goalSummary = details.locator('summary', { hasText: localization.info.landingPageInfoGoalTitle });
+    const goalContent = details.locator('div', { hasText: localization.info.landingPageInfoGoal });
+
+    await goalSummary.click();
+    await expect(goalContent).toBeVisible();
+    await goalSummary.click(); // collapse
+
+    // --- Info Prototype ---
+    const prototypeSummary = details.locator('summary', { hasText: localization.info.landingPagePrototypeTitle });
+    const prototypeContent = details.locator('div', { hasText: localization.info.landingPageInfoPrototype });
+
+    await prototypeSummary.click();
+    await expect(prototypeContent).toBeVisible();
   });
 
   test('Navigate from landingpage to variable definitions', async ({ page }) => {
-    await page.goto('/');
     await expect(page.getByRole('heading', { level: 1 })).toContainText(localization.info.landingPageTitle);
     await page.getByRole('link', { name: localization.tabs.variableDefinitions }).click();
     await expect(page.getByRole('tab', { name: localization.tabs.variableDefinitions })).toBeVisible();

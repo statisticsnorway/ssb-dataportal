@@ -35,6 +35,7 @@ export default function SearchLayout({ children }: { children: ReactNode }) {
           <Tabs.List className={styles.tabsNavigation}>
             {Object.values(tabsData).map((tab) => (
               <Tabs.Tab
+                aria-controls={tab.id}
                 key={tab.id}
                 value={tab.id}
                 className={`${styles.tab} font-roboto`}

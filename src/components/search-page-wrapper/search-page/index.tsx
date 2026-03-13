@@ -51,34 +51,35 @@ const SearchPage: FC<SearchPageProps> = ({
   };
 
   return (
-    <TabsPanel id={tabsId} value={String(tabsId)}>
-      <section role='region' aria-label='Page header' className='container'>
-        <header>
-          <Heading level={1} className='ds-sr-only'>
-            {header}
-          </Heading>
-        </header>
-      </section>
-      <div className={`${styles.pageContainer} container`}>
-        <section role='region' aria-label='Tags list'>
-          {infoContent ? infoContent : null}
-        </section>
-        <div className={styles.searchHitsContainerWrapper}>
-          {asideContent ? (
-            <aside className={styles.filterSection} aria-label='Filters'>
-              {asideContent}
-            </aside>
-          ) : null}
-          <main className={styles.mainSection}>
-            <div className={styles.hitsAndSort}>
-              <p className={styles.numHits}>{hitsLabel(totalHits)}</p>
-              {controlsContent}
+    <main id='variableDefinitionsPage'>
+      <header>
+        <Heading level={1} className='ds-sr-only'>
+          {header}
+        </Heading>
+      </header>
+
+      <TabsPanel id={tabsId} value={String(tabsId)} aria-labelledby={tabsId}>
+        <div className={`${styles.pageContainer} container`}>
+          <section role='region' aria-label='Tags list'>
+            {infoContent ? infoContent : null}
+          </section>
+          <div className={styles.searchHitsContainerWrapper}>
+            {asideContent ? (
+              <aside className={styles.filterSection} aria-label='Filters'>
+                {asideContent}
+              </aside>
+            ) : null}
+            <div className={styles.mainSection}>
+              <div className={styles.hitsAndSort}>
+                <p className={styles.numHits}>{hitsLabel(totalHits)}</p>
+                {controlsContent}
+              </div>
+              {searchResult}
             </div>
-            {searchResult}
-          </main>
+          </div>
         </div>
-      </div>
-    </TabsPanel>
+      </TabsPanel>
+    </main>
   );
 };
 
