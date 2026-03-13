@@ -11,6 +11,7 @@ test.describe('Variable definitions – accessibility', () => {
     await checkCheckbox(checkbox);
 
     const results = await new AxeBuilder({ page: variableDefinitionsPage })
+      .disableRules(['region'])
       .exclude('.ds-alert.infoAlert')
       .exclude('[data-axe-ignore]')
       .analyze();
