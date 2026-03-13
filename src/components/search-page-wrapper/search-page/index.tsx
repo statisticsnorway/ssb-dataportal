@@ -1,4 +1,4 @@
-import { Heading } from '@digdir/designsystemet-react';
+import { Heading, TabsPanel } from '@digdir/designsystemet-react';
 import { FC, ReactElement, ReactNode } from 'react';
 import { localization } from '@/libs/language';
 import { SortTypes } from '@/types/sort';
@@ -15,6 +15,7 @@ interface SearchPageProps {
   sortValue?: SortTypes;
   onSortChange?: (key: SortTypes) => void;
   header?: string;
+  tabsId?: string;
 }
 
 /**
@@ -38,6 +39,7 @@ const SearchPage: FC<SearchPageProps> = ({
   controlsContent,
   totalHits,
   header,
+  tabsId,
 }) => {
   const hitsLabel = (totalHits?: ReactNode): ReactNode => {
     if (totalHits == null) return null;
@@ -49,7 +51,7 @@ const SearchPage: FC<SearchPageProps> = ({
   };
 
   return (
-    <>
+    <TabsPanel id={tabsId} value={String(tabsId)}>
       <section role='region' aria-label='Page header' className='container'>
         <header>
           <Heading level={1} className='ds-sr-only'>
@@ -76,7 +78,7 @@ const SearchPage: FC<SearchPageProps> = ({
           </main>
         </div>
       </div>
-    </>
+    </TabsPanel>
   );
 };
 
