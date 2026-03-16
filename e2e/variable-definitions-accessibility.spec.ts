@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from './fixtures/variableDefinitions.fixture';
 import variableDefinitions from '@/static-data/variable-definitions.json';
 import { statuses, variables } from './utils/variables';
-import { checkCheckbox, stabilize } from './utils/commonUtils';
+import { checkCheckbox } from './utils/commonUtils';
 
 // Exclude search until we implement logic
 test.describe('Variable definitions – accessibility', () => {
