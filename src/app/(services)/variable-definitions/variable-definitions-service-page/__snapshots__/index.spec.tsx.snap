@@ -3,10 +3,8 @@
 exports[`VariableDefinitionsServicePage > happy path 1`] = `
 <body>
   <div>
-    <section
-      aria-label="Page header"
-      class="container"
-      role="region"
+    <main
+      id="variableDefinitionsPage"
     >
       <header>
         <h1
@@ -16,58 +14,64 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
           Variabeldefinisjoner
         </h1>
       </header>
-    </section>
-    <div
-      class="_pageContainer_8a24d7 container"
-    >
-      <section
-        aria-label="Tags list"
-        role="region"
-      />
       <div
-        class="_searchHitsContainerWrapper_8a24d7"
+        aria-labelledby="variableDefinitionsTab"
+        id="variableDefinitionsTab"
+        value="variableDefinitionsTab"
       >
-        <aside
-          aria-label="Filters"
-          class="_filterSection_8a24d7"
+        <div
+          class="_pageContainer_8a24d7 container"
         >
-          <h1
-            data-size="sm"
-            level="2"
-          >
-            Filter
-          </h1>
-          <input
-            label="Filtrer på navn"
-            searchterm=""
+          <section
+            aria-label="Tags list"
+            role="region"
           />
-          <ellipse
-            aria-label="Laster filtere..."
-          />
-          <ellipse
-            aria-label="Laster filtere..."
-          />
-        </aside>
-        <main
-          class="_mainSection_8a24d7"
-        >
           <div
-            class="_hitsAndSort_8a24d7"
+            class="_searchHitsContainerWrapper_8a24d7"
           >
-            <p
-              class="_numHits_8a24d7"
-            />
-            <select
-              sortoptions="titleAsc,titleDesc,lastChanged"
-              sortvalue="titleAsc"
-            />
+            <aside
+              aria-label="Filters"
+              class="_filterSection_8a24d7"
+            >
+              <h1
+                data-size="sm"
+                level="2"
+              >
+                Filter
+              </h1>
+              <input
+                label="Filtrer på navn"
+                searchterm=""
+              />
+              <ellipse
+                aria-label="Laster filtere..."
+              />
+              <ellipse
+                aria-label="Laster filtere..."
+              />
+            </aside>
+            <div
+              class="_mainSection_8a24d7"
+            >
+              <div
+                class="_hitsAndSort_8a24d7"
+              >
+                <p
+                  class="_numHits_8a24d7"
+                />
+                <select
+                  sortoptions="titleAsc,titleDesc,lastChanged"
+                  sortvalue="titleAsc"
+                />
+              </div>
+              <ellipse
+                aria-label="Laster resultater..."
+              />
+            </div>
           </div>
-          <ellipse
-            aria-label="Laster resultater..."
-          />
-        </main>
+        </div>
       </div>
-    </div>
+    </main>
   </div>
 </body>
 `;
@@ -75,10 +79,8 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
 exports[`VariableDefinitionsServicePage > page renders while waiting for subject fields 1`] = `
 <body>
   <div>
-    <section
-      aria-label="Page header"
-      class="container"
-      role="region"
+    <main
+      id="variableDefinitionsPage"
     >
       <header>
         <h1
@@ -88,58 +90,64 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for subject
           Variabeldefinisjoner
         </h1>
       </header>
-    </section>
-    <div
-      class="_pageContainer_8a24d7 container"
-    >
-      <section
-        aria-label="Tags list"
-        role="region"
-      />
       <div
-        class="_searchHitsContainerWrapper_8a24d7"
+        aria-labelledby="variableDefinitionsTab"
+        id="variableDefinitionsTab"
+        value="variableDefinitionsTab"
       >
-        <aside
-          aria-label="Filters"
-          class="_filterSection_8a24d7"
+        <div
+          class="_pageContainer_8a24d7 container"
         >
-          <h1
-            data-size="sm"
-            level="2"
-          >
-            Filter
-          </h1>
-          <input
-            label="Filtrer på navn"
-            searchterm=""
+          <section
+            aria-label="Tags list"
+            role="region"
           />
-          <ellipse
-            aria-label="Laster filtere..."
-          />
-          <ellipse
-            aria-label="Laster filtere..."
-          />
-        </aside>
-        <main
-          class="_mainSection_8a24d7"
-        >
           <div
-            class="_hitsAndSort_8a24d7"
+            class="_searchHitsContainerWrapper_8a24d7"
           >
-            <p
-              class="_numHits_8a24d7"
-            />
-            <select
-              sortoptions="titleAsc,titleDesc,lastChanged"
-              sortvalue="titleAsc"
-            />
+            <aside
+              aria-label="Filters"
+              class="_filterSection_8a24d7"
+            >
+              <h1
+                data-size="sm"
+                level="2"
+              >
+                Filter
+              </h1>
+              <input
+                label="Filtrer på navn"
+                searchterm=""
+              />
+              <ellipse
+                aria-label="Laster filtere..."
+              />
+              <ellipse
+                aria-label="Laster filtere..."
+              />
+            </aside>
+            <div
+              class="_mainSection_8a24d7"
+            >
+              <div
+                class="_hitsAndSort_8a24d7"
+              >
+                <p
+                  class="_numHits_8a24d7"
+                />
+                <select
+                  sortoptions="titleAsc,titleDesc,lastChanged"
+                  sortvalue="titleAsc"
+                />
+              </div>
+              <ellipse
+                aria-label="Laster resultater..."
+              />
+            </div>
           </div>
-          <ellipse
-            aria-label="Laster resultater..."
-          />
-        </main>
+        </div>
       </div>
-    </div>
+    </main>
   </div>
 </body>
 `;
@@ -147,10 +155,8 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for subject
 exports[`VariableDefinitionsServicePage > page renders while waiting for variable definitions 1`] = `
 <body>
   <div>
-    <section
-      aria-label="Page header"
-      class="container"
-      role="region"
+    <main
+      id="variableDefinitionsPage"
     >
       <header>
         <h1
@@ -160,58 +166,64 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for variabl
           Variabeldefinisjoner
         </h1>
       </header>
-    </section>
-    <div
-      class="_pageContainer_8a24d7 container"
-    >
-      <section
-        aria-label="Tags list"
-        role="region"
-      />
       <div
-        class="_searchHitsContainerWrapper_8a24d7"
+        aria-labelledby="variableDefinitionsTab"
+        id="variableDefinitionsTab"
+        value="variableDefinitionsTab"
       >
-        <aside
-          aria-label="Filters"
-          class="_filterSection_8a24d7"
+        <div
+          class="_pageContainer_8a24d7 container"
         >
-          <h1
-            data-size="sm"
-            level="2"
-          >
-            Filter
-          </h1>
-          <input
-            label="Filtrer på navn"
-            searchterm=""
+          <section
+            aria-label="Tags list"
+            role="region"
           />
-          <ellipse
-            aria-label="Laster filtere..."
-          />
-          <ellipse
-            aria-label="Laster filtere..."
-          />
-        </aside>
-        <main
-          class="_mainSection_8a24d7"
-        >
           <div
-            class="_hitsAndSort_8a24d7"
+            class="_searchHitsContainerWrapper_8a24d7"
           >
-            <p
-              class="_numHits_8a24d7"
-            />
-            <select
-              sortoptions="titleAsc,titleDesc,lastChanged"
-              sortvalue="titleAsc"
-            />
+            <aside
+              aria-label="Filters"
+              class="_filterSection_8a24d7"
+            >
+              <h1
+                data-size="sm"
+                level="2"
+              >
+                Filter
+              </h1>
+              <input
+                label="Filtrer på navn"
+                searchterm=""
+              />
+              <ellipse
+                aria-label="Laster filtere..."
+              />
+              <ellipse
+                aria-label="Laster filtere..."
+              />
+            </aside>
+            <div
+              class="_mainSection_8a24d7"
+            >
+              <div
+                class="_hitsAndSort_8a24d7"
+              >
+                <p
+                  class="_numHits_8a24d7"
+                />
+                <select
+                  sortoptions="titleAsc,titleDesc,lastChanged"
+                  sortvalue="titleAsc"
+                />
+              </div>
+              <ellipse
+                aria-label="Laster resultater..."
+              />
+            </div>
           </div>
-          <ellipse
-            aria-label="Laster resultater..."
-          />
-        </main>
+        </div>
       </div>
-    </div>
+    </main>
   </div>
 </body>
 `;

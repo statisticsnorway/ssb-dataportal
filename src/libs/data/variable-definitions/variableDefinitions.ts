@@ -25,9 +25,9 @@ const logger = createLogger('variable-definitions');
 const ttlSeconds = Number(process.env.VARDEF_CACHE_TTL_SECONDS);
 
 export async function getVardefClient(): Promise<VariableDefinitionsApi> {
-  let token = process.env.METADATA_CATALOG_JWT_TOKEN;
+  let token = process.env.SSB_DATAPORTAL_JWT_TOKEN;
   if (token) {
-    logger.warn('Using hardcoded access token from environment! (METADATA_CATALOG_JWT_TOKEN)');
+    logger.warn('Using hardcoded access token from environment! (SSB_DATAPORTAL_JWT_TOKEN)');
   } else if (process.env.VARDEF_USE_M2M_TOKEN === 'true') {
     logger.debug('Using M2M token for Vardef auth');
     token = await getM2mToken();

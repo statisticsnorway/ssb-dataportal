@@ -42,8 +42,8 @@ export function CollapsibleCard({
 
   return (
     <Card className={`${styles.filterCard} ${cardClassName} ${!isOpen ? styles.hidden : ''}`}>
-      <Fieldset>
-        <FieldsetLegend className={styles.filterHeader}>
+      <Fieldset aria-labelledby={panelId}>
+        <FieldsetLegend className={styles.filterHeader} id={panelId}>
           <Button className={styles.toggleFilter} onClick={toggleOpen} aria-expanded={isOpen} aria-controls={panelId}>
             {heading}
             {isOpen ? (

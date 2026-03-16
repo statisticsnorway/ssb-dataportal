@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  // Specific files we don't want to compile in prod builds
+  "exclude": ["*.config.ts", "e2e", "**/*.spec.ts"]
+}
