@@ -1,0 +1,22 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ssb-dataportal
+  title: SSB Dataportal
+  description: |
+    Gateway to SSB's shared knowledge about data
+  tags:
+    - metadata
+    - react
+  annotations:
+    github.com/project-slug: statisticsnorway/ssb-dataportal
+spec:
+  type: service
+  owner: dapla-metadata-developers
+  lifecycle: production
+  dependsOn:
+    - system:keycloak
+  consumesApis:
+    - api:vardef
+    - api:klass-api
+  system: metadata
