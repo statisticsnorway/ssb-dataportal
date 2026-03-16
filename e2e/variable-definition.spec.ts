@@ -111,21 +111,16 @@ test.describe('Copy variable definition shortname', () => {
 
     const tooltip = page.locator('.ds-tooltip');
 
-    // Tooltip not visible
     await expect(tooltip).not.toBeVisible();
 
-    // Tooltip visible at hover
     await copyShortName.hover();
     await expect(tooltip).toContainText(localization.copy.shortName);
 
-    // Copy shortname
     await copyShortName.click();
     await expect(tooltip).toContainText(localization.copy.copied);
 
     // Read the clipboard content
     const clipboardText = await page.evaluate(() => navigator.clipboard.readText());
-
-    // Assert clipboard matches short name
     expect(clipboardText).toBe(variable.short_name);
 
     // Tooltip text reset
