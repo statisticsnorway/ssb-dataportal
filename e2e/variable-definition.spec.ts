@@ -31,7 +31,6 @@ const test = base.extend<{
 
 test.describe('Variable definitions navigation', () => {
   test.skip(noVariables, 'No variable definitions available to test');
-  test.describe;
   for (const variable of variableDefinitions) {
     test(`Navigate to ${variable.name}`, async ({ goToVariable, page }) => {
       await goToVariable(variable);
