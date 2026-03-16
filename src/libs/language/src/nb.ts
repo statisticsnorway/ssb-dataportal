@@ -58,6 +58,15 @@ export const nb = {
     somethingWentWrong: 'Beklager, noe gikk galt. Prøv på nytt litt senere.',
     tryAgainButtonText: 'Prøv igjen',
     unauthorized: 'Beklager, du har ikke tilgang.',
+    brokenLinkMailSubject: 'Ødelagt lenke i dataportalen',
+    brokenLinkMailBody: (path: string) =>
+      [
+        'Hei, jeg vil melde fra om en mulig ødelagt lenke i Dataportalen.',
+        '',
+        `Side: ${path}`,
+        '',
+        'Beskrivelse av hva som ikke fungerte:',
+      ].join('\n'),
   },
 
   contact: {
