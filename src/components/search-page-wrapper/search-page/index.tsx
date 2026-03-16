@@ -15,7 +15,7 @@ interface SearchPageProps {
   sortValue?: SortTypes;
   onSortChange?: (key: SortTypes) => void;
   header?: string;
-  tabsId?: string;
+  tabsId: string;
 }
 
 /**

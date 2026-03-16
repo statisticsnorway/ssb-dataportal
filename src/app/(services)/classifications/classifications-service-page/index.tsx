@@ -12,6 +12,7 @@ import { localization } from '@/libs/language';
 import { ClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
+import { tabsData } from '../../tabs';
 import { ClassificationSearchHit } from './classificationSearchHit';
 
 interface ClassificationServicePageProps {
@@ -129,6 +130,7 @@ const ClassificationsServicePage = ({
 
   return (
     <SearchPage
+      tabsId={tabsData.Classifications.id}
       asideContent={
         <FiltersPanel>
           <CheckboxFilter

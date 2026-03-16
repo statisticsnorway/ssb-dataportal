@@ -24,6 +24,10 @@
   white-space: nowrap;
 }
 
+.headingWithLink {
+  text-decoration: none;
+}
+
 @media (max-width: 460px) {
   .vardefShortName {
     display: block;
