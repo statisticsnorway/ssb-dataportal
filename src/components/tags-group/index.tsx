@@ -33,4 +33,5 @@ const TagsGroup = ({ maxTags, tagData }: TagsGroupProps) => {
     </ul>
   );
 };
+
 export { TagsGroup };

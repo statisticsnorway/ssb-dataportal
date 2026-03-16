@@ -37,4 +37,5 @@ const SortFields = ({ sortOptions, sortValue, onSortChange }: SortFieldsProps) =
     </section>
   );
 };
+
 export { SortFields };
