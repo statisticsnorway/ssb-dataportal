@@ -1,0 +1,25 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ssb-dataportal
+  title: SSB Dataportal
+  description: |
+    Write..
+  tags:
+    - dapla
+    - metadata
+    - Add more ?
+  annotations:
+    github.com/project-slug: statisticsnorway/ssb-dataportal
+spec:
+  type: service
+  owner: dapla-metadata-developers
+  lifecycle: production
+  dependsOn:
+    - edit...
+    - system:dapla-lab
+    - component:dapla-toolbelt-metadata
+    - component:ssb-dash-components
+  consumesApis:
+    - api:vardef
+  system: metadata
