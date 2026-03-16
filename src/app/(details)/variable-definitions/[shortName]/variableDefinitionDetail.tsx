@@ -99,12 +99,11 @@ export default function VariableDefinitionDetail({
               <span className={styles.idValue}>{variableDefinition.short_name}</span>
               <Tooltip content={copied ? localization.copy.copied : localization.copy.shortName}>
                 <Button
-                  title={localization.copy.shortName}
-                  className={styles.copyIdButton}
+                  aria-label={copied ? localization.copy.copied : localization.copy.shortName}
+                  className={styles.copyShortNameButton}
                   variant='tertiary'
                   icon
                   onClick={() => copyToClipboard(variableDefinition.short_name)}
-                  aria-label={copied ? localization.copy.copied : localization.copy.shortName}
                 >
                   {copied ? <ClipboardCheckmarkIcon aria-hidden /> : <ClipboardIcon aria-hidden />}
                 </Button>

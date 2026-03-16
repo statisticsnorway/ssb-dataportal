@@ -35,7 +35,6 @@ export function CodeSnippet({
       <div className={styles.codeWrapper}>
         <Tooltip content={copied ? copiedLabel : copyLabel}>
           <Button
-            title={copyLabel}
             className={styles.copyCodeButton}
             variant='tertiary'
             icon
