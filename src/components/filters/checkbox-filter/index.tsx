@@ -26,10 +26,9 @@ export const CheckboxFilter = ({ filterHeading, filters, selectedItems, onFilter
   return (
     <CollapsibleCard heading={filterHeading}>
       {filters.map((filter, index) => {
-        const checkboxId = `checkbox-${filter.value.replace(/\s+/g, '-').toLowerCase()}-${index}`;
         return (
           <Checkbox
-            id={checkboxId}
+            id={`checkbox-${filter.value.replace(/\s+/g, '-').toLowerCase()}-${index}`}
             key={filter.value}
             label={`${filter.label}${filter.count != null ? ` (${filter.count})` : ''}`}
             className={styles.checkbox}
