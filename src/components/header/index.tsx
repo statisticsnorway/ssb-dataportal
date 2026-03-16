@@ -14,7 +14,7 @@ export const Header: FC<HeaderProps> = ({ homeUrl, title, devEnvironmentName }) 
   return (
     <header className={styles.header} role='banner'>
       <div className={`${styles.headerContainer} container`}>
-        <Link href={homeUrl} aria-label={localization.navigateHome} className={styles.logoAndTitle}>
+        <Link href={homeUrl} title={localization.navigateHome} className={styles.logoAndTitle}>
           <Image
             className={styles.logo}
             src='/ssb-logo.svg'
