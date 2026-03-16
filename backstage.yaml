@@ -17,6 +17,6 @@ spec:
   dependsOn:
     - system:keycloak
   consumesApis:
-    - api:vardef
+    - api:vardef-api
     - api:klass-api
   system: metadata
