@@ -10,6 +10,7 @@ import { RenderedView } from '@/libs/data-access/variable-definitions/internal/m
 import { localization } from '@/libs/language/src/localization';
 import { FilterItem } from '@/types/filters';
 import { SortTypes, sortTypes } from '@/types/sort';
+import { tabsData } from '../../tabs';
 import { FilterTagsSection } from './components/FilterTagsSection';
 import { ResultsCount } from './components/ResultsCount';
 import { ResultsSection } from './components/ResultsSection';
@@ -75,6 +76,7 @@ const VariableDefinitionsServicePage = ({
       sortOption={sortOption}
     >
       <SearchPage
+        tabsId={tabsData.VariableDefinitions.id}
         header={localization.tabs.variableDefinitions}
         asideContent={
           <FiltersPanel>

@@ -44,6 +44,7 @@ vi.mock('@digdir/designsystemet-react', () => {
     Spinner: passthrough('ellipse'),
     Card: passthrough('section'),
     Fieldset: passthrough('fieldset'),
+    TabsPanel: passthrough('div'),
   };
 });
 

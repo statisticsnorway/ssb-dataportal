@@ -25,15 +25,18 @@ interface CheckboxFilterProps {
 export const CheckboxFilter = ({ filterHeading, filters, selectedItems, onFilterChange }: CheckboxFilterProps) => {
   return (
     <CollapsibleCard heading={filterHeading}>
-      {filters.map((filter) => (
-        <Checkbox
-          key={filter.value}
-          label={`${filter.label}${filter.count != null ? ` (${filter.count})` : ''}`}
-          className={styles.checkbox}
-          checked={selectedItems.some((item) => item.value === filter.value)}
-          onChange={() => onFilterChange(filter)}
-        />
-      ))}
+      {filters.map((filter, index) => {
+        return (
+          <Checkbox
+            id={`checkbox-${filter.value.replace(/\s+/g, '-').toLowerCase()}-${index}`}
+            key={filter.value}
+            label={`${filter.label}${filter.count != null ? ` (${filter.count})` : ''}`}
+            className={styles.checkbox}
+            checked={selectedItems.some((item) => item.value === filter.value)}
+            onChange={() => onFilterChange(filter)}
+          />
+        );
+      })}
     </CollapsibleCard>
   );
 };
