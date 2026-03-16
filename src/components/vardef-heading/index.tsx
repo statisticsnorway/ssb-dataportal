@@ -38,7 +38,9 @@ const VardefHeading = ({
   return href === undefined ? (
     <Heading {...headingProps}>{headingText}</Heading>
   ) : (
-    <Heading {...headingProps}>{withLink({ href: href, children: headingText })}</Heading>
+    <Heading className={styles.headingWithLink} {...headingProps}>
+      {withLink({ href: href, children: headingText })}
+    </Heading>
   );
 };
 
