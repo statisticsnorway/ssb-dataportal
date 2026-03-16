@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@digdir/designsystemet-react';
+import { Button, Tooltip } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -33,16 +33,18 @@ export function CodeSnippet({
         <div className={styles.title}>{title}</div>
       </div>
       <div className={styles.codeWrapper}>
-        <Button
-          title={copyLabel}
-          className={styles.copyCodeButton}
-          variant='tertiary'
-          icon
-          onClick={() => copyToClipboard(codeString)}
-          aria-label={copied ? copiedLabel : copyLabel}
-        >
-          {copied ? <ClipboardCheckmarkIcon aria-hidden /> : <ClipboardIcon aria-hidden />}
-        </Button>
+        <Tooltip content={copied ? copiedLabel : copyLabel}>
+          <Button
+            title={copyLabel}
+            className={styles.copyCodeButton}
+            variant='tertiary'
+            icon
+            onClick={() => copyToClipboard(codeString)}
+            aria-label={copied ? copiedLabel : copyLabel}
+          >
+            {copied ? <ClipboardCheckmarkIcon aria-hidden /> : <ClipboardIcon aria-hidden />}
+          </Button>
+        </Tooltip>
         <SyntaxHighlighter
           language='python'
           style={vs}
