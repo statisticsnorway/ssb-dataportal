@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@digdir/designsystemet-react';
+import { Button, Tooltip } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { tabsData } from '@/app/(services)/tabs';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
@@ -97,16 +97,18 @@ export default function VariableDefinitionDetail({
             <div className={styles.idField}>
               <span className={styles.idLabel}>Kortnavn</span>
               <span className={styles.idValue}>{variableDefinition.short_name}</span>
-              <Button
-                title={localization.copy.shortName}
-                className={styles.copyIdButton}
-                variant='tertiary'
-                icon
-                onClick={() => copyToClipboard(variableDefinition.short_name)}
-                aria-label={copied ? localization.copy.copied : localization.copy.shortName}
-              >
-                {copied ? <ClipboardCheckmarkIcon aria-hidden /> : <ClipboardIcon aria-hidden />}
-              </Button>
+              <Tooltip content={copied ? localization.copy.copied : localization.copy.shortName}>
+                <Button
+                  title={localization.copy.shortName}
+                  className={styles.copyIdButton}
+                  variant='tertiary'
+                  icon
+                  onClick={() => copyToClipboard(variableDefinition.short_name)}
+                  aria-label={copied ? localization.copy.copied : localization.copy.shortName}
+                >
+                  {copied ? <ClipboardCheckmarkIcon aria-hidden /> : <ClipboardIcon aria-hidden />}
+                </Button>
+              </Tooltip>
             </div>
           </section>
           <DetailsPagePanel title={localization.context} elements={unitTypesItems(variableDefinition)} />
