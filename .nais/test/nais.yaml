@@ -11,7 +11,6 @@ metadata:
 spec:
   ingresses:
     - https://dataportal.test.ssb.no
-    - https://metadata-catalog.test.ssb.no # TODO: Remove once communicated
   port: 3000
   accessPolicy:
     outbound:
@@ -27,11 +26,15 @@ spec:
   replicas:
     max: 1
     min: 1
+  envFrom:
+    - secret: dataportalen
   env:
     - name: VARDEF_BASE_PATH
       value: http://metadata-api-gateway
     - name: VARDEF_USE_STATIC_DATA
       value: "false"
+    - name: VARDEF_USE_M2M_TOKEN
+      value: "true"
     - name: KLASS_BASE_PATH
       value: http://klass/api/klass/v1
     - name: KLASS_USE_STATIC_DATA

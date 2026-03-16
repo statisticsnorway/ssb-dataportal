@@ -1,5 +1,6 @@
 'use server';
 
+import { getM2mToken } from '@/libs/auth/m2m';
 import { localization } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
@@ -14,21 +15,22 @@ import {
   RenderedView,
   SupportedLanguages,
 } from '../../data-access/variable-definitions/internal/models';
-
-const logger = createLogger('variable-definitions');
-
 import {
   Configuration,
   ConfigurationParameters,
   ResponseError,
 } from '../../data-access/variable-definitions/internal/runtime';
 
-const ttl = Number(process.env.VARDEF_CACHE_TTL);
+const logger = createLogger('variable-definitions');
+const ttlSeconds = Number(process.env.VARDEF_CACHE_TTL_SECONDS);
 
 export async function getVardefClient(): Promise<VariableDefinitionsApi> {
   let token = process.env.SSB_DATAPORTAL_JWT_TOKEN;
   if (token) {
     logger.warn('Using hardcoded access token from environment! (SSB_DATAPORTAL_JWT_TOKEN)');
+  } else if (process.env.VARDEF_USE_M2M_TOKEN === 'true') {
+    logger.debug('Using M2M token for Vardef auth');
+    token = await getM2mToken();
   } else {
     token = await getEncodedJwt().catch((reason) => {
       logger.error({ error: sanitizeError(reason) }, 'JWT retrieval unexpectedly failed');
@@ -70,7 +72,7 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
     const startTime = Date.now();
     let rawData = await api.listVariableDefinitions(params, {
       cache: 'force-cache',
-      next: { revalidate: ttl },
+      next: { revalidate: ttlSeconds },
     } as RequestInit);
     const durationMs = Date.now() - startTime;
     data = rawData.filter((each) => instanceOfRenderedView(each));
