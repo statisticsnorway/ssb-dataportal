@@ -2,6 +2,7 @@ import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { ExternalLink } from '@/components/external-link';
 import { SearchPage } from '@/components/search-page-wrapper';
 import { localization } from '@/libs/language';
+import { tabsData } from '../tabs';
 
 export default async function Classifications() {
   const pageInfo = (
@@ -16,6 +17,7 @@ export default async function Classifications() {
 
   return (
     <SearchPage
+      tabsId={tabsData.Classifications.id}
       header={localization.tabs.classifications}
       searchLabel={localization.search.searchForClassifications}
       searchResult={pageInfo}

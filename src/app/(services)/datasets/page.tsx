@@ -1,6 +1,7 @@
 import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { localization } from '@/libs/language';
+import { tabsData } from '../tabs';
 
 export default async function Datasets() {
   const pageInfo = (
@@ -10,5 +11,7 @@ export default async function Datasets() {
     </Alert>
   );
 
-  return <SearchPage header={localization.tabs.datasets} searchResult={pageInfo}></SearchPage>;
+  return (
+    <SearchPage tabsId={tabsData.Datasets.id} header={localization.tabs.datasets} searchResult={pageInfo}></SearchPage>
+  );
 }
