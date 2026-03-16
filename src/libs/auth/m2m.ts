@@ -26,6 +26,9 @@ export async function getM2mToken() {
       cache: 'force-cache',
       next: { revalidate: ttlSeconds },
     });
+    if (!response.ok) {
+      throw new Error(`M2M token request failed: ${response.status} ${await response.text()}`);
+    }
     logger.debug({ statusCode: response.status, url: response.url }, 'Response from Keycloak');
     let json = await response.json();
     return json['access_token'];
