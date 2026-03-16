@@ -7,6 +7,7 @@ metadata:
     Gateway to SSB's shared knowledge about data
   tags:
     - metadata
+    - react
   annotations:
     github.com/project-slug: statisticsnorway/ssb-dataportal
 spec:
@@ -14,9 +15,8 @@ spec:
   owner: dapla-metadata-developers
   lifecycle: production
   dependsOn:
-    - system:dapla-lab
-    - component:dapla-toolbelt-metadata
-    - component:ssb-dash-components
+    - system:keycloak
   consumesApis:
     - api:vardef
+    - api:klass-api
   system: metadata
