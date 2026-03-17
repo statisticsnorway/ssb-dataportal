@@ -47,7 +47,7 @@ export default function VariableDefinitionDetail({
         <VardefHeading headingProps={{ 'data-size': 'xl', level: 1 }} variableDefinition={variableDefinition} />
       </header>
       <div className={styles.contentGrid}>
-        <div className={styles.mainColumn}>
+        <main className={styles.mainColumn}>
           <section
             className={styles.mainSection}
             aria-label={
@@ -90,7 +90,7 @@ export default function VariableDefinitionDetail({
           <DetailsPagePanel elements={contactItems(variableDefinition)} columns={2} />
           <DetailsPagePanel elements={personalDataItems(variableDefinition)} />
           <DetailsPagePanel title={localization.owner.label} elements={ownerItems(variableDefinition)} columns={2} />
-        </div>
+        </main>
         <aside className={styles.sidebar}>
           <section className={styles.idAndTagRow}>
             <StatusTag className={styles.variableStatusTag} variableStatus={variableDefinition.variable_status} />

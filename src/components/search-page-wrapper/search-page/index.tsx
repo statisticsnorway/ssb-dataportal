@@ -51,7 +51,7 @@ const SearchPage: FC<SearchPageProps> = ({
   };
 
   return (
-    <section id='variableDefinitionsPage'>
+    <main id='variableDefinitionsPage'>
       <header>
         <Heading level={1} className='ds-sr-only'>
           {header}
@@ -79,7 +79,7 @@ const SearchPage: FC<SearchPageProps> = ({
           </div>
         </div>
       </TabsPanel>
-    </section>
+    </main>
   );
 };
 

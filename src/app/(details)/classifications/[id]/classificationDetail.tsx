@@ -16,11 +16,11 @@ export default function ClassificationDetail({ classification }: Readonly<{ clas
           {classification.name}
         </Heading>
       </header>
-      <section className={styles.classificationsDetail}>
+      <main className={styles.classificationsDetail}>
         <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
           Detaljside for klassifikasjon er ikke klar for testing.
         </Alert>
-      </section>
+      </main>
     </section>
   );
 }
