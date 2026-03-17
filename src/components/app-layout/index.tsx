@@ -15,9 +15,7 @@ export const AppLayout = ({ children, fdkRegistrationBaseUrl, catalogTitle }: Ap
   return (
     <div className='rootContainer'>
       <Header homeUrl='/' title={catalogTitle} devEnvironmentName={getDevEnvironmentName()} />
-  <main>
-      {children}
-  <main>
+      <main>{children}</main>
       <Footer />
     </div>
   );
