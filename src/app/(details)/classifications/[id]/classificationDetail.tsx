@@ -4,7 +4,7 @@ import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import styles from './classification-page.module.css';
 
-export default function ClassificationDetail({ classification }: { classification: ClassificationResource }) {
+export default function ClassificationDetail({ classification }: Readonly<{ classification: ClassificationResource }>) {
   const homeUrl = { text: localization.tabs.classifications, href: `/classifications` };
   const breadcrumbList = classification.id ? ([{ text: classification.name, href: '' }] as BreadcrumbItem[]) : [];
 
@@ -16,11 +16,11 @@ export default function ClassificationDetail({ classification }: { classificatio
           {classification.name}
         </Heading>
       </header>
-      <main className={styles.classificationsDetail}>
+      <section className={styles.classificationsDetail}>
         <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
           Detaljside for klassifikasjon er ikke klar for testing.
         </Alert>
-      </main>
+      </section>
     </section>
   );
 }

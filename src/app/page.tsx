@@ -49,7 +49,7 @@ export default function Home() {
 
   return (
     <div className={styles.background}>
-      <main className={`${styles.pageContainer} container`}>
+      <section className={`${styles.pageContainer} container`}>
         <Card data-color='brand1' variant='tinted' className={styles.headerCard}>
           <header className={styles.pageHeader}>
             <Heading level={1} data-size='lg' className={`${styles.pageTitle} heading12`}>
@@ -72,7 +72,7 @@ export default function Home() {
             <NavigationCard id={item.id} key={item.id} title={item.label} href={item.route} icon={item.icon} />
           ))}
         </nav>
-      </main>
+      </section>
     </div>
   );
 }
