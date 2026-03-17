@@ -31,7 +31,6 @@ const test = base.extend<{
 
 test.describe('Variable definitions navigation', () => {
   test.skip(noVariables, 'No variable definitions available to test');
-  test.describe;
   for (const variable of variableDefinitions) {
     test(`Navigate to ${variable.name}`, async ({ goToVariable, page }) => {
       await goToVariable(variable);
@@ -94,5 +93,37 @@ test.describe('Variable definition details – not found', () => {
     await page.goto(`/variable-definitions/${missingShortName}`);
     const heading = page.locator('#app-not-found-title');
     await expect(heading).toHaveText('Variabeldefinisjon ikke funnet');
+  });
+});
+
+test.describe('Copy variable definition shortname', () => {
+  test('Test Firefox only', async ({ page, goToVariable, browserName }) => {
+    test.skip(browserName === 'chromium', 'Skipping test in Chrome browser');
+
+    test.skip(noVariables, 'No variable definitions available to test');
+
+    const variable = variableDefinitions[2];
+    assert(variable);
+    await goToVariable(variable);
+
+    const copyShortName = page.getByRole('button', { name: localization.copy.shortName });
+    await expect(copyShortName).toBeInViewport();
+
+    const tooltip = page.locator('.ds-tooltip');
+
+    await expect(tooltip).not.toBeVisible();
+
+    await copyShortName.hover();
+    await expect(tooltip).toContainText(localization.copy.shortName);
+
+    await copyShortName.click();
+    await expect(tooltip).toContainText(localization.copy.copied);
+
+    // Read the clipboard content
+    const clipboardText = await page.evaluate(() => navigator.clipboard.readText());
+    expect(clipboardText).toBe(variable.short_name);
+
+    // Tooltip text reset
+    await expect(tooltip).toContainText(localization.copy.shortName, { timeout: 3000 });
   });
 });

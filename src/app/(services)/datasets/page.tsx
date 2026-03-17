@@ -1,7 +1,12 @@
 import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Metadata } from 'next';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { localization } from '@/libs/language';
 import { tabsData } from '../tabs';
+
+export const metadata: Metadata = {
+  title: localization.pageTitle.datasets,
+};
 
 export default async function Datasets() {
   const pageInfo = (

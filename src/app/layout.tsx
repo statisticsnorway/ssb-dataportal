@@ -20,7 +20,10 @@ logger.info(
 );
 
 export const metadata: Metadata = {
-  title: `${localization.appTitle} | ${localization.statisticsNorway}`,
+  title: {
+    template: `%s - ${localization.ssbDataportal}`,
+    default: localization.ssbDataportal,
+  },
   description: `${localization.appTitle} | ${localization.statisticsNorway}`,
 };
 
