@@ -3,7 +3,7 @@
 exports[`VariableDefinitionsServicePage > happy path 1`] = `
 <body>
   <div>
-    <main
+    <section
       id="variableDefinitionsPage"
     >
       <header>
@@ -71,7 +71,7 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
           </div>
         </div>
       </div>
-    </main>
+    </section>
   </div>
 </body>
 `;
@@ -79,7 +79,7 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
 exports[`VariableDefinitionsServicePage > page renders while waiting for subject fields 1`] = `
 <body>
   <div>
-    <main
+    <section
       id="variableDefinitionsPage"
     >
       <header>
@@ -147,7 +147,7 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for subject
           </div>
         </div>
       </div>
-    </main>
+    </section>
   </div>
 </body>
 `;
@@ -155,7 +155,7 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for subject
 exports[`VariableDefinitionsServicePage > page renders while waiting for variable definitions 1`] = `
 <body>
   <div>
-    <main
+    <section
       id="variableDefinitionsPage"
     >
       <header>
@@ -223,7 +223,7 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for variabl
           </div>
         </div>
       </div>
-    </main>
+    </section>
   </div>
 </body>
 `;
