@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getRenderedVariableDefinition } from '@/libs/data/variable-definitions/variableDefinitions';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models';
@@ -6,6 +7,14 @@ import { createLogger } from '@/libs/logger/server-logger';
 import VariableDefinitionDetail from './variableDefinitionDetail';
 
 const logger = createLogger('variable-definitions:detail');
+
+export async function generateMetadata({ params }: { params: Promise<{ shortName: string }> }): Promise<Metadata> {
+  const { shortName } = await params;
+  const variableDefinition = await getRenderedVariableDefinition(shortName).catch(() => null);
+  return {
+    title: variableDefinition?.name ?? shortName,
+  };
+}
 
 export default async function VariableDefinition({ params }: { params: Promise<{ shortName: string }> }) {
   const { shortName } = await params;
