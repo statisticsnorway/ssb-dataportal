@@ -38,7 +38,7 @@ exports[`Footer > should render successfully 1`] = `
           class="_footerLinkSection_021032"
         >
           <svg
-            aria-labelledby="title-_r_0_"
+            aria-labelledby="title-_r_1_"
             fill="none"
             focusable="false"
             font-size="2rem"
