@@ -1,8 +1,14 @@
+import { Metadata } from 'next';
 import { listRenderedVariableDefinitions } from '@/libs/data/variable-definitions/variableDefinitions';
+import { localization } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import { fetchStaticSubjectFields } from '@/utils/mock-data';
 import VariableDefinitionsServicePage from './variable-definitions-service-page';
+
+export const metadata: Metadata = {
+  title: localization.pageTitle.variableDefinitions,
+};
 
 const logger = createLogger('variable-definitions:page');
 

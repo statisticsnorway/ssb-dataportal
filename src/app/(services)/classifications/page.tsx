@@ -1,8 +1,13 @@
 import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Metadata } from 'next';
 import { ExternalLink } from '@/components/external-link';
 import { SearchPage } from '@/components/search-page-wrapper';
 import { localization } from '@/libs/language';
 import { tabsData } from '../tabs';
+
+export const metadata: Metadata = {
+  title: localization.pageTitle.classifications,
+};
 
 export default async function Classifications() {
   const pageInfo = (

@@ -26,8 +26,15 @@ export const nb = {
   no: 'Nei',
   on: 'på',
   opensInNewTab: 'åpnes i ny fane',
+
+  pageTitle: {
+    classifications: 'Kodeverk',
+    datasets: 'Datasett',
+    variableDefinitions: 'Variabeldefinisjoner',
+  },
   previous: 'Forrige',
   references: 'Referanser',
+  ssbDataportal: 'SSB Dataportal',
   statisticsNorway: 'Statistisk sentralbyrå',
   subjectArea: 'Statistikkområde',
   subjectFields: 'Statistikkområder',
