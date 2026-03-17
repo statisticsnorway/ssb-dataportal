@@ -15,25 +15,26 @@ test.describe('Landing page', () => {
   });
 
   test('Details', async ({ page }) => {
-    const details = page.locator('.ds-details');
+    const introSummary = page.getByText(localization.info.landingPageInfoIntroTitle, { exact: true });
+    const introContent = page.getByText(localization.info.landingPageInfoIntro, { exact: true });
 
-    const introSummary = details.locator('summary', { hasText: localization.info.landingPageInfoIntroTitle });
-    const introContent = details.locator('div', { hasText: localization.info.landingPageInfoIntro });
-
+    await expect(introSummary).toBeVisible();
     await introSummary.click();
     await expect(introContent).toBeVisible();
-    await introSummary.click(); // collapse
+    await introSummary.click();
 
-    const goalSummary = details.locator('summary', { hasText: localization.info.landingPageInfoGoalTitle });
-    const goalContent = details.locator('div', { hasText: localization.info.landingPageInfoGoal });
+    const goalSummary = page.getByText(localization.info.landingPageInfoGoalTitle, { exact: true });
+    const goalContent = page.getByText(localization.info.landingPageInfoGoal, { exact: true });
 
+    await expect(goalSummary).toBeVisible();
     await goalSummary.click();
     await expect(goalContent).toBeVisible();
-    await goalSummary.click(); // collapse
+    await goalSummary.click();
 
-    const prototypeSummary = details.locator('summary', { hasText: localization.info.landingPagePrototypeTitle });
-    const prototypeContent = details.locator('div', { hasText: localization.info.landingPageInfoPrototype });
+    const prototypeSummary = page.getByText(localization.info.landingPagePrototypeTitle, { exact: true });
+    const prototypeContent = page.getByText(localization.info.landingPageInfoPrototype, { exact: true });
 
+    await expect(prototypeSummary).toBeVisible();
     await prototypeSummary.click();
     await expect(prototypeContent).toBeVisible();
   });
