@@ -9,12 +9,12 @@ export default function ErrorPage({
   readonly error: Error & { digest?: string };
   readonly reset: () => void;
 }) {
-  const isTestError = error.message === 'E2E test error';
+  const isTestError = error.message === 'E2E_TEST_ERROR';
   return (
     <AppErrorState
       title='Beklager, noe gikk galt'
       message='Vi opplever tekniske problemer og jobber med å løse dem. Dette skyldes ikke noe du gjorde.'
-      referenceCode={isTestError ? 'E2E_TEST_ERROR' : error.digest}
+      referenceCode={isTestError ? 'E2E test error' : error.digest}
       onRetry={reset}
       homeHref='/'
     />

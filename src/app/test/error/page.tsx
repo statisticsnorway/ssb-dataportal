@@ -12,5 +12,5 @@ export default function Page() {
   if (process.env.NODE_ENV === 'production') {
     return null;
   }
-  throw new Error('E2E test error');
+  throw new Error('E2E_TEST_ERROR');
 }
