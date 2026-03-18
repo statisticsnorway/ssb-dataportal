@@ -24,7 +24,6 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
         >
           <section
             aria-label="Tags list"
-            role="region"
           />
           <div
             class="_searchHitsContainerWrapper_8a24d7"
@@ -100,7 +99,6 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for subject
         >
           <section
             aria-label="Tags list"
-            role="region"
           />
           <div
             class="_searchHitsContainerWrapper_8a24d7"
@@ -176,7 +174,6 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for variabl
         >
           <section
             aria-label="Tags list"
-            role="region"
           />
           <div
             class="_searchHitsContainerWrapper_8a24d7"

@@ -60,9 +60,7 @@ const SearchPage: FC<SearchPageProps> = ({
 
       <TabsPanel id={tabsId} value={String(tabsId)} aria-labelledby={tabsId}>
         <div className={`${styles.pageContainer} container`}>
-          <section role='region' aria-label='Tags list'>
-            {infoContent ? infoContent : null}
-          </section>
+          <section aria-label='Tags list'>{infoContent}</section>
           <div className={styles.searchHitsContainerWrapper}>
             {asideContent ? (
               <aside className={styles.filterSection} aria-label='Filters'>

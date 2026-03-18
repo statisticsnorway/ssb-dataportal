@@ -2,7 +2,6 @@ import { ReactNode } from 'react';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { getDevEnvironmentName } from '@/utils/functions';
-import ErrorBoundary from '../error-boundry';
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -16,9 +15,7 @@ export const AppLayout = ({ children, fdkRegistrationBaseUrl, catalogTitle }: Ap
   return (
     <div className='rootContainer'>
       <Header homeUrl='/' title={catalogTitle} devEnvironmentName={getDevEnvironmentName()} />
-      <ErrorBoundary fdkRegistrationBaseUrl={fdkRegistrationBaseUrl} title={catalogTitle ?? ''}>
-        {children}
-      </ErrorBoundary>
+      <div>{children}</div>
       <Footer />
     </div>
   );

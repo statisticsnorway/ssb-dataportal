@@ -1,0 +1,55 @@
+.wrapper {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.content {
+  width: 100%;
+  max-width: 36rem;
+  text-align: left;
+}
+
+.help {
+  margin-top: 1rem;
+}
+
+.helpList {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0.5rem;
+  font-size: var(--ds-body-sm-font-size);
+}
+
+.helpList li {
+  position: relative;
+  padding-left: 1.25rem;
+}
+
+.helpList li + li {
+  margin-top: 0.25rem;
+}
+
+.helpList li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+}
+
+.code {
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.lead {
+  margin-top: 1rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}

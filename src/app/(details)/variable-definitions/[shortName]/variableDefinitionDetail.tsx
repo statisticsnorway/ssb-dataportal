@@ -29,10 +29,10 @@ import styles from './variable-details-page.module.css';
 export default function VariableDefinitionDetail({
   variableDefinition,
   daplaLabVardefUrl,
-}: {
+}: Readonly<{
   variableDefinition: RenderedView;
   daplaLabVardefUrl: string | undefined;
-}) {
+}>) {
   const references = nonEmpty(referencesItems(variableDefinition));
   const { copied, copyToClipboard } = useClipboard();
 
