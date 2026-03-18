@@ -12,6 +12,20 @@
   text-align: left;
 }
 
+.codeBlock {
+  margin-bottom: 0.75rem;
+}
+
+.code {
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.lead {
+  margin-top: 1rem;
+}
+
 .help {
   margin-top: 1rem;
 }
@@ -36,16 +50,6 @@
   content: "–";
   position: absolute;
   left: 0;
-}
-
-.code {
-  margin-bottom: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-.lead {
-  margin-top: 1rem;
 }
 
 .actions {
