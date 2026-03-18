@@ -37,7 +37,7 @@ test.describe('app state routes', () => {
 
   test('global error page is shown for test error route', async ({ page }) => {
     await page.goto('/test/error');
-    await expect(page.getByText('Referanse: E2E_TEST_ERROR')).toBeVisible();
+    await expect(page.getByText('Referanse: E2E test error')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Beklager, noe gikk galt' })).toBeVisible();
     await expect(
       page.getByText('Vi opplever tekniske problemer og jobber med å løse dem. Dette skyldes ikke noe du gjorde.'),
