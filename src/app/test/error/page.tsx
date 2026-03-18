@@ -9,7 +9,7 @@
  */
 export default function Page() {
   // Avoid breaking production builds
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NEXT_TEST === 'test') {
     return null;
   }
   throw new Error('E2E_TEST_ERROR');
