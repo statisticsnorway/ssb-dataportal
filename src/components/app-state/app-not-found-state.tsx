@@ -1,15 +1,14 @@
 'use client';
 
-import { Button, Heading, Paragraph } from '@digdir/designsystemet-react';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { localization } from '@/libs/language';
-import styles from './app-state.module.css';
+import { AppState, AppStateAction } from './app-state';
 
 type AppNotFoundStateProps = Readonly<{
   title?: string;
   message?: string;
-  helpList?: string[];
+  statusCode?: string;
+  helpList?: readonly string[];
   homeHref?: string;
   secondaryHref?: string;
   secondaryLabel?: string;
@@ -19,6 +18,7 @@ type AppNotFoundStateProps = Readonly<{
 export function AppNotFoundState({
   title = 'Siden finnes ikke',
   message = 'Siden kan være flyttet, slettet eller lenken kan være feil.',
+  statusCode = '404',
   helpList,
   homeHref = '/',
   secondaryHref,
@@ -27,40 +27,44 @@ export function AppNotFoundState({
 }: AppNotFoundStateProps) {
   const path = usePathname();
   const body = encodeURIComponent(localization.error.brokenLinkMailBody(path));
-  const mailto = `mailto:metadata@ssb.no?subject=${encodeURIComponent(localization.error.brokenLinkMailSubject)} &body=${body}`;
+  const subject = encodeURIComponent(localization.error.brokenLinkMailSubject);
+  const mailto = `mailto:metadata@ssb.no?subject=${subject}&body=${body}`;
+
+  const actions: AppStateAction[] = [
+    {
+      kind: 'link',
+      label: 'Gå til forsiden',
+      href: homeHref,
+      variant: 'primary',
+    },
+  ];
+
+  if (secondaryHref && secondaryLabel) {
+    actions.push({
+      kind: 'link',
+      label: secondaryLabel,
+      href: secondaryHref,
+      variant: 'secondary',
+    });
+  } else if (showBrokenLinkButton) {
+    actions.push({
+      kind: 'link',
+      label: 'Meld fra om ødelagt lenke',
+      href: mailto,
+      variant: 'secondary',
+      external: true,
+    });
+  }
+
   return (
-    <section className={styles.wrapper} aria-labelledby='app-not-found-title'>
-      <div className={styles.content}>
-        <Heading id='app-not-found-title' level={1} data-size='lg'>
-          {title}
-        </Heading>
-        <Paragraph className={styles.lead}>{message}</Paragraph>
-        {helpList && helpList.length > 0 && (
-          <div className={styles.help}>
-            <Paragraph>Du kan prøve å:</Paragraph>
-            <ul className={styles.helpList}>
-              {helpList.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        <div className={styles.actions}>
-          <Button asChild>
-            <Link href={homeHref}>Gå til forsiden</Link>
-          </Button>
-          {secondaryHref && secondaryLabel && (
-            <Button asChild variant='secondary'>
-              <Link href={secondaryHref}>{secondaryLabel}</Link>
-            </Button>
-          )}
-          {showBrokenLinkButton && !secondaryHref && !secondaryLabel && (
-            <Button asChild variant='secondary'>
-              <a href={mailto}>Meld fra om ødelagt lenke</a>
-            </Button>
-          )}
-        </div>
-      </div>
-    </section>
+    <AppState
+      title={title}
+      message={message}
+      titleId='app-not-found-title'
+      statusCode={statusCode}
+      helpTitle={helpList && helpList.length > 0 ? 'Du kan prøve å:' : undefined}
+      helpList={helpList}
+      actions={actions}
+    />
   );
 }

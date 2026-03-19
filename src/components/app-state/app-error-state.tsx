@@ -1,12 +1,15 @@
 'use client';
 
-import { Button, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Paragraph } from '@digdir/designsystemet-react';
 import Link from 'next/link';
+import { AppState, AppStateAction } from './app-state';
 import styles from './app-state.module.css';
 
 type AppErrorStateProps = Readonly<{
   title?: string;
   message?: string;
+  statusCode?: string;
+  referenceCode?: string;
   onRetry?: () => void;
   backHref?: string;
   homeHref?: string;
@@ -16,42 +19,52 @@ type AppErrorStateProps = Readonly<{
 export function AppErrorState({
   title = 'Vi har tekniske problemer',
   message = 'Dette skyldes ikke noe du gjorde. Vent litt og prøv igjen.',
+  statusCode,
+  referenceCode,
   onRetry,
   backHref,
   homeHref = '/',
   supportHref,
 }: AppErrorStateProps) {
+  const actions: AppStateAction[] = [];
+
+  if (onRetry) {
+    actions.push({
+      kind: 'button',
+      label: 'Last siden på nytt',
+      onClick: onRetry,
+      variant: 'primary',
+    });
+  }
+
+  if (backHref) {
+    actions.push({
+      kind: 'link',
+      label: 'Gå tilbake',
+      href: backHref,
+      variant: 'secondary',
+    });
+  }
+
+  actions.push({
+    kind: 'link',
+    label: 'Gå til forsiden',
+    href: homeHref,
+    variant: 'tertiary',
+  });
+
   return (
-    <section className={styles.wrapper} aria-labelledby='app-error-title'>
-      <div className={styles.content}>
-        <Heading id='app-error-title' level={1} data-size='lg'>
-          {title}
-        </Heading>
-        <Paragraph className={styles.lead}>{message}</Paragraph>
-        <div className={styles.help}>
-          <Paragraph>Du kan prøve å:</Paragraph>
-          <ul className={styles.helpList}>
-            <li>vente litt og laste siden på nytt</li>
-            <li>gå tilbake til forrige side</li>
-            <li>gå til forsiden</li>
-          </ul>
-        </div>
-        <div className={styles.actions}>
-          {onRetry && (
-            <Button type='button' onClick={onRetry}>
-              Last siden på nytt
-            </Button>
-          )}
-          {backHref && (
-            <Button asChild variant='secondary'>
-              <Link href={backHref}>Gå tilbake</Link>
-            </Button>
-          )}
-          <Button asChild variant='tertiary'>
-            <Link href={homeHref}>Gå til forsiden</Link>
-          </Button>
-        </div>
-        {supportHref && (
+    <AppState
+      title={title}
+      message={message}
+      titleId='app-error-title'
+      statusCode={statusCode}
+      referenceCode={referenceCode}
+      helpTitle='Du kan prøve å:'
+      helpList={['vente litt og laste siden på nytt', 'gå tilbake til forrige side', 'gå til forsiden']}
+      actions={actions}
+      footer={
+        supportHref ? (
           <Paragraph className={styles.help}>
             Har problemet vart en stund, kan du{' '}
             <Link href={supportHref} target='_blank' rel='noopener noreferrer'>
@@ -59,8 +72,8 @@ export function AppErrorState({
             </Link>
             .
           </Paragraph>
-        )}
-      </div>
-    </section>
+        ) : undefined
+      }
+    />
   );
 }
