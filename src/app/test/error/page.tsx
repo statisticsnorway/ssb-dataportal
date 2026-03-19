@@ -11,11 +11,12 @@ import { headers } from 'next/headers';
  * NOTE:
  * The console error seen during tests is expected.
  */
-export default async function Page() {
+export default function Page() {
   const isEnabled = process.env.NEXT_TEST === 'test' || process.env.NODE_ENV === 'development';
   if (!isEnabled) {
     return null;
   }
-  await headers();
+  const _headers = headers();
+  void _headers;
   throw new Error('E2E_TEST_ERROR');
 }
