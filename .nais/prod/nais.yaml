@@ -35,7 +35,7 @@ spec:
     - name: VARDEF_USE_M2M_TOKEN
       value: "true"
     - name: KEYCLOAK_HOST
-      value: https://auth.test.ssb.no
+      value: https://auth.ssb.no
     - name: KLASS_BASE_PATH
       value: http://klass/api/klass/v1
     - name: KLASS_USE_STATIC_DATA
