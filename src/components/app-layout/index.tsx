@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { FaroInit } from '@/components/faro-init';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { getDevEnvironmentName } from '@/utils/functions';
@@ -14,6 +15,7 @@ interface AppLayoutProps {
 export const AppLayout = ({ children, fdkRegistrationBaseUrl, catalogTitle }: AppLayoutProps) => {
   return (
     <div className='rootContainer'>
+      <FaroInit />
       <Header homeUrl='/' title={catalogTitle} devEnvironmentName={getDevEnvironmentName()} />
       <div>{children}</div>
       <Footer />

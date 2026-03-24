@@ -31,10 +31,15 @@
     "@biomejs/biome": "2.4.7",
     "@digdir/designsystemet-css": "1.13.0",
     "@digdir/designsystemet-react": "1.13.0",
+    "@grafana/faro-web-sdk": "^2.3.1",
     "@navikt/aksel-icons": "8.8.0",
     "@next/env": "16.2.1",
     "@svgr/webpack": "8.1.0",
+    "@types/lodash": "4.17.24",
     "@types/node": "25.5.0",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@types/react-syntax-highlighter": "15.5.13",
     "classnames": "2.5.1",
     "lodash": "4.17.23",
     "next": "16.2.1",
@@ -44,11 +49,7 @@
     "react-localization": "2.0.6",
     "react-syntax-highlighter": "16.1.1",
     "server-only": "^0.0.1",
-    "typescript": "5.9.3",
-    "@types/react": "19.2.14",
-    "@types/lodash": "4.17.24",
-    "@types/react-dom": "19.2.3",
-    "@types/react-syntax-highlighter": "15.5.13"
+    "typescript": "5.9.3"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.11.1",
