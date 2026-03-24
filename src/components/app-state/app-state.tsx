@@ -5,20 +5,25 @@ import Link from 'next/link';
 import { ReactNode } from 'react';
 import styles from './app-state.module.css';
 
-export type AppStateAction =
-  | Readonly<{
-      kind: 'link';
-      label: string;
-      href: string;
-      variant?: 'primary' | 'secondary' | 'tertiary';
-      external?: boolean;
-    }>
-  | Readonly<{
-      kind: 'button';
-      label: string;
-      onClick: () => void;
-      variant?: 'primary' | 'secondary' | 'tertiary';
-    }>;
+export type ActionVariant = 'primary' | 'secondary' | 'tertiary';
+
+export type ActionBase = {
+  readonly label: string;
+  readonly variant?: ActionVariant;
+};
+
+export type AppStateLinkAction = ActionBase & {
+  readonly kind: 'link';
+  readonly href: string;
+  readonly external?: boolean;
+};
+
+export type AppStateButtonAction = ActionBase & {
+  readonly kind: 'button';
+  readonly onClick: () => void;
+};
+
+export type AppStateAction = AppStateLinkAction | AppStateButtonAction;
 
 type AppStateProps = Readonly<{
   title: string;
@@ -34,30 +39,26 @@ type AppStateProps = Readonly<{
 
 function AppStateActionButton({ action }: Readonly<{ action: AppStateAction }>) {
   const variant = action.variant ?? 'primary';
-
-  if (action.kind === 'button') {
-    return (
-      <Button type='button' onClick={action.onClick} variant={variant}>
-        {action.label}
-      </Button>
-    );
-  }
-
-  if (action.external) {
-    return (
-      <Button asChild variant={variant}>
-        <a href={action.href} target='_blank' rel='noopener noreferrer'>
+  switch (action.kind) {
+    case 'button':
+      return (
+        <Button type='button' onClick={action.onClick} variant={variant}>
           {action.label}
-        </a>
-      </Button>
-    );
+        </Button>
+      );
+    case 'link':
+      return action.external ? (
+        <Button asChild variant={variant}>
+          <a href={action.href} target='_blank' rel='noopener noreferrer'>
+            {action.label}
+          </a>
+        </Button>
+      ) : (
+        <Button asChild variant={variant}>
+          <Link href={action.href}>{action.label}</Link>
+        </Button>
+      );
   }
-
-  return (
-    <Button asChild variant={variant}>
-      <Link href={action.href}>{action.label}</Link>
-    </Button>
-  );
 }
 
 export function AppState({
@@ -80,13 +81,10 @@ export function AppState({
             {referenceCode && <Paragraph className={styles.code}>Referanse: {referenceCode}</Paragraph>}
           </div>
         )}
-
         <Heading id={titleId} level={1} data-size='lg'>
           {title}
         </Heading>
-
         <Paragraph className={styles.lead}>{message}</Paragraph>
-
         {helpList && helpList.length > 0 && (
           <div className={styles.help}>
             {helpTitle && <Paragraph>{helpTitle}</Paragraph>}
@@ -97,7 +95,6 @@ export function AppState({
             </ul>
           </div>
         )}
-
         {actions.length > 0 && (
           <div className={styles.actions}>
             {actions.map((action) => {
@@ -105,12 +102,10 @@ export function AppState({
                 action.kind === 'link'
                   ? `${action.kind}-${action.href}-${action.label}`
                   : `${action.kind}-${action.label}`;
-
               return <AppStateActionButton key={key} action={action} />;
             })}
           </div>
         )}
-
         {footer}
       </div>
     </section>

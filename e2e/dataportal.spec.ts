@@ -47,6 +47,7 @@ test.describe('Landing page', () => {
       localization.tabs.variableDefinitions,
     );
     await page.getByRole('link', { name: localization.statisticsNorway }).click();
+    await expect(page).toHaveURL(/\/$/);
     await expect(page.getByRole('heading', { level: 1 })).toContainText(localization.info.landingPageTitle);
   });
 });
