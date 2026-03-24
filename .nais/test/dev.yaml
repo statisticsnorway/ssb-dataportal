@@ -21,7 +21,7 @@ spec:
     provider: openid
     enforce:
       enabled: true
-  #ttl: 8h
+  ttl: 8h
   replicas:
     max: 1
     min: 1
@@ -34,7 +34,7 @@ spec:
       value: http://klass/api/klass/v1
     - name: KLASS_USE_STATIC_DATA
       value: "false"
-    #- name: DEV_ENVIRONMENT_NAME
-    #  value: "{{ git-ref }}"
+    - name: DEV_ENVIRONMENT_NAME
+      value: "{{ git-ref }}"
     - name: DAPLA_LAB_VARDEF_URL
       value: "https://lab.dapla-test.ssb.no/launcher/dapla-lab-standard/vardef-forvaltning"
