@@ -58,6 +58,7 @@ const VariableDefinitionsServicePage = ({
     setStatusFilters([]);
   };
 
+  // move to functions
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
 
