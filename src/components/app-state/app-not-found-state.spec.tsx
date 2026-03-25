@@ -33,7 +33,6 @@ describe('AppNotFoundState', () => {
     expect(url.pathname).toBe('metadata@ssb.no');
     const params = new URLSearchParams(url.search);
     expect(params.get('subject')).toBe('Ødelagt lenke i dataportalen');
-    //jeg vil melde fra om en mulig ødelagt lenke i Dataportalen
     expect(params.get('body')).toContain('jeg vil melde fra om en mulig ødelagt lenke i Dataportalen');
     expect(params.get('body')).toContain('/variable-definitions/does-not-exist');
   });
