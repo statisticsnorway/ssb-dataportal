@@ -65,6 +65,17 @@ export const nb = {
     somethingWentWrong: 'Beklager, noe gikk galt. Prøv på nytt litt senere.',
     tryAgainButtonText: 'Prøv igjen',
     unauthorized: 'Beklager, du har ikke tilgang.',
+    technicalProblemsTitle: 'Vi har tekniske problemer',
+    technicalProblemsMessage: 'Dette skyldes ikke noe du gjorde. Vent litt og prøv igjen.',
+    reloadPage: 'Last siden på nytt',
+    goBack: 'Gå tilbake',
+    goHome: 'Gå til forsiden',
+    helpTitle: 'Du kan prøve å:',
+    helpReload: 'vente litt og laste siden på nytt',
+    helpBack: 'gå tilbake til forrige side',
+    helpHome: 'gå til forsiden',
+    supportPrefix: 'Har problemet vart en stund, kan du',
+    supportLinkText: 'kontakte oss',
     brokenLinkMailSubject: 'Ødelagt lenke i dataportalen',
     brokenLinkMailBody: (path: string) =>
       [
@@ -74,6 +85,9 @@ export const nb = {
         '',
         'Beskrivelse av hva som ikke fungerte:',
       ].join('\n'),
+    notFoundTitle: 'Siden finnes ikke',
+    notFoundMessage: 'Siden kan være flyttet, slettet eller lenken kan være feil.',
+    reportBrokenLink: 'Meld fra om ødelagt lenke',
   },
 
   contact: {

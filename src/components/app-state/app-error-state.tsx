@@ -2,6 +2,7 @@
 
 import { Paragraph } from '@digdir/designsystemet-react';
 import Link from 'next/link';
+import { localization } from '@/libs/language';
 import { AppState, AppStateAction } from './app-state';
 import styles from './app-state.module.css';
 
@@ -17,8 +18,8 @@ type AppErrorStateProps = Readonly<{
 }>;
 
 export function AppErrorState({
-  title = 'Vi har tekniske problemer',
-  message = 'Dette skyldes ikke noe du gjorde. Vent litt og prøv igjen.',
+  title,
+  message,
   statusCode,
   referenceCode,
   onRetry,
@@ -26,12 +27,15 @@ export function AppErrorState({
   homeHref = '/',
   supportHref,
 }: AppErrorStateProps) {
+  const errorText = localization.error;
+  const resolvedTitle = title ?? errorText.technicalProblemsTitle;
+  const resolvedMessage = message ?? errorText.technicalProblemsMessage;
   const actions: AppStateAction[] = [];
 
   if (onRetry) {
     actions.push({
       kind: 'button',
-      label: 'Last siden på nytt',
+      label: errorText.reloadPage,
       onClick: onRetry,
       variant: 'primary',
     });
@@ -40,7 +44,7 @@ export function AppErrorState({
   if (backHref) {
     actions.push({
       kind: 'link',
-      label: 'Gå tilbake',
+      label: errorText.goBack,
       href: backHref,
       variant: 'secondary',
     });
@@ -48,20 +52,20 @@ export function AppErrorState({
 
   actions.push({
     kind: 'link',
-    label: 'Gå til forsiden',
+    label: errorText.goHome,
     href: homeHref,
     variant: 'tertiary',
   });
 
   return (
     <AppState
-      title={title}
-      message={message}
+      title={resolvedTitle}
+      message={resolvedMessage}
       titleId='app-error-title'
       statusCode={statusCode}
       referenceCode={referenceCode}
-      helpTitle='Du kan prøve å:'
-      helpList={['vente litt og laste siden på nytt', 'gå tilbake til forrige side', 'gå til forsiden']}
+      helpTitle={errorText.helpTitle}
+      helpList={[errorText.helpReload, errorText.helpBack, errorText.helpHome]}
       actions={actions}
       footer={
         supportHref ? (
