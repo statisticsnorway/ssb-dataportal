@@ -32,7 +32,7 @@ const VariableDefinitionsServicePage = ({
   const [textFilter, setTextFilter] = useState<string>('');
   const [statusFilters, setStatusFilters] = useState<FilterItem[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const pageSize = 10;
+  const pageSize = 8;
 
   useMemo(() => {
     setCurrentPage(1);
@@ -60,6 +60,9 @@ const VariableDefinitionsServicePage = ({
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+
+    // Scroll to top of the page
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   };
 
   const removeFilter = (filter: FilterItem) => {
