@@ -80,9 +80,6 @@ html * {
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
   line-height: inherit;
   background-color: var(--ssb-dark-color-1);
   padding: 0;
