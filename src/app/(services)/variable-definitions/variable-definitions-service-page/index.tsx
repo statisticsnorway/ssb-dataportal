@@ -32,7 +32,7 @@ const VariableDefinitionsServicePage = ({
   const [textFilter, setTextFilter] = useState<string>('');
   const [statusFilters, setStatusFilters] = useState<FilterItem[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const pageSize = 20;
+  const pageSize = 10;
 
   useMemo(() => {
     setCurrentPage(1);
