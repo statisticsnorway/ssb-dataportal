@@ -58,11 +58,8 @@ const VariableDefinitionsServicePage = ({
     setStatusFilters([]);
   };
 
-  // move to functions
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-
-    // Scroll to top of the page
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   };
 
