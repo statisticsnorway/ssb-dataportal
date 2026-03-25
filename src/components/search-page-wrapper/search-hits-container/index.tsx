@@ -1,5 +1,5 @@
 import { Pagination, usePagination } from '@digdir/designsystemet-react';
-import { JSX, ReactNode } from 'react';
+import { JSX, ReactNode, useEffect } from 'react';
 import { localization } from '@/libs/language';
 import styles from './search-hit-container.module.css';
 
@@ -31,12 +31,15 @@ const SearchHitContainer = ({ searchHits = [], renderHit, paginationInfo, onPage
   const nextButtonProps = pagination.nextButtonProps;
   const pages = pagination.pages;
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, [paginationInfo?.currentPage]);
+
   return (
     <div className={styles.searchHitsContainer}>
       <div className={styles.hitsList} data-testid='hits-list'>
         {pagedHits.map((hit) => renderHit(hit))}
       </div>
-
       {hasPagination && (
         <Pagination data-testid={'pagination'}>
           <Pagination.List>
