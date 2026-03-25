@@ -17,5 +17,5 @@
 }
 
 .classificationsDetail {
-  min-height: 50vh;
+  flex: 1;
 }
