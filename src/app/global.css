@@ -81,7 +81,7 @@ html * {
 
 body {
   line-height: inherit;
-  background-color: var(--ssb-dark-color-1);
+  background-color: var(--element-background-color);
   padding: 0;
 }
 
@@ -95,6 +95,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* full viewport height */
+  background-color: var(--ssb-dark-color-1);
 }
 
 .grow {

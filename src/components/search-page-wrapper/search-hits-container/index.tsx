@@ -36,7 +36,6 @@ const SearchHitContainer = ({ searchHits = [], renderHit, paginationInfo, onPage
       <div className={styles.hitsList} data-testid='hits-list'>
         {pagedHits.map((hit) => renderHit(hit))}
       </div>
-
       {hasPagination && (
         <Pagination data-testid={'pagination'}>
           <Pagination.List>

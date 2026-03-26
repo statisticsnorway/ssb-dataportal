@@ -1,7 +1,5 @@
 .detailsPage {
   width: 100%;
-  flex: 1;
-  min-height: 55vh;
 }
 
 .ds-heading {
@@ -14,8 +12,4 @@
   gap: 0.25rem;
   padding-bottom: 1rem;
   margin-bottom: 1rem;
-}
-
-.classificationsDetail {
-  min-height: 50vh;
 }
