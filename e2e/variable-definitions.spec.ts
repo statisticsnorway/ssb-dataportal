@@ -157,18 +157,18 @@ test('Filter by status published', async ({ variableDefinitionsPage }) => {
 });
 
 test.describe('Variable definitions - pagination', () => {
-  test('Display 20 hits on first page and active page is 1', async ({ variableDefinitionsPage }) => {
+  test('Display 8 hits on first page and active page is 1', async ({ variableDefinitionsPage }) => {
     const hits = variableDefinitionsPage.getByTestId('vardef-search-card');
-    await expect(hits).toHaveCount(20);
+    await expect(hits).toHaveCount(8);
     await expect(variableDefinitionsPage.getByTestId('page-active')).toHaveText('1');
   });
-  test('Next/previous navigation keeps 20 hits', async ({ variableDefinitionsPage }) => {
+  test('Next/previous navigation keeps 8 hits', async ({ variableDefinitionsPage }) => {
     await variableDefinitionsPage.getByRole('button', { name: localization.next }).click();
     await expect(variableDefinitionsPage.getByTestId('page-active')).toHaveText('2');
-    await expect(variableDefinitionsPage.getByTestId('vardef-search-card')).toHaveCount(20);
+    await expect(variableDefinitionsPage.getByTestId('vardef-search-card')).toHaveCount(8);
     await variableDefinitionsPage.getByRole('button', { name: localization.previous }).click();
     await expect(variableDefinitionsPage.getByTestId('page-active')).toHaveText('1');
-    await expect(variableDefinitionsPage.getByTestId('vardef-search-card')).toHaveCount(20);
+    await expect(variableDefinitionsPage.getByTestId('vardef-search-card')).toHaveCount(8);
   });
   test('Filter resets to page 1', async ({ variableDefinitionsPage }) => {
     await variableDefinitionsPage.getByRole('button', { name: localization.next }).click();
