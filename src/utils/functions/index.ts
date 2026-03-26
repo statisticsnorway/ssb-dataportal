@@ -1,6 +1,7 @@
 import { ClassificationResource, ClassificationResourceFromJSONTyped } from '@/libs/data-access/klass';
 import { VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
+import { FilterItem } from '@/types/filters';
 import { Item } from '@/types/item';
 
 /**
@@ -126,5 +127,31 @@ export const extractSubjectAreaCode = (code: string): string => {
   if (!code || code.trim() == '') {
     throw new Error('Subject area code cannot be empty');
   }
-  return code?.length > 2 ? code?.slice(0, 2) : code;
+  return isSubjectAreaChild(code) ? code?.slice(0, 2) : code;
+};
+
+/**
+ * Check if subject area code child of parent code
+ *
+ * If code is longer than 2 characters it is level 2
+ *
+ * @param code
+ * @returns true if code is level 2
+ */
+export const isSubjectAreaChild = (code: string): boolean => {
+  return code?.length > 2;
+};
+
+// add test
+export const getSubjectAreaParentTitle = (code: string, subjectFields: FilterItem[]): string => {
+  return subjectFields.find((item) => item.value === code)?.label ?? '';
+};
+
+// add test
+export const createSubjectAreaLabel = (code: string, title: string, subjectFields: FilterItem[]): string => {
+  if (isSubjectAreaChild(code)) {
+    return `${getSubjectAreaParentTitle(extractSubjectAreaCode(code), subjectFields)} \u2192 ${title}`;
+  } else {
+    return title;
+  }
 };
