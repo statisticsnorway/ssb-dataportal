@@ -49,7 +49,7 @@ export default function Home() {
 
   return (
     <div className={styles.background}>
-      <main className='container'>
+      <main className={`${styles.mainContainer} container`}>
         <Card data-color='brand1' variant='tinted' className={styles.headerCard}>
           <header className={styles.pageHeader}>
             <Heading level={1} data-size='lg' className={`${styles.pageTitle} heading12`}>
