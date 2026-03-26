@@ -2,21 +2,53 @@ import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { AppErrorState } from '@/components/app-state/app-error-state';
+import { localization } from '@/libs/language';
 
 describe('AppErrorState', () => {
-  it('default text rendering', () => {
+  const {
+    technicalProblemsTitle,
+    technicalProblemsMessage,
+    reloadPage,
+    goBack,
+    goHome,
+    helpTitle,
+    helpReload,
+    helpBack,
+    helpHome,
+    supportLinkText,
+  } = localization.error;
+
+  it('render default text', () => {
     render(<AppErrorState />);
-    expect(screen.getByRole('heading', { name: 'Vi har tekniske problemer' })).toBeInTheDocument();
-    expect(screen.getByText('Dette skyldes ikke noe du gjorde. Vent litt og prøv igjen.')).toBeInTheDocument();
-    expect(screen.getByText('Du kan prøve å:')).toBeInTheDocument();
-    expect(screen.getByText(/vente litt og laste siden på nytt/i)).toBeInTheDocument();
-    expect(screen.getByText(/gå tilbake til forrige side/i)).toBeInTheDocument();
-    expect(screen.getByText(/gå til forsiden/i, { selector: 'li' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: technicalProblemsTitle })).toBeInTheDocument();
+    expect(screen.getByText(technicalProblemsMessage)).toBeInTheDocument();
+    expect(screen.getByText(helpTitle)).toBeInTheDocument();
+    expect(screen.getByText(helpReload)).toBeInTheDocument();
+    expect(screen.getByText(helpBack)).toBeInTheDocument();
+    expect(screen.getByText(helpHome, { selector: 'li' })).toBeInTheDocument();
+  });
+
+  it('renders overridden title', () => {
+    render(<AppErrorState title='Custom title' />);
+    expect(screen.getByRole('heading', { name: 'Custom title' })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: technicalProblemsTitle })).not.toBeInTheDocument();
+  });
+
+  it('renders overridden message', () => {
+    render(<AppErrorState message='Custom message' />);
+    expect(screen.getByText('Custom message')).toBeInTheDocument();
+    expect(screen.queryByText(technicalProblemsMessage)).not.toBeInTheDocument();
+  });
+
+  it('renders overridden title and message together', () => {
+    render(<AppErrorState title='Custom title' message='Custom message' />);
+    expect(screen.getByRole('heading', { name: 'Custom title' })).toBeInTheDocument();
+    expect(screen.getByText('Custom message')).toBeInTheDocument();
   });
 
   it('render default home link', () => {
     render(<AppErrorState />);
-    const homelink = screen.getByRole('link', { name: 'Gå til forsiden' });
+    const homelink = screen.getByRole('link', { name: goHome });
     expect(homelink).toHaveAttribute('href', '/');
   });
 
@@ -24,13 +56,13 @@ describe('AppErrorState', () => {
     const user = userEvent.setup();
     const onRetry = vi.fn();
     render(<AppErrorState onRetry={onRetry} />);
-    await user.click(screen.getByRole('button', { name: 'Last siden på nytt' }));
+    await user.click(screen.getByRole('button', { name: reloadPage }));
     expect(onRetry).toHaveBeenCalledTimes(1);
   });
 
   it('render back link', () => {
     render(<AppErrorState backHref='/forrige-side' />);
-    const backLink = screen.getByRole('link', { name: 'Gå tilbake' });
+    const backLink = screen.getByRole('link', { name: goBack });
     expect(backLink).toHaveAttribute('href', '/forrige-side');
   });
 
@@ -42,7 +74,7 @@ describe('AppErrorState', () => {
 
   it('render support link', () => {
     render(<AppErrorState supportHref='https://support.example.com' />);
-    const supportLink = screen.getByRole('link', { name: 'kontakte oss' });
+    const supportLink = screen.getByRole('link', { name: supportLinkText });
     expect(supportLink).toHaveAttribute('href', 'https://support.example.com');
     expect(supportLink).toHaveAttribute('rel', 'noopener noreferrer');
     expect(supportLink).toHaveAttribute('target', '_blank');
@@ -50,7 +82,7 @@ describe('AppErrorState', () => {
 
   it('render provided homeRef', () => {
     render(<AppErrorState homeHref='/another-home' />);
-    const homeLink = screen.getByRole('link', { name: 'Gå til forsiden' });
+    const homeLink = screen.getByRole('link', { name: goHome });
     expect(homeLink).toHaveAttribute('href', '/another-home');
   });
 });

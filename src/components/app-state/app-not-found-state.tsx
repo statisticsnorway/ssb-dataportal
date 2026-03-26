@@ -16,8 +16,8 @@ type AppNotFoundStateProps = Readonly<{
 }>;
 
 export function AppNotFoundState({
-  title = 'Siden finnes ikke',
-  message = 'Siden kan være flyttet, slettet eller lenken kan være feil.',
+  title,
+  message,
   statusCode = '404',
   helpList,
   homeHref = '/',
@@ -25,15 +25,18 @@ export function AppNotFoundState({
   secondaryLabel,
   showBrokenLinkButton = true,
 }: AppNotFoundStateProps) {
+  const { error: errorText } = localization;
   const path = usePathname();
   const body = encodeURIComponent(localization.error.brokenLinkMailBody(path));
   const subject = encodeURIComponent(localization.error.brokenLinkMailSubject);
   const mailto = `mailto:metadata@ssb.no?subject=${subject}&body=${body}`;
+  const resolvedTitle = title ?? errorText.notFoundTitle;
+  const resolvedMessage = message ?? errorText.notFoundMessage;
 
   const actions: AppStateAction[] = [
     {
       kind: 'link',
-      label: 'Gå til forsiden',
+      label: errorText.goHome,
       href: homeHref,
       variant: 'primary',
     },
@@ -49,7 +52,7 @@ export function AppNotFoundState({
   } else if (showBrokenLinkButton) {
     actions.push({
       kind: 'link',
-      label: 'Meld fra om ødelagt lenke',
+      label: errorText.reportBrokenLink,
       href: mailto,
       variant: 'secondary',
       external: true,
@@ -58,11 +61,11 @@ export function AppNotFoundState({
 
   return (
     <AppState
-      title={title}
-      message={message}
+      title={resolvedTitle}
+      message={resolvedMessage}
       titleId='app-not-found-title'
       statusCode={statusCode}
-      helpTitle={helpList && helpList.length > 0 ? 'Du kan prøve å:' : undefined}
+      helpTitle={helpList && helpList.length > 0 ? errorText.helpTitle : undefined}
       helpList={helpList}
       actions={actions}
     />
