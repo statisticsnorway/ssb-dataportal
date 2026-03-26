@@ -1,4 +1,4 @@
-import { Card, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Card, Heading } from '@digdir/designsystemet-react';
 import { ReactNode } from 'react';
 import { NavigationCard } from '@/components/navigation-card';
 import AlphabetIcon from '@/icons/alphabet.svg';
@@ -49,15 +49,15 @@ export default function Home() {
 
   return (
     <div className={styles.background}>
-      <main className={`${styles.pageContainer} container`}>
+      <main className='container'>
         <Card data-color='brand1' variant='tinted' className={styles.headerCard}>
           <header className={styles.pageHeader}>
             <Heading level={1} data-size='lg' className={`${styles.pageTitle} heading12`}>
               {localization.info.landingPageTitle}
             </Heading>
-            <Paragraph data-size='md' className={`${styles.subTitle} heading345`}>
+            <Heading level={2} data-size='md' className={`${styles.subTitle} heading345`}>
               {localization.info.landingPageSubTitle}
-            </Paragraph>
+            </Heading>
             <div className={styles.infoDetails}>
               {detailsList.map((detail, index) => (
                 <Card key={index} className={styles.infoCard}>

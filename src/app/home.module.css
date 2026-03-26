@@ -10,9 +10,7 @@
   width: 100%;
   flex: 1 0 auto;
 }
-.pageContainer {
-  padding-top: 1rem;
-}
+
 .headerCard {
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -79,8 +77,5 @@
   }
   .pageHeader {
     padding: 1rem;
-  }
-  .pageContainer {
-    padding-top: 3rem;
   }
 }
