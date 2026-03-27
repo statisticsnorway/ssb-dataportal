@@ -132,33 +132,38 @@ export const getParentCode = (code: string): string => {
 };
 
 /**
- * Check if code is child of parent code
+ * Checks if a code is a child code.
  *
- * If code is longer than 2 characters it is child
+ * A code is considered a child if its length is greater than 2.
  *
- * @param code
- * @returns true if code is child
+ * @param code - The code to check.
+ * @returns True if the code is a child, false otherwise.
  */
 export const isChildCode = (code: string): boolean => {
   return code?.length > 2;
 };
 
 /**
+ * Retrieves the label corresponding to a code from a filter list.
  *
- * @param code
- * @param filterList
- * @returns
+ * @param code - The code to look up.
+ * @param filterList - The list of FilterItem objects to search.
+ * @returns The label matching the code, or an empty string if none found.
  */
 export const getLabelByCode = (code: string, filterList: FilterItem[]): string => {
   return filterList.find((item) => item.value === code)?.label ?? '';
 };
 
 /**
+ * Builds a label string including the parent label (if available).
  *
- * @param code
- * @param title
- * @param filterList
- * @returns
+ * If the code is a child code and a parent label exists in the
+ * filter list, the returned string is in the format:
+ * `"Parent Label → Child Title"`. Otherwise, only the child title is returned.
+ *
+ * @param klassReference - The KlassReference object containing the code and title.
+ * @param filterList - The list of FilterItem objects to use for parent label lookup.
+ * @returns A label string including the parent if available, otherwise just the child title.
  */
 export const getLabelWithParent = (klassReference: KlassReference, filterList: FilterItem[]): string => {
   if (!isChildCode(String(klassReference?.code))) {
