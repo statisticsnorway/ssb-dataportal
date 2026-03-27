@@ -90,13 +90,6 @@ export function getDevEnvironmentName(): string | undefined {
   return process.env.DEV_ENVIRONMENT_NAME;
 }
 
-/**
- * Build a label string with an optional count.
- */
-export const buildTagsLabel = (label?: string, count?: number) => {
-  return `${label} (${count ?? 0})`;
-};
-
 export const sanitizeId = (str: string) =>
   str
     .toLowerCase()
