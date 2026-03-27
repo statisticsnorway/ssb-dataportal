@@ -1,8 +1,19 @@
-import { describe, expect, it } from 'vitest';
+/** biome-ignore-all lint/suspicious/noExplicitAny: <Necessary for testing> */
+import { describe, expect, it, vi } from 'vitest';
 import { ClassificationResource } from '@/libs/data-access/klass';
+import { KlassReference } from '@/libs/data-access/variable-definitions/internal';
 import { ClassificationType } from '@/types/classification';
 import { Item } from '@/types/item';
-import { areFieldsDefinedAndNonNull, extractSubjectAreaCode, nonEmpty, parseClassification } from '.';
+import { getSubjectFieldFilterItems } from '../mock-data';
+import {
+  areFieldsDefinedAndNonNull,
+  getLabelByCode,
+  getLabelWithParent,
+  getParentCode,
+  nonEmpty,
+  parseClassification,
+} from '.';
+import * as labelModule from './';
 
 describe('areFieldsDefinedAndNonNull filter', () => {
   it('non-null objects pass through', () => {
@@ -117,23 +128,64 @@ describe('nonEmpty', () => {
   });
 });
 
-describe('Extract subject area parent code', () => {
+describe('Extract code item parent code', () => {
   it('extracts parent code', () => {
-    expect(extractSubjectAreaCode('al03')).toEqual('al');
+    expect(getParentCode('al03')).toEqual('al');
   });
   it('returns parent code unchanged', () => {
-    expect(extractSubjectAreaCode('al')).toEqual('al');
+    expect(getParentCode('al')).toEqual('al');
   });
   it('throws if empty string is provided', () => {
-    expect(() => extractSubjectAreaCode(' ')).toThrowError('Subject area code cannot be empty');
+    expect(() => getParentCode(' ')).toThrow('Code cannot be empty');
   });
 
   it('code is null', () => {
-    // biome-ignore lint/suspicious/noExplicitAny: necessary for testing
-    expect(() => extractSubjectAreaCode(null as any)).toThrow('Subject area code cannot be empty');
+    expect(() => getParentCode(null as any)).toThrow('Code cannot be empty');
   });
   it('code is undefined', () => {
-    // biome-ignore lint/suspicious/noExplicitAny: necessary for testing
-    expect(() => extractSubjectAreaCode(undefined as any)).toThrow('Subject area code cannot be empty');
+    expect(() => getParentCode(undefined as any)).toThrow('Code cannot be empty');
+  });
+});
+
+describe('Get label by code', () => {
+  it('returns label', () => {
+    expect(getLabelByCode('al', getSubjectFieldFilterItems)).toEqual('Arbeid og lønn');
+  });
+  it('empty code returns empty label', () => {
+    expect(getLabelByCode('', getSubjectFieldFilterItems)).toEqual('');
+  });
+  it('null code returns empty label', () => {
+    expect(getLabelByCode(null as any, getSubjectFieldFilterItems)).toEqual('');
+  });
+  it('undefined code returns empty label', () => {
+    expect(getLabelByCode(undefined as any, getSubjectFieldFilterItems)).toEqual('');
+  });
+});
+
+describe('Get label with parent', () => {
+  const mockKlassReferenceParent: KlassReference = {
+    reference_uri: 'https://data.ssb.no/api/klass/v1',
+    code: 'al',
+    title: 'Arbeid og lønn',
+  };
+  const mockKlassReferenceChild: KlassReference = {
+    reference_uri: 'https://data.ssb.no/api/klass/v1',
+    code: 'al03',
+    title: 'Arbeidsledighet',
+  };
+  it('returns label', () => {
+    expect(getLabelWithParent(mockKlassReferenceParent, getSubjectFieldFilterItems)).toEqual('Arbeid og lønn');
+  });
+  it('returns label with parent', () => {
+    expect(getLabelWithParent(mockKlassReferenceChild, getSubjectFieldFilterItems)).toEqual(
+      'Arbeid og lønn → Arbeidsledighet',
+    );
+  });
+
+  it('returns only the child title when parent label is missing', () => {
+    vi.spyOn(labelModule, 'getLabelByCode').mockReturnValueOnce('');
+
+    const result = getLabelWithParent(mockKlassReferenceChild, []);
+    expect(result).toBe('Arbeidsledighet');
   });
 });

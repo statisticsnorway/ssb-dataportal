@@ -1,6 +1,7 @@
 import { ClassificationResource, ClassificationResourceFromJSONTyped } from '@/libs/data-access/klass';
-import { VariableStatus } from '@/libs/data-access/variable-definitions/internal';
+import { KlassReference, VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
+import { FilterItem } from '@/types/filters';
 import { Item } from '@/types/item';
 
 /**
@@ -89,14 +90,6 @@ export function getDevEnvironmentName(): string | undefined {
   return process.env.DEV_ENVIRONMENT_NAME;
 }
 
-//TODO: Add test
-/**
- * Build a label string with an optional count.
- */
-export const buildTagsLabel = (label?: string, count?: number) => {
-  return `${label} (${count ?? 0})`;
-};
-
 export const sanitizeId = (str: string) =>
   str
     .toLowerCase()
@@ -113,18 +106,61 @@ export const statusColors: Record<VariableStatus, string> = {
 };
 
 /**
- * Normalizes a subject area code to its top-level code.
+ * Returns the top-level (parent) code for a given code item.
  *
- * If the provided code represents a level 2 code (length > 2),
- * the parent code is returned by extracting the first two characters.
- * Otherwise, the code is returned unchanged.
+ * If the provided code is a "child" code (length > 2), the first
+ * two characters (parent code) are returned. Otherwise, the code
+ * itself is returned.
  *
- * @param code - Subject area code.
- * @returns The normalized top-level subject area code.
+ * @param code - The code to normalize.
+ * @returns The normalized top-level code.
+ * @throws Error if the code is empty or only whitespace.
  */
-export const extractSubjectAreaCode = (code: string): string => {
+export const getParentCode = (code: string): string => {
   if (!code || code.trim() == '') {
-    throw new Error('Subject area code cannot be empty');
+    throw new Error('Code cannot be empty');
   }
-  return code?.length > 2 ? code?.slice(0, 2) : code;
+  return isChildCode(code) ? code?.slice(0, 2) : code;
+};
+
+/**
+ * Checks if a code is a child code.
+ *
+ * A code is considered a child if its length is greater than 2.
+ *
+ * @param code - The code to check.
+ * @returns True if the code is a child, false otherwise.
+ */
+export const isChildCode = (code: string): boolean => {
+  return code?.length > 2;
+};
+
+/**
+ * Retrieves the label corresponding to a code from a filter list.
+ *
+ * @param code - The code to look up.
+ * @param filterList - The list of FilterItem objects to search.
+ * @returns The label matching the code, or an empty string if none found.
+ */
+export const getLabelByCode = (code: string, filterList: FilterItem[]): string => {
+  return filterList.find((item) => item.value === code)?.label ?? '';
+};
+
+/**
+ * Builds a label string including the parent label (if available).
+ *
+ * If the code is a child code and a parent label exists in the
+ * filter list, the returned string is in the format:
+ * `"Parent Label → Child Title"`. Otherwise, only the child title is returned.
+ *
+ * @param klassReference - The KlassReference object containing the code and title.
+ * @param filterList - The list of FilterItem objects to use for parent label lookup.
+ * @returns A label string including the parent if available, otherwise just the child title.
+ */
+export const getLabelWithParent = (klassReference: KlassReference, filterList: FilterItem[]): string => {
+  if (!isChildCode(String(klassReference?.code))) {
+    return String(klassReference?.title);
+  }
+  const parentLabel = getLabelByCode(getParentCode(String(klassReference?.code)), filterList);
+  return parentLabel ? `${parentLabel} → ${String(klassReference?.title)}` : String(klassReference?.title);
 };
