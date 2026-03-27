@@ -157,6 +157,9 @@ describe('Get label by code', () => {
   it('null code returns empty label', () => {
     expect(getLabelByCode(null as any, getSubjectFieldFilterItems)).toEqual('');
   });
+  it('undefined code returns empty label', () => {
+    expect(getLabelByCode(undefined as any, getSubjectFieldFilterItems)).toEqual('');
+  });
 });
 
 describe('Get label with parent', () => {
