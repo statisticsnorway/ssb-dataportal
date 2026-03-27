@@ -36,7 +36,7 @@ export const nb = {
   references: 'Referanser',
   ssbDataportal: 'SSB Dataportal',
   statisticsNorway: 'Statistisk sentralbyrå',
-  subjectField: 'Statistikkområde',
+  subjectArea: 'Statistikkområde',
   subjectFields: 'Statistikkområder',
   to: 'Til',
   unitTypes: 'Enhetstyper',
