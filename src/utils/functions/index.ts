@@ -1,5 +1,5 @@
 import { ClassificationResource, ClassificationResourceFromJSONTyped } from '@/libs/data-access/klass';
-import { VariableStatus } from '@/libs/data-access/variable-definitions/internal';
+import { KlassReference, VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import { FilterItem } from '@/types/filters';
 import { Item } from '@/types/item';
@@ -114,44 +114,56 @@ export const statusColors: Record<VariableStatus, string> = {
 };
 
 /**
- * Normalizes a subject area code to its top-level code.
+ * Returns the top-level (parent) code for a given code item.
  *
- * If the provided code represents a level 2 code (length > 2),
- * the parent code is returned by extracting the first two characters.
- * Otherwise, the code is returned unchanged.
+ * If the provided code is a "child" code (length > 2), the first
+ * two characters (parent code) are returned. Otherwise, the code
+ * itself is returned.
  *
- * @param code - Subject area code.
- * @returns The normalized top-level subject area code.
+ * @param code - The code to normalize.
+ * @returns The normalized top-level code.
+ * @throws Error if the code is empty or only whitespace.
  */
-export const extractSubjectAreaCode = (code: string): string => {
+export const getParentCode = (code: string): string => {
   if (!code || code.trim() == '') {
-    throw new Error('Subject area code cannot be empty');
+    throw new Error('Code cannot be empty');
   }
-  return isSubjectAreaChild(code) ? code?.slice(0, 2) : code;
+  return isChildCode(code) ? code?.slice(0, 2) : code;
 };
 
 /**
- * Check if subject area code child of parent code
+ * Check if code is child of parent code
  *
- * If code is longer than 2 characters it is level 2
+ * If code is longer than 2 characters it is child
  *
  * @param code
- * @returns true if code is level 2
+ * @returns true if code is child
  */
-export const isSubjectAreaChild = (code: string): boolean => {
+export const isChildCode = (code: string): boolean => {
   return code?.length > 2;
 };
 
-// add test
-export const getSubjectAreaParentTitle = (code: string, subjectFields: FilterItem[]): string => {
-  return subjectFields.find((item) => item.value === code)?.label ?? '';
+/**
+ *
+ * @param code
+ * @param filterList
+ * @returns
+ */
+export const getLabelByCode = (code: string, filterList: FilterItem[]): string => {
+  return filterList.find((item) => item.value === code)?.label ?? '';
 };
 
-// add test
-export const createSubjectAreaLabel = (code: string, title: string, subjectFields: FilterItem[]): string => {
-  if (isSubjectAreaChild(code)) {
-    return `${getSubjectAreaParentTitle(extractSubjectAreaCode(code), subjectFields)} \u2192 ${title}`;
-  } else {
-    return title;
+/**
+ *
+ * @param code
+ * @param title
+ * @param filterList
+ * @returns
+ */
+export const getLabelWithParent = (klassReference: KlassReference, filterList: FilterItem[]): string => {
+  if (!isChildCode(String(klassReference?.code))) {
+    return String(klassReference?.title);
   }
+  const parentLabel = getLabelByCode(getParentCode(String(klassReference?.code)), filterList);
+  return parentLabel ? `${parentLabel} → ${String(klassReference?.title)}` : String(klassReference?.title);
 };

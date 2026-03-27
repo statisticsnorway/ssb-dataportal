@@ -53,7 +53,7 @@ export const SubjectFiltersSection = ({
 
   return (
     <CheckboxFilter
-      filterHeading={localization.subjectArea}
+      filterHeading={localization.subjectField}
       filters={statusesWithCount}
       selectedItems={selectedItems}
       onFilterChange={onFilterChange}

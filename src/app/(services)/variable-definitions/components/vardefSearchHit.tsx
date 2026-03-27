@@ -3,7 +3,7 @@ import { tabsData } from '@/app/(services)/tabs';
 import { TagsGroup } from '@/components/tags-group';
 import { VardefHeading } from '@/components/vardef-heading';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
-import { areFieldsDefinedAndNonNull, createSubjectAreaLabel } from '@/utils/functions';
+import { areFieldsDefinedAndNonNull, getLabelWithParent } from '@/utils/functions';
 import { useVariableDefinitionsContext } from '../variable-definitions-service-page/components/variableDefinitionContext';
 import styles from './vardef.module.css';
 
@@ -27,7 +27,7 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
           new Map(
             variableDefinition.subject_fields
               .filter((ref) => areFieldsDefinedAndNonNull(ref, ['code', 'title']))
-              .map((field) => [field.code, createSubjectAreaLabel(field.code, field.title, subjectFilters)]),
+              .map((field) => [field.code, getLabelWithParent(field, subjectFilters)]),
           )
         }
       />
