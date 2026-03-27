@@ -90,7 +90,6 @@ export function getDevEnvironmentName(): string | undefined {
   return process.env.DEV_ENVIRONMENT_NAME;
 }
 
-//TODO: Add test
 /**
  * Build a label string with an optional count.
  */
