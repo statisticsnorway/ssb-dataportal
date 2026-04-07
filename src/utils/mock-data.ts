@@ -10,6 +10,7 @@ import classificationsMock from '@/static-data/classifications.json';
 import subjectFieldsMock from '@/static-data/subject-fields.json';
 import variableDefinitionsJson from '@/static-data/variable-definitions.json';
 import { RawClassificationFamily } from '@/types/classification';
+import { FilterItem } from '@/types/filters';
 import { parseClassification } from './functions';
 
 export function getVariableDefinitions(): Array<RenderedView> {
@@ -47,3 +48,8 @@ export const fetchStaticSubjectFields = cache(async (): Promise<CodeItem[]> => {
     validTo: item.validTo ?? undefined,
   }));
 });
+
+export const getSubjectFieldFilterItems: FilterItem[] = subjectFieldsMock.codes.map((item) => ({
+  label: String(item.name),
+  value: String(item.code),
+}));
