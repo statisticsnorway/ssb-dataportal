@@ -1,7 +1,7 @@
+import * as jose from 'jose';
 import { headers } from 'next/headers';
-import { createRemoteJWKSet, jwtVerify, type JWTPayload } from 'jose'
-import { createLogger } from '../logger/server-logger';
 import { sanitizeError } from '../logger/sanitize';
+import { createLogger } from '../logger/server-logger';
 
 const logger = createLogger('jwt');
 
@@ -19,11 +19,11 @@ export async function getEncodedJwt(): Promise<string | undefined> {
   return (await getAuthorizationHeader())?.split(' ')[1];
 }
 
-export async function verifyJwt(jwksUri: string, encodedJwt: string | undefined, expectedIssuer: string | undefined, expectedAudience: string | undefined): Promise<JWTPayload | undefined> {
+export async function verifyJwt(jwksUri: string, encodedJwt: string | undefined, expectedIssuer: string | undefined, expectedAudience: string | undefined): Promise<jose.JWTPayload | undefined> {
   if (!encodedJwt) return undefined
-  const JWKS = createRemoteJWKSet(new URL(jwksUri))
+  const JWKS = jose.createRemoteJWKSet(new URL(jwksUri))
   try {
-    const { payload } = await jwtVerify(encodedJwt, JWKS, {
+    const { payload } = await jose.jwtVerify(encodedJwt, JWKS, {
       issuer: expectedIssuer,
       audience: expectedAudience,
       algorithms: ['RS256'],
