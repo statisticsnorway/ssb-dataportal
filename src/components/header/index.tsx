@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { FC } from 'react';
 import { localization } from '@/libs/language';
 import styles from './header.module.css';
+import { LoginButton } from './loginButton';
 
 export interface HeaderProps {
   homeUrl?: string;
@@ -33,6 +34,7 @@ export const Header: FC<HeaderProps> = ({ homeUrl, title, devEnvironmentName }) 
         <div className={`${styles.rightGroup}`}>
           {devEnvironmentName ? <p className={styles.environmentName}>{devEnvironmentName}</p> : undefined}
         </div>
+        <LoginButton />
       </div>
     </header>
   );

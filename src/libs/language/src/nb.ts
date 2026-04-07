@@ -188,4 +188,8 @@ export const nb = {
     filters: 'Laster filtere...',
     results: 'Laster resultater...',
   },
+  authentication: {
+    logIn: 'Logg inn',
+    logOut: 'Logg ut',
+  },
 };
