@@ -19,19 +19,24 @@ export async function getEncodedJwt(): Promise<string | undefined> {
   return (await getAuthorizationHeader())?.split(' ')[1];
 }
 
-export async function verifyJwt(jwksUri: string, encodedJwt: string | undefined, expectedIssuer: string | undefined, expectedAudience: string | undefined): Promise<jose.JWTPayload | undefined> {
-  if (!encodedJwt) return undefined
-  const JWKS = jose.createRemoteJWKSet(new URL(jwksUri))
+export async function verifyJwt(
+  jwksUri: string,
+  encodedJwt: string | undefined,
+  expectedIssuer: string | undefined,
+  expectedAudience: string | undefined,
+): Promise<jose.JWTPayload | undefined> {
+  if (!encodedJwt) return undefined;
+  const JWKS = jose.createRemoteJWKSet(new URL(jwksUri));
   try {
     const { payload } = await jose.jwtVerify(encodedJwt, JWKS, {
       issuer: expectedIssuer,
       audience: expectedAudience,
       algorithms: ['RS256'],
-    })
+    });
     // If the jwtVerify function doesn't throw an error then the JWT is valid
-    return payload
+    return payload;
   } catch (e) {
-    logger.error({ error: sanitizeError(e) }, "Invalid JWT")
-    return undefined
+    logger.error({ error: sanitizeError(e) }, 'Invalid JWT');
+    return undefined;
   }
 }
