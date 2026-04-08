@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Auth } from '@/types/auth';
 import { createLogger } from '../logger/server-logger';
+
 const logger = createLogger('user-auth');
 
 export function authenticateUser(): Auth {
