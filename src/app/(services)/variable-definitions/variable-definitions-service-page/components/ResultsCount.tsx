@@ -13,18 +13,19 @@ import { useVariableDefinitionsContext } from './variableDefinitionContext';
  * @returns A string indicating the number of hits, or null if there is an error.
  */
 export const ResultsCount = () => {
-  const { error, variablesPromise, textFilter, subjectFilters, statusFilters, sortOption } =
-    useVariableDefinitionsContext();
+  const { variablesPromise, textFilter, subjectFilters, statusFilters, sortOption } = useVariableDefinitionsContext();
 
-  if (error) return null;
-
-  const { filteredVariables } = useFilteredVariables({
+  const { filteredVariables, error } = useFilteredVariables({
     variablesPromise,
     textFilter,
     subjectFilters,
     statusFilters,
     sortOption,
   });
+
+  const forceError = process.env.NEXT_PUBLIC_ENABLE_RESULTS_ERROR_PREVIEW === 'true';
+  const effectiveError = forceError ? new Error('Forced error preview') : error;
+  if (effectiveError) return null;
 
   const totalHits = filteredVariables.length;
   if (totalHits === 0) return localization.search.noHits;

@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext } from 'react';
+import { createContext, ReactNode, useContext, useMemo } from 'react';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
@@ -9,7 +9,6 @@ interface VariableDefinitionsContextValue {
   subjectFilters: FilterItem[];
   statusFilters: FilterItem[];
   sortOption: SortTypes;
-  error: Error | null;
 }
 
 const VariableDefinitionsContext = createContext<VariableDefinitionsContextValue | null>(null);
@@ -34,18 +33,16 @@ export const VariableDefinitionsProvider = ({
   statusFilters,
   sortOption,
 }: VariableDefinitionsProviderProps) => {
-  return (
-    <VariableDefinitionsContext.Provider
-      value={{
-        variablesPromise,
-        textFilter,
-        subjectFilters,
-        statusFilters,
-        sortOption,
-        error: null,
-      }}
-    >
-      {children}
-    </VariableDefinitionsContext.Provider>
+  const value = useMemo(
+    () => ({
+      variablesPromise,
+      textFilter,
+      subjectFilters,
+      statusFilters,
+      sortOption,
+    }),
+    [variablesPromise, textFilter, subjectFilters, statusFilters, sortOption],
   );
+
+  return <VariableDefinitionsContext.Provider value={value}>{children}</VariableDefinitionsContext.Provider>;
 };

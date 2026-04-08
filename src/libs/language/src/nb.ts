@@ -73,6 +73,7 @@ export const nb = {
     helpReload: 'vente litt og laste siden på nytt',
     helpBack: 'gå tilbake til forrige side',
     helpHome: 'gå til forsiden',
+    helpChangeFilters: 'endre søk eller filtre',
     supportPrefix: 'Har problemet vart en stund, kan du',
     supportLinkText: 'kontakte oss',
     brokenLinkMailSubject: 'Ødelagt lenke i dataportalen',
