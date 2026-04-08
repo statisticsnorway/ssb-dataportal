@@ -1,3 +1,5 @@
+import 'server-only';
+
 import * as jose from 'jose';
 import { headers } from 'next/headers';
 import { sanitizeError } from '../logger/sanitize';

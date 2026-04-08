@@ -52,7 +52,7 @@ vi.mock('@digdir/designsystemet-react', () => {
 describe('VariableDefinitionsServicePage', () => {
   it('happy path', () => {
     const { baseElement } = render(
-      <AuthProvider>
+      <AuthProvider isAuthenticated={true}>
         <VariableDefinitionsServicePage
           variablesPromise={new Promise((resolve) => getVariableDefinitions())}
           subjectFieldsPromise={new Promise((resolve) => fetchStaticSubjectFields())}
@@ -64,7 +64,7 @@ describe('VariableDefinitionsServicePage', () => {
   });
   it('page renders while waiting for variable definitions', () => {
     const { baseElement } = render(
-      <AuthProvider>
+      <AuthProvider isAuthenticated={true}>
         <VariableDefinitionsServicePage
           variablesPromise={promiseNeverResolves as Promise<{ data: RenderedView[]; error: Error | null }>}
           subjectFieldsPromise={new Promise(() => fetchStaticSubjectFields())}
@@ -77,7 +77,7 @@ describe('VariableDefinitionsServicePage', () => {
   });
   it('page renders while waiting for subject fields', () => {
     const { baseElement } = render(
-      <AuthProvider>
+      <AuthProvider isAuthenticated={true}>
         <VariableDefinitionsServicePage
           variablesPromise={new Promise(() => getVariableDefinitions())}
           subjectFieldsPromise={promiseNeverResolves as Promise<{ data: CodeItem[]; error: Error | null }>}
