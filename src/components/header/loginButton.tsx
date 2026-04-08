@@ -1,4 +1,7 @@
+'use client';
+
 import { Button } from '@digdir/designsystemet-react';
+import { usePathname } from 'next/navigation';
 import { useAuthContext } from '@/app/authContext';
 import { localization } from '@/libs/language/src/localization';
 
@@ -6,7 +9,7 @@ const LoginButton = () => {
   const { isAuthenticated } = useAuthContext();
 
   //GET /oauth2/session
-  const redirectTo = encodeURIComponent(window.location.pathname);
+  const redirectTo = usePathname;
   return isAuthenticated ? (
     <Button onClick={() => (window.location.href = `/oauth2/logout`)}>{localization.authentication.logOut}</Button>
   ) : (
