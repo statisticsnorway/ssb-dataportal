@@ -191,5 +191,8 @@ export const nb = {
   authentication: {
     logIn: 'Logg inn',
     logOut: 'Logg ut',
+    loginHeading: 'Innlogging',
+    loginInfo:
+      'Innlogging er kun tilgjengelig for ansatte i Statistisk sentralbyrå. Du kan fortsatt bruke tjenesten uten å logge inn.',
   },
 };
