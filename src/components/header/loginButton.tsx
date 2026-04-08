@@ -1,21 +1,28 @@
 'use client';
 
-import { Button } from '@digdir/designsystemet-react';
-import { usePathname } from 'next/navigation';
+import { Button, Dialog, Heading } from '@digdir/designsystemet-react';
+import { useRouter } from 'next/navigation';
 import { useAuthContext } from '@/app/authContext';
 import { localization } from '@/libs/language/src/localization';
 
 const LoginButton = () => {
   const { isAuthenticated } = useAuthContext();
+  const router = useRouter();
 
-  //GET /oauth2/session
-  const redirectTo = usePathname;
+  const loginPath = '/oauth2/logout';
+  const logoutPath = '/oauth2/login';
+
   return isAuthenticated ? (
-    <Button onClick={() => (window.location.href = `/oauth2/logout`)}>{localization.authentication.logOut}</Button>
+    <Button onClick={() => router.push(loginPath)}>{localization.authentication.logOut}</Button>
   ) : (
-    <Button onClick={() => (window.location.href = `/oauth2/login?redirect=${redirectTo}`)}>
-      {localization.authentication.logIn}
-    </Button>
+    <Dialog.TriggerContext>
+      <Dialog.Trigger>{localization.authentication.logIn}</Dialog.Trigger>
+      <Dialog>
+        <Heading level={3}>{localization.authentication.loginHeading}</Heading>
+        <p>{localization.authentication.loginInfo}</p>
+        <Button onClick={() => router.push(logoutPath)}>{localization.authentication.logIn}</Button>
+      </Dialog>
+    </Dialog.TriggerContext>
   );
 };
 
