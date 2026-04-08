@@ -18,6 +18,7 @@
     "test:watch": "vitest --watch",
     "test:update-snapshots": "vitest -u",
     "test:e2e": "playwright test",
+    "test:e2e:unauth": "playwright test e2e/variable-definition-auth.spec.ts  --headed",
     "test:e2e:no-accessibility": "playwright test --grep-invert 'Accessibility'",
     "test:e2e:accessibility": "playwright test --grep 'Accessibility'",
     "test:e2e:headed": "playwright test --headed",

@@ -3,6 +3,7 @@
 import { Button, Tooltip } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { tabsData } from '@/app/(services)/tabs';
+import { useAuthContext } from '@/app/authContext';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
 import { ExternalLink } from '@/components/external-link';
 import { StatusTag } from '@/components/statusTag';
@@ -33,6 +34,7 @@ export default function VariableDefinitionDetail({
   variableDefinition: RenderedView;
   daplaLabVardefUrl: string | undefined;
 }>) {
+  const { isAuthenticated } = useAuthContext();
   const references = nonEmpty(referencesItems(variableDefinition));
   const { copied, copyToClipboard } = useClipboard();
 
@@ -63,37 +65,43 @@ export default function VariableDefinitionDetail({
               </dl>
             )}
           </section>
-          <div className={styles.codeSnippet}>
-            <CodeSnippet
-              daplaLabVardefUrl={daplaLabVardefUrl}
-              //TODO(jan): Should replace <div className={styles.codeSnippetTitle}> with correct semantic element (header?)
-              title={
-                <div className={styles.codeSnippetTitle}>
-                  <span className={styles.titleMain}>
-                    <img src='/python-logo-only.svg' alt='' className={styles.pythonIcon} />{' '}
-                    {localization.variableDefinition.fetchWith}
-                  </span>
-                  <ExternalLink
-                    className={styles.titleLink}
-                    href='https://pypi.org/project/dapla-toolbelt-metadata/'
-                    linkText='dapla-toolbelt-metadata (pypi.org)'
-                  />
-                </div>
-              }
-              code={[
-                `Vardef.get_variable_definition_by_shortname(`,
-                `    short_name="${variableDefinition.short_name}"`,
-                `)`,
-              ]}
-            />
-          </div>
+          {isAuthenticated && (
+            <div className={styles.codeSnippet}>
+              <CodeSnippet
+                daplaLabVardefUrl={daplaLabVardefUrl}
+                //TODO(jan): Should replace <div className={styles.codeSnippetTitle}> with correct semantic element (header?)
+                title={
+                  <div className={styles.codeSnippetTitle}>
+                    <span className={styles.titleMain}>
+                      <img src='/python-logo-only.svg' alt='' className={styles.pythonIcon} />{' '}
+                      {localization.variableDefinition.fetchWith}
+                    </span>
+                    <ExternalLink
+                      className={styles.titleLink}
+                      href='https://pypi.org/project/dapla-toolbelt-metadata/'
+                      linkText='dapla-toolbelt-metadata (pypi.org)'
+                    />
+                  </div>
+                }
+                code={[
+                  `Vardef.get_variable_definition_by_shortname(`,
+                  `    short_name="${variableDefinition.short_name}"`,
+                  `)`,
+                ]}
+              />
+            </div>
+          )}
           <DetailsPagePanel elements={contactItems(variableDefinition)} columns={2} />
           <DetailsPagePanel elements={personalDataItems(variableDefinition)} />
-          <DetailsPagePanel title={localization.owner.label} elements={ownerItems(variableDefinition)} columns={2} />
+          {isAuthenticated && (
+            <DetailsPagePanel title={localization.owner.label} elements={ownerItems(variableDefinition)} columns={2} />
+          )}
         </main>
         <aside className={styles.sidebar}>
           <section className={styles.idAndTagRow}>
-            <StatusTag className={styles.variableStatusTag} variableStatus={variableDefinition.variable_status} />
+            {isAuthenticated && (
+              <StatusTag className={styles.variableStatusTag} variableStatus={variableDefinition.variable_status} />
+            )}
             <div className={styles.idField}>
               <span className={styles.idLabel}>Kortnavn</span>
               <span className={styles.idValue}>{variableDefinition.short_name}</span>
@@ -117,7 +125,7 @@ export default function VariableDefinitionDetail({
             elements={validityItems(variableDefinition)}
             columns={2}
           />
-          <DetailsPagePanel elements={createdAndEditedItems(variableDefinition)} columns={2} />
+          <DetailsPagePanel elements={createdAndEditedItems(variableDefinition, isAuthenticated)} columns={2} />
         </aside>
       </div>
     </section>

@@ -22,5 +22,7 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = (props: AuthProviderProps) => {
-  return <AuthContext.Provider value={{ isAuthenticated: true }}>{props.children}</AuthContext.Provider>;
+  const isAuthenticated =
+    process.env.NODE_ENV === 'production' ? true : process.env.NEXT_PUBLIC_AUTH_OVERRIDE !== 'false';
+  return <AuthContext.Provider value={{ isAuthenticated }}>{props.children}</AuthContext.Provider>;
 };
