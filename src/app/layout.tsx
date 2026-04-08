@@ -4,6 +4,7 @@ import { localization } from '@/libs/language';
 import { createLogger } from '@/libs/logger/server-logger';
 import { openSans, roboto, robotoCondensed } from './fonts';
 import './global.css';
+import { authenticateUser } from '@/libs/auth/userAuth';
 import { AuthProvider } from './authContext';
 
 const logger = createLogger('app:root');
@@ -29,8 +30,9 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
+  const authResult = authenticateUser();
   return (
-    <AuthProvider>
+    <AuthProvider isAuthenticated={authResult.isAuthenticated}>
       <html lang={localization.getLanguage()}>
         <body className={`${robotoCondensed.variable} ${roboto.variable} ${openSans.variable}`}>
           <AppLayout catalogTitle={localization.appTitle}>{children}</AppLayout>

@@ -26,26 +26,6 @@ interface VariableDefinitionsProviderProps extends VariableDefinitionsContextVal
   children: ReactNode;
 }
 
-export const VariableDefinitionsProvider = ({
-  children,
-  variablesPromise,
-  textFilter,
-  subjectFilters,
-  statusFilters,
-  sortOption,
-}: VariableDefinitionsProviderProps) => {
-  return (
-    <VariableDefinitionsContext.Provider
-      value={{
-        variablesPromise,
-        textFilter,
-        subjectFilters,
-        statusFilters,
-        sortOption,
-        error: null,
-      }}
-    >
-      {children}
-    </VariableDefinitionsContext.Provider>
-  );
+export const VariableDefinitionsProvider = ({ children, ...contextValue }: VariableDefinitionsProviderProps) => {
+  return <VariableDefinitionsContext.Provider value={contextValue}>{children}</VariableDefinitionsContext.Provider>;
 };
