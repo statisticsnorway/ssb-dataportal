@@ -1,4 +1,3 @@
-import { localization } from '@/libs/language';
 import AxeBuilder from '@axe-core/playwright';
 import test, { expect } from '@playwright/test';
 import { stabilize } from './utils/commonUtils';
