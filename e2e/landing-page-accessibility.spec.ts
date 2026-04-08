@@ -1,26 +1,22 @@
-import { localization } from '@/libs/language';
 import AxeBuilder from '@axe-core/playwright';
-import test, { expect } from '@playwright/test';
-import { stabilize } from './utils/commonUtils';
+import { expect, test } from './fixtures/landingPage.fixture';
 
 test.describe('Landingpage – accessibility', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/');
-    stabilize();
-  });
-
-  test('Page has header one', async ({ page }) => {
-    const results = await new AxeBuilder({ page }).withRules('page-has-heading-one').analyze();
+  test('Page has header one', async ({ landingPage }) => {
+    const results = await new AxeBuilder({ page: landingPage }).withRules('page-has-heading-one').analyze();
     expect(results.violations).toEqual([]);
   });
 
-  test('Page has correct landmarks', async ({ page }) => {
-    const results = await new AxeBuilder({ page }).withRules('region').exclude('.ds-alert.infoAlert').analyze();
+  test('Page has correct landmarks', async ({ landingPage }) => {
+    const results = await new AxeBuilder({ page: landingPage })
+      .withRules('region')
+      .exclude('.ds-alert.infoAlert')
+      .analyze();
     expect(results.violations).toEqual([]);
   });
 
-  test('Color contrasts are accessible', async ({ page }) => {
-    const results = await new AxeBuilder({ page })
+  test('Color contrasts are accessible', async ({ landingPage }) => {
+    const results = await new AxeBuilder({ page: landingPage })
       .withRules(['color-contrast'])
       .exclude('.ds-alert.infoAlert')
       .analyze();
@@ -28,13 +24,16 @@ test.describe('Landingpage – accessibility', () => {
   });
 
   // When wcag AAA is required add 'wcag21aaa'
-  test('Page follows wcag standard', async ({ page }) => {
-    const results = await new AxeBuilder({ page }).withTags(['wcag21a', 'wcag21aa']).analyze();
+  test('Page follows wcag standard', async ({ landingPage }) => {
+    const results = await new AxeBuilder({ page: landingPage }).withTags(['wcag21a', 'wcag21aa']).analyze();
     expect(results.violations).toEqual([]);
   });
 
-  test('Landingpage navigation', async ({ page }) => {
-    const results = await new AxeBuilder({ page }).include('nav#menu').exclude('.ds-alert.infoAlert').analyze();
+  test('Landingpage navigation', async ({ landingPage }) => {
+    const results = await new AxeBuilder({ page: landingPage })
+      .include('nav#menu')
+      .exclude('.ds-alert.infoAlert')
+      .analyze();
 
     expect(results.violations).toEqual([]);
   });
