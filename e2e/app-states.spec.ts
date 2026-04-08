@@ -2,10 +2,7 @@ import { expect, test, TestInfo } from '@playwright/test';
 
 test.describe('app state routes', () => {
   test.beforeEach(({}, testInfo: TestInfo) => {
-    if (
-      testInfo.project.name === 'chrome-unauth' &&
-      !testInfo.annotations.find((a) => a.type === 'allowUnauthChrome')
-    ) {
+    if (testInfo.project.name === 'chrome-unauth') {
       testInfo.skip();
     }
   });

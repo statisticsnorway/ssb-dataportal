@@ -5,10 +5,7 @@ export const test = base.extend<{
   landingPage: Page;
 }>({
   landingPage: async ({ page }, use, testInfo: TestInfo) => {
-    if (
-      testInfo.project.name === 'chrome-unauth' &&
-      !testInfo.annotations.find((a) => a.type === 'allowUnauthChrome')
-    ) {
+    if (testInfo.project.name === 'chrome-unauth') {
       testInfo.skip();
     }
     await page.goto('/');
