@@ -1,10 +1,8 @@
 'use client';
 
 import { createContext, ReactNode, useContext } from 'react';
-
-interface Auth {
-  isAuthenticated: boolean;
-}
+import { authenticateUser } from '@/libs/auth/userAuth';
+import { Auth } from '@/types/auth';
 
 const AuthContext = createContext<Auth | null>(null);
 
@@ -22,5 +20,5 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = (props: AuthProviderProps) => {
-  return <AuthContext.Provider value={{ isAuthenticated: true }}>{props.children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={authenticateUser()}>{props.children}</AuthContext.Provider>;
 };
