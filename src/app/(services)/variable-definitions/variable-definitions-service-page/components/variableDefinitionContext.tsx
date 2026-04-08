@@ -22,12 +22,7 @@ export const useVariableDefinitionsContext = () => {
   return context;
 };
 
-interface VariableDefinitionsProviderProps {
-  variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
-  textFilter: string;
-  subjectFilters: FilterItem[];
-  statusFilters: FilterItem[];
-  sortOption: SortTypes;
+interface VariableDefinitionsProviderProps extends VariableDefinitionsContextValue {
   children: ReactNode;
 }
 

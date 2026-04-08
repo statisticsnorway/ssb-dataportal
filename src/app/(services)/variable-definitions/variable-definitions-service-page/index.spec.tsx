@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 import React, { JSX } from 'react';
 import { describe, expect, it, vi } from 'vitest';
+import { AuthProvider } from '@/app/authContext';
 import { CodeItem } from '@/libs/data-access/klass';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { fetchStaticSubjectFields, getVariableDefinitions } from '@/utils/mock-data';
@@ -51,20 +52,24 @@ vi.mock('@digdir/designsystemet-react', () => {
 describe('VariableDefinitionsServicePage', () => {
   it('happy path', () => {
     const { baseElement } = render(
-      <VariableDefinitionsServicePage
-        variablesPromise={new Promise((resolve) => getVariableDefinitions())}
-        subjectFieldsPromise={new Promise((resolve) => fetchStaticSubjectFields())}
-      />,
+      <AuthProvider>
+        <VariableDefinitionsServicePage
+          variablesPromise={new Promise((resolve) => getVariableDefinitions())}
+          subjectFieldsPromise={new Promise((resolve) => fetchStaticSubjectFields())}
+        />
+      </AuthProvider>,
     );
     expect(baseElement).toBeTruthy();
     expect(baseElement).toMatchSnapshot();
   });
   it('page renders while waiting for variable definitions', () => {
     const { baseElement } = render(
-      <VariableDefinitionsServicePage
-        variablesPromise={promiseNeverResolves as Promise<{ data: RenderedView[]; error: Error | null }>}
-        subjectFieldsPromise={new Promise(() => fetchStaticSubjectFields())}
-      />,
+      <AuthProvider>
+        <VariableDefinitionsServicePage
+          variablesPromise={promiseNeverResolves as Promise<{ data: RenderedView[]; error: Error | null }>}
+          subjectFieldsPromise={new Promise(() => fetchStaticSubjectFields())}
+        />
+      </AuthProvider>,
     );
     expect(baseElement).toBeTruthy();
     expect(baseElement).toContainHTML('<ellipse aria-label="Laster resultater..." />');
@@ -72,10 +77,12 @@ describe('VariableDefinitionsServicePage', () => {
   });
   it('page renders while waiting for subject fields', () => {
     const { baseElement } = render(
-      <VariableDefinitionsServicePage
-        variablesPromise={new Promise(() => getVariableDefinitions())}
-        subjectFieldsPromise={promiseNeverResolves as Promise<{ data: CodeItem[]; error: Error | null }>}
-      />,
+      <AuthProvider>
+        <VariableDefinitionsServicePage
+          variablesPromise={new Promise(() => getVariableDefinitions())}
+          subjectFieldsPromise={promiseNeverResolves as Promise<{ data: CodeItem[]; error: Error | null }>}
+        />
+      </AuthProvider>,
     );
     expect(baseElement).toBeTruthy();
     expect(baseElement).toContainHTML('<ellipse aria-label="Laster filtere..." />');

@@ -1,6 +1,7 @@
 'use client';
 import { Spinner } from '@digdir/designsystemet-react';
 import { Suspense, useMemo, useState } from 'react';
+import { useAuthContext } from '@/app/authContext';
 import { FiltersPanel } from '@/components/filters/filters-panel';
 import { TextFilter } from '@/components/filters/text-filter';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
@@ -33,6 +34,8 @@ const VariableDefinitionsServicePage = ({
   const [statusFilters, setStatusFilters] = useState<FilterItem[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const pageSize = 8;
+
+  const { isAuthenticated } = useAuthContext();
 
   useMemo(() => {
     setCurrentPage(1);
@@ -75,6 +78,7 @@ const VariableDefinitionsServicePage = ({
       subjectFilters={subjectFilters}
       statusFilters={statusFilters}
       sortOption={sortOption}
+      error={null}
     >
       <SearchPage
         tabsId={tabsData.VariableDefinitions.id}
@@ -86,13 +90,15 @@ const VariableDefinitionsServicePage = ({
               searchTerm={textFilter}
               setSearchTerm={setTextFilter}
             />
-            <Suspense fallback={<Spinner aria-label={localization.loading.filters} />}>
-              <StatusFiltersSection
-                variablesPromise={variablesPromise}
-                selectedItems={statusFilters}
-                onFilterChange={toggleStatus}
-              />
-            </Suspense>
+            {isAuthenticated ? (
+              <Suspense fallback={<Spinner aria-label={localization.loading.filters} />}>
+                <StatusFiltersSection
+                  variablesPromise={variablesPromise}
+                  selectedItems={statusFilters}
+                  onFilterChange={toggleStatus}
+                />
+              </Suspense>
+            ) : null}
             <Suspense fallback={<Spinner aria-label={localization.loading.filters} />}>
               <SubjectFiltersSection
                 variablesPromise={variablesPromise}
