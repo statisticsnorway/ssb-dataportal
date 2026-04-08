@@ -14,10 +14,6 @@ afterAll(() => {
   process.env = ORIGINAL_ENV; // Restore old environment
 });
 
-vi.mock('next/headers', () => ({
-  headers: vi.fn().mockResolvedValue({ get: () => `Bearer ${JWT}` }),
-}));
-
 describe('userAuth functions', async () => {
   it('authenticateUser auth disabled', async () => {
     process.env.DANGEROUSLY_DISABLE_USER_AUTH = 'true'
