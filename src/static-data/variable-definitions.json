@@ -26,7 +26,7 @@
       }
     ],
     "contains_special_categories_of_personal_data": false,
-    "variable_status": "PUBLISHED_EXTERNAL",
+    "variable_status": "DRAFT",
     "measurement_type": null,
     "valid_from": "1984-01-01",
     "valid_until": null,
@@ -959,7 +959,7 @@
       }
     ],
     "contains_special_categories_of_personal_data": false,
-    "variable_status": "PUBLISHED_EXTERNAL",
+    "variable_status": "DRAFT",
     "measurement_type": null,
     "valid_from": "1900-01-01",
     "valid_until": null,
@@ -2584,7 +2584,7 @@
       }
     ],
     "contains_special_categories_of_personal_data": false,
-    "variable_status": "PUBLISHED_EXTERNAL",
+    "variable_status": "DRAFT",
     "measurement_type": null,
     "valid_from": "1999-01-01",
     "valid_until": null,
@@ -2752,7 +2752,7 @@
       }
     ],
     "contains_special_categories_of_personal_data": false,
-    "variable_status": "PUBLISHED_EXTERNAL",
+    "variable_status": "DRAFT",
     "measurement_type": null,
     "valid_from": "1990-01-01",
     "valid_until": null,
