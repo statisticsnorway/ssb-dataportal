@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
-  const authResult = authenticateUser();
+  const authResult = await authenticateUser();
   return (
     <AuthProvider isAuthenticated={authResult.isAuthenticated}>
       <html lang={localization.getLanguage()}>

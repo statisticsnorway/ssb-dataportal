@@ -18,12 +18,12 @@ describe('userAuth functions', async () => {
   it('authenticateUser auth disabled', async () => {
     process.env.DANGEROUSLY_DISABLE_USER_AUTH = 'true';
     process.env.IS_AUTHENTICATED = 'true';
-    expect(authenticateUser()).toEqual({ isAuthenticated: true });
+    expect(authenticateUser()).resolves.toEqual({ isAuthenticated: true });
   });
   it('authenticateUser auth disabled and app deployed', async () => {
     process.env.DANGEROUSLY_DISABLE_USER_AUTH = 'true';
     process.env.NAIS_CLUSTER_NAME = 'prod';
     process.env.IS_AUTHENTICATED = 'true';
-    expect(authenticateUser).toThrow('User auth is disabled in deployed in environment!');
+    expect(authenticateUser()).rejects.toThrow('User auth is disabled in deployed in environment!');
   });
 });

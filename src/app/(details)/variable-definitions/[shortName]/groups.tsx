@@ -18,12 +18,17 @@ export const validityItems = (v: RenderedView): Item[] => [
  * Audit / Created & Edited Items
  * ------------------------------
  */
-export const createdAndEditedItems = (v: RenderedView): Item[] => [
-  { label: `${localization.editing.updated} ${localization.on}`, value: formatDate(v.last_updated_at), type: 'text' },
-  { label: `${localization.editing.updated} ${localization.by}`, value: v.last_updated_by, type: 'text' },
-  { label: `${localization.editing.created} ${localization.on}`, value: formatDate(v.created_at), type: 'text' },
-  { label: `${localization.editing.created} ${localization.by}`, value: v.created_by, type: 'text' },
-];
+export const createdAndEditedItems = (v: RenderedView, isAuthenticated: boolean): Item[] => {
+  const publicItems: Item[] = [
+    { label: `${localization.editing.updated} ${localization.on}`, value: formatDate(v.last_updated_at), type: 'text' },
+  ];
+  const internalItems: Item[] = [
+    { label: `${localization.editing.updated} ${localization.by}`, value: v.last_updated_by, type: 'text' },
+    { label: `${localization.editing.created} ${localization.on}`, value: formatDate(v.created_at), type: 'text' },
+    { label: `${localization.editing.created} ${localization.by}`, value: v.created_by, type: 'text' },
+  ];
+  return isAuthenticated ? [...publicItems, ...internalItems] : publicItems;
+};
 
 /**
  * ------------------------------
