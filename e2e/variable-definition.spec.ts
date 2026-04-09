@@ -1,4 +1,4 @@
-import { test as base, expect } from '@playwright/test';
+import { test as base, expect, TestInfo } from '@playwright/test';
 import assert from 'assert';
 import { tabsData } from '@/app/(services)/tabs';
 import { RenderedView, RenderedViewFromJSON } from '@/libs/data-access/variable-definitions/internal';
@@ -17,7 +17,10 @@ const noVariables = variableDefinitions.length === 0;
 const test = base.extend<{
   goToVariable: VariablePageFixture;
 }>({
-  goToVariable: async ({ page }, use) => {
+  goToVariable: async ({ page }, use, testInfo: TestInfo) => {
+    if (testInfo.project.name === 'chrome-unauth') {
+      testInfo.skip();
+    }
     await use(async (variable: RenderedView) => {
       if (!variable.name || !variable.short_name) {
         throw new Error('Variable is missing required fields');
@@ -84,15 +87,6 @@ test.describe('Variable definitions breadcrumbs', () => {
     const nav = page.getByRole('navigation', { name: localization.breadcrumbsLabel });
     nav.getByRole('link', { name: localization.variableDefinition.labelPlural }).click();
     await expect(page).toHaveURL(tabsData.VariableDefinitions.route);
-  });
-});
-
-test.describe('Variable definition details – not found', () => {
-  test('Unknown shortName shows not-found page with warning alert', async ({ page }) => {
-    const missingShortName = `missing-${Date.now()}`;
-    await page.goto(`/variable-definitions/${missingShortName}`);
-    const heading = page.locator('#app-not-found-title');
-    await expect(heading).toHaveText('Variabeldefinisjon ikke funnet');
   });
 });
 

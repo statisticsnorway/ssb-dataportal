@@ -29,12 +29,15 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:3000' },
     },
-
+    {
+      name: 'chrome-unauth',
+      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:8000' },
+    },
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: { ...devices['Desktop Firefox'], baseURL: 'http://localhost:3000' },
     },
 
     //{
@@ -64,10 +67,20 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: process.env.CI ? 'pnpm build:test && pnpm start:test' : 'pnpm dev:test',
-    url: 'http://localhost:3000',
-    timeout: 120 * 1000,
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: [
+    {
+      name: 'authenticated',
+      command: process.env.CI ? 'pnpm build:test && pnpm start:test' : 'pnpm dev:test',
+      url: 'http://localhost:3000',
+      timeout: 120 * 1000,
+      reuseExistingServer: !process.env.CI,
+    },
+    {
+      name: 'unauthenticated',
+      command: 'pnpm build:test:unauth && pnpm start:test:unauth',
+      url: 'http://localhost:8000',
+      timeout: 120 * 1000,
+      reuseExistingServer: !process.env.CI,
+    },
+  ],
 });
