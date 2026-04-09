@@ -75,78 +75,6 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
 </body>
 `;
 
-exports[`VariableDefinitionsServicePage > happy path unauthenticated - hides status filter panel 1`] = `
-<body>
-  <div>
-    <main
-      id="variableDefinitionsPage"
-    >
-      <header>
-        <h1
-          class="ds-sr-only"
-          level="1"
-        >
-          Variabeldefinisjoner
-        </h1>
-      </header>
-      <div
-        aria-labelledby="variableDefinitionsTab"
-        id="variableDefinitionsTab"
-        value="variableDefinitionsTab"
-      >
-        <div
-          class="_pageContainer_8a24d7 container"
-        >
-          <section
-            aria-label="Tags list"
-          />
-          <div
-            class="_searchHitsContainerWrapper_8a24d7"
-          >
-            <aside
-              aria-label="Filters"
-              class="_filterSection_8a24d7"
-            >
-              <h1
-                data-size="sm"
-                level="2"
-              >
-                Filter
-              </h1>
-              <input
-                label="Filtrer på navn"
-                searchterm=""
-              />
-              <ellipse
-                aria-label="Laster filtere..."
-              />
-            </aside>
-            <div
-              class="_mainSection_8a24d7"
-            >
-              <div
-                class="_hitsAndSort_8a24d7"
-              >
-                <p
-                  class="_numHits_8a24d7"
-                />
-                <select
-                  sortoptions="titleAsc,titleDesc,lastChanged"
-                  sortvalue="titleAsc"
-                />
-              </div>
-              <ellipse
-                aria-label="Laster resultater..."
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
-</body>
-`;
-
 exports[`VariableDefinitionsServicePage > page renders while waiting for subject fields 1`] = `
 <body>
   <div>
@@ -266,6 +194,78 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for variabl
               />
               <ellipse
                 aria-label="Laster filtere..."
+              />
+              <ellipse
+                aria-label="Laster filtere..."
+              />
+            </aside>
+            <div
+              class="_mainSection_8a24d7"
+            >
+              <div
+                class="_hitsAndSort_8a24d7"
+              >
+                <p
+                  class="_numHits_8a24d7"
+                />
+                <select
+                  sortoptions="titleAsc,titleDesc,lastChanged"
+                  sortvalue="titleAsc"
+                />
+              </div>
+              <ellipse
+                aria-label="Laster resultater..."
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+`;
+
+exports[`VariableDefinitionsServicePage > unauthenticated - hides status filter panel 1`] = `
+<body>
+  <div>
+    <main
+      id="variableDefinitionsPage"
+    >
+      <header>
+        <h1
+          class="ds-sr-only"
+          level="1"
+        >
+          Variabeldefinisjoner
+        </h1>
+      </header>
+      <div
+        aria-labelledby="variableDefinitionsTab"
+        id="variableDefinitionsTab"
+        value="variableDefinitionsTab"
+      >
+        <div
+          class="_pageContainer_8a24d7 container"
+        >
+          <section
+            aria-label="Tags list"
+          />
+          <div
+            class="_searchHitsContainerWrapper_8a24d7"
+          >
+            <aside
+              aria-label="Filters"
+              class="_filterSection_8a24d7"
+            >
+              <h1
+                data-size="sm"
+                level="2"
+              >
+                Filter
+              </h1>
+              <input
+                label="Filtrer på navn"
+                searchterm=""
               />
               <ellipse
                 aria-label="Laster filtere..."
