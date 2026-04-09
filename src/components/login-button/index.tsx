@@ -14,7 +14,7 @@ import { AUTH_ROUTES } from '@/utils/constants';
  * - If the user is not authenticated, it renders a login dialog trigger. When opened, the dialog
  *   shows login information and a "Log In As SSB Employee" button that navigates to the login route.
  *
- * @returns {JSX.Element} The logout button or login dialog trigger with login button.
+ * @returns The logout button or login dialog trigger with login button.
  */
 const LoginButton = () => {
   const { isAuthenticated } = useAuthContext();
