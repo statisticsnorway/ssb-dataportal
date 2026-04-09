@@ -7,7 +7,7 @@ test.describe('Log in and out', () => {
     stabilize();
   });
 
-  test('[@unauth]redirects to logout when user logs out', async ({ page }, testInfo) => {
+  test('@unauth redirects to logout when user logs out', async ({ page }, testInfo) => {
     // is not authenticated
     if (testInfo.project.name !== 'chrome-unauth') {
       testInfo.skip();
