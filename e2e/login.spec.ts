@@ -27,7 +27,7 @@ test.describe('Log in and out', () => {
     { project: 'firefox', buttonText: logOutText },
   ];
   authButtonTests.forEach(({ project, buttonText }) => {
-    test(`displays "${buttonText}" button correctly project: ${project}`, async ({ page }, testInfo) => {
+    test(`displays "${buttonText}" button correctly for project: ${project}`, async ({ page }, testInfo) => {
       test.skip(testInfo.project.name !== project);
       await expectButtonVisible(page, buttonText);
     });
