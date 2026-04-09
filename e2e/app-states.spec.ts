@@ -1,6 +1,12 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, TestInfo } from '@playwright/test';
 
 test.describe('app state routes', () => {
+  test.beforeEach(({}, testInfo: TestInfo) => {
+    if (testInfo.project.name === 'chrome-unauth') {
+      testInfo.skip();
+    }
+  });
+
   test('global not-found page is shown for unknown route', async ({ page }) => {
     await page.goto('/this-route-does-not-exist');
     await expect(page.getByRole('heading', { name: 'Beklager, vi fant ikke siden' })).toBeVisible();
@@ -37,5 +43,11 @@ test.describe('app state routes', () => {
     await expect(retryButton).toBeVisible();
     await retryButton.click();
     await expect(page.getByRole('heading', { name: 'Beklager, noe gikk galt' })).toBeVisible();
+  });
+  test('Unknown shortName shows not-found page with warning alert', async ({ page }) => {
+    const missingShortName = `missing-${Date.now()}`;
+    await page.goto(`/variable-definitions/${missingShortName}`);
+    const heading = page.locator('#app-not-found-title');
+    await expect(heading).toHaveText('Variabeldefinisjon ikke funnet');
   });
 });

@@ -1,16 +1,14 @@
 import { test as base, expect, Page, TestInfo } from '@playwright/test';
-import { tabsData } from '@/app/(services)/tabs';
 import { stabilize } from '../utils/commonUtils';
 
 export const test = base.extend<{
-  variableDefinitionsPage: Page;
+  landingPage: Page;
 }>({
-  variableDefinitionsPage: async ({ page }, use, testInfo: TestInfo) => {
+  landingPage: async ({ page }, use, testInfo: TestInfo) => {
     if (testInfo.project.name === 'chrome-unauth') {
       testInfo.skip();
     }
-    await page.goto(tabsData.VariableDefinitions.route);
-    await expect(page).toHaveURL(/\/variable-definitions$/);
+    await page.goto('/');
     await stabilize();
     await use(page);
   },
