@@ -4,6 +4,7 @@ import { localization } from '@/libs/language';
 
 const KNOWN_SHORT_NAME = 'org_form'; // Must be PUBLISHED_EXTERNAL — unauthenticated users cannot access DRAFT or PUBLISHED_INTERNAL
 const DETAIL_URL = `${tabsData.VariableDefinitions.route}/${KNOWN_SHORT_NAME}`;
+
 test.describe('unauthenticated view', () => {
   test('hides Python code snippet', async ({ unauthPage }) => {
     await unauthPage.goto(DETAIL_URL);

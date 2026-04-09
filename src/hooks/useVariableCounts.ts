@@ -3,6 +3,7 @@ import { VariableStatus } from '@/libs/data-access/variable-definitions/internal
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { FilterItem } from '@/types/filters';
 import { convertStatus, getParentCode } from '@/utils/functions';
+import { useAuthorizedVariables } from './useAuthorizedVariables';
 
 export const STATUSES: FilterItem[] = [
   { value: VariableStatus.Draft, label: convertStatus(VariableStatus.Draft) },
@@ -68,7 +69,7 @@ interface SubjectFieldCounts {
  *
  */
 export function useSubjectFieldCounts({ variablesPromise, allSubjectFilters }: UseSubjectFieldCountsProps) {
-  const { data: variables, error } = use(variablesPromise);
+  const { variables, error } = useAuthorizedVariables(variablesPromise);
 
   const counts: SubjectFieldCounts = useMemo(() => {
     const subjectCounts: Record<string, number> = {};
