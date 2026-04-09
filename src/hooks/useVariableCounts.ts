@@ -3,7 +3,7 @@ import { VariableStatus } from '@/libs/data-access/variable-definitions/internal
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { FilterItem } from '@/types/filters';
 import { convertStatus, getParentCode } from '@/utils/functions';
-import { useVisibleVariables } from './useVisibleVariables';
+import { useVisibleVariables } from './useAuthorizedVariables';
 
 export const STATUSES: FilterItem[] = [
   { value: VariableStatus.Draft, label: convertStatus(VariableStatus.Draft) },

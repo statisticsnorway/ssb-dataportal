@@ -9,15 +9,15 @@ import { VariableStatus } from '@/libs/data-access/variable-definitions/internal
  * Unauthenticated users see only externally published variables.
  * Authenticated users see all variables.
  */
-export function useVisibleVariables(variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>) {
+export function useAuthorizedVariables(variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>) {
   const { data: variables, error } = use(variablesPromise);
   const { isAuthenticated } = useAuthContext();
 
-  const visibleVariables = useMemo(
+  const authorizedVariables = useMemo(
     () =>
       isAuthenticated ? variables : variables?.filter((v) => v.variable_status === VariableStatus.PublishedExternal),
     [variables, isAuthenticated],
   );
 
-  return { variables: visibleVariables, error };
+  return { variables: authorizedVariables, error };
 }

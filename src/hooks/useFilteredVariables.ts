@@ -3,7 +3,7 @@ import { RenderedView } from '@/libs/data-access/variable-definitions/internal/m
 import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
 import { filterAndSortVariables } from '@/utils/filterAndSort';
-import { useVisibleVariables } from './useVisibleVariables';
+import { useAuthorizedVariables } from './useAuthorizedVariables';
 
 interface UseFilteredVariablesProps {
   variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
@@ -20,7 +20,7 @@ export function useFilteredVariables({
   statusFilters,
   sortOption,
 }: UseFilteredVariablesProps) {
-  const { variables, error } = useVisibleVariables(variablesPromise);
+  const { variables, error } = useAuthorizedVariables(variablesPromise);
 
   const filteredVariables = useMemo(
     () => filterAndSortVariables(variables, textFilter, subjectFilters, statusFilters, sortOption),
