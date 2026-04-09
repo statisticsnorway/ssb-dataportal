@@ -190,6 +190,7 @@ export const nb = {
   },
   authentication: {
     logIn: 'Logg inn',
+    logInAs: 'Logg inn som SSB ansatt',
     logOut: 'Logg ut',
     loginHeading: 'Innlogging',
     loginInfo:

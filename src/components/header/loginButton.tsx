@@ -20,7 +20,7 @@ const LoginButton = () => {
       <Dialog>
         <Heading level={3}>{localization.authentication.loginHeading}</Heading>
         <p>{localization.authentication.loginInfo}</p>
-        <Button onClick={() => router.push(logoutPath)}>{localization.authentication.logIn}</Button>
+        <Button onClick={() => router.push(logoutPath)}>{localization.authentication.logInAs}</Button>
       </Dialog>
     </Dialog.TriggerContext>
   );
