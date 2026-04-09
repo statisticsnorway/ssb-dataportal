@@ -1,4 +1,5 @@
 import { headers } from 'next/headers';
+import { AppNotFoundState } from '@/components/app-state';
 
 /**
  * Test route used by Playwright to verify global error handling, and to view the error page.
@@ -12,9 +13,9 @@ import { headers } from 'next/headers';
  * The console error seen during tests is expected.
  */
 export default async function Page() {
-  const isEnabled = process.env.NEXT_TEST === 'test' || process.env.NODE_ENV === 'development';
+  const isEnabled = process.env.NEXT_PUBLIC_ENABLE_RESULTS_ERROR_PREVIEW === 'true';
   if (!isEnabled) {
-    return null;
+    return <AppNotFoundState />;
   }
   await headers();
   throw new Error('E2E_TEST_ERROR');
