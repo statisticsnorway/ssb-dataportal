@@ -7,6 +7,20 @@ import { getEncodedJwt, verifyJwt } from './jwt';
 
 const logger = createLogger('user-auth');
 
+/**
+ * Authenticate a user.
+ *
+ * The only supported method is that a JWT Bearer token is
+ * supplied with each request. This is verified against an
+ * SSB Keycloak instance.
+ *
+ * For local development this may be disabled and full
+ * control taken over authentication data by using the
+ * appropriate environment variables.
+ *
+ * @returns the Auth object which indicates whether the user
+ *  is logged in and information about the user if they are.
+ */
 export async function authenticateUser(): Promise<Auth> {
   if (process.env.DANGEROUSLY_DISABLE_USER_AUTH === 'true') {
     return createLocalDevAuth();
