@@ -34,6 +34,7 @@ export default defineConfig({
     {
       name: 'chrome-unauth',
       use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:8000' },
+      grep: /@unauth/,
     },
     {
       name: 'firefox',

@@ -1,6 +1,5 @@
-//import test, { expect } from '@playwright/test';
 import { stabilize } from './utils/commonUtils';
-import { expect, test } from './fixtures/landingPage.fixture';
+import { test, expect } from './fixtures/unauth.fixture';
 
 test.describe('Log in and out', () => {
   test.beforeEach(async ({ page }) => {
@@ -8,7 +7,7 @@ test.describe('Log in and out', () => {
     stabilize();
   });
 
-  test('redirects to logout when user logs out', async ({ page }, testInfo) => {
+  test('[@unauth]redirects to logout when user logs out', async ({ page }, testInfo) => {
     // is not authenticated
     if (testInfo.project.name !== 'chrome-unauth') {
       testInfo.skip();
