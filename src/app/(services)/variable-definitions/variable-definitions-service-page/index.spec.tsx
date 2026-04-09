@@ -50,9 +50,9 @@ vi.mock('@digdir/designsystemet-react', () => {
 });
 
 describe('VariableDefinitionsServicePage', () => {
-  it('happy path unauthenticated - hides status filter panel', () => {
+  it('happy path', () => {
     const { baseElement } = render(
-      <AuthProvider isAuthenticated={false}>
+      <AuthProvider isAuthenticated={true}>
         <VariableDefinitionsServicePage
           variablesPromise={new Promise((resolve) => getVariableDefinitions())}
           subjectFieldsPromise={new Promise((resolve) => fetchStaticSubjectFields())}
@@ -62,9 +62,9 @@ describe('VariableDefinitionsServicePage', () => {
     expect(baseElement).toBeTruthy();
     expect(baseElement).toMatchSnapshot();
   });
-  it('happy path', () => {
+  it('unauthenticated - hides status filter panel', () => {
     const { baseElement } = render(
-      <AuthProvider isAuthenticated={true}>
+      <AuthProvider isAuthenticated={false}>
         <VariableDefinitionsServicePage
           variablesPromise={new Promise((resolve) => getVariableDefinitions())}
           subjectFieldsPromise={new Promise((resolve) => fetchStaticSubjectFields())}
