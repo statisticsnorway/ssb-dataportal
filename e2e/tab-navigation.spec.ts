@@ -1,45 +1,32 @@
-import { expect, test } from '@playwright/test';
 import { localization } from '@/libs/language';
+import { expect, test } from './fixtures/variableDefinitions.fixture';
 
 test.describe('Tabs navigation', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/variable-definitions');
-  });
+  test('navigate to classifications', async ({ variableDefinitionsPage }) => {
+    const klassTab = variableDefinitionsPage.getByRole('tab', { name: localization.tabs.classifications });
 
-  test('navigate to classifications', async ({ page }) => {
-    const klassTab = page.getByRole('tab', { name: localization.tabs.classifications });
-
-    // Wait for visible
     await expect(klassTab).toBeEnabled();
 
-    // Wait before click tab
-    await Promise.all([page.waitForURL('/classifications'), klassTab.click()]);
-    // Expect classifications url
-    await expect(page).toHaveURL('/classifications');
+    await Promise.all([variableDefinitionsPage.waitForURL('/classifications'), klassTab.click()]);
+    await expect(variableDefinitionsPage).toHaveURL('/classifications');
   });
 
-  test('navigate to datasets', async ({ page }) => {
-    const datasetTab = page.getByRole('tab', { name: localization.tabs.datasets });
+  test('navigate to datasets', async ({ variableDefinitionsPage }) => {
+    const datasetTab = variableDefinitionsPage.getByRole('tab', { name: localization.tabs.datasets });
 
-    // Wait for visible
     await expect(datasetTab).toBeEnabled();
 
-    // Wait before click tab
-    await Promise.all([page.waitForURL('/datasets'), datasetTab.click()]);
-    // Expect classifications url
-    await expect(page).toHaveURL('/datasets');
+    await Promise.all([variableDefinitionsPage.waitForURL('/datasets'), datasetTab.click()]);
+    await expect(variableDefinitionsPage).toHaveURL('/datasets');
   });
 
-  test('navigate to variable definitions', async ({ page }) => {
-    const vardefTab = page.getByRole('tab', { name: localization.tabs.variableDefinitions });
+  test('navigate to variable definitions', async ({ variableDefinitionsPage }) => {
+    const vardefTab = variableDefinitionsPage.getByRole('tab', { name: localization.tabs.variableDefinitions });
 
-    // Wait for visible
     await expect(vardefTab).toBeEnabled();
 
-    // Wait before click tab
-    await Promise.all([page.waitForURL('/variable-definitions'), vardefTab.click()]);
+    await Promise.all([variableDefinitionsPage.waitForURL('/variable-definitions'), vardefTab.click()]);
 
-    // Expect variable definitions url
-    await expect(page).toHaveURL('/variable-definitions');
+    await expect(variableDefinitionsPage).toHaveURL('/variable-definitions');
   });
 });
