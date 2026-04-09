@@ -2,8 +2,8 @@ import { Link } from '@digdir/designsystemet-react';
 import Image from 'next/image';
 import { FC } from 'react';
 import { localization } from '@/libs/language';
+import { LoginButton } from '../login-button';
 import styles from './header.module.css';
-import { LoginButton } from './loginButton';
 
 export interface HeaderProps {
   homeUrl?: string;
