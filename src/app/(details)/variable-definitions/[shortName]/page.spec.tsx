@@ -4,7 +4,6 @@ import { getRenderedVariableDefinition } from '@/libs/data/variable-definitions/
 import { getVariableDefinitions } from '@/utils/mock-data';
 import VariableDefinition, { generateMetadata } from './page';
 
-// Make React's cache() a passthrough so getPageData behaves as a plain async function in tests
 vi.mock('react', async (importOriginal) => {
   const actual = await importOriginal<typeof import('react')>();
   return { ...actual, cache: (fn: unknown) => fn };
@@ -12,7 +11,6 @@ vi.mock('react', async (importOriginal) => {
 
 vi.mock('server-only', () => ({}));
 
-// notFound() throws in Next.js — replicate that so rejects = notFound was called
 vi.mock('next/navigation', () => ({
   notFound: vi.fn(() => {
     throw new Error('NOT_FOUND');
