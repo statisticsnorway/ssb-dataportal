@@ -10,14 +10,13 @@ export const metadata: Metadata = {
   title: localization.pageTitle.variableDefinitions,
 };
 
-const logger = createLogger('variable-definitions:page');
-
 export default async function VariableDefinitions({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const params = await searchParams;
+  const logger = createLogger('variable-definitions-discover-page');
   logger.info({ params }, 'Variable definitions page access');
 
   const subjectFieldsPromise = fetchStaticSubjectFields()

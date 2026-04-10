@@ -9,14 +9,42 @@ vi.mock('@digdir/designsystemet-react', () => {
     (tag: keyof JSX.IntrinsicElements) =>
     ({ children, ...props }: { children?: React.ReactNode } & React.HTMLAttributes<HTMLElement>) =>
       React.createElement(tag, props, children);
+  const Dialog = Object.assign(passthrough('dialog'), {
+    Trigger: passthrough('button'),
+    TriggerContext: passthrough('div'),
+  });
 
   return {
     Link: passthrough('a'),
     Heading: passthrough('h1'),
     Button: passthrough('button'),
+    Dialog,
     ExternalLinkIcon: () => <span>🔗</span>,
   };
 });
+vi.mock('@/app/authContext', () => ({
+  useAuthContext: () => ({
+    isAuthenticated: false,
+    login: vi.fn(),
+    logout: vi.fn(),
+    user: null,
+  }),
+}));
+
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    prefetch: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    refresh: vi.fn(),
+  }),
+}));
+
+vi.mock('@/components/login-button', () => ({
+  LoginButton: () => <div data-testid='login-button' />,
+}));
 
 describe('Header', () => {
   it('renders the logo link with correct href and text', () => {
@@ -50,5 +78,10 @@ describe('Header', () => {
     const logoLink = screen.getByAltText(/logo/i);
     expect(logoLink).toBeInTheDocument();
     expect(logoLink).not.toHaveAttribute('href');
+  });
+  it('renders login button', () => {
+    render(<Header homeUrl='https://example.com' />);
+
+    expect(screen.getByTestId('login-button')).toBeInTheDocument();
   });
 });

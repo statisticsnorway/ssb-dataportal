@@ -94,6 +94,9 @@ Configuration is primarily source from `.env*` files. This may be overridden in 
 | `IS_AUTHENTICATED` | `true` to hardcode successful authentication. Only applies under `DANGEROUSLY_DISABLE_USER_AUTH` mode |
 | `DEV_ENVIRONMENT_NAME`     | Used to identify different dev and test instances. May for example be set to the branch name.           |
 | `DAPLA_LAB_VARDEF_URL`     | URL to Vardef instance used in Dapla Lab integration.                                                   |
+| `LOGIN_ROUTE`              | URL to login page.                                                                                      |
+| `LOGOUT_ROUTE`             | URL to logout page.                                                                                     |
+
 
 ### Local auth
 

@@ -3,10 +3,10 @@
 import { sanitizeError } from '../logger/sanitize';
 import { createLogger } from '../logger/server-logger';
 
-const logger = createLogger('m2m-token');
 const ttlSeconds = Number(process.env.M2M_TOKEN_TTL_SECONDS);
 
 export async function getM2mToken() {
+  const logger = createLogger('m2m-token');
   logger.debug('Fetching M2M token from Keycloak');
   try {
     const keycloakHost = process.env.KEYCLOAK_HOST;

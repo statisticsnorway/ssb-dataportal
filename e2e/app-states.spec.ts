@@ -2,9 +2,7 @@ import { expect, test, TestInfo } from '@playwright/test';
 
 test.describe('app state routes', () => {
   test.beforeEach(({}, testInfo: TestInfo) => {
-    if (testInfo.project.name === 'chrome-unauth') {
-      testInfo.skip();
-    }
+    test.skip(testInfo.project.name === 'chrome-unauth');
   });
 
   test('global not-found page is shown for unknown route', async ({ page }) => {

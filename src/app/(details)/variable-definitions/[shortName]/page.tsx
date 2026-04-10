@@ -8,8 +8,6 @@ import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import VariableDefinitionDetail from './variableDefinitionDetail';
 
-const logger = createLogger('variable-definitions:detail');
-
 const getPageData = cache(async (shortName: string) => {
   const [auth, variableDefinition] = await Promise.all([
     authenticateUser().catch(() => ({ isAuthenticated: false })),
@@ -31,6 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ shortName
 }
 
 export default async function VariableDefinition({ params }: { params: Promise<{ shortName: string }> }) {
+  const logger = createLogger('variable-definition-detail-page');
   const { shortName } = await params;
   logger.info({ shortName }, 'Variable definition detail page access');
 

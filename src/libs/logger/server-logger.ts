@@ -50,6 +50,14 @@ const rootLogger = pino({
 });
 
 /**
+ * Allow enriching all log messages with key/value pairs
+ * @param bindings
+ */
+export function addGlobalLoggerBindings(bindings: Record<string, unknown>) {
+  rootLogger.setBindings(bindings);
+}
+
+/**
  * Creates a child logger with the given module name pre-bound.
  * Every log entry will include a `module` field in the JSON output.
  */
