@@ -5,9 +5,7 @@ export const test = base.extend<{
   landingPage: Page;
 }>({
   landingPage: async ({ page }, use, testInfo: TestInfo) => {
-    if (testInfo.project.name === 'chrome-unauth') {
-      testInfo.skip();
-    }
+    test.skip(testInfo.project.name === 'chrome-unauth');
     await page.goto('/');
     await stabilize();
     await use(page);
