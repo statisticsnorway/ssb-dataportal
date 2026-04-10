@@ -83,20 +83,19 @@ Configuration is primarily source from `.env*` files. This may be overridden in 
 
 #### Commonly used config
 
-| Key                        | Description                                                                                             |
-| -------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `VARDEF_BASE_PATH`         | Which Vardef instance to point to. Can be set to `http://localhost:8081` to work with a local instance  |
-| `VARDEF_USE_STATIC_DATA`   | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. |
-| `KLASS_BASE_PATH`          | Which Klass instance to point to. Can be set to `http://localhost:8080` to work with a local instance   |
-| `KLASS_USE_STATIC_DATA`    | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. |
-| `SSB_DATAPORTAL_JWT_TOKEN` | A JWT token to use for auth. Can be obtained from via the [Dapla CLI](#local-auth).                     |
-| `DANGEROUSLY_DISABLE_USER_AUTH` | `true` to completely disable token verification and take full control over authentication |
-| `IS_AUTHENTICATED` | `true` to hardcode successful authentication. Only applies under `DANGEROUSLY_DISABLE_USER_AUTH` mode |
-| `DEV_ENVIRONMENT_NAME`     | Used to identify different dev and test instances. May for example be set to the branch name.           |
-| `DAPLA_LAB_VARDEF_URL`     | URL to Vardef instance used in Dapla Lab integration.                                                   |
-| `LOGIN_ROUTE`              | URL to login page.                                                                                      |
-| `LOGOUT_ROUTE`             | URL to logout page.                                                                                     |
-
+| Key                             | Description                                                                                             |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `VARDEF_BASE_PATH`              | Which Vardef instance to point to. Can be set to `http://localhost:8081` to work with a local instance  |
+| `VARDEF_USE_STATIC_DATA`        | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. |
+| `KLASS_BASE_PATH`               | Which Klass instance to point to. Can be set to `http://localhost:8080` to work with a local instance   |
+| `KLASS_USE_STATIC_DATA`         | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. |
+| `SSB_DATAPORTAL_JWT_TOKEN`      | A JWT token to use for auth. Can be obtained from via the [Dapla CLI](#local-auth).                     |
+| `DANGEROUSLY_DISABLE_USER_AUTH` | `true` to completely disable token verification and take full control over authentication               |
+| `IS_AUTHENTICATED`              | `true` to hardcode successful authentication. Only applies under `DANGEROUSLY_DISABLE_USER_AUTH` mode   |
+| `DEV_ENVIRONMENT_NAME`          | Used to identify different dev and test instances. May for example be set to the branch name.           |
+| `DAPLA_LAB_VARDEF_URL`          | URL to Vardef instance used in Dapla Lab integration.                                                   |
+| `NEXT_PUBLIC_LOGIN_URL`         | URL to login page - value accessible in the browser.                                                      |
+| `NEXT_PUBLIC_LOGOUT_URL`        | URL to logout page - value accessible in the browser.                                                           |
 
 ### Local auth
 
@@ -213,6 +212,7 @@ SSB Dataportal uses Playwright with axe for accessibility testing.
 ```TypeScript
  .withRules(['color-contrast'])
 ```
+
 - Full list of Axe HTML rules: https://dequeuniversity.com/rules/axe/4.1
 
 ##### Run only accessibility tests:
