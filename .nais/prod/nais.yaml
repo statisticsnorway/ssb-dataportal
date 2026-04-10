@@ -45,3 +45,7 @@ spec:
       value: "https://lab.dapla.ssb.no/launcher/dapla-lab-standard/vardef-forvaltning"
     - name: LOG_LEVEL
       value: "info"
+    - name: NEXT_PUBLIC_LOGIN_URL
+      value: https://dataportal.ssb.no/oauth2/login
+    - name: NEXT_PUBLIC_LOGOUT_URL
+      value: https://dataportal.ssb.no/oauth2/logout
