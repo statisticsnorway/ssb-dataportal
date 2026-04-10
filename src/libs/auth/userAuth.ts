@@ -7,6 +7,20 @@ import { getEncodedJwt, verifyJwt } from './jwt';
 
 const logger = createLogger('user-auth');
 
+/**
+ * Authenticate a user.
+ *
+ * The only supported method is that a JWT Bearer token is
+ * supplied with each request. This is verified against an
+ * SSB Keycloak instance.
+ *
+ * For local development this may be disabled and full
+ * control taken over authentication data by using the
+ * appropriate environment variables.
+ *
+ * @returns the Auth object which indicates whether the user
+ *  is logged in and information about the user if they are.
+ */
 export async function authenticateUser(): Promise<Auth> {
   if (process.env.DANGEROUSLY_DISABLE_USER_AUTH === 'true') {
     return createLocalDevAuth();
@@ -25,8 +39,9 @@ async function authenticateWithKeycloakJwt(): Promise<Auth> {
     logger.info('User not authenticated');
     return { isAuthenticated: false };
   }
-  logger.info('User authenticated');
-  return mapJwtPayloadToAuth(payload);
+  const auth = mapJwtPayloadToAuth(payload);
+  logger.info({ user: auth.user?.preferred_username }, 'User authenticated');
+  return auth;
 }
 
 function getKeycloakJwksUri(): string {
@@ -57,5 +72,19 @@ function createLocalDevAuth(): Auth {
 }
 
 function mapJwtPayloadToAuth(payload: JWTPayload): Auth {
-  return { isAuthenticated: payload != undefined };
+  if (!payload) return { isAuthenticated: false };
+  const dapla = payload['dapla'] as Record<string, unknown>;
+  return {
+    isAuthenticated: true,
+    user: {
+      name: payload['name'] as string,
+      preferred_username: payload['preferred_username'] as string,
+      given_name: payload['given_name'] as string,
+      family_name: payload['family_name'] as string,
+      email: payload['email'] as string,
+      section_name: dapla['section_name'] as string,
+      section_code: dapla['section_code'] as string,
+      dapla: { teams: dapla['teams'] as string[], groups: dapla['groups'] as string[] },
+    },
+  };
 }
