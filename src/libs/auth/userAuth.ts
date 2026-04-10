@@ -5,8 +5,6 @@ import { Auth } from '@/types/auth';
 import { createLogger } from '../logger/server-logger';
 import { getEncodedJwt, verifyJwt } from './jwt';
 
-const logger = createLogger('user-auth');
-
 /**
  * Authenticate a user.
  *
@@ -29,6 +27,7 @@ export async function authenticateUser(): Promise<Auth> {
 }
 
 async function authenticateWithKeycloakJwt(): Promise<Auth> {
+  const logger = createLogger('user-auth');
   const payload = await verifyJwt(
     getKeycloakJwksUri(),
     await getEncodedJwt(),
@@ -45,6 +44,7 @@ async function authenticateWithKeycloakJwt(): Promise<Auth> {
 }
 
 function getKeycloakJwksUri(): string {
+  const logger = createLogger('user-auth');
   const keycloakHost = process.env.KEYCLOAK_HOST;
   const keycloakJwksPath = process.env.KEYCLOAK_JWKS_PATH;
   if (!keycloakHost || !keycloakJwksPath) {
@@ -64,6 +64,7 @@ function getExpectedIssuer(): string {
 }
 
 function createLocalDevAuth(): Auth {
+  const logger = createLogger('user-auth');
   if (process.env.NAIS_CLUSTER_NAME != undefined) throw Error('User auth is disabled in deployed in environment!');
   logger.warn(
     'Danger! User auth is disabled. This may allow unauthenticated users access. This message should only be visible in local dev environments.',
