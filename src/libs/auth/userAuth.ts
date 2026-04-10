@@ -2,7 +2,7 @@ import 'server-only';
 
 import { JWTPayload } from 'jose';
 import { Auth } from '@/types/auth';
-import { createLogger } from '../logger/server-logger';
+import { addGlobalLoggerBindings, createLogger } from '../logger/server-logger';
 import { getEncodedJwt, verifyJwt } from './jwt';
 
 /**
@@ -35,11 +35,13 @@ async function authenticateWithKeycloakJwt(): Promise<Auth> {
     process.env.USER_AUTH_TOKEN_EXPECTED_AUDIENCE,
   );
   if (!payload) {
+    addGlobalLoggerBindings({ user: 'unauthenticated' });
     logger.info('User not authenticated');
     return { isAuthenticated: false };
   }
   const auth = mapJwtPayloadToAuth(payload);
-  logger.info({ user: auth.user?.preferred_username }, 'User authenticated');
+  addGlobalLoggerBindings({ user: auth.user?.preferred_username });
+  logger.info('User authenticated');
   return auth;
 }
 
