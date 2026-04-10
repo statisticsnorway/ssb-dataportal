@@ -2,7 +2,6 @@ import { expectButtonVisible, stabilize } from './utils/commonUtils';
 import { test, expect } from './fixtures/unauth.fixture';
 import { localization } from '@/libs/language';
 import { Page } from '@playwright/test';
-import { AUTH_ROUTES } from '@/utils/constants';
 
 async function openLoginDialog(page: Page) {
   const loginButton = await expectButtonVisible(page, localization.authentication.logIn);
@@ -50,7 +49,7 @@ test.describe('Log in and out', () => {
     test.skip(testInfo.project.name === 'chrome-unauth');
     const logoutButton = await expectButtonVisible(page, logOutText);
     await logoutButton.click();
-    await expect(page).toHaveURL(AUTH_ROUTES.LOGOUT);
+    await expect(page).toHaveURL(String(process.env.LOGOUT_ROUTE));
   });
 
   test('log in as SSB employee redirects to login page', async ({ page }, testInfo) => {
@@ -63,7 +62,7 @@ test.describe('Log in and out', () => {
     await test.step('Click log in as employee', async () => {
       const finalLoginButton = await expectButtonVisible(page, logInAsText);
       await finalLoginButton.click();
-      await expect(page).toHaveURL(AUTH_ROUTES.LOGIN);
+      await expect(page).toHaveURL(String(process.env.LOGIN_ROUTE));
     });
   });
 });
