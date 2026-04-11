@@ -6,8 +6,6 @@ import { getRenderedVariableDefinition, getVardefClient, listRenderedVariableDef
 
 const staticDefs = getStaticVariableDefinitions();
 
-vi.mock('server-only', () => ({}));
-
 const ORIGINAL_ENV = process.env;
 beforeEach(() => {
   // Allow independently modifying process.env in tests

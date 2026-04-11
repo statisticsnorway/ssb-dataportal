@@ -9,8 +9,6 @@ vi.mock('react', async (importOriginal) => {
   return { ...actual, cache: (fn: unknown) => fn };
 });
 
-vi.mock('server-only', () => ({}));
-
 vi.mock('next/navigation', () => ({
   notFound: vi.fn(() => {
     throw new Error('NOT_FOUND');
@@ -19,10 +17,6 @@ vi.mock('next/navigation', () => ({
 
 vi.mock('@/libs/auth/userAuth', () => ({ authenticateUser: vi.fn() }));
 vi.mock('@/libs/data/variable-definitions/variableDefinitions', () => ({ getRenderedVariableDefinition: vi.fn() }));
-vi.mock('@/libs/logger/server-logger', () => ({
-  createLogger: () => ({ info: vi.fn(), error: vi.fn(), warn: vi.fn(), debug: vi.fn() }),
-}));
-vi.mock('@/libs/logger/sanitize', () => ({ sanitizeError: vi.fn((e) => e) }));
 vi.mock('./variableDefinitionDetail', () => ({ default: () => <div>VariableDefinitionDetail</div> }));
 
 const baseVariable = getVariableDefinitions()[0]!;
@@ -33,34 +27,28 @@ beforeEach(() => {
 });
 
 describe('VariableDefinition page', () => {
-  it('calls notFound when variable definition fetch fails', async () => {
-    vi.mocked(authenticateUser).mockResolvedValue({ isAuthenticated: false });
-    vi.mocked(getRenderedVariableDefinition).mockRejectedValue(new Error('Not found'));
-    await expect(VariableDefinition({ params })).rejects.toThrow('NOT_FOUND');
-  });
-
-  it('calls notFound for unauthenticated user with DRAFT variable', async () => {
-    vi.mocked(authenticateUser).mockResolvedValue({ isAuthenticated: false });
-    vi.mocked(getRenderedVariableDefinition).mockResolvedValue({ ...baseVariable, variable_status: 'DRAFT' });
-    await expect(VariableDefinition({ params })).rejects.toThrow('NOT_FOUND');
-  });
-
-  it('calls notFound for unauthenticated user with PUBLISHED_INTERNAL variable', async () => {
-    vi.mocked(authenticateUser).mockResolvedValue({ isAuthenticated: false });
-    vi.mocked(getRenderedVariableDefinition).mockResolvedValue({
-      ...baseVariable,
-      variable_status: 'PUBLISHED_INTERNAL',
+  describe('unauthenticated user', () => {
+    beforeEach(() => {
+      vi.mocked(authenticateUser).mockResolvedValue({ isAuthenticated: false });
     });
-    await expect(VariableDefinition({ params })).rejects.toThrow('NOT_FOUND');
-  });
 
-  it('renders for unauthenticated user with PUBLISHED_EXTERNAL variable', async () => {
-    vi.mocked(authenticateUser).mockResolvedValue({ isAuthenticated: false });
-    vi.mocked(getRenderedVariableDefinition).mockResolvedValue({
-      ...baseVariable,
-      variable_status: 'PUBLISHED_EXTERNAL',
+    it('calls notFound when variable definition fetch fails', async () => {
+      vi.mocked(getRenderedVariableDefinition).mockRejectedValue(new Error('Not found'));
+      await expect(VariableDefinition({ params })).rejects.toThrow('NOT_FOUND');
     });
-    await expect(VariableDefinition({ params })).resolves.toBeDefined();
+
+    it.each(['DRAFT', 'PUBLISHED_INTERNAL'] as const)('calls notFound for %s variable', async (variable_status) => {
+      vi.mocked(getRenderedVariableDefinition).mockResolvedValue({ ...baseVariable, variable_status });
+      await expect(VariableDefinition({ params })).rejects.toThrow('NOT_FOUND');
+    });
+
+    it('renders for PUBLISHED_EXTERNAL variable', async () => {
+      vi.mocked(getRenderedVariableDefinition).mockResolvedValue({
+        ...baseVariable,
+        variable_status: 'PUBLISHED_EXTERNAL',
+      });
+      await expect(VariableDefinition({ params })).resolves.toBeDefined();
+    });
   });
 
   it('renders for authenticated user with DRAFT variable', async () => {
@@ -71,30 +59,35 @@ describe('VariableDefinition page', () => {
 });
 
 describe('generateMetadata', () => {
-  it('returns shortName as title when fetch fails', async () => {
-    vi.mocked(authenticateUser).mockResolvedValue({ isAuthenticated: false });
-    vi.mocked(getRenderedVariableDefinition).mockRejectedValue(new Error('Not found'));
-    await expect(generateMetadata({ params })).resolves.toEqual({ title: 'test' });
-  });
+  describe('unauthenticated user', () => {
+    beforeEach(() => {
+      vi.mocked(authenticateUser).mockResolvedValue({ isAuthenticated: false });
+    });
 
-  it('returns shortName as title for unauthenticated user with DRAFT variable', async () => {
-    vi.mocked(authenticateUser).mockResolvedValue({ isAuthenticated: false });
-    vi.mocked(getRenderedVariableDefinition).mockResolvedValue({ ...baseVariable, variable_status: 'DRAFT' });
-    await expect(generateMetadata({ params })).resolves.toEqual({ title: 'test' });
+    it.each([
+      ['fetch fails', null],
+      ['DRAFT variable', 'DRAFT'],
+    ] as const)('returns shortName as title when %s', async (_, variable_status) => {
+      if (variable_status) {
+        vi.mocked(getRenderedVariableDefinition).mockResolvedValue({ ...baseVariable, variable_status });
+      } else {
+        vi.mocked(getRenderedVariableDefinition).mockRejectedValue(new Error('Not found'));
+      }
+      await expect(generateMetadata({ params })).resolves.toEqual({ title: 'test' });
+    });
+
+    it('returns variable name as title for PUBLISHED_EXTERNAL variable', async () => {
+      vi.mocked(getRenderedVariableDefinition).mockResolvedValue({
+        ...baseVariable,
+        variable_status: 'PUBLISHED_EXTERNAL',
+      });
+      await expect(generateMetadata({ params })).resolves.toEqual({ title: baseVariable.name });
+    });
   });
 
   it('returns variable name as title for authenticated user with DRAFT variable', async () => {
     vi.mocked(authenticateUser).mockResolvedValue({ isAuthenticated: true });
     vi.mocked(getRenderedVariableDefinition).mockResolvedValue({ ...baseVariable, variable_status: 'DRAFT' });
-    await expect(generateMetadata({ params })).resolves.toEqual({ title: baseVariable.name });
-  });
-
-  it('returns variable name as title for unauthenticated user with PUBLISHED_EXTERNAL variable', async () => {
-    vi.mocked(authenticateUser).mockResolvedValue({ isAuthenticated: false });
-    vi.mocked(getRenderedVariableDefinition).mockResolvedValue({
-      ...baseVariable,
-      variable_status: 'PUBLISHED_EXTERNAL',
-    });
     await expect(generateMetadata({ params })).resolves.toEqual({ title: baseVariable.name });
   });
 });
