@@ -10,7 +10,7 @@ const NOT_FOUND_HEADING = 'Variabeldefinisjon ikke funnet';
 
 test.describe('unauthenticated access control', () => {
   test.beforeEach(async ({}, testInfo) => {
-    if (testInfo.project.name !== 'chrome-unauth') testInfo.skip();
+    test.skip(testInfo.project.name !== 'chrome-unauth');
   });
 
   test('blocks DRAFT variable', async ({ page }) => {
