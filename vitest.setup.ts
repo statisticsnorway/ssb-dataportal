@@ -1,4 +1,7 @@
 import '@testing-library/jest-dom';
+import { vi } from 'vitest';
+
+vi.mock('@digdir/designsystemet-web', () => ({}));
 
 // Polyfill CSS.supports for jsdom
 if (typeof CSS === 'undefined') {
