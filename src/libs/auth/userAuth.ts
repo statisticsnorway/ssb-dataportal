@@ -67,7 +67,7 @@ function getExpectedIssuer(): string {
 
 function createLocalDevAuth(): Auth {
   const logger = createLogger('user-auth');
-  if (process.env.NAIS_CLUSTER_NAME != undefined) throw Error('User auth is disabled in deployed in environment!');
+  if (process.env.NAIS_CLUSTER_NAME != undefined) throw Error('User auth is disabled in deployed environment!');
   logger.warn(
     'Danger! User auth is disabled. This may allow unauthenticated users access. This message should only be visible in local dev environments.',
   );

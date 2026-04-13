@@ -28,7 +28,7 @@ describe('authenticateUser', async () => {
       process.env.DANGEROUSLY_DISABLE_USER_AUTH = 'true';
       process.env.NAIS_CLUSTER_NAME = 'prod';
       process.env.IS_AUTHENTICATED = 'true';
-      await expect(authenticateUser()).rejects.toThrow('User auth is disabled in deployed in environment!');
+      await expect(authenticateUser()).rejects.toThrow('User auth is disabled in deployed environment!');
     });
   });
   describe('auth enabled', async () => {
