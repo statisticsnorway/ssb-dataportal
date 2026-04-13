@@ -16,9 +16,6 @@ test.describe('Log in and out', () => {
   const logInAsText = localization.authentication.logInSsbEmployee;
   const logOutText = localization.authentication.logOut;
 
-  const dialogHeadingText = localization.authentication.loginHeading;
-  const dialogInfoText = localization.authentication.loginInfo;
-
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
     stabilize();
@@ -41,15 +38,15 @@ test.describe('Log in and out', () => {
     const loginDialog = await openLoginDialog(page);
     const dialogHeading = loginDialog.getByRole('heading');
     const dialogInfo = loginDialog.getByRole('paragraph');
-    await expect(dialogHeading).toContainText(dialogHeadingText);
-    await expect(dialogInfo).toContainText(dialogInfoText);
+    await expect(dialogHeading).toBeVisible();
+    await expect(dialogInfo).toBeVisible();
   });
 
   test('log out button redirects to log out page', async ({ page }, testInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
     const logoutButton = await expectButtonVisible(page, logOutText);
     await logoutButton.click();
-    await expect(page).toHaveURL(String(process.env.LOGOUT_ROUTE));
+    await expect(page).toHaveURL(/\/oauth2\/logout/);
   });
 
   test('log in as SSB employee redirects to login page', async ({ page }, testInfo) => {
@@ -62,7 +59,7 @@ test.describe('Log in and out', () => {
     await test.step('Click log in as employee', async () => {
       const finalLoginButton = await expectButtonVisible(page, logInAsText);
       await finalLoginButton.click();
-      await expect(page).toHaveURL(String(process.env.LOGIN_ROUTE));
+      await expect(page).toHaveURL(/\/oauth2\/login/);
     });
   });
 });

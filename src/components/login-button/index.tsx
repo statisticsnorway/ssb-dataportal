@@ -20,14 +20,16 @@ const LoginButton = () => {
   const router = useRouter();
 
   return isAuthenticated ? (
-    <Button onClick={() => router.push(String(process.env.LOGOUT_ROUTE))}>{localization.authentication.logOut}</Button>
+    <Button onClick={() => router.push(String(process.env.NEXT_PUBLIC_LOGOUT_URL))}>
+      {localization.authentication.logOut}
+    </Button>
   ) : (
     <Dialog.TriggerContext>
       <Dialog.Trigger>{localization.authentication.logIn}</Dialog.Trigger>
       <Dialog>
         <Heading level={3}>{localization.authentication.loginHeading}</Heading>
         <p>{localization.authentication.loginInfo}</p>
-        <Button onClick={() => router.push(String(process.env.LOGIN_ROUTE))}>
+        <Button onClick={() => router.push(String(process.env.NEXT_PUBLIC_LOGIN_URL))}>
           {localization.authentication.logInSsbEmployee}
         </Button>
       </Dialog>
