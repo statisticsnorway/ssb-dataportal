@@ -1,7 +1,4 @@
 import { expect, test, TestInfo } from '@playwright/test';
-import { vi } from 'vitest';
-
-vi.mock('@digdir/designsystemet-web', () => ({}));
 
 test.describe('app state routes', () => {
   test.beforeEach(({}, testInfo: TestInfo) => {
