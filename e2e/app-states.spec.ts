@@ -9,7 +9,7 @@ test.describe('app state routes', () => {
 
   test('global not-found page is shown for unknown route', async ({ page }) => {
     await page.goto('/this-route-does-not-exist');
-    await expect(page.getByRole('heading', { name: 'Beklager, vi fant ikke siden' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Siden finnes ikke' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Gå til forsiden' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Meld fra om ødelagt lenke' })).toBeVisible();
   });

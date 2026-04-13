@@ -87,6 +87,7 @@ export const nb = {
       ].join('\n'),
     notFoundTitle: 'Siden finnes ikke',
     notFoundMessage: 'Siden kan være flyttet, slettet eller lenken kan være feil.',
+    notFoundTitleVariableDetails: 'Variabeldefinisjon ikke funnet',
     notFoundMessageVariableDetails:
       'Er det skrivefeil i lenken? Eller har variabeldefinisjonen blitt slettet eller flyttet?',
     notFoundHelpListVariableDetails: [

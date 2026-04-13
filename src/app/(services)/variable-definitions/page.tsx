@@ -20,6 +20,8 @@ export default async function VariableDefinitions({
   const params = await searchParams;
   logger.info({ params }, 'Variable definitions page access');
 
+  const enableErrorPreview = process.env.ENABLE_TEST_ROUTES === 'true';
+
   const subjectFieldsPromise = fetchStaticSubjectFields()
     .then((data) => ({ data, error: null }))
     .catch((error) => {
@@ -38,6 +40,7 @@ export default async function VariableDefinitions({
     <VariableDefinitionsServicePage
       variablesPromise={variableDefsPromise}
       subjectFieldsPromise={subjectFieldsPromise}
+      enableErrorPreview={enableErrorPreview}
     />
   );
 }

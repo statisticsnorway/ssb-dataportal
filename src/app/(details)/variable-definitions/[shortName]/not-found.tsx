@@ -6,6 +6,7 @@ import { localization } from '@/libs/language';
 export default function NotFound() {
   return (
     <AppNotFoundState
+      title={localization.error.notFoundTitleVariableDetails}
       message={localization.error.notFoundMessageVariableDetails}
       helpList={localization.error.notFoundHelpListVariableDetails}
       homeHref='/'

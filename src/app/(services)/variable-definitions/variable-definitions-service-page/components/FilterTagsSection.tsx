@@ -26,9 +26,7 @@ interface FilterTagsSectionProps {
  * @returns A FilterTags component populated with active filters and search term.
  */
 export const FilterTagsSection = ({ onClose, onClearAll, onClearSearch }: FilterTagsSectionProps) => {
-  const { variablesPromise, subjectFilters, statusFilters, textFilter, sortOption, error } =
-    useVariableDefinitionsContext();
-  if (error) return null;
+  const { variablesPromise, subjectFilters, statusFilters, textFilter, sortOption } = useVariableDefinitionsContext();
 
   const { filteredVariables } = useFilteredVariables({
     variablesPromise,

@@ -13,9 +13,9 @@ import { AppNotFoundState } from '@/components/app-state';
  * The console error seen during tests is expected.
  */
 export default async function Page() {
-  const isEnabled = process.env.NEXT_PUBLIC_ENABLE_RESULTS_ERROR_PREVIEW === 'true';
+  const isEnabled = process.env.ENABLE_TEST_ROUTES === 'true';
   if (!isEnabled) {
-    return <AppNotFoundState />;
+    return <AppNotFoundState />; // TODO: Can be notFound() and without assignment (if(process...)
   }
   await headers();
   throw new Error('E2E_TEST_ERROR');

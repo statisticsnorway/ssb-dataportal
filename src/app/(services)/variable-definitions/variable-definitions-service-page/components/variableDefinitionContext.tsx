@@ -9,6 +9,7 @@ interface VariableDefinitionsContextValue {
   subjectFilters: FilterItem[];
   statusFilters: FilterItem[];
   sortOption: SortTypes;
+  enableErrorPreview: boolean;
 }
 
 const VariableDefinitionsContext = createContext<VariableDefinitionsContextValue | null>(null);
@@ -32,6 +33,7 @@ export const VariableDefinitionsProvider = ({
   subjectFilters,
   statusFilters,
   sortOption,
+  enableErrorPreview,
 }: VariableDefinitionsProviderProps) => {
   const value = useMemo(
     () => ({
@@ -40,6 +42,7 @@ export const VariableDefinitionsProvider = ({
       subjectFilters,
       statusFilters,
       sortOption,
+      enableErrorPreview,
     }),
     [variablesPromise, textFilter, subjectFilters, statusFilters, sortOption],
   );

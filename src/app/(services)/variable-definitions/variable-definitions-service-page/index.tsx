@@ -22,11 +22,13 @@ import { VariableDefinitionsProvider } from './components/variableDefinitionCont
 interface VariableDefinitionsServicePageProps {
   variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
   subjectFieldsPromise: Promise<{ data: CodeItem[]; error: Error | null }>;
+  enableErrorPreview: boolean;
 }
 
 const VariableDefinitionsServicePage = ({
   variablesPromise,
   subjectFieldsPromise,
+  enableErrorPreview,
 }: VariableDefinitionsServicePageProps) => {
   const [sortOption, setSortOption] = useState<SortTypes>('titleAsc');
   const [subjectFilters, setSubjectFilters] = useState<FilterItem[]>([]);
@@ -78,7 +80,7 @@ const VariableDefinitionsServicePage = ({
       subjectFilters={subjectFilters}
       statusFilters={statusFilters}
       sortOption={sortOption}
-      error={null}
+      enableErrorPreview={enableErrorPreview}
     >
       <SearchPage
         tabsId={tabsData.VariableDefinitions.id}

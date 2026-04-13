@@ -30,7 +30,8 @@ interface ResultsSectionProps {
  * @returns A SearchHitContainer component populated with paginated search results.
  */
 export const ResultsSection = ({ currentPage, pageSize, handlePageChange }: ResultsSectionProps) => {
-  const { variablesPromise, textFilter, subjectFilters, statusFilters, sortOption } = useVariableDefinitionsContext();
+  const { variablesPromise, textFilter, subjectFilters, statusFilters, sortOption, enableErrorPreview } =
+    useVariableDefinitionsContext();
 
   const { filteredVariables, error } = useFilteredVariables({
     variablesPromise,
@@ -40,8 +41,7 @@ export const ResultsSection = ({ currentPage, pageSize, handlePageChange }: Resu
     sortOption,
   });
 
-  const forceError = process.env.NEXT_PUBLIC_ENABLE_RESULTS_ERROR_PREVIEW === 'true';
-  const effectiveError = forceError ? new Error('Forced error preview') : error;
+  const effectiveError = enableErrorPreview ? new Error('Forced error preview') : error;
 
   const totalHits = filteredVariables.length;
   const totalPages = Math.ceil(totalHits / pageSize);
