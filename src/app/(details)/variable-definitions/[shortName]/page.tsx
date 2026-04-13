@@ -6,6 +6,9 @@ import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import VariableDefinitionDetail from './variableDefinitionDetail';
 
+/**
+ * Fetches and caches page data for a variable definition by its short name.
+ */
 const getPageData = cache(async (shortName: string) => {
   const variableDefinition = await getRenderedVariableDefinition(shortName);
   return { variableDefinition };
