@@ -96,7 +96,7 @@ Configuration is primarily source from `.env*` files. This may be overridden in 
 | `DAPLA_LAB_VARDEF_URL`          | URL to Vardef instance used in Dapla Lab integration.                                                   |
 | `NEXT_PUBLIC_LOGIN_URL`         | URL to login page - value accessible in the browser.                                                    |
 | `NEXT_PUBLIC_LOGOUT_URL`        | URL to logout page - value accessible in the browser.                                                   |
-| `ENABLE_TEST_ROUTES`            | Controls whether test-specific routes are enabled, so they are available during testing.                |
+| `ENABLE_TEST_ROUTES`            | Controls whether test-specific routes are enabled.                                                      |
 
 ### Local auth
 

@@ -9,10 +9,13 @@ import { notFound } from 'next/navigation';
  * NOTE:
  * The console error seen during tests is expected.
  */
+
 export default async function Page() {
-  if (process.env.ENABLE_TEST_ROUTES !== 'true') {
+  const h = await headers();
+  const enabledViaEnv = process.env.NODE_ENV === 'development' && process.env.ENABLE_TEST_ROUTES === 'true';
+  const enabledViaTest = h.get('x-playwright-error-test') === 'true';
+  if (!enabledViaEnv && !enabledViaTest) {
     notFound();
   }
-  await headers();
   throw new Error('E2E_TEST_ERROR');
 }
