@@ -85,9 +85,9 @@ function mapJwtPayloadToAuth(payload: JWTPayload): Auth {
       given_name: payload['given_name'] as string,
       family_name: payload['family_name'] as string,
       email: payload['email'] as string,
-      section_name: dapla['section_name'] as string,
-      section_code: dapla['section_code'] as string,
-      dapla: { teams: dapla['teams'] as string[], groups: dapla['groups'] as string[] },
+      section_name: dapla && (dapla['section_name'] as string),
+      section_code: dapla && (dapla['section_code'] as string),
+      dapla: dapla && { teams: dapla['teams'] as string[], groups: dapla['groups'] as string[] },
     },
   };
 }
