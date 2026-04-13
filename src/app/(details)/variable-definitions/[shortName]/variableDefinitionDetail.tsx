@@ -2,6 +2,7 @@
 
 import { Button, Tooltip } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
+import { notFound } from 'next/navigation';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { DetailsPagePanel } from '@/components/details-page-panel/details-page-panel';
@@ -12,6 +13,7 @@ import { VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
 import { VardefHeading } from '@/components/vardef-heading/';
 import { useClipboard } from '@/hooks/useClipboard';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
+import { VariableStatus } from '@/libs/data-access/variable-definitions/internal/models';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { nonEmpty } from '@/utils/functions';
@@ -35,6 +37,11 @@ export default function VariableDefinitionDetail({
   daplaLabVardefUrl: string | undefined;
 }>) {
   const { isAuthenticated } = useAuthContext();
+
+  if (!isAuthenticated && variableDefinition.variable_status !== VariableStatus.PublishedExternal) {
+    notFound();
+  }
+
   const references = nonEmpty(referencesItems(variableDefinition));
   const { copied, copyToClipboard } = useClipboard();
 
