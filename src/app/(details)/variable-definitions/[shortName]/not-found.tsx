@@ -11,7 +11,7 @@ export default function NotFound() {
       helpList={localization.error.notFoundHelpListVariableDetails}
       homeHref='/'
       secondaryHref='/variable-definitions'
-      secondaryLabel='Variabeldefinisjoner'
+      secondaryLabel={localization.variableDefinition.labelPlural}
       showBrokenLinkButton={false}
     />
   );
