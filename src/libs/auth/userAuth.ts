@@ -67,7 +67,7 @@ function getExpectedIssuer(): string {
 
 function createLocalDevAuth(): Auth {
   const logger = createLogger('user-auth');
-  if (process.env.NAIS_CLUSTER_NAME != undefined) throw Error('User auth is disabled in deployed in environment!');
+  if (process.env.NAIS_CLUSTER_NAME != undefined) throw Error('User auth is disabled in deployed environment!');
   logger.warn(
     'Danger! User auth is disabled. This may allow unauthenticated users access. This message should only be visible in local dev environments.',
   );
@@ -85,9 +85,9 @@ function mapJwtPayloadToAuth(payload: JWTPayload): Auth {
       given_name: payload['given_name'] as string,
       family_name: payload['family_name'] as string,
       email: payload['email'] as string,
-      section_name: dapla['section_name'] as string,
-      section_code: dapla['section_code'] as string,
-      dapla: { teams: dapla['teams'] as string[], groups: dapla['groups'] as string[] },
+      section_name: dapla && (dapla['section_name'] as string),
+      section_code: dapla && (dapla['section_code'] as string),
+      dapla: dapla && { teams: dapla['teams'] as string[], groups: dapla['groups'] as string[] },
     },
   };
 }
