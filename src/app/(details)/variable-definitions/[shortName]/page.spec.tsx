@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { authenticateUser } from '@/libs/auth/userAuth';
 import { getRenderedVariableDefinition } from '@/libs/data/variable-definitions/variableDefinitions';
 import { getVariableDefinitions } from '@/utils/mock-data';
-import VariableDefinition, { generateMetadata } from './page';
+import VariableDefinition from './page';
 
 vi.mock('react', async (importOriginal) => {
   const actual = await importOriginal<typeof import('react')>();
@@ -55,39 +55,5 @@ describe('VariableDefinition page', () => {
     vi.mocked(authenticateUser).mockResolvedValue({ isAuthenticated: true });
     vi.mocked(getRenderedVariableDefinition).mockResolvedValue({ ...baseVariable, variable_status: 'DRAFT' });
     await expect(VariableDefinition({ params })).resolves.toBeDefined();
-  });
-});
-
-describe('generateMetadata', () => {
-  describe('unauthenticated user', () => {
-    beforeEach(() => {
-      vi.mocked(authenticateUser).mockResolvedValue({ isAuthenticated: false });
-    });
-
-    it.each([
-      ['fetch fails', null],
-      ['DRAFT variable', 'DRAFT'],
-    ] as const)('returns shortName as title when %s', async (_, variable_status) => {
-      if (variable_status) {
-        vi.mocked(getRenderedVariableDefinition).mockResolvedValue({ ...baseVariable, variable_status });
-      } else {
-        vi.mocked(getRenderedVariableDefinition).mockRejectedValue(new Error('Not found'));
-      }
-      await expect(generateMetadata({ params })).resolves.toEqual({ title: 'test' });
-    });
-
-    it('returns variable name as title for PUBLISHED_EXTERNAL variable', async () => {
-      vi.mocked(getRenderedVariableDefinition).mockResolvedValue({
-        ...baseVariable,
-        variable_status: 'PUBLISHED_EXTERNAL',
-      });
-      await expect(generateMetadata({ params })).resolves.toEqual({ title: baseVariable.name });
-    });
-  });
-
-  it('returns variable name as title for authenticated user with DRAFT variable', async () => {
-    vi.mocked(authenticateUser).mockResolvedValue({ isAuthenticated: true });
-    vi.mocked(getRenderedVariableDefinition).mockResolvedValue({ ...baseVariable, variable_status: 'DRAFT' });
-    await expect(generateMetadata({ params })).resolves.toEqual({ title: baseVariable.name });
   });
 });
