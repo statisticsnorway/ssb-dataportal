@@ -1,6 +1,8 @@
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { authenticateUser } from './userAuth';
 
+vi.mock('server-only', () => ({}));
+
 const ORIGINAL_ENV = process.env;
 beforeEach(() => {
   // Allow independently modifying process.env in tests
