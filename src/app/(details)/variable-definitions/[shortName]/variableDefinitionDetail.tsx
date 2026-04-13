@@ -13,10 +13,10 @@ import { VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
 import { VardefHeading } from '@/components/vardef-heading/';
 import { useClipboard } from '@/hooks/useClipboard';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
-import { VariableStatus } from '@/libs/data-access/variable-definitions/internal/models';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { nonEmpty } from '@/utils/functions';
+import { isVariablePubliclyAccessible } from '@/utils/variableAccess';
 import { CodeSnippet } from './components/codeSnippet';
 import {
   contactItems,
@@ -38,7 +38,7 @@ export default function VariableDefinitionDetail({
 }>) {
   const { isAuthenticated } = useAuthContext();
 
-  if (!isAuthenticated && variableDefinition.variable_status !== VariableStatus.PublishedExternal) {
+  if (!isVariablePubliclyAccessible(variableDefinition.variable_status, isAuthenticated)) {
     notFound();
   }
 

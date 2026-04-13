@@ -1,7 +1,7 @@
 import { use, useMemo } from 'react';
 import { useAuthContext } from '@/app/authContext';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
-import { VariableStatus } from '@/libs/data-access/variable-definitions/internal/models/VariableStatus';
+import { isVariablePubliclyAccessible } from '@/utils/variableAccess';
 
 /**
  * Resolves a variables promise and filters the result based on authentication state.
@@ -14,8 +14,7 @@ export function useAuthorizedVariables(variablesPromise: Promise<{ data: Rendere
   const { isAuthenticated } = useAuthContext();
 
   const authorizedVariables = useMemo(
-    () =>
-      isAuthenticated ? variables : variables?.filter((v) => v.variable_status === VariableStatus.PublishedExternal),
+    () => variables?.filter((v) => isVariablePubliclyAccessible(v.variable_status, isAuthenticated)),
     [variables, isAuthenticated],
   );
 
