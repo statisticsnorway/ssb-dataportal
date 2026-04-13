@@ -56,6 +56,7 @@ describe('VariableDefinitionsServicePage', () => {
         <VariableDefinitionsServicePage
           variablesPromise={new Promise((resolve) => getVariableDefinitions())}
           subjectFieldsPromise={new Promise((resolve) => fetchStaticSubjectFields())}
+          enableErrorPreview={false}
         />
       </AuthProvider>,
     );
@@ -68,6 +69,7 @@ describe('VariableDefinitionsServicePage', () => {
         <VariableDefinitionsServicePage
           variablesPromise={new Promise((resolve) => getVariableDefinitions())}
           subjectFieldsPromise={new Promise((resolve) => fetchStaticSubjectFields())}
+          enableErrorPreview={false}
         />
       </AuthProvider>,
     );
@@ -80,6 +82,7 @@ describe('VariableDefinitionsServicePage', () => {
         <VariableDefinitionsServicePage
           variablesPromise={promiseNeverResolves as Promise<{ data: RenderedView[]; error: Error | null }>}
           subjectFieldsPromise={new Promise(() => fetchStaticSubjectFields())}
+          enableErrorPreview={false}
         />
       </AuthProvider>,
     );
@@ -93,6 +96,7 @@ describe('VariableDefinitionsServicePage', () => {
         <VariableDefinitionsServicePage
           variablesPromise={new Promise(() => getVariableDefinitions())}
           subjectFieldsPromise={promiseNeverResolves as Promise<{ data: CodeItem[]; error: Error | null }>}
+          enableErrorPreview={false}
         />
       </AuthProvider>,
     );
