@@ -8,6 +8,17 @@ import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import VariableDefinitionDetail from './variableDefinitionDetail';
 
+/**
+ * Fetches auth state and the rendered variable definition in parallel.
+ *
+ * Wrapped in React `cache()` so the data is only fetched once per request,
+ * even though both `generateMetadata` and the page component call this function.
+ * Authentication errors are silently caught and default to `{ isAuthenticated: false }`,
+ * allowing callers to apply visibility rules based on the variable's publication status.
+ *
+ * @param shortName - The short name identifying the variable definition to fetch.
+ * @returns An object containing the auth state and the rendered variable definition.
+ */
 const getPageData = cache(async (shortName: string) => {
   const [auth, variableDefinition] = await Promise.all([
     authenticateUser().catch(() => ({ isAuthenticated: false })),
