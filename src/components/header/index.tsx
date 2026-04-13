@@ -2,6 +2,7 @@ import { Link } from '@digdir/designsystemet-react';
 import Image from 'next/image';
 import { FC } from 'react';
 import { localization } from '@/libs/language';
+import { LoginButton } from '../login-button';
 import styles from './header.module.css';
 
 export interface HeaderProps {
@@ -33,6 +34,7 @@ export const Header: FC<HeaderProps> = ({ homeUrl, title, devEnvironmentName }) 
         <div className={`${styles.rightGroup}`}>
           {devEnvironmentName ? <p className={styles.environmentName}>{devEnvironmentName}</p> : undefined}
         </div>
+        <LoginButton />
       </div>
     </header>
   );

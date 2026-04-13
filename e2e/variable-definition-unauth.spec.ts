@@ -4,6 +4,7 @@ import { localization } from '@/libs/language';
 
 const KNOWN_SHORT_NAME = 'aksje';
 const DETAIL_URL = `${tabsData.VariableDefinitions.route}/${KNOWN_SHORT_NAME}`;
+
 test.describe('unauthenticated view', () => {
   test('hides Python code snippet', async ({ unauthPage }) => {
     await unauthPage.goto(DETAIL_URL);

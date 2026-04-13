@@ -21,10 +21,10 @@ import {
   ResponseError,
 } from '../../data-access/variable-definitions/internal/runtime';
 
-const logger = createLogger('variable-definitions');
 const ttlSeconds = Number(process.env.VARDEF_CACHE_TTL_SECONDS);
 
 export async function getVardefClient(): Promise<VariableDefinitionsApi> {
+  const logger = createLogger('variable-definitions');
   let token = process.env.SSB_DATAPORTAL_JWT_TOKEN;
   if (token) {
     logger.warn('Using hardcoded access token from environment! (SSB_DATAPORTAL_JWT_TOKEN)');
@@ -54,6 +54,7 @@ export async function getVardefClient(): Promise<VariableDefinitionsApi> {
 }
 
 export async function listRenderedVariableDefinitions(): Promise<Array<RenderedView>> {
+  const logger = createLogger('variable-definitions');
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'listRenderedVariableDefinitions' }, 'Using static mock data for vardef');
     return getVariableDefinitions();
@@ -89,6 +90,7 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
 }
 
 export async function getRenderedVariableDefinition(shortName: string): Promise<RenderedView> {
+  const logger = createLogger('variable-definitions');
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'getRenderedVariableDefinition' }, 'Using static mock data for vardef');
     const variable = getVariableDefinitionByShortName(shortName);

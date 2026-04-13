@@ -6,9 +6,7 @@ export const test = base.extend<{
   variableDefinitionsPage: Page;
 }>({
   variableDefinitionsPage: async ({ page }, use, testInfo: TestInfo) => {
-    if (testInfo.project.name === 'chrome-unauth') {
-      testInfo.skip();
-    }
+    test.skip(testInfo.project.name === 'chrome-unauth');
     await page.goto(tabsData.VariableDefinitions.route);
     await expect(page).toHaveURL(/\/variable-definitions$/);
     await stabilize();

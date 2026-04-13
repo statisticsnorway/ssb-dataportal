@@ -197,4 +197,12 @@ export const nb = {
     filters: 'Laster filtere...',
     results: 'Laster resultater...',
   },
+  authentication: {
+    logIn: 'Logg inn',
+    logInSsbEmployee: 'Logg inn som SSB ansatt',
+    logOut: 'Logg ut',
+    loginHeading: 'Innlogging',
+    loginInfo:
+      'Innlogging er kun tilgjengelig for ansatte i Statistisk sentralbyrå. Du kan fortsatt bruke tjenesten uten å logge inn.',
+  },
 };

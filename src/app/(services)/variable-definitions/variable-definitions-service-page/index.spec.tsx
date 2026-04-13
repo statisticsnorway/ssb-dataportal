@@ -62,6 +62,18 @@ describe('VariableDefinitionsServicePage', () => {
     expect(baseElement).toBeTruthy();
     expect(baseElement).toMatchSnapshot();
   });
+  it('unauthenticated - hides status filter panel', () => {
+    const { baseElement } = render(
+      <AuthProvider isAuthenticated={false}>
+        <VariableDefinitionsServicePage
+          variablesPromise={new Promise((resolve) => getVariableDefinitions())}
+          subjectFieldsPromise={new Promise((resolve) => fetchStaticSubjectFields())}
+        />
+      </AuthProvider>,
+    );
+    expect(baseElement).toBeTruthy();
+    expect(baseElement).toMatchSnapshot();
+  });
   it('page renders while waiting for variable definitions', () => {
     const { baseElement } = render(
       <AuthProvider isAuthenticated={true}>

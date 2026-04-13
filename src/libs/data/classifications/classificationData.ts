@@ -6,8 +6,6 @@ import classificationsMock from '@/static-data/classifications.json';
 import { linkObj } from '@/types/classification';
 import { getClassification } from '@/utils/mock-data';
 
-const logger = createLogger('classification-data');
-
 const CLASSIFICATIONS_URL_PATH_PART = 'classifications';
 
 const useStaticData = process.env.KLASS_USE_STATIC_DATA === 'true';
@@ -22,6 +20,7 @@ export async function fetchAllClassifications(pageSize = 20): Promise<Classifica
   let allClassifications = [];
   let currentPage = 0;
   let totalPages = 1;
+  const logger = createLogger('classification-data');
 
   if (useStaticData) {
     logger.warn('Using static mock data for classifications');
@@ -54,6 +53,7 @@ export async function fetchAllClassifications(pageSize = 20): Promise<Classifica
 
 export async function fetchClassificationById(id: number): Promise<ClassificationResource | undefined> {
   let classification: ClassificationResource | undefined;
+  const logger = createLogger('classification-data');
 
   if (useStaticData) {
     logger.warn('Using static mock data for classifications');
