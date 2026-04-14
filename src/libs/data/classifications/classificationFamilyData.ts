@@ -5,6 +5,7 @@ import { createLogger } from '@/libs/logger/server-logger';
 import classificationMockFamilies from '@/static-data/classification-families.json';
 import { ClassificationType } from '@/types/classification';
 import { transformClassificationFamilies } from '@/utils/mock-data';
+import { getUserAgent } from '@/utils/userAgent';
 
 const logger = createLogger('classification-family-data');
 
@@ -20,6 +21,9 @@ export async function fetchClassificationFamilies(): Promise<ClassificationFamil
     allClassificationFamilies = allClassificationFamilies = transformClassificationFamilies(classificationMockFamilies);
   } else {
     const res = await fetch(`${process.env.KLASS_BASE_PATH}/${CLASSIFICATION_FAMILIES_URL_PATH_PART}`, {
+      headers: {
+        'User-Agent': getUserAgent(),
+      },
       cache: 'no-store',
     });
     if (!res.ok) throw new Error('Failed to fetch classification families');
@@ -54,6 +58,11 @@ export const getClassificationFamily = async (
   } else {
     const data = await fetch(
       `${process.env.KLASS_BASE_PATH}/${CLASSIFICATION_FAMILIES_URL_PATH_PART}/${id}?includeCodelists=${includeCodelists}`,
+      {
+        headers: {
+          'User-Agent': getUserAgent(),
+        },
+      },
     );
     return data.json();
   }
