@@ -5,14 +5,13 @@ import { useFilteredVariables } from '@/hooks/useFilteredVariables';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { VardefSearchHit } from '../../components/vardefSearchHit';
-import { mapErrorMessage } from './utils';
+import { isErrorPreviewEnabled, mapErrorMessage } from './utils';
 import { useVariableDefinitionsContext } from './variableDefinitionContext';
 
 interface ResultsSectionProps {
   currentPage: number;
   pageSize: number;
   handlePageChange: (page: number) => void;
-  enableErrorPreview: boolean;
 }
 
 /**
@@ -30,12 +29,7 @@ interface ResultsSectionProps {
  * @param enableErrorPreview - Error preview in dev
  * @returns A SearchHitContainer component populated with paginated search results.
  */
-export const ResultsSection = ({
-  currentPage,
-  pageSize,
-  handlePageChange,
-  enableErrorPreview,
-}: ResultsSectionProps) => {
+export const ResultsSection = ({ currentPage, pageSize, handlePageChange }: ResultsSectionProps) => {
   const { variablesPromise, textFilter, subjectFilters, statusFilters, sortOption } = useVariableDefinitionsContext();
 
   const { filteredVariables, error } = useFilteredVariables({
@@ -54,7 +48,7 @@ export const ResultsSection = ({
     return filteredVariables.slice(start, start + pageSize);
   }, [filteredVariables, currentPage, pageSize]);
 
-  const effectiveError = enableErrorPreview ? new Error('Forced error preview') : error;
+  const effectiveError = isErrorPreviewEnabled() ? new Error('Forced error preview') : error;
 
   if (effectiveError) {
     return (

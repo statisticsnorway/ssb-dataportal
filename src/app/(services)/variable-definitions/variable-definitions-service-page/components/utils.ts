@@ -21,3 +21,6 @@ export const mapErrorMessage = (error: Error): string => {
   }
   return localization.error.somethingWentWrong;
 };
+
+export const isErrorPreviewEnabled = () =>
+  process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_ENABLE_TEST_ROUTES === 'true';

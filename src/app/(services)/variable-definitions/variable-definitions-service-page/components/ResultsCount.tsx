@@ -1,3 +1,4 @@
+import { isErrorPreviewEnabled } from '@/app/(services)/variable-definitions/variable-definitions-service-page/components/utils';
 import { useFilteredVariables } from '@/hooks/useFilteredVariables';
 import { localization } from '@/libs/language/src/localization';
 import { useVariableDefinitionsContext } from './variableDefinitionContext';
@@ -23,8 +24,7 @@ export const ResultsCount = () => {
     sortOption,
   });
 
-  const forceError = process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_ENABLE_TEST_ROUTES === 'true';
-  const effectiveError = forceError ? new Error('Forced error preview') : error;
+  const effectiveError = isErrorPreviewEnabled() ? new Error('Forced error preview') : error;
   if (effectiveError) return null;
 
   const totalHits = filteredVariables.length;

@@ -71,9 +71,6 @@ const VariableDefinitionsServicePage = ({
     setSubjectFilters((prev) => prev.filter((f) => f.value !== filter.value));
   };
 
-  const enableErrorPreview =
-    process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_ENABLE_TEST_ROUTES === 'true';
-
   return (
     <VariableDefinitionsProvider
       variablesPromise={variablesPromise}
@@ -124,12 +121,7 @@ const VariableDefinitionsServicePage = ({
         controlsContent={<SortFields sortOptions={sortTypes} sortValue={sortOption} onSortChange={setSortOption} />}
         searchResult={
           <Suspense fallback={<Spinner aria-label={localization.loading.results} />}>
-            <ResultsSection
-              currentPage={currentPage}
-              pageSize={pageSize}
-              handlePageChange={handlePageChange}
-              enableErrorPreview={enableErrorPreview}
-            />
+            <ResultsSection currentPage={currentPage} pageSize={pageSize} handlePageChange={handlePageChange} />
           </Suspense>
         }
       />

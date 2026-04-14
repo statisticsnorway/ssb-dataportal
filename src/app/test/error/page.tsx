@@ -1,5 +1,6 @@
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
+import { isErrorPreviewEnabled } from '@/app/(services)/variable-definitions/variable-definitions-service-page/components/utils';
 /**
  * Test route used by Playwright to verify global error handling, and to view the error page.
  *
@@ -12,9 +13,8 @@ import { notFound } from 'next/navigation';
 
 export default async function Page() {
   const h = await headers();
-  const enabledViaEnv = process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_ENABLE_TEST_ROUTES === 'true';
   const enabledViaTest = h.get('x-playwright-error-test') === 'true';
-  if (!enabledViaEnv && !enabledViaTest) {
+  if (!isErrorPreviewEnabled() && !enabledViaTest) {
     notFound();
   }
   throw new Error('E2E_TEST_ERROR');
