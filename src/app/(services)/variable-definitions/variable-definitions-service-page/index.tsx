@@ -22,13 +22,11 @@ import { VariableDefinitionsProvider } from './components/variableDefinitionCont
 interface VariableDefinitionsServicePageProps {
   variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
   subjectFieldsPromise: Promise<{ data: CodeItem[]; error: Error | null }>;
-  enableErrorPreview: boolean;
 }
 
 const VariableDefinitionsServicePage = ({
   variablesPromise,
   subjectFieldsPromise,
-  enableErrorPreview,
 }: VariableDefinitionsServicePageProps) => {
   const [sortOption, setSortOption] = useState<SortTypes>('titleAsc');
   const [subjectFilters, setSubjectFilters] = useState<FilterItem[]>([]);
@@ -73,6 +71,9 @@ const VariableDefinitionsServicePage = ({
     setSubjectFilters((prev) => prev.filter((f) => f.value !== filter.value));
   };
 
+  const enableErrorPreview =
+    process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_ENABLE_TEST_ROUTES === 'true';
+
   return (
     <VariableDefinitionsProvider
       variablesPromise={variablesPromise}
@@ -80,7 +81,6 @@ const VariableDefinitionsServicePage = ({
       subjectFilters={subjectFilters}
       statusFilters={statusFilters}
       sortOption={sortOption}
-      enableErrorPreview={enableErrorPreview}
     >
       <SearchPage
         tabsId={tabsData.VariableDefinitions.id}
@@ -124,7 +124,12 @@ const VariableDefinitionsServicePage = ({
         controlsContent={<SortFields sortOptions={sortTypes} sortValue={sortOption} onSortChange={setSortOption} />}
         searchResult={
           <Suspense fallback={<Spinner aria-label={localization.loading.results} />}>
-            <ResultsSection currentPage={currentPage} pageSize={pageSize} handlePageChange={handlePageChange} />
+            <ResultsSection
+              currentPage={currentPage}
+              pageSize={pageSize}
+              handlePageChange={handlePageChange}
+              enableErrorPreview={enableErrorPreview}
+            />
           </Suspense>
         }
       />

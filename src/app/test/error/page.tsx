@@ -12,7 +12,7 @@ import { notFound } from 'next/navigation';
 
 export default async function Page() {
   const h = await headers();
-  const enabledViaEnv = process.env.NODE_ENV === 'development' && process.env.ENABLE_TEST_ROUTES === 'true';
+  const enabledViaEnv = process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_ENABLE_TEST_ROUTES === 'true';
   const enabledViaTest = h.get('x-playwright-error-test') === 'true';
   if (!enabledViaEnv && !enabledViaTest) {
     notFound();

@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useMemo } from 'react';
+import { createContext, ReactNode, useContext } from 'react';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
@@ -9,7 +9,6 @@ interface VariableDefinitionsContextValue {
   subjectFilters: FilterItem[];
   statusFilters: FilterItem[];
   sortOption: SortTypes;
-  enableErrorPreview: boolean;
 }
 
 const VariableDefinitionsContext = createContext<VariableDefinitionsContextValue | null>(null);
@@ -26,26 +25,6 @@ interface VariableDefinitionsProviderProps extends VariableDefinitionsContextVal
   children: ReactNode;
 }
 
-export const VariableDefinitionsProvider = ({
-  children,
-  variablesPromise,
-  textFilter,
-  subjectFilters,
-  statusFilters,
-  sortOption,
-  enableErrorPreview,
-}: VariableDefinitionsProviderProps) => {
-  const value = useMemo(
-    () => ({
-      variablesPromise,
-      textFilter,
-      subjectFilters,
-      statusFilters,
-      sortOption,
-      enableErrorPreview,
-    }),
-    [variablesPromise, textFilter, subjectFilters, statusFilters, sortOption],
-  );
-
-  return <VariableDefinitionsContext.Provider value={value}>{children}</VariableDefinitionsContext.Provider>;
+export const VariableDefinitionsProvider = ({ children, ...contextValue }: VariableDefinitionsProviderProps) => {
+  return <VariableDefinitionsContext.Provider value={contextValue}>{children}</VariableDefinitionsContext.Provider>;
 };

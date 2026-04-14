@@ -12,6 +12,7 @@ interface ResultsSectionProps {
   currentPage: number;
   pageSize: number;
   handlePageChange: (page: number) => void;
+  enableErrorPreview: boolean;
 }
 
 /**
@@ -26,12 +27,16 @@ interface ResultsSectionProps {
  * @param currentPage - The current page number.
  * @param pageSize - The number of results per page.
  * @param handlePageChange - Callback triggered when the page changes.
- *
+ * @param enableErrorPreview - Error preview in dev
  * @returns A SearchHitContainer component populated with paginated search results.
  */
-export const ResultsSection = ({ currentPage, pageSize, handlePageChange }: ResultsSectionProps) => {
-  const { variablesPromise, textFilter, subjectFilters, statusFilters, sortOption, enableErrorPreview } =
-    useVariableDefinitionsContext();
+export const ResultsSection = ({
+  currentPage,
+  pageSize,
+  handlePageChange,
+  enableErrorPreview,
+}: ResultsSectionProps) => {
+  const { variablesPromise, textFilter, subjectFilters, statusFilters, sortOption } = useVariableDefinitionsContext();
 
   const { filteredVariables, error } = useFilteredVariables({
     variablesPromise,
@@ -41,8 +46,6 @@ export const ResultsSection = ({ currentPage, pageSize, handlePageChange }: Resu
     sortOption,
   });
 
-  const effectiveError = enableErrorPreview ? new Error('Forced error preview') : error;
-
   const totalHits = filteredVariables.length;
   const totalPages = Math.ceil(totalHits / pageSize);
 
@@ -50,6 +53,8 @@ export const ResultsSection = ({ currentPage, pageSize, handlePageChange }: Resu
     const start = (currentPage - 1) * pageSize;
     return filteredVariables.slice(start, start + pageSize);
   }, [filteredVariables, currentPage, pageSize]);
+
+  const effectiveError = enableErrorPreview ? new Error('Forced error preview') : error;
 
   if (effectiveError) {
     return (

@@ -23,7 +23,7 @@ export const ResultsCount = () => {
     sortOption,
   });
 
-  const forceError = process.env.ENABLE_TEST_ROUTES === 'true';
+  const forceError = process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_ENABLE_TEST_ROUTES === 'true';
   const effectiveError = forceError ? new Error('Forced error preview') : error;
   if (effectiveError) return null;
 
