@@ -18,6 +18,7 @@ describe('AppNotFoundState', () => {
   const { notFoundTitle, notFoundMessage, goHome, reportBrokenLink, brokenLinkMailSubject } = localization.error;
 
   beforeEach(() => {
+    process.env.CONTACT_EMAIL_ADDRESS = 'metadata@ssb.no';
     usePathnameMock.mockReturnValue('/variable-definitions/does-not-exist');
   });
 

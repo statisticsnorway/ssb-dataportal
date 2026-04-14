@@ -6,6 +6,7 @@ import { Footer } from '.';
 
 describe('Footer', () => {
   it('should render successfully', () => {
+    process.env.CONTACT_EMAIL_ADDRESS = 'metadata@ssb.no';
     render(<Footer />);
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
     expect(screen.getByText(/Dataportalen er under utvikling/i)).toBeInTheDocument();
