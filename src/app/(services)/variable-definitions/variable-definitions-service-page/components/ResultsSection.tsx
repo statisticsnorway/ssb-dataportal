@@ -1,10 +1,11 @@
-import { Alert } from '@digdir/designsystemet-react';
 import { useMemo } from 'react';
+import { AppErrorState } from '@/components/app-state';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { useFilteredVariables } from '@/hooks/useFilteredVariables';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
+import { localization } from '@/libs/language';
 import { VardefSearchHit } from '../../components/vardefSearchHit';
-import { mapErrorMessage } from './utils';
+import { isErrorPreviewEnabled, mapErrorMessage } from './utils';
 import { useVariableDefinitionsContext } from './variableDefinitionContext';
 
 interface ResultsSectionProps {
@@ -25,22 +26,13 @@ interface ResultsSectionProps {
  * @param currentPage - The current page number.
  * @param pageSize - The number of results per page.
  * @param handlePageChange - Callback triggered when the page changes.
- *
+ * @param enableErrorPreview - Error preview in dev
  * @returns A SearchHitContainer component populated with paginated search results.
  */
 export const ResultsSection = ({ currentPage, pageSize, handlePageChange }: ResultsSectionProps) => {
-  const { variablesPromise, textFilter, subjectFilters, statusFilters, sortOption, error } =
-    useVariableDefinitionsContext();
+  const { variablesPromise, textFilter, subjectFilters, statusFilters, sortOption } = useVariableDefinitionsContext();
 
-  if (error) {
-    return (
-      <div>
-        <Alert data-color='danger'>{mapErrorMessage(error)}</Alert>
-      </div>
-    );
-  }
-
-  const { filteredVariables } = useFilteredVariables({
+  const { filteredVariables, error } = useFilteredVariables({
     variablesPromise,
     textFilter,
     subjectFilters,
@@ -55,6 +47,21 @@ export const ResultsSection = ({ currentPage, pageSize, handlePageChange }: Resu
     const start = (currentPage - 1) * pageSize;
     return filteredVariables.slice(start, start + pageSize);
   }, [filteredVariables, currentPage, pageSize]);
+
+  const effectiveError = isErrorPreviewEnabled() ? new Error('Forced error preview') : error;
+
+  if (effectiveError) {
+    return (
+      <AppErrorState
+        title={localization.error.technicalProblemsTitle}
+        message={mapErrorMessage(effectiveError)}
+        statusCode='500'
+        homeHref='/'
+        homeVariant={'primary'}
+        helpList={[localization.error.helpChangeFilters, localization.error.helpHome]}
+      />
+    );
+  }
 
   return (
     <SearchHitContainer

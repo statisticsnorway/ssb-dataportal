@@ -3,6 +3,8 @@ import { userEvent } from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { AppState, AppStateAction } from '@/components/app-state/app-state';
 
+vi.mock('@digdir/designsystemet-web', () => ({}));
+
 describe('AppState', () => {
   it('render title and message', () => {
     render(

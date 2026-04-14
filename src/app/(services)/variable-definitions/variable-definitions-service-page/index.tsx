@@ -78,7 +78,6 @@ const VariableDefinitionsServicePage = ({
       subjectFilters={subjectFilters}
       statusFilters={statusFilters}
       sortOption={sortOption}
-      error={null}
     >
       <SearchPage
         tabsId={tabsData.VariableDefinitions.id}

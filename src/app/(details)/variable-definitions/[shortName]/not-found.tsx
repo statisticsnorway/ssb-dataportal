@@ -1,20 +1,17 @@
 'use client';
 
 import { AppNotFoundState } from '@/components/app-state';
+import { localization } from '@/libs/language';
 
 export default function NotFound() {
   return (
     <AppNotFoundState
-      title='Variabeldefinisjon ikke funnet'
-      message='Er det skrivefeil i lenken? Eller har variabeldefinisjonen blitt slettet eller flyttet?'
-      helpList={[
-        'sjekke at du har riktig variabeldefinisjon-kortnavn i lenken',
-        'gå til oversikten over variabeldefinisjoner',
-        'gå til forsiden',
-      ]}
+      title={localization.error.notFoundTitleVariableDetails}
+      message={localization.error.notFoundMessageVariableDetails}
+      helpList={localization.error.notFoundHelpListVariableDetails}
       homeHref='/'
       secondaryHref='/variable-definitions'
-      secondaryLabel='Variabeldefinisjoner'
+      secondaryLabel={localization.variableDefinition.labelPlural}
       showBrokenLinkButton={false}
     />
   );

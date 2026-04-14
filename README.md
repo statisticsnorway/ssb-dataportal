@@ -84,8 +84,9 @@ Configuration is primarily source from `.env*` files. This may be overridden in 
 | `IS_AUTHENTICATED`              | `true` to hardcode successful authentication. Only applies under `DANGEROUSLY_DISABLE_USER_AUTH` mode   |
 | `DEV_ENVIRONMENT_NAME`          | Used to identify different dev and test instances. May for example be set to the branch name.           |
 | `DAPLA_LAB_VARDEF_URL`          | URL to Vardef instance used in Dapla Lab integration.                                                   |
-| `NEXT_PUBLIC_LOGIN_URL`         | URL to login page - value accessible in the browser.                                                      |
-| `NEXT_PUBLIC_LOGOUT_URL`        | URL to logout page - value accessible in the browser.                                                           |
+| `NEXT_PUBLIC_LOGIN_URL`         | URL to login page - value accessible in the browser.                                                    |
+| `NEXT_PUBLIC_LOGOUT_URL`        | URL to logout page - value accessible in the browser.                                                   |
+| `NEXT_PUBLIC_ENABLE_TEST_ROUTES`| `true` to enable local test-specific routes.                                                            |
 
 ### Local auth
 

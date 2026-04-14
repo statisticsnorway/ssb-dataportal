@@ -1,3 +1,4 @@
+import { isErrorPreviewEnabled } from '@/app/(services)/variable-definitions/variable-definitions-service-page/components/utils';
 import { useFilteredVariables } from '@/hooks/useFilteredVariables';
 import { localization } from '@/libs/language/src/localization';
 import { useVariableDefinitionsContext } from './variableDefinitionContext';
@@ -13,18 +14,18 @@ import { useVariableDefinitionsContext } from './variableDefinitionContext';
  * @returns A string indicating the number of hits, or null if there is an error.
  */
 export const ResultsCount = () => {
-  const { error, variablesPromise, textFilter, subjectFilters, statusFilters, sortOption } =
-    useVariableDefinitionsContext();
+  const { variablesPromise, textFilter, subjectFilters, statusFilters, sortOption } = useVariableDefinitionsContext();
 
-  if (error) return null;
-
-  const { filteredVariables } = useFilteredVariables({
+  const { filteredVariables, error } = useFilteredVariables({
     variablesPromise,
     textFilter,
     subjectFilters,
     statusFilters,
     sortOption,
   });
+
+  const effectiveError = isErrorPreviewEnabled() ? new Error('Forced error preview') : error;
+  if (effectiveError) return null;
 
   const totalHits = filteredVariables.length;
   if (totalHits === 0) return localization.search.noHits;

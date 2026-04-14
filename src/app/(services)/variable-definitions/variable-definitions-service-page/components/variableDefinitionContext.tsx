@@ -9,7 +9,6 @@ interface VariableDefinitionsContextValue {
   subjectFilters: FilterItem[];
   statusFilters: FilterItem[];
   sortOption: SortTypes;
-  error: Error | null;
 }
 
 const VariableDefinitionsContext = createContext<VariableDefinitionsContextValue | null>(null);
