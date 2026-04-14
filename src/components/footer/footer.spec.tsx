@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { localization } from '@/libs/language';
+import { getContactEmailAddress } from '@/utils/userAgent';
 import { Footer } from '.';
 
 describe('Footer', () => {
@@ -12,6 +13,9 @@ describe('Footer', () => {
       'href',
       'https://forms.office.com/Pages/ResponsePage.aspx?id=knAhx0CyHU69YfqXupdcvG8mQNraR5ZAu3es4-se84xUN0VFME5BSVFSUTZDRUZCTzNTVUlFTDlUNC4u',
     );
-    expect(screen.getByRole('link', { name: 'metadata@ssb.no' })).toHaveAttribute('href', 'mailto:metadata@ssb.no');
+    expect(screen.getByRole('link', { name: getContactEmailAddress() })).toHaveAttribute(
+      'href',
+      `mailto:${getContactEmailAddress()}`,
+    );
   });
 });
