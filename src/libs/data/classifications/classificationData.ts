@@ -5,6 +5,7 @@ import { createLogger } from '@/libs/logger/server-logger';
 import classificationsMock from '@/static-data/classifications.json';
 import { linkObj } from '@/types/classification';
 import { getClassification } from '@/utils/mock-data';
+import { getUserAgent } from '@/utils/userAgent';
 
 const CLASSIFICATIONS_URL_PATH_PART = 'classifications';
 
@@ -31,6 +32,9 @@ export async function fetchAllClassifications(pageSize = 20): Promise<Classifica
       const res = await fetch(
         `${process.env.KLASS_BASE_PATH}/${CLASSIFICATIONS_URL_PATH_PART}?includeCodelists=true&page=${currentPage}&size=${pageSize}`,
         {
+          headers: {
+            'User-Agent': getUserAgent(),
+          },
           cache: 'no-store',
         },
       );

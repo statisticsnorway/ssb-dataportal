@@ -1,5 +1,6 @@
 'use server';
 
+import { getUserAgent } from '@/utils/userAgent';
 import { sanitizeError } from '../logger/sanitize';
 import { createLogger } from '../logger/server-logger';
 
@@ -23,6 +24,9 @@ export async function getM2mToken() {
         client_id: vardefM2mClientId,
         client_secret: vardefM2mClientSecret,
       }),
+      headers: {
+        'User-Agent': getUserAgent(),
+      },
       cache: 'force-cache',
       next: { revalidate: ttlSeconds },
     });
