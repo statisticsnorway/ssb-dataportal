@@ -10,6 +10,8 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json pnpm-lock.yaml* ./
+# WARNING: Corepack is not included in Node v25 so if we upgrade this Docker image to use v25
+# we will need to modify this line
 RUN corepack enable pnpm && pnpm i --prod --frozen-lockfile;
 
 
@@ -20,6 +22,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 
+# WARNING: Corepack is not included in Node v25 so if we upgrade this Docker image to use v25
+# we will need to modify this line
 RUN corepack enable pnpm && pnpm run build;
 
 # Production image, copy all the files and run next
