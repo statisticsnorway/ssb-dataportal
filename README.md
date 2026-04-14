@@ -16,6 +16,7 @@ It's currently in the prototype stage, with a goal of displaying Variable defini
 ### Environment
 
 1. Install Node: <https://nodejs.org/en/download>
+1. Install pnpm: <https://pnpm.io/installation>
 1. Install dev dependencies: `pnpm install`
 1. Install pre-commit: `pipx install pre-commit`
 1. Install pre-commit hooks: `pre-commit install`
@@ -30,18 +31,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ### Package manager
 
-Pnpm is our package manager.
-We use [corepack](https://github.com/nodejs/corepack#readme) for locking project version. This is still experimental and must be manually enabled:
-
-```bash
-corepack enable
-```
-
-#### Update
-
-```bash
-corepack use pnpm@latest-10
-```
+Pnpm is our package manager. This must be installed with a system-wide manual installation. Installation instructions and documentation are available here: <https://pnpm.io/installation>
 
 ### Lint and format
 
@@ -227,25 +217,23 @@ This project uses OpenAPI Generator to generate TypeScript clients from OpenAPI 
 
 You can generate the clients one at a time using the scripts defined in package.json.
 
-Generate Vardef internal:
+#### Generate Vardef internal
 
 ```bash
 pnpm codegen:vardef-internal
 ```
 
-Uses the OpenAPI spec from:
-https://metadata.ssb.no/docs/openapi/variable-definitions/variable-definitions-internal.yml
+Uses the OpenAPI spec from: <https://metadata.ssb.no/docs/openapi/variable-definitions/variable-definitions-internal.yml>
 
 Output directory: src/libs/data-access/variable-definitions/internal
 
-Generate Klass:
+#### Generate Klass
 
 ```bash
 pnpm codegen:klass
 ```
 
-Uses the OpenAPI spec from:
-https://data.ssb.no/api/klass/v3/api-docs
+Uses the OpenAPI spec from: <https://data.ssb.no/api/klass/v3/api-docs>
 
 Output directory: src/libs/data-access/klass
 
