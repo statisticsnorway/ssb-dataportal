@@ -5,6 +5,7 @@ import { localization } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import { getVariableDefinitionByShortName, getVariableDefinitions } from '@/utils/mock-data';
+import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
 import {
   ListVariableDefinitionsRequest,
@@ -44,6 +45,9 @@ export async function getVardefClient(): Promise<VariableDefinitionsApi> {
   }
   let configParams = {
     accessToken: token,
+    headers: {
+      'User-Agent': getUserAgent(),
+    },
   } as ConfigurationParameters;
   const basePath = process.env.VARDEF_BASE_PATH;
   if (basePath) {

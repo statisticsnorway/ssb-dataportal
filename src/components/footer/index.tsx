@@ -2,6 +2,7 @@ import { Card, Link, Paragraph } from '@digdir/designsystemet-react';
 import { EnvelopeOpenIcon } from '@navikt/aksel-icons';
 import { ExternalLink } from '@/components/external-link';
 import { localization } from '@/libs/language';
+import { getContactEmailAddress } from '@/utils/userAgent';
 import styles from './footer.module.css';
 
 export const Footer = () => (
@@ -19,7 +20,7 @@ export const Footer = () => (
       </Card>
       <section className={styles.footerLinkSection}>
         <EnvelopeOpenIcon title={localization?.contact?.label} fontSize='2rem' />
-        <Link href='mailto:metadata@ssb.no'>metadata@ssb.no</Link>
+        <Link href={`mailto:${getContactEmailAddress()}`}>{getContactEmailAddress()}</Link>
       </section>
     </div>
   </footer>
