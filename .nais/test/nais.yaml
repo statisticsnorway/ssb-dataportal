@@ -21,8 +21,6 @@ spec:
         - host: auth.test.ssb.no
   login:
     provider: openid
-    enforce:
-      enabled: true
   replicas:
     max: 1
     min: 1
