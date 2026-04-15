@@ -1,6 +1,7 @@
 'use client';
 
 import { AppErrorState } from '@/components/app-state';
+import { localization } from '@/libs/language';
 
 export default function ErrorPage({
   error,
@@ -11,8 +12,8 @@ export default function ErrorPage({
 }) {
   return (
     <AppErrorState
-      title='Beklager, noe gikk galt'
-      message='Vi opplever tekniske problemer og jobber med å løse dem. Dette skyldes ikke noe du gjorde.'
+      title={localization.error.somethingWentWrong}
+      message={localization.error.technicalProblemsMessage}
       referenceCode={error.digest}
       onRetry={unstable_retry}
       homeHref='/'

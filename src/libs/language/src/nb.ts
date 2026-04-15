@@ -62,7 +62,7 @@ export const nb = {
   },
 
   error: {
-    somethingWentWrong: 'Beklager, noe gikk galt. Prøv på nytt litt senere.',
+    somethingWentWrong: 'Beklager, noe gikk galt.',
     unauthorized: 'Beklager, du har ikke tilgang.',
     technicalProblemsTitle: 'Vi har tekniske problemer',
     technicalProblemsMessage: 'Dette skyldes ikke noe du gjorde. Vent litt og prøv igjen.',
