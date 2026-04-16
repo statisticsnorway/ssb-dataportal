@@ -2,12 +2,13 @@ import { Card, Link, Paragraph } from '@digdir/designsystemet-react';
 import { BookIcon, EnvelopeOpenIcon } from '@navikt/aksel-icons';
 import { ExternalLink } from '@/components/external-link';
 import { localization } from '@/libs/language';
+import { getVardefApiDocsUrl } from '@/utils/config';
 import { getContactEmailAddress } from '@/utils/userAgent';
 import { ApiDocLink } from './api-doc-link';
 import styles from './footer.module.css';
 
 export const Footer = () => {
-  const apiDocsUrl = process.env.VARDEF_API_DOCS_URL ?? 'https://metadata.ssb.no/docs/swagger/variable-definitions';
+  const apiDocsUrl = getVardefApiDocsUrl();
 
   return (
     <footer className={styles.footer}>
