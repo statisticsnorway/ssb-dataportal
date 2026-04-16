@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
+import { AuthProvider } from '@/app/authContext';
 import { localization } from '@/libs/language';
 import { getContactEmailAddress } from '@/utils/userAgent';
 import { Footer } from '.';
@@ -7,7 +8,11 @@ import { Footer } from '.';
 describe('Footer', () => {
   it('should render successfully', () => {
     process.env.CONTACT_EMAIL_ADDRESS = 'metadata@ssb.no';
-    render(<Footer />);
+    render(
+      <AuthProvider isAuthenticated={false}>
+        <Footer />
+      </AuthProvider>,
+    );
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
     expect(screen.getByText(/Dataportalen er under utvikling/i)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: localization.feedBackForm })).toHaveAttribute(
