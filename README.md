@@ -87,6 +87,7 @@ Configuration is primarily source from `.env*` files. This may be overridden in 
 | `NEXT_PUBLIC_LOGIN_URL`         | URL to login page - value accessible in the browser.                                                    |
 | `NEXT_PUBLIC_LOGOUT_URL`        | URL to logout page - value accessible in the browser.                                                   |
 | `NEXT_PUBLIC_ENABLE_TEST_ROUTES`| `true` to enable local test-specific routes.                                                            |
+| `VARDEF_API_DOCS_URL`           | URL to the Swagger API docs for variable definitions.                                                   |
 
 ### Local auth
 
