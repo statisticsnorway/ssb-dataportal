@@ -6,6 +6,7 @@ import { getVardefApiDocsUrl } from '@/utils/config';
 import { getContactEmailAddress } from '@/utils/userAgent';
 import { ApiDocLink } from './api-doc-link';
 import styles from './footer.module.css';
+import { FooterLinkItem } from './footer-link-item';
 
 export const Footer = () => {
   const apiDocsUrl = getVardefApiDocsUrl();
@@ -24,12 +25,12 @@ export const Footer = () => {
           </Paragraph>
         </Card>
         <section className={styles.footerLinkSection}>
-          <EnvelopeOpenIcon title={localization?.contact?.label} fontSize='2rem' />
-          <Link href={`mailto:${getContactEmailAddress()}`}>{getContactEmailAddress()}</Link>
-        </section>
-        <section className={styles.footerLinkSection}>
-          <BookIcon title={localization.apiDocumentation} fontSize='2rem' />
-          <ApiDocLink href={apiDocsUrl} />
+          <FooterLinkItem icon={<EnvelopeOpenIcon title={localization?.contact?.label} fontSize='2rem' />}>
+            <Link href={`mailto:${getContactEmailAddress()}`}>{getContactEmailAddress()}</Link>
+          </FooterLinkItem>
+          <FooterLinkItem icon={<BookIcon title={localization.apiDocumentation} fontSize='2rem' />}>
+            <ApiDocLink href={apiDocsUrl} />
+          </FooterLinkItem>
         </section>
       </div>
     </footer>
