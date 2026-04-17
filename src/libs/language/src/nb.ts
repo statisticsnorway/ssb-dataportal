@@ -14,6 +14,7 @@ export const nb = {
   context: 'Kontekst',
   daplaManual: 'Dapla-manualen',
   documentation: 'Dokumentasjon',
+  apiDocumentation: 'API-dokumentasjon',
   feedBackForm: 'tilbakemeldingsskjema for Dataportalen',
   from: 'Fra',
   home: 'Hjem',

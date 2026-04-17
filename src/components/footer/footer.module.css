@@ -1,6 +1,6 @@
 .footer {
   min-height: 200px;
-  padding: 2rem 0 0 0;
+  padding: 2rem 0;
   background-color: var(--element-background-color);
   color: var(--main-font-color);
   width: 100%;
@@ -12,6 +12,7 @@
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
+  gap: 0.5rem;
 }
 
 .iconImage {
@@ -26,6 +27,12 @@
 }
 .footerLinkSection {
   max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.footerLinkItem {
   display: flex;
   align-items: center;
   gap: 0.5rem;

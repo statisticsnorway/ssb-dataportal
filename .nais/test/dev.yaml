@@ -19,8 +19,6 @@ spec:
         - host: auth.test.ssb.no
   login:
     provider: openid
-    enforce:
-      enabled: true
   ttl: 8h
   replicas:
     max: 1
@@ -36,5 +34,7 @@ spec:
       value: "false"
     - name: DEV_ENVIRONMENT_NAME
       value: "{{ git-ref }}"
+    - name: VARDEF_API_DOCS_URL
+      value: "https://metadata.test.ssb.no/docs/swagger/variable-definitions"
     - name: DAPLA_LAB_VARDEF_URL
       value: "https://lab.dapla-test.ssb.no/launcher/dapla-lab-standard/vardef-forvaltning"

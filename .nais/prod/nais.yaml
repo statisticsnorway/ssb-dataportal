@@ -41,6 +41,8 @@ spec:
       value: http://klass/api/klass/v1
     - name: KLASS_USE_STATIC_DATA
       value: "false"
+    - name: VARDEF_API_DOCS_URL
+      value: "https://metadata.ssb.no/docs/swagger/variable-definitions"
     - name: DAPLA_LAB_VARDEF_URL
       value: "https://lab.dapla.ssb.no/launcher/dapla-lab-standard/vardef-forvaltning"
     - name: LOG_LEVEL
