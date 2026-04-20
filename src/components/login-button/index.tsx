@@ -21,7 +21,7 @@ const LoginButton = () => {
   const pathname = usePathname();
 
   return isAuthenticated ? (
-    <Button onClick={() => router.push(String(process.env.NEXT_PUBLIC_LOGOUT_URL) + '?/redirect=' + pathname)}>
+    <Button onClick={() => router.push(String(process.env.NEXT_PUBLIC_LOGOUT_URL) + '?redirect=' + pathname)}>
       {localization.authentication.logOut}
     </Button>
   ) : (
@@ -30,7 +30,7 @@ const LoginButton = () => {
       <Dialog>
         <Heading level={3}>{localization.authentication.loginHeading}</Heading>
         <p>{localization.authentication.loginInfo}</p>
-        <Button onClick={() => router.push(String(process.env.NEXT_PUBLIC_LOGIN_URL) + '?/redirect=' + pathname)}>
+        <Button onClick={() => router.push(String(process.env.NEXT_PUBLIC_LOGIN_URL) + '?redirect=' + pathname)}>
           {localization.authentication.logInSsbEmployee}
         </Button>
       </Dialog>
