@@ -3,8 +3,8 @@
 import { Button, Dialog, Heading } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuthContext } from '@/app/authContext';
+import { getLoginUrl, getLogoutUrl } from '@/libs/auth/urls';
 import { localization } from '@/libs/language/src/localization';
-import { getLoginUrl, getLogoutUrl } from '@/utils/config';
 
 /**
  * LoginButton component handles the display and behavior of the login/logout UI.
