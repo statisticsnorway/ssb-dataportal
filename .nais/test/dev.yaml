@@ -23,6 +23,8 @@ spec:
   replicas:
     max: 1
     min: 1
+  envFrom:
+    - secret: dataportalen
   env:
     - name: VARDEF_BASE_PATH
       value: http://metadata-api-gateway
