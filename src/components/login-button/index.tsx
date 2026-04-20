@@ -5,12 +5,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useAuthContext } from '@/app/authContext';
 import { localization } from '@/libs/language/src/localization';
 
-export function buildAuthUrl(baseUrl: string, next: string) {
-  const url = new URL(baseUrl);
-  url.searchParams.set('next', next);
-  return url.toString();
-}
-
 /**
  * LoginButton component handles the display and behavior of the login/logout UI.
  *
@@ -26,19 +20,19 @@ const LoginButton = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const loginUrl = buildAuthUrl(process.env.NEXT_PUBLIC_LOGIN_URL!, pathname);
-
-  const logoutUrl = buildAuthUrl(process.env.NEXT_PUBLIC_LOGOUT_URL!, pathname);
-
   return isAuthenticated ? (
-    <Button onClick={() => router.push(loginUrl)}>{localization.authentication.logOut}</Button>
+    <Button onClick={() => router.push(String(process.env.NEXT_PUBLIC_LOGOUT_URL) + '?/redirect=' + pathname)}>
+      {localization.authentication.logOut}
+    </Button>
   ) : (
     <Dialog.TriggerContext>
       <Dialog.Trigger>{localization.authentication.logIn}</Dialog.Trigger>
       <Dialog>
         <Heading level={3}>{localization.authentication.loginHeading}</Heading>
         <p>{localization.authentication.loginInfo}</p>
-        <Button onClick={() => router.push(logoutUrl)}>{localization.authentication.logInSsbEmployee}</Button>
+        <Button onClick={() => router.push(String(process.env.NEXT_PUBLIC_LOGIN_URL) + '?/redirect=' + pathname)}>
+          {localization.authentication.logInSsbEmployee}
+        </Button>
       </Dialog>
     </Dialog.TriggerContext>
   );
