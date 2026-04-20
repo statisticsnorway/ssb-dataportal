@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Dialog, Heading } from '@digdir/designsystemet-react';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useAuthContext } from '@/app/authContext';
 import { localization } from '@/libs/language/src/localization';
 
@@ -18,10 +18,12 @@ import { localization } from '@/libs/language/src/localization';
 const LoginButton = () => {
   const { isAuthenticated } = useAuthContext();
   const router = useRouter();
-  const pathname = usePathname();
+  //const pathname = usePathname();
 
+  //String(process.env.NEXT_PUBLIC_LOGOUT_URL) + '?redirect=' + pathname)
+  //String(process.env.NEXT_PUBLIC_LOGIN_URL) + '?redirect=' + pathname
   return isAuthenticated ? (
-    <Button onClick={() => router.push(String(process.env.NEXT_PUBLIC_LOGOUT_URL) + '?redirect=' + pathname)}>
+    <Button onClick={() => router.push(String(process.env.NEXT_PUBLIC_LOGOUT_URL))}>
       {localization.authentication.logOut}
     </Button>
   ) : (
@@ -30,7 +32,7 @@ const LoginButton = () => {
       <Dialog>
         <Heading level={3}>{localization.authentication.loginHeading}</Heading>
         <p>{localization.authentication.loginInfo}</p>
-        <Button onClick={() => router.push(String(process.env.NEXT_PUBLIC_LOGIN_URL) + '?redirect=' + pathname)}>
+        <Button onClick={() => router.push(String(process.env.NEXT_PUBLIC_LOGIN_URL))}>
           {localization.authentication.logInSsbEmployee}
         </Button>
       </Dialog>
