@@ -9,3 +9,5 @@ export function getLogoutUrl(pathname: string): string {
   if (!base) throw new Error('Missing LOGOUT URL');
   return `${base}?redirect=${pathname}`;
 }
+
+// pathname safety
