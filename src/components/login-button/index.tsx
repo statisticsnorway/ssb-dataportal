@@ -4,6 +4,7 @@ import { Button, Dialog, Heading } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuthContext } from '@/app/authContext';
 import { localization } from '@/libs/language/src/localization';
+import { getLoginUrl, getLogoutUrl } from '@/utils/config';
 
 /**
  * LoginButton component handles the display and behavior of the login/logout UI.
@@ -20,17 +21,16 @@ const LoginButton = () => {
   const router = useRouter();
   const pathname = usePathname();
 
+  // write better and add test
   return isAuthenticated ? (
-    <Button onClick={() => router.push(String(process.env.NEXT_PUBLIC_LOGOUT_URL) + '?redirect=' + pathname)}>
-      {localization.authentication.logOut}
-    </Button>
+    <Button onClick={() => router.push(getLogoutUrl(pathname))}>{localization.authentication.logOut}</Button>
   ) : (
     <Dialog.TriggerContext>
       <Dialog.Trigger>{localization.authentication.logIn}</Dialog.Trigger>
       <Dialog>
         <Heading level={3}>{localization.authentication.loginHeading}</Heading>
         <p>{localization.authentication.loginInfo}</p>
-        <Button onClick={() => router.push(String(process.env.NEXT_PUBLIC_LOGIN_URL) + '?redirect=' + pathname)}>
+        <Button onClick={() => router.push(getLoginUrl(pathname))}>
           {localization.authentication.logInSsbEmployee}
         </Button>
       </Dialog>
