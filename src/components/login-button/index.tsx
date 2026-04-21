@@ -13,6 +13,7 @@ import { localization } from '@/libs/language/src/localization';
  *   that navigates to the logout route when clicked.
  * - If the user is not authenticated, it renders a login dialog trigger. When opened, the dialog
  *   shows login information and a "Log In As SSB Employee" button that navigates to the login route.
+ * - Redirects back to base page after login/logout
  *
  * @returns The logout button or login dialog trigger with login button.
  */
@@ -21,7 +22,6 @@ const LoginButton = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  // write better and add test
   return isAuthenticated ? (
     <Button onClick={() => router.push(getLogoutUrl(pathname))}>{localization.authentication.logOut}</Button>
   ) : (
