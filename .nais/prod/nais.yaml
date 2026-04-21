@@ -26,6 +26,10 @@ spec:
   replicas:
     max: 2
     min: 2
+  resources:
+    requests:
+      cpu: 10m
+      memory: 400mi
   envFrom:
     - secret: dataportalen
   env:
