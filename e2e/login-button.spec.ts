@@ -2,6 +2,7 @@ import { expectButtonVisible, stabilize } from './utils/commonUtils';
 import { test, expect } from './fixtures/unauth.fixture';
 import { localization } from '@/libs/language';
 import { Page } from '@playwright/test';
+import { tabsData } from '@/app/(services)/tabs';
 
 async function openLoginDialog(page: Page) {
   const loginButton = await expectButtonVisible(page, localization.authentication.logIn);
@@ -47,6 +48,20 @@ test.describe('Log in and out', () => {
     const logoutButton = await expectButtonVisible(page, logOutText);
     await logoutButton.click();
     await expect(page).toHaveURL(/\/oauth2\/logout/);
+  });
+
+  test('log out button page adds redirect query param', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name === 'chrome-unauth');
+    await page.goto(tabsData.VariableDefinitions.route);
+    await expect(page).toHaveURL(/\/variable-definitions$/);
+    await stabilize();
+    const logoutButton = await expectButtonVisible(page, logOutText);
+    await logoutButton.click();
+    await expect
+      .poll(async () => {
+        return new URL(page.url()).searchParams.get('redirect');
+      })
+      .toBe('/variable-definitions');
   });
 
   test('log in as SSB employee redirects to login page', async ({ page }, testInfo) => {
