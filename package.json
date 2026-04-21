@@ -30,7 +30,7 @@
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
-    "@biomejs/biome": "2.4.7",
+    "@biomejs/biome": "2.4.12",
     "@digdir/designsystemet-css": "1.13.2",
     "@digdir/designsystemet-react": "1.13.2",
     "@navikt/aksel-icons": "8.9.1",
