@@ -13,6 +13,11 @@ test.describe('Variable definition – accessibility', () => {
     stabilize();
   });
 
+  test('Page is accessible', async ({ page }) => {
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(results.violations).toEqual([]);
+  });
+
   test('CodeSnippet meets WCAG contrast requirements', async ({ page }) => {
     test.skip();
     const shortName = variableDefinitions[0]?.short_name;
