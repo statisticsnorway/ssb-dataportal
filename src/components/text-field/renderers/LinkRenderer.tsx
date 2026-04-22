@@ -20,5 +20,5 @@ export function LinkRenderer({ value, display }: Item) {
   }
 
   const text = display ?? value;
-  return <Link href={value}>{text}</Link>;
+  return <Link href={String(value)}>{text}</Link>;
 }
