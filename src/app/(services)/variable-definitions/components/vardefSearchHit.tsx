@@ -50,9 +50,7 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
 
       <div className={styles.tagsList}>
         <TagsGroup maxTags={4} tagData={subjectFieldTags} />
-        {isAuthenticated && (
-          <StatusTag aria-label={localization.status.label} variableStatus={variableDefinition.variable_status} />
-        )}
+        {isAuthenticated && <StatusTag variableStatus={variableDefinition.variable_status} />}
         <Tag data-color='success' className={styles.shortName} aria-label={localization.shortName.label}>
           {variableDefinition.short_name}
         </Tag>
