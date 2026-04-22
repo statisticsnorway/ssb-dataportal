@@ -2,7 +2,7 @@ import { Tag } from '@digdir/designsystemet-react';
 import classNames from 'classnames';
 import { VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language/src/localization';
-import { convertStatus, statusColors } from '@/utils/functions';
+import { convertStatus } from '@/utils/functions';
 
 interface StatusTagProps {
   variableStatus: VariableStatus;
@@ -19,13 +19,14 @@ interface StatusTagProps {
  *
  */
 const StatusTag = ({ variableStatus, className }: StatusTagProps) => {
-  const color = statusColors[variableStatus];
+  //const color = statusColors[variableStatus];
   return (
     <Tag
+      data-color='warning'
       aria-label={localization.status.label}
       className={classNames(className)}
-      data-size='md'
-      style={{ backgroundColor: color }}
+      data-size='lg'
+      //style={{ backgroundColor: color }}
     >
       {convertStatus(variableStatus)}
     </Tag>
