@@ -20,7 +20,7 @@ interface StatusTagProps {
 const StatusTag = ({ variableStatus, className }: StatusTagProps) => {
   const color = statusColors[variableStatus];
   return (
-    <Tag className={classNames(className)} data-size='lg' style={{ backgroundColor: color }}>
+    <Tag className={classNames(className)} data-size='md' style={{ backgroundColor: color }}>
       {convertStatus(variableStatus)}
     </Tag>
   );
