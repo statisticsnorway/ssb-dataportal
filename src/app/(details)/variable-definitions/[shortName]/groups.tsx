@@ -78,19 +78,6 @@ export const aboutVariableItems = (v: RenderedView, isAuthenticated: boolean): I
 
 /**
  * ------------------------------
- * References
- * ------------------------------
- */
-export const referencesItems = (v: RenderedView): Item[] => [
-  {
-    label: localization.classification.label,
-    value: v.classification_uri ?? null,
-    display: localization.classification.view,
-  },
-];
-
-/**
- * ------------------------------
  * Owner
  * ------------------------------
  */
