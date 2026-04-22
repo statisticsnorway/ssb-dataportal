@@ -4,7 +4,7 @@ import { RenderedView } from '@/libs/data-access/variable-definitions/internal/m
 import { localization } from '@/libs/language';
 import { Item } from '@/types/item';
 import { areFieldsDefinedAndNonNull, formatDate, yesNo } from '@/utils/functions';
-
+import { Mailto } from './components/helperComponents';
 /**
  * ------------------------------
  * Audit / Created & Edited Items
@@ -15,9 +15,12 @@ export const createdAndEditedItems = (v: RenderedView, isAuthenticated: boolean)
     { label: `${localization.editing.updated} ${localization.on}`, value: formatDate(v.last_updated_at) },
   ];
   const internalItems: Item[] = [
-    { label: `${localization.editing.updated} ${localization.by}`, value: v.last_updated_by },
+    {
+      label: `${localization.editing.updated} ${localization.by}`,
+      value: <Mailto email={v.last_updated_by} />,
+    },
     { label: `${localization.editing.created} ${localization.on}`, value: formatDate(v.created_at) },
-    { label: `${localization.editing.created} ${localization.by}`, value: v.created_by },
+    { label: `${localization.editing.created} ${localization.by}`, value: <Mailto email={v.created_by} /> },
   ];
   return isAuthenticated ? [...publicItems, ...internalItems] : publicItems;
 };
@@ -90,17 +93,15 @@ export const ownerItems = (v: RenderedView): Item[] => [
  * Contact
  * ------------------------------
  */
-export const contactItems = (v: RenderedView): Item[] => {
-  if (v.contact?.email != null) {
-    return [
-      {
-        label: localization.contact.label,
-        //TODO(cbi): Check valid pattern for link to email [https://github.com/statisticsnorway/metadata-catalog-prototype/issues/115]
-        value: `mailto:${v.contact?.email}`,
-        display: v.contact?.title || localization.contact.fallbackTitle,
-      },
-    ];
-  } else {
-    return [{ label: localization.contact.label, value: v.contact?.title }];
-  }
-};
+
+// component owner
+export const contactItems = (v: RenderedView, isAuthenticated: boolean): Item[] => [
+  v.contact?.email
+    ? {
+        label: localization.variableDefinition.mail,
+        value: <Mailto email={v.contact?.email} />,
+      }
+    : { label: localization.contact.label, value: v.contact?.title },
+  { label: localization.variableDefinition.owner, value: v.owner.team || '-' },
+  ...createdAndEditedItems(v, isAuthenticated),
+];

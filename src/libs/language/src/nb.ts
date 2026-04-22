@@ -129,6 +129,9 @@ export const nb = {
     validFrom: 'Gyldig fra',
     validTo: 'Gyldig til',
     documentation: 'Dokumentasjon',
+    contact: 'Kontakt',
+    mail: 'Mail',
+    owner: 'Eier',
   },
 
   classification: {

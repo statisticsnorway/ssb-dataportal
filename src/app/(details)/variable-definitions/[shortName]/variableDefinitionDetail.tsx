@@ -11,7 +11,7 @@ import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { getVardefApiDocsUrl } from '@/utils/config';
 import { isVariablePubliclyAccessible } from '@/utils/variableAccess';
-import { aboutVariableItems } from './groups';
+import { aboutVariableItems, contactItems } from './groups';
 import styles from './variable-details-page.module.css';
 
 export default function VariableDefinitionDetail({
@@ -42,6 +42,10 @@ export default function VariableDefinitionDetail({
         <DetailsTable
           title={localization.variableDefinition.aboutVariable}
           content={aboutVariableItems(variableDefinition, isAuthenticated, apiDocsUrl)}
+        />
+        <DetailsTable
+          title={localization.variableDefinition.contact}
+          content={contactItems(variableDefinition, isAuthenticated)}
         />
       </main>
     </div>
