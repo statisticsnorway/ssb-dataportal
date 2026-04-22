@@ -65,18 +65,18 @@ test('Variable "Aksje" has two subject fields', async ({ variableDefinitionsPage
   await checkCheckbox(filterOne);
 
   await expect(main).toContainText('1 treff');
-  await expect(main).toContainText('Aksjeaksje');
+  await expect(main).toContainText('Aksje');
 
   await checkCheckbox(filterTwo);
 
   await expect(main).toContainText('20 treff');
-  await expect(main).toContainText('Aksjeaksje');
+  await expect(main).toContainText('Aksje');
 
   await filterOne.uncheck();
   await expect(filterOne).not.toBeChecked();
 
   await expect(main).toContainText('20 treff');
-  await expect(main).toContainText('Aksjeaksje');
+  await expect(main).toContainText('Aksje');
 });
 
 test('Sort variable definitions', async ({ variableDefinitionsPage }) => {
