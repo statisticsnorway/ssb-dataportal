@@ -198,7 +198,10 @@ button {
   width: 100%;
   --dsc-alert-padding-block: var(--ds-size-4);
 }
-
+#tableHeading {
+  font-family: sans-serif;
+  font-weight: 400;
+}
 @media (min-width: 768px) {
   select#sortVariables.ds-input {
     width: 300px;
