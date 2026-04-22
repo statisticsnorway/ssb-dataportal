@@ -118,13 +118,15 @@ export const nb = {
     labelSingular: 'Variabeldefinisjon',
     labelWithComment: 'Variabeldefinisjon med kommentar',
     notFoundAlertText: 'Variabeldefinisjon ikke funnet',
-    personalData: 'Inneholder særlige kategorier av personopplysninger',
+    internalPersonalData: 'Inneholder særlige kategorier av personopplysninger',
+    externalPersonalData: 'Sensitive personopplysninger',
     relevant: 'Relevante variabeldefinisjoner',
     viewExternalReference: 'Se ekstern referanse',
     viewRelevant: 'Se relevant variabeldefinisjon',
     aboutVariable: 'Om variabelen',
     validFrom: 'Gyldig fra',
     validTo: 'Gyldig til',
+    documentation: 'Dokumentasjon',
   },
 
   classification: {

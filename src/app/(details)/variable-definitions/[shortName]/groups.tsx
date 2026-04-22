@@ -1,17 +1,9 @@
+import { ApiDocLink } from '@/components/footer/api-doc-link';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { Item } from '@/types/item';
+import { getVardefApiDocsUrl } from '@/utils/config';
 import { areFieldsDefinedAndNonNull, formatDate, yesNo } from '@/utils/functions';
-
-/**
- * ------------------------------
- * Validity Items
- * ------------------------------
- */
-export const validityItems = (v: RenderedView): Item[] => [
-  { label: localization.from, value: formatDate(v.valid_from), type: 'text' },
-  { label: localization.to, value: formatDate(v.valid_until ?? undefined), type: 'text' },
-];
 
 /**
  * ------------------------------
@@ -32,10 +24,11 @@ export const createdAndEditedItems = (v: RenderedView, isAuthenticated: boolean)
 
 /**
  * ------------------------------
- * Unit Types & Subject Fields
+ * About variable
  * ------------------------------
  */
-export const unitTypesItems = (v: RenderedView): Item[] => [
+const apiDocsUrl = getVardefApiDocsUrl();
+export const aboutVariableItems = (v: RenderedView, isAuthenticated: boolean): Item[] => [
   {
     label: localization.unitTypes,
     value: v.unit_types.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
@@ -45,6 +38,38 @@ export const unitTypesItems = (v: RenderedView): Item[] => [
     label: localization.subjectFields,
     value: v.subject_fields.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
     type: 'tags',
+  },
+  { label: localization.variableDefinition.validFrom, value: formatDate(v.valid_from), type: 'text' },
+  ...(v.valid_until
+    ? [
+        {
+          label: localization.variableDefinition.validTo,
+          value: formatDate(v.valid_until),
+          type: 'text',
+        } satisfies Item,
+      ]
+    : []),
+  {
+    label: localization.variableDefinition.documentation,
+    value: <ApiDocLink href={apiDocsUrl} />,
+    type: 'link',
+  },
+  ...(v.classification_uri
+    ? [
+        {
+          label: localization.classification.label,
+          value: v.classification_uri ?? null,
+          type: 'link',
+          display: localization.classification.view,
+        } satisfies Item,
+      ]
+    : []),
+  {
+    label: isAuthenticated
+      ? localization.variableDefinition.internalPersonalData
+      : localization.variableDefinition.externalPersonalData,
+    value: yesNo(v.contains_special_categories_of_personal_data),
+    type: 'text',
   },
 ];
 
@@ -92,16 +117,3 @@ export const contactItems = (v: RenderedView): Item[] => {
     return [{ label: localization.contact.label, value: v.contact?.title, type: 'text' }];
   }
 };
-
-/**
- * ------------------------------
- * Personal Data
- * ------------------------------
- */
-export const personalDataItems = (v: RenderedView): Item[] => [
-  {
-    label: localization.variableDefinition.personalData,
-    value: yesNo(v.contains_special_categories_of_personal_data),
-    type: 'text',
-  },
-];
