@@ -1,5 +1,7 @@
-import { Tag } from '@digdir/designsystemet-react';
+import { Popover, Tag } from '@digdir/designsystemet-react';
+import { QuestionmarkIcon } from '@navikt/aksel-icons';
 import classNames from 'classnames';
+import { ReactNode } from 'react';
 import { VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { convertStatus, statusColors } from '@/utils/functions';
 
@@ -27,3 +29,31 @@ const StatusTag = ({ variableStatus, className }: StatusTagProps) => {
 };
 
 export { StatusTag };
+
+interface DetailsTagProps {
+  className?: string;
+  text: string | ReactNode;
+  popover?: boolean;
+}
+
+const DetailsTag = ({ className, text, popover = false }: DetailsTagProps) => {
+  return popover ? (
+    <Popover.TriggerContext>
+      <Popover.Trigger>
+        {
+          <Tag className={classNames(className)} data-size='lg'>
+            {text}
+            <QuestionmarkIcon />
+          </Tag>
+        }
+      </Popover.Trigger>
+      <Popover>Info</Popover>
+    </Popover.TriggerContext>
+  ) : (
+    <Tag className={classNames(className)} data-size='lg'>
+      {text}
+    </Tag>
+  );
+};
+
+export { DetailsTag };

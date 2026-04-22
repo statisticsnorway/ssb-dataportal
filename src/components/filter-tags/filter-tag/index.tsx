@@ -10,7 +10,7 @@ interface FilterTagProps {
 
 export const FilterTag = ({ label, onClose, isClearAll, filterCount }: FilterTagProps) => {
   return (
-    <li className={styles.listItem}>
+    <li>
       <Tag
         variant='outline'
         data-size='md'

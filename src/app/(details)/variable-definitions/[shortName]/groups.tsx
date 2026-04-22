@@ -1,4 +1,5 @@
 import { ApiDocLink } from '@/components/footer/api-doc-link';
+import { DetailsTag } from '@/components/statusTag';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { Item } from '@/types/item';
@@ -31,11 +32,19 @@ const apiDocsUrl = getVardefApiDocsUrl();
 export const aboutVariableItems = (v: RenderedView, isAuthenticated: boolean): Item[] => [
   {
     label: localization.unitTypes,
-    value: v.unit_types.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
+    value: (
+      <DetailsTag
+        text={v.unit_types.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title)}
+      />
+    ),
   },
   {
     label: localization.subjectFields,
-    value: v.subject_fields.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
+    value: (
+      <DetailsTag
+        text={v.subject_fields.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title)}
+      />
+    ),
   },
   { label: localization.variableDefinition.validFrom, value: formatDate(v.valid_from) },
   ...(v.valid_until
