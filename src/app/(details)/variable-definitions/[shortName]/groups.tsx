@@ -30,7 +30,7 @@ export const createdAndEditedItems = (v: RenderedView, isAuthenticated: boolean)
 
 /**
  * ------------------------------
- * Owner
+ * Owner details
  * ------------------------------
  */
 export const OwnerDetails = ({ variable }: { variable: RenderedView }) => {
