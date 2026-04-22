@@ -16,22 +16,22 @@ const ShortNameTag = ({ className, shortName, copy = true, copied, copyToClipboa
       <span style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         {shortName}
 
-        <span
-          role='button'
-          tabIndex={0}
-          aria-label={copied ? localization.copy.copied : localization.copy.shortName}
-          onClick={() => copyToClipboard(shortName)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              copyToClipboard(shortName);
-            }
-          }}
-        >
-          <Tooltip content={copied ? localization.copy.copied : localization.copy.shortName}>
+        <Tooltip content={copied ? localization.copy.copied : localization.copy.shortName}>
+          <span
+            role='button'
+            tabIndex={0}
+            aria-label={copied ? localization.copy.copied : localization.copy.shortName}
+            onClick={() => copyToClipboard(shortName)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                copyToClipboard(shortName);
+              }
+            }}
+          >
             <FilesIcon aria-hidden />
-          </Tooltip>
-        </span>
+          </span>
+        </Tooltip>
       </span>
     </Tag>
   ) : (
