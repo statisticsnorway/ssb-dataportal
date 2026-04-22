@@ -6,6 +6,7 @@ import { useAuthContext } from '@/app/authContext';
 import { StatusTag } from '@/components/statusTag';
 import { TagsGroup } from '@/components/tags-group';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
+import { localization } from '@/libs/language';
 import { areFieldsDefinedAndNonNull, getLabelWithParent } from '@/utils/functions';
 import { useVariableDefinitionsContext } from '../variable-definitions-service-page/components/variableDefinitionContext';
 import styles from './vardef.module.css';
@@ -49,8 +50,12 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
 
       <div className={styles.tagsList}>
         <TagsGroup maxTags={4} tagData={subjectFieldTags} />
-        {isAuthenticated && <StatusTag variableStatus={variableDefinition.variable_status} />}
-        <Tag data-color='success'>{variableDefinition.short_name}</Tag>
+        {isAuthenticated && (
+          <StatusTag aria-label={localization.status.label} variableStatus={variableDefinition.variable_status} />
+        )}
+        <Tag data-color='success' className={styles.shortName} aria-label={localization.shortName.label}>
+          {variableDefinition.short_name}
+        </Tag>
       </div>
     </Card>
   );

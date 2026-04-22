@@ -22,6 +22,10 @@
   gap: var(--small-gap);
 }
 
+.shortName {
+  font-family: var(--font-family-monospace);
+}
+
 @media (max-width: 460px) {
   .vardefShortName {
     display: block;
