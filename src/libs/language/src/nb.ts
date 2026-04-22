@@ -122,6 +122,9 @@ export const nb = {
     relevant: 'Relevante variabeldefinisjoner',
     viewExternalReference: 'Se ekstern referanse',
     viewRelevant: 'Se relevant variabeldefinisjon',
+    aboutVariable: 'Om variabelen',
+    validFrom: 'Gyldig fra',
+    validTo: 'Gyldig til',
   },
 
   classification: {
