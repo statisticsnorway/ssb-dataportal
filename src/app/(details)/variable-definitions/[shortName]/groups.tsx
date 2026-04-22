@@ -12,12 +12,12 @@ import { areFieldsDefinedAndNonNull, formatDate, yesNo } from '@/utils/functions
  */
 export const createdAndEditedItems = (v: RenderedView, isAuthenticated: boolean): Item[] => {
   const publicItems: Item[] = [
-    { label: `${localization.editing.updated} ${localization.on}`, value: formatDate(v.last_updated_at), type: 'text' },
+    { label: `${localization.editing.updated} ${localization.on}`, value: formatDate(v.last_updated_at) },
   ];
   const internalItems: Item[] = [
-    { label: `${localization.editing.updated} ${localization.by}`, value: v.last_updated_by, type: 'text' },
-    { label: `${localization.editing.created} ${localization.on}`, value: formatDate(v.created_at), type: 'text' },
-    { label: `${localization.editing.created} ${localization.by}`, value: v.created_by, type: 'text' },
+    { label: `${localization.editing.updated} ${localization.by}`, value: v.last_updated_by },
+    { label: `${localization.editing.created} ${localization.on}`, value: formatDate(v.created_at) },
+    { label: `${localization.editing.created} ${localization.by}`, value: v.created_by },
   ];
   return isAuthenticated ? [...publicItems, ...internalItems] : publicItems;
 };
@@ -32,34 +32,29 @@ export const aboutVariableItems = (v: RenderedView, isAuthenticated: boolean): I
   {
     label: localization.unitTypes,
     value: v.unit_types.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
-    type: 'tags',
   },
   {
     label: localization.subjectFields,
     value: v.subject_fields.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
-    type: 'tags',
   },
-  { label: localization.variableDefinition.validFrom, value: formatDate(v.valid_from), type: 'text' },
+  { label: localization.variableDefinition.validFrom, value: formatDate(v.valid_from) },
   ...(v.valid_until
     ? [
         {
           label: localization.variableDefinition.validTo,
           value: formatDate(v.valid_until),
-          type: 'text',
         } satisfies Item,
       ]
     : []),
   {
     label: localization.variableDefinition.documentation,
     value: <ApiDocLink href={apiDocsUrl} />,
-    type: 'link',
   },
   ...(v.classification_uri
     ? [
         {
           label: localization.classification.label,
           value: v.classification_uri ?? null,
-          type: 'link',
           display: localization.classification.view,
         } satisfies Item,
       ]
@@ -69,7 +64,6 @@ export const aboutVariableItems = (v: RenderedView, isAuthenticated: boolean): I
       ? localization.variableDefinition.internalPersonalData
       : localization.variableDefinition.externalPersonalData,
     value: yesNo(v.contains_special_categories_of_personal_data),
-    type: 'text',
   },
 ];
 
@@ -82,7 +76,6 @@ export const referencesItems = (v: RenderedView): Item[] => [
   {
     label: localization.classification.label,
     value: v.classification_uri ?? null,
-    type: 'link',
     display: localization.classification.view,
   },
 ];
@@ -93,8 +86,8 @@ export const referencesItems = (v: RenderedView): Item[] => [
  * ------------------------------
  */
 export const ownerItems = (v: RenderedView): Item[] => [
-  { label: localization.owner.daplaTeam, value: v.owner.team || '-', type: 'text' },
-  { label: localization.owner.groups, value: v.owner.groups.join(', '), type: 'text' },
+  { label: localization.owner.daplaTeam, value: v.owner.team || '-' },
+  { label: localization.owner.groups, value: v.owner.groups.join(', ') },
 ];
 
 /**
@@ -109,11 +102,10 @@ export const contactItems = (v: RenderedView): Item[] => {
         label: localization.contact.label,
         //TODO(cbi): Check valid pattern for link to email [https://github.com/statisticsnorway/metadata-catalog-prototype/issues/115]
         value: `mailto:${v.contact?.email}`,
-        type: 'link',
         display: v.contact?.title || localization.contact.fallbackTitle,
       },
     ];
   } else {
-    return [{ label: localization.contact.label, value: v.contact?.title, type: 'text' }];
+    return [{ label: localization.contact.label, value: v.contact?.title }];
   }
 };

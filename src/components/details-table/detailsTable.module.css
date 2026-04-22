@@ -5,6 +5,7 @@
 }
 .detailsTable {
   width: 100%;
+  color: var(--main-font-color);
 }
 
 .tableBody {
