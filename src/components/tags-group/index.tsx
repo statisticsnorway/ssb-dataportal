@@ -5,7 +5,7 @@ import styles from './tags-group.module.css';
 interface TagsGroupProps {
   maxTags: number;
   tagData: TagData;
-  ariaLabel: string;
+  ariaLabel?: string;
 }
 
 export type TagData = Map<string, string>;
