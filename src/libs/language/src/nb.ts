@@ -183,7 +183,7 @@ export const nb = {
     datasetProtoypeInfo:
       'Denne siden vil i fremtiden inneholde vår nye løsning for beskrivelser av datasett. Utviklingen starter for fullt i 2026.',
     landingPageInfoGoal:
-      'Målet er å gjøre det enklere å finne, forstå og bruke SSBs dataer på en korrekt og effektiv måte.',
+      'Målet er å gjøre det enklere å finne, forstå og bruke SSBs data på en korrekt og effektiv måte.',
     landingPageInfoGoalTitle: 'Hvorfor SSB Dataportal?',
     landingPageInfoIntro: 'Her samler vi informasjon om våre datasett, variabler, kodeverk og API-er på ett sted.',
     landingPageInfoIntroTitle: 'Hva er SSB Dataportal?',
