@@ -3,6 +3,7 @@ import { QuestionmarkIcon } from '@navikt/aksel-icons';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
 import { VariableStatus } from '@/libs/data-access/variable-definitions/internal';
+import { localization } from '@/libs/language/src/localization';
 import { convertStatus, statusColors } from '@/utils/functions';
 
 interface StatusTagProps {
@@ -22,7 +23,12 @@ interface StatusTagProps {
 const StatusTag = ({ variableStatus, className }: StatusTagProps) => {
   const color = statusColors[variableStatus];
   return (
-    <Tag className={classNames(className)} data-size='lg' style={{ backgroundColor: color }}>
+    <Tag
+      aria-label={localization.status.label}
+      className={classNames(className)}
+      data-size='md'
+      style={{ backgroundColor: color }}
+    >
       {convertStatus(variableStatus)}
     </Tag>
   );

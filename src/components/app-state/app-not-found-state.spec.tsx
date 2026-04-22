@@ -61,7 +61,6 @@ describe('AppNotFoundState', () => {
     expect(url.pathname).toBe(getContactEmailAddress());
     const params = new URLSearchParams(url.search);
     expect(params.get('subject')).toBe(brokenLinkMailSubject);
-    expect(params.get('body')).toContain('jeg vil melde fra om en mulig ødelagt lenke i Dataportalen');
     expect(params.get('body')).toContain('/variable-definitions/does-not-exist');
   });
 

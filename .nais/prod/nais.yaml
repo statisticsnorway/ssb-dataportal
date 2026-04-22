@@ -21,15 +21,13 @@ spec:
         - host: auth.ssb.no
   login:
     provider: openid
-    enforce:
-      enabled: true
   replicas:
     max: 2
     min: 2
   resources:
     requests:
       cpu: 100m
-      memory: 400mi
+      memory: 400Mi
   envFrom:
     - secret: dataportalen
   env:

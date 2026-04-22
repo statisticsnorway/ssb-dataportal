@@ -1,13 +1,8 @@
 .tagsList {
-  display: flex;
-  gap: var(--small-gap);
+  display: contents;
   list-style: none;
   padding: 0;
-  align-items: center;
-  flex-wrap: wrap;
-  height: 100%;
-  margin-bottom: 1rem;
-  transition: height 0.2s ease;
+  margin: 0;
 }
 
 .tagsWithHeading {
