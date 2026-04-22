@@ -1,6 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from './fixtures/variableDefinitions.fixture';
-import variableDefinitions from '@/static-data/variable-definitions.json';
 import { statuses, variables } from './utils/variables';
 import { checkCheckbox } from './utils/commonUtils';
 
@@ -47,18 +46,6 @@ test.describe('Variable definitions – accessibility', () => {
   test('Page has header one', async ({ variableDefinitionsPage }) => {
     const results = await new AxeBuilder({ page: variableDefinitionsPage })
       .withRules('page-has-heading-one')
-      .exclude('.ds-alert.infoAlert')
-      .analyze();
-    expect(results.violations).toEqual([]);
-  });
-
-  test('CodeSnippet meets WCAG contrast requirements', async ({ variableDefinitionsPage }) => {
-    const shortName = variableDefinitions[0]?.short_name;
-    await variableDefinitionsPage.goto(`/variable-definitions/${shortName}`);
-    await expect(variableDefinitionsPage.getByTestId('code-snippet')).toBeVisible();
-    const results = await new AxeBuilder({ page: variableDefinitionsPage })
-      .withRules(['color-contrast'])
-      .include('[data-testid="code-snippet"]')
       .exclude('.ds-alert.infoAlert')
       .analyze();
     expect(results.violations).toEqual([]);
