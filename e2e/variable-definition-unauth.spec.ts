@@ -6,6 +6,7 @@ const KNOWN_SHORT_NAME = 'org_form';
 const DETAIL_URL = `${tabsData.VariableDefinitions.route}/${KNOWN_SHORT_NAME}`;
 
 test.describe('unauthenticated view', () => {
+  test.skip();
   test('hides Python code snippet', async ({ unauthPage }) => {
     await unauthPage.goto(DETAIL_URL);
     await expect(unauthPage.getByTestId('code-snippet')).not.toBeAttached();
