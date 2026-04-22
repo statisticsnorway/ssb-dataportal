@@ -1,4 +1,4 @@
-import { Card, Table, TableBody, TableCell, TableRow } from '@digdir/designsystemet-react';
+import { Card, Heading, Table, TableBody, TableCell, TableRow } from '@digdir/designsystemet-react';
 import { Item } from '@/types/item';
 import styles from './detailsTable.module.css';
 
@@ -10,8 +10,10 @@ interface DetailsTableProps {
 const DetailsTable = ({ title, content }: DetailsTableProps) => {
   return (
     <Card className={styles.tableContainer}>
+      <Heading level={3} data-size='lg' className={styles.tableHeading}>
+        {title}
+      </Heading>
       <Table className={styles.detailsTable}>
-        <caption>{title}</caption>
         <TableBody className={styles.tableBody}>
           {content.map((row, index) => (
             <TableRow key={index}>
