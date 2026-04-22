@@ -5,15 +5,6 @@
   display: flex;
   align-items: center;
   max-width: 100%;
-  margin-bottom: 1rem;
+  margin: var(--medium-gap) var(--extra-large-gap);
   font-size: larger;
-}
-@media (min-width: 768px) {
-}
-
-@media (min-width: 1400px) {
-  .infoSection {
-    max-width: 1400px;
-    width: 100%;
-  }
 }
