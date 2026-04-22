@@ -1,8 +1,8 @@
 .footer {
   min-height: 200px;
   padding: var(--medium-gap);
-  background-color: var(--element-background-color);
-  color: var(--main-font-color);
+  background-color: var(--ssb-dark-color-5);
+  color: white;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -22,6 +22,9 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+.negativeLink {
+  color: var(--ssb-green-2);
 }
 
 .icon {

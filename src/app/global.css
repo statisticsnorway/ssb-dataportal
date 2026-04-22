@@ -180,6 +180,11 @@ p {
   color: var(--ssb-dark-color-6);
 }
 
+/* Uses not() with a dummy ID and class to increase specificity and allow overriding color */
+.negative-text:not(#dummy-id.dummy-class) {
+  color: white;
+}
+
 /** Ingress is used to draw attention to a limited amount of introductory text. */
 .ingress {
   font-size: var(--font-size-lg);
