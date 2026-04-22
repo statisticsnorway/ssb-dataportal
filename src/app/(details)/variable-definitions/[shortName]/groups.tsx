@@ -1,10 +1,13 @@
-import { ApiDocLink } from '@/components/footer/api-doc-link';
+import { Paragraph } from '@digdir/designsystemet-react';
+import { ApiDocLink } from '@/components/link-components/api-doc-link';
+import { EmailLink } from '@/components/link-components/emailLink';
 import { DetailsTag } from '@/components/tag-components';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { Item } from '@/types/item';
 import { areFieldsDefinedAndNonNull, formatDate, yesNo } from '@/utils/functions';
-import { Mailto, Owner } from './components/helperComponents';
+import styles from './variable-details-page.module.css';
+
 /**
  * ------------------------------
  * Audit / Created & Edited Items
@@ -17,12 +20,41 @@ export const createdAndEditedItems = (v: RenderedView, isAuthenticated: boolean)
   const internalItems: Item[] = [
     {
       label: `${localization.editing.updated} ${localization.by}`,
-      value: <Mailto email={v.last_updated_by} />,
+      value: <EmailLink email={v.last_updated_by} />,
     },
     { label: `${localization.editing.created} ${localization.on}`, value: formatDate(v.created_at) },
-    { label: `${localization.editing.created} ${localization.by}`, value: <Mailto email={v.created_by} /> },
+    { label: `${localization.editing.created} ${localization.by}`, value: <EmailLink email={v.created_by} /> },
   ];
   return isAuthenticated ? [...publicItems, ...internalItems] : publicItems;
+};
+
+/**
+ * ------------------------------
+ * Owner
+ * ------------------------------
+ */
+export const OwnerDetails = ({ variable }: { variable: RenderedView }) => {
+  const fields = [
+    {
+      label: localization.owner.daplaTeam.toUpperCase(),
+      value: variable?.owner?.team,
+    },
+    {
+      label: localization.owner.groups.toUpperCase(),
+      value: variable?.owner?.groups.join(','),
+    },
+  ];
+  return (
+    <div className={styles.owner}>
+      {fields.map((field) => (
+        <Paragraph key={field.label}>
+          <span>{field.label}</span>
+          <span>:</span>
+          <span>{field.value}</span>
+        </Paragraph>
+      ))}
+    </div>
+  );
 };
 
 /**
@@ -30,7 +62,7 @@ export const createdAndEditedItems = (v: RenderedView, isAuthenticated: boolean)
  * About variable
  * ------------------------------
  */
-export const aboutVariableItems = (v: RenderedView, isAuthenticated: boolean, apiDocsUrl: string): Item[] => [
+export const mapAboutVariableItems = (v: RenderedView, isAuthenticated: boolean, apiDocsUrl: string): Item[] => [
   {
     label: localization.unitTypes,
     value: (
@@ -83,17 +115,17 @@ export const aboutVariableItems = (v: RenderedView, isAuthenticated: boolean, ap
  * Contact
  * ------------------------------
  */
-export const contactItems = (v: RenderedView, isAuthenticated: boolean): Item[] => [
+export const mapContactItems = (v: RenderedView, isAuthenticated: boolean): Item[] => [
   v.contact?.email
     ? {
         label: localization.variableDefinition.mail,
-        value: <Mailto email={v.contact?.email} />,
+        value: <EmailLink email={v.contact?.email} />,
       }
     : { label: localization.contact.label, value: v.contact?.title },
   { label: localization.variableDefinition.owner, value: v.owner.team || '-' },
   ...createdAndEditedItems(v, isAuthenticated),
   {
     label: localization.variableDefinition.owner,
-    value: <Owner variable={v} />,
+    value: <OwnerDetails variable={v} />,
   },
 ];

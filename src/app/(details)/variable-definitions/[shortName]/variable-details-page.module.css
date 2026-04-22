@@ -20,3 +20,10 @@
   overflow-wrap: break-word;
   hyphens: auto;
 }
+
+.owner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  flex-direction: column;
+}

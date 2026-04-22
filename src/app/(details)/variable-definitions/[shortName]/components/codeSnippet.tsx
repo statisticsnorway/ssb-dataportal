@@ -5,7 +5,7 @@ import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { ExternalLink } from '@/components/external-link';
+import { ExternalLink } from '@/components/link-components/externalLink';
 import { useClipboard } from '@/hooks/useClipboard';
 import { localization } from '@/libs/language';
 import styles from './code-snippet.module.css';

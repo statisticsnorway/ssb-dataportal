@@ -3,8 +3,8 @@ import { BookIcon, EnvelopeOpenIcon, FigureIcon, HouseIcon, ShieldLockIcon } fro
 import { localization } from '@/libs/language';
 import { getVardefApiDocsUrl } from '@/utils/config';
 import { getContactEmailAddress } from '@/utils/userAgent';
-import { ExternalLink } from '../external-link';
-import { ApiDocLink } from './api-doc-link';
+import { ApiDocLink } from '../link-components/api-doc-link';
+import { ExternalLink } from '../link-components/externalLink';
 import styles from './footer.module.css';
 import { FooterLinkItem } from './footer-link-item';
 

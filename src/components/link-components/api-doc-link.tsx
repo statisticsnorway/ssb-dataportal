@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuthContext } from '@/app/authContext';
-import { ExternalLink } from '@/components/external-link';
+import { ExternalLink } from '@/components/link-components/externalLink';
 import { localization } from '@/libs/language';
 
 interface ApiDocLinkProps {

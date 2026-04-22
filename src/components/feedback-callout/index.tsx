@@ -1,5 +1,5 @@
 import { Card, Heading, Paragraph } from '@digdir/designsystemet-react';
-import { ExternalLink } from '@/components/external-link';
+import { ExternalLink } from '@/components/link-components/externalLink';
 import { localization } from '@/libs/language';
 import styles from './feedback-callout.module.css';
 
