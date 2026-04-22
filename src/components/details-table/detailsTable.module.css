@@ -1,0 +1,22 @@
+.tableContainer {
+  background-color: var(--element-background-color);
+  padding: 1rem;
+  color: var(--main-font-color);
+}
+.detailsTable {
+  width: 100%;
+  padding: 1rem;
+}
+
+.tableBody {
+  width: 100%;
+}
+
+.headerCell {
+  width: 60%;
+  padding: 1rem;
+}
+.contentCell {
+  text-align: left;
+  padding: 1rem;
+}
