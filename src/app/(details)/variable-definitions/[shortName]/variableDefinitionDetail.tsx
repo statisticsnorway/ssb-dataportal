@@ -6,6 +6,7 @@ import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { DetailsTable } from '@/components/details-table';
 import { ExternalLink } from '@/components/link-components/externalLink';
+import { ShortNameTag } from '@/components/tag-components/shortNameTag';
 import { VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
@@ -41,6 +42,7 @@ export default function VariableDefinitionDetail({
         <Heading className='heading12' level={1} data-size='2xl'>
           {variableDefinition.name}
         </Heading>
+        <ShortNameTag shortName={variableDefinition.short_name} />
         <Paragraph className={`${styles.definition} ingress`}>{variableDefinition.definition}</Paragraph>
         {variableDefinition.comment ? (
           <Card>
