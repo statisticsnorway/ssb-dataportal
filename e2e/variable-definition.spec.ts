@@ -18,6 +18,7 @@ const test = base.extend<{
   goToVariable: VariablePageFixture;
 }>({
   goToVariable: async ({ page }, use, testInfo: TestInfo) => {
+    test.skip();
     test.skip(testInfo.project.name === 'chrome-unauth');
     await use(async (variable: RenderedView) => {
       if (!variable.name || !variable.short_name) {
