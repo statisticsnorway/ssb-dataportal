@@ -1,11 +1,10 @@
 .tableContainer {
   background-color: var(--element-background-color);
-  padding: 1rem;
+  padding: 2rem;
   color: var(--main-font-color);
 }
 .detailsTable {
   width: 100%;
-  padding: 1rem;
 }
 
 .tableBody {
@@ -19,4 +18,7 @@
 .contentCell {
   text-align: left;
   padding: 1rem;
+}
+.tableHeading {
+  font-weight: 300;
 }
