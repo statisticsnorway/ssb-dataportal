@@ -2,12 +2,12 @@ import { Tag } from '@digdir/designsystemet-react';
 import { useMemo } from 'react';
 import styles from './tags-group.module.css';
 
-export type TagData = Map<string, string>;
-
 interface TagsGroupProps {
   maxTags: number;
   tagData: TagData;
 }
+
+export type TagData = Map<string, string>;
 
 /**
  * TagsGroup component displays a list of tags with optional close buttons.
