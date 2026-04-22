@@ -1,6 +1,5 @@
-import { Card, Link, Paragraph } from '@digdir/designsystemet-react';
-import { BookIcon, EnvelopeOpenIcon } from '@navikt/aksel-icons';
-import { ExternalLink } from '@/components/external-link';
+import { Heading, Link } from '@digdir/designsystemet-react';
+import { BookIcon, EnvelopeOpenIcon, HouseIcon } from '@navikt/aksel-icons';
 import { localization } from '@/libs/language';
 import { getVardefApiDocsUrl } from '@/utils/config';
 import { getContactEmailAddress } from '@/utils/userAgent';
@@ -14,22 +13,29 @@ export const Footer = () => {
   return (
     <footer className={styles.footer}>
       <div className={`${styles.footerWrapper} container`}>
-        <Card className={styles.infoSection}>
-          <img src={'/pencil.svg'} alt='' width={50} className={styles.iconImage} />
-          <Paragraph>
-            Dataportalen er under utvikling, og dine innspill er viktige for oss. Hjelp oss gjerne ved å fylle ut{' '}
-            <ExternalLink
-              linkText={localization.feedBackForm}
-              href='https://forms.office.com/Pages/ResponsePage.aspx?id=knAhx0CyHU69YfqXupdcvG8mQNraR5ZAu3es4-se84xUN0VFME5BSVFSUTZDRUZCTzNTVUlFTDlUNC4u'
-            />
-          </Paragraph>
-        </Card>
         <section className={styles.footerLinkSection}>
+          <Heading>{localization.appTitle}</Heading>
+          <p>{localization.info.landingPageSubTitle}</p>
+        </section>
+        <section className={styles.footerLinkSection}>
+          <Heading>Om nettstedet</Heading>
+          <FooterLinkItem icon={<BookIcon title={localization.apiDocumentation} fontSize='2rem' />}>
+            <ApiDocLink href={apiDocsUrl} />
+          </FooterLinkItem>
+          <FooterLinkItem icon={undefined}>
+            <p>Tilgjengelighetserklæring (kommer)</p>
+          </FooterLinkItem>
+          <FooterLinkItem icon={undefined}>
+            <p>Personvernerklæring (kommer)</p>
+          </FooterLinkItem>
+        </section>
+        <section className={styles.footerLinkSection}>
+          <Heading>Kom i kontakt</Heading>
           <FooterLinkItem icon={<EnvelopeOpenIcon title={localization?.contact?.label} fontSize='2rem' />}>
             <Link href={`mailto:${getContactEmailAddress()}`}>{getContactEmailAddress()}</Link>
           </FooterLinkItem>
-          <FooterLinkItem icon={<BookIcon title={localization.apiDocumentation} fontSize='2rem' />}>
-            <ApiDocLink href={apiDocsUrl} />
+          <FooterLinkItem icon={<HouseIcon title={localization?.contact?.label} fontSize='2rem' />}>
+            <Link href='https://www.ssb.no'>ssb.no</Link>
           </FooterLinkItem>
         </section>
       </div>

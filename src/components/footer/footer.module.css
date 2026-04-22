@@ -9,22 +9,12 @@
 
 .footerWrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: stretch;
-  justify-content: flex-start;
+  justify-content: space-between;
   gap: 0.5rem;
 }
 
-.iconImage {
-  margin-right: 1rem;
-}
-.infoSection {
-  display: flex;
-  align-items: center;
-  max-width: 100%;
-  margin-bottom: 1rem;
-  font-size: larger;
-}
 .footerLinkSection {
   max-width: 100%;
   display: flex;
@@ -42,11 +32,4 @@
   width: 60px;
 }
 @media (min-width: 768px) {
-}
-
-@media (min-width: 1400px) {
-  .infoSection {
-    max-width: 1400px;
-    width: 100%;
-  }
 }

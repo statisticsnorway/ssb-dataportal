@@ -1,0 +1,19 @@
+.iconImage {
+  margin-right: 1rem;
+}
+.infoSection {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  font-size: larger;
+}
+@media (min-width: 768px) {
+}
+
+@media (min-width: 1400px) {
+  .infoSection {
+    max-width: 1400px;
+    width: 100%;
+  }
+}

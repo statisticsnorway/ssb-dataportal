@@ -7,7 +7,7 @@
  */
 
 export const nb = {
-  appTitle: 'Dataportal',
+  appTitle: 'SSB Dataportal',
   breadcrumbsLabel: 'Brødsmulesti',
   by: 'av',
   comment: 'Kommentar',

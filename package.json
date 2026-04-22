@@ -50,6 +50,7 @@
     "react-dom": "19.2.5",
     "react-localization": "2.0.6",
     "react-syntax-highlighter": "16.1.1",
+    "react-types": "link:@digdir/designsystemet-react/react-types",
     "server-only": "^0.0.1",
     "typescript": "6.0.2"
   },
