@@ -2,7 +2,7 @@
 
 import { useAuthContext } from '@/app/authContext';
 import { localization } from '@/libs/language';
-import { ExternalLink } from '../link-components/externalLink';
+import { ExternalLink } from './externalLink';
 
 interface ApiDocLinkProps {
   href: string;
