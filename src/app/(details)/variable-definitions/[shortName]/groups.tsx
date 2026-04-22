@@ -122,7 +122,6 @@ export const mapContactItems = (v: RenderedView, isAuthenticated: boolean): Item
         value: <EmailLink email={v.contact?.email} />,
       }
     : { label: localization.contact.label, value: v.contact?.title },
-  { label: localization.variableDefinition.owner, value: v.owner.team || '-' },
   ...createdAndEditedItems(v, isAuthenticated),
   {
     label: localization.variableDefinition.owner,
