@@ -6,11 +6,11 @@ import styles from './feedback-callout.module.css';
 export const FeedbackCallout = () => {
   return (
     <Card role='complementary' className={styles.infoSection}>
-      <Heading>Del dine erfaringer!</Heading>
+      <Heading>{localization.info.feedbackTitle}</Heading>
       <Paragraph>
-        Vi jobber kontinuerlig med å forbedre dataportalen og du kan hjelpe oss ved å fylle ut{' '}
+        {localization.info.feedbackBody}{' '}
         <ExternalLink
-          linkText={localization.feedBackForm}
+          linkText={localization.info.feedBackForm}
           href='https://forms.office.com/Pages/ResponsePage.aspx?id=knAhx0CyHU69YfqXupdcvG8mQNraR5ZAu3es4-se84xUN0VFME5BSVFSUTZDRUZCTzNTVUlFTDlUNC4u'
         />
       </Paragraph>

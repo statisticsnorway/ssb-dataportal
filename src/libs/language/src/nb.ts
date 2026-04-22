@@ -15,7 +15,6 @@ export const nb = {
   daplaManual: 'Dapla-manualen',
   documentation: 'Dokumentasjon',
   apiDocumentation: 'API-dokumentasjon',
-  feedBackForm: 'tilbakemeldingsskjema for SSB Dataportal',
   from: 'Fra',
   home: 'Hjem',
   id: 'ID',
@@ -41,7 +40,6 @@ export const nb = {
   subjectFields: 'Statistikkområder',
   to: 'Til',
   unitTypes: 'Enhetstyper',
-  welcomeToTesting: 'Velkommen til testing av datakatalogen. Du er nå i en prototype under utvikling.',
   yes: 'Ja',
 
   tabs: {
@@ -182,6 +180,13 @@ export const nb = {
     datasetPrototypeIntro: 'Planlagt utvidelse',
     datasetProtoypeInfo:
       'Denne siden vil i fremtiden inneholde vår nye løsning for beskrivelser av datasett. Utviklingen starter for fullt i 2026.',
+    feedbackTitle: 'Del dine erfaringer!',
+    feedbackBody: 'Vi jobber kontinuerlig med å forbedre dataportalen og du kan hjelpe oss ved å fylle ut',
+    feedBackForm: 'tilbakemeldingsskjema for SSB Dataportal',
+    footerAboutPage: 'Om nettstedet',
+    footerContact: 'Kom i kontakt',
+    footerAccessibilityStatement: 'Tilgjengelighetserklæring (kommer)',
+    footerPrivacyStatement: 'Personvernerklæring',
     landingPageInfoGoal:
       'Målet er å gjøre det enklere å finne, forstå og bruke SSBs data på en korrekt og effektiv måte.',
     landingPageInfoGoalTitle: 'Hvorfor SSB Dataportal?',

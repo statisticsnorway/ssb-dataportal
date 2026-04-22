@@ -18,22 +18,22 @@ export const Footer = () => {
         <p>{localization.info.landingPageSubTitle}</p>
       </section>
       <section className={styles.footerLinkSection}>
-        <Heading>Om nettstedet</Heading>
+        <Heading>{localization.info.footerAboutPage}</Heading>
         <FooterLinkItem icon={<ShieldLockIcon title={localization?.contact?.label} fontSize='2rem' />}>
           <ExternalLink
             href='https://www.ssb.no/omssb/personvern/personvernerklaering'
-            linkText='Personvernerklæring'
+            linkText={localization.info.footerPrivacyStatement}
           />
         </FooterLinkItem>
         <FooterLinkItem icon={<FigureIcon title={localization?.contact?.label} fontSize='2rem' />}>
-          <p>Tilgjengelighetserklæring (kommer)</p>
+          <p>{localization.info.footerAccessibilityStatement}</p>
         </FooterLinkItem>
         <FooterLinkItem icon={<BookIcon title={localization.apiDocumentation} fontSize='2rem' />}>
           <ApiDocLink href={apiDocsUrl} />
         </FooterLinkItem>
       </section>
       <section className={styles.footerLinkSection}>
-        <Heading>Kom i kontakt</Heading>
+        <Heading>{localization.info.footerContact}</Heading>
         <FooterLinkItem icon={<EnvelopeOpenIcon title={localization?.contact?.label} fontSize='2rem' />}>
           <Link href={`mailto:${getContactEmailAddress()}`}>{getContactEmailAddress()}</Link>
         </FooterLinkItem>
