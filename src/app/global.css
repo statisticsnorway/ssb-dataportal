@@ -21,6 +21,7 @@
   --small-gap: 0.5rem;
   --medium-gap: 1rem;
   --large-gap: 2rem;
+  --extra-large-gap: 4rem;
 
   /* Ref: https://design.ssb.no/#/components/color */
   --ssb-dark-color-1: #f0f8f9;

@@ -1,30 +1,16 @@
 .footer {
   min-height: 200px;
-  padding: 2rem 0;
+  padding: var(--medium-gap);
   background-color: var(--element-background-color);
   color: var(--main-font-color);
-  width: 100%;
   flex-shrink: 0;
-}
-
-.footerWrapper {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
-  gap: 0.5rem;
+  gap: var(--large-gap);
 }
 
-.iconImage {
-  margin-right: 1rem;
-}
-.infoSection {
-  display: flex;
-  align-items: center;
-  max-width: 100%;
-  margin-bottom: 1rem;
-  font-size: larger;
-}
 .footerLinkSection {
   max-width: 100%;
   display: flex;
@@ -41,12 +27,11 @@
 .icon {
   width: 60px;
 }
-@media (min-width: 768px) {
-}
 
-@media (min-width: 1400px) {
-  .infoSection {
-    max-width: 1400px;
-    width: 100%;
+@media (min-width: 768px) {
+  .footer {
+    flex-direction: row;
+    gap: var(--extra-large-gap);
+    padding: var(--medium-gap) var(--extra-large-gap);
   }
 }
