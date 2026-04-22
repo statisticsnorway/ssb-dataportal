@@ -3,7 +3,6 @@ import { DetailsTag } from '@/components/statusTag';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { Item } from '@/types/item';
-import { getVardefApiDocsUrl } from '@/utils/config';
 import { areFieldsDefinedAndNonNull, formatDate, yesNo } from '@/utils/functions';
 
 /**
@@ -28,8 +27,7 @@ export const createdAndEditedItems = (v: RenderedView, isAuthenticated: boolean)
  * About variable
  * ------------------------------
  */
-const apiDocsUrl = getVardefApiDocsUrl();
-export const aboutVariableItems = (v: RenderedView, isAuthenticated: boolean): Item[] => [
+export const aboutVariableItems = (v: RenderedView, isAuthenticated: boolean, apiDocsUrl: string): Item[] => [
   {
     label: localization.unitTypes,
     value: (
