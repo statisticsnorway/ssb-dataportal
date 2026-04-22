@@ -20,7 +20,7 @@ interface TagsGroupProps {
 const TagsGroup = ({ maxTags, tagData }: TagsGroupProps) => {
   const tagsArray = useMemo(() => Array.from(tagData.entries()).slice(0, maxTags), [tagData, maxTags]);
 
-  // Avoid rendering anything if there are no tags, to prevent empty whitespace
+  // Only render the list if there are tags to avoid whitespace
   if (!tagsArray.length) return null;
 
   return (
