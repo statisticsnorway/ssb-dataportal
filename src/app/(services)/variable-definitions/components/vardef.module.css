@@ -1,27 +1,6 @@
-/* Multi-line text clamp.
-  Uses -webkit-line-clamp because this 3-property combo is
-   the only fully supported way to truncate text over multiple lines. */
-.truncateTo3Lines {
-  display: -webkit-box;
-  line-clamp: 3;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  margin-bottom: 1rem;
-}
-
 .vardefHeadingLink {
   /* No underline on the link*/
   text-decoration: none;
-}
-
-.vardefShortName {
-  font-size: 1rem;
-  font-weight: normal;
-  font-family: monospace;
-  margin-left: 0.6rem;
-  color: var(--search-hit-shortname-color);
-  white-space: nowrap;
 }
 
 /* Multi-line text clamp.
@@ -34,32 +13,6 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin-bottom: 1rem;
-}
-
-.vardefHeadingLink {
-  /* No underline on the link*/
-  text-decoration: none;
-}
-
-.vardefShortName {
-  font-size: 1rem;
-  font-weight: normal;
-  font-family: var(--font-family-monospace);
-  margin-left: 0.6rem;
-  color: var(--search-hit-shortname-color);
-  white-space: nowrap;
-}
-
-.headingWithLink {
-  text-decoration: none;
-}
-
-@media (max-width: 460px) {
-  .vardefShortName {
-    display: block;
-    margin-left: 0;
-    margin-top: 0.25rem;
-  }
 }
 
 .tagsList {
