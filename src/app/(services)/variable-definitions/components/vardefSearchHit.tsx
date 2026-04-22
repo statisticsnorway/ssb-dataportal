@@ -49,7 +49,7 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
       <Paragraph className={`${styles.truncateTo3Lines} ingress`}>{String(variableDefinition.definition)}</Paragraph>
 
       <div className={styles.tagsList}>
-        <TagsGroup maxTags={4} tagData={subjectFieldTags} />
+        <TagsGroup maxTags={4} tagData={subjectFieldTags} ariaLabel={localization.subjectArea} />
         {isAuthenticated && <StatusTag variableStatus={variableDefinition.variable_status} />}
         <Tag data-color='success' className={styles.shortName} aria-label={localization.shortName.label}>
           {variableDefinition.short_name}

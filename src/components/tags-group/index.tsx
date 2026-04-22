@@ -1,11 +1,11 @@
 import { Tag } from '@digdir/designsystemet-react';
 import { useMemo } from 'react';
-import { localization } from '@/libs/language';
 import styles from './tags-group.module.css';
 
 interface TagsGroupProps {
   maxTags: number;
   tagData: TagData;
+  ariaLabel: string;
 }
 
 export type TagData = Map<string, string>;
@@ -18,7 +18,7 @@ export type TagData = Map<string, string>;
  *
  * @returns An unordered list (<ul>) of tags or null if tagData is empty.
  */
-const TagsGroup = ({ maxTags, tagData }: TagsGroupProps) => {
+const TagsGroup = ({ maxTags, tagData, ariaLabel }: TagsGroupProps) => {
   const tagsArray = useMemo(() => Array.from(tagData.entries()).slice(0, maxTags), [tagData, maxTags]);
 
   // Only render the list if there are tags to avoid whitespace
@@ -28,7 +28,7 @@ const TagsGroup = ({ maxTags, tagData }: TagsGroupProps) => {
     <ul className={styles.tagsList}>
       {tagsArray.map(([key, label]) => (
         <li key={key}>
-          <Tag aria-label={localization.subjectArea}>{label}</Tag>
+          <Tag aria-label={ariaLabel}>{label}</Tag>
         </li>
       ))}
     </ul>
