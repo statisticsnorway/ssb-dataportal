@@ -5,7 +5,7 @@ import styles from './feedback-callout.module.css';
 
 export const FeedbackCallout = () => {
   return (
-    <Card className={styles.infoSection}>
+    <Card role='complementary' className={styles.infoSection}>
       <Heading>Del dine erfaringer!</Heading>
       <Paragraph>
         Vi jobber kontinuerlig med å forbedre dataportalen og du kan hjelpe oss ved å fylle ut{' '}
