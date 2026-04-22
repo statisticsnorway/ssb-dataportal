@@ -83,8 +83,6 @@ export const aboutVariableItems = (v: RenderedView, isAuthenticated: boolean, ap
  * Contact
  * ------------------------------
  */
-
-// component owner
 export const contactItems = (v: RenderedView, isAuthenticated: boolean): Item[] => [
   v.contact?.email
     ? {
