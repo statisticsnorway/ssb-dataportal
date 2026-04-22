@@ -62,6 +62,10 @@ export const nb = {
     shortName: 'Kopier kortnavn',
   },
 
+  shortName: {
+    label: 'Kortnavn',
+  },
+
   error: {
     somethingWentWrong: 'Beklager, noe gikk galt.',
     unauthorized: 'Beklager, du har ikke tilgang.',
