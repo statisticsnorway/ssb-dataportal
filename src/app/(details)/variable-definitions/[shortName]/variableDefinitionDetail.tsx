@@ -4,11 +4,13 @@ import { Heading, Paragraph } from '@digdir/designsystemet-react';
 import { notFound } from 'next/navigation';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
+import { DetailsTable } from '@/components/details-table';
 import { VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { isVariablePubliclyAccessible } from '@/utils/variableAccess';
+import { aboutVariableItems } from './groups';
 import styles from './variable-details-page.module.css';
 
 export default function VariableDefinitionDetail({
@@ -35,6 +37,10 @@ export default function VariableDefinitionDetail({
           {variableDefinition.name}
         </Heading>
         <Paragraph className={`${styles.definition} ingress`}>{variableDefinition.definition}</Paragraph>
+        <DetailsTable
+          title={localization.variableDefinition.aboutVariable}
+          content={aboutVariableItems(variableDefinition, isAuthenticated)}
+        />
       </main>
     </div>
   );
