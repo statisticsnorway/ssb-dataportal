@@ -6,13 +6,11 @@ import { FeedbackCallout } from '../feedback-callout';
 
 interface AppLayoutProps {
   children: ReactNode;
-  fdkRegistrationBaseUrl?: string;
-  fdkBaseUrl?: string;
   catalogTitle?: string;
   className?: string;
 }
 
-export const AppLayout = ({ children, fdkRegistrationBaseUrl, catalogTitle }: AppLayoutProps) => {
+export const AppLayout = ({ children, catalogTitle }: AppLayoutProps) => {
   return (
     <div className='rootContainer'>
       <Header homeUrl='/' title={catalogTitle} devEnvironmentName={getDevEnvironmentName()} />

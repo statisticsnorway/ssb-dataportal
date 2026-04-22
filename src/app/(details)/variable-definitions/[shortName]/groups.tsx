@@ -4,7 +4,7 @@ import { EmailLink } from '@/components/link-components/emailLink';
 import { DetailsTag } from '@/components/tag-components';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
-import { Item } from '@/types/item';
+import { DisplayField } from '@/types/displayField';
 import { areFieldsDefinedAndNonNull, formatDate, yesNo } from '@/utils/functions';
 import styles from './variable-details-page.module.css';
 
@@ -13,11 +13,11 @@ import styles from './variable-details-page.module.css';
  * Audit / Created & Edited Items
  * ------------------------------
  */
-export const createdAndEditedItems = (v: RenderedView, isAuthenticated: boolean): Item[] => {
-  const publicItems: Item[] = [
+export const createdAndEditedItems = (v: RenderedView, isAuthenticated: boolean): DisplayField[] => {
+  const publicItems: DisplayField[] = [
     { label: `${localization.editing.updated} ${localization.on}`, value: formatDate(v.last_updated_at) },
   ];
-  const internalItems: Item[] = [
+  const internalItems: DisplayField[] = [
     {
       label: `${localization.editing.updated} ${localization.by}`,
       value: <EmailLink email={v.last_updated_by} />,
@@ -62,7 +62,11 @@ export const OwnerDetails = ({ variable }: { variable: RenderedView }) => {
  * About variable
  * ------------------------------
  */
-export const mapAboutVariableItems = (v: RenderedView, isAuthenticated: boolean, apiDocsUrl: string): Item[] => [
+export const mapAboutVariableItems = (
+  v: RenderedView,
+  isAuthenticated: boolean,
+  apiDocsUrl: string,
+): DisplayField[] => [
   {
     label: localization.unitTypes,
     value: (
@@ -86,7 +90,7 @@ export const mapAboutVariableItems = (v: RenderedView, isAuthenticated: boolean,
         {
           label: localization.variableDefinition.validTo,
           value: formatDate(v.valid_until),
-        } satisfies Item,
+        } satisfies DisplayField,
       ]
     : []),
   {
@@ -98,8 +102,7 @@ export const mapAboutVariableItems = (v: RenderedView, isAuthenticated: boolean,
         {
           label: localization.classification.label,
           value: v.classification_uri ?? null,
-          display: localization.classification.view,
-        } satisfies Item,
+        } satisfies DisplayField,
       ]
     : []),
   {
@@ -115,7 +118,7 @@ export const mapAboutVariableItems = (v: RenderedView, isAuthenticated: boolean,
  * Contact
  * ------------------------------
  */
-export const mapContactItems = (v: RenderedView, isAuthenticated: boolean): Item[] => [
+export const mapContactItems = (v: RenderedView, isAuthenticated: boolean): DisplayField[] => [
   v.contact?.email
     ? {
         label: localization.variableDefinition.mail,

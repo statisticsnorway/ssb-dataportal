@@ -1,10 +1,10 @@
 import { Card, Heading, Table, TableBody, TableCell, TableRow } from '@digdir/designsystemet-react';
-import { Item } from '@/types/item';
+import { DisplayField } from '@/types/displayField';
 import styles from './detailsTable.module.css';
 
 interface DetailsTableProps {
   title: string;
-  content: Item[];
+  content: DisplayField[];
 }
 
 const DetailsTable = ({ title, content }: DetailsTableProps) => {

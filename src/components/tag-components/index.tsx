@@ -42,6 +42,7 @@ interface DetailsTagProps {
   popover?: boolean;
 }
 
+// fix css and localization - better prop name - two files?
 const DetailsTag = ({ className, text, popover = false }: DetailsTagProps) => {
   return popover ? (
     <>
