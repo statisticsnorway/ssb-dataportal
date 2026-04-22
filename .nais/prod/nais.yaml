@@ -27,7 +27,7 @@ spec:
   resources:
     requests:
       cpu: 100m
-      memory: 400mi
+      memory: 400Mi
   envFrom:
     - secret: dataportalen
   env:
