@@ -6,23 +6,26 @@ const KNOWN_SHORT_NAME = 'org_form';
 const DETAIL_URL = `${tabsData.VariableDefinitions.route}/${KNOWN_SHORT_NAME}`;
 
 test.describe('unauthenticated view', () => {
-  test.skip();
   test('hides Python code snippet', async ({ unauthPage }) => {
+    test.skip();
     await unauthPage.goto(DETAIL_URL);
     await expect(unauthPage.getByTestId('code-snippet')).not.toBeAttached();
   });
 
   test('hides Owner panel', async ({ unauthPage }) => {
+    test.skip();
     await unauthPage.goto(DETAIL_URL);
     await expect(unauthPage.getByRole('heading', { name: localization.owner.label })).not.toBeAttached();
   });
 
   test('hides StatusTag in sidebar', async ({ unauthPage }) => {
+    test.skip();
     await unauthPage.goto(DETAIL_URL);
     await expect(unauthPage.locator('aside').getByText(localization.status.draft)).not.toBeAttached();
   });
 
   test('shows only "Updated on", hides three auth-only audit fields', async ({ unauthPage }) => {
+    test.skip();
     await unauthPage.goto(DETAIL_URL);
     const sidebar = unauthPage.locator('aside');
     await expect(sidebar.getByText(`${localization.editing.updated} ${localization.on}`)).toBeVisible();
