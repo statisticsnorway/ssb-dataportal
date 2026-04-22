@@ -9,6 +9,8 @@ import styles from './footer.module.css';
 import { FooterLinkItem } from './footer-link-item';
 
 export const Footer = () => {
+  const apiDocsUrl = getVardefApiDocsUrl();
+
   return (
     <footer className={styles.footer}>
       <section className={styles.footerLinkSection}>
@@ -27,7 +29,7 @@ export const Footer = () => {
           <p>{localization.info.footerAccessibilityStatement}</p>
         </FooterLinkItem>
         <FooterLinkItem icon={<BookIcon title={localization.apiDocumentation} fontSize='2rem' />}>
-          <ApiDocLink href={getVardefApiDocsUrl()} />
+          <ApiDocLink href={apiDocsUrl} />
         </FooterLinkItem>
       </section>
       <section className={styles.footerLinkSection}>
