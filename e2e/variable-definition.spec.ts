@@ -38,7 +38,7 @@ test.describe('Variable definitions navigation', () => {
       await expect(
         page.getByRole('heading', {
           level: 1,
-          name: `${variable.name}${variable.short_name}`,
+          name: `${variable.name}`,
         }),
       ).toBeVisible();
     });
