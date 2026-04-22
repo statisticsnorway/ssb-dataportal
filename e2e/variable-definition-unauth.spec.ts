@@ -6,14 +6,13 @@ const KNOWN_SHORT_NAME = 'org_form';
 const DETAIL_URL = `${tabsData.VariableDefinitions.route}/${KNOWN_SHORT_NAME}`;
 
 test.describe('unauthenticated view', () => {
-  test.skip();
   test('hides Python code snippet', async ({ unauthPage }) => {
     test.skip();
     await unauthPage.goto(DETAIL_URL);
     await expect(unauthPage.getByTestId('code-snippet')).not.toBeAttached();
   });
 
-  test('sensitive person field label ', async ({ unauthPage }) => {
+  test('contains sensitive information field', async ({ unauthPage }) => {
     await unauthPage.goto(DETAIL_URL);
     const sensitiveField = unauthPage.getByRole('rowheader', {
       name: localization.variableDefinition.externalPersonalData,
@@ -37,13 +36,12 @@ test.describe('unauthenticated view', () => {
   });
 
   test('shows only "Updated on", hides three auth-only audit fields', async ({ unauthPage }) => {
-    test.skip();
     await unauthPage.goto(DETAIL_URL);
-    const sidebar = unauthPage.locator('aside');
-    await expect(sidebar.getByText(`${localization.editing.updated} ${localization.on}`)).toBeVisible();
-    await expect(sidebar.getByText(`${localization.editing.updated} ${localization.by}`)).not.toBeAttached();
-    await expect(sidebar.getByText(`${localization.editing.created} ${localization.on}`)).not.toBeAttached();
-    await expect(sidebar.getByText(`${localization.editing.created} ${localization.by}`)).not.toBeAttached();
+    const table = unauthPage.locator('table');
+    await expect(table.getByText(`${localization.editing.updated} ${localization.on}`)).toBeVisible();
+    await expect(table.getByText(`${localization.editing.updated} ${localization.by}`)).not.toBeAttached();
+    await expect(table.getByText(`${localization.editing.created} ${localization.on}`)).not.toBeAttached();
+    await expect(table.getByText(`${localization.editing.created} ${localization.by}`)).not.toBeAttached();
   });
 
   test('public content still visible', async ({ unauthPage }) => {
