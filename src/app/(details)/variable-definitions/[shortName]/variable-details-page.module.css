@@ -29,3 +29,11 @@
   gap: 0.5rem;
   flex-direction: column;
 }
+
+.ownerLabel {
+  font-weight: 500;
+}
+
+.ownerValue {
+  margin-left: 0.5rem;
+}

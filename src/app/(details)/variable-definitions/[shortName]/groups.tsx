@@ -19,6 +19,10 @@ export const createdAndEditedItems = (v: RenderedView, isAuthenticated: boolean)
   ];
   const internalItems: DisplayField[] = [
     {
+      label: localization.variableDefinition.owner,
+      value: <OwnerDetails variable={v} />,
+    },
+    {
       label: `${localization.editing.updated} ${localization.by}`,
       value: <EmailLink email={v.last_updated_by} />,
     },
@@ -48,9 +52,9 @@ export const OwnerDetails = ({ variable }: { variable: RenderedView }) => {
     <div className={styles.owner}>
       {fields.map((field) => (
         <Paragraph key={field.label}>
-          <span>{field.label}</span>
+          <span className={styles.ownerLabel}>{field.label}</span>
           <span>:</span>
-          <span>{field.value}</span>
+          <span className={styles.ownerValue}>{field.value}</span>
         </Paragraph>
       ))}
     </div>
@@ -126,8 +130,4 @@ export const mapContactItems = (v: RenderedView, isAuthenticated: boolean): Disp
       }
     : { label: localization.contact.label, value: v.contact?.title },
   ...createdAndEditedItems(v, isAuthenticated),
-  {
-    label: localization.variableDefinition.owner,
-    value: <OwnerDetails variable={v} />,
-  },
 ];
