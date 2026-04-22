@@ -1,0 +1,45 @@
+.shortNameText {
+  font-family: var(--font-family-monospace);
+  --dsc-tag-padding: 0 !important;
+  padding: 0 !important;
+  align-items: stretch !important;
+}
+
+.shortNameWrapper {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+.shortNameLabel {
+  padding: 0 var(--ds-size-2);
+  display: flex;
+  align-items: center;
+}
+
+.copyShortNameButton {
+  color: var(--main-font-color);
+  min-width: unset !important;
+  min-height: unset !important;
+  width: unset !important;
+  align-self: stretch;
+  height: auto !important;
+  padding: 0 var(--ds-size-2) !important;
+  margin-top: -1px !important;
+  margin-bottom: -1px !important;
+  margin-right: -1px !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 var(--ds-border-radius-sm) var(--ds-border-radius-sm) 0 !important;
+}
+
+.copyShortNameButton:hover {
+  background-color: var(--ds-color-success-surface-hover) !important;
+}
+
+.copyShortNameButton svg {
+  width: 1em;
+  height: 1em;
+  display: block;
+}
