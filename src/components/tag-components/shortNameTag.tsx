@@ -15,7 +15,6 @@ const ShortNameTag = ({ className, shortName, copy = true, copied, copyToClipboa
     <Tag data-size='lg' data-color='success' className={className} aria-label={localization.shortName.label}>
       <span style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         {shortName}
-
         <Tooltip content={copied ? localization.copy.copied : localization.copy.shortName}>
           <span
             role='button'
