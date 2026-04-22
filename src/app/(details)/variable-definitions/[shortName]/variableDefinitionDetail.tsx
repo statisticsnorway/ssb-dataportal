@@ -1,6 +1,6 @@
 'use client';
 
-import { Heading } from '@digdir/designsystemet-react';
+import { Heading, Paragraph } from '@digdir/designsystemet-react';
 import { notFound } from 'next/navigation';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
@@ -34,6 +34,7 @@ export default function VariableDefinitionDetail({
         <Heading className='heading12' level={1} data-size='xl'>
           {variableDefinition.name}
         </Heading>
+        <Paragraph className={`${styles.definition} ingress`}>{variableDefinition.definition}</Paragraph>
       </main>
     </div>
   );
