@@ -1,5 +1,5 @@
 import { ApiDocLink } from '@/components/footer/api-doc-link';
-import { DetailsTag } from '@/components/statusTag';
+import { DetailsTag } from '@/components/tag-components';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { Item } from '@/types/item';
