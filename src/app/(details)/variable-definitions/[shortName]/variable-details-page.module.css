@@ -13,14 +13,13 @@
 
 .definition {
   line-height: 1.5;
-  margin-top: 0.25rem;
-  margin-bottom: 2rem;
   text-align: left;
   text-wrap: initial;
   word-break: auto-phrase;
   text-wrap: wrap;
   overflow-wrap: break-word;
   hyphens: auto;
+  margin-top: 1rem;
 }
 
 .owner {
