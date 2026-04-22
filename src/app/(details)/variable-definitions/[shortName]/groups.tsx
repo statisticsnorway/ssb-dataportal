@@ -1,7 +1,7 @@
 import { Paragraph } from '@digdir/designsystemet-react';
 import { ApiDocLink } from '@/components/link-components/apiDocLink';
 import { EmailLink } from '@/components/link-components/emailLink';
-import { DetailsTag } from '@/components/tag-components';
+import { DetailsTag } from '@/components/tag-components/DetailsTag';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { DisplayField } from '@/types/displayField';

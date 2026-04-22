@@ -1,7 +1,5 @@
-import { Popover, Tag } from '@digdir/designsystemet-react';
-import { QuestionmarkCircleIcon } from '@navikt/aksel-icons';
+import { Tag } from '@digdir/designsystemet-react';
 import classNames from 'classnames';
-import { ReactNode } from 'react';
 import { VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language/src/localization';
 import { convertStatus, statusColors } from '@/utils/functions';
@@ -35,28 +33,3 @@ const StatusTag = ({ variableStatus, className }: StatusTagProps) => {
 };
 
 export { StatusTag };
-
-interface DetailsTagProps {
-  className?: string;
-  text: string | ReactNode;
-  popover?: boolean;
-}
-
-// fix css and localization - better prop name - two files?
-const DetailsTag = ({ className, text, popover = false }: DetailsTagProps) => {
-  return popover ? (
-    <>
-      <Tag popoverTarget='info' className={classNames(className)} data-size='lg'>
-        {text}
-        <QuestionmarkCircleIcon title='More info' focusable={true} style={{ marginLeft: '0.5rem' }} />
-      </Tag>
-      <Popover id='info'>Info</Popover>
-    </>
-  ) : (
-    <Tag className={classNames(className)} data-size='lg'>
-      {text}
-    </Tag>
-  );
-};
-
-export { DetailsTag };

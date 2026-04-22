@@ -3,7 +3,7 @@ import { type ReactNode } from 'react';
 
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
-import { StatusTag } from '@/components/tag-components';
+import { StatusTag } from '@/components/tag-components/statusTag';
 import { TagsGroup } from '@/components/tag-components/tags-group';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
