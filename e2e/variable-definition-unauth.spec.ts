@@ -12,6 +12,17 @@ test.describe('unauthenticated view', () => {
     await expect(unauthPage.getByTestId('code-snippet')).not.toBeAttached();
   });
 
+  test('sensitive person field label ', async ({ unauthPage }) => {
+    await unauthPage.goto(DETAIL_URL);
+    const sensitiveField = unauthPage.getByRole('rowheader', {
+      name: localization.variableDefinition.externalPersonalData,
+    });
+    await expect(sensitiveField).toBeAttached();
+    await expect(
+      unauthPage.getByRole('rowheader', { name: localization.variableDefinition.internalPersonalData }),
+    ).not.toBeAttached();
+  });
+
   test('hides Owner panel', async ({ unauthPage }) => {
     test.skip();
     await unauthPage.goto(DETAIL_URL);
