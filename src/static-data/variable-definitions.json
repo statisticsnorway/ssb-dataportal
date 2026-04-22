@@ -1635,6 +1635,26 @@
         "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
         "code": "be",
         "title": "Befolkning"
+      },
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "vf",
+        "title": "Bedrifter, foretak og regnskap"
+      },
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+        "code": "12",
+        "title": "Foretak"
+      },
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "ud03",
+        "title": "Universitets- og h\u00f8gskoleutdanning"
+      },
+      {
+        "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+        "code": "js",
+        "title": "Jord, skog, jakt og fiskeri"
       }
     ],
     "contains_special_categories_of_personal_data": false,
