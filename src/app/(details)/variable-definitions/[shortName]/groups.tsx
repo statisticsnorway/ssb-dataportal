@@ -4,7 +4,7 @@ import { RenderedView } from '@/libs/data-access/variable-definitions/internal/m
 import { localization } from '@/libs/language';
 import { Item } from '@/types/item';
 import { areFieldsDefinedAndNonNull, formatDate, yesNo } from '@/utils/functions';
-import { Mailto } from './components/helperComponents';
+import { Mailto, Owner } from './components/helperComponents';
 /**
  * ------------------------------
  * Audit / Created & Edited Items
@@ -80,16 +80,6 @@ export const aboutVariableItems = (v: RenderedView, isAuthenticated: boolean, ap
 
 /**
  * ------------------------------
- * Owner
- * ------------------------------
- */
-export const ownerItems = (v: RenderedView): Item[] => [
-  { label: localization.owner.daplaTeam, value: v.owner.team || '-' },
-  { label: localization.owner.groups, value: v.owner.groups.join(', ') },
-];
-
-/**
- * ------------------------------
  * Contact
  * ------------------------------
  */
@@ -104,4 +94,8 @@ export const contactItems = (v: RenderedView, isAuthenticated: boolean): Item[] 
     : { label: localization.contact.label, value: v.contact?.title },
   { label: localization.variableDefinition.owner, value: v.owner.team || '-' },
   ...createdAndEditedItems(v, isAuthenticated),
+  {
+    label: localization.variableDefinition.owner,
+    value: <Owner variable={v} />,
+  },
 ];
