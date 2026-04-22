@@ -1,5 +1,6 @@
 import { Tag } from '@digdir/designsystemet-react';
 import { useMemo } from 'react';
+import { localization } from '@/libs/language';
 import styles from './tags-group.module.css';
 
 interface TagsGroupProps {
@@ -27,7 +28,7 @@ const TagsGroup = ({ maxTags, tagData }: TagsGroupProps) => {
     <ul className={styles.tagsList}>
       {tagsArray.map(([key, label]) => (
         <li key={key}>
-          <Tag>{label}</Tag>
+          <Tag aria-label={localization.subjectArea}>{label}</Tag>
         </li>
       ))}
     </ul>
