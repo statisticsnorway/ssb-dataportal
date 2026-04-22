@@ -7,7 +7,6 @@ const DETAIL_URL = `${tabsData.VariableDefinitions.route}/${KNOWN_SHORT_NAME}`;
 
 test.describe('unauthenticated view', () => {
   test('hides Python code snippet', async ({ unauthPage }) => {
-    test.skip();
     await unauthPage.goto(DETAIL_URL);
     await expect(unauthPage.getByTestId('code-snippet')).not.toBeAttached();
   });
@@ -24,7 +23,6 @@ test.describe('unauthenticated view', () => {
   });
 
   test('hides Owner panel', async ({ unauthPage }) => {
-    test.skip();
     await unauthPage.goto(DETAIL_URL);
     await expect(unauthPage.getByRole('heading', { name: localization.owner.label })).not.toBeAttached();
   });
