@@ -32,6 +32,7 @@ export const aboutVariableItems = (v: RenderedView, isAuthenticated: boolean, ap
     label: localization.unitTypes,
     value: (
       <DetailsTag
+        popover={true}
         text={v.unit_types.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title)}
       />
     ),

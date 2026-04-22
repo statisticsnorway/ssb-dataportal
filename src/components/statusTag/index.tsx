@@ -1,5 +1,5 @@
 import { Popover, Tag } from '@digdir/designsystemet-react';
-import { QuestionmarkIcon } from '@navikt/aksel-icons';
+import { QuestionmarkCircleIcon } from '@navikt/aksel-icons';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
 import { VariableStatus } from '@/libs/data-access/variable-definitions/internal';
@@ -44,17 +44,13 @@ interface DetailsTagProps {
 
 const DetailsTag = ({ className, text, popover = false }: DetailsTagProps) => {
   return popover ? (
-    <Popover.TriggerContext>
-      <Popover.Trigger>
-        {
-          <Tag className={classNames(className)} data-size='lg'>
-            {text}
-            <QuestionmarkIcon />
-          </Tag>
-        }
-      </Popover.Trigger>
-      <Popover>Info</Popover>
-    </Popover.TriggerContext>
+    <>
+      <Tag popoverTarget='info' className={classNames(className)} data-size='lg'>
+        {text}
+        <QuestionmarkCircleIcon style={{ marginLeft: '0.5rem' }} />
+      </Tag>
+      <Popover id='info'>Info</Popover>
+    </>
   ) : (
     <Tag className={classNames(className)} data-size='lg'>
       {text}
