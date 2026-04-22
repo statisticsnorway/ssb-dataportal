@@ -1,14 +1,14 @@
 .footer {
   min-height: 200px;
-  padding: var(--medium-gap) var(--extra-large-gap);
+  padding: var(--medium-gap);
   background-color: var(--element-background-color);
   color: var(--main-font-color);
   flex-shrink: 0;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
-  gap: var(--extra-large-gap);
+  gap: var(--large-gap);
 }
 
 .footerLinkSection {
@@ -27,5 +27,11 @@
 .icon {
   width: 60px;
 }
+
 @media (min-width: 768px) {
+  .footer {
+    flex-direction: row;
+    gap: var(--extra-large-gap);
+    padding: var(--medium-gap) var(--extra-large-gap);
+  }
 }

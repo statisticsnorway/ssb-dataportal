@@ -3,8 +3,15 @@
 }
 .infoSection {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   max-width: 100%;
-  margin: var(--medium-gap) var(--extra-large-gap);
+  margin: var(--medium-gap);
   font-size: larger;
+}
+
+@media (min-width: 768px) {
+  .infoSection {
+    margin: var(--medium-gap) var(--extra-large-gap);
+  }
 }
