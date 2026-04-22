@@ -1,5 +1,5 @@
 import { Paragraph } from '@digdir/designsystemet-react';
-import { ApiDocLink } from '@/components/link-components/api-doc-link';
+import { ApiDocLink } from '@/components/footer/authApiLink';
 import { EmailLink } from '@/components/link-components/emailLink';
 import { DetailsTag } from '@/components/tag-components';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';

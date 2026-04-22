@@ -47,7 +47,7 @@ const DetailsTag = ({ className, text, popover = false }: DetailsTagProps) => {
     <>
       <Tag popoverTarget='info' className={classNames(className)} data-size='lg'>
         {text}
-        <QuestionmarkCircleIcon style={{ marginLeft: '0.5rem' }} />
+        <QuestionmarkCircleIcon title='More info' focusable={true} style={{ marginLeft: '0.5rem' }} />
       </Tag>
       <Popover id='info'>Info</Popover>
     </>

@@ -9,16 +9,17 @@ import { VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
-import { getVardefApiDocsUrl } from '@/utils/config';
 import { isVariablePubliclyAccessible } from '@/utils/variableAccess';
 import { mapAboutVariableItems, mapContactItems } from './groups';
 import styles from './variable-details-page.module.css';
 
 export default function VariableDefinitionDetail({
   variableDefinition,
+  apiDocsBaseUrl,
 }: Readonly<{
   variableDefinition: RenderedView;
   daplaLabVardefUrl: string | undefined;
+  apiDocsBaseUrl: string;
 }>) {
   const { isAuthenticated } = useAuthContext();
 
@@ -26,7 +27,6 @@ export default function VariableDefinitionDetail({
     notFound();
   }
 
-  const apiDocsUrl = getVardefApiDocsUrl();
   return (
     <div className={`${styles.detailsPage} container`}>
       <VardefBreadcrumbs
@@ -41,7 +41,7 @@ export default function VariableDefinitionDetail({
         <Paragraph className={`${styles.definition} ingress`}>{variableDefinition.definition}</Paragraph>
         <DetailsTable
           title={localization.variableDefinition.aboutVariable}
-          content={mapAboutVariableItems(variableDefinition, isAuthenticated, apiDocsUrl)}
+          content={mapAboutVariableItems(variableDefinition, isAuthenticated, apiDocsBaseUrl)}
         />
         <DetailsTable
           title={localization.variableDefinition.contact}

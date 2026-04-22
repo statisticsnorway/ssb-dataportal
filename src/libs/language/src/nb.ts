@@ -63,7 +63,6 @@ export const nb = {
   shortName: {
     label: 'Kortnavn',
   },
-
   error: {
     somethingWentWrong: 'Beklager, noe gikk galt.',
     unauthorized: 'Beklager, du har ikke tilgang.',

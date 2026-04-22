@@ -3,14 +3,12 @@ import { BookIcon, EnvelopeOpenIcon, FigureIcon, HouseIcon, ShieldLockIcon } fro
 import { localization } from '@/libs/language';
 import { getVardefApiDocsUrl } from '@/utils/config';
 import { getContactEmailAddress } from '@/utils/userAgent';
-import { ApiDocLink } from '../link-components/api-doc-link';
 import { ExternalLink } from '../link-components/externalLink';
+import { ApiDocLink } from './authApiLink';
 import styles from './footer.module.css';
 import { FooterLinkItem } from './footer-link-item';
 
 export const Footer = () => {
-  const apiDocsUrl = getVardefApiDocsUrl();
-
   return (
     <footer className={styles.footer}>
       <section className={styles.footerLinkSection}>
@@ -29,7 +27,7 @@ export const Footer = () => {
           <p>{localization.info.footerAccessibilityStatement}</p>
         </FooterLinkItem>
         <FooterLinkItem icon={<BookIcon title={localization.apiDocumentation} fontSize='2rem' />}>
-          <ApiDocLink href={apiDocsUrl} />
+          <ApiDocLink href={getVardefApiDocsUrl()} />
         </FooterLinkItem>
       </section>
       <section className={styles.footerLinkSection}>

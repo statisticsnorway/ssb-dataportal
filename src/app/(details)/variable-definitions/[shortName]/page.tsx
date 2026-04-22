@@ -4,6 +4,7 @@ import { cache } from 'react';
 import { getRenderedVariableDefinition } from '@/libs/data/variable-definitions/variableDefinitions';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
+import { getVardefApiDocsUrl } from '@/utils/config';
 import VariableDefinitionDetail from './variableDefinitionDetail';
 
 /**
@@ -31,5 +32,11 @@ export default async function VariableDefinition({ params }: { params: Promise<{
   });
 
   const daplaLabVardefUrl: string | undefined = process.env.DAPLA_LAB_VARDEF_URL;
-  return <VariableDefinitionDetail variableDefinition={variableDefinition} daplaLabVardefUrl={daplaLabVardefUrl} />;
+  return (
+    <VariableDefinitionDetail
+      variableDefinition={variableDefinition}
+      daplaLabVardefUrl={daplaLabVardefUrl}
+      apiDocsBaseUrl={getVardefApiDocsUrl()}
+    />
+  );
 }
