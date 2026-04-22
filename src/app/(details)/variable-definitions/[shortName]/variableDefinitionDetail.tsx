@@ -1,6 +1,6 @@
 'use client';
 
-import { Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Card, Details, DetailsContent, DetailsSummary, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { notFound } from 'next/navigation';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
@@ -35,10 +35,20 @@ export default function VariableDefinitionDetail({
         currentText={variableDefinition.short_name}
       />
       <main className={styles.mainContent}>
-        <Heading className='heading12' level={1} data-size='xl'>
+        <Heading className='heading12' level={1} data-size='2xl'>
           {variableDefinition.name}
         </Heading>
         <Paragraph className={`${styles.definition} ingress`}>{variableDefinition.definition}</Paragraph>
+        {variableDefinition.comment ? (
+          <Card>
+            <Details>
+              <DetailsSummary data-size='lg' className={`font-roboto`}>
+                {localization.variableDefinition.comment}
+              </DetailsSummary>
+              <DetailsContent>{variableDefinition.comment}</DetailsContent>
+            </Details>
+          </Card>
+        ) : null}
         <DetailsTable
           title={localization.variableDefinition.aboutVariable}
           content={mapAboutVariableItems(variableDefinition, isAuthenticated, apiDocsBaseUrl)}
