@@ -64,10 +64,10 @@ describe('Header', () => {
           class="_logo_b64a3b"
           data-nimg="1"
           decoding="async"
-          height="44"
-          src="/ssb-logo-dark.svg"
+          height="929"
+          src="/ssb_logo_dark.svg"
           style="color: transparent;"
-          width="248"
+          width="1435"
         />
       </a>
     `);
