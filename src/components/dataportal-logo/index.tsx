@@ -10,7 +10,8 @@ export interface LogoProps {
 }
 
 export const DataportalLogo = ({ homeUrl, title, negative }: LogoProps) => {
-  const imageFile = negative ? '/ssb-logo-light.svg' : '/ssb-logo-dark.svg';
+  const imageNameBase = process.env.USE_ANNIVERSARY_LOGO === 'true' ? 'ssb_logo_anniversary_no' : 'ssb_logo';
+  const imageFile = negative ? `/${imageNameBase}_light.svg` : `/${imageNameBase}_dark.svg`;
   const textColor = negative ? `${styles.logoAndTitle} negative-text` : styles.logoAndTitle;
   return (
     <Link href={homeUrl} title={localization.navigateHome} className={textColor}>
@@ -18,8 +19,8 @@ export const DataportalLogo = ({ homeUrl, title, negative }: LogoProps) => {
         className={styles.logo}
         src={imageFile}
         alt={`${localization.statisticsNorway} logo`}
-        width={248}
-        height={44}
+        width={1435}
+        height={929}
         sizes='(min-width: 768px) 248px, (max-width: 768px) 180px'
         priority
       />
