@@ -20,7 +20,7 @@ export const Footer = () => {
       <Divider style={{ margin: '0 4rem', width: 'unset' }} />
       <div className={styles.footerMiddleRow}>
         <section className={styles.footerLinkSection}>
-          <Heading level={4} className={'negative-text'}>
+          <Heading level={3} className={'negative-text'}>
             {localization.appTitle}
           </Heading>
           <p style={{ fontStyle: 'italic' }} className={'negative-text'}>
@@ -28,7 +28,7 @@ export const Footer = () => {
           </p>
         </section>
         <section className={styles.footerLinkSection}>
-          <Heading level={4} className={'negative-text'}>
+          <Heading level={3} className={'negative-text'}>
             {localization.info.footerAboutPage}
           </Heading>
           <FooterLinkItem
@@ -54,7 +54,7 @@ export const Footer = () => {
           </FooterLinkItem>
         </section>
         <section className={styles.footerLinkSection}>
-          <Heading level={4} className={'negative-text'}>
+          <Heading level={3} className={'negative-text'}>
             {localization.info.footerContact}
           </Heading>
           <FooterLinkItem
