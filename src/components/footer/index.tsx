@@ -15,7 +15,7 @@ export const Footer = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerTopRow}>
-        <DataportalLogo homeUrl={''} title={localization.appTitle} negative />
+        <DataportalLogo homeUrl={'/'} title={localization.appTitle} negative />
       </div>
       <Divider style={{ margin: '0 4rem', width: 'unset' }} />
       <div className={styles.footerMiddleRow}>
