@@ -1,14 +1,21 @@
 .footer {
   min-height: 200px;
   padding: var(--medium-gap);
-  background-color: var(--element-background-color);
-  color: var(--main-font-color);
-  flex-shrink: 0;
+  background-color: var(--ssb-dark-color-5);
+  color: white;
+  gap: var(--large-gap);
+}
+
+.footerTopRow {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  justify-content: space-between;
+}
+
+.footerMiddleRow {
+  display: flex;
+  flex-direction: column;
   justify-content: flex-start;
-  gap: var(--large-gap);
 }
 
 .footerLinkSection {
@@ -23,13 +30,16 @@
   align-items: center;
   gap: 0.5rem;
 }
+.negativeLink {
+  color: var(--ssb-green-2);
+}
 
 .icon {
   width: 60px;
 }
 
 @media (min-width: 768px) {
-  .footer {
+  :is(.footerTopRow, .footerMiddleRow) {
     flex-direction: row;
     gap: var(--extra-large-gap);
     padding: var(--medium-gap) var(--extra-large-gap);

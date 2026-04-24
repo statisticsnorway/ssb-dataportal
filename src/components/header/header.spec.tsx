@@ -55,19 +55,19 @@ describe('Header', () => {
     expect(logoLink).toHaveAttribute('href', 'https://example.com');
     expect(logoLink).toMatchInlineSnapshot(`
       <a
-        class="_logoAndTitle_05898b"
+        class="_logoAndTitle_b64a3b"
         href="https://example.com"
         title="Naviger til hjemmesiden"
       >
         <img
           alt="Statistisk sentralbyrå logo"
-          class="_logo_05898b"
+          class="_logo_b64a3b"
           data-nimg="1"
           decoding="async"
-          height="44"
-          src="/ssb-logo.svg"
+          height="929"
+          src="/ssb_logo_dark.svg"
           style="color: transparent;"
-          width="240"
+          width="1435"
         />
       </a>
     `);

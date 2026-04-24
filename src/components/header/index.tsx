@@ -1,7 +1,5 @@
-import { Link } from '@digdir/designsystemet-react';
-import Image from 'next/image';
 import { FC } from 'react';
-import { localization } from '@/libs/language';
+import { DataportalLogo } from '../dataportal-logo';
 import { LoginButton } from '../login-button';
 import styles from './header.module.css';
 
@@ -15,22 +13,7 @@ export const Header: FC<HeaderProps> = ({ homeUrl, title, devEnvironmentName }) 
   return (
     <header className={styles.header} role='banner'>
       <div className={`${styles.headerContainer} container`}>
-        <Link href={homeUrl} title={localization.navigateHome} className={styles.logoAndTitle}>
-          <Image
-            className={styles.logo}
-            src='/ssb-logo.svg'
-            alt={`${localization.statisticsNorway} logo`}
-            width={240}
-            height={44}
-            priority
-          />
-          {title ? (
-            <div className={styles.logoAndTitle}>
-              <div className={styles.verticalDivider} />
-              <div className={styles.appTitle}>{title}</div>
-            </div>
-          ) : undefined}
-        </Link>
+        <DataportalLogo homeUrl={homeUrl} title={title} />
         <div className={`${styles.rightGroup}`}>
           {devEnvironmentName ? <p className={styles.environmentName}>{devEnvironmentName}</p> : undefined}
         </div>
