@@ -41,7 +41,7 @@ test.describe('Landing page', () => {
     await expect(landingPage.getByRole('tab', { name: localization.tabs.variableDefinitions })).toContainText(
       localization.tabs.variableDefinitions,
     );
-    const linkHome = landingPage.getByRole('link', { name: localization.statisticsNorway });
+    const linkHome = landingPage.getByRole('link', { name: localization.statisticsNorway }).first();
     await linkHome.click();
     await expect(landingPage).toHaveURL(/\/$/);
     await expect(landingPage.getByRole('heading', { level: 1 })).toContainText(localization.info.landingPageTitle);
