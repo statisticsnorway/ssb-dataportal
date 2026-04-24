@@ -3,12 +3,19 @@
   padding: var(--medium-gap);
   background-color: var(--ssb-dark-color-5);
   color: white;
-  flex-shrink: 0;
+  gap: var(--large-gap);
+}
+
+.footerTopRow {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  justify-content: space-between;
+}
+
+.footerMiddleRow {
+  display: flex;
+  flex-direction: column;
   justify-content: flex-start;
-  gap: var(--large-gap);
 }
 
 .footerLinkSection {
@@ -32,7 +39,7 @@
 }
 
 @media (min-width: 768px) {
-  .footer {
+  :is(.footerTopRow, .footerMiddleRow) {
     flex-direction: row;
     gap: var(--extra-large-gap);
     padding: var(--medium-gap) var(--extra-large-gap);
