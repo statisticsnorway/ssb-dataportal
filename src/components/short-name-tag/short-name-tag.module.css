@@ -19,19 +19,17 @@
 
 .copyShortNameButton {
   color: var(--main-font-color);
-  min-width: unset !important;
-  min-height: unset !important;
-  width: unset !important;
   align-self: stretch;
-  height: auto !important;
   padding: 0 var(--ds-size-2) !important;
-  margin-top: -1px !important;
-  margin-bottom: -1px !important;
-  margin-right: -1px !important;
-  background-color: transparent !important;
+  margin: -1px -1px -1px 0 !important;
+  background: none !important;
   border: none !important;
   box-shadow: none !important;
   border-radius: 0 var(--ds-border-radius-sm) var(--ds-border-radius-sm) 0 !important;
+  width: unset !important;
+  min-width: unset !important;
+  min-height: unset !important;
+  height: auto !important;
 }
 
 .copyShortNameButton:hover {
