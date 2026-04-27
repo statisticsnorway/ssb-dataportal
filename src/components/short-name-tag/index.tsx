@@ -23,7 +23,7 @@ const ShortNameTag = ({ shortName }: ShortNameTagProps) => {
             icon
             onClick={() => copyToClipboard(shortName)}
           >
-            <FilesIcon />
+            <FilesIcon aria-hidden />
           </Button>
         </Tooltip>
       </div>
