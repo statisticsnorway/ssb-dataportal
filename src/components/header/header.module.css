@@ -1,16 +1,16 @@
 .header {
   border-bottom: 1px solid rgb(230, 230, 230);
   box-shadow: var(--shadow-color) 0px 0px 10px -5px;
-  gap: var(--extra-large-gap);
-  padding: var(--medium-gap) var(--large-gap);
+  gap: var(--small-gap);
+  padding: var(--medium-gap);
   background-color: var(--element-background-color);
   margin: 0;
   box-sizing: border-box;
   width: 100%;
   height: auto;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .environmentName {
@@ -19,25 +19,34 @@
   text-decoration: none;
 }
 
-@media (max-width: 768px) {
+.rightGroup {
+  margin-left: 0;
+  width: 100%;
+}
+
+/* Make LoginButton fit container */
+.header :global(button),
+.header button {
+  box-sizing: border-box;
+  align-self: stretch;
+}
+
+@media (min-width: 768px) {
   .header {
-    padding: var(--medium-gap);
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--small-gap);
-    width: 100%;
-    max-width: 100%;
-    margin-left: 0;
-    margin-right: 0;
+    gap: var(--extra-large-gap);
+    padding: var(--medium-gap) var(--large-gap);
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
   }
   .rightGroup {
-    margin-left: 0;
-    width: 100%;
+    margin-left: auto;
+    width: auto;
   }
-  /* Make LoginButton fit container */
   .header :global(button),
   .header button {
-    box-sizing: border-box;
-    align-self: stretch;
+    width: auto;
+    align-self: auto;
   }
 }
