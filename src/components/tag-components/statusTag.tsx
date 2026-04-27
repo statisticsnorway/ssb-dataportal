@@ -19,14 +19,14 @@ interface StatusTagProps {
  *
  */
 const StatusTag = ({ variableStatus, className }: StatusTagProps) => {
-  //const color = statusColors[variableStatus];
+  const color = 'var(--status-draft)';
   return (
     <Tag
       data-color='warning'
       aria-label={localization.status.label}
       className={classNames(className)}
       data-size='lg'
-      //style={{ backgroundColor: color }}
+      style={{ backgroundColor: color }}
     >
       {convertStatus(variableStatus)}
     </Tag>

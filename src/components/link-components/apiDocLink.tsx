@@ -6,10 +6,11 @@ import { ExternalLink } from './externalLink';
 
 interface ApiDocLinkProps {
   href: string;
+  className?: string;
 }
 
-export const ApiDocLink = ({ href }: ApiDocLinkProps) => {
+export const ApiDocLink = ({ href, className }: ApiDocLinkProps) => {
   const { isAuthenticated } = useAuthContext();
   const url = isAuthenticated ? `${href}?urls.primaryName=internal` : href;
-  return <ExternalLink linkText={localization.apiDocumentation} href={url} />;
+  return <ExternalLink linkText={localization.apiDocumentation} href={url} className={className} />;
 };
