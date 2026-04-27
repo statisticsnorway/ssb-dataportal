@@ -229,6 +229,8 @@ export const nb = {
     mail: 'Mail',
     notFoundAlertText: 'Variabeldefinisjon ikke funnet',
     owner: 'Eier',
+    unitTypeInfo:
+      'En enhetstype er typen av objekter (enheter) som det lages statistikk om, f.eks. person, foretak og valg',
     relevant: 'Relevante variabeldefinisjoner',
     validFrom: 'Gyldig fra',
     validTo: 'Gyldig til',

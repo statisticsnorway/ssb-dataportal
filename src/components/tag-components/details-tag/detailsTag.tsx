@@ -10,9 +10,10 @@ interface DetailsTagProps {
   text?: string | ReactNode;
   tags?: Item[];
   popover?: boolean;
+  popoverText?: string;
 }
 
-const DetailsTag = ({ className, text, tags, popover = false }: DetailsTagProps) => {
+const DetailsTag = ({ className, text, tags, popover = false, popoverText }: DetailsTagProps) => {
   if (tags?.length) {
     return (
       <div className={styles.tagsList}>
@@ -28,9 +29,9 @@ const DetailsTag = ({ className, text, tags, popover = false }: DetailsTagProps)
     <>
       <Tag popoverTarget='info' className={classNames(className)} data-size='lg'>
         {text}
-        <QuestionmarkCircleIcon title='More info' focusable={true} style={{ marginLeft: '0.5rem' }} />
+        <QuestionmarkCircleIcon focusable={true} style={{ marginLeft: '0.5rem' }} />
       </Tag>
-      <Popover id='info'>Info</Popover>
+      <Popover id='info'>{popoverText}</Popover>
     </>
   ) : (
     <Tag className={classNames(className)} data-size='lg'>

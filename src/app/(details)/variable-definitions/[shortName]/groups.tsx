@@ -62,6 +62,11 @@ export const OwnerDetails = ({ variable }: { variable: RenderedView }) => {
   );
 };
 
+/**
+ * ------------------------------
+ * Subject fields
+ * ------------------------------
+ */
 const buildSubjectTagsMap = ({ subjectFields }: { subjectFields: KlassReference[] }): Item[] => {
   return subjectFields
     .filter((ref) => areFieldsDefinedAndNonNull(ref, ['title']))
@@ -82,17 +87,13 @@ export const mapAboutVariableItems = (v: RenderedView, isAuthenticated: boolean,
     value: (
       <DetailsTag
         popover={true}
+        popOverText={localization.variableDefinition.unitTypeInfo}
         text={v.unit_types.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title)}
       />
     ),
   },
   {
     label: localization.subjectFields,
-    /*value: (
-      <DetailsTag
-        text={v.subject_fields.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title)}
-      />
-    ),*/
     value: <DetailsTag tags={buildSubjectTagsMap({ subjectFields: v.subject_fields })} />,
   },
   { label: localization.variableDefinition.validFrom, value: formatDate(v.valid_from) },
