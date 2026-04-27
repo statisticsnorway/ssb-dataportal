@@ -1,0 +1,40 @@
+.shortNameText {
+  font-family: var(--font-family-monospace);
+  --dsc-tag-padding: 0;
+  align-items: stretch !important;
+}
+
+.shortNameWrapper {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+.shortNameLabel {
+  padding: 0 var(--ds-size-2);
+  display: flex;
+  align-items: center;
+}
+
+.shortNameText .copyShortNameButton {
+  --dsc-button-background: none;
+  --dsc-button-background--hover: var(--ds-color-success-surface-hover);
+  --dsc-button-background--active: var(--ds-color-success-surface-active);
+  --dsc-button-border-color: transparent;
+  --dsc-button-padding: 0 var(--ds-size-2);
+  --dsc-button-size: auto;
+
+  color: var(--main-font-color);
+  align-self: stretch;
+  margin: -1px -1px -1px 0;
+  box-shadow: none;
+  border-radius: 0 var(--ds-border-radius-sm) var(--ds-border-radius-sm) 0;
+  min-width: unset;
+  height: auto;
+}
+
+.copyShortNameButton svg {
+  width: 1em;
+  height: 1em;
+  display: block;
+}

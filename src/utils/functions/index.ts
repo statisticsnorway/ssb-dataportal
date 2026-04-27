@@ -97,15 +97,6 @@ export const sanitizeId = (str: string) =>
     .replace(/[^a-z0-9-_]/g, '');
 
 /**
- * Maps each VariableStatus to a corresponding CSS color variable.
- */
-export const statusColors: Record<VariableStatus, string> = {
-  [VariableStatus.Draft]: 'var(--status-draft)',
-  [VariableStatus.PublishedInternal]: 'var(--status-published-internal',
-  [VariableStatus.PublishedExternal]: 'var(--status-published-external',
-};
-
-/**
  * Returns the top-level (parent) code for a given code item.
  *
  * If the provided code is a "child" code (length > 2), the first
