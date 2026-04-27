@@ -1,6 +1,6 @@
 .tableContainer {
   background-color: var(--element-background-color);
-  padding: 2rem;
+  padding: 0.5rem;
   color: var(--main-font-color);
 }
 .detailsTable {
@@ -32,5 +32,14 @@
   .headerCell,
   .contentCell {
     padding: 1rem;
+  }
+  .tableContainer {
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .tableContainer {
+    padding: 2rem;
   }
 }

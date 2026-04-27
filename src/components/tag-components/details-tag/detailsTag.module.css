@@ -9,13 +9,4 @@
   .tagsList {
     gap: 0.5rem;
   }
-  .tagsListItem {
-    font-size: 1rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .tagsListItem {
-    font-size: 1.2rem;
-  }
 }

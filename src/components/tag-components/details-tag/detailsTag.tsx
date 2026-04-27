@@ -18,7 +18,7 @@ const DetailsTag = ({ className, text, tags, popover = false, popoverText }: Det
     return (
       <div className={styles.tagsList}>
         {tags.map((item) => (
-          <Tag key={item.label} className={`${styles.tagsListItem} classNames(className)}`} data-size='md'>
+          <Tag key={item.label} className={classNames(className)} data-size='lg'>
             {item.value ?? item.label}
           </Tag>
         ))}

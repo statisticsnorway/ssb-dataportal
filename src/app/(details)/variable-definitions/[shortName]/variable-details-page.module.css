@@ -74,5 +74,6 @@
 }
 
 .detailsHeading {
-  font-size: 4rem;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
