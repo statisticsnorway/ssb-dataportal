@@ -17,7 +17,7 @@ export const Footer = () => {
       <div className={styles.footerTopRow}>
         <DataportalLogo homeUrl={'/'} title={localization.appTitle} negative />
       </div>
-      <Divider style={{ margin: '0 4rem', width: 'unset' }} />
+      <Divider className={styles.divider} />
       <div className={styles.footerMiddleRow}>
         <section className={styles.footerLinkSection}>
           <Heading level={3} className={'negative-text'}>

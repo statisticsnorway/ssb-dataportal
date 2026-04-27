@@ -12,6 +12,6 @@
 
 @media (min-width: 768px) {
   .infoSection {
-    margin: var(--medium-gap) var(--extra-large-gap);
+    margin: var(--medium-gap) var(--large-gap);
   }
 }
