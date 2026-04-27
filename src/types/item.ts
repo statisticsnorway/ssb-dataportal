@@ -1,6 +1,6 @@
 export type DisplayValue = React.ReactNode;
 
-export interface DisplayField {
+export interface Item {
   label: string;
   value?: DisplayValue;
 }

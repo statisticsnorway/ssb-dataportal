@@ -1,8 +1,8 @@
 import { ClassificationResource, ClassificationResourceFromJSONTyped } from '@/libs/data-access/klass';
 import { KlassReference, VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
-import { DisplayField } from '@/types/displayField';
 import { FilterItem } from '@/types/filters';
+import { Item } from '@/types/item';
 
 /**
  * Generally used to produce a uniq hash array items.
@@ -39,7 +39,7 @@ export const formatDate = (date?: Date) => date?.toISOString().split('T')[0] || 
 export const formatArray = (arr?: string[]) => joinOrEmpty(arr || []);
 export const optionalString = (str?: string, fallback = '-') => str || fallback;
 export const yesNo = (flag?: boolean) => (flag ? localization.yes : localization.no);
-export const nonEmpty = (items: DisplayField[]) =>
+export const nonEmpty = (items: Item[]) =>
   items.filter((i) => (Array.isArray(i.value) ? i.value.length > 0 : !!i.value));
 
 export const convertStatus = (status: VariableStatus) => {

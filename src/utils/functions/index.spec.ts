@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { KlassReference } from '@/libs/data-access/variable-definitions/internal';
 import { ClassificationType } from '@/types/classification';
-import { DisplayField } from '@/types/displayField';
+import { Item } from '@/types/item';
 import { getSubjectFieldFilterItems } from '../mock-data';
 import {
   areFieldsDefinedAndNonNull,
@@ -100,7 +100,7 @@ describe('parseClassification', () => {
 
 describe('nonEmpty', () => {
   it('keeps items with a truthy string', () => {
-    const items: DisplayField[] = [
+    const items: Item[] = [
       { label: 'A', value: 'hello' },
       { label: 'B', value: '' },
     ];
@@ -109,7 +109,7 @@ describe('nonEmpty', () => {
   });
 
   it('keeps items with non-empty arrays', () => {
-    const items: DisplayField[] = [
+    const items: Item[] = [
       { label: 'A', value: ['one'] },
       { label: 'B', value: [] },
     ];
@@ -118,7 +118,7 @@ describe('nonEmpty', () => {
   });
 
   it('filters out null or undefined values', () => {
-    const items: DisplayField[] = [
+    const items: Item[] = [
       { label: 'A', value: null },
       { label: 'B', value: undefined },
       { label: 'C', value: 'ok' },
