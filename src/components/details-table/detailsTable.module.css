@@ -6,17 +6,27 @@
 .detailsTable {
   width: 100%;
   color: var(--main-font-color);
+  table-layout: fixed;
 }
 
 .tableBody {
   width: 100%;
 }
 
-.headerCell {
-  width: 60%;
-  padding: 1rem;
-}
 .contentCell {
   text-align: left;
-  padding: 1rem;
+  padding: 0.5rem;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.headerCell {
+  padding: 0;
+}
+
+@media (min-width: 468px) {
+  .headerCell,
+  .contentCell {
+    padding: 1rem;
+  }
 }

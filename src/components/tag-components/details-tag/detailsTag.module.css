@@ -1,0 +1,21 @@
+.tagsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  max-width: 100%;
+}
+
+@media (min-width: 440px) {
+  .tagsList {
+    gap: 0.5rem;
+  }
+  .tagsListItem {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .tagsListItem {
+    font-size: 1.2rem;
+  }
+}

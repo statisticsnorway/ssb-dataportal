@@ -205,7 +205,7 @@ button {
   --dsc-alert-padding-block: var(--ds-size-4);
 }
 h2[id^="tableHeading"] {
-  font-family: sans-serif;
+  font-family: var(--font-open-sans);
   font-weight: 400;
 }
 @media (min-width: 768px) {
