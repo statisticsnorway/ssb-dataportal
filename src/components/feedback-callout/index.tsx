@@ -2,8 +2,8 @@
 
 import { Card, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { useAuthContext } from '@/app/authContext';
-import { ExternalLink } from '@/components/external-link';
 import { localization } from '@/libs/language';
+import { ExternalLink } from '../link-components/externalLink';
 import styles from './feedback-callout.module.css';
 
 export const FeedbackCallout = () => {
