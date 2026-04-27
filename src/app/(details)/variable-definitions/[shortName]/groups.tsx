@@ -87,7 +87,7 @@ export const mapAboutVariableItems = (v: RenderedView, isAuthenticated: boolean,
     value: (
       <DetailsTag
         popover={true}
-        popOverText={localization.variableDefinition.unitTypeInfo}
+        popoverText={localization.variableDefinition.unitTypeInfo}
         text={v.unit_types.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title)}
       />
     ),
