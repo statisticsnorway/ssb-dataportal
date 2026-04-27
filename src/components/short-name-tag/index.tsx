@@ -1,5 +1,5 @@
 import { Button, Tag, Tooltip } from '@digdir/designsystemet-react';
-import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
+import { FilesIcon } from '@navikt/aksel-icons';
 import { useClipboard } from '@/hooks/useClipboard';
 import { localization } from '@/libs/language/src/localization';
 import styles from './short-name-tag.module.css';
@@ -23,7 +23,7 @@ const ShortNameTag = ({ shortName }: ShortNameTagProps) => {
             icon
             onClick={() => copyToClipboard(shortName)}
           >
-            {copied ? <ClipboardCheckmarkIcon aria-hidden /> : <ClipboardIcon aria-hidden />}
+            <FilesIcon />
           </Button>
         </Tooltip>
       </div>
