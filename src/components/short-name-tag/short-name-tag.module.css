@@ -1,7 +1,6 @@
 .shortNameText {
   font-family: var(--font-family-monospace);
-  --dsc-tag-padding: 0 !important;
-  padding: 0 !important;
+  --dsc-tag-padding: 0;
   align-items: stretch !important;
 }
 
@@ -17,23 +16,21 @@
   align-items: center;
 }
 
-.copyShortNameButton {
+.shortNameText .copyShortNameButton {
+  --dsc-button-background: none;
+  --dsc-button-background--hover: var(--ds-color-success-surface-hover);
+  --dsc-button-background--active: var(--ds-color-success-surface-active);
+  --dsc-button-border-color: transparent;
+  --dsc-button-padding: 0 var(--ds-size-2);
+  --dsc-button-size: auto;
+
   color: var(--main-font-color);
   align-self: stretch;
-  padding: 0 var(--ds-size-2) !important;
-  margin: -1px -1px -1px 0 !important;
-  background: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  border-radius: 0 var(--ds-border-radius-sm) var(--ds-border-radius-sm) 0 !important;
-  width: unset !important;
-  min-width: unset !important;
-  min-height: unset !important;
-  height: auto !important;
-}
-
-.copyShortNameButton:hover {
-  background-color: var(--ds-color-success-surface-hover) !important;
+  margin: -1px -1px -1px 0;
+  box-shadow: none;
+  border-radius: 0 var(--ds-border-radius-sm) var(--ds-border-radius-sm) 0;
+  min-width: unset;
+  height: auto;
 }
 
 .copyShortNameButton svg {
