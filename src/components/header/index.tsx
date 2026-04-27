@@ -11,14 +11,12 @@ export interface HeaderProps {
 
 export const Header: FC<HeaderProps> = ({ homeUrl, title, devEnvironmentName }) => {
   return (
-    <header className={styles.header} role='banner'>
-      <div className={`${styles.headerContainer} container`}>
-        <DataportalLogo homeUrl={homeUrl} title={title} />
-        <div className={`${styles.rightGroup}`}>
-          {devEnvironmentName ? <p className={styles.environmentName}>{devEnvironmentName}</p> : undefined}
-        </div>
-        <LoginButton />
+    <header className={`${styles.header}`} role='banner'>
+      <DataportalLogo homeUrl={homeUrl} title={title} />
+      <div className={styles.rightGroup}>
+        {devEnvironmentName ? <p className={styles.environmentName}>{devEnvironmentName}</p> : undefined}
       </div>
+      <LoginButton />
     </header>
   );
 };
