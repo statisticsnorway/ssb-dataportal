@@ -1,23 +1,46 @@
 .header {
   border-bottom: 1px solid rgb(230, 230, 230);
   box-shadow: var(--shadow-color) 0px 0px 10px -5px;
-  padding: var(--medium-gap) 0;
+  gap: var(--extra-large-gap);
+  padding: var(--medium-gap) var(--large-gap);
   background-color: var(--element-background-color);
-  height: var(--extra-large-gap);
-  display: flex;
-}
-
-.headerContainer {
+  margin: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
 }
 
-.rightGroup {
+/*.rightGroup {
   margin-left: auto;
-}
+}*/
 .environmentName {
   font-weight: var(--font-weight-heavy);
   color: #ad0000;
   text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: var(--medium-gap);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--small-gap);
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .rightGroup {
+    margin-left: 0;
+    width: 100%;
+  }
+  /* Make LoginButton fit container */
+  .header :global(button),
+  .header button {
+    box-sizing: border-box;
+    align-self: stretch;
+  }
 }
