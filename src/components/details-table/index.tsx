@@ -10,7 +10,7 @@ interface DetailsTableProps {
 const DetailsTable = ({ title, content }: DetailsTableProps) => {
   return (
     <Card className={styles.tableContainer}>
-      <Heading level={2} data-size='md' className={styles.tableHeading} id='tableHeading'>
+      <Heading level={2} data-size='md' id={`tableHeading-${title}`}>
         {title}
       </Heading>
       <Table className={styles.detailsTable}>
