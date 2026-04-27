@@ -40,7 +40,7 @@ export default function VariableDefinitionDetail({
         currentText={variableDefinition.short_name}
       />
       <main className={styles.mainContent}>
-        <Heading className='heading12' level={1} data-size='2xl'>
+        <Heading className={styles.detailsHeading} level={1}>
           {variableDefinition.name}
         </Heading>
         <ShortNameTag shortName={variableDefinition.short_name} />
