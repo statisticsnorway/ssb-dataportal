@@ -1,6 +1,6 @@
 .footer {
   min-height: 200px;
-  padding: var(--medium-gap);
+  padding: var(--medium-gap) var(--large-gap);
   background-color: var(--ssb-dark-color-5);
   color: white;
   gap: var(--large-gap);
@@ -42,6 +42,6 @@
   :is(.footerTopRow, .footerMiddleRow) {
     flex-direction: row;
     gap: var(--extra-large-gap);
-    padding: var(--medium-gap) var(--extra-large-gap);
+    padding: var(--medium-gap) 0;
   }
 }
