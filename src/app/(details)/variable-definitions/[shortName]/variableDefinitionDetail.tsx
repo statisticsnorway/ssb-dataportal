@@ -4,7 +4,7 @@ import { Card, Details, DetailsContent, DetailsSummary, Heading, Paragraph } fro
 import { notFound } from 'next/navigation';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
-import { DetailsTable } from '@/components/details-table';
+import { DetailsTable } from '@/components/details-list';
 import { ExternalLink } from '@/components/link-components/externalLink';
 import { ShortNameTag } from '@/components/tag-components/short-name-tag';
 import { StatusTag } from '@/components/tag-components/statusTag';

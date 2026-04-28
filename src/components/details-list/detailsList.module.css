@@ -1,0 +1,38 @@
+.tableContainer {
+  padding: 2rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 2rem;
+}
+
+.key,
+.popoverKey {
+  font-weight: bold;
+}
+
+.popoverKey {
+  display: inline-flex;
+  align-items: center;
+}
+.value {
+  margin-left: 0;
+}
+
+.popoverButton {
+  --dsc-button-background: white;
+  --dsc-button-color: var(--ssb-dark-color-5);
+  --dsc-button-padding: 0 0.5rem;
+  --dsc-button-size: 2rem;
+}
+
+@media (min-width: 768px) {
+  .key,
+  .popoverKey {
+    font-weight: bold;
+    width: 50%;
+  }
+}
