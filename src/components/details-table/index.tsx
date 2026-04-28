@@ -21,14 +21,16 @@ const DetailsTable = ({ title, content }: DetailsTableProps) => {
             <TableRow key={index}>
               {row.popover ? (
                 <>
-                  <Table.HeaderCell popoverTarget='info' className={styles.headerCellPopover}>
+                  <Table.HeaderCell className={styles.headerCellPopover}>
                     {row.label}
-                    <QuestionmarkCircleIcon
-                      fontSize='1.5rem'
-                      aria-hidden='true'
-                      style={{ marginLeft: '0.5rem', position: 'relative', top: '0.3rem' }}
-                    />
-                    <Popover placement='left' id='info'>
+                    <span popoverTarget='info'>
+                      <QuestionmarkCircleIcon
+                        fontSize='1.5rem'
+                        aria-hidden='true'
+                        style={{ marginLeft: '0.5rem', position: 'relative', top: '0.3rem' }}
+                      />
+                    </span>
+                    <Popover placement='top' id='info'>
                       {localization.variableDefinition.unitTypeInfo}
                     </Popover>
                   </Table.HeaderCell>

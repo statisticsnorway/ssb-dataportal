@@ -31,17 +31,7 @@
 .headerCellPopover {
   display: flex;
   align-items: center;
-}
-
-@media (min-width: 468px) {
-  .headerCell,
-  .contentCell,
-  .headerCellPopover {
-    padding: 1rem;
-  }
-  .tableContainer {
-    padding: 1rem;
-  }
+  padding-bottom: 2rem;
 }
 
 @media (min-width: 768px) {
