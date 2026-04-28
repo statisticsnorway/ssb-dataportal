@@ -1,7 +1,7 @@
 import { Paragraph } from '@digdir/designsystemet-react';
 import { ApiDocLink } from '@/components/link-components/apiDocLink';
 import { EmailLink } from '@/components/link-components/emailLink';
-import { DetailsTag } from '@/components/tag-components/details-tag/detailsTag';
+import { TagData, TagsGroup } from '@/components/tag-components/tags-group';
 import { KlassReference } from '@/libs/data-access/variable-definitions/internal';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
@@ -67,13 +67,10 @@ export const OwnerDetails = ({ variable }: { variable: RenderedView }) => {
  * Subject fields
  * ------------------------------
  */
-const buildItemMaps = (items: KlassReference[]): Item[] => {
-  return items
-    .filter((ref) => areFieldsDefinedAndNonNull(ref, ['title']))
-    .map((ref) => ({
-      label: ref.title,
-      value: ref.title,
-    }));
+const buildItemMaps = (items: KlassReference[]): TagData => {
+  return new Map(
+    items.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => [ref.title, ref.title]),
+  );
 };
 
 /**
@@ -86,14 +83,14 @@ export const mapAboutVariableItems = (v: RenderedView, isAuthenticated: boolean,
     label: localization.unitTypes,
     value: (
       <>
-        <DetailsTag tags={buildItemMaps(v.unit_types)} label={localization.unitTypes} />
+        <TagsGroup tagData={buildItemMaps(v.unit_types)} />
       </>
     ),
     popover: true,
   },
   {
     label: localization.subjectFields,
-    value: <DetailsTag tags={buildItemMaps(v.subject_fields)} label={localization.subjectFields} />,
+    value: <TagsGroup tagData={buildItemMaps(v.subject_fields)} />,
   },
   { label: localization.variableDefinition.validFrom, value: formatDate(v.valid_from) },
   ...(v.valid_until

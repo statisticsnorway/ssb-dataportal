@@ -20,17 +20,23 @@
   overflow-wrap: anywhere;
   word-break: break-word;
 }
-.headerCell {
+.headerCell,
+.headerCellPopover {
   text-align: left;
   padding: 0.5rem;
   white-space: normal;
   overflow-wrap: anywhere;
   word-break: break-word;
 }
+.headerCellPopover {
+  display: flex;
+  align-items: center;
+}
 
 @media (min-width: 468px) {
   .headerCell,
-  .contentCell {
+  .contentCell,
+  .headerCellPopover {
     padding: 1rem;
   }
   .tableContainer {

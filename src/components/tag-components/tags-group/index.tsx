@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import styles from './tags-group.module.css';
 
 interface TagsGroupProps {
-  maxTags: number;
+  maxTags?: number;
   tagData: TagData;
   ariaLabel?: string;
 }
@@ -11,7 +11,7 @@ interface TagsGroupProps {
 export type TagData = Map<string, string>;
 
 /**
- * TagsGroup component displays a list of tags with optional close buttons.
+ * TagsGroup component displays a list of tags.
  *
  * @param maxTags - Maximum number of tags to display.
  * @param tagData - Map of tag keys and their corresponding labels.
@@ -19,7 +19,11 @@ export type TagData = Map<string, string>;
  * @returns An unordered list (<ul>) of tags or null if tagData is empty.
  */
 const TagsGroup = ({ maxTags, tagData, ariaLabel }: TagsGroupProps) => {
-  const tagsArray = useMemo(() => Array.from(tagData.entries()).slice(0, maxTags), [tagData, maxTags]);
+  const tagsArray = useMemo(() => {
+    const entries = Array.from(tagData.entries());
+
+    return maxTags !== undefined ? entries.slice(0, maxTags) : entries;
+  }, [tagData, maxTags]);
 
   // Only render the list if there are tags to avoid whitespace
   if (!tagsArray.length) return null;
