@@ -13,12 +13,12 @@ test.describe('unauthenticated view', () => {
 
   test('contains sensitive information field', async ({ unauthPage }) => {
     await unauthPage.goto(DETAIL_URL);
-    const sensitiveField = unauthPage.getByRole('rowheader', {
-      name: localization.variableDefinition.externalPersonalData,
+    const sensitiveField = unauthPage.locator('dt', {
+      hasText: localization.variableDefinition.externalPersonalData,
     });
     await expect(sensitiveField).toBeAttached();
     await expect(
-      unauthPage.getByRole('rowheader', { name: localization.variableDefinition.internalPersonalData }),
+      unauthPage.locator('dt', { hasText: localization.variableDefinition.internalPersonalData }),
     ).not.toBeAttached();
   });
 
@@ -34,11 +34,11 @@ test.describe('unauthenticated view', () => {
 
   test('shows only "Updated on", hides three auth-only audit fields', async ({ unauthPage }) => {
     await unauthPage.goto(DETAIL_URL);
-    const table = unauthPage.locator('table');
-    await expect(table.getByText(`${localization.editing.updated} ${localization.on}`)).toBeVisible();
-    await expect(table.getByText(`${localization.editing.updated} ${localization.by}`)).not.toBeAttached();
-    await expect(table.getByText(`${localization.editing.created} ${localization.on}`)).not.toBeAttached();
-    await expect(table.getByText(`${localization.editing.created} ${localization.by}`)).not.toBeAttached();
+    const details = unauthPage.locator('dt');
+    await expect(details.getByText(`${localization.editing.updated} ${localization.on}`)).toBeVisible();
+    await expect(details.getByText(`${localization.editing.updated} ${localization.by}`)).not.toBeAttached();
+    await expect(details.getByText(`${localization.editing.created} ${localization.on}`)).not.toBeAttached();
+    await expect(details.getByText(`${localization.editing.created} ${localization.by}`)).not.toBeAttached();
   });
 
   test('public content still visible', async ({ unauthPage }) => {
