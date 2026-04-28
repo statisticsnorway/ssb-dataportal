@@ -29,7 +29,6 @@
   word-break: break-word;
 }
 .headerCellPopover {
-  display: flex;
   align-items: center;
   padding-bottom: 2rem;
 }
