@@ -1,6 +1,7 @@
-export type DisplayValue = React.ReactNode;
+import { ReactNode } from 'react';
 
 export interface Item {
   label: string;
-  value?: DisplayValue;
+  value?: ReactNode;
+  popover?: boolean;
 }

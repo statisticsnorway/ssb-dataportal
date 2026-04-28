@@ -9,16 +9,17 @@ interface DetailsTagProps {
   className?: string;
   text?: string | ReactNode;
   tags?: Item[];
+  label: string;
   popover?: boolean;
   popoverText?: string;
 }
 
-const DetailsTag = ({ className, text, tags, popover = false, popoverText }: DetailsTagProps) => {
+const DetailsTag = ({ label, className, text, tags, popover = false, popoverText }: DetailsTagProps) => {
   if (tags?.length) {
     return (
       <div className={styles.tagsList}>
         {tags.map((item) => (
-          <Tag key={item.label} className={classNames(className)} data-size='lg'>
+          <Tag key={label} className={classNames(className)} data-size='lg'>
             {item.value ?? item.label}
           </Tag>
         ))}

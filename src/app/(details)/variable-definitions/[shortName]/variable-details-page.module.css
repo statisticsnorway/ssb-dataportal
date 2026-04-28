@@ -77,3 +77,11 @@
   overflow-wrap: break-word;
   word-break: break-word;
 }
+
+.popoverBlock {
+  display: inline-flex;
+}
+
+.labelWithPopover {
+  display: flex;
+}
