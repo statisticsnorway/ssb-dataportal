@@ -22,7 +22,7 @@ const DetailsList = ({ title, content, popoverContent }: DetailsListProps) => {
               <dt className={styles.popoverKey}>
                 <span className={styles.popoverLabel}>{row.label}</span>
                 <Popover.TriggerContext>
-                  <Popover.Trigger className={styles.popoverButton}>
+                  <Popover.Trigger inline className={styles.popoverButton}>
                     <QuestionmarkCircleIcon fontSize='2rem' aria-hidden='true' />
                   </Popover.Trigger>
                   <Popover placement='top' id='info'>

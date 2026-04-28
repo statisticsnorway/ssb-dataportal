@@ -18,8 +18,8 @@
 .popoverKey {
   display: inline-flex;
   align-items: center;
+  gap: 0.3rem;
 }
-
 .key,
 .popoverKey {
   flex: 1 1 100%;
