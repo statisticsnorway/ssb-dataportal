@@ -20,10 +20,16 @@
   align-items: center;
 }
 
-.value {
-  margin-left: 0;
+.key,
+.popoverKey {
+  flex: 1 1 100%;
+  min-width: 0;
 }
 
+.value {
+  flex: 1 1 100%;
+  margin: 0;
+}
 .popoverButton {
   --dsc-button-background: white;
   --dsc-button-color: var(--ssb-dark-color-5);
@@ -34,9 +40,19 @@
 .popoverLabel {
   font-weight: var(--font-weight-heavy);
 }
+
 @media (min-width: 768px) {
+  .row {
+    gap: 0;
+  }
   .key,
   .popoverKey {
-    width: 50%;
+    flex: 1 1 40%;
+    margin-bottom: 1rem;
+  }
+
+  .value {
+    flex: 1 1 60%;
+    margin-bottom: 1rem;
   }
 }
