@@ -34,6 +34,10 @@
 }
 
 @media (min-width: 768px) {
+  .headerCell,
+  .headerCellPopover {
+    padding: 2rem;
+  }
   .tableContainer {
     padding: 2rem;
   }
