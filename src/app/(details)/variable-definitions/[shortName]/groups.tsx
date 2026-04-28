@@ -64,7 +64,7 @@ export const OwnerDetails = ({ variable }: { variable: RenderedView }) => {
 
 /**
  * ------------------------------
- * Subject fields
+ * KlassReference -> TagData
  * ------------------------------
  */
 const buildItemMaps = (items: KlassReference[]): TagData => {
