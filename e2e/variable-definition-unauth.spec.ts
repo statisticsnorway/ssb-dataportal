@@ -27,10 +27,9 @@ test.describe('unauthenticated view', () => {
     await expect(unauthPage.getByRole('heading', { name: localization.owner.label })).not.toBeAttached();
   });
 
-  test('hides StatusTag in sidebar', async ({ unauthPage }) => {
-    test.skip();
+  test('hides StatusTag', async ({ unauthPage }) => {
     await unauthPage.goto(DETAIL_URL);
-    await expect(unauthPage.locator('aside').getByText(localization.status.draft)).not.toBeAttached();
+    await expect(unauthPage.locator('main').getByText(localization.status.draft)).not.toBeAttached();
   });
 
   test('shows only "Updated on", hides three auth-only audit fields', async ({ unauthPage }) => {
