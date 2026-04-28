@@ -1,15 +1,15 @@
 import { Card, Divider, Heading, Popover } from '@digdir/designsystemet-react';
 import { QuestionmarkCircleIcon } from '@navikt/aksel-icons';
-import { localization } from '@/libs/language/src/localization';
 import { Item } from '@/types/item';
 import styles from './detailsList.module.css';
 
 interface DetailsListProps {
   title: string;
   content: Item[];
+  popoverContent?: string;
 }
 
-const DetailsList = ({ title, content }: DetailsListProps) => {
+const DetailsList = ({ title, content, popoverContent }: DetailsListProps) => {
   return (
     <Card className={styles.tableContainer}>
       <Heading level={2} data-size='md' id={`tableHeading-${title}`}>
@@ -20,13 +20,13 @@ const DetailsList = ({ title, content }: DetailsListProps) => {
           {row.popover ? (
             <>
               <dt className={styles.popoverKey}>
-                {row.label}
+                <span className={styles.popoverLabel}>{row.label}</span>
                 <Popover.TriggerContext>
                   <Popover.Trigger className={styles.popoverButton}>
                     <QuestionmarkCircleIcon fontSize='2rem' aria-hidden='true' />
                   </Popover.Trigger>
                   <Popover placement='top' id='info'>
-                    {localization.variableDefinition.unitTypeInfo}
+                    {popoverContent}
                   </Popover>
                 </Popover.TriggerContext>
               </dt>

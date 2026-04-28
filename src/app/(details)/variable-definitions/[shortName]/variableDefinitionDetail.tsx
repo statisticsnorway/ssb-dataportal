@@ -59,6 +59,7 @@ export default function VariableDefinitionDetail({
         <DetailsTable
           title={localization.variableDefinition.aboutVariable}
           content={mapAboutVariableItems(variableDefinition, isAuthenticated, apiDocsBaseUrl)}
+          popoverContent={localization.variableDefinition.unitTypeInfo}
         />
         {isAuthenticated && (
           <div className={styles.codeSnippet}>
