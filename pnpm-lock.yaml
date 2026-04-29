@@ -17,11 +17,11 @@ importers:
         specifier: 2.4.12
         version: 2.4.12
       '@digdir/designsystemet-css':
-        specifier: 1.13.2
-        version: 1.13.2
+        specifier: 1.13.3
+        version: 1.13.3
       '@digdir/designsystemet-react':
-        specifier: 1.13.2
-        version: 1.13.2(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+        specifier: 1.13.3
+        version: 1.13.3(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@navikt/aksel-icons':
         specifier: 8.10.2
         version: 8.10.2
@@ -805,20 +805,20 @@ packages:
     resolution: {integrity: sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==}
     engines: {node: '>=20.19.0'}
 
-  '@digdir/designsystemet-css@1.13.2':
-    resolution: {integrity: sha512-AtOtFCP/GqJ4pPOtOKR93Y5kumqgbu8PiBhqxmk9ytyy3X3rDsQiFCMCOenFPFuvlp79+zCpT3ViWCP2bDR2fg==}
+  '@digdir/designsystemet-css@1.13.3':
+    resolution: {integrity: sha512-ZtuygHy9xm6DVBi59pGKdbiR7vPNcwHx6e4E3xRgxL0nT6262vbYpaU+woiMS0a+krPpvkJ6K6CBmNcIqsV8IQ==}
 
-  '@digdir/designsystemet-react@1.13.2':
-    resolution: {integrity: sha512-gAM8KeQnzv/iCICB9Z7EqVJL1WHQVN09f5mL++tve+CJgNxiRD+QuFHkwuM2A26033GQYaphSdoQ980IAvSGTA==}
+  '@digdir/designsystemet-react@1.13.3':
+    resolution: {integrity: sha512-RwCrXiKxvFMLJAwtpiRl26PHecRlwXFu1155vJE8oVuxY1nFW/5xqUbBtuX3MsSBoy6SN2byxN22hoJhJC4q/Q==}
     peerDependencies:
       react: '>=18.3.1 || ^19.0.0'
       react-dom: '>=18.3.1 || ^19.0.0'
 
-  '@digdir/designsystemet-types@1.13.2':
-    resolution: {integrity: sha512-MqrU77YX54oww3udPMdKa+agr/AZhORoEZq5gVzIzMpaniegoUqfAUy9X7UYSIe8bs/cm6VBEgGSIau60HhzPw==}
+  '@digdir/designsystemet-types@1.13.3':
+    resolution: {integrity: sha512-yGhZoQmHhRmUGw8isyS2k3xgtI8yB+7s2wWnstdemVpls+SSZmDs3g1d3+Cj16PNNOnevDUDS6oxd+txF1zGBQ==}
 
-  '@digdir/designsystemet-web@1.13.2':
-    resolution: {integrity: sha512-vOeMDVlWzNFGuq6/1pJSeZeS11b54N3pGA/JI+oozh5R4GM4FI7ceqC7zSk2Hk8ciKRUsQPaaAEASyAMraRXVA==}
+  '@digdir/designsystemet-web@1.13.3':
+    resolution: {integrity: sha512-lzyMa7uIdbd5t5C74GffZIahzQyoidJCD/eiUQXustVvI/2JxNP36rTyM6QRZcsfNMr3I5s0hewGBsGhq/ab2w==}
 
   '@emnapi/core@1.9.2':
     resolution: {integrity: sha512-UC+ZhH3XtczQYfOlu3lNEkdW/p4dsJ1r/bP7H8+rhao3TTTMO1ATq/4DdIi23XuGoFY+Cz0JmCbdVl0hz9jZcA==}
@@ -1590,14 +1590,14 @@ packages:
   '@swc/helpers@0.5.15':
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
 
-  '@tanstack/react-virtual@3.13.23':
-    resolution: {integrity: sha512-XnMRnHQ23piOVj2bzJqHrRrLg4r+F86fuBcwteKfbIjJrtGxb4z7tIvPVAe4B+4UVwo9G4Giuz5fmapcrnZ0OQ==}
+  '@tanstack/react-virtual@3.13.24':
+    resolution: {integrity: sha512-aIJvz5OSkhNIhZIpYivrxrPTKYsjW9Uzy+sP/mx0S3sev2HyvPb7xmjbYvokzEpfgYHy/HjzJ2zFAETuUfgCpg==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  '@tanstack/virtual-core@3.13.23':
-    resolution: {integrity: sha512-zSz2Z2HNyLjCplANTDyl3BcdQJc2k1+yyFoKhNRmCr7V7dY8o8q5m8uFTI1/Pg1kL+Hgrz6u3Xo6eFUB7l66cg==}
+  '@tanstack/virtual-core@3.14.0':
+    resolution: {integrity: sha512-JLANqGy/D6k4Ujmh8Tr25lGimuOXNiaVyXaCAZS0W+1390sADdGnyUdSWNIfd49gebtIxGMij4IktRVzrdr12Q==}
 
   '@testing-library/dom@10.4.1':
     resolution: {integrity: sha512-o4PXJQidqJl82ckFaXUeoAW+XysPLauYI43Abki5hABd853iMhitooc6znOnczgbTYmEP6U6/y1ZyKAIsvMKGg==}
@@ -1718,8 +1718,8 @@ packages:
   '@u-elements/u-details@1.0.0':
     resolution: {integrity: sha512-CA0w0VTH/vWWouFWEw7XIws3RUCBm2dh7ity+sbDXgpc6yz5NkoMpeDTdB/DHpI+/YInULz0XLOTrw8b7KX3Qg==}
 
-  '@u-elements/u-tabs@0.1.2':
-    resolution: {integrity: sha512-KVYJFDPZdo+LXrW+mCMPEUen4wXi8VfSMDKWLt2+q6VgYqWBcAIZcaWBRWxIjXFzGfXQSJqD0amnYGaL1RGZ/w==}
+  '@u-elements/u-tabs@1.0.1':
+    resolution: {integrity: sha512-3qAWrFtHCI7+8K2TR1LtcDTPihjANn0lGcMA7d+OZiQxMO00hWns9nKR/4OHmXc8LWLB6MWKG9e6Yg7Vs/MkjQ==}
 
   '@vitest/expect@4.1.5':
     resolution: {integrity: sha512-PWBaRY5JoKuRnHlUHfpV/KohFylaDZTupcXN1H9vYryNLOnitSw60Mw9IAE2r67NbwwzBw/Cc/8q9BK3kIX8Kw==}
@@ -4224,34 +4224,34 @@ snapshots:
 
   '@csstools/css-tokenizer@4.0.0': {}
 
-  '@digdir/designsystemet-css@1.13.2':
+  '@digdir/designsystemet-css@1.13.3':
     dependencies:
-      '@digdir/designsystemet-types': 1.13.2
+      '@digdir/designsystemet-types': 1.13.3
 
-  '@digdir/designsystemet-react@1.13.2(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+  '@digdir/designsystemet-react@1.13.3(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
     dependencies:
-      '@digdir/designsystemet-types': 1.13.2
-      '@digdir/designsystemet-web': 1.13.2
+      '@digdir/designsystemet-types': 1.13.3
+      '@digdir/designsystemet-web': 1.13.3
       '@floating-ui/dom': 1.7.6
       '@floating-ui/react': 0.26.23(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@navikt/aksel-icons': 8.10.2
       '@radix-ui/react-slot': 1.2.4(@types/react@19.2.14)(react@19.2.5)
-      '@tanstack/react-virtual': 3.13.23(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      '@tanstack/react-virtual': 3.13.24(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       clsx: 2.1.1
       react: 19.2.5
       react-dom: 19.2.5(react@19.2.5)
     transitivePeerDependencies:
       - '@types/react'
 
-  '@digdir/designsystemet-types@1.13.2': {}
+  '@digdir/designsystemet-types@1.13.3': {}
 
-  '@digdir/designsystemet-web@1.13.2':
+  '@digdir/designsystemet-web@1.13.3':
     dependencies:
       '@floating-ui/dom': 1.7.6
       '@u-elements/u-combobox': 1.0.7
       '@u-elements/u-datalist': 1.1.0
       '@u-elements/u-details': 1.0.0
-      '@u-elements/u-tabs': 0.1.2
+      '@u-elements/u-tabs': 1.0.1
 
   '@emnapi/core@1.9.2':
     dependencies:
@@ -4869,13 +4869,13 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@tanstack/react-virtual@3.13.23(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+  '@tanstack/react-virtual@3.13.24(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
     dependencies:
-      '@tanstack/virtual-core': 3.13.23
+      '@tanstack/virtual-core': 3.14.0
       react: 19.2.5
       react-dom: 19.2.5(react@19.2.5)
 
-  '@tanstack/virtual-core@3.13.23': {}
+  '@tanstack/virtual-core@3.14.0': {}
 
   '@testing-library/dom@10.4.1':
     dependencies:
@@ -4998,7 +4998,7 @@ snapshots:
 
   '@u-elements/u-details@1.0.0': {}
 
-  '@u-elements/u-tabs@0.1.2': {}
+  '@u-elements/u-tabs@1.0.1': {}
 
   '@vitest/expect@4.1.5':
     dependencies:
