@@ -1,0 +1,60 @@
+.tableContainer {
+  padding: 2rem;
+}
+.detailsHeading {
+  margin-bottom: 2rem;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-left: 1rem;
+  font-family: var(--font-open-sans);
+  color: var(--text-color-primary);
+}
+
+.key {
+  font-weight: var(--font-weight-heavy);
+}
+
+.popoverKey {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.key,
+.popoverKey {
+  flex: 1 1 100%;
+  min-width: 0;
+}
+
+.value {
+  flex: 1 1 100%;
+  margin: 0;
+}
+.popoverButton {
+  --dsc-button-background: white;
+  --dsc-button-color: var(--ssb-dark-color-5);
+  --dsc-button-padding: 0 0.5rem;
+  --dsc-button-size: 2rem;
+}
+
+.popoverLabel {
+  font-weight: var(--font-weight-heavy);
+}
+
+@media (min-width: 768px) {
+  .row {
+    gap: 0;
+  }
+  .key,
+  .popoverKey {
+    flex: 1 1 40%;
+    margin-bottom: 1rem;
+  }
+
+  .value {
+    flex: 1 1 60%;
+    margin-bottom: 1rem;
+  }
+}

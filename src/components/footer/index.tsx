@@ -4,8 +4,8 @@ import { localization } from '@/libs/language';
 import { getVardefApiDocsUrl } from '@/utils/config';
 import { getContactEmailAddress } from '@/utils/userAgent';
 import { DataportalLogo } from '../dataportal-logo';
-import { ExternalLink } from '../external-link';
-import { ApiDocLink } from './api-doc-link';
+import { ApiDocLink } from '../link-components/apiDocLink';
+import { ExternalLink } from '../link-components/externalLink';
 import styles from './footer.module.css';
 import { FooterLinkItem } from './footer-link-item';
 

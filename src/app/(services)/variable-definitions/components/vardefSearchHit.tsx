@@ -3,9 +3,9 @@ import { type ReactNode } from 'react';
 
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
-import { ShortNameTag } from '@/components/short-name-tag';
-import { StatusTag } from '@/components/statusTag';
-import { TagsGroup } from '@/components/tags-group';
+import { ShortNameTag } from '@/components/tag-components/short-name-tag';
+import { StatusTag } from '@/components/tag-components/statusTag';
+import { TagsGroup } from '@/components/tag-components/tags-group';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import { areFieldsDefinedAndNonNull, getLabelWithParent } from '@/utils/functions';

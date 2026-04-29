@@ -7,51 +7,29 @@
  */
 
 export const nb = {
+  apiDocumentation: 'API-dokumentasjon',
   appTitle: 'SSB Dataportal',
   breadcrumbsLabel: 'Brødsmulesti',
+
+  button: {
+    removeFilter: 'Fjern alle filter',
+  },
+
   by: 'av',
+
+  classification: {
+    label: 'Klassifikasjon',
+    view: 'Se klassifikasjon',
+  },
+
   comment: 'Kommentar',
+
+  contact: {
+    fallbackTitle: 'Ta kontakt med spørsmål eller innspill',
+    label: 'Kontakt',
+  },
+
   context: 'Kontekst',
-  daplaManual: 'Dapla-manualen',
-  documentation: 'Dokumentasjon',
-  apiDocumentation: 'API-dokumentasjon',
-  from: 'Fra',
-  home: 'Hjem',
-  id: 'ID',
-  loadingVariableDefinitions: 'Laster variabeldefinisjoner',
-  navigateHome: 'Naviger til hjemmesiden',
-  navigateHomeClassifications: 'Naviger til hovedside Klassifikasjoner',
-  navigateHomeVariableDefinitions: 'Naviger til hovedside Variabeldefinisjoner',
-  next: 'Neste',
-  no: 'Nei',
-  on: 'på',
-  opensInNewTab: 'åpnes i ny fane',
-
-  pageTitle: {
-    classifications: 'Kodeverk',
-    datasets: 'Datasett',
-    variableDefinitions: 'Variabeldefinisjoner',
-  },
-  previous: 'Forrige',
-  references: 'Referanser',
-  ssbDataportal: 'SSB Dataportal',
-  statisticsNorway: 'Statistisk sentralbyrå',
-  subjectArea: 'Statistikkområde',
-  subjectFields: 'Statistikkområder',
-  to: 'Til',
-  unitTypes: 'Enhetstyper',
-  yes: 'Ja',
-
-  tabs: {
-    classifications: 'Klassifikasjoner',
-    datasets: 'Datasett',
-    variableDefinitions: 'Variabeldefinisjoner',
-  },
-
-  editing: {
-    created: 'Opprettet',
-    updated: 'Sist oppdatert',
-  },
 
   copy: {
     code: 'Kopier kode',
@@ -60,8 +38,12 @@ export const nb = {
     shortName: 'Kopier kortnavn',
   },
 
-  shortName: {
-    label: 'Kortnavn',
+  daplaManual: 'Dapla-manualen',
+  documentation: 'Dokumentasjon',
+
+  editing: {
+    created: 'Opprettet',
+    updated: 'Sist oppdatert',
   },
 
   error: {
@@ -101,80 +83,9 @@ export const nb = {
     reportBrokenLink: 'Meld fra om ødelagt lenke',
   },
 
-  contact: {
-    fallbackTitle: 'Ta kontakt med spørsmål eller innspill',
-    label: 'Kontakt',
-  },
-
-  owner: {
-    daplaTeam: 'Dapla Team',
-    groups: 'Grupper',
-    label: 'Eier',
-  },
-
-  // Labels specific to variable definitions
-  variableDefinition: {
-    externalReference: 'Ekstern referanse',
-    fetchWith: 'Hent variabeldefinisjon med',
-    labelPlural: 'Variabeldefinisjoner',
-    labelSingular: 'Variabeldefinisjon',
-    labelWithComment: 'Variabeldefinisjon med kommentar',
-    notFoundAlertText: 'Variabeldefinisjon ikke funnet',
-    personalData: 'Inneholder særlige kategorier av personopplysninger',
-    relevant: 'Relevante variabeldefinisjoner',
-    viewExternalReference: 'Se ekstern referanse',
-    viewRelevant: 'Se relevant variabeldefinisjon',
-  },
-
-  classification: {
-    label: 'Klassifikasjon',
-    view: 'Se klassifikasjon',
-  },
-
-  search: {
-    hits: 'treff',
-    label: 'Søk',
-    noHits: 'Ditt søk ga ingen treff',
-    searchDataportal: 'Søk i SSB Dataportal',
-    searchForClassifications: 'Søk i kodeverk',
-    searchForDatasets: 'Søk i datasett',
-    searchForVariableDefinitions: 'Søk i variabeldefinisjoner',
-
-    textFilter: {
-      search: 'Søk',
-      label: 'Filtrer på navn',
-      tagLabel: 'Navn:',
-      inputId: 'søk-input',
-    },
-
-    filter: {
-      close: 'Lukk filter',
-      label: 'Filter',
-      open: 'Åpne filter',
-    },
-
-    sort: {
-      label: 'Sortering',
-      lastUpdatedFirst: 'Sist endret først',
-      titleAlphabeticalAsc: 'Tittel A-Å',
-      titleAlphabeticalDesc: 'Tittel Å-A',
-    },
-  },
-
-  button: {
-    removeFilter: 'Fjern alle filter',
-  },
-
-  status: {
-    draft: 'Utkast',
-    label: 'Status',
-    publishedExternal: 'Publisert eksternt',
-    publishedInternal: 'Publisert internt',
-  },
-
-  validity: {
-    label: 'Gyldighet',
-  },
+  from: 'Fra',
+  home: 'Hjem',
+  id: 'ID',
 
   info: {
     comingSoon: 'Kommer snart',
@@ -207,6 +118,7 @@ export const nb = {
     filters: 'Laster filtere...',
     results: 'Laster resultater...',
   },
+
   authentication: {
     logIn: 'Logg inn',
     logInSsbEmployee: 'Logg inn som SSB ansatt',
@@ -214,5 +126,115 @@ export const nb = {
     loginHeading: 'Innlogging',
     loginInfo:
       'Innlogging er kun tilgjengelig for ansatte i Statistisk sentralbyrå. Du kan fortsatt bruke tjenesten uten å logge inn.',
+  },
+
+  loadingVariableDefinitions: 'Laster variabeldefinisjoner',
+  navigateHome: 'Naviger til hjemmesiden',
+  navigateHomeClassifications: 'Naviger til hovedside Klassifikasjoner',
+  navigateHomeVariableDefinitions: 'Naviger til hovedside Variabeldefinisjoner',
+  next: 'Neste',
+  no: 'Nei',
+  on: 'på',
+  opensInNewTab: 'åpnes i ny fane',
+
+  owner: {
+    daplaTeam: 'Dapla Team',
+    groups: 'Grupper',
+    label: 'Eier',
+  },
+
+  pageTitle: {
+    classifications: 'Kodeverk',
+    datasets: 'Datasett',
+    variableDefinitions: 'Variabeldefinisjoner',
+  },
+
+  previous: 'Forrige',
+  references: 'Referanser',
+
+  search: {
+    hits: 'treff',
+    label: 'Søk',
+    noHits: 'Ditt søk ga ingen treff',
+    searchDataportal: 'Søk i SSB Dataportal',
+    searchForClassifications: 'Søk i kodeverk',
+    searchForDatasets: 'Søk i datasett',
+    searchForVariableDefinitions: 'Søk i variabeldefinisjoner',
+
+    textFilter: {
+      search: 'Søk',
+      label: 'Filtrer på navn',
+      tagLabel: 'Navn:',
+      inputId: 'søk-input',
+    },
+
+    filter: {
+      close: 'Lukk filter',
+      label: 'Filter',
+      open: 'Åpne filter',
+    },
+
+    sort: {
+      label: 'Sortering',
+      lastUpdatedFirst: 'Sist endret først',
+      titleAlphabeticalAsc: 'Tittel A-Å',
+      titleAlphabeticalDesc: 'Tittel Å-A',
+    },
+  },
+
+  shortName: {
+    label: 'Kortnavn',
+  },
+
+  ssbDataportal: 'SSB Dataportal',
+  statisticsNorway: 'Statistisk sentralbyrå',
+
+  status: {
+    draft: 'Utkast',
+    label: 'Status',
+    publishedExternal: 'Publisert eksternt',
+    publishedInternal: 'Publisert internt',
+  },
+
+  subjectArea: 'Statistikkområde',
+  subjectFields: 'Statistikkområder',
+
+  tabs: {
+    classifications: 'Klassifikasjoner',
+    datasets: 'Datasett',
+    variableDefinitions: 'Variabeldefinisjoner',
+  },
+
+  to: 'Til',
+  unitTypes: 'Enhetstyper',
+  yes: 'Ja',
+
+  validity: {
+    label: 'Gyldighet',
+  },
+
+  // Labels specific to variable definitions
+  variableDefinition: {
+    aboutVariable: 'Om variabelen',
+    externalReference: 'Ekstern referanse',
+    comment: 'Kommentar',
+    contact: 'Kontakt',
+    documentation: 'Dokumentasjon',
+    externalPersonalData: 'Sensitive personopplysninger',
+    fetchWith: 'Hent variabeldefinisjon med',
+    internalPersonalData: 'Inneholder særlige kategorier av personopplysninger',
+    labelPlural: 'Variabeldefinisjoner',
+    labelSingular: 'Variabeldefinisjon',
+    labelWithComment: 'Variabeldefinisjon med kommentar',
+    mail: 'Mail',
+    notFoundAlertText: 'Variabeldefinisjon ikke funnet',
+    owner: 'Eier',
+    unitTypeInfo:
+      'En enhetstype er typen av objekter (enheter) som det lages statistikk om, f.eks. person, foretak og valg',
+    relevant: 'Relevante variabeldefinisjoner',
+    validFrom: 'Gyldig fra',
+    validTo: 'Gyldig til',
+    viewExternalReference: 'Se ekstern referanse',
+    viewRelevant: 'Se relevant variabeldefinisjon',
   },
 };

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { FilterTags } from '@/components/filter-tags';
+import { FilterTags } from '@/components/tag-components/filter-tags';
 import { useFilteredVariables } from '@/hooks/useFilteredVariables';
 import { FilterItem } from '@/types/filters';
 import { useVariableDefinitionsContext } from './variableDefinitionContext';

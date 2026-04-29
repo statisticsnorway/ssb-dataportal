@@ -22,9 +22,10 @@ const StatusTag = ({ variableStatus, className }: StatusTagProps) => {
   const color = 'var(--status-draft)';
   return (
     <Tag
+      data-color='warning'
       aria-label={localization.status.label}
       className={classNames(className)}
-      data-size='md'
+      data-size='lg'
       style={{ backgroundColor: color }}
     >
       {convertStatus(variableStatus)}

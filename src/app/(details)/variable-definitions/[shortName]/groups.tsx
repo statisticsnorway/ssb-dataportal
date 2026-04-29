@@ -1,17 +1,13 @@
+import { Paragraph } from '@digdir/designsystemet-react';
+import { ApiDocLink } from '@/components/link-components/apiDocLink';
+import { EmailLink } from '@/components/link-components/emailLink';
+import { TagData, TagsGroup } from '@/components/tag-components/tags-group';
+import { KlassReference } from '@/libs/data-access/variable-definitions/internal';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { Item } from '@/types/item';
 import { areFieldsDefinedAndNonNull, formatDate, yesNo } from '@/utils/functions';
-
-/**
- * ------------------------------
- * Validity Items
- * ------------------------------
- */
-export const validityItems = (v: RenderedView): Item[] => [
-  { label: localization.from, value: formatDate(v.valid_from), type: 'text' },
-  { label: localization.to, value: formatDate(v.valid_until ?? undefined), type: 'text' },
-];
+import styles from './variable-details-page.module.css';
 
 /**
  * ------------------------------
@@ -20,56 +16,109 @@ export const validityItems = (v: RenderedView): Item[] => [
  */
 export const createdAndEditedItems = (v: RenderedView, isAuthenticated: boolean): Item[] => {
   const publicItems: Item[] = [
-    { label: `${localization.editing.updated} ${localization.on}`, value: formatDate(v.last_updated_at), type: 'text' },
+    { label: `${localization.editing.updated} ${localization.on}`, value: formatDate(v.last_updated_at) },
   ];
   const internalItems: Item[] = [
-    { label: `${localization.editing.updated} ${localization.by}`, value: v.last_updated_by, type: 'text' },
-    { label: `${localization.editing.created} ${localization.on}`, value: formatDate(v.created_at), type: 'text' },
-    { label: `${localization.editing.created} ${localization.by}`, value: v.created_by, type: 'text' },
+    {
+      label: localization.variableDefinition.owner,
+      value: <OwnerDetails variable={v} />,
+    },
+    {
+      label: `${localization.editing.updated} ${localization.by}`,
+      value: <EmailLink email={v.last_updated_by} />,
+    },
+    { label: `${localization.editing.created} ${localization.on}`, value: formatDate(v.created_at) },
+    { label: `${localization.editing.created} ${localization.by}`, value: <EmailLink email={v.created_by} /> },
   ];
   return isAuthenticated ? [...publicItems, ...internalItems] : publicItems;
 };
 
 /**
  * ------------------------------
- * Unit Types & Subject Fields
+ * Owner details
  * ------------------------------
  */
-export const unitTypesItems = (v: RenderedView): Item[] => [
+export const OwnerDetails = ({ variable }: { variable: RenderedView }) => {
+  const fields = [
+    {
+      label: localization.owner.daplaTeam.toUpperCase(),
+      value: variable?.owner?.team,
+    },
+    {
+      label: localization.owner.groups.toUpperCase(),
+      value: variable?.owner?.groups.join(','),
+    },
+  ];
+  return (
+    <div className={styles.owner}>
+      {fields.map((field) => (
+        <Paragraph key={field.label}>
+          <span className={styles.ownerLabel}>{field.label}</span>
+          <span>:</span>
+          <span className={styles.ownerValue}>{field.value}</span>
+        </Paragraph>
+      ))}
+    </div>
+  );
+};
+
+/**
+ * ------------------------------
+ * KlassReference -> TagData
+ * ------------------------------
+ */
+const buildItemMaps = (items: KlassReference[]): TagData => {
+  return new Map(
+    items.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => [ref.title, ref.title]),
+  );
+};
+
+/**
+ * ------------------------------
+ * About variable
+ * ------------------------------
+ */
+export const mapAboutVariableItems = (v: RenderedView, isAuthenticated: boolean, apiDocsUrl: string): Item[] => [
   {
     label: localization.unitTypes,
-    value: v.unit_types.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
-    type: 'tags',
+    value: (
+      <>
+        <TagsGroup tagData={buildItemMaps(v.unit_types)} />
+      </>
+    ),
+    popover: true,
   },
   {
     label: localization.subjectFields,
-    value: v.subject_fields.filter((ref) => areFieldsDefinedAndNonNull(ref, ['title'])).map((ref) => ref.title),
-    type: 'tags',
+    value: <TagsGroup tagData={buildItemMaps(v.subject_fields)} />,
   },
-];
-
-/**
- * ------------------------------
- * References
- * ------------------------------
- */
-export const referencesItems = (v: RenderedView): Item[] => [
+  { label: localization.variableDefinition.validFrom, value: formatDate(v.valid_from) },
+  ...(v.valid_until
+    ? [
+        {
+          label: localization.variableDefinition.validTo,
+          value: formatDate(v.valid_until),
+        } satisfies Item,
+      ]
+    : []),
   {
-    label: localization.classification.label,
-    value: v.classification_uri ?? null,
-    type: 'link',
-    display: localization.classification.view,
+    label: localization.variableDefinition.documentation,
+    value: <ApiDocLink href={apiDocsUrl} />,
   },
-];
-
-/**
- * ------------------------------
- * Owner
- * ------------------------------
- */
-export const ownerItems = (v: RenderedView): Item[] => [
-  { label: localization.owner.daplaTeam, value: v.owner.team || '-', type: 'text' },
-  { label: localization.owner.groups, value: v.owner.groups.join(', '), type: 'text' },
+  ...(v.classification_uri
+    ? [
+        {
+          label: localization.classification.label,
+          value: v.classification_uri ?? null,
+        } satisfies Item,
+      ]
+    : []),
+  {
+    label: isAuthenticated
+      ? localization.variableDefinition.internalPersonalData
+      : localization.variableDefinition.externalPersonalData,
+    value: yesNo(v.contains_special_categories_of_personal_data),
+  },
 ];
 
 /**
@@ -77,31 +126,12 @@ export const ownerItems = (v: RenderedView): Item[] => [
  * Contact
  * ------------------------------
  */
-export const contactItems = (v: RenderedView): Item[] => {
-  if (v.contact?.email != null) {
-    return [
-      {
-        label: localization.contact.label,
-        //TODO(cbi): Check valid pattern for link to email [https://github.com/statisticsnorway/metadata-catalog-prototype/issues/115]
-        value: `mailto:${v.contact?.email}`,
-        type: 'link',
-        display: v.contact?.title || localization.contact.fallbackTitle,
-      },
-    ];
-  } else {
-    return [{ label: localization.contact.label, value: v.contact?.title, type: 'text' }];
-  }
-};
-
-/**
- * ------------------------------
- * Personal Data
- * ------------------------------
- */
-export const personalDataItems = (v: RenderedView): Item[] => [
-  {
-    label: localization.variableDefinition.personalData,
-    value: yesNo(v.contains_special_categories_of_personal_data),
-    type: 'text',
-  },
+export const mapContactItems = (v: RenderedView, isAuthenticated: boolean): Item[] => [
+  v.contact?.email
+    ? {
+        label: localization.variableDefinition.mail,
+        value: <EmailLink email={v.contact?.email} />,
+      }
+    : { label: localization.contact.label, value: v.contact?.title },
+  ...createdAndEditedItems(v, isAuthenticated),
 ];

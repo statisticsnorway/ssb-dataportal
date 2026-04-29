@@ -1,6 +1,6 @@
 import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { Metadata } from 'next';
-import { ExternalLink } from '@/components/external-link';
+import { ExternalLink } from '@/components/link-components/externalLink';
 import { SearchPage } from '@/components/search-page-wrapper';
 import { localization } from '@/libs/language';
 import { tabsData } from '../tabs';
