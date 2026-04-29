@@ -67,10 +67,6 @@
   --font-weight-medium: 500;
   --font-weight-heavy: 700;
   --search-hit-shortname-color: #666666;
-
-  --status-draft: #fae6c6;
-  --status-published-internal: var(--ssb-purple-2);
-  --status-published-external: var(--ssb-green-2);
 }
 
 html * {
