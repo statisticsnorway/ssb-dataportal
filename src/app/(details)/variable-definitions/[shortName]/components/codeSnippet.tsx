@@ -3,7 +3,7 @@
 import { Button, Card, Divider, Heading, Tooltip } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { coldarkCold } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { ExternalLink } from '@/components/link-components/externalLink';
 import { useClipboard } from '@/hooks/useClipboard';
 import { localization } from '@/libs/language';
@@ -43,11 +43,10 @@ const CodeSnippet = ({
         </Tooltip>
         <SyntaxHighlighter
           language='python'
-          style={vs}
+          style={coldarkCold}
           customStyle={{
             borderRadius: '5px',
             fontSize: '1.2rem',
-            background: '#f6f8fa',
             margin: 0,
             padding: '1rem 3rem 1rem',
           }}
