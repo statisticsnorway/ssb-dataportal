@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, Divider, Heading, Tooltip } from '@digdir/designsystemet-react';
+import { Button, Card, Divider, Heading, Paragraph, Tooltip } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { coldarkCold } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -27,8 +27,9 @@ const CodeSnippet = ({
   return (
     <Card>
       <Heading className={`${styles.header}`} id={`tableHeading-code`} data-size='md' level={2}>
-        {localization.codeSnippet.getVariableDefinition}
+        {localization.codeSnippet.codeExample}
       </Heading>
+      <Paragraph className={styles.helpText}>{localization.codeSnippet.helpText}</Paragraph>
       <Card.Block>
         <Tooltip content={copied ? copiedLabel : copyLabel}>
           <Button
@@ -46,9 +47,9 @@ const CodeSnippet = ({
           style={coldarkCold}
           customStyle={{
             borderRadius: '5px',
-            fontSize: '1.2rem',
+            fontSize: 'calc(0.9rem + 0.25vw)',
             margin: 0,
-            padding: '1rem 3rem 1rem',
+            padding: '1rem 3rem 1rem 2rem',
           }}
         >
           {codeString}

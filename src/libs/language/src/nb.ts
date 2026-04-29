@@ -22,9 +22,11 @@ export const nb = {
     view: 'Se klassifikasjon',
   },
   codeSnippet: {
-    getVariableDefinition: 'Hent variabeldefinisjon',
-    linkToPyPiPackage: 'Dapla toolbelt metadata Pypi',
+    codeExample: 'Kodeeksempel',
     daplaManual: 'Dapla-manualen',
+    getVariableDefinition: 'Hent variabeldefinisjon',
+    helpText: 'Bruk koden under for å hente variabeldefinisjonen i egne scripts eller notebooks.',
+    linkToPyPiPackage: 'dapla-toolbelt-metadata (pypi.org)',
   },
 
   comment: 'Kommentar',

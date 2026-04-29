@@ -17,8 +17,19 @@
 
 .copyCodeButton {
   position: absolute;
-  top: 2rem;
+  bottom: 1.5rem;
   right: 2rem;
   z-index: 2;
   color: var(--main-font-color);
+}
+
+.helpText {
+  padding-left: 2rem;
+  padding-bottom: 1rem;
+}
+
+@media (min-width: 530px) {
+  .copyCodeButton {
+    top: 2rem;
+  }
 }
