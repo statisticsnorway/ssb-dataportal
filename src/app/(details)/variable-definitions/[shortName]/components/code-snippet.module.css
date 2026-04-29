@@ -3,16 +3,10 @@
   margin-bottom: 1rem;
 }
 
-/*
-.codeWrapper {
-  position: relative;
-  overflow: hidden;
-  container-type: inline-size;
-}
-*/
 .copyCodeButton {
   position: absolute;
-  right: 3rem;
+  right: 4rem;
+  bottom: 1rem;
   z-index: 1;
   color: var(--main-font-color);
 }
@@ -21,7 +15,8 @@
 }
 
 .pre code {
-  font-size: clamp(0.7rem, 1.6vw, 0.95rem);
+  /*font-size: clamp(0.7rem, 1.6vw, 0.95rem);*/
+  font-size: 2rem;
 }
 
 .pre,
@@ -37,4 +32,9 @@
   flex-wrap: wrap;
   padding: 1rem;
   gap: 1rem;
+}
+
+.codeBlock {
+  background-color: #f8f8f8;
+  margin: 2rem;
 }
