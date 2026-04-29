@@ -3,6 +3,11 @@
   margin-bottom: 1rem;
 }
 
+.helpText {
+  padding-left: 2rem;
+  padding-bottom: 1rem;
+}
+
 .linkFooter {
   border: none;
   display: flex;
@@ -21,11 +26,6 @@
   right: 2rem;
   z-index: 2;
   color: var(--main-font-color);
-}
-
-.helpText {
-  padding-left: 2rem;
-  padding-bottom: 1rem;
 }
 
 @media (min-width: 530px) {
