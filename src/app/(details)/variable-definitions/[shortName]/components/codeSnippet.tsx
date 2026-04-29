@@ -58,17 +58,17 @@ const CodeSnippet = ({
       <Divider />
       <footer className={styles.linkFooter}>
         {daplaLabVardefUrl && (
-          <Button variant='secondary'>
+          <Button variant='secondary' asChild>
             <ExternalLink linkText='Dapla Lab' href={daplaLabVardefUrl} />
           </Button>
         )}
-        <Button variant='secondary'>
+        <Button variant='secondary' asChild>
           <ExternalLink
             linkText={localization.codeSnippet.daplaManual}
             href='https://manual.dapla.ssb.no/statistikkere/vardef-toolbelt.html'
           />
         </Button>
-        <Button variant='secondary'>
+        <Button variant='secondary' asChild>
           <ExternalLink
             linkText={localization.codeSnippet.linkToPyPiPackage}
             href='https://pypi.org/project/dapla-toolbelt-metadata/'
