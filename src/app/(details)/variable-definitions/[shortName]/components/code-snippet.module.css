@@ -27,7 +27,14 @@
   z-index: 2;
   color: var(--main-font-color);
 }
-
+.linkButton {
+  border: 1px solid #005db1;
+  padding: 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #005db1;
+  font-weight: var(--ds-font-weight-medium);
+}
 @media (min-width: 530px) {
   .copyCodeButton {
     top: 2rem;
