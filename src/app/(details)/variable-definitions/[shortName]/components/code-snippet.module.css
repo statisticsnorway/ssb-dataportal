@@ -43,7 +43,7 @@
 */
 .copyCodeButton {
   position: absolute;
-  right: 0.5rem;
+  right: 3rem;
   z-index: 1;
   color: var(--main-font-color);
 }

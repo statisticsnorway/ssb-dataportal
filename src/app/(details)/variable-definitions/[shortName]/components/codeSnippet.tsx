@@ -56,20 +56,18 @@ const CodeSnippet = ({
         </SyntaxHighlighter>
       </Card.Block>
       <Divider />
-      <footer>
-        <section className={styles.linkFooter}>
-          {daplaLabVardefUrl && (
-            <Button variant='secondary'>
-              <ExternalLink linkText='Dapla Lab' href={daplaLabVardefUrl} />
-            </Button>
-          )}
+      <footer className={styles.linkFooter}>
+        {daplaLabVardefUrl && (
           <Button variant='secondary'>
-            <ExternalLink
-              linkText={localization.daplaManual}
-              href='https://manual.dapla.ssb.no/statistikkere/vardef-toolbelt.html'
-            />
+            <ExternalLink linkText='Dapla Lab' href={daplaLabVardefUrl} />
           </Button>
-        </section>
+        )}
+        <Button variant='secondary'>
+          <ExternalLink
+            linkText={localization.daplaManual}
+            href='https://manual.dapla.ssb.no/statistikkere/vardef-toolbelt.html'
+          />
+        </Button>
       </footer>
     </Card>
   );
