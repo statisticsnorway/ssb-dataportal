@@ -44,8 +44,10 @@ export default function VariableDefinitionDetail({
           {variableDefinition.name}
         </Heading>
         <ShortNameTag shortName={variableDefinition.short_name} />
-        <Paragraph className={`${styles.definition} ingress`}>{variableDefinition.definition}</Paragraph>
-        {isAuthenticated && <StatusTag variableStatus={variableDefinition.variable_status} />}
+        <div className={styles.ingressSection}>
+          <Paragraph className={`${styles.definition} ingress`}>{variableDefinition.definition}</Paragraph>
+          {isAuthenticated && <StatusTag variableStatus={variableDefinition.variable_status} />}
+        </div>
         {variableDefinition.comment ? (
           <Card>
             <Details>
