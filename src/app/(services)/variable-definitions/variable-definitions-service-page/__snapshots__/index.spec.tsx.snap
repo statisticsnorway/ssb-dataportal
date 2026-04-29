@@ -40,7 +40,6 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
               </h1>
               <input
                 label="Filtrer på navn"
-                searchterm=""
               />
               <ellipse
                 aria-label="Laster filtere..."
@@ -58,10 +57,7 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
                 <p
                   class="_numHits_8a24d7"
                 />
-                <select
-                  sortoptions="titleAsc,titleDesc,lastChanged"
-                  sortvalue="titleAsc"
-                />
+                <select />
               </div>
               <ellipse
                 aria-label="Laster resultater..."
@@ -115,7 +111,6 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for subject
               </h1>
               <input
                 label="Filtrer på navn"
-                searchterm=""
               />
               <ellipse
                 aria-label="Laster filtere..."
@@ -133,10 +128,7 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for subject
                 <p
                   class="_numHits_8a24d7"
                 />
-                <select
-                  sortoptions="titleAsc,titleDesc,lastChanged"
-                  sortvalue="titleAsc"
-                />
+                <select />
               </div>
               <ellipse
                 aria-label="Laster resultater..."
@@ -190,7 +182,6 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for variabl
               </h1>
               <input
                 label="Filtrer på navn"
-                searchterm=""
               />
               <ellipse
                 aria-label="Laster filtere..."
@@ -208,10 +199,7 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for variabl
                 <p
                   class="_numHits_8a24d7"
                 />
-                <select
-                  sortoptions="titleAsc,titleDesc,lastChanged"
-                  sortvalue="titleAsc"
-                />
+                <select />
               </div>
               <ellipse
                 aria-label="Laster resultater..."
@@ -265,7 +253,9 @@ exports[`VariableDefinitionsServicePage > unauthenticated - hides status filter 
               </h1>
               <input
                 label="Filtrer på navn"
-                searchterm=""
+              />
+              <ellipse
+                aria-label="Laster filtere..."
               />
               <ellipse
                 aria-label="Laster filtere..."
@@ -280,10 +270,7 @@ exports[`VariableDefinitionsServicePage > unauthenticated - hides status filter 
                 <p
                   class="_numHits_8a24d7"
                 />
-                <select
-                  sortoptions="titleAsc,titleDesc,lastChanged"
-                  sortvalue="titleAsc"
-                />
+                <select />
               </div>
               <ellipse
                 aria-label="Laster resultater..."
