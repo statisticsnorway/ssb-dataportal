@@ -1,3 +1,4 @@
+/*
 .snippet {
   width: 100%;
   box-shadow: var(--box-shadow-sm);
@@ -5,15 +6,12 @@
   overflow: hidden;
   background: white;
 }
-
+*/
 .header {
-  display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 0.25rem 0.5rem;
-  padding: 0.75rem 0.3rem 0.3rem 0.7rem;
+  padding: 1rem 1rem 0 2rem;
+  margin-bottom: 1rem;
 }
-
+/*
 .title {
   margin-top: 0.25rem;
   margin-bottom: 0.5rem;
@@ -42,14 +40,13 @@
   overflow: hidden;
   container-type: inline-size;
 }
-
+*/
 .copyCodeButton {
   position: absolute;
   right: 0.5rem;
   z-index: 1;
   color: var(--main-font-color);
 }
-
 .pre {
   background-color: #f8f8f8 !important;
 }
@@ -63,4 +60,8 @@
 .pre span {
   font-family:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+}
+
+.linkFooter {
+  border: none;
 }

@@ -1,8 +1,7 @@
 'use client';
 
-import { Button, Tooltip } from '@digdir/designsystemet-react';
+import { Button, Card, Divider, Heading, Tooltip } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
-import React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { ExternalLink } from '@/components/link-components/externalLink';
@@ -10,29 +9,27 @@ import { useClipboard } from '@/hooks/useClipboard';
 import { localization } from '@/libs/language';
 import styles from './code-snippet.module.css';
 
-type Props = {
-  title?: React.ReactNode;
+export interface CodeSnippetProps {
   code: string[];
   copyLabel?: string;
   copiedLabel?: string;
   daplaLabVardefUrl: string | undefined;
-};
+}
 
-export function CodeSnippet({
-  title,
+const CodeSnippet = ({
   code,
   copyLabel = localization.copy.code,
   copiedLabel = localization.copy.copied,
   daplaLabVardefUrl,
-}: Props) {
+}: CodeSnippetProps) => {
   const { copied, copyToClipboard } = useClipboard();
   const codeString = Array.isArray(code) ? code.join('\n') : code;
   return (
-    <section className={styles.snippet} data-testid='code-snippet'>
-      <div className={styles.header}>
-        <div className={styles.title}>{title}</div>
-      </div>
-      <div className={styles.codeWrapper}>
+    <Card>
+      <Heading className={`${styles.header}`} id={`tableHeading-code`} data-size='md' level={2}>
+        {localization.codeSnippet.getVariableDefinition}
+      </Heading>
+      <Card.Block>
         <Tooltip content={copied ? copiedLabel : copyLabel}>
           <Button
             className={styles.copyCodeButton}
@@ -57,19 +54,25 @@ export function CodeSnippet({
         >
           {codeString}
         </SyntaxHighlighter>
-      </div>
-      <footer className={styles.footer}>
-        {daplaLabVardefUrl && (
-          <>
-            <ExternalLink linkText='Dapla Lab' href={daplaLabVardefUrl} />
-            <span>•</span>
-          </>
-        )}
-        <ExternalLink
-          linkText={localization.daplaManual}
-          href='https://manual.dapla.ssb.no/statistikkere/vardef-toolbelt.html'
-        />
+      </Card.Block>
+      <Divider />
+      <footer>
+        <section className={styles.linkFooter}>
+          {daplaLabVardefUrl && (
+            <Button variant='secondary'>
+              <ExternalLink linkText='Dapla Lab' href={daplaLabVardefUrl} />
+            </Button>
+          )}
+          <Button variant='secondary'>
+            <ExternalLink
+              linkText={localization.daplaManual}
+              href='https://manual.dapla.ssb.no/statistikkere/vardef-toolbelt.html'
+            />
+          </Button>
+        </section>
       </footer>
-    </section>
+    </Card>
   );
-}
+};
+
+export { CodeSnippet };

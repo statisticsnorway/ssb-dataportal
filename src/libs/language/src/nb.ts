@@ -21,6 +21,9 @@ export const nb = {
     label: 'Klassifikasjon',
     view: 'Se klassifikasjon',
   },
+  codeSnippet: {
+    getVariableDefinition: 'Hent variabeldefinisjon',
+  },
 
   comment: 'Kommentar',
 
