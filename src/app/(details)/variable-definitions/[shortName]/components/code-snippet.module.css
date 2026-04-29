@@ -3,29 +3,6 @@
   margin-bottom: 1rem;
 }
 
-.copyCodeButton {
-  position: absolute;
-  right: 4rem;
-  bottom: 1rem;
-  z-index: 1;
-  color: var(--main-font-color);
-}
-.pre {
-  background-color: #f8f8f8 !important;
-}
-
-.pre code {
-  /*font-size: clamp(0.7rem, 1.6vw, 0.95rem);*/
-  font-size: 2rem;
-}
-
-.pre,
-.pre code,
-.pre span {
-  font-family:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
-}
-
 .linkFooter {
   border: none;
   display: flex;
@@ -34,7 +11,14 @@
   gap: 1rem;
 }
 
-.codeBlock {
-  background-color: #f8f8f8;
-  margin: 2rem;
+.codeWrapper {
+  position: relative;
+}
+
+.copyCodeButton {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  z-index: 2;
+  color: var(--main-font-color);
 }

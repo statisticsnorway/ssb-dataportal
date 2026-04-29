@@ -2,8 +2,8 @@
 
 import { Button, Card, Divider, Heading, Tooltip } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
-//import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-//import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { ExternalLink } from '@/components/link-components/externalLink';
 import { useClipboard } from '@/hooks/useClipboard';
 import { localization } from '@/libs/language';
@@ -29,8 +29,7 @@ const CodeSnippet = ({
       <Heading className={`${styles.header}`} id={`tableHeading-code`} data-size='md' level={2}>
         {localization.codeSnippet.getVariableDefinition}
       </Heading>
-      <Card.Block className={styles.codeBlock}>
-        <code>{codeString}</code>
+      <Card.Block>
         <Tooltip content={copied ? copiedLabel : copyLabel}>
           <Button
             className={styles.copyCodeButton}
@@ -42,18 +41,19 @@ const CodeSnippet = ({
             {copied ? <ClipboardCheckmarkIcon aria-hidden /> : <ClipboardIcon aria-hidden />}
           </Button>
         </Tooltip>
-        {/*
         <SyntaxHighlighter
           language='python'
           style={vs}
           customStyle={{
-            padding: '2rem',
+            borderRadius: '5px',
+            fontSize: '1.2rem',
+            background: '#f6f8fa',
             margin: 0,
+            padding: '1rem 3rem 1rem',
           }}
-          className={styles.pre}
         >
           {codeString}
-        </SyntaxHighlighter>*/}
+        </SyntaxHighlighter>
       </Card.Block>
       <Divider />
       <footer className={styles.linkFooter}>
