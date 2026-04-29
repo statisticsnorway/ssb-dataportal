@@ -14,12 +14,9 @@
 .detailsHeading {
   overflow-wrap: break-word;
   word-break: break-word;
-  margin-bottom: 1rem;
 }
 
 .definition {
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
   line-height: 1.5;
   text-align: left;
   word-break: auto-phrase;
