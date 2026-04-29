@@ -25,7 +25,7 @@ const StatusTag = ({ variableStatus, className }: StatusTagProps) => {
       data-color='warning'
       aria-label={localization.status.label}
       className={classNames(className)}
-      data-size='lg'
+      data-size='md'
       style={{ backgroundColor: color }}
     >
       {convertStatus(variableStatus)}

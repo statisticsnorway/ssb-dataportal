@@ -12,7 +12,7 @@ const ShortNameTag = ({ shortName }: ShortNameTagProps) => {
   const { copied, copyToClipboard } = useClipboard();
 
   return (
-    <Tag data-color='success' className={styles.shortNameText} aria-label={localization.shortName.label}>
+    <Tag data-color='success' data-size='md' className={styles.shortNameText} aria-label={localization.shortName.label}>
       <div className={styles.shortNameWrapper}>
         <span className={styles.shortNameLabel}>{shortName}</span>
         <Tooltip content={copied ? localization.copy.copied : localization.copy.shortName}>
