@@ -11,16 +11,21 @@
   flex-direction: column;
 }
 
+.detailsHeading {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
 .definition {
   line-height: 1.5;
   text-align: left;
-  text-wrap: initial;
   word-break: auto-phrase;
   text-wrap: wrap;
   overflow-wrap: break-word;
   hyphens: auto;
 }
 
+/* Styling groups.tsx*/
 .owner {
   display: flex;
   flex-wrap: wrap;
@@ -34,6 +39,14 @@
 
 .ownerValue {
   margin-left: 0.5rem;
+}
+
+.popoverBlock {
+  display: inline-flex;
+}
+
+.labelWithPopover {
+  display: flex;
 }
 
 /* will be removed when new code snippet */
@@ -71,17 +84,4 @@
 
 .codeSnippet {
   margin-bottom: var(--large-gap);
-}
-
-.detailsHeading {
-  overflow-wrap: break-word;
-  word-break: break-word;
-}
-
-.popoverBlock {
-  display: inline-flex;
-}
-
-.labelWithPopover {
-  display: flex;
 }

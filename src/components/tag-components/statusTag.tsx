@@ -10,24 +10,16 @@ interface StatusTagProps {
 }
 
 /**
- * StatusTag component displays a colored tag representing the status of a variable.
+ * StatusTag component displays a tag representing the status of a variable.
  *
- * @param VariableStatus - The current status of the variable. Determines the tag color and text.
+ * @param variableStatus - The current status of the variable. Determines the displayed label text.
  * @param className - Optional additional CSS class for custom styling.
  *
- * @returns A Tag component with a background color corresponding to the variable's status.
- *
+ * @returns A Tag component displaying the formatted variable status.
  */
 const StatusTag = ({ variableStatus, className }: StatusTagProps) => {
-  const color = 'var(--status-draft)';
   return (
-    <Tag
-      data-color='warning'
-      aria-label={localization.status.label}
-      className={classNames(className)}
-      data-size='md'
-      style={{ backgroundColor: color }}
-    >
+    <Tag data-color='warning' aria-label={localization.status.label} className={classNames(className)} data-size='md'>
       {convertStatus(variableStatus)}
     </Tag>
   );
