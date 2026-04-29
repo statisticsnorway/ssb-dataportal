@@ -1,12 +1,14 @@
 .tableContainer {
   padding: 2rem;
 }
-
+.detailsHeading {
+  margin-bottom: 2rem;
+}
 .row {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  padding-top: 2rem;
+  padding-left: 1rem;
   font-family: var(--font-open-sans);
   color: var(--text-color-primary);
 }
