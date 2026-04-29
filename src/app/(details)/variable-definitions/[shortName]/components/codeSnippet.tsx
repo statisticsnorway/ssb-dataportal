@@ -64,8 +64,14 @@ const CodeSnippet = ({
         )}
         <Button variant='secondary'>
           <ExternalLink
-            linkText={localization.daplaManual}
+            linkText={localization.codeSnippet.daplaManual}
             href='https://manual.dapla.ssb.no/statistikkere/vardef-toolbelt.html'
+          />
+        </Button>
+        <Button variant='secondary'>
+          <ExternalLink
+            linkText={localization.codeSnippet.linkToPyPiPackage}
+            href='https://pypi.org/project/dapla-toolbelt-metadata/'
           />
         </Button>
       </footer>

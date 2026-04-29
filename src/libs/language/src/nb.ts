@@ -23,6 +23,8 @@ export const nb = {
   },
   codeSnippet: {
     getVariableDefinition: 'Hent variabeldefinisjon',
+    linkToPyPiPackage: 'Dapla toolbelt metadata Pypi',
+    daplaManual: 'Dapla-manualen',
   },
 
   comment: 'Kommentar',
@@ -41,7 +43,6 @@ export const nb = {
     shortName: 'Kopier kortnavn',
   },
 
-  daplaManual: 'Dapla-manualen',
   documentation: 'Dokumentasjon',
 
   editing: {
