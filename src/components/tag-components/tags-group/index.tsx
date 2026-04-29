@@ -32,7 +32,9 @@ const TagsGroup = ({ maxTags, tagData, ariaLabel }: TagsGroupProps) => {
     <ul className={styles.tagsList}>
       {tagsArray.map(([key, label]) => (
         <li key={key}>
-          <Tag aria-label={ariaLabel}>{label}</Tag>
+          <Tag data-size='md' aria-label={ariaLabel}>
+            {label}
+          </Tag>
         </li>
       ))}
     </ul>
