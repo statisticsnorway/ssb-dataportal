@@ -32,6 +32,7 @@ export default async function VariableDefinition({ params }: { params: Promise<{
   });
 
   const daplaLabVardefUrl: string | undefined = process.env.DAPLA_LAB_VARDEF_URL;
+
   return (
     <VariableDefinitionDetail
       variableDefinition={variableDefinition}

@@ -5,7 +5,6 @@ import { notFound } from 'next/navigation';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { DetailsTable } from '@/components/details-list';
-import { ExternalLink } from '@/components/link-components/externalLink';
 import { ShortNameTag } from '@/components/tag-components/short-name-tag';
 import { StatusTag } from '@/components/tag-components/statusTag';
 import { VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
@@ -62,30 +61,14 @@ export default function VariableDefinitionDetail({
           popoverContent={localization.variableDefinition.unitTypeInfo}
         />
         {isAuthenticated && (
-          <div className={styles.codeSnippet}>
-            <CodeSnippet
-              daplaLabVardefUrl={daplaLabVardefUrl}
-              //TODO(jan): Should replace <div className={styles.codeSnippetTitle}> with correct semantic element (header?)
-              title={
-                <div className={styles.codeSnippetTitle}>
-                  <span className={styles.titleMain}>
-                    <img src='/python-logo-only.svg' alt='' className={styles.pythonIcon} />{' '}
-                    {localization.variableDefinition.fetchWith}
-                  </span>
-                  <ExternalLink
-                    className={styles.titleLink}
-                    href='https://pypi.org/project/dapla-toolbelt-metadata/'
-                    linkText='dapla-toolbelt-metadata (pypi.org)'
-                  />
-                </div>
-              }
-              code={[
-                `Vardef.get_variable_definition_by_shortname(`,
-                `    short_name="${variableDefinition.short_name}"`,
-                `)`,
-              ]}
-            />
-          </div>
+          <CodeSnippet
+            daplaLabVardefUrl={daplaLabVardefUrl}
+            code={[
+              `Vardef.get_variable_definition_by_shortname(`,
+              `    short_name="${variableDefinition.short_name}"`,
+              `)`,
+            ]}
+          />
         )}
         <DetailsTable
           title={localization.variableDefinition.contact}

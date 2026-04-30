@@ -21,6 +21,13 @@ export const nb = {
     label: 'Klassifikasjon',
     view: 'Se klassifikasjon',
   },
+  codeSnippet: {
+    codeExample: 'Kodeeksempel',
+    daplaManual: 'Dapla-manualen',
+    getVariableDefinition: 'Hent variabeldefinisjon med',
+    linkToPyPiPackage: 'dapla-toolbelt-metadata (pypi.org)',
+    daplaLab: 'Dapla Lab',
+  },
 
   comment: 'Kommentar',
 
@@ -38,7 +45,6 @@ export const nb = {
     shortName: 'Kopier kortnavn',
   },
 
-  daplaManual: 'Dapla-manualen',
   documentation: 'Dokumentasjon',
 
   editing: {

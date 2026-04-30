@@ -1,38 +1,43 @@
 'use client';
 
-import { Button, Tooltip } from '@digdir/designsystemet-react';
+import { Button, Card, Divider, Heading, Paragraph, Tooltip } from '@digdir/designsystemet-react';
 import { ClipboardCheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
-import React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { coldarkCold } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { ExternalLink } from '@/components/link-components/externalLink';
 import { useClipboard } from '@/hooks/useClipboard';
 import { localization } from '@/libs/language';
 import styles from './code-snippet.module.css';
 
-type Props = {
-  title?: React.ReactNode;
+export interface CodeSnippetProps {
   code: string[];
   copyLabel?: string;
   copiedLabel?: string;
   daplaLabVardefUrl: string | undefined;
-};
+}
 
-export function CodeSnippet({
-  title,
+const CodeSnippet = ({
   code,
   copyLabel = localization.copy.code,
   copiedLabel = localization.copy.copied,
   daplaLabVardefUrl,
-}: Props) {
+}: CodeSnippetProps) => {
   const { copied, copyToClipboard } = useClipboard();
   const codeString = Array.isArray(code) ? code.join('\n') : code;
+  const daplaManualUrl = process.env.NEXT_PUBLIC_DAPLA_MANUAL_URL;
+  const pyPiPackageUrl = process.env.NEXT_PUBLIC_DAPLA_METADATA_PYPI;
   return (
-    <section className={styles.snippet} data-testid='code-snippet'>
-      <div className={styles.header}>
-        <div className={styles.title}>{title}</div>
-      </div>
-      <div className={styles.codeWrapper}>
+    <Card>
+      <Heading className={`${styles.header}`} id={`tableHeading-code`} data-size='md' level={2}>
+        {localization.codeSnippet.codeExample}
+      </Heading>
+      {pyPiPackageUrl && (
+        <Paragraph className={styles.helpText}>
+          {localization.codeSnippet.getVariableDefinition}{' '}
+          <ExternalLink linkText={localization.codeSnippet.linkToPyPiPackage} href={pyPiPackageUrl} />
+        </Paragraph>
+      )}
+      <Card.Block>
         <Tooltip content={copied ? copiedLabel : copyLabel}>
           <Button
             className={styles.copyCodeButton}
@@ -46,30 +51,38 @@ export function CodeSnippet({
         </Tooltip>
         <SyntaxHighlighter
           language='python'
-          style={vs}
+          style={coldarkCold}
           customStyle={{
-            paddingTop: '0.5rem',
-            paddingRight: '2.5rem',
-            paddingBottom: '0.25rem',
+            borderRadius: '5px',
+            fontSize: 'calc(0.9rem + 0.25vw)',
             margin: 0,
+            padding: '1rem 3rem 1rem 2rem',
           }}
-          className={styles.pre}
         >
           {codeString}
         </SyntaxHighlighter>
-      </div>
-      <footer className={styles.footer}>
+      </Card.Block>
+      <Divider />
+      <footer className={styles.linkFooter}>
         {daplaLabVardefUrl && (
-          <>
-            <ExternalLink linkText='Dapla Lab' href={daplaLabVardefUrl} />
-            <span>•</span>
-          </>
+          <ExternalLink
+            className='ds-button'
+            data-variant='secondary'
+            linkText={localization.codeSnippet.daplaLab}
+            href={daplaLabVardefUrl}
+          />
         )}
-        <ExternalLink
-          linkText={localization.daplaManual}
-          href='https://manual.dapla.ssb.no/statistikkere/vardef-toolbelt.html'
-        />
+        {daplaManualUrl && (
+          <ExternalLink
+            className='ds-button'
+            data-variant='secondary'
+            linkText={localization.codeSnippet.daplaManual}
+            href={daplaManualUrl}
+          />
+        )}
       </footer>
-    </section>
+    </Card>
   );
-}
+};
+
+export { CodeSnippet };
