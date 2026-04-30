@@ -29,7 +29,13 @@ const CodeSnippet = ({
       <Heading className={`${styles.header}`} id={`tableHeading-code`} data-size='md' level={2}>
         {localization.codeSnippet.codeExample}
       </Heading>
-      <Paragraph className={styles.helpText}>{localization.codeSnippet.helpText}</Paragraph>
+      <Paragraph className={styles.helpText}>
+        {localization.codeSnippet.getVariableDefinition}{' '}
+        <ExternalLink
+          linkText={localization.codeSnippet.linkToPyPiPackage}
+          href='https://pypi.org/project/dapla-toolbelt-metadata/'
+        />
+      </Paragraph>
       <Card.Block>
         <Tooltip content={copied ? copiedLabel : copyLabel}>
           <Button
@@ -64,11 +70,6 @@ const CodeSnippet = ({
           className={styles.linkButton}
           linkText={localization.codeSnippet.daplaManual}
           href='https://manual.dapla.ssb.no/statistikkere/vardef-toolbelt.html'
-        />
-        <ExternalLink
-          className={styles.linkButton}
-          linkText={localization.codeSnippet.linkToPyPiPackage}
-          href='https://pypi.org/project/dapla-toolbelt-metadata/'
         />
       </footer>
     </Card>

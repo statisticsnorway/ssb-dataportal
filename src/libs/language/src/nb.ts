@@ -24,8 +24,7 @@ export const nb = {
   codeSnippet: {
     codeExample: 'Kodeeksempel',
     daplaManual: 'Dapla-manualen',
-    getVariableDefinition: 'Hent variabeldefinisjon',
-    helpText: 'Bruk koden under for å hente variabeldefinisjonen i egne scripts eller notebooks.',
+    getVariableDefinition: 'Hent variabeldefinisjon med',
     linkToPyPiPackage: 'dapla-toolbelt-metadata (pypi.org)',
   },
 
