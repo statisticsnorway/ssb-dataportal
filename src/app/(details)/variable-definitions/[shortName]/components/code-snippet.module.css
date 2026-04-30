@@ -1,66 +1,35 @@
-.snippet {
-  width: 100%;
-  box-shadow: var(--box-shadow-sm);
-  border-radius: var(--border-radius-md);
-  overflow: hidden;
-  background: white;
-}
-
 .header {
+  padding: 1rem 1rem 0 2rem;
+  margin-bottom: 1rem;
+}
+
+.helpText {
+  padding-left: 2rem;
+  padding-bottom: 1rem;
+}
+
+.linkFooter {
+  border: none;
   display: flex;
-  align-items: flex-start;
   flex-wrap: wrap;
-  gap: 0.25rem 0.5rem;
-  padding: 0.75rem 0.3rem 0.3rem 0.7rem;
-}
-
-.title {
-  margin-top: 0.25rem;
-  margin-bottom: 0.5rem;
-  min-width: 0;
-}
-
-.footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  background: white;
-}
-
-.footer a {
-  text-decoration: none;
-}
-
-.footer a:hover {
-  text-decoration: underline;
+  padding: 1rem;
+  gap: 1rem;
 }
 
 .codeWrapper {
   position: relative;
-  overflow: hidden;
-  container-type: inline-size;
 }
 
 .copyCodeButton {
   position: absolute;
-  right: 0.5rem;
-  z-index: 1;
+  bottom: 1.5rem;
+  right: 2rem;
+  z-index: 2;
   color: var(--main-font-color);
 }
 
-.pre {
-  background-color: #f8f8f8 !important;
-}
-
-.pre code {
-  font-size: clamp(0.7rem, 1.6vw, 0.95rem);
-}
-
-.pre,
-.pre code,
-.pre span {
-  font-family:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+@media (min-width: 530px) {
+  .copyCodeButton {
+    top: 2rem;
+  }
 }

@@ -17,15 +17,15 @@ interface ExternalLinkProps {
  * @param willOpenNewTab - When true, adds `target="_blank"` and appends text indicating the link opens in a new tab.
  * @returns A `Link` component rendering the given text and URL.
  */
-const ExternalLink = ({ linkText, href, className, willOpenNewTab = false }: ExternalLinkProps) => {
+const ExternalLink = ({ linkText, href, className, willOpenNewTab = false, ...rest }: ExternalLinkProps) => {
   return (
     <>
       {willOpenNewTab ? (
-        <Link target='_blank' rel='noreferrer' href={href} className={className}>
+        <Link {...rest} target='_blank' rel='noreferrer' href={href} className={className}>
           {`${linkText} (${localization.opensInNewTab})`}
         </Link>
       ) : (
-        <Link rel='noreferrer' href={href} className={className}>
+        <Link {...rest} rel='noreferrer' href={href} className={className}>
           {linkText}
         </Link>
       )}
