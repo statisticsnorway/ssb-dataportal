@@ -8,17 +8,23 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
     >
       <header>
         <h1
-          class="ds-sr-only"
-          level="1"
+          class="ds-heading ds-sr-only"
         >
           Variabeldefinisjoner
         </h1>
       </header>
-      <div
+      <ds-tabpanel
+        aria-hidden="true"
         aria-labelledby="variableDefinitionsTab"
+        hidden=""
         id="variableDefinitionsTab"
-        value="variableDefinitionsTab"
+        role="tabpanel"
       >
+        #shadow-root
+          <slot />
+          <style>
+            :host(:not([hidden])) { display: block }
+          </style>
         <div
           class="_pageContainer_8a24d7 container"
         >
@@ -32,21 +38,546 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
               aria-label="Filters"
               class="_filterSection_8a24d7"
             >
-              <h1
+              <h2
+                class="ds-heading"
                 data-size="sm"
-                level="2"
               >
                 Filter
-              </h1>
+              </h2>
               <input
                 label="Filtrer på navn"
               />
-              <ellipse
-                aria-label="Laster filtere..."
-              />
-              <ellipse
-                aria-label="Laster filtere..."
-              />
+              <div
+                class="ds-card _filterCard_d7d1d1  "
+                data-variant="default"
+              >
+                <fieldset
+                  aria-labelledby="collapsible-status"
+                  class="ds-fieldset"
+                >
+                  <legend
+                    class="ds-label _filterHeader_d7d1d1"
+                    data-weight="medium"
+                    id="collapsible-status"
+                  >
+                    <button
+                      aria-controls="collapsible-status"
+                      aria-expanded="true"
+                      class="ds-button _toggleFilter_d7d1d1"
+                      data-variant="primary"
+                      type="button"
+                    >
+                      Status
+                      <svg
+                        aria-labelledby="title-_r_3_"
+                        class="_chevronUpDown_d7d1d1"
+                        fill="none"
+                        focusable="false"
+                        height="1em"
+                        role="img"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <title
+                          id="title-_r_3_"
+                        >
+                          Lukk filter
+                        </title>
+                        <path
+                          clip-rule="evenodd"
+                          d="M5.97 9.47a.75.75 0 0 1 1.06 0L12 14.44l4.97-4.97a.75.75 0 1 1 1.06 1.06l-5.5 5.5a.75.75 0 0 1-1.06 0l-5.5-5.5a.75.75 0 0 1 0-1.06"
+                          fill="currentColor"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </legend>
+                  <div
+                    class="_filterItems_d7d1d1 "
+                    id="collapsible-status"
+                  >
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-draft-0"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-draft-0"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-draft-0"
+                      >
+                        Utkast (73)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-published_internal-1"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-published_internal-1"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-published_internal-1"
+                      >
+                        Publisert internt (3)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-published_external-2"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-published_external-2"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-published_external-2"
+                      >
+                        Publisert eksternt (2)
+                      </label>
+                    </ds-field>
+                  </div>
+                </fieldset>
+              </div>
+              <div
+                class="ds-card _filterCard_d7d1d1  "
+                data-variant="default"
+              >
+                <fieldset
+                  aria-labelledby="collapsible-statistikkomrde"
+                  class="ds-fieldset"
+                >
+                  <legend
+                    class="ds-label _filterHeader_d7d1d1"
+                    data-weight="medium"
+                    id="collapsible-statistikkomrde"
+                  >
+                    <button
+                      aria-controls="collapsible-statistikkomrde"
+                      aria-expanded="true"
+                      class="ds-button _toggleFilter_d7d1d1"
+                      data-variant="primary"
+                      type="button"
+                    >
+                      Statistikkområde
+                      <svg
+                        aria-labelledby="title-_r_5_"
+                        class="_chevronUpDown_d7d1d1"
+                        fill="none"
+                        focusable="false"
+                        height="1em"
+                        role="img"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <title
+                          id="title-_r_5_"
+                        >
+                          Lukk filter
+                        </title>
+                        <path
+                          clip-rule="evenodd"
+                          d="M5.97 9.47a.75.75 0 0 1 1.06 0L12 14.44l4.97-4.97a.75.75 0 1 1 1.06 1.06l-5.5 5.5a.75.75 0 0 1-1.06 0l-5.5-5.5a.75.75 0 0 1 0-1.06"
+                          fill="currentColor"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </legend>
+                  <div
+                    class="_filterItems_d7d1d1 "
+                    id="collapsible-statistikkomrde"
+                  >
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-al-0"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-al-0"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-al-0"
+                      >
+                        Arbeid og lønn (7)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-bf-1"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-bf-1"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-bf-1"
+                      >
+                        Bank og finansmarked (1)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-vf-2"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-vf-2"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-vf-2"
+                      >
+                        Bedrifter, foretak og regnskap (20)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-be-3"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-be-3"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-be-3"
+                      >
+                        Befolkning (25)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-bb-4"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-bb-4"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-bb-4"
+                      >
+                        Bygg, bolig og eiendom (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-ei-5"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-ei-5"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-ei-5"
+                      >
+                        Energi og industri (1)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-he-6"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-he-6"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-he-6"
+                      >
+                        Helse (2)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-if-7"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-if-7"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-if-7"
+                      >
+                        Inntekt og forbruk (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-js-8"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-js-8"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-js-8"
+                      >
+                        Jord, skog, jakt og fiskeri (7)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-kf-9"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-kf-9"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-kf-9"
+                      >
+                        Kultur og fritid (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-zm-10"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-zm-10"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-zm-10"
+                      >
+                        Metoder (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-nk-11"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-nk-11"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-nk-11"
+                      >
+                        Nasjonalregnskap og konjunkturer (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-nm-12"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-nm-12"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-nm-12"
+                      >
+                        Natur og miljø (4)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-os-13"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-os-13"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-os-13"
+                      >
+                        Offentlig sektor (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-pp-14"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-pp-14"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-pp-14"
+                      >
+                        Priser og prisindekser (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-sk-15"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-sk-15"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-sk-15"
+                      >
+                        Sosiale forhold og kriminalitet (2)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-ti-16"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-ti-16"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-ti-16"
+                      >
+                        Teknologi og innovasjon (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-tr-17"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-tr-17"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-tr-17"
+                      >
+                        Transport og reiseliv (2)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-ud-18"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-ud-18"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-ud-18"
+                      >
+                        Utdanning (2)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-ut-19"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-ut-19"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-ut-19"
+                      >
+                        Utenriksøkonomi (4)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-va-20"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-va-20"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-va-20"
+                      >
+                        Valg (2)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-vt-21"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-vt-21"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-vt-21"
+                      >
+                        Varehandel og tjenesteyting (0)
+                      </label>
+                    </ds-field>
+                  </div>
+                </fieldset>
+              </div>
             </aside>
             <div
               class="_mainSection_8a24d7"
@@ -56,22 +587,950 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
               >
                 <p
                   class="_numHits_8a24d7"
-                />
+                >
+                  78 treff
+                </p>
                 <select />
               </div>
-              <ellipse
-                aria-label="Laster resultater..."
-              />
+              <div
+                class="_searchHitsContainer_cb68ad"
+              >
+                <div
+                  class="_hitsList_cb68ad"
+                  data-testid="hits-list"
+                >
+                  <div
+                    class="ds-card"
+                    data-clickdelegatefor="_r_6_"
+                    data-testid="vardef-search-card"
+                    data-variant="default"
+                  >
+                    <h2
+                      class="ds-heading _vardefHeadingLink_3ac619"
+                      data-size="md"
+                    >
+                      <a
+                        class="ds-link _vardefHeadingLink_3ac619"
+                        href="/variable-definitions/aksje"
+                        id="_r_6_"
+                      >
+                        <span
+                          class="heading12"
+                        >
+                          Aksje
+                        </span>
+                      </a>
+                    </h2>
+                    <p
+                      class="ds-paragraph _truncateTo3Lines_3ac619 ingress"
+                      data-variant="default"
+                    >
+                      En eierandel i et selskap med avgrenset ansvar.
+                    </p>
+                    <div
+                      class="_tagsList_3ac619"
+                    >
+                      <ul
+                        class="_tagsList_967b1e"
+                      >
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Bank og finansmarked
+                          </span>
+                        </li>
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Bedrifter, foretak og regnskap
+                          </span>
+                        </li>
+                      </ul>
+                      <span
+                        aria-label="Status"
+                        class="ds-tag"
+                        data-color="warning"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        Utkast
+                      </span>
+                      <span
+                        aria-label="Kortnavn"
+                        class="ds-tag _shortNameText_e08a88"
+                        data-color="success"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        <div
+                          class="_shortNameWrapper_e08a88"
+                        >
+                          <span
+                            class="_shortNameLabel_e08a88"
+                          >
+                            aksje
+                          </span>
+                          <button
+                            aria-label="Kopier kortnavn"
+                            class="ds-button _copyShortNameButton_e08a88"
+                            data-autoplacement="true"
+                            data-icon="true"
+                            data-placement="top"
+                            data-tooltip="Kopier kortnavn"
+                            data-variant="tertiary"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="none"
+                              focusable="false"
+                              height="1em"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M8.25 3.5c0-.69.56-1.25 1.25-1.25H14a.75.75 0 0 1 .53.22l5 5c.141.14.22.331.22.53v8.5c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25zm6.25 5.25c-.69 0-1.25-.56-1.25-1.25V3.75h-3.5v12.5h8.5v-7.5zm.25-3.94 2.44 2.44h-2.44zM6.502 7.75H5.75v12.5h8.5v-.748a.75.75 0 0 1 1.5 0v.998c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25v-13c0-.69.56-1.25 1.25-1.25h1.002a.75.75 0 1 1 0 1.5"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="ds-card"
+                    data-clickdelegatefor="_r_8_"
+                    data-testid="vardef-search-card"
+                    data-variant="default"
+                  >
+                    <h2
+                      class="ds-heading _vardefHeadingLink_3ac619"
+                      data-size="md"
+                    >
+                      <a
+                        class="ds-link _vardefHeadingLink_3ac619"
+                        href="/variable-definitions/aktivitetskode"
+                        id="_r_8_"
+                      >
+                        <span
+                          class="heading12"
+                        >
+                          Aktivitetskode
+                        </span>
+                      </a>
+                    </h2>
+                    <p
+                      class="ds-paragraph _truncateTo3Lines_3ac619 ingress"
+                      data-variant="default"
+                    >
+                      Aktivitetskode angir om enheten har uoppgitt aktivitet, er aktiv, aldri har vært aktiv eller har vært aktiv. Aktivitetskoden registreres ut fra aktivitet i et utvalg administrative register (Arbeidsgiver- arbeidstakerregisteret fra NAV, Terminfiler fra Merverdiavgiftsmanntallet, Regnskapsregisteret og Selvangivelsesregisteret).
+                    </p>
+                    <div
+                      class="_tagsList_3ac619"
+                    >
+                      <ul
+                        class="_tagsList_967b1e"
+                      >
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Bedrifter, foretak og regnskap
+                          </span>
+                        </li>
+                      </ul>
+                      <span
+                        aria-label="Status"
+                        class="ds-tag"
+                        data-color="warning"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        Utkast
+                      </span>
+                      <span
+                        aria-label="Kortnavn"
+                        class="ds-tag _shortNameText_e08a88"
+                        data-color="success"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        <div
+                          class="_shortNameWrapper_e08a88"
+                        >
+                          <span
+                            class="_shortNameLabel_e08a88"
+                          >
+                            aktivitetskode
+                          </span>
+                          <button
+                            aria-label="Kopier kortnavn"
+                            class="ds-button _copyShortNameButton_e08a88"
+                            data-autoplacement="true"
+                            data-icon="true"
+                            data-placement="top"
+                            data-tooltip="Kopier kortnavn"
+                            data-variant="tertiary"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="none"
+                              focusable="false"
+                              height="1em"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M8.25 3.5c0-.69.56-1.25 1.25-1.25H14a.75.75 0 0 1 .53.22l5 5c.141.14.22.331.22.53v8.5c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25zm6.25 5.25c-.69 0-1.25-.56-1.25-1.25V3.75h-3.5v12.5h8.5v-7.5zm.25-3.94 2.44 2.44h-2.44zM6.502 7.75H5.75v12.5h8.5v-.748a.75.75 0 0 1 1.5 0v.998c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25v-13c0-.69.56-1.25 1.25-1.25h1.002a.75.75 0 1 1 0 1.5"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="ds-card"
+                    data-clickdelegatefor="_r_a_"
+                    data-testid="vardef-search-card"
+                    data-variant="default"
+                  >
+                    <h2
+                      class="ds-heading _vardefHeadingLink_3ac619"
+                      data-size="md"
+                    >
+                      <a
+                        class="ds-link _vardefHeadingLink_3ac619"
+                        href="/variable-definitions/akap"
+                        id="_r_a_"
+                      >
+                        <span
+                          class="heading12"
+                        >
+                          Annen kapital
+                        </span>
+                      </a>
+                    </h2>
+                    <p
+                      class="ds-paragraph _truncateTo3Lines_3ac619 ingress"
+                      data-variant="default"
+                    >
+                      Annen kapital omfatter lån og varekreditter
+                    </p>
+                    <div
+                      class="_tagsList_3ac619"
+                    >
+                      <ul
+                        class="_tagsList_967b1e"
+                      >
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Utenriksøkonomi
+                          </span>
+                        </li>
+                      </ul>
+                      <span
+                        aria-label="Status"
+                        class="ds-tag"
+                        data-color="warning"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        Utkast
+                      </span>
+                      <span
+                        aria-label="Kortnavn"
+                        class="ds-tag _shortNameText_e08a88"
+                        data-color="success"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        <div
+                          class="_shortNameWrapper_e08a88"
+                        >
+                          <span
+                            class="_shortNameLabel_e08a88"
+                          >
+                            akap
+                          </span>
+                          <button
+                            aria-label="Kopier kortnavn"
+                            class="ds-button _copyShortNameButton_e08a88"
+                            data-autoplacement="true"
+                            data-icon="true"
+                            data-placement="top"
+                            data-tooltip="Kopier kortnavn"
+                            data-variant="tertiary"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="none"
+                              focusable="false"
+                              height="1em"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M8.25 3.5c0-.69.56-1.25 1.25-1.25H14a.75.75 0 0 1 .53.22l5 5c.141.14.22.331.22.53v8.5c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25zm6.25 5.25c-.69 0-1.25-.56-1.25-1.25V3.75h-3.5v12.5h8.5v-7.5zm.25-3.94 2.44 2.44h-2.44zM6.502 7.75H5.75v12.5h8.5v-.748a.75.75 0 0 1 1.5 0v.998c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25v-13c0-.69.56-1.25 1.25-1.25h1.002a.75.75 0 1 1 0 1.5"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="ds-card"
+                    data-clickdelegatefor="_r_c_"
+                    data-testid="vardef-search-card"
+                    data-variant="default"
+                  >
+                    <h2
+                      class="ds-heading _vardefHeadingLink_3ac619"
+                      data-size="md"
+                    >
+                      <a
+                        class="ds-link _vardefHeadingLink_3ac619"
+                        href="/variable-definitions/sp17_rom"
+                        id="_r_c_"
+                      >
+                        <span
+                          class="heading12"
+                        >
+                          Antall baderom
+                        </span>
+                      </a>
+                    </h2>
+                    <p
+                      class="ds-paragraph _truncateTo3Lines_3ac619 ingress"
+                      data-variant="default"
+                    >
+                      Som baderom regnes rom der det er installert badekar og/eller dusj.
+                    </p>
+                    <div
+                      class="_tagsList_3ac619"
+                    >
+                      <ul
+                        class="_tagsList_967b1e"
+                      >
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Befolkning
+                          </span>
+                        </li>
+                      </ul>
+                      <span
+                        aria-label="Status"
+                        class="ds-tag"
+                        data-color="warning"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        Utkast
+                      </span>
+                      <span
+                        aria-label="Kortnavn"
+                        class="ds-tag _shortNameText_e08a88"
+                        data-color="success"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        <div
+                          class="_shortNameWrapper_e08a88"
+                        >
+                          <span
+                            class="_shortNameLabel_e08a88"
+                          >
+                            sp17_rom
+                          </span>
+                          <button
+                            aria-label="Kopier kortnavn"
+                            class="ds-button _copyShortNameButton_e08a88"
+                            data-autoplacement="true"
+                            data-icon="true"
+                            data-placement="top"
+                            data-tooltip="Kopier kortnavn"
+                            data-variant="tertiary"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="none"
+                              focusable="false"
+                              height="1em"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M8.25 3.5c0-.69.56-1.25 1.25-1.25H14a.75.75 0 0 1 .53.22l5 5c.141.14.22.331.22.53v8.5c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25zm6.25 5.25c-.69 0-1.25-.56-1.25-1.25V3.75h-3.5v12.5h8.5v-7.5zm.25-3.94 2.44 2.44h-2.44zM6.502 7.75H5.75v12.5h8.5v-.748a.75.75 0 0 1 1.5 0v.998c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25v-13c0-.69.56-1.25 1.25-1.25h1.002a.75.75 0 1 1 0 1.5"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="ds-card"
+                    data-clickdelegatefor="_r_e_"
+                    data-testid="vardef-search-card"
+                    data-variant="default"
+                  >
+                    <h2
+                      class="ds-heading _vardefHeadingLink_3ac619"
+                      data-size="md"
+                    >
+                      <a
+                        class="ds-link _vardefHeadingLink_3ac619"
+                        href="/variable-definitions/ant_f"
+                        id="_r_e_"
+                      >
+                        <span
+                          class="heading12"
+                        >
+                          Antall foretak - næringsoppgaver
+                        </span>
+                      </a>
+                    </h2>
+                    <p
+                      class="ds-paragraph _truncateTo3Lines_3ac619 ingress"
+                      data-variant="default"
+                    >
+                      Viser antall foretak som inngår i statistikken. Regnskapsstatistikken som bygger på næringsoppgaver omfatter ikke-finansielle foretak som har levert næringsoppgave elektronisk - eller inngår i SSBs utvalgsbaserte innhenteing av næringsoppgaver.
+                    </p>
+                    <div
+                      class="_tagsList_3ac619"
+                    >
+                      <ul
+                        class="_tagsList_967b1e"
+                      >
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Bedrifter, foretak og regnskap
+                          </span>
+                        </li>
+                      </ul>
+                      <span
+                        aria-label="Status"
+                        class="ds-tag"
+                        data-color="warning"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        Utkast
+                      </span>
+                      <span
+                        aria-label="Kortnavn"
+                        class="ds-tag _shortNameText_e08a88"
+                        data-color="success"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        <div
+                          class="_shortNameWrapper_e08a88"
+                        >
+                          <span
+                            class="_shortNameLabel_e08a88"
+                          >
+                            ant_f
+                          </span>
+                          <button
+                            aria-label="Kopier kortnavn"
+                            class="ds-button _copyShortNameButton_e08a88"
+                            data-autoplacement="true"
+                            data-icon="true"
+                            data-placement="top"
+                            data-tooltip="Kopier kortnavn"
+                            data-variant="tertiary"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="none"
+                              focusable="false"
+                              height="1em"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M8.25 3.5c0-.69.56-1.25 1.25-1.25H14a.75.75 0 0 1 .53.22l5 5c.141.14.22.331.22.53v8.5c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25zm6.25 5.25c-.69 0-1.25-.56-1.25-1.25V3.75h-3.5v12.5h8.5v-7.5zm.25-3.94 2.44 2.44h-2.44zM6.502 7.75H5.75v12.5h8.5v-.748a.75.75 0 0 1 1.5 0v.998c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25v-13c0-.69.56-1.25 1.25-1.25h1.002a.75.75 0 1 1 0 1.5"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="ds-card"
+                    data-clickdelegatefor="_r_g_"
+                    data-testid="vardef-search-card"
+                    data-variant="default"
+                  >
+                    <h2
+                      class="ds-heading _vardefHeadingLink_3ac619"
+                      data-size="md"
+                    >
+                      <a
+                        class="ds-link _vardefHeadingLink_3ac619"
+                        href="/variable-definitions/antall"
+                        id="_r_g_"
+                      >
+                        <span
+                          class="heading12"
+                        >
+                          Antall medlemmer i familien (Besys)
+                        </span>
+                      </a>
+                    </h2>
+                    <p
+                      class="ds-paragraph _truncateTo3Lines_3ac619 ingress"
+                      data-variant="default"
+                    >
+                      Variabelen viser antall personer med samme familienummer (BESYS). Variabelen brukes i familiestatistikken.
+                    </p>
+                    <div
+                      class="_tagsList_3ac619"
+                    >
+                      <ul
+                        class="_tagsList_967b1e"
+                      >
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Befolkning
+                          </span>
+                        </li>
+                      </ul>
+                      <span
+                        aria-label="Status"
+                        class="ds-tag"
+                        data-color="warning"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        Utkast
+                      </span>
+                      <span
+                        aria-label="Kortnavn"
+                        class="ds-tag _shortNameText_e08a88"
+                        data-color="success"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        <div
+                          class="_shortNameWrapper_e08a88"
+                        >
+                          <span
+                            class="_shortNameLabel_e08a88"
+                          >
+                            antall
+                          </span>
+                          <button
+                            aria-label="Kopier kortnavn"
+                            class="ds-button _copyShortNameButton_e08a88"
+                            data-autoplacement="true"
+                            data-icon="true"
+                            data-placement="top"
+                            data-tooltip="Kopier kortnavn"
+                            data-variant="tertiary"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="none"
+                              focusable="false"
+                              height="1em"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M8.25 3.5c0-.69.56-1.25 1.25-1.25H14a.75.75 0 0 1 .53.22l5 5c.141.14.22.331.22.53v8.5c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25zm6.25 5.25c-.69 0-1.25-.56-1.25-1.25V3.75h-3.5v12.5h8.5v-7.5zm.25-3.94 2.44 2.44h-2.44zM6.502 7.75H5.75v12.5h8.5v-.748a.75.75 0 0 1 1.5 0v.998c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25v-13c0-.69.56-1.25 1.25-1.25h1.002a.75.75 0 1 1 0 1.5"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="ds-card"
+                    data-clickdelegatefor="_r_i_"
+                    data-testid="vardef-search-card"
+                    data-variant="default"
+                  >
+                    <h2
+                      class="ds-heading _vardefHeadingLink_3ac619"
+                      data-size="md"
+                    >
+                      <a
+                        class="ds-link _vardefHeadingLink_3ac619"
+                        href="/variable-definitions/pers18plus_i_hushnr"
+                        id="_r_i_"
+                      >
+                        <span
+                          class="heading12"
+                        >
+                          Antall personer 18 år og over i husholdningen
+                        </span>
+                      </a>
+                    </h2>
+                    <p
+                      class="ds-paragraph _truncateTo3Lines_3ac619 ingress"
+                      data-variant="default"
+                    >
+                      Antall personer 18 år og eldre i husholdningen
+                    </p>
+                    <div
+                      class="_tagsList_3ac619"
+                    >
+                      <ul
+                        class="_tagsList_967b1e"
+                      >
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Befolkning
+                          </span>
+                        </li>
+                      </ul>
+                      <span
+                        aria-label="Status"
+                        class="ds-tag"
+                        data-color="warning"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        Utkast
+                      </span>
+                      <span
+                        aria-label="Kortnavn"
+                        class="ds-tag _shortNameText_e08a88"
+                        data-color="success"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        <div
+                          class="_shortNameWrapper_e08a88"
+                        >
+                          <span
+                            class="_shortNameLabel_e08a88"
+                          >
+                            pers18plus_i_hushnr
+                          </span>
+                          <button
+                            aria-label="Kopier kortnavn"
+                            class="ds-button _copyShortNameButton_e08a88"
+                            data-autoplacement="true"
+                            data-icon="true"
+                            data-placement="top"
+                            data-tooltip="Kopier kortnavn"
+                            data-variant="tertiary"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="none"
+                              focusable="false"
+                              height="1em"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M8.25 3.5c0-.69.56-1.25 1.25-1.25H14a.75.75 0 0 1 .53.22l5 5c.141.14.22.331.22.53v8.5c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25zm6.25 5.25c-.69 0-1.25-.56-1.25-1.25V3.75h-3.5v12.5h8.5v-7.5zm.25-3.94 2.44 2.44h-2.44zM6.502 7.75H5.75v12.5h8.5v-.748a.75.75 0 0 1 1.5 0v.998c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25v-13c0-.69.56-1.25 1.25-1.25h1.002a.75.75 0 1 1 0 1.5"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="ds-card"
+                    data-clickdelegatefor="_r_k_"
+                    data-testid="vardef-search-card"
+                    data-variant="default"
+                  >
+                    <h2
+                      class="ds-heading _vardefHeadingLink_3ac619"
+                      data-size="md"
+                    >
+                      <a
+                        class="ds-link _vardefHeadingLink_3ac619"
+                        href="/variable-definitions/sp16_rom"
+                        id="_r_k_"
+                      >
+                        <span
+                          class="heading12"
+                        >
+                          Antall rom til næringsvirksomhet
+                        </span>
+                      </a>
+                    </h2>
+                    <p
+                      class="ds-paragraph _truncateTo3Lines_3ac619 ingress"
+                      data-variant="default"
+                    >
+                      Antall rom i boligen som bare blir brukt til næringsvirksomhet
+                    </p>
+                    <div
+                      class="_tagsList_3ac619"
+                    >
+                      <ul
+                        class="_tagsList_967b1e"
+                      >
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Befolkning
+                          </span>
+                        </li>
+                      </ul>
+                      <span
+                        aria-label="Status"
+                        class="ds-tag"
+                        data-color="warning"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        Utkast
+                      </span>
+                      <span
+                        aria-label="Kortnavn"
+                        class="ds-tag _shortNameText_e08a88"
+                        data-color="success"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        <div
+                          class="_shortNameWrapper_e08a88"
+                        >
+                          <span
+                            class="_shortNameLabel_e08a88"
+                          >
+                            sp16_rom
+                          </span>
+                          <button
+                            aria-label="Kopier kortnavn"
+                            class="ds-button _copyShortNameButton_e08a88"
+                            data-autoplacement="true"
+                            data-icon="true"
+                            data-placement="top"
+                            data-tooltip="Kopier kortnavn"
+                            data-variant="tertiary"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="none"
+                              focusable="false"
+                              height="1em"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M8.25 3.5c0-.69.56-1.25 1.25-1.25H14a.75.75 0 0 1 .53.22l5 5c.141.14.22.331.22.53v8.5c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25zm6.25 5.25c-.69 0-1.25-.56-1.25-1.25V3.75h-3.5v12.5h8.5v-7.5zm.25-3.94 2.44 2.44h-2.44zM6.502 7.75H5.75v12.5h8.5v-.748a.75.75 0 0 1 1.5 0v.998c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25v-13c0-.69.56-1.25 1.25-1.25h1.002a.75.75 0 1 1 0 1.5"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <ds-pagination
+                  class="ds-pagination"
+                  data-testid="pagination"
+                  role="navigation"
+                >
+                  <ul>
+                    <li>
+                      <button
+                        aria-hidden="true"
+                        aria-label="Forrige"
+                        class="ds-button"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        Forrige
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        aria-current="true"
+                        class="ds-button"
+                        data-testid="page-active"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        1
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        class="ds-button"
+                        data-testid="page"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        2
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        class="ds-button"
+                        data-testid="page"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        3
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        class="ds-button"
+                        data-testid="page"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        4
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        class="ds-button"
+                        data-testid="page"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        5
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        class="ds-button"
+                        data-testid="page"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        6
+                      </button>
+                    </li>
+                    <li />
+                    <li>
+                      <button
+                        class="ds-button"
+                        data-testid="page"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        10
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        aria-hidden="false"
+                        aria-label="Neste"
+                        class="ds-button"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        Neste
+                      </button>
+                    </li>
+                  </ul>
+                </ds-pagination>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </ds-tabpanel>
     </main>
   </div>
 </body>
 `;
 
-exports[`VariableDefinitionsServicePage > page renders while waiting for subject fields 1`] = `
+exports[`VariableDefinitionsServicePage > page renders filters 1`] = `
 <body>
   <div>
     <main
@@ -79,17 +1538,23 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for subject
     >
       <header>
         <h1
-          class="ds-sr-only"
-          level="1"
+          class="ds-heading ds-sr-only"
         >
           Variabeldefinisjoner
         </h1>
       </header>
-      <div
+      <ds-tabpanel
+        aria-hidden="true"
         aria-labelledby="variableDefinitionsTab"
+        hidden=""
         id="variableDefinitionsTab"
-        value="variableDefinitionsTab"
+        role="tabpanel"
       >
+        #shadow-root
+          <slot />
+          <style>
+            :host(:not([hidden])) { display: block }
+          </style>
         <div
           class="_pageContainer_8a24d7 container"
         >
@@ -103,21 +1568,546 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for subject
               aria-label="Filters"
               class="_filterSection_8a24d7"
             >
-              <h1
+              <h2
+                class="ds-heading"
                 data-size="sm"
-                level="2"
               >
                 Filter
-              </h1>
+              </h2>
               <input
                 label="Filtrer på navn"
               />
-              <ellipse
-                aria-label="Laster filtere..."
-              />
-              <ellipse
-                aria-label="Laster filtere..."
-              />
+              <div
+                class="ds-card _filterCard_d7d1d1  "
+                data-variant="default"
+              >
+                <fieldset
+                  aria-labelledby="collapsible-status"
+                  class="ds-fieldset"
+                >
+                  <legend
+                    class="ds-label _filterHeader_d7d1d1"
+                    data-weight="medium"
+                    id="collapsible-status"
+                  >
+                    <button
+                      aria-controls="collapsible-status"
+                      aria-expanded="true"
+                      class="ds-button _toggleFilter_d7d1d1"
+                      data-variant="primary"
+                      type="button"
+                    >
+                      Status
+                      <svg
+                        aria-labelledby="title-_r_13_"
+                        class="_chevronUpDown_d7d1d1"
+                        fill="none"
+                        focusable="false"
+                        height="1em"
+                        role="img"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <title
+                          id="title-_r_13_"
+                        >
+                          Lukk filter
+                        </title>
+                        <path
+                          clip-rule="evenodd"
+                          d="M5.97 9.47a.75.75 0 0 1 1.06 0L12 14.44l4.97-4.97a.75.75 0 1 1 1.06 1.06l-5.5 5.5a.75.75 0 0 1-1.06 0l-5.5-5.5a.75.75 0 0 1 0-1.06"
+                          fill="currentColor"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </legend>
+                  <div
+                    class="_filterItems_d7d1d1 "
+                    id="collapsible-status"
+                  >
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-draft-0"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-draft-0"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-draft-0"
+                      >
+                        Utkast (73)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-published_internal-1"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-published_internal-1"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-published_internal-1"
+                      >
+                        Publisert internt (3)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-published_external-2"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-published_external-2"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-published_external-2"
+                      >
+                        Publisert eksternt (2)
+                      </label>
+                    </ds-field>
+                  </div>
+                </fieldset>
+              </div>
+              <div
+                class="ds-card _filterCard_d7d1d1  "
+                data-variant="default"
+              >
+                <fieldset
+                  aria-labelledby="collapsible-statistikkomrde"
+                  class="ds-fieldset"
+                >
+                  <legend
+                    class="ds-label _filterHeader_d7d1d1"
+                    data-weight="medium"
+                    id="collapsible-statistikkomrde"
+                  >
+                    <button
+                      aria-controls="collapsible-statistikkomrde"
+                      aria-expanded="true"
+                      class="ds-button _toggleFilter_d7d1d1"
+                      data-variant="primary"
+                      type="button"
+                    >
+                      Statistikkområde
+                      <svg
+                        aria-labelledby="title-_r_15_"
+                        class="_chevronUpDown_d7d1d1"
+                        fill="none"
+                        focusable="false"
+                        height="1em"
+                        role="img"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <title
+                          id="title-_r_15_"
+                        >
+                          Lukk filter
+                        </title>
+                        <path
+                          clip-rule="evenodd"
+                          d="M5.97 9.47a.75.75 0 0 1 1.06 0L12 14.44l4.97-4.97a.75.75 0 1 1 1.06 1.06l-5.5 5.5a.75.75 0 0 1-1.06 0l-5.5-5.5a.75.75 0 0 1 0-1.06"
+                          fill="currentColor"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </legend>
+                  <div
+                    class="_filterItems_d7d1d1 "
+                    id="collapsible-statistikkomrde"
+                  >
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-al-0"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-al-0"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-al-0"
+                      >
+                        Arbeid og lønn (7)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-bf-1"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-bf-1"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-bf-1"
+                      >
+                        Bank og finansmarked (1)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-vf-2"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-vf-2"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-vf-2"
+                      >
+                        Bedrifter, foretak og regnskap (20)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-be-3"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-be-3"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-be-3"
+                      >
+                        Befolkning (25)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-bb-4"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-bb-4"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-bb-4"
+                      >
+                        Bygg, bolig og eiendom (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-ei-5"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-ei-5"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-ei-5"
+                      >
+                        Energi og industri (1)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-he-6"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-he-6"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-he-6"
+                      >
+                        Helse (2)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-if-7"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-if-7"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-if-7"
+                      >
+                        Inntekt og forbruk (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-js-8"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-js-8"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-js-8"
+                      >
+                        Jord, skog, jakt og fiskeri (7)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-kf-9"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-kf-9"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-kf-9"
+                      >
+                        Kultur og fritid (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-zm-10"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-zm-10"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-zm-10"
+                      >
+                        Metoder (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-nk-11"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-nk-11"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-nk-11"
+                      >
+                        Nasjonalregnskap og konjunkturer (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-nm-12"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-nm-12"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-nm-12"
+                      >
+                        Natur og miljø (4)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-os-13"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-os-13"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-os-13"
+                      >
+                        Offentlig sektor (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-pp-14"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-pp-14"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-pp-14"
+                      >
+                        Priser og prisindekser (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-sk-15"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-sk-15"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-sk-15"
+                      >
+                        Sosiale forhold og kriminalitet (2)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-ti-16"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-ti-16"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-ti-16"
+                      >
+                        Teknologi og innovasjon (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-tr-17"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-tr-17"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-tr-17"
+                      >
+                        Transport og reiseliv (2)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-ud-18"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-ud-18"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-ud-18"
+                      >
+                        Utdanning (2)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-ut-19"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-ut-19"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-ut-19"
+                      >
+                        Utenriksøkonomi (4)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-va-20"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-va-20"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-va-20"
+                      >
+                        Valg (2)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-vt-21"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-vt-21"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-vt-21"
+                      >
+                        Varehandel og tjenesteyting (0)
+                      </label>
+                    </ds-field>
+                  </div>
+                </fieldset>
+              </div>
             </aside>
             <div
               class="_mainSection_8a24d7"
@@ -127,16 +2117,944 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for subject
               >
                 <p
                   class="_numHits_8a24d7"
-                />
+                >
+                  78 treff
+                </p>
                 <select />
               </div>
-              <ellipse
-                aria-label="Laster resultater..."
-              />
+              <div
+                class="_searchHitsContainer_cb68ad"
+              >
+                <div
+                  class="_hitsList_cb68ad"
+                  data-testid="hits-list"
+                >
+                  <div
+                    class="ds-card"
+                    data-clickdelegatefor="_r_16_"
+                    data-testid="vardef-search-card"
+                    data-variant="default"
+                  >
+                    <h2
+                      class="ds-heading _vardefHeadingLink_3ac619"
+                      data-size="md"
+                    >
+                      <a
+                        class="ds-link _vardefHeadingLink_3ac619"
+                        href="/variable-definitions/aksje"
+                        id="_r_16_"
+                      >
+                        <span
+                          class="heading12"
+                        >
+                          Aksje
+                        </span>
+                      </a>
+                    </h2>
+                    <p
+                      class="ds-paragraph _truncateTo3Lines_3ac619 ingress"
+                      data-variant="default"
+                    >
+                      En eierandel i et selskap med avgrenset ansvar.
+                    </p>
+                    <div
+                      class="_tagsList_3ac619"
+                    >
+                      <ul
+                        class="_tagsList_967b1e"
+                      >
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Bank og finansmarked
+                          </span>
+                        </li>
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Bedrifter, foretak og regnskap
+                          </span>
+                        </li>
+                      </ul>
+                      <span
+                        aria-label="Status"
+                        class="ds-tag"
+                        data-color="warning"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        Utkast
+                      </span>
+                      <span
+                        aria-label="Kortnavn"
+                        class="ds-tag _shortNameText_e08a88"
+                        data-color="success"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        <div
+                          class="_shortNameWrapper_e08a88"
+                        >
+                          <span
+                            class="_shortNameLabel_e08a88"
+                          >
+                            aksje
+                          </span>
+                          <button
+                            aria-label="Kopier kortnavn"
+                            class="ds-button _copyShortNameButton_e08a88"
+                            data-autoplacement="true"
+                            data-icon="true"
+                            data-placement="top"
+                            data-tooltip="Kopier kortnavn"
+                            data-variant="tertiary"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="none"
+                              focusable="false"
+                              height="1em"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M8.25 3.5c0-.69.56-1.25 1.25-1.25H14a.75.75 0 0 1 .53.22l5 5c.141.14.22.331.22.53v8.5c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25zm6.25 5.25c-.69 0-1.25-.56-1.25-1.25V3.75h-3.5v12.5h8.5v-7.5zm.25-3.94 2.44 2.44h-2.44zM6.502 7.75H5.75v12.5h8.5v-.748a.75.75 0 0 1 1.5 0v.998c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25v-13c0-.69.56-1.25 1.25-1.25h1.002a.75.75 0 1 1 0 1.5"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="ds-card"
+                    data-clickdelegatefor="_r_18_"
+                    data-testid="vardef-search-card"
+                    data-variant="default"
+                  >
+                    <h2
+                      class="ds-heading _vardefHeadingLink_3ac619"
+                      data-size="md"
+                    >
+                      <a
+                        class="ds-link _vardefHeadingLink_3ac619"
+                        href="/variable-definitions/aktivitetskode"
+                        id="_r_18_"
+                      >
+                        <span
+                          class="heading12"
+                        >
+                          Aktivitetskode
+                        </span>
+                      </a>
+                    </h2>
+                    <p
+                      class="ds-paragraph _truncateTo3Lines_3ac619 ingress"
+                      data-variant="default"
+                    >
+                      Aktivitetskode angir om enheten har uoppgitt aktivitet, er aktiv, aldri har vært aktiv eller har vært aktiv. Aktivitetskoden registreres ut fra aktivitet i et utvalg administrative register (Arbeidsgiver- arbeidstakerregisteret fra NAV, Terminfiler fra Merverdiavgiftsmanntallet, Regnskapsregisteret og Selvangivelsesregisteret).
+                    </p>
+                    <div
+                      class="_tagsList_3ac619"
+                    >
+                      <ul
+                        class="_tagsList_967b1e"
+                      >
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Bedrifter, foretak og regnskap
+                          </span>
+                        </li>
+                      </ul>
+                      <span
+                        aria-label="Status"
+                        class="ds-tag"
+                        data-color="warning"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        Utkast
+                      </span>
+                      <span
+                        aria-label="Kortnavn"
+                        class="ds-tag _shortNameText_e08a88"
+                        data-color="success"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        <div
+                          class="_shortNameWrapper_e08a88"
+                        >
+                          <span
+                            class="_shortNameLabel_e08a88"
+                          >
+                            aktivitetskode
+                          </span>
+                          <button
+                            aria-label="Kopier kortnavn"
+                            class="ds-button _copyShortNameButton_e08a88"
+                            data-autoplacement="true"
+                            data-icon="true"
+                            data-placement="top"
+                            data-tooltip="Kopier kortnavn"
+                            data-variant="tertiary"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="none"
+                              focusable="false"
+                              height="1em"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M8.25 3.5c0-.69.56-1.25 1.25-1.25H14a.75.75 0 0 1 .53.22l5 5c.141.14.22.331.22.53v8.5c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25zm6.25 5.25c-.69 0-1.25-.56-1.25-1.25V3.75h-3.5v12.5h8.5v-7.5zm.25-3.94 2.44 2.44h-2.44zM6.502 7.75H5.75v12.5h8.5v-.748a.75.75 0 0 1 1.5 0v.998c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25v-13c0-.69.56-1.25 1.25-1.25h1.002a.75.75 0 1 1 0 1.5"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="ds-card"
+                    data-clickdelegatefor="_r_1a_"
+                    data-testid="vardef-search-card"
+                    data-variant="default"
+                  >
+                    <h2
+                      class="ds-heading _vardefHeadingLink_3ac619"
+                      data-size="md"
+                    >
+                      <a
+                        class="ds-link _vardefHeadingLink_3ac619"
+                        href="/variable-definitions/akap"
+                        id="_r_1a_"
+                      >
+                        <span
+                          class="heading12"
+                        >
+                          Annen kapital
+                        </span>
+                      </a>
+                    </h2>
+                    <p
+                      class="ds-paragraph _truncateTo3Lines_3ac619 ingress"
+                      data-variant="default"
+                    >
+                      Annen kapital omfatter lån og varekreditter
+                    </p>
+                    <div
+                      class="_tagsList_3ac619"
+                    >
+                      <ul
+                        class="_tagsList_967b1e"
+                      >
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Utenriksøkonomi
+                          </span>
+                        </li>
+                      </ul>
+                      <span
+                        aria-label="Status"
+                        class="ds-tag"
+                        data-color="warning"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        Utkast
+                      </span>
+                      <span
+                        aria-label="Kortnavn"
+                        class="ds-tag _shortNameText_e08a88"
+                        data-color="success"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        <div
+                          class="_shortNameWrapper_e08a88"
+                        >
+                          <span
+                            class="_shortNameLabel_e08a88"
+                          >
+                            akap
+                          </span>
+                          <button
+                            aria-label="Kopier kortnavn"
+                            class="ds-button _copyShortNameButton_e08a88"
+                            data-autoplacement="true"
+                            data-icon="true"
+                            data-placement="top"
+                            data-tooltip="Kopier kortnavn"
+                            data-variant="tertiary"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="none"
+                              focusable="false"
+                              height="1em"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M8.25 3.5c0-.69.56-1.25 1.25-1.25H14a.75.75 0 0 1 .53.22l5 5c.141.14.22.331.22.53v8.5c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25zm6.25 5.25c-.69 0-1.25-.56-1.25-1.25V3.75h-3.5v12.5h8.5v-7.5zm.25-3.94 2.44 2.44h-2.44zM6.502 7.75H5.75v12.5h8.5v-.748a.75.75 0 0 1 1.5 0v.998c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25v-13c0-.69.56-1.25 1.25-1.25h1.002a.75.75 0 1 1 0 1.5"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="ds-card"
+                    data-clickdelegatefor="_r_1c_"
+                    data-testid="vardef-search-card"
+                    data-variant="default"
+                  >
+                    <h2
+                      class="ds-heading _vardefHeadingLink_3ac619"
+                      data-size="md"
+                    >
+                      <a
+                        class="ds-link _vardefHeadingLink_3ac619"
+                        href="/variable-definitions/sp17_rom"
+                        id="_r_1c_"
+                      >
+                        <span
+                          class="heading12"
+                        >
+                          Antall baderom
+                        </span>
+                      </a>
+                    </h2>
+                    <p
+                      class="ds-paragraph _truncateTo3Lines_3ac619 ingress"
+                      data-variant="default"
+                    >
+                      Som baderom regnes rom der det er installert badekar og/eller dusj.
+                    </p>
+                    <div
+                      class="_tagsList_3ac619"
+                    >
+                      <ul
+                        class="_tagsList_967b1e"
+                      >
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Befolkning
+                          </span>
+                        </li>
+                      </ul>
+                      <span
+                        aria-label="Status"
+                        class="ds-tag"
+                        data-color="warning"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        Utkast
+                      </span>
+                      <span
+                        aria-label="Kortnavn"
+                        class="ds-tag _shortNameText_e08a88"
+                        data-color="success"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        <div
+                          class="_shortNameWrapper_e08a88"
+                        >
+                          <span
+                            class="_shortNameLabel_e08a88"
+                          >
+                            sp17_rom
+                          </span>
+                          <button
+                            aria-label="Kopier kortnavn"
+                            class="ds-button _copyShortNameButton_e08a88"
+                            data-autoplacement="true"
+                            data-icon="true"
+                            data-placement="top"
+                            data-tooltip="Kopier kortnavn"
+                            data-variant="tertiary"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="none"
+                              focusable="false"
+                              height="1em"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M8.25 3.5c0-.69.56-1.25 1.25-1.25H14a.75.75 0 0 1 .53.22l5 5c.141.14.22.331.22.53v8.5c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25zm6.25 5.25c-.69 0-1.25-.56-1.25-1.25V3.75h-3.5v12.5h8.5v-7.5zm.25-3.94 2.44 2.44h-2.44zM6.502 7.75H5.75v12.5h8.5v-.748a.75.75 0 0 1 1.5 0v.998c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25v-13c0-.69.56-1.25 1.25-1.25h1.002a.75.75 0 1 1 0 1.5"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="ds-card"
+                    data-clickdelegatefor="_r_1e_"
+                    data-testid="vardef-search-card"
+                    data-variant="default"
+                  >
+                    <h2
+                      class="ds-heading _vardefHeadingLink_3ac619"
+                      data-size="md"
+                    >
+                      <a
+                        class="ds-link _vardefHeadingLink_3ac619"
+                        href="/variable-definitions/ant_f"
+                        id="_r_1e_"
+                      >
+                        <span
+                          class="heading12"
+                        >
+                          Antall foretak - næringsoppgaver
+                        </span>
+                      </a>
+                    </h2>
+                    <p
+                      class="ds-paragraph _truncateTo3Lines_3ac619 ingress"
+                      data-variant="default"
+                    >
+                      Viser antall foretak som inngår i statistikken. Regnskapsstatistikken som bygger på næringsoppgaver omfatter ikke-finansielle foretak som har levert næringsoppgave elektronisk - eller inngår i SSBs utvalgsbaserte innhenteing av næringsoppgaver.
+                    </p>
+                    <div
+                      class="_tagsList_3ac619"
+                    >
+                      <ul
+                        class="_tagsList_967b1e"
+                      >
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Bedrifter, foretak og regnskap
+                          </span>
+                        </li>
+                      </ul>
+                      <span
+                        aria-label="Status"
+                        class="ds-tag"
+                        data-color="warning"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        Utkast
+                      </span>
+                      <span
+                        aria-label="Kortnavn"
+                        class="ds-tag _shortNameText_e08a88"
+                        data-color="success"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        <div
+                          class="_shortNameWrapper_e08a88"
+                        >
+                          <span
+                            class="_shortNameLabel_e08a88"
+                          >
+                            ant_f
+                          </span>
+                          <button
+                            aria-label="Kopier kortnavn"
+                            class="ds-button _copyShortNameButton_e08a88"
+                            data-autoplacement="true"
+                            data-icon="true"
+                            data-placement="top"
+                            data-tooltip="Kopier kortnavn"
+                            data-variant="tertiary"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="none"
+                              focusable="false"
+                              height="1em"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M8.25 3.5c0-.69.56-1.25 1.25-1.25H14a.75.75 0 0 1 .53.22l5 5c.141.14.22.331.22.53v8.5c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25zm6.25 5.25c-.69 0-1.25-.56-1.25-1.25V3.75h-3.5v12.5h8.5v-7.5zm.25-3.94 2.44 2.44h-2.44zM6.502 7.75H5.75v12.5h8.5v-.748a.75.75 0 0 1 1.5 0v.998c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25v-13c0-.69.56-1.25 1.25-1.25h1.002a.75.75 0 1 1 0 1.5"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="ds-card"
+                    data-clickdelegatefor="_r_1g_"
+                    data-testid="vardef-search-card"
+                    data-variant="default"
+                  >
+                    <h2
+                      class="ds-heading _vardefHeadingLink_3ac619"
+                      data-size="md"
+                    >
+                      <a
+                        class="ds-link _vardefHeadingLink_3ac619"
+                        href="/variable-definitions/antall"
+                        id="_r_1g_"
+                      >
+                        <span
+                          class="heading12"
+                        >
+                          Antall medlemmer i familien (Besys)
+                        </span>
+                      </a>
+                    </h2>
+                    <p
+                      class="ds-paragraph _truncateTo3Lines_3ac619 ingress"
+                      data-variant="default"
+                    >
+                      Variabelen viser antall personer med samme familienummer (BESYS). Variabelen brukes i familiestatistikken.
+                    </p>
+                    <div
+                      class="_tagsList_3ac619"
+                    >
+                      <ul
+                        class="_tagsList_967b1e"
+                      >
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Befolkning
+                          </span>
+                        </li>
+                      </ul>
+                      <span
+                        aria-label="Status"
+                        class="ds-tag"
+                        data-color="warning"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        Utkast
+                      </span>
+                      <span
+                        aria-label="Kortnavn"
+                        class="ds-tag _shortNameText_e08a88"
+                        data-color="success"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        <div
+                          class="_shortNameWrapper_e08a88"
+                        >
+                          <span
+                            class="_shortNameLabel_e08a88"
+                          >
+                            antall
+                          </span>
+                          <button
+                            aria-label="Kopier kortnavn"
+                            class="ds-button _copyShortNameButton_e08a88"
+                            data-autoplacement="true"
+                            data-icon="true"
+                            data-placement="top"
+                            data-tooltip="Kopier kortnavn"
+                            data-variant="tertiary"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="none"
+                              focusable="false"
+                              height="1em"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M8.25 3.5c0-.69.56-1.25 1.25-1.25H14a.75.75 0 0 1 .53.22l5 5c.141.14.22.331.22.53v8.5c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25zm6.25 5.25c-.69 0-1.25-.56-1.25-1.25V3.75h-3.5v12.5h8.5v-7.5zm.25-3.94 2.44 2.44h-2.44zM6.502 7.75H5.75v12.5h8.5v-.748a.75.75 0 0 1 1.5 0v.998c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25v-13c0-.69.56-1.25 1.25-1.25h1.002a.75.75 0 1 1 0 1.5"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="ds-card"
+                    data-clickdelegatefor="_r_1i_"
+                    data-testid="vardef-search-card"
+                    data-variant="default"
+                  >
+                    <h2
+                      class="ds-heading _vardefHeadingLink_3ac619"
+                      data-size="md"
+                    >
+                      <a
+                        class="ds-link _vardefHeadingLink_3ac619"
+                        href="/variable-definitions/pers18plus_i_hushnr"
+                        id="_r_1i_"
+                      >
+                        <span
+                          class="heading12"
+                        >
+                          Antall personer 18 år og over i husholdningen
+                        </span>
+                      </a>
+                    </h2>
+                    <p
+                      class="ds-paragraph _truncateTo3Lines_3ac619 ingress"
+                      data-variant="default"
+                    >
+                      Antall personer 18 år og eldre i husholdningen
+                    </p>
+                    <div
+                      class="_tagsList_3ac619"
+                    >
+                      <ul
+                        class="_tagsList_967b1e"
+                      >
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Befolkning
+                          </span>
+                        </li>
+                      </ul>
+                      <span
+                        aria-label="Status"
+                        class="ds-tag"
+                        data-color="warning"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        Utkast
+                      </span>
+                      <span
+                        aria-label="Kortnavn"
+                        class="ds-tag _shortNameText_e08a88"
+                        data-color="success"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        <div
+                          class="_shortNameWrapper_e08a88"
+                        >
+                          <span
+                            class="_shortNameLabel_e08a88"
+                          >
+                            pers18plus_i_hushnr
+                          </span>
+                          <button
+                            aria-label="Kopier kortnavn"
+                            class="ds-button _copyShortNameButton_e08a88"
+                            data-autoplacement="true"
+                            data-icon="true"
+                            data-placement="top"
+                            data-tooltip="Kopier kortnavn"
+                            data-variant="tertiary"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="none"
+                              focusable="false"
+                              height="1em"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M8.25 3.5c0-.69.56-1.25 1.25-1.25H14a.75.75 0 0 1 .53.22l5 5c.141.14.22.331.22.53v8.5c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25zm6.25 5.25c-.69 0-1.25-.56-1.25-1.25V3.75h-3.5v12.5h8.5v-7.5zm.25-3.94 2.44 2.44h-2.44zM6.502 7.75H5.75v12.5h8.5v-.748a.75.75 0 0 1 1.5 0v.998c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25v-13c0-.69.56-1.25 1.25-1.25h1.002a.75.75 0 1 1 0 1.5"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="ds-card"
+                    data-clickdelegatefor="_r_1k_"
+                    data-testid="vardef-search-card"
+                    data-variant="default"
+                  >
+                    <h2
+                      class="ds-heading _vardefHeadingLink_3ac619"
+                      data-size="md"
+                    >
+                      <a
+                        class="ds-link _vardefHeadingLink_3ac619"
+                        href="/variable-definitions/sp16_rom"
+                        id="_r_1k_"
+                      >
+                        <span
+                          class="heading12"
+                        >
+                          Antall rom til næringsvirksomhet
+                        </span>
+                      </a>
+                    </h2>
+                    <p
+                      class="ds-paragraph _truncateTo3Lines_3ac619 ingress"
+                      data-variant="default"
+                    >
+                      Antall rom i boligen som bare blir brukt til næringsvirksomhet
+                    </p>
+                    <div
+                      class="_tagsList_3ac619"
+                    >
+                      <ul
+                        class="_tagsList_967b1e"
+                      >
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Befolkning
+                          </span>
+                        </li>
+                      </ul>
+                      <span
+                        aria-label="Status"
+                        class="ds-tag"
+                        data-color="warning"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        Utkast
+                      </span>
+                      <span
+                        aria-label="Kortnavn"
+                        class="ds-tag _shortNameText_e08a88"
+                        data-color="success"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        <div
+                          class="_shortNameWrapper_e08a88"
+                        >
+                          <span
+                            class="_shortNameLabel_e08a88"
+                          >
+                            sp16_rom
+                          </span>
+                          <button
+                            aria-label="Kopier kortnavn"
+                            class="ds-button _copyShortNameButton_e08a88"
+                            data-autoplacement="true"
+                            data-icon="true"
+                            data-placement="top"
+                            data-tooltip="Kopier kortnavn"
+                            data-variant="tertiary"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="none"
+                              focusable="false"
+                              height="1em"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M8.25 3.5c0-.69.56-1.25 1.25-1.25H14a.75.75 0 0 1 .53.22l5 5c.141.14.22.331.22.53v8.5c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25zm6.25 5.25c-.69 0-1.25-.56-1.25-1.25V3.75h-3.5v12.5h8.5v-7.5zm.25-3.94 2.44 2.44h-2.44zM6.502 7.75H5.75v12.5h8.5v-.748a.75.75 0 0 1 1.5 0v.998c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25v-13c0-.69.56-1.25 1.25-1.25h1.002a.75.75 0 1 1 0 1.5"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <ds-pagination
+                  class="ds-pagination"
+                  data-testid="pagination"
+                  role="navigation"
+                >
+                  <ul>
+                    <li>
+                      <button
+                        aria-hidden="true"
+                        aria-label="Forrige"
+                        class="ds-button"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        Forrige
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        aria-current="true"
+                        class="ds-button"
+                        data-testid="page-active"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        1
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        class="ds-button"
+                        data-testid="page"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        2
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        class="ds-button"
+                        data-testid="page"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        3
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        class="ds-button"
+                        data-testid="page"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        4
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        class="ds-button"
+                        data-testid="page"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        5
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        class="ds-button"
+                        data-testid="page"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        6
+                      </button>
+                    </li>
+                    <li />
+                    <li>
+                      <button
+                        class="ds-button"
+                        data-testid="page"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        10
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        aria-hidden="false"
+                        aria-label="Neste"
+                        class="ds-button"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        Neste
+                      </button>
+                    </li>
+                  </ul>
+                </ds-pagination>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </ds-tabpanel>
     </main>
   </div>
 </body>
@@ -150,17 +3068,23 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for variabl
     >
       <header>
         <h1
-          class="ds-sr-only"
-          level="1"
+          class="ds-heading ds-sr-only"
         >
           Variabeldefinisjoner
         </h1>
       </header>
-      <div
+      <ds-tabpanel
+        aria-hidden="true"
         aria-labelledby="variableDefinitionsTab"
+        hidden=""
         id="variableDefinitionsTab"
-        value="variableDefinitionsTab"
+        role="tabpanel"
       >
+        #shadow-root
+          <slot />
+          <style>
+            :host(:not([hidden])) { display: block }
+          </style>
         <div
           class="_pageContainer_8a24d7 container"
         >
@@ -174,19 +3098,19 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for variabl
               aria-label="Filters"
               class="_filterSection_8a24d7"
             >
-              <h1
+              <h2
+                class="ds-heading"
                 data-size="sm"
-                level="2"
               >
                 Filter
-              </h1>
+              </h2>
               <input
                 label="Filtrer på navn"
               />
-              <ellipse
+              <div
                 aria-label="Laster filtere..."
               />
-              <ellipse
+              <div
                 aria-label="Laster filtere..."
               />
             </aside>
@@ -201,13 +3125,13 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for variabl
                 />
                 <select />
               </div>
-              <ellipse
+              <div
                 aria-label="Laster resultater..."
               />
             </div>
           </div>
         </div>
-      </div>
+      </ds-tabpanel>
     </main>
   </div>
 </body>
@@ -221,17 +3145,23 @@ exports[`VariableDefinitionsServicePage > unauthenticated - hides status filter 
     >
       <header>
         <h1
-          class="ds-sr-only"
-          level="1"
+          class="ds-heading ds-sr-only"
         >
           Variabeldefinisjoner
         </h1>
       </header>
-      <div
+      <ds-tabpanel
+        aria-hidden="true"
         aria-labelledby="variableDefinitionsTab"
+        hidden=""
         id="variableDefinitionsTab"
-        value="variableDefinitionsTab"
+        role="tabpanel"
       >
+        #shadow-root
+          <slot />
+          <style>
+            :host(:not([hidden])) { display: block }
+          </style>
         <div
           class="_pageContainer_8a24d7 container"
         >
@@ -245,21 +3175,442 @@ exports[`VariableDefinitionsServicePage > unauthenticated - hides status filter 
               aria-label="Filters"
               class="_filterSection_8a24d7"
             >
-              <h1
+              <h2
+                class="ds-heading"
                 data-size="sm"
-                level="2"
               >
                 Filter
-              </h1>
+              </h2>
               <input
                 label="Filtrer på navn"
               />
-              <ellipse
-                aria-label="Laster filtere..."
-              />
-              <ellipse
-                aria-label="Laster filtere..."
-              />
+              <div
+                class="ds-card _filterCard_d7d1d1  "
+                data-variant="default"
+              >
+                <fieldset
+                  aria-labelledby="collapsible-statistikkomrde"
+                  class="ds-fieldset"
+                >
+                  <legend
+                    class="ds-label _filterHeader_d7d1d1"
+                    data-weight="medium"
+                    id="collapsible-statistikkomrde"
+                  >
+                    <button
+                      aria-controls="collapsible-statistikkomrde"
+                      aria-expanded="true"
+                      class="ds-button _toggleFilter_d7d1d1"
+                      data-variant="primary"
+                      type="button"
+                    >
+                      Statistikkområde
+                      <svg
+                        aria-labelledby="title-_r_p_"
+                        class="_chevronUpDown_d7d1d1"
+                        fill="none"
+                        focusable="false"
+                        height="1em"
+                        role="img"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <title
+                          id="title-_r_p_"
+                        >
+                          Lukk filter
+                        </title>
+                        <path
+                          clip-rule="evenodd"
+                          d="M5.97 9.47a.75.75 0 0 1 1.06 0L12 14.44l4.97-4.97a.75.75 0 1 1 1.06 1.06l-5.5 5.5a.75.75 0 0 1-1.06 0l-5.5-5.5a.75.75 0 0 1 0-1.06"
+                          fill="currentColor"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </legend>
+                  <div
+                    class="_filterItems_d7d1d1 "
+                    id="collapsible-statistikkomrde"
+                  >
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-al-0"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-al-0"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-al-0"
+                      >
+                        Arbeid og lønn (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-bf-1"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-bf-1"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-bf-1"
+                      >
+                        Bank og finansmarked (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-vf-2"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-vf-2"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-vf-2"
+                      >
+                        Bedrifter, foretak og regnskap (1)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-be-3"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-be-3"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-be-3"
+                      >
+                        Befolkning (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-bb-4"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-bb-4"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-bb-4"
+                      >
+                        Bygg, bolig og eiendom (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-ei-5"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-ei-5"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-ei-5"
+                      >
+                        Energi og industri (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-he-6"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-he-6"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-he-6"
+                      >
+                        Helse (1)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-if-7"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-if-7"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-if-7"
+                      >
+                        Inntekt og forbruk (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-js-8"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-js-8"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-js-8"
+                      >
+                        Jord, skog, jakt og fiskeri (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-kf-9"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-kf-9"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-kf-9"
+                      >
+                        Kultur og fritid (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-zm-10"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-zm-10"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-zm-10"
+                      >
+                        Metoder (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-nk-11"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-nk-11"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-nk-11"
+                      >
+                        Nasjonalregnskap og konjunkturer (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-nm-12"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-nm-12"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-nm-12"
+                      >
+                        Natur og miljø (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-os-13"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-os-13"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-os-13"
+                      >
+                        Offentlig sektor (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-pp-14"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-pp-14"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-pp-14"
+                      >
+                        Priser og prisindekser (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-sk-15"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-sk-15"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-sk-15"
+                      >
+                        Sosiale forhold og kriminalitet (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-ti-16"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-ti-16"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-ti-16"
+                      >
+                        Teknologi og innovasjon (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-tr-17"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-tr-17"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-tr-17"
+                      >
+                        Transport og reiseliv (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-ud-18"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-ud-18"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-ud-18"
+                      >
+                        Utdanning (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-ut-19"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-ut-19"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-ut-19"
+                      >
+                        Utenriksøkonomi (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-va-20"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-va-20"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-va-20"
+                      >
+                        Valg (0)
+                      </label>
+                    </ds-field>
+                    <ds-field
+                      class="ds-field _checkbox_343154"
+                      data-clickdelegatefor="checkbox-vt-21"
+                    >
+                      <input
+                        class="ds-input"
+                        id="checkbox-vt-21"
+                        type="checkbox"
+                      />
+                      <label
+                        class="ds-label"
+                        data-weight="regular"
+                        for="checkbox-vt-21"
+                      >
+                        Varehandel og tjenesteyting (0)
+                      </label>
+                    </ds-field>
+                  </div>
+                </fieldset>
+              </div>
             </aside>
             <div
               class="_mainSection_8a24d7"
@@ -269,16 +3620,249 @@ exports[`VariableDefinitionsServicePage > unauthenticated - hides status filter 
               >
                 <p
                   class="_numHits_8a24d7"
-                />
+                >
+                  2 treff
+                </p>
                 <select />
               </div>
-              <ellipse
-                aria-label="Laster resultater..."
-              />
+              <div
+                class="_searchHitsContainer_cb68ad"
+              >
+                <div
+                  class="_hitsList_cb68ad"
+                  data-testid="hits-list"
+                >
+                  <div
+                    class="ds-card"
+                    data-clickdelegatefor="_r_q_"
+                    data-testid="vardef-search-card"
+                    data-variant="default"
+                  >
+                    <h2
+                      class="ds-heading _vardefHeadingLink_3ac619"
+                      data-size="md"
+                    >
+                      <a
+                        class="ds-link _vardefHeadingLink_3ac619"
+                        href="/variable-definitions/helsereg"
+                        id="_r_q_"
+                      >
+                        <span
+                          class="heading12"
+                        >
+                          Helseregion
+                        </span>
+                      </a>
+                    </h2>
+                    <p
+                      class="ds-paragraph _truncateTo3Lines_3ac619 ingress"
+                      data-variant="default"
+                    >
+                      En helseregion er et geografisk avgrenset forvaltningsområde i Norge, etablert ved lov, hvor et regionalt helseforetak har det overordnede ansvaret for å sørge for spesialisthelsetjenester til befolkningen.
+                    </p>
+                    <div
+                      class="_tagsList_3ac619"
+                    >
+                      <ul
+                        class="_tagsList_967b1e"
+                      >
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Helsetjenester
+                          </span>
+                        </li>
+                      </ul>
+                      <span
+                        aria-label="Kortnavn"
+                        class="ds-tag _shortNameText_e08a88"
+                        data-color="success"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        <div
+                          class="_shortNameWrapper_e08a88"
+                        >
+                          <span
+                            class="_shortNameLabel_e08a88"
+                          >
+                            helsereg
+                          </span>
+                          <button
+                            aria-label="Kopier kortnavn"
+                            class="ds-button _copyShortNameButton_e08a88"
+                            data-autoplacement="true"
+                            data-icon="true"
+                            data-placement="top"
+                            data-tooltip="Kopier kortnavn"
+                            data-variant="tertiary"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="none"
+                              focusable="false"
+                              height="1em"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M8.25 3.5c0-.69.56-1.25 1.25-1.25H14a.75.75 0 0 1 .53.22l5 5c.141.14.22.331.22.53v8.5c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25zm6.25 5.25c-.69 0-1.25-.56-1.25-1.25V3.75h-3.5v12.5h8.5v-7.5zm.25-3.94 2.44 2.44h-2.44zM6.502 7.75H5.75v12.5h8.5v-.748a.75.75 0 0 1 1.5 0v.998c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25v-13c0-.69.56-1.25 1.25-1.25h1.002a.75.75 0 1 1 0 1.5"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="ds-card"
+                    data-clickdelegatefor="_r_s_"
+                    data-testid="vardef-search-card"
+                    data-variant="default"
+                  >
+                    <h2
+                      class="ds-heading _vardefHeadingLink_3ac619"
+                      data-size="md"
+                    >
+                      <a
+                        class="ds-link _vardefHeadingLink_3ac619"
+                        href="/variable-definitions/org_form"
+                        id="_r_s_"
+                      >
+                        <span
+                          class="heading12"
+                        >
+                          Organisasjonsform
+                        </span>
+                      </a>
+                    </h2>
+                    <p
+                      class="ds-paragraph _truncateTo3Lines_3ac619 ingress"
+                      data-variant="default"
+                    >
+                      Organisasjonsform fastsettes ved registrering av ny enhet, og angir organisasjonsform for juridiske enheter. En enhet kan som hovedregel ikke endre organisasjonsform uten å gå veien om sletting og nystiftelse.
+                    </p>
+                    <div
+                      class="_tagsList_3ac619"
+                    >
+                      <ul
+                        class="_tagsList_967b1e"
+                      >
+                        <li>
+                          <span
+                            aria-label="Statistikkområde"
+                            class="ds-tag"
+                            data-size="md"
+                            data-variant="default"
+                          >
+                            Bedrifter, foretak og regnskap
+                          </span>
+                        </li>
+                      </ul>
+                      <span
+                        aria-label="Kortnavn"
+                        class="ds-tag _shortNameText_e08a88"
+                        data-color="success"
+                        data-size="md"
+                        data-variant="default"
+                      >
+                        <div
+                          class="_shortNameWrapper_e08a88"
+                        >
+                          <span
+                            class="_shortNameLabel_e08a88"
+                          >
+                            org_form
+                          </span>
+                          <button
+                            aria-label="Kopier kortnavn"
+                            class="ds-button _copyShortNameButton_e08a88"
+                            data-autoplacement="true"
+                            data-icon="true"
+                            data-placement="top"
+                            data-tooltip="Kopier kortnavn"
+                            data-variant="tertiary"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              fill="none"
+                              focusable="false"
+                              height="1em"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M8.25 3.5c0-.69.56-1.25 1.25-1.25H14a.75.75 0 0 1 .53.22l5 5c.141.14.22.331.22.53v8.5c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25zm6.25 5.25c-.69 0-1.25-.56-1.25-1.25V3.75h-3.5v12.5h8.5v-7.5zm.25-3.94 2.44 2.44h-2.44zM6.502 7.75H5.75v12.5h8.5v-.748a.75.75 0 0 1 1.5 0v.998c0 .69-.56 1.25-1.25 1.25h-9c-.69 0-1.25-.56-1.25-1.25v-13c0-.69.56-1.25 1.25-1.25h1.002a.75.75 0 1 1 0 1.5"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <ds-pagination
+                  class="ds-pagination"
+                  data-testid="pagination"
+                  role="navigation"
+                >
+                  <ul>
+                    <li>
+                      <button
+                        aria-hidden="true"
+                        aria-label="Forrige"
+                        class="ds-button"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        Forrige
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        aria-current="true"
+                        class="ds-button"
+                        data-testid="page-active"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        1
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        aria-hidden="true"
+                        aria-label="Neste"
+                        class="ds-button"
+                        data-variant="tertiary"
+                        type="button"
+                      >
+                        Neste
+                      </button>
+                    </li>
+                  </ul>
+                </ds-pagination>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </ds-tabpanel>
     </main>
   </div>
 </body>
