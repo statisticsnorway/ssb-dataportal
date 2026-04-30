@@ -66,14 +66,16 @@ const CodeSnippet = ({
       <footer className={styles.linkFooter}>
         {daplaLabVardefUrl && (
           <ExternalLink
-            className={styles.linkButton}
+            className='ds-button'
+            data-variant='secondary'
             linkText={localization.codeSnippet.daplaLab}
             href={daplaLabVardefUrl}
           />
         )}
         {daplaManualUrl && (
           <ExternalLink
-            className={styles.linkButton}
+            className='ds-button'
+            data-variant='secondary'
             linkText={localization.codeSnippet.daplaManual}
             href={daplaManualUrl}
           />
