@@ -26,6 +26,7 @@ export const nb = {
     daplaManual: 'Dapla-manualen',
     getVariableDefinition: 'Hent variabeldefinisjon med',
     linkToPyPiPackage: 'dapla-toolbelt-metadata (pypi.org)',
+    daplaLab: 'Dapla Lab',
   },
 
   comment: 'Kommentar',

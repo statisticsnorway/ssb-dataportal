@@ -24,18 +24,19 @@ const CodeSnippet = ({
 }: CodeSnippetProps) => {
   const { copied, copyToClipboard } = useClipboard();
   const codeString = Array.isArray(code) ? code.join('\n') : code;
+  const daplaManualUrl = process.env.NEXT_PUBLIC_DAPLA_MANUAL_URL;
+  const pyPiPackageUrl = process.env.NEXT_PUBLIC_DAPLA_METADATA_PYPI;
   return (
     <Card>
       <Heading className={`${styles.header}`} id={`tableHeading-code`} data-size='md' level={2}>
         {localization.codeSnippet.codeExample}
       </Heading>
-      <Paragraph className={styles.helpText}>
-        {localization.codeSnippet.getVariableDefinition}{' '}
-        <ExternalLink
-          linkText={localization.codeSnippet.linkToPyPiPackage}
-          href='https://pypi.org/project/dapla-toolbelt-metadata/'
-        />
-      </Paragraph>
+      {pyPiPackageUrl && (
+        <Paragraph className={styles.helpText}>
+          {localization.codeSnippet.getVariableDefinition}{' '}
+          <ExternalLink linkText={localization.codeSnippet.linkToPyPiPackage} href={pyPiPackageUrl} />
+        </Paragraph>
+      )}
       <Card.Block>
         <Tooltip content={copied ? copiedLabel : copyLabel}>
           <Button
@@ -64,13 +65,19 @@ const CodeSnippet = ({
       <Divider />
       <footer className={styles.linkFooter}>
         {daplaLabVardefUrl && (
-          <ExternalLink className={styles.linkButton} linkText='Dapla Lab' href={daplaLabVardefUrl} />
+          <ExternalLink
+            className={styles.linkButton}
+            linkText={localization.codeSnippet.daplaLab}
+            href={daplaLabVardefUrl}
+          />
         )}
-        <ExternalLink
-          className={styles.linkButton}
-          linkText={localization.codeSnippet.daplaManual}
-          href='https://manual.dapla.ssb.no/statistikkere/vardef-toolbelt.html'
-        />
+        {daplaManualUrl && (
+          <ExternalLink
+            className={styles.linkButton}
+            linkText={localization.codeSnippet.daplaManual}
+            href={daplaManualUrl}
+          />
+        )}
       </footer>
     </Card>
   );
