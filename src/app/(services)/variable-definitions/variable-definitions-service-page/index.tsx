@@ -2,7 +2,7 @@
 
 import { Spinner } from '@digdir/designsystemet-react';
 import { parseAsArrayOf, parseAsInteger, parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs';
-import { Suspense, useMemo } from 'react';
+import { Suspense, use, useMemo } from 'react';
 import { useAuthContext } from '@/app/authContext';
 import { FiltersPanel } from '@/components/filters/filters-panel';
 import { TextFilter } from '@/components/filters/text-filter';
@@ -20,6 +20,12 @@ import { ResultsSection } from './components/ResultsSection';
 import { StatusFiltersSection } from './components/StatusFiltersSection';
 import { SubjectFiltersSection } from './components/SubjectFiltersSection';
 import { VariableDefinitionsProvider } from './components/variableDefinitionContext';
+
+const statusLabelByValue: Record<string, string> = {
+  DRAFT: localization.status.draft,
+  PUBLISHED_INTERNAL: localization.status.publishedInternal,
+  PUBLISHED_EXTERNAL: localization.status.publishedExternal,
+};
 
 interface VariableDefinitionsServicePageProps {
   variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
@@ -43,18 +49,34 @@ const VariableDefinitionsServicePage = ({
 
   const { search, status, statisticalSubjects, sort, page } = queryState;
 
-  const statusFilters = useMemo<FilterItem[]>(() => status.map((value) => ({ value, label: value })), [status]);
+  const { data: subjectFields } = use(subjectFieldsPromise);
+
+  const statusFilters = useMemo<FilterItem[]>(
+    () =>
+      status.map((value) => ({
+        value,
+        label: statusLabelByValue[value] ?? value,
+      })),
+    [status],
+  );
 
   const subjectFilters = useMemo<FilterItem[]>(
-    () => statisticalSubjects.map((value) => ({ value, label: value })),
-    [statisticalSubjects],
+    () =>
+      statisticalSubjects.map((value) => {
+        const subject = subjectFields.find((item) => String(item.code) === value);
+
+        return {
+          value,
+          label: subject ? String(subject.name) : value,
+        };
+      }),
+    [statisticalSubjects, subjectFields],
   );
 
   const toggleStatus = (filter: FilterItem) => {
     const nextStatus = status.includes(filter.value)
       ? status.filter((value) => value !== filter.value)
       : [...status, filter.value];
-
     void setQueryState({ status: nextStatus, page: 1 });
   };
 
