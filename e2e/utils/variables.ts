@@ -35,3 +35,5 @@ export const variables = {
   companiesEnterprises: 'Bedrifter, foretak og regnskap (20)',
   totalHits: '78 treff',
 };
+
+export const spousesCountryBackgroundShortName = 'innv_ektef_landbak';

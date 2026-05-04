@@ -5,6 +5,8 @@ import { RenderedView, RenderedViewFromJSON } from '@/libs/data-access/variable-
 import { localization } from '@/libs/language';
 import variableDefinitionsJson from '@/static-data/variable-definitions.json';
 import { areFieldsDefinedAndNonNull } from '@/utils/functions';
+import { getVariableDefinitionByShortName } from '@/utils/mock-data';
+import { spousesCountryBackgroundShortName } from './utils/variables';
 
 type VariablePageFixture = (variable: RenderedView) => Promise<void>;
 
@@ -117,5 +119,20 @@ test.describe('Copy variable definition shortname', () => {
 
     // Tooltip text reset
     await expect(tooltip).toContainText(localization.copy.shortName, { timeout: 3000 });
+  });
+});
+
+test.describe('About variable', () => {
+  test('Display link to classification reference', async ({ page }, testInfo: TestInfo) => {
+    test.skip(noVariables, 'No variable definitions available to test');
+    test.skip(testInfo.project.name === 'chrome-unauth');
+
+    const variable = getVariableDefinitionByShortName(spousesCountryBackgroundShortName);
+    await page.goto(`${tabsData.VariableDefinitions.route}/${variable?.short_name}`);
+    await expect(page).toHaveURL(`${tabsData.VariableDefinitions.route}/${spousesCountryBackgroundShortName}`);
+    const classificationReference = page
+      .getByRole('definition')
+      .filter({ hasText: 'https://www.ssb.no/klass/klassifikasjoner/91' });
+    await expect(classificationReference).toBeVisible();
   });
 });
