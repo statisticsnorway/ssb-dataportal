@@ -38,7 +38,6 @@ const VariableDefinitionsServicePage = ({
 }: VariableDefinitionsServicePageProps) => {
   const pageSize = 8;
   const { isAuthenticated } = useAuthContext();
-
   const [queryState, setQueryState] = useQueryStates({
     filterText: parseAsString.withDefault(''),
     status: parseAsArrayOf(parseAsString).withDefault([]),
@@ -64,7 +63,6 @@ const VariableDefinitionsServicePage = ({
     () =>
       statisticalSubjects.map((value) => {
         const subject = subjectFields.find((item) => String(item.code) === value);
-
         return {
           value,
           label: subject ? String(subject.name) : value,
@@ -84,7 +82,6 @@ const VariableDefinitionsServicePage = ({
     const nextSubjects = statisticalSubjects.includes(filter.value)
       ? statisticalSubjects.filter((value) => value !== filter.value)
       : [...statisticalSubjects, filter.value];
-
     void setQueryState({ statisticalSubjects: nextSubjects, page: 1 });
   };
 
