@@ -142,16 +142,18 @@ test.describe('Contact', () => {
       }
     });
   }
-});
 
-test.describe('Owner', () => {
   test('Display owner', async ({ page }) => {
     await goToDetail(page);
-    const owner = page.getByRole('definition').filter({
+    const owner_team = page.getByRole('definition').filter({
       hasText: localization.owner.daplaTeam,
     });
 
-    await expect(owner).toContainText(variable_org!.owner.team!);
-    await expect(owner).toContainText(variable_org!.owner.groups!);
+    const owner_groups = page.getByRole('definition').filter({
+      hasText: localization.owner.groups,
+    });
+
+    await expect(owner_team).toContainText(variable_org!.owner.team!);
+    await expect(owner_groups).toContainText(variable_org!.owner.groups!);
   });
 });
