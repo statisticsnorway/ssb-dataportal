@@ -3,15 +3,6 @@ import { describe, expect, it } from 'vitest';
 import { localization } from '@/libs/language';
 import { mapAboutVariableItems } from './groups';
 
-const isValidUrl = (value: string) => {
-  try {
-    new URL(value);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
 describe('mapAboutVariableItems - classification_uri', () => {
   const base = {
     unit_types: [],
@@ -35,8 +26,6 @@ describe('mapAboutVariableItems - classification_uri', () => {
     const link = classification?.value as any;
 
     expect(link.props.href).toBe('https://example.com/classification/91');
-
-    expect(isValidUrl(link.props.href)).toBe(true);
   });
 
   it('does not include classification item when missing', () => {
