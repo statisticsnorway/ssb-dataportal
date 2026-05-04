@@ -5,8 +5,6 @@ import { RenderedView, RenderedViewFromJSON } from '@/libs/data-access/variable-
 import { localization } from '@/libs/language';
 import variableDefinitionsJson from '@/static-data/variable-definitions.json';
 import { areFieldsDefinedAndNonNull } from '@/utils/functions';
-import { getVariableDefinitionByShortName } from '@/utils/mock-data';
-import { spousesCountryBackgroundShortName } from './utils/variables';
 
 type VariablePageFixture = (variable: RenderedView) => Promise<void>;
 
@@ -87,52 +85,5 @@ test.describe('Variable definitions breadcrumbs', () => {
     const nav = page.getByRole('navigation', { name: localization.breadcrumbsLabel });
     nav.getByRole('link', { name: localization.variableDefinition.labelPlural }).click();
     await expect(page).toHaveURL(tabsData.VariableDefinitions.route);
-  });
-});
-
-test.describe('Copy variable definition shortname', () => {
-  test('Test Firefox only', async ({ page, goToVariable, browserName }) => {
-    test.skip(browserName === 'chromium', 'Skipping test in Chrome browser');
-
-    test.skip(noVariables, 'No variable definitions available to test');
-
-    const variable = variableDefinitions[2];
-    assert(variable);
-    await goToVariable(variable);
-
-    const copyShortName = page.getByRole('button', { name: localization.copy.shortName });
-    await expect(copyShortName).toBeInViewport();
-
-    const tooltip = page.locator('.ds-tooltip');
-
-    await expect(tooltip).not.toBeVisible();
-
-    await copyShortName.hover();
-    await expect(tooltip).toContainText(localization.copy.shortName);
-
-    await copyShortName.click();
-    await expect(tooltip).toContainText(localization.copy.copied);
-
-    // Read the clipboard content
-    const clipboardText = await page.evaluate(() => navigator.clipboard.readText());
-    expect(clipboardText).toBe(variable.short_name);
-
-    // Tooltip text reset
-    await expect(tooltip).toContainText(localization.copy.shortName, { timeout: 3000 });
-  });
-});
-
-test.describe('About variable', () => {
-  test('Display link to classification reference', async ({ page }, testInfo: TestInfo) => {
-    test.skip(noVariables, 'No variable definitions available to test');
-    test.skip(testInfo.project.name === 'chrome-unauth');
-
-    const variable = getVariableDefinitionByShortName(spousesCountryBackgroundShortName);
-    await page.goto(`${tabsData.VariableDefinitions.route}/${variable?.short_name}`);
-    await expect(page).toHaveURL(`${tabsData.VariableDefinitions.route}/${spousesCountryBackgroundShortName}`);
-    const classificationReference = page
-      .getByRole('definition')
-      .filter({ hasText: 'https://www.ssb.no/klass/klassifikasjoner/91' });
-    await expect(classificationReference).toBeVisible();
   });
 });

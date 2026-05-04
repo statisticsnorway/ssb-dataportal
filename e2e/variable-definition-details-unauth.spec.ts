@@ -1,12 +1,10 @@
 import { test, expect } from './fixtures/unauth.fixture';
-import { tabsData } from '@/app/(services)/tabs';
 import { localization } from '@/libs/language';
+import { DETAIL_URL } from './utils/variables';
 
-const KNOWN_SHORT_NAME = 'org_form';
-const DETAIL_URL = `${tabsData.VariableDefinitions.route}/${KNOWN_SHORT_NAME}`;
-
+// api documentation
 test.describe('unauthenticated view', () => {
-  test('hides Python code snippet', async ({ unauthPage }) => {
+  test('hides code snippet', async ({ unauthPage }) => {
     await unauthPage.goto(DETAIL_URL);
     await expect(unauthPage.getByTestId('code-snippet')).not.toBeAttached();
   });
@@ -22,6 +20,7 @@ test.describe('unauthenticated view', () => {
     ).not.toBeAttached();
   });
 
+  // change
   test('hides Owner panel', async ({ unauthPage }) => {
     await unauthPage.goto(DETAIL_URL);
     await expect(unauthPage.getByRole('heading', { name: localization.owner.label })).not.toBeAttached();
