@@ -40,14 +40,14 @@ const VariableDefinitionsServicePage = ({
   const { isAuthenticated } = useAuthContext();
 
   const [queryState, setQueryState] = useQueryStates({
-    search: parseAsString.withDefault(''),
+    filterText: parseAsString.withDefault(''),
     status: parseAsArrayOf(parseAsString).withDefault([]),
     statisticalSubjects: parseAsArrayOf(parseAsString).withDefault([]),
     sort: parseAsStringLiteral(sortTypes).withDefault('titleAsc'),
     page: parseAsInteger.withDefault(1).withOptions({ clearOnDefault: true }),
   });
 
-  const { search, status, statisticalSubjects, sort, page } = queryState;
+  const { filterText, status, statisticalSubjects, sort, page } = queryState;
 
   const { data: subjectFields } = use(subjectFieldsPromise);
 
@@ -90,7 +90,7 @@ const VariableDefinitionsServicePage = ({
 
   const clearAll = () => {
     void setQueryState({
-      search: null,
+      filterText: null,
       status: null,
       statisticalSubjects: null,
       sort: null,
@@ -114,7 +114,7 @@ const VariableDefinitionsServicePage = ({
   return (
     <VariableDefinitionsProvider
       variablesPromise={variablesPromise}
-      textFilter={search}
+      textFilter={filterText}
       subjectFilters={subjectFilters}
       statusFilters={statusFilters}
       sortOption={sort}
@@ -126,10 +126,10 @@ const VariableDefinitionsServicePage = ({
           <FiltersPanel>
             <TextFilter
               label={localization.search.textFilter.label}
-              searchTerm={search}
+              searchTerm={filterText}
               setSearchTerm={(value) =>
                 void setQueryState({
-                  search: value,
+                  filterText: value,
                   page: 1,
                 })
               }
@@ -165,7 +165,7 @@ const VariableDefinitionsServicePage = ({
               onClearAll={clearAll}
               onClearSearch={() =>
                 void setQueryState({
-                  search: '',
+                  filterText: '',
                   page: 1,
                 })
               }

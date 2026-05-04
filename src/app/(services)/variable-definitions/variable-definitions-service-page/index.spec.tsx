@@ -99,7 +99,10 @@ describe('VariableDefinitionsServicePage', () => {
     expect(baseElement).toMatchSnapshot();
   });
   it('page renders while waiting for variable definitions', async () => {
-    const neverResolvingPromise = <T,>() => new Promise<T>(() => {});
+    const neverResolvingPromise = <T,>() =>
+      new Promise<T>((resolve) => {
+        void resolve;
+      });
     const variablesPromise = neverResolvingPromise<{ data: RenderedView[]; error: Error | null }>();
     const { baseElement, findByRole, findByLabelText } = await renderPage(true, variablesPromise);
     await findByRole('main');
