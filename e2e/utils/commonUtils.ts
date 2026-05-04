@@ -16,3 +16,5 @@ export async function expectButtonVisible(page: Page, roleName: string) {
   await expect(button).toBeVisible();
   return button;
 }
+
+export const getAllTexts = async (locator: Locator) => await locator.allTextContents();
