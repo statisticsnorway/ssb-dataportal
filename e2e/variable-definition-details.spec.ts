@@ -4,6 +4,7 @@ import test, { expect, Page } from '@playwright/test';
 import { DETAIL_URL, KNOWN_SHORT_NAME } from './utils/variables';
 import { localization } from '@/libs/language';
 import { RenderedViewFromJSON } from '@/libs/data-access/variable-definitions/internal';
+import { formatDate } from '@/utils/functions';
 
 const variable_org = variableDefinitionsJson.map(RenderedViewFromJSON).find((v) => v.short_name === KNOWN_SHORT_NAME);
 
@@ -63,11 +64,11 @@ test.describe('Definition and comment', () => {
 const expectedAboutVariable = [
   {
     title: localization.variableDefinition.validFrom,
-    values: [String(variable_org!.valid_from!)],
+    values: [formatDate(variable_org!.valid_from!)],
   },
   {
     title: localization.variableDefinition.validTo,
-    values: [String(variable_org!.valid_until!)],
+    values: [formatDate(variable_org!.valid_until!)],
   },
   {
     title: localization.unitTypes,
@@ -108,11 +109,11 @@ const expectedContact = [
   },
   {
     title: `${localization.editing.updated} ${localization.on}`,
-    values: [String(variable_org!.last_updated_at)],
+    values: [formatDate(variable_org!.last_updated_at)],
   },
   {
     title: `${localization.editing.created} ${localization.on}`,
-    values: [String(variable_org!.created_at)],
+    values: [formatDate(variable_org!.created_at)],
   },
   {
     title: `${localization.editing.updated} ${localization.by}`,
