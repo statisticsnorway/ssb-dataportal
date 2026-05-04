@@ -2,7 +2,6 @@ import { test, expect } from './fixtures/unauth.fixture';
 import { localization } from '@/libs/language';
 import { DETAIL_URL } from './utils/variables';
 
-// api documentation
 test.describe('unauthenticated view', () => {
   test('hides code snippet', async ({ unauthPage }) => {
     await unauthPage.goto(DETAIL_URL);
@@ -20,10 +19,13 @@ test.describe('unauthenticated view', () => {
     ).not.toBeAttached();
   });
 
-  // change
   test('hides Owner panel', async ({ unauthPage }) => {
     await unauthPage.goto(DETAIL_URL);
-    await expect(unauthPage.getByRole('heading', { name: localization.owner.label })).not.toBeAttached();
+    await expect(
+      unauthPage.getByRole('definition').filter({
+        hasText: localization.owner.daplaTeam,
+      }),
+    ).not.toBeAttached();
   });
 
   test('hides StatusTag', async ({ unauthPage }) => {
