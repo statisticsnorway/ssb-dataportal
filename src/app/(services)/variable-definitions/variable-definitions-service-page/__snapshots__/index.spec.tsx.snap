@@ -26,22 +26,21 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
             data-color="info"
             style="margin-bottom: 1rem;"
           >
-             
             <h1
-              data-size="xs"
+              data-size="sm"
               level="2"
-              style="margin-bottom: var(--ds-size-2);"
+              style="margin-bottom: var(--ds-size-2); font-family: sans-serif;"
             >
               Migrering av variabeldefinisjoner pågår
             </h1>
             <p>
-              Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført, vil noe innhold fortsatt ligge på den gamle siden.
+              Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført vil noe innhold fortsatt ligge på den gamle siden.
             </p>
             <a
               href="https://www.ssb.no/a/metadata/definisjoner/variabler/main.html"
               rel="noreferrer"
             >
-               Variabeldefinisjoner (ssb.no)
+               Finn flere variabeldefinisjoner på ssb.no
             </a>
           </div>
           <section
@@ -123,22 +122,21 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for subject
             data-color="info"
             style="margin-bottom: 1rem;"
           >
-             
             <h1
-              data-size="xs"
+              data-size="sm"
               level="2"
-              style="margin-bottom: var(--ds-size-2);"
+              style="margin-bottom: var(--ds-size-2); font-family: sans-serif;"
             >
               Migrering av variabeldefinisjoner pågår
             </h1>
             <p>
-              Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført, vil noe innhold fortsatt ligge på den gamle siden.
+              Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført vil noe innhold fortsatt ligge på den gamle siden.
             </p>
             <a
               href="https://www.ssb.no/a/metadata/definisjoner/variabler/main.html"
               rel="noreferrer"
             >
-               Variabeldefinisjoner (ssb.no)
+               Finn flere variabeldefinisjoner på ssb.no
             </a>
           </div>
           <section
@@ -220,22 +218,21 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for variabl
             data-color="info"
             style="margin-bottom: 1rem;"
           >
-             
             <h1
-              data-size="xs"
+              data-size="sm"
               level="2"
-              style="margin-bottom: var(--ds-size-2);"
+              style="margin-bottom: var(--ds-size-2); font-family: sans-serif;"
             >
               Migrering av variabeldefinisjoner pågår
             </h1>
             <p>
-              Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført, vil noe innhold fortsatt ligge på den gamle siden.
+              Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført vil noe innhold fortsatt ligge på den gamle siden.
             </p>
             <a
               href="https://www.ssb.no/a/metadata/definisjoner/variabler/main.html"
               rel="noreferrer"
             >
-               Variabeldefinisjoner (ssb.no)
+               Finn flere variabeldefinisjoner på ssb.no
             </a>
           </div>
           <section
@@ -317,22 +314,21 @@ exports[`VariableDefinitionsServicePage > unauthenticated - hides status filter 
             data-color="info"
             style="margin-bottom: 1rem;"
           >
-             
             <h1
-              data-size="xs"
+              data-size="sm"
               level="2"
-              style="margin-bottom: var(--ds-size-2);"
+              style="margin-bottom: var(--ds-size-2); font-family: sans-serif;"
             >
               Migrering av variabeldefinisjoner pågår
             </h1>
             <p>
-              Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført, vil noe innhold fortsatt ligge på den gamle siden.
+              Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført vil noe innhold fortsatt ligge på den gamle siden.
             </p>
             <a
               href="https://www.ssb.no/a/metadata/definisjoner/variabler/main.html"
               rel="noreferrer"
             >
-               Variabeldefinisjoner (ssb.no)
+               Finn flere variabeldefinisjoner på ssb.no
             </a>
           </div>
           <section
