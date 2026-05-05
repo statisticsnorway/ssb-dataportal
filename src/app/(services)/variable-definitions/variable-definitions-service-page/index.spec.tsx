@@ -46,6 +46,8 @@ vi.mock('@digdir/designsystemet-react', () => {
     Card: passthrough('section'),
     Fieldset: passthrough('fieldset'),
     TabsPanel: passthrough('div'),
+    Alert: passthrough('div'),
+    Paragraph: passthrough('p'),
   };
 });
 

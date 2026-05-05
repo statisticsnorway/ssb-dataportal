@@ -22,6 +22,28 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
         <div
           class="_pageContainer_8a24d7 container"
         >
+          <div
+            data-color="info"
+            style="margin-bottom: 1rem;"
+          >
+             
+            <h1
+              data-size="xs"
+              level="2"
+              style="margin-bottom: var(--ds-size-2);"
+            >
+              Migrering av variabeldefinisjoner pågår
+            </h1>
+            <p>
+              Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført, vil noe innhold fortsatt ligge på den gamle siden.
+            </p>
+            <a
+              href="https://www.ssb.no/a/metadata/definisjoner/variabler/main.html"
+              rel="noreferrer"
+            >
+               Variabeldefinisjoner (ssb.no)
+            </a>
+          </div>
           <section
             aria-label="Tags list"
           />
@@ -97,6 +119,28 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for subject
         <div
           class="_pageContainer_8a24d7 container"
         >
+          <div
+            data-color="info"
+            style="margin-bottom: 1rem;"
+          >
+             
+            <h1
+              data-size="xs"
+              level="2"
+              style="margin-bottom: var(--ds-size-2);"
+            >
+              Migrering av variabeldefinisjoner pågår
+            </h1>
+            <p>
+              Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført, vil noe innhold fortsatt ligge på den gamle siden.
+            </p>
+            <a
+              href="https://www.ssb.no/a/metadata/definisjoner/variabler/main.html"
+              rel="noreferrer"
+            >
+               Variabeldefinisjoner (ssb.no)
+            </a>
+          </div>
           <section
             aria-label="Tags list"
           />
@@ -172,6 +216,28 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for variabl
         <div
           class="_pageContainer_8a24d7 container"
         >
+          <div
+            data-color="info"
+            style="margin-bottom: 1rem;"
+          >
+             
+            <h1
+              data-size="xs"
+              level="2"
+              style="margin-bottom: var(--ds-size-2);"
+            >
+              Migrering av variabeldefinisjoner pågår
+            </h1>
+            <p>
+              Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført, vil noe innhold fortsatt ligge på den gamle siden.
+            </p>
+            <a
+              href="https://www.ssb.no/a/metadata/definisjoner/variabler/main.html"
+              rel="noreferrer"
+            >
+               Variabeldefinisjoner (ssb.no)
+            </a>
+          </div>
           <section
             aria-label="Tags list"
           />
@@ -247,6 +313,28 @@ exports[`VariableDefinitionsServicePage > unauthenticated - hides status filter 
         <div
           class="_pageContainer_8a24d7 container"
         >
+          <div
+            data-color="info"
+            style="margin-bottom: 1rem;"
+          >
+             
+            <h1
+              data-size="xs"
+              level="2"
+              style="margin-bottom: var(--ds-size-2);"
+            >
+              Migrering av variabeldefinisjoner pågår
+            </h1>
+            <p>
+              Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført, vil noe innhold fortsatt ligge på den gamle siden.
+            </p>
+            <a
+              href="https://www.ssb.no/a/metadata/definisjoner/variabler/main.html"
+              rel="noreferrer"
+            >
+               Variabeldefinisjoner (ssb.no)
+            </a>
+          </div>
           <section
             aria-label="Tags list"
           />
