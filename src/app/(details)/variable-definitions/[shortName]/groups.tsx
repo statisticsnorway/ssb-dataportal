@@ -1,6 +1,7 @@
 import { Paragraph } from '@digdir/designsystemet-react';
 import { ApiDocLink } from '@/components/link-components/apiDocLink';
 import { EmailLink } from '@/components/link-components/emailLink';
+import { ExternalLink } from '@/components/link-components/externalLink';
 import { TagData, TagsGroup } from '@/components/tag-components/tags-group';
 import { KlassReference } from '@/libs/data-access/variable-definitions/internal';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
@@ -109,7 +110,7 @@ export const mapAboutVariableItems = (v: RenderedView, isAuthenticated: boolean,
     ? [
         {
           label: localization.classification.label,
-          value: v.classification_uri ?? null,
+          value: <ExternalLink href={v.classification_uri} linkText={v.classification_uri} />,
         } satisfies Item,
       ]
     : []),

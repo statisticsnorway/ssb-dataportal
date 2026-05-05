@@ -13,7 +13,7 @@ export const FeedbackCallout = () => {
     <>
       {isAuthenticated ? (
         <Card role='complementary' className={styles.infoSection}>
-          <Heading>{localization.info.feedbackTitle}</Heading>
+          <Heading level={3}>{localization.info.feedbackTitle}</Heading>
           <Paragraph>
             {localization.info.feedbackBody}{' '}
             <ExternalLink
