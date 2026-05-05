@@ -29,20 +29,25 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
           class="_pageContainer_8a24d7 container"
         >
           <div
+            class="ds-alert"
             data-color="info"
             style="margin-bottom: 1rem;"
           >
-            <h1
+            <h2
+              class="ds-heading"
               data-size="sm"
-              level="2"
               style="margin-bottom: var(--ds-size-2); font-family: sans-serif;"
             >
               Migrering av variabeldefinisjoner pågår
-            </h1>
-            <p>
+            </h2>
+            <p
+              class="ds-paragraph"
+              data-variant="default"
+            >
               Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført vil noe innhold fortsatt ligge på den gamle siden.
             </p>
             <a
+              class="ds-link"
               href="https://www.ssb.no/a/metadata/definisjoner/variabler/main.html"
               rel="noreferrer"
             >
@@ -1580,20 +1585,25 @@ exports[`VariableDefinitionsServicePage > page renders filters 1`] = `
           class="_pageContainer_8a24d7 container"
         >
           <div
+            class="ds-alert"
             data-color="info"
             style="margin-bottom: 1rem;"
           >
-            <h1
+            <h2
+              class="ds-heading"
               data-size="sm"
-              level="2"
               style="margin-bottom: var(--ds-size-2); font-family: sans-serif;"
             >
               Migrering av variabeldefinisjoner pågår
-            </h1>
-            <p>
+            </h2>
+            <p
+              class="ds-paragraph"
+              data-variant="default"
+            >
               Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført vil noe innhold fortsatt ligge på den gamle siden.
             </p>
             <a
+              class="ds-link"
               href="https://www.ssb.no/a/metadata/definisjoner/variabler/main.html"
               rel="noreferrer"
             >
@@ -3131,20 +3141,25 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for variabl
           class="_pageContainer_8a24d7 container"
         >
           <div
+            class="ds-alert"
             data-color="info"
             style="margin-bottom: 1rem;"
           >
-            <h1
+            <h2
+              class="ds-heading"
               data-size="sm"
-              level="2"
               style="margin-bottom: var(--ds-size-2); font-family: sans-serif;"
             >
               Migrering av variabeldefinisjoner pågår
-            </h1>
-            <p>
+            </h2>
+            <p
+              class="ds-paragraph"
+              data-variant="default"
+            >
               Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført vil noe innhold fortsatt ligge på den gamle siden.
             </p>
             <a
+              class="ds-link"
               href="https://www.ssb.no/a/metadata/definisjoner/variabler/main.html"
               rel="noreferrer"
             >
@@ -3229,20 +3244,25 @@ exports[`VariableDefinitionsServicePage > unauthenticated - hides status filter 
           class="_pageContainer_8a24d7 container"
         >
           <div
+            class="ds-alert"
             data-color="info"
             style="margin-bottom: 1rem;"
           >
-            <h1
+            <h2
+              class="ds-heading"
               data-size="sm"
-              level="2"
               style="margin-bottom: var(--ds-size-2); font-family: sans-serif;"
             >
               Migrering av variabeldefinisjoner pågår
-            </h1>
-            <p>
+            </h2>
+            <p
+              class="ds-paragraph"
+              data-variant="default"
+            >
               Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført vil noe innhold fortsatt ligge på den gamle siden.
             </p>
             <a
+              class="ds-link"
               href="https://www.ssb.no/a/metadata/definisjoner/variabler/main.html"
               rel="noreferrer"
             >
