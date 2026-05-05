@@ -60,7 +60,7 @@ describe('Header', () => {
         title="Naviger til hjemmesiden"
       >
         <img
-          alt="Statistisk sentralbyrå logo"
+          alt="Statistisk sentralbyrå header logo"
           class="_logo_b64a3b"
           data-nimg="1"
           decoding="async"
