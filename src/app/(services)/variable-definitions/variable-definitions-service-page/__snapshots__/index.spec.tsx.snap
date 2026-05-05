@@ -28,6 +28,32 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
         <div
           class="_pageContainer_8a24d7 container"
         >
+          <div
+            class="ds-alert"
+            data-color="info"
+            style="margin-bottom: 1rem;"
+          >
+            <h2
+              class="ds-heading"
+              data-size="sm"
+              style="margin-bottom: var(--ds-size-2); font-family: sans-serif;"
+            >
+              Migrering av variabeldefinisjoner pågår
+            </h2>
+            <p
+              class="ds-paragraph"
+              data-variant="default"
+            >
+              Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført vil noe innhold fortsatt ligge på den gamle siden.
+            </p>
+            <a
+              class="ds-link"
+              href="https://www.ssb.no/a/metadata/definisjoner/variabler/main.html"
+              rel="noreferrer"
+            >
+               Finn flere variabeldefinisjoner på ssb.no
+            </a>
+          </div>
           <section
             aria-label="Tags list"
           />
@@ -1558,6 +1584,32 @@ exports[`VariableDefinitionsServicePage > page renders filters 1`] = `
         <div
           class="_pageContainer_8a24d7 container"
         >
+          <div
+            class="ds-alert"
+            data-color="info"
+            style="margin-bottom: 1rem;"
+          >
+            <h2
+              class="ds-heading"
+              data-size="sm"
+              style="margin-bottom: var(--ds-size-2); font-family: sans-serif;"
+            >
+              Migrering av variabeldefinisjoner pågår
+            </h2>
+            <p
+              class="ds-paragraph"
+              data-variant="default"
+            >
+              Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført vil noe innhold fortsatt ligge på den gamle siden.
+            </p>
+            <a
+              class="ds-link"
+              href="https://www.ssb.no/a/metadata/definisjoner/variabler/main.html"
+              rel="noreferrer"
+            >
+               Finn flere variabeldefinisjoner på ssb.no
+            </a>
+          </div>
           <section
             aria-label="Tags list"
           />
@@ -3088,6 +3140,32 @@ exports[`VariableDefinitionsServicePage > page renders while waiting for variabl
         <div
           class="_pageContainer_8a24d7 container"
         >
+          <div
+            class="ds-alert"
+            data-color="info"
+            style="margin-bottom: 1rem;"
+          >
+            <h2
+              class="ds-heading"
+              data-size="sm"
+              style="margin-bottom: var(--ds-size-2); font-family: sans-serif;"
+            >
+              Migrering av variabeldefinisjoner pågår
+            </h2>
+            <p
+              class="ds-paragraph"
+              data-variant="default"
+            >
+              Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført vil noe innhold fortsatt ligge på den gamle siden.
+            </p>
+            <a
+              class="ds-link"
+              href="https://www.ssb.no/a/metadata/definisjoner/variabler/main.html"
+              rel="noreferrer"
+            >
+               Finn flere variabeldefinisjoner på ssb.no
+            </a>
+          </div>
           <section
             aria-label="Tags list"
           />
@@ -3165,6 +3243,32 @@ exports[`VariableDefinitionsServicePage > unauthenticated - hides status filter 
         <div
           class="_pageContainer_8a24d7 container"
         >
+          <div
+            class="ds-alert"
+            data-color="info"
+            style="margin-bottom: 1rem;"
+          >
+            <h2
+              class="ds-heading"
+              data-size="sm"
+              style="margin-bottom: var(--ds-size-2); font-family: sans-serif;"
+            >
+              Migrering av variabeldefinisjoner pågår
+            </h2>
+            <p
+              class="ds-paragraph"
+              data-variant="default"
+            >
+              Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført vil noe innhold fortsatt ligge på den gamle siden.
+            </p>
+            <a
+              class="ds-link"
+              href="https://www.ssb.no/a/metadata/definisjoner/variabler/main.html"
+              rel="noreferrer"
+            >
+               Finn flere variabeldefinisjoner på ssb.no
+            </a>
+          </div>
           <section
             aria-label="Tags list"
           />

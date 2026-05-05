@@ -135,6 +135,11 @@ export const nb = {
   },
 
   loadingVariableDefinitions: 'Laster variabeldefinisjoner',
+  migration: {
+    header: 'Migrering av variabeldefinisjoner pågår',
+    info: 'Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført vil noe innhold fortsatt ligge på den gamle siden.',
+    linkText: 'Finn flere variabeldefinisjoner på ssb.no',
+  },
   navigateHome: 'Naviger til hjemmesiden',
   navigateHomeClassifications: 'Naviger til hovedside Klassifikasjoner',
   navigateHomeVariableDefinitions: 'Naviger til hovedside Variabeldefinisjoner',
