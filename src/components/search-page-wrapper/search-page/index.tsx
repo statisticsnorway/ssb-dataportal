@@ -70,15 +70,12 @@ const SearchPage: FC<SearchPageProps> = ({
                 marginBottom: 'var(--ds-size-2)',
               }}
             >
-              Migrering av variabeldefinisjoner pågår
+              {localization.migration.header}
             </Heading>
-            <Paragraph>
-              Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført, vil noe
-              innhold fortsatt ligge på den gamle siden.
-            </Paragraph>
+            <Paragraph>{localization.migration.info}</Paragraph>
             <ExternalLink
               href='https://www.ssb.no/a/metadata/definisjoner/variabler/main.html'
-              linkText=' Variabeldefinisjoner på ssb.no'
+              linkText={`${' '}${localization.migration.linkText}`}
             />
           </Alert>
           <section aria-label='Tags list'>{infoContent}</section>
