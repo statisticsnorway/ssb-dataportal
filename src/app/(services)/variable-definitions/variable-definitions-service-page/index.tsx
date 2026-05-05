@@ -80,6 +80,7 @@ const VariableDefinitionsServicePage = ({
       sortOption={sortOption}
     >
       <SearchPage
+        banner={true}
         tabsId={tabsData.VariableDefinitions.id}
         header={localization.tabs.variableDefinitions}
         asideContent={

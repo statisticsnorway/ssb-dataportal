@@ -6,6 +6,7 @@ import { SortTypes } from '@/types/sort';
 import styles from './search-page.module.css';
 
 interface SearchPageProps {
+  banner?: boolean;
   infoContent?: ReactNode;
   asideContent?: ReactNode;
   searchResult?: ReactElement;
@@ -34,6 +35,7 @@ interface SearchPageProps {
  * @param header          Page title announced to screen readers
  */
 const SearchPage: FC<SearchPageProps> = ({
+  banner,
   infoContent,
   asideContent,
   searchResult,
@@ -61,24 +63,25 @@ const SearchPage: FC<SearchPageProps> = ({
 
       <TabsPanel id={tabsId} value={String(tabsId)} aria-labelledby={tabsId}>
         <div className={`${styles.pageContainer} container`}>
-          <Alert data-color='info' style={{ marginBottom: '1rem' }}>
-            {' '}
-            <Heading
-              level={2}
-              data-size='sm'
-              style={{
-                marginBottom: 'var(--ds-size-2)',
-                fontFamily: 'sans-serif',
-              }}
-            >
-              {localization.migration.header}
-            </Heading>
-            <Paragraph>{localization.migration.info}</Paragraph>
-            <ExternalLink
-              href='https://www.ssb.no/a/metadata/definisjoner/variabler/main.html'
-              linkText={`${' '}${localization.migration.linkText}`}
-            />
-          </Alert>
+          {banner && (
+            <Alert data-color='info' style={{ marginBottom: '1rem' }}>
+              <Heading
+                level={2}
+                data-size='sm'
+                style={{
+                  marginBottom: 'var(--ds-size-2)',
+                  fontFamily: 'sans-serif',
+                }}
+              >
+                {localization.migration.header}
+              </Heading>
+              <Paragraph>{localization.migration.info}</Paragraph>
+              <ExternalLink
+                href='https://www.ssb.no/a/metadata/definisjoner/variabler/main.html'
+                linkText={`${' '}${localization.migration.linkText}`}
+              />
+            </Alert>
+          )}
           <section aria-label='Tags list'>{infoContent}</section>
           <div className={styles.searchHitsContainerWrapper}>
             {asideContent ? (
