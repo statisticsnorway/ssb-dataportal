@@ -1,12 +1,12 @@
-.header {
+.headerWrapper {
+  background-color: var(--element-background-color);
   border-bottom: 1px solid rgb(230, 230, 230);
   box-shadow: var(--shadow-color) 0px 0px 10px -5px;
+  padding: 1rem 0;
+}
+
+.header {
   gap: var(--small-gap);
-  padding: var(--medium-gap);
-  background-color: var(--element-background-color);
-  margin: 0;
-  box-sizing: border-box;
-  width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;
