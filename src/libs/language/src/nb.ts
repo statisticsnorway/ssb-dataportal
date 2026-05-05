@@ -138,7 +138,7 @@ export const nb = {
   migration: {
     header: 'Migrering av variabeldefinisjoner pågår',
     info: 'Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført, vil noe innhold fortsatt ligge på den gamle siden.',
-    linkText: 'Variabeldefinisjoner (ssb.no)',
+    linkText: 'Finn flere variabeldefinisjoner på ssb.no',
   },
   navigateHome: 'Naviger til hjemmesiden',
   navigateHomeClassifications: 'Naviger til hovedside Klassifikasjoner',
