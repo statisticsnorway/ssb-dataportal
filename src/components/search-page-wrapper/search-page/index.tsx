@@ -65,9 +65,10 @@ const SearchPage: FC<SearchPageProps> = ({
             {' '}
             <Heading
               level={2}
-              data-size='xs'
+              data-size='sm'
               style={{
                 marginBottom: 'var(--ds-size-2)',
+                fontFamily: 'sans-serif',
               }}
             >
               {localization.migration.header}
