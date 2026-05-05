@@ -1,6 +1,8 @@
 'use client';
+
 import { Spinner } from '@digdir/designsystemet-react';
-import { Suspense, useMemo, useState } from 'react';
+import { parseAsArrayOf, parseAsInteger, parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs';
+import { Suspense, use, useMemo } from 'react';
 import { useAuthContext } from '@/app/authContext';
 import { FiltersPanel } from '@/components/filters/filters-panel';
 import { TextFilter } from '@/components/filters/text-filter';
@@ -10,7 +12,7 @@ import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language/src/localization';
 import { FilterItem } from '@/types/filters';
-import { SortTypes, sortTypes } from '@/types/sort';
+import { sortTypes } from '@/types/sort';
 import { tabsData } from '../../tabs';
 import { FilterTagsSection } from './components/FilterTagsSection';
 import { ResultsCount } from './components/ResultsCount';
@@ -18,6 +20,12 @@ import { ResultsSection } from './components/ResultsSection';
 import { StatusFiltersSection } from './components/StatusFiltersSection';
 import { SubjectFiltersSection } from './components/SubjectFiltersSection';
 import { VariableDefinitionsProvider } from './components/variableDefinitionContext';
+
+const statusLabelByValue: Record<string, string> = {
+  DRAFT: localization.status.draft,
+  PUBLISHED_INTERNAL: localization.status.publishedInternal,
+  PUBLISHED_EXTERNAL: localization.status.publishedExternal,
+};
 
 interface VariableDefinitionsServicePageProps {
   variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
@@ -28,56 +36,85 @@ const VariableDefinitionsServicePage = ({
   variablesPromise,
   subjectFieldsPromise,
 }: VariableDefinitionsServicePageProps) => {
-  const [sortOption, setSortOption] = useState<SortTypes>('titleAsc');
-  const [subjectFilters, setSubjectFilters] = useState<FilterItem[]>([]);
-  const [textFilter, setTextFilter] = useState<string>('');
-  const [statusFilters, setStatusFilters] = useState<FilterItem[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const pageSize = 8;
-
   const { isAuthenticated } = useAuthContext();
+  const [queryState, setQueryState] = useQueryStates({
+    q: parseAsString.withDefault(''),
+    status: parseAsArrayOf(parseAsString).withDefault([]),
+    subjects: parseAsArrayOf(parseAsString).withDefault([]),
+    sort: parseAsStringLiteral(sortTypes).withDefault('titleAsc'),
+    page: parseAsInteger.withDefault(1).withOptions({ clearOnDefault: true }),
+  });
 
-  useMemo(() => {
-    setCurrentPage(1);
-  }, [textFilter, subjectFilters, statusFilters, sortOption]);
+  const { q, status, subjects, sort, page } = queryState;
 
-  const toggleStatus = (filter: FilterItem) =>
-    setStatusFilters((prev) =>
-      prev.some((item) => item.value === filter.value)
-        ? prev.filter((c) => c.value !== filter.value)
-        : [...prev, filter],
-    );
+  const { data: subjectFields } = use(subjectFieldsPromise);
 
-  const toggleSubject = (filter: FilterItem) =>
-    setSubjectFilters((prev) =>
-      prev.some((item) => item.value === filter.value)
-        ? prev.filter((c) => c.value !== filter.value)
-        : [...prev, filter],
-    );
+  const statusFilters = useMemo<FilterItem[]>(
+    () =>
+      status.map((value) => ({
+        value,
+        label: statusLabelByValue[value] ?? value,
+      })),
+    [status],
+  );
 
-  const clearAll = () => {
-    setTextFilter('');
-    setSubjectFilters([]);
-    setStatusFilters([]);
+  const subjectFilters = useMemo<FilterItem[]>(
+    () =>
+      subjects.map((value) => {
+        const subject = subjectFields.find((item) => String(item.code) === value);
+        return {
+          value,
+          label: subject ? String(subject.name) : value,
+        };
+      }),
+    [subjects, subjectFields],
+  );
+
+  const toggleStatus = (filter: FilterItem) => {
+    const nextStatus = status.includes(filter.value)
+      ? status.filter((value) => value !== filter.value)
+      : [...status, filter.value];
+    void setQueryState({ status: nextStatus, page: 1 });
   };
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+  const toggleSubject = (filter: FilterItem) => {
+    const nextSubjects = subjects.includes(filter.value)
+      ? subjects.filter((value) => value !== filter.value)
+      : [...subjects, filter.value];
+    void setQueryState({ subjects: nextSubjects, page: 1 });
+  };
+
+  const clearAll = () => {
+    void setQueryState({
+      q: null,
+      status: null,
+      subjects: null,
+      sort: null,
+      page: null,
+    });
+  };
+
+  const handlePageChange = (nextPage: number) => {
+    void setQueryState({ page: nextPage });
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   };
 
   const removeFilter = (filter: FilterItem) => {
-    setStatusFilters((prev) => prev.filter((f) => f.value !== filter.value));
-    setSubjectFilters((prev) => prev.filter((f) => f.value !== filter.value));
+    void setQueryState({
+      status: status.filter((value) => value !== filter.value),
+      subjects: subjects.filter((value) => value !== filter.value),
+      page: 1,
+    });
   };
 
   return (
     <VariableDefinitionsProvider
       variablesPromise={variablesPromise}
-      textFilter={textFilter}
+      textFilter={q}
       subjectFilters={subjectFilters}
       statusFilters={statusFilters}
-      sortOption={sortOption}
+      sortOption={sort}
     >
       <SearchPage
         tabsId={tabsData.VariableDefinitions.id}
@@ -86,8 +123,13 @@ const VariableDefinitionsServicePage = ({
           <FiltersPanel>
             <TextFilter
               label={localization.search.textFilter.label}
-              searchTerm={textFilter}
-              setSearchTerm={setTextFilter}
+              searchTerm={q}
+              setSearchTerm={(value) =>
+                void setQueryState({
+                  q: value,
+                  page: 1,
+                })
+              }
             />
             {isAuthenticated ? (
               <Suspense fallback={<Spinner aria-label={localization.loading.filters} />}>
@@ -115,13 +157,33 @@ const VariableDefinitionsServicePage = ({
         }
         infoContent={
           <Suspense fallback={null}>
-            <FilterTagsSection onClose={removeFilter} onClearAll={clearAll} onClearSearch={() => setTextFilter('')} />
+            <FilterTagsSection
+              onClose={removeFilter}
+              onClearAll={clearAll}
+              onClearSearch={() =>
+                void setQueryState({
+                  q: '',
+                  page: 1,
+                })
+              }
+            />
           </Suspense>
         }
-        controlsContent={<SortFields sortOptions={sortTypes} sortValue={sortOption} onSortChange={setSortOption} />}
+        controlsContent={
+          <SortFields
+            sortOptions={sortTypes}
+            sortValue={sort}
+            onSortChange={(value) =>
+              void setQueryState({
+                sort: value,
+                page: 1,
+              })
+            }
+          />
+        }
         searchResult={
           <Suspense fallback={<Spinner aria-label={localization.loading.results} />}>
-            <ResultsSection currentPage={currentPage} pageSize={pageSize} handlePageChange={handlePageChange} />
+            <ResultsSection currentPage={page} pageSize={pageSize} handlePageChange={handlePageChange} />
           </Suspense>
         }
       />

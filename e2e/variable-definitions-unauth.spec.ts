@@ -24,3 +24,15 @@ test.describe('unauthenticated variable definitions list', () => {
     ).not.toBeAttached();
   });
 });
+
+test.describe('Variable definitions URL state', () => {
+  test.beforeEach(({}, testInfo) => {
+    test.skip(testInfo.project.name === 'chrome-unauth', 'Not supported in unauth');
+  });
+
+  test('updates URL when selecting filter', async ({ page }) => {
+    await page.goto('/variable-definitions');
+    await page.getByRole('checkbox', { name: /Utkast/ }).click();
+    await expect(page).toHaveURL(/status=DRAFT/);
+  });
+});
