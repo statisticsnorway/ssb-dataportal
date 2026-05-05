@@ -1,5 +1,6 @@
-import { Heading, TabsPanel } from '@digdir/designsystemet-react';
+import { Alert, Heading, Paragraph, TabsPanel } from '@digdir/designsystemet-react';
 import { FC, ReactElement, ReactNode } from 'react';
+import { ExternalLink } from '@/components/link-components/externalLink';
 import { localization } from '@/libs/language';
 import { SortTypes } from '@/types/sort';
 import styles from './search-page.module.css';
@@ -60,6 +61,26 @@ const SearchPage: FC<SearchPageProps> = ({
 
       <TabsPanel id={tabsId} value={String(tabsId)} aria-labelledby={tabsId}>
         <div className={`${styles.pageContainer} container`}>
+          <Alert data-color='info' style={{ marginBottom: '1rem' }}>
+            {' '}
+            <Heading
+              level={2}
+              data-size='xs'
+              style={{
+                marginBottom: 'var(--ds-size-2)',
+              }}
+            >
+              Migrering av variabeldefinisjoner pågår
+            </Heading>
+            <Paragraph>
+              Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført, vil noe
+              innhold fortsatt ligge på den gamle siden.
+            </Paragraph>
+            <ExternalLink
+              href='https://www.ssb.no/a/metadata/definisjoner/variabler/main.html'
+              linkText=' Variabeldefinisjoner på ssb.no'
+            />
+          </Alert>
           <section aria-label='Tags list'>{infoContent}</section>
           <div className={styles.searchHitsContainerWrapper}>
             {asideContent ? (
