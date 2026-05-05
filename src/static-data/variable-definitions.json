@@ -2713,9 +2713,9 @@
     "variable_status": "PUBLISHED_EXTERNAL",
     "measurement_type": null,
     "valid_from": "1995-03-01",
-    "valid_until": null,
+    "valid_until": "2026-01-01",
     "external_reference_uri": null,
-    "comment": null,
+    "comment": "For testing",
     "related_variable_definition_uris": [],
     "owner": {
       "team": "vof",

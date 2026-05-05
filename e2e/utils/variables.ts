@@ -1,3 +1,4 @@
+import { tabsData } from '@/app/(services)/tabs';
 import { localization } from '@/libs/language';
 
 export const statuses = {
@@ -35,3 +36,7 @@ export const variables = {
   companiesEnterprises: 'Bedrifter, foretak og regnskap (20)',
   totalHits: '78 treff',
 };
+
+export const spousesCountryBackgroundShortName = 'innv_ektef_landbak';
+export const KNOWN_SHORT_NAME = 'org_form';
+export const DETAIL_URL = `${tabsData.VariableDefinitions.route}/${KNOWN_SHORT_NAME}`;
