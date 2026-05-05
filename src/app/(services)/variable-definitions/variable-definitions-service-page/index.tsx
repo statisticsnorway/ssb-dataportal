@@ -39,14 +39,14 @@ const VariableDefinitionsServicePage = ({
   const pageSize = 8;
   const { isAuthenticated } = useAuthContext();
   const [queryState, setQueryState] = useQueryStates({
-    filterText: parseAsString.withDefault(''),
+    q: parseAsString.withDefault(''),
     status: parseAsArrayOf(parseAsString).withDefault([]),
-    statisticalSubjects: parseAsArrayOf(parseAsString).withDefault([]),
+    subjects: parseAsArrayOf(parseAsString).withDefault([]),
     sort: parseAsStringLiteral(sortTypes).withDefault('titleAsc'),
     page: parseAsInteger.withDefault(1).withOptions({ clearOnDefault: true }),
   });
 
-  const { filterText, status, statisticalSubjects, sort, page } = queryState;
+  const { q, status, subjects, sort, page } = queryState;
 
   const { data: subjectFields } = use(subjectFieldsPromise);
 
@@ -61,14 +61,14 @@ const VariableDefinitionsServicePage = ({
 
   const subjectFilters = useMemo<FilterItem[]>(
     () =>
-      statisticalSubjects.map((value) => {
+      subjects.map((value) => {
         const subject = subjectFields.find((item) => String(item.code) === value);
         return {
           value,
           label: subject ? String(subject.name) : value,
         };
       }),
-    [statisticalSubjects, subjectFields],
+    [subjects, subjectFields],
   );
 
   const toggleStatus = (filter: FilterItem) => {
@@ -79,17 +79,17 @@ const VariableDefinitionsServicePage = ({
   };
 
   const toggleSubject = (filter: FilterItem) => {
-    const nextSubjects = statisticalSubjects.includes(filter.value)
-      ? statisticalSubjects.filter((value) => value !== filter.value)
-      : [...statisticalSubjects, filter.value];
-    void setQueryState({ statisticalSubjects: nextSubjects, page: 1 });
+    const nextSubjects = subjects.includes(filter.value)
+      ? subjects.filter((value) => value !== filter.value)
+      : [...subjects, filter.value];
+    void setQueryState({ subjects: nextSubjects, page: 1 });
   };
 
   const clearAll = () => {
     void setQueryState({
-      filterText: null,
+      q: null,
       status: null,
-      statisticalSubjects: null,
+      subjects: null,
       sort: null,
       page: null,
     });
@@ -103,7 +103,7 @@ const VariableDefinitionsServicePage = ({
   const removeFilter = (filter: FilterItem) => {
     void setQueryState({
       status: status.filter((value) => value !== filter.value),
-      statisticalSubjects: statisticalSubjects.filter((value) => value !== filter.value),
+      subjects: subjects.filter((value) => value !== filter.value),
       page: 1,
     });
   };
@@ -111,7 +111,7 @@ const VariableDefinitionsServicePage = ({
   return (
     <VariableDefinitionsProvider
       variablesPromise={variablesPromise}
-      textFilter={filterText}
+      textFilter={q}
       subjectFilters={subjectFilters}
       statusFilters={statusFilters}
       sortOption={sort}
@@ -123,10 +123,10 @@ const VariableDefinitionsServicePage = ({
           <FiltersPanel>
             <TextFilter
               label={localization.search.textFilter.label}
-              searchTerm={filterText}
+              searchTerm={q}
               setSearchTerm={(value) =>
                 void setQueryState({
-                  filterText: value,
+                  q: value,
                   page: 1,
                 })
               }
@@ -162,7 +162,7 @@ const VariableDefinitionsServicePage = ({
               onClearAll={clearAll}
               onClearSearch={() =>
                 void setQueryState({
-                  filterText: '',
+                  q: '',
                   page: 1,
                 })
               }
