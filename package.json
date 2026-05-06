@@ -34,7 +34,7 @@
     "@biomejs/biome": "2.4.12",
     "@digdir/designsystemet-css": "1.13.3",
     "@digdir/designsystemet-react": "1.13.3",
-    "@navikt/aksel-icons": "8.10.3",
+    "@navikt/aksel-icons": "8.10.4",
     "@next/env": "16.2.4",
     "@svgr/webpack": "8.1.0",
     "@types/lodash": "4.17.24",
