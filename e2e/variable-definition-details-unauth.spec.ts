@@ -33,6 +33,12 @@ test.describe('unauthenticated view', () => {
     await expect(unauthPage.locator('main').getByText(localization.status.draft)).not.toBeAttached();
   });
 
+  /*
+  test('hides ID', async ({ unauthPage }) => {
+    await unauthPage.goto(DETAIL_URL);
+    await expect(unauthPage.locator('main').getByText(localization.variableDefinition.id)).not.toBeAttached();
+  });*/
+
   test('shows only "Updated on", hides three auth-only audit fields', async ({ unauthPage }) => {
     await unauthPage.goto(DETAIL_URL);
     const details = unauthPage.locator('dt');

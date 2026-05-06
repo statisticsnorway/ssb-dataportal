@@ -102,6 +102,17 @@ test.describe('About variable', () => {
   }
 });
 
+test.describe('ID', () => {
+  test('Display ID internal', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name === 'chrome-unauth');
+    await goToDetail(page);
+    const dl = page.locator('dl');
+
+    await expect(dl.getByText(localization.variableDefinition.id, { exact: true })).toBeVisible();
+    await expect(dl.locator('dd').getByText(variable_org!.id!, { exact: true })).toBeVisible();
+  });
+});
+
 const expectedContact = [
   {
     title: localization.variableDefinition.mail,

@@ -125,7 +125,7 @@ export const mapAboutVariableItems = (v: RenderedView, isAuthenticated: boolean,
     ? [
         {
           label: localization.variableDefinition.id,
-          value: <CopyTag shortName={v.id} />,
+          value: <CopyTag text={v.id} copyType='id' />,
         } satisfies Item,
       ]
     : []),

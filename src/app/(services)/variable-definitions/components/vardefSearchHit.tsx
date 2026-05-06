@@ -52,7 +52,7 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
       <div className={styles.tagsList}>
         <TagsGroup maxTags={4} tagData={subjectFieldTags} ariaLabel={localization.subjectArea} />
         {isAuthenticated && <StatusTag variableStatus={variableDefinition.variable_status} />}
-        <CopyTag shortName={variableDefinition.short_name} />
+        <CopyTag text={variableDefinition.short_name} />
       </div>
     </Card>
   );

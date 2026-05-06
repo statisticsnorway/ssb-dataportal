@@ -42,7 +42,7 @@ export default function VariableDefinitionDetail({
         <Heading className={styles.detailsHeading} data-size='2xl' level={1}>
           {variableDefinition.name}
         </Heading>
-        <CopyTag shortName={variableDefinition.short_name} />
+        <CopyTag text={variableDefinition.short_name} />
         <Paragraph className={`${styles.definition} ingress`}>{variableDefinition.definition}</Paragraph>
         {isAuthenticated && <StatusTag variableStatus={variableDefinition.variable_status} />}
         {variableDefinition.comment ? (

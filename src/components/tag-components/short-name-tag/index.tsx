@@ -5,17 +5,33 @@ import { localization } from '@/libs/language/src/localization';
 import styles from './short-name-tag.module.css';
 
 interface CopyTagProps {
-  shortName: string;
+  text: string;
+  copyType?: CopyType;
 }
 
-const CopyTag = ({ shortName }: CopyTagProps) => {
+export type CopyType = 'short_name' | 'id';
+
+const CopyTag = ({ text: shortName, copyType = 'short_name' }: CopyTagProps) => {
   const { copied, copyToClipboard } = useClipboard();
 
   return (
-    <Tag data-size='md' data-color='success' className={styles.shortNameText} aria-label={localization.shortName.label}>
+    <Tag
+      data-size='md'
+      data-color='success'
+      className={styles.shortNameText}
+      aria-label={copyType === 'short_name' ? localization.shortName.label : localization.variableDefinition.id}
+    >
       <div className={styles.shortNameWrapper}>
         <span className={styles.shortNameLabel}>{shortName}</span>
-        <Tooltip content={copied ? localization.copy.copied : localization.copy.shortName}>
+        <Tooltip
+          content={
+            copied
+              ? localization.copy.copied
+              : copyType === 'short_name'
+                ? localization.copy.shortName
+                : localization.copy.id
+          }
+        >
           <Button
             aria-label={copied ? localization.copy.copied : localization.copy.shortName}
             className={styles.copyShortNameButton}
