@@ -105,8 +105,8 @@ body {
   width: 100%;
   max-width: 1400px;
   margin: var(--center-element-no-top);
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: var(--medium-gap);
+  padding-right: var(--medium-gap);
   box-sizing: border-box;
 }
 
