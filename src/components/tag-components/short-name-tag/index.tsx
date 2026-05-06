@@ -4,11 +4,11 @@ import { useClipboard } from '@/hooks/useClipboard';
 import { localization } from '@/libs/language/src/localization';
 import styles from './short-name-tag.module.css';
 
-interface ShortNameTagProps {
+interface CopyTagProps {
   shortName: string;
 }
 
-const ShortNameTag = ({ shortName }: ShortNameTagProps) => {
+const CopyTag = ({ shortName }: CopyTagProps) => {
   const { copied, copyToClipboard } = useClipboard();
 
   return (
@@ -31,4 +31,4 @@ const ShortNameTag = ({ shortName }: ShortNameTagProps) => {
   );
 };
 
-export { ShortNameTag };
+export { CopyTag };

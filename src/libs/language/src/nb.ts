@@ -233,6 +233,7 @@ export const nb = {
     documentation: 'Dokumentasjon',
     externalPersonalData: 'Sensitive personopplysninger',
     fetchWith: 'Hent variabeldefinisjon med',
+    id: 'ID',
     internalPersonalData: 'Inneholder særlige kategorier av personopplysninger',
     labelPlural: 'Variabeldefinisjoner',
     labelSingular: 'Variabeldefinisjon',
