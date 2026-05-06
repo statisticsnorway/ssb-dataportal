@@ -2,7 +2,7 @@
   background-color: var(--element-background-color);
   border-bottom: 1px solid rgb(230, 230, 230);
   box-shadow: var(--shadow-color) 0px 0px 10px -5px;
-  padding: 1rem 0;
+  padding: var(--medium-gap) 0;
 }
 
 .header {
@@ -32,9 +32,11 @@
 }
 
 @media (min-width: 768px) {
+  .headerWrapper {
+    padding: var(--large-gap) 0;
+  }
   .header {
     gap: var(--extra-large-gap);
-    padding: var(--medium-gap) var(--large-gap);
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
