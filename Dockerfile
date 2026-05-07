@@ -12,7 +12,8 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml* ./
 # WARNING: Corepack is not included in Node v25 so if we upgrade this Docker image to use v25
 # we will need to modify this line
-RUN corepack enable pnpm && pnpm i --prod --frozen-lockfile;
+# RUN corepack enable pnpm && pnpm i --prod --frozen-lockfile;
+RUN npm install -g pnpm@10.33 i --prod --frozen-lockfile;
 
 
 # Rebuild the source code only when needed
