@@ -13,7 +13,7 @@ export type CopyType = 'short_name' | 'id';
 
 const CopyTag = ({ text, copyType = 'short_name' }: CopyTagProps) => {
   const { copied, copyToClipboard } = useClipboard();
-
+  const copyLabel = copyType === 'short_name' ? localization.copy.shortName : localization.copy.id;
   return (
     <Tag
       data-size='md'
@@ -23,23 +23,9 @@ const CopyTag = ({ text, copyType = 'short_name' }: CopyTagProps) => {
     >
       <div className={styles.copyWrapper}>
         <span className={styles.copyLabel}>{text}</span>
-        <Tooltip
-          content={
-            copied
-              ? localization.copy.copied
-              : copyType === 'short_name'
-                ? localization.copy.shortName
-                : localization.copy.id
-          }
-        >
+        <Tooltip content={copied ? localization.copy.copied : copyLabel}>
           <Button
-            aria-label={
-              copied
-                ? localization.copy.copied
-                : copyType === 'short_name'
-                  ? localization.copy.shortName
-                  : localization.copy.id
-            }
+            aria-label={copied ? localization.copy.copied : copyLabel}
             className={styles.copyTextButton}
             variant='tertiary'
             icon
