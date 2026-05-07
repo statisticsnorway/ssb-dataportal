@@ -18,8 +18,6 @@
 
 .copyText .copyTextButton {
   --dsc-button-background: none;
-  --dsc-button-background--hover: var(--ds-color-success-surface-hover);
-  --dsc-button-background--active: var(--ds-color-success-surface-active);
   --dsc-button-border-color: transparent;
   --dsc-button-padding: 0 var(--ds-size-2);
   --dsc-button-size: auto;
