@@ -76,7 +76,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Run Vitest tests
-        run: pnpm test --coverage
+        run: pnpm test
 
   e2e-tests:
     if: github.event_name == 'pull_request'
