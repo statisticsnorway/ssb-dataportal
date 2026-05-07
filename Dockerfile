@@ -2,7 +2,10 @@
 
 # Based on example from: https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
 
-FROM node:22 AS base
+FROM node:22-slim AS base
+
+RUN npm install -g pnpm@11.0.0
+#ENV CI=true
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -12,7 +15,7 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml* ./
 # WARNING: Corepack is not included in Node v25 so if we upgrade this Docker image to use v25
 # we will need to modify this line
-RUN corepack enable pnpm && pnpm i --prod --frozen-lockfile;
+RUN pnpm i --prod --frozen-lockfile
 
 
 # Rebuild the source code only when needed
@@ -24,7 +27,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 # WARNING: Corepack is not included in Node v25 so if we upgrade this Docker image to use v25
 # we will need to modify this line
-RUN corepack enable pnpm && pnpm run build;
+RUN pnpm run build;
 
 # Production image, copy all the files and run next
 FROM gcr.io/distroless/nodejs22-debian12 AS runner
