@@ -24,10 +24,13 @@ test.describe('Heading and short name', () => {
 
   test('Short name can copy value', async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== 'firefox');
-    await page.getByLabel(`${localization.shortName.label}`, { exact: true }).getByText(KNOWN_SHORT_NAME).click();
-    await expect(page.getByLabel(`${localization.shortName.label}`, { exact: true }).locator('span')).toContainText(
-      KNOWN_SHORT_NAME,
-    );
+    await page
+      .getByLabel(`${localization.variableDefinition.shortName}`, { exact: true })
+      .getByText(KNOWN_SHORT_NAME)
+      .click();
+    await expect(
+      page.getByLabel(`${localization.variableDefinition.shortName}`, { exact: true }).locator('span'),
+    ).toContainText(KNOWN_SHORT_NAME);
 
     const copyButton = page.getByRole('button', { name: `${localization.copy.shortName}` });
 

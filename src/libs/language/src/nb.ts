@@ -9,6 +9,16 @@
 export const nb = {
   apiDocumentation: 'API-dokumentasjon',
   appTitle: 'SSB Dataportal',
+
+  authentication: {
+    logIn: 'Logg inn',
+    logInSsbEmployee: 'Logg inn som SSB ansatt',
+    logOut: 'Logg ut',
+    loginHeading: 'Innlogging',
+    loginInfo:
+      'Innlogging er kun tilgjengelig for ansatte i Statistisk sentralbyrå. Du kan fortsatt bruke tjenesten uten å logge inn.',
+  },
+
   breadcrumbsLabel: 'Brødsmulesti',
 
   button: {
@@ -125,15 +135,6 @@ export const nb = {
     results: 'Laster resultater...',
   },
 
-  authentication: {
-    logIn: 'Logg inn',
-    logInSsbEmployee: 'Logg inn som SSB ansatt',
-    logOut: 'Logg ut',
-    loginHeading: 'Innlogging',
-    loginInfo:
-      'Innlogging er kun tilgjengelig for ansatte i Statistisk sentralbyrå. Du kan fortsatt bruke tjenesten uten å logge inn.',
-  },
-
   loadingVariableDefinitions: 'Laster variabeldefinisjoner',
   migration: {
     header: 'Migrering av variabeldefinisjoner pågår',
@@ -193,10 +194,6 @@ export const nb = {
     },
   },
 
-  shortName: {
-    label: 'Kortnavn',
-  },
-
   ssbDataportal: 'SSB Dataportal',
   statisticsNorway: 'Statistisk sentralbyrå',
 
@@ -244,6 +241,7 @@ export const nb = {
     unitTypeInfo:
       'En enhetstype er typen av objekter (enheter) som det lages statistikk om, f.eks. person, foretak og valg',
     relevant: 'Relevante variabeldefinisjoner',
+    shortName: 'Kortnavn',
     validFrom: 'Gyldig fra',
     validTo: 'Gyldig til',
     viewExternalReference: 'Se ekstern referanse',

@@ -19,7 +19,9 @@ const CopyTag = ({ text, copyType = 'short_name' }: CopyTagProps) => {
       data-size='md'
       data-color={copyType == 'short_name' ? 'success' : 'neutral'}
       className={styles.copyText}
-      aria-label={copyType === 'short_name' ? localization.shortName.label : localization.variableDefinition.id}
+      aria-label={
+        copyType === 'short_name' ? localization.variableDefinition.shortName : localization.variableDefinition.id
+      }
     >
       <div className={styles.copyWrapper}>
         <span className={styles.copyLabel}>{text}</span>
