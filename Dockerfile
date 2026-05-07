@@ -5,16 +5,14 @@
 FROM node:22-slim AS base
 
 RUN npm install -g pnpm@11.0.0
-#ENV CI=true
 
 # Install dependencies only when needed
 FROM base AS deps
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY package.json pnpm-lock.yaml* ./
-# WARNING: Corepack is not included in Node v25 so if we upgrade this Docker image to use v25
-# we will need to modify this line
+COPY pnpm-workspace.yaml package.json pnpm-lock.yaml* ./
+
 RUN pnpm i --prod --frozen-lockfile
 
 
@@ -25,8 +23,6 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# WARNING: Corepack is not included in Node v25 so if we upgrade this Docker image to use v25
-# we will need to modify this line
 RUN pnpm run build;
 
 # Production image, copy all the files and run next
