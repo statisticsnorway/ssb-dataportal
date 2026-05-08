@@ -116,6 +116,12 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+  debug:
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    steps:
+      - name: List artifacts via CLI
+        run: gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts
   sonarqube:
     needs: unit-tests
     if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
