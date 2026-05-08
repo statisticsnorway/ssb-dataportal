@@ -1,0 +1,6 @@
+allowBuilds:
+  '@nestjs/core': false
+  '@openapitools/openapi-generator-cli': false
+  '@parcel/watcher': true
+  esbuild: false
+  sharp: true
