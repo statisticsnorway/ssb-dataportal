@@ -2,6 +2,13 @@
   "name": "ssb-dataportal",
   "version": "0.7.0",
   "private": true,
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.0.0",
+      "onFail": "download"
+    }
+  },
   "scripts": {
     "dev": "next dev",
     "dev:debug": "NODE_OPTIONS='--inspect' next dev",
@@ -72,10 +79,5 @@
     "typescript-plugin-css-modules": "^5.2.0",
     "vite": "8.0.10",
     "vitest": "4.1.5"
-  },
-  "resolutions": {
-    "glob": "13.0.6",
-    "@nestjs/core": "11.1.18",
-    "minimatch": "10.2.5"
   }
 }
