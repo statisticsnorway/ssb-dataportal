@@ -126,8 +126,11 @@ jobs:
         run: |
           gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts
   sonarqube:
-    needs: unit-tests
     if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
+    needs: unit-tests
+    permissions:
+      contents: read
+      actions: read
     name: SonarQube
     runs-on: ubuntu-latest
     steps:
@@ -135,7 +138,7 @@ jobs:
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: Download coverage artifact
-        uses: actions/download-artifact@a9bc5e6ef2cb54c177f32aa5726adaa15e7e2d59 # v3.1.0
+        uses: actions/download-artifact@v6
         with:
           name: coverage
           path: coverage/
