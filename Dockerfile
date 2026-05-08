@@ -2,7 +2,7 @@
 
 # Based on example from: https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
 
-FROM node:22-slim AS base
+FROM node:22 AS base
 
 RUN npm install -g pnpm@11.0.0
 

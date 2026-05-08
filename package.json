@@ -2,6 +2,13 @@
   "name": "ssb-dataportal",
   "version": "0.7.0",
   "private": true,
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.0.0",
+      "onFail": "download"
+    }
+  },
   "scripts": {
     "dev": "next dev",
     "dev:debug": "NODE_OPTIONS='--inspect' next dev",
