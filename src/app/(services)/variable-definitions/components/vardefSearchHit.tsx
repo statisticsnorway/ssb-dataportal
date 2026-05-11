@@ -3,7 +3,7 @@ import { type ReactNode } from 'react';
 
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
-import { ShortNameTag } from '@/components/tag-components/short-name-tag';
+import { CopyTag } from '@/components/tag-components/copy-tag';
 import { StatusTag } from '@/components/tag-components/statusTag';
 import { TagsGroup } from '@/components/tag-components/tags-group';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
@@ -52,7 +52,7 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
       <div className={styles.tagsList}>
         <TagsGroup maxTags={4} tagData={subjectFieldTags} ariaLabel={localization.subjectArea} />
         {isAuthenticated && <StatusTag variableStatus={variableDefinition.variable_status} />}
-        <ShortNameTag shortName={variableDefinition.short_name} />
+        <CopyTag text={variableDefinition.short_name} />
       </div>
     </Card>
   );

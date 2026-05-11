@@ -5,6 +5,10 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   lint-and-format:
     runs-on: ubuntu-latest
@@ -77,6 +81,11 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Run Vitest tests
         run: pnpm test --coverage
+      - name: Upload coverage
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a #v7.0.1
+        with:
+          name: coverage
+          path: coverage/
 
   e2e-tests:
     if: github.event_name == 'pull_request'
@@ -109,12 +118,21 @@ jobs:
           retention-days: 30
   sonarqube:
     if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
+    needs: unit-tests
+    permissions:
+      contents: read
+      actions: read
     name: SonarQube
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Download coverage artifact
+        uses: actions/download-artifact@v6
+        with:
+          name: coverage
+          path: coverage/
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@fd88b7d7ccbaefd23d8f36f73b59db7a3d246602 # v6.0.0
         env:

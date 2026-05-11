@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { DetailsTable } from '@/components/details-list';
-import { ShortNameTag } from '@/components/tag-components/short-name-tag';
+import { CopyTag } from '@/components/tag-components/copy-tag';
 import { StatusTag } from '@/components/tag-components/statusTag';
 import { VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
@@ -42,7 +42,7 @@ export default function VariableDefinitionDetail({
         <Heading className={styles.detailsHeading} data-size='2xl' level={1}>
           {variableDefinition.name}
         </Heading>
-        <ShortNameTag shortName={variableDefinition.short_name} />
+        <CopyTag text={variableDefinition.short_name} />
         <Paragraph className={`${styles.definition} ingress`}>{variableDefinition.definition}</Paragraph>
         {isAuthenticated && <StatusTag variableStatus={variableDefinition.variable_status} />}
         {variableDefinition.comment ? (

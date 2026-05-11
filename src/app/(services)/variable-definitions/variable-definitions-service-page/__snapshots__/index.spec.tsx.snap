@@ -691,22 +691,22 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
                       </span>
                       <span
                         aria-label="Kortnavn"
-                        class="ds-tag _shortNameText_e08a88"
+                        class="ds-tag _copyText_44de89"
                         data-color="success"
                         data-size="md"
                         data-variant="default"
                       >
                         <div
-                          class="_shortNameWrapper_e08a88"
+                          class="_copyWrapper_44de89"
                         >
                           <span
-                            class="_shortNameLabel_e08a88"
+                            class="_copyLabel_44de89"
                           >
                             aksje
                           </span>
                           <button
                             aria-label="Kopier kortnavn"
-                            class="ds-button _copyShortNameButton_e08a88"
+                            class="ds-button _copyTextButton_44de89"
                             data-autoplacement="true"
                             data-icon="true"
                             data-placement="top"
@@ -792,22 +792,22 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
                       </span>
                       <span
                         aria-label="Kortnavn"
-                        class="ds-tag _shortNameText_e08a88"
+                        class="ds-tag _copyText_44de89"
                         data-color="success"
                         data-size="md"
                         data-variant="default"
                       >
                         <div
-                          class="_shortNameWrapper_e08a88"
+                          class="_copyWrapper_44de89"
                         >
                           <span
-                            class="_shortNameLabel_e08a88"
+                            class="_copyLabel_44de89"
                           >
                             aktivitetskode
                           </span>
                           <button
                             aria-label="Kopier kortnavn"
-                            class="ds-button _copyShortNameButton_e08a88"
+                            class="ds-button _copyTextButton_44de89"
                             data-autoplacement="true"
                             data-icon="true"
                             data-placement="top"
@@ -893,22 +893,22 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
                       </span>
                       <span
                         aria-label="Kortnavn"
-                        class="ds-tag _shortNameText_e08a88"
+                        class="ds-tag _copyText_44de89"
                         data-color="success"
                         data-size="md"
                         data-variant="default"
                       >
                         <div
-                          class="_shortNameWrapper_e08a88"
+                          class="_copyWrapper_44de89"
                         >
                           <span
-                            class="_shortNameLabel_e08a88"
+                            class="_copyLabel_44de89"
                           >
                             akap
                           </span>
                           <button
                             aria-label="Kopier kortnavn"
-                            class="ds-button _copyShortNameButton_e08a88"
+                            class="ds-button _copyTextButton_44de89"
                             data-autoplacement="true"
                             data-icon="true"
                             data-placement="top"
@@ -994,22 +994,22 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
                       </span>
                       <span
                         aria-label="Kortnavn"
-                        class="ds-tag _shortNameText_e08a88"
+                        class="ds-tag _copyText_44de89"
                         data-color="success"
                         data-size="md"
                         data-variant="default"
                       >
                         <div
-                          class="_shortNameWrapper_e08a88"
+                          class="_copyWrapper_44de89"
                         >
                           <span
-                            class="_shortNameLabel_e08a88"
+                            class="_copyLabel_44de89"
                           >
                             sp17_rom
                           </span>
                           <button
                             aria-label="Kopier kortnavn"
-                            class="ds-button _copyShortNameButton_e08a88"
+                            class="ds-button _copyTextButton_44de89"
                             data-autoplacement="true"
                             data-icon="true"
                             data-placement="top"
@@ -1095,22 +1095,22 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
                       </span>
                       <span
                         aria-label="Kortnavn"
-                        class="ds-tag _shortNameText_e08a88"
+                        class="ds-tag _copyText_44de89"
                         data-color="success"
                         data-size="md"
                         data-variant="default"
                       >
                         <div
-                          class="_shortNameWrapper_e08a88"
+                          class="_copyWrapper_44de89"
                         >
                           <span
-                            class="_shortNameLabel_e08a88"
+                            class="_copyLabel_44de89"
                           >
                             ant_f
                           </span>
                           <button
                             aria-label="Kopier kortnavn"
-                            class="ds-button _copyShortNameButton_e08a88"
+                            class="ds-button _copyTextButton_44de89"
                             data-autoplacement="true"
                             data-icon="true"
                             data-placement="top"
@@ -1196,22 +1196,22 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
                       </span>
                       <span
                         aria-label="Kortnavn"
-                        class="ds-tag _shortNameText_e08a88"
+                        class="ds-tag _copyText_44de89"
                         data-color="success"
                         data-size="md"
                         data-variant="default"
                       >
                         <div
-                          class="_shortNameWrapper_e08a88"
+                          class="_copyWrapper_44de89"
                         >
                           <span
-                            class="_shortNameLabel_e08a88"
+                            class="_copyLabel_44de89"
                           >
                             antall
                           </span>
                           <button
                             aria-label="Kopier kortnavn"
-                            class="ds-button _copyShortNameButton_e08a88"
+                            class="ds-button _copyTextButton_44de89"
                             data-autoplacement="true"
                             data-icon="true"
                             data-placement="top"
@@ -1297,22 +1297,22 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
                       </span>
                       <span
                         aria-label="Kortnavn"
-                        class="ds-tag _shortNameText_e08a88"
+                        class="ds-tag _copyText_44de89"
                         data-color="success"
                         data-size="md"
                         data-variant="default"
                       >
                         <div
-                          class="_shortNameWrapper_e08a88"
+                          class="_copyWrapper_44de89"
                         >
                           <span
-                            class="_shortNameLabel_e08a88"
+                            class="_copyLabel_44de89"
                           >
                             pers18plus_i_hushnr
                           </span>
                           <button
                             aria-label="Kopier kortnavn"
-                            class="ds-button _copyShortNameButton_e08a88"
+                            class="ds-button _copyTextButton_44de89"
                             data-autoplacement="true"
                             data-icon="true"
                             data-placement="top"
@@ -1398,22 +1398,22 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
                       </span>
                       <span
                         aria-label="Kortnavn"
-                        class="ds-tag _shortNameText_e08a88"
+                        class="ds-tag _copyText_44de89"
                         data-color="success"
                         data-size="md"
                         data-variant="default"
                       >
                         <div
-                          class="_shortNameWrapper_e08a88"
+                          class="_copyWrapper_44de89"
                         >
                           <span
-                            class="_shortNameLabel_e08a88"
+                            class="_copyLabel_44de89"
                           >
                             sp16_rom
                           </span>
                           <button
                             aria-label="Kopier kortnavn"
-                            class="ds-button _copyShortNameButton_e08a88"
+                            class="ds-button _copyTextButton_44de89"
                             data-autoplacement="true"
                             data-icon="true"
                             data-placement="top"
@@ -2247,22 +2247,22 @@ exports[`VariableDefinitionsServicePage > page renders filters 1`] = `
                       </span>
                       <span
                         aria-label="Kortnavn"
-                        class="ds-tag _shortNameText_e08a88"
+                        class="ds-tag _copyText_44de89"
                         data-color="success"
                         data-size="md"
                         data-variant="default"
                       >
                         <div
-                          class="_shortNameWrapper_e08a88"
+                          class="_copyWrapper_44de89"
                         >
                           <span
-                            class="_shortNameLabel_e08a88"
+                            class="_copyLabel_44de89"
                           >
                             aksje
                           </span>
                           <button
                             aria-label="Kopier kortnavn"
-                            class="ds-button _copyShortNameButton_e08a88"
+                            class="ds-button _copyTextButton_44de89"
                             data-autoplacement="true"
                             data-icon="true"
                             data-placement="top"
@@ -2348,22 +2348,22 @@ exports[`VariableDefinitionsServicePage > page renders filters 1`] = `
                       </span>
                       <span
                         aria-label="Kortnavn"
-                        class="ds-tag _shortNameText_e08a88"
+                        class="ds-tag _copyText_44de89"
                         data-color="success"
                         data-size="md"
                         data-variant="default"
                       >
                         <div
-                          class="_shortNameWrapper_e08a88"
+                          class="_copyWrapper_44de89"
                         >
                           <span
-                            class="_shortNameLabel_e08a88"
+                            class="_copyLabel_44de89"
                           >
                             aktivitetskode
                           </span>
                           <button
                             aria-label="Kopier kortnavn"
-                            class="ds-button _copyShortNameButton_e08a88"
+                            class="ds-button _copyTextButton_44de89"
                             data-autoplacement="true"
                             data-icon="true"
                             data-placement="top"
@@ -2449,22 +2449,22 @@ exports[`VariableDefinitionsServicePage > page renders filters 1`] = `
                       </span>
                       <span
                         aria-label="Kortnavn"
-                        class="ds-tag _shortNameText_e08a88"
+                        class="ds-tag _copyText_44de89"
                         data-color="success"
                         data-size="md"
                         data-variant="default"
                       >
                         <div
-                          class="_shortNameWrapper_e08a88"
+                          class="_copyWrapper_44de89"
                         >
                           <span
-                            class="_shortNameLabel_e08a88"
+                            class="_copyLabel_44de89"
                           >
                             akap
                           </span>
                           <button
                             aria-label="Kopier kortnavn"
-                            class="ds-button _copyShortNameButton_e08a88"
+                            class="ds-button _copyTextButton_44de89"
                             data-autoplacement="true"
                             data-icon="true"
                             data-placement="top"
@@ -2550,22 +2550,22 @@ exports[`VariableDefinitionsServicePage > page renders filters 1`] = `
                       </span>
                       <span
                         aria-label="Kortnavn"
-                        class="ds-tag _shortNameText_e08a88"
+                        class="ds-tag _copyText_44de89"
                         data-color="success"
                         data-size="md"
                         data-variant="default"
                       >
                         <div
-                          class="_shortNameWrapper_e08a88"
+                          class="_copyWrapper_44de89"
                         >
                           <span
-                            class="_shortNameLabel_e08a88"
+                            class="_copyLabel_44de89"
                           >
                             sp17_rom
                           </span>
                           <button
                             aria-label="Kopier kortnavn"
-                            class="ds-button _copyShortNameButton_e08a88"
+                            class="ds-button _copyTextButton_44de89"
                             data-autoplacement="true"
                             data-icon="true"
                             data-placement="top"
@@ -2651,22 +2651,22 @@ exports[`VariableDefinitionsServicePage > page renders filters 1`] = `
                       </span>
                       <span
                         aria-label="Kortnavn"
-                        class="ds-tag _shortNameText_e08a88"
+                        class="ds-tag _copyText_44de89"
                         data-color="success"
                         data-size="md"
                         data-variant="default"
                       >
                         <div
-                          class="_shortNameWrapper_e08a88"
+                          class="_copyWrapper_44de89"
                         >
                           <span
-                            class="_shortNameLabel_e08a88"
+                            class="_copyLabel_44de89"
                           >
                             ant_f
                           </span>
                           <button
                             aria-label="Kopier kortnavn"
-                            class="ds-button _copyShortNameButton_e08a88"
+                            class="ds-button _copyTextButton_44de89"
                             data-autoplacement="true"
                             data-icon="true"
                             data-placement="top"
@@ -2752,22 +2752,22 @@ exports[`VariableDefinitionsServicePage > page renders filters 1`] = `
                       </span>
                       <span
                         aria-label="Kortnavn"
-                        class="ds-tag _shortNameText_e08a88"
+                        class="ds-tag _copyText_44de89"
                         data-color="success"
                         data-size="md"
                         data-variant="default"
                       >
                         <div
-                          class="_shortNameWrapper_e08a88"
+                          class="_copyWrapper_44de89"
                         >
                           <span
-                            class="_shortNameLabel_e08a88"
+                            class="_copyLabel_44de89"
                           >
                             antall
                           </span>
                           <button
                             aria-label="Kopier kortnavn"
-                            class="ds-button _copyShortNameButton_e08a88"
+                            class="ds-button _copyTextButton_44de89"
                             data-autoplacement="true"
                             data-icon="true"
                             data-placement="top"
@@ -2853,22 +2853,22 @@ exports[`VariableDefinitionsServicePage > page renders filters 1`] = `
                       </span>
                       <span
                         aria-label="Kortnavn"
-                        class="ds-tag _shortNameText_e08a88"
+                        class="ds-tag _copyText_44de89"
                         data-color="success"
                         data-size="md"
                         data-variant="default"
                       >
                         <div
-                          class="_shortNameWrapper_e08a88"
+                          class="_copyWrapper_44de89"
                         >
                           <span
-                            class="_shortNameLabel_e08a88"
+                            class="_copyLabel_44de89"
                           >
                             pers18plus_i_hushnr
                           </span>
                           <button
                             aria-label="Kopier kortnavn"
-                            class="ds-button _copyShortNameButton_e08a88"
+                            class="ds-button _copyTextButton_44de89"
                             data-autoplacement="true"
                             data-icon="true"
                             data-placement="top"
@@ -2954,22 +2954,22 @@ exports[`VariableDefinitionsServicePage > page renders filters 1`] = `
                       </span>
                       <span
                         aria-label="Kortnavn"
-                        class="ds-tag _shortNameText_e08a88"
+                        class="ds-tag _copyText_44de89"
                         data-color="success"
                         data-size="md"
                         data-variant="default"
                       >
                         <div
-                          class="_shortNameWrapper_e08a88"
+                          class="_copyWrapper_44de89"
                         >
                           <span
-                            class="_shortNameLabel_e08a88"
+                            class="_copyLabel_44de89"
                           >
                             sp16_rom
                           </span>
                           <button
                             aria-label="Kopier kortnavn"
-                            class="ds-button _copyShortNameButton_e08a88"
+                            class="ds-button _copyTextButton_44de89"
                             data-autoplacement="true"
                             data-icon="true"
                             data-placement="top"
@@ -3783,22 +3783,22 @@ exports[`VariableDefinitionsServicePage > unauthenticated - hides status filter 
                       </ul>
                       <span
                         aria-label="Kortnavn"
-                        class="ds-tag _shortNameText_e08a88"
+                        class="ds-tag _copyText_44de89"
                         data-color="success"
                         data-size="md"
                         data-variant="default"
                       >
                         <div
-                          class="_shortNameWrapper_e08a88"
+                          class="_copyWrapper_44de89"
                         >
                           <span
-                            class="_shortNameLabel_e08a88"
+                            class="_copyLabel_44de89"
                           >
                             helsereg
                           </span>
                           <button
                             aria-label="Kopier kortnavn"
-                            class="ds-button _copyShortNameButton_e08a88"
+                            class="ds-button _copyTextButton_44de89"
                             data-autoplacement="true"
                             data-icon="true"
                             data-placement="top"
@@ -3875,22 +3875,22 @@ exports[`VariableDefinitionsServicePage > unauthenticated - hides status filter 
                       </ul>
                       <span
                         aria-label="Kortnavn"
-                        class="ds-tag _shortNameText_e08a88"
+                        class="ds-tag _copyText_44de89"
                         data-color="success"
                         data-size="md"
                         data-variant="default"
                       >
                         <div
-                          class="_shortNameWrapper_e08a88"
+                          class="_copyWrapper_44de89"
                         >
                           <span
-                            class="_shortNameLabel_e08a88"
+                            class="_copyLabel_44de89"
                           >
                             org_form
                           </span>
                           <button
                             aria-label="Kopier kortnavn"
-                            class="ds-button _copyShortNameButton_e08a88"
+                            class="ds-button _copyTextButton_44de89"
                             data-autoplacement="true"
                             data-icon="true"
                             data-placement="top"
