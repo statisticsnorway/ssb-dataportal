@@ -78,16 +78,16 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
                 data-variant="default"
               >
                 <fieldset
-                  aria-labelledby="collapsible-status"
+                  aria-labelledby="collapsible-status-heading"
                   class="ds-fieldset"
                 >
                   <legend
                     class="ds-label _filterHeader_d7d1d1"
                     data-weight="medium"
-                    id="collapsible-status"
+                    id="collapsible-status-heading"
                   >
                     <button
-                      aria-controls="collapsible-status"
+                      aria-controls="collapsible-status-panel"
                       aria-expanded="true"
                       class="ds-button _toggleFilter_d7d1d1"
                       data-variant="primary"
@@ -121,7 +121,7 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
                   </legend>
                   <div
                     class="_filterItems_d7d1d1 "
-                    id="collapsible-status"
+                    id="collapsible-status-panel"
                   >
                     <ds-field
                       class="ds-field _checkbox_343154"
@@ -182,16 +182,16 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
                 data-variant="default"
               >
                 <fieldset
-                  aria-labelledby="collapsible-statistikkomrde"
+                  aria-labelledby="collapsible-statistikkomrde-heading"
                   class="ds-fieldset"
                 >
                   <legend
                     class="ds-label _filterHeader_d7d1d1"
                     data-weight="medium"
-                    id="collapsible-statistikkomrde"
+                    id="collapsible-statistikkomrde-heading"
                   >
                     <button
-                      aria-controls="collapsible-statistikkomrde"
+                      aria-controls="collapsible-statistikkomrde-panel"
                       aria-expanded="true"
                       class="ds-button _toggleFilter_d7d1d1"
                       data-variant="primary"
@@ -225,7 +225,7 @@ exports[`VariableDefinitionsServicePage > happy path 1`] = `
                   </legend>
                   <div
                     class="_filterItems_d7d1d1 "
-                    id="collapsible-statistikkomrde"
+                    id="collapsible-statistikkomrde-panel"
                   >
                     <ds-field
                       class="ds-field _checkbox_343154"
@@ -1634,16 +1634,16 @@ exports[`VariableDefinitionsServicePage > page renders filters 1`] = `
                 data-variant="default"
               >
                 <fieldset
-                  aria-labelledby="collapsible-status"
+                  aria-labelledby="collapsible-status-heading"
                   class="ds-fieldset"
                 >
                   <legend
                     class="ds-label _filterHeader_d7d1d1"
                     data-weight="medium"
-                    id="collapsible-status"
+                    id="collapsible-status-heading"
                   >
                     <button
-                      aria-controls="collapsible-status"
+                      aria-controls="collapsible-status-panel"
                       aria-expanded="true"
                       class="ds-button _toggleFilter_d7d1d1"
                       data-variant="primary"
@@ -1677,7 +1677,7 @@ exports[`VariableDefinitionsServicePage > page renders filters 1`] = `
                   </legend>
                   <div
                     class="_filterItems_d7d1d1 "
-                    id="collapsible-status"
+                    id="collapsible-status-panel"
                   >
                     <ds-field
                       class="ds-field _checkbox_343154"
@@ -1738,16 +1738,16 @@ exports[`VariableDefinitionsServicePage > page renders filters 1`] = `
                 data-variant="default"
               >
                 <fieldset
-                  aria-labelledby="collapsible-statistikkomrde"
+                  aria-labelledby="collapsible-statistikkomrde-heading"
                   class="ds-fieldset"
                 >
                   <legend
                     class="ds-label _filterHeader_d7d1d1"
                     data-weight="medium"
-                    id="collapsible-statistikkomrde"
+                    id="collapsible-statistikkomrde-heading"
                   >
                     <button
-                      aria-controls="collapsible-statistikkomrde"
+                      aria-controls="collapsible-statistikkomrde-panel"
                       aria-expanded="true"
                       class="ds-button _toggleFilter_d7d1d1"
                       data-variant="primary"
@@ -1781,7 +1781,7 @@ exports[`VariableDefinitionsServicePage > page renders filters 1`] = `
                   </legend>
                   <div
                     class="_filterItems_d7d1d1 "
-                    id="collapsible-statistikkomrde"
+                    id="collapsible-statistikkomrde-panel"
                   >
                     <ds-field
                       class="ds-field _checkbox_343154"
@@ -3293,16 +3293,16 @@ exports[`VariableDefinitionsServicePage > unauthenticated - hides status filter 
                 data-variant="default"
               >
                 <fieldset
-                  aria-labelledby="collapsible-statistikkomrde"
+                  aria-labelledby="collapsible-statistikkomrde-heading"
                   class="ds-fieldset"
                 >
                   <legend
                     class="ds-label _filterHeader_d7d1d1"
                     data-weight="medium"
-                    id="collapsible-statistikkomrde"
+                    id="collapsible-statistikkomrde-heading"
                   >
                     <button
-                      aria-controls="collapsible-statistikkomrde"
+                      aria-controls="collapsible-statistikkomrde-panel"
                       aria-expanded="true"
                       class="ds-button _toggleFilter_d7d1d1"
                       data-variant="primary"
@@ -3336,7 +3336,7 @@ exports[`VariableDefinitionsServicePage > unauthenticated - hides status filter 
                   </legend>
                   <div
                     class="_filterItems_d7d1d1 "
-                    id="collapsible-statistikkomrde"
+                    id="collapsible-statistikkomrde-panel"
                   >
                     <ds-field
                       class="ds-field _checkbox_343154"
