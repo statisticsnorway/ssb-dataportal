@@ -239,6 +239,16 @@ Uses the OpenAPI spec from: <https://data.ssb.no/api/klass/v3/api-docs>
 
 Output directory: src/libs/data-access/klass
 
+#### Generate Datadoc internal
+
+```bash
+pnpm codegen:datadoc
+```
+
+Uses the OpenAPI spec from: <https://metadata.intern.test.ssb.no/docs/openapi/datadoc/internal-datadoc-api-0.1.yml>
+
+Output directory: src/libs/data-access/datadoc/internal
+
 ## Release process
 
 Update the version using `pnpm version <version bump type>`. This project follows [semantic versioning](https://semver.org/):
