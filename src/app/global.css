@@ -205,6 +205,11 @@ h2[id^="tableHeading"] {
   font-weight: var(--font-weight-medium);
 }
 
+h1[id^="detailsHeading"] {
+  font-family: var(--font-open-sans);
+  font-weight: var(--font-weight-heavy);
+}
+
 @media (min-width: 768px) {
   select#sortVariables.ds-input {
     width: 300px;

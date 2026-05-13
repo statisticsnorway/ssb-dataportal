@@ -28,7 +28,9 @@ const LoginButton = () => {
     <Dialog.TriggerContext>
       <Dialog.Trigger>{localization.authentication.logIn}</Dialog.Trigger>
       <Dialog>
-        <Heading level={3}>{localization.authentication.loginHeading}</Heading>
+        <Heading id='detailsHeading' level={1}>
+          {localization.authentication.loginHeading}
+        </Heading>
         <p>{localization.authentication.loginInfo}</p>
         <Button onClick={() => router.push(getLoginUrl(pathname))}>
           {localization.authentication.logInSsbEmployee}
