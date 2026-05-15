@@ -6,3 +6,9 @@
 .dataProductHeadingLink:hover {
   text-decoration: none !important;
 }
+
+.tagContainer {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}

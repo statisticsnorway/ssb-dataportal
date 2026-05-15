@@ -2,17 +2,15 @@ import { Metadata } from 'next';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { listDataProducts } from '@/libs/data/datasets/datasets';
 import { localization } from '@/libs/language';
-import { createLogger } from '@/libs/logger/server-logger';
 import { tabsData } from '../tabs';
 import { DataProductSearchHit } from './components/DataProductSearchHit';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
   title: localization.pageTitle.datasets,
 };
 
 export default async function Datasets() {
-  const logger = createLogger('datasets');
-  logger.info('Fetching data products');
   const dataProducts = await listDataProducts();
 
   return (
@@ -21,7 +19,7 @@ export default async function Datasets() {
       header={localization.tabs.datasets}
       totalHits={dataProducts.length}
       searchResult={
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div className={styles.searchResultList}>
           {dataProducts.map((d, index) => (
             <DataProductSearchHit key={d.product_short_name || index} dataProduct={d} />
           ))}

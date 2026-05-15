@@ -14,7 +14,7 @@ export const DataProductSearchHit = ({ dataProduct }: { dataProduct: DataProduct
         {dataProduct.title}
       </Link>
     </Heading>
-    <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+    <div className={styles.tagContainer}>
       <Tag data-color='success' data-size='md'>
         {dataProduct.product_short_name}
       </Tag>
