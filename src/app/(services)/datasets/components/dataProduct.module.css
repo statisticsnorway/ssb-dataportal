@@ -13,11 +13,6 @@
   margin-top: 0.5rem;
 }
 
-.dataProductHeadingLink {
-  /* No underline on the link*/
-  text-decoration: none;
-}
-
 /* Multi-line text clamp.
   Uses -webkit-line-clamp because this 3-property combo is
    the only fully supported way to truncate text over multiple lines. */
