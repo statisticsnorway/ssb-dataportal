@@ -38,6 +38,8 @@ spec:
       value: "false"
     - name: DATADOC_USE_STATIC_DATA
       value: "false"
+    - name: DATADOC_USE_M2M_TOKEN
+      value: "true"
     - name: VARDEF_USE_M2M_TOKEN
       value: "true"
     - name: KEYCLOAK_HOST

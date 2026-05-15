@@ -26,8 +26,8 @@ export async function getDataDocClient(): Promise<DefaultApi> {
       return undefined;
     });
     if (!token) {
-      logger.debug('No JWT token found in request headers');
-      return Promise.reject('Could not retrieve access token!');
+      logger.error('No JWT token found in request headers and M2M is disabled');
+      return Promise.reject(new Error('Could not retrieve access token!'));
     }
     logger.debug('Successfully retrieved JWT from authorization header');
   }
@@ -54,7 +54,7 @@ export async function listDataProducts(): Promise<DataProductDTO[]> {
   }
 
   try {
-    logger.info('Gertting from api');
+    logger.info('Getting from api');
     const api = await getDataDocClient();
     const startTime = Date.now();
     const rawData = await api.listDataProducts({}, {
@@ -71,7 +71,7 @@ export async function listDataProducts(): Promise<DataProductDTO[]> {
     if (error instanceof ResponseError) {
       logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
     } else {
-      logger.error({ error: error }, 'Unexpected error during fetch');
+      logger.error({ error }, 'Unexpected error during fetch');
     }
     throw error;
   }
@@ -95,7 +95,7 @@ export async function getDataProductByShortName(shortName: string): Promise<Data
     if (error instanceof ResponseError) {
       logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
     } else {
-      logger.error({ error: error }, 'Unexpected error during fetch');
+      logger.error({ error }, 'Unexpected error during fetch');
     }
     throw error;
   }
