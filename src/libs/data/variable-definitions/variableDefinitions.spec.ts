@@ -27,7 +27,7 @@ describe('vardef data fetching', () => {
     });
     it('hardcoded token', () => {
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
-      process.env.VARDEF_BASE_PATH = 'my-cool-base-path';
+      process.env.METADATA_API_BASE_PATH = 'my-cool-base-path';
       getVardefClient().then((client) => {
         expect(client).toBeInstanceOf(VariableDefinitionsApi);
         // @ts-ignore only protected access in test
@@ -38,7 +38,7 @@ describe('vardef data fetching', () => {
           });
         }
         // @ts-ignore only protected access in test
-        expect(client.configuration.basePath).toEqual(process.env.VARDEF_BASE_PATH);
+        expect(client.configuration.basePath).toEqual(process.env.METADATA_API_BASE_PATH);
       });
     });
   });

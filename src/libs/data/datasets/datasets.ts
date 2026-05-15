@@ -37,7 +37,7 @@ export async function getDataDocClient(): Promise<DefaultApi> {
       'User-Agent': getUserAgent(),
     },
   } as ConfigurationParameters;
-  const basePath = process.env.DATADOC_BASE_PATH;
+  const basePath = process.env.METADATA_API_BASE_PATH;
   if (basePath) {
     logger.debug({ basePath }, 'DataDoc API base path configured');
     configParams.basePath = basePath;

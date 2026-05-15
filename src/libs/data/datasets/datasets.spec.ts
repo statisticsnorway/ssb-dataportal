@@ -34,7 +34,7 @@ describe('datadoc data fetching', () => {
 
     it('hardcoded token', async () => {
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
-      process.env.DATADOC_BASE_PATH = 'my-cool-base-path';
+      process.env.METADATA_API_BASE_PATH = 'my-cool-base-path';
       const client = await getDataDocClient();
       expect(client).toBeInstanceOf(DefaultApi);
       // @ts-ignore only protected access in test
@@ -42,7 +42,7 @@ describe('datadoc data fetching', () => {
       const token = await tokenReturn;
       expect(token).toEqual(process.env.SSB_DATAPORTAL_JWT_TOKEN);
       // @ts-ignore only protected access in test
-      expect(client.configuration.basePath).toEqual(process.env.DATADOC_BASE_PATH);
+      expect(client.configuration.basePath).toEqual(process.env.METADATA_API_BASE_PATH);
     });
 
     it('M2M token', async () => {
