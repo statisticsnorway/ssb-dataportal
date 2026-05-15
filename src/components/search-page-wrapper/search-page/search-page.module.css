@@ -38,6 +38,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
+  margin-top: 0.5rem; /* add space above the hits/sort row */
 }
 
 .hitsAndSort > p {

@@ -1,3 +1,4 @@
+import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { Metadata } from 'next';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { listDataProducts } from '@/libs/data/datasets/datasets';
@@ -12,12 +13,19 @@ export const metadata: Metadata = {
 
 export default async function Datasets() {
   const dataProducts = await listDataProducts();
+  const pageInfo = (
+    <Alert data-color='info' data-size='lg'>
+      <Heading level={2}>{localization.info.datasetPrototypeIntro}</Heading>
+      <Paragraph>{localization.info.datasetProtoypeInfo}</Paragraph>
+    </Alert>
+  );
 
   return (
     <SearchPage
       tabsId={tabsData.Datasets.id}
       header={localization.tabs.datasets}
       totalHits={dataProducts.length}
+      infoContent={pageInfo}
       searchResult={
         <div className={styles.searchResultList}>
           {dataProducts.map((d, index) => (
