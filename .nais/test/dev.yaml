@@ -32,6 +32,8 @@ spec:
   env:
     - name: VARDEF_BASE_PATH
       value: http://metadata-api-gateway
+    - name: DATADOC_BASE_PATH
+      value: http://metadata-api-gateway
     - name: VARDEF_USE_STATIC_DATA
       value: "false"
     - name: VARDEF_USE_M2M_TOKEN
