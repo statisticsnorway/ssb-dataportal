@@ -7,7 +7,7 @@ import { DataProductSearchHit } from './components/DataProductSearchHit';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: localization.pageTitle.datasets,
+  title: localization.pageTitle.dataProducts,
 };
 
 export default async function Datasets() {
