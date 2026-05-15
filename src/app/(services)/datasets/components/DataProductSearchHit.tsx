@@ -7,8 +7,8 @@ import { DataProductDTO } from '@/libs/data-access/datadoc/models';
 import styles from './dataProduct.module.css';
 
 interface HeadingLinkProps {
-  href: string;
-  children: ReactNode;
+  readonly href: string;
+  readonly children: ReactNode;
 }
 
 const HeadingLink = ({ href, children }: HeadingLinkProps) => (
@@ -17,7 +17,11 @@ const HeadingLink = ({ href, children }: HeadingLinkProps) => (
   </Link>
 );
 
-export const DataProductSearchHit = ({ dataProduct }: { dataProduct: DataProductDTO }) => {
+interface DataProductSearchHitProps {
+  readonly dataProduct: DataProductDTO;
+}
+
+export const DataProductSearchHit = ({ dataProduct }: DataProductSearchHitProps) => {
   const dataProductRoute = `${tabsData.Datasets.route}/${dataProduct.product_short_name}`;
 
   return (
@@ -27,6 +31,7 @@ export const DataProductSearchHit = ({ dataProduct }: { dataProduct: DataProduct
           <span className='heading12'>{dataProduct.title}</span>
         </HeadingLink>
       </Heading>
+
       <Tag data-color='success' className={styles.dataProductShortName}>
         {dataProduct.product_short_name}
       </Tag>
