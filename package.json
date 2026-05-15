@@ -35,6 +35,7 @@
     "test:e2e:generate": "pnpm dev & playwright codegen http://localhost:3000",
     "codegen:vardef-internal": "openapi-generator-cli generate --generator-key vardef-internal",
     "codegen:klass": "openapi-generator-cli generate --generator-key klass",
+    "codegen:datadoc": "openapi-generator-cli generate --generator-key datadoc",
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {

@@ -1,0 +1,37 @@
+.dataProductHeadingLink {
+  text-decoration: none !important;
+  color: inherit;
+}
+
+.dataProductHeadingLink:hover {
+  text-decoration: none !important;
+}
+
+.tagContainer {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Multi-line text clamp.
+  Uses -webkit-line-clamp because this 3-property combo is
+   the only fully supported way to truncate text over multiple lines. */
+.truncateTo3Lines {
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.tagsList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--small-gap);
+}
+
+.dataProductShortName {
+  font-family: var(--font-family-monospace);
+}

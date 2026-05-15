@@ -49,7 +49,7 @@ export async function getVardefClient(): Promise<VariableDefinitionsApi> {
       'User-Agent': getUserAgent(),
     },
   } as ConfigurationParameters;
-  const basePath = process.env.VARDEF_BASE_PATH;
+  const basePath = process.env.METADATA_API_BASE_PATH;
   if (basePath) {
     logger.debug({ basePath }, 'Vardef API base path configured');
     configParams.basePath = basePath;

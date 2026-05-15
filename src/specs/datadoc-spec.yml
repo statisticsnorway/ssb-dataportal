@@ -1,0 +1,385 @@
+openapi: 3.0.1
+info:
+  title: Internal Datadoc API
+  description: |
+    Service to maintain and expose metadata for data in Statistics Norway. Includes the following concepts:
+
+    - Data File: A logically defined blob of data from a file system or object storage.
+    - Dataset: A collection of related Data Files which together represent a coherent dataset. These are typically partitioned by time periods.
+    - Data Product: A collection of related Data Files that are produced and maintained by a Dapla team. All data which does not directly contribute to publication of a statistic on ssb.no is defined as a Data Product.
+    - Statistic Product: A collection of related Data Files that are produced and maintained by a Dapla team, and directly contribute to publication of a statistic on ssb.no. The list of all statistic products is defined by the Statistic Register.
+  contact:
+    name: Team Metadata
+    email: metadata@ssb.no
+  license:
+    name: CC BY 4.0
+    url: https://creativecommons.org/licenses/by/4.0/deed.no
+  version: "0.1"
+paths:
+  /data-files:
+    get:
+      operationId: listDaplaDataFiles
+      responses:
+        "200":
+          description: List Dapla Data Files.
+          content:
+            application/json:
+              examples:
+                example:
+                  value: "[{\"file_path\":\"gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_p2022_v2.parquet\"\
+                    }]"
+    post:
+      operationId: createOrUpdateDaplaDataFile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateDaplaDataFile"
+        required: true
+      responses:
+        "201":
+          description: The Dapla Data File did not previously exist but has now been
+            created.
+        "200":
+          description: The Dapla Data File already exists and was updated with the
+            supplied data.
+        "400":
+          description: Bad request.
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Bad request:
+                  value:
+                    type: about:blank
+                    status: 400
+                    detail: "Failed to convert argument [example] for value [null]\
+                      \ due to: Error deserializing type: example"
+                Constraint violation:
+                  value:
+                    suppressed: []
+                    parameters: {}
+                    type: https://zalando.github.io/problem/constraint-violation
+                    title: Constraint Violation
+                    status: 400
+                    violations:
+                    - field: classificationReference
+                      message: Code incorrect is not a valid classification id
+  /data-files/{file_path}:
+    get:
+      operationId: getByFilePath
+      parameters:
+      - name: file_path
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Get the Dapla Data File by its file path.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DaplaDataFileDTO"
+        "404":
+          description: Not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Not found:
+                  value:
+                    type: about:blank
+                    status: 404
+                    detail: Not found
+                    parameters: {}
+  /data-products:
+    get:
+      operationId: listDataProducts
+      parameters:
+      - name: product_type
+        in: query
+        explode: false
+        schema:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/DataProductType"
+      responses:
+        "200":
+          description: List Data Products.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DataProductDTO"
+  /data-products/{short_name}:
+    get:
+      operationId: getByShortName
+      parameters:
+      - name: short_name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Get the Data Product by its short name.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DataProductDTO"
+        "404":
+          description: Not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Not found:
+                  value:
+                    type: about:blank
+                    status: 404
+                    detail: Not found
+                    parameters: {}
+  /datasets:
+    get:
+      operationId: listDatasets
+      parameters:
+      - name: product_short_name
+        in: query
+        explode: false
+        schema:
+          type: string
+          nullable: true
+      responses:
+        "200":
+          description: List Datasets.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DatasetDTO"
+  /datasets/{id}:
+    get:
+      operationId: getById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Get a Dataset by ID.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DatasetDTO"
+        "404":
+          description: Not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Not found:
+                  value:
+                    type: about:blank
+                    status: 404
+                    detail: Not found
+                    parameters: {}
+components:
+  schemas:
+    Assessment:
+      type: string
+      enum:
+      - SENSITIVE
+      - PROTECTED
+      - OPEN
+    CreateDaplaDataFile:
+      required:
+      - file_path
+      type: object
+      properties:
+        file_path:
+          type: string
+      description: Create a Data File. A Data File is a logically defined blob of
+        data from a file system or object storage. Its file path shall follow Dapla's
+        naming conventions.
+    DaplaDataFileDTO:
+      required:
+      - file_path
+      type: object
+      properties:
+        file_path:
+          type: string
+          description: The file path of the data file. This is the unique identifier
+            of the data file.
+        storage_location_name:
+          type: string
+          description: "The name of the storage location where the data file is stored.\
+            \ In the case of object storage, this is the name of the bucket."
+          nullable: true
+        file_type:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/FileType"
+        data_last_modified_at:
+          type: string
+          description: "The last modified timestamp of the data file, as reported\
+            \ by the storage provider."
+          format: date-time
+          nullable: true
+        checksum:
+          type: string
+          description: "The checksum of the data file, as reported by the storage\
+            \ provider. This may be used to detect changes in the data file."
+          nullable: true
+        short_description:
+          type: string
+          description: "A short description of the data file, sourced from the file\
+            \ path. \\[Defined in the Dapla Manual.\\](https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn)"
+          nullable: true
+        product_type:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/DataProductType"
+        product_short_name:
+          type: string
+          description: "The identifier of the product this data file belongs to, sourced\
+            \ from the file path. If this is a \\[DataProductType.STATISTIC_PRODUCT\\\
+            ], it must match a short name defined in the Statistic Register. If it\
+            \ is a \\[DataProductType.OTHER_DATA_PRODUCT\\], it has no canonical definition,\
+            \ but must end with \\`_data\\`."
+          nullable: true
+        storage_category:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/StorageCategory"
+        assessment:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/Assessment"
+        dataset_state:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/DatasetState"
+        data_file_version:
+          type: integer
+          description: "The version of the data file. Versions correspond to structural\
+            \ changes in the data file. \\[Defined in the Dapla Manual.\\](https://manual.dapla.ssb.no/statistikkere/navnestandard.html#versjonering-av-datasett)"
+          format: int32
+          nullable: true
+        contains_data_from:
+          type: string
+          description: "The start date of the time period the data file covers, sourced\
+            \ from the file path."
+          format: date-time
+          nullable: true
+        contains_data_until:
+          type: string
+          description: "The end date of the time period the data file covers, sourced\
+            \ from the file path."
+          format: date-time
+          nullable: true
+        owner:
+          type: string
+          description: The uniform name of the Dapla team which owns the data file.
+          nullable: true
+      description: External representation of a Data File. A Data File is a logically
+        defined blob of data from a file system or object storage. Its file path shall
+        follow Dapla's naming conventions. This model is used to represent a data
+        file to clients.
+    DataProductDTO:
+      type: object
+      properties:
+        product_type:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/DataProductType"
+        product_short_name:
+          type: string
+          description: The identifier of this product.
+          nullable: true
+        title:
+          type: string
+          description: The presentation title of this product.
+          nullable: true
+      description: Data Product
+    DataProductType:
+      type: string
+      enum:
+      - OTHER_DATA_PRODUCT
+      - STATISTIC_PRODUCT
+      x-enum-descriptions:
+      - An other data product is a collection of related data files that are produced
+        and maintained by a Dapla team. All data which does not directly contribute
+        to publication of a statistic on ssb.no is defined as a Data Product.
+      - "A statistic product is a collection of related data files that are produced\
+        \ and maintained by a Dapla team, and directly contribute to publication of\
+        \ a statistic on ssb.no. The list of all statistic products is defined by\
+        \ the Statistic Register."
+    DatasetDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        storage_location_name:
+          type: string
+          description: "The name of the storage location where the dataset is stored.\
+            \ In the case of object storage, this is the name of the bucket."
+          nullable: true
+        product_short_name:
+          type: string
+          description: "The identifier of the product this dataset belongs to, sourced\
+            \ from the file path."
+          nullable: true
+        short_description:
+          type: string
+          description: "A short description of the dataset, sourced from the file\
+            \ path. \\[Defined in the Dapla Manual.\\](https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn)"
+          nullable: true
+        assessment:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/Assessment"
+        dataset_state:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/DatasetState"
+        owner:
+          type: string
+          description: The uniform name of the Dapla team which owns the dataset.
+          nullable: true
+      description: A Dataset is a group of data files within one product and state
+        with the same short description.
+    DatasetState:
+      type: string
+      enum:
+      - SOURCE_DATA
+      - INPUT_DATA
+      - PROCESSED_DATA
+      - STATISTICS
+      - OUTPUT_DATA
+    FileType:
+      type: string
+      enum:
+      - PARQUET
+      - PARQUET_PARTITIONED
+      - CSV
+      - JSON
+      - XML
+      - XLSX
+    StorageCategory:
+      type: string
+      enum:
+      - SOURCE
+      - PRODUCT
+      - SHARED

@@ -157,7 +157,7 @@ export const nb = {
 
   pageTitle: {
     classifications: 'Kodeverk',
-    datasets: 'Datasett',
+    dataProducts: 'Dataprodukter',
     variableDefinitions: 'Variabeldefinisjoner',
   },
 
