@@ -27,7 +27,9 @@ export const DataProductSearchHit = ({ dataProduct }: { dataProduct: DataProduct
           <span className='heading12'>{dataProduct.title}</span>
         </HeadingLink>
       </Heading>
-      <Tag>{dataProduct.product_short_name}</Tag>
+      <Tag data-color='success' className={styles.dataProductShortName}>
+        {dataProduct.product_short_name}
+      </Tag>
     </Card>
   );
 };

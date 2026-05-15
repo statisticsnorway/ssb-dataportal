@@ -1,7 +1,20 @@
-.dataProductHeadingLink,
-.dataProductHeadingLink:hover,
-.dataProductHeadingLink:focus,
-.dataProductHeadingLink:visited {
+.dataProductHeadingLink {
+  text-decoration: none !important;
+  color: inherit;
+}
+
+.dataProductHeadingLink:hover {
+  text-decoration: none !important;
+}
+
+.tagContainer {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.dataProductHeadingLink {
+  /* No underline on the link*/
   text-decoration: none;
 }
 
@@ -24,14 +37,6 @@
   gap: var(--small-gap);
 }
 
-.shortName {
+.dataProductShortName {
   font-family: var(--font-family-monospace);
-}
-
-@media (max-width: 460px) {
-  .dataProductShortName {
-    display: block;
-    margin-left: 0;
-    margin-top: 0.25rem;
-  }
 }
