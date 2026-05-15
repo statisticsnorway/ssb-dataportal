@@ -47,12 +47,15 @@ export async function getDataDocClient(): Promise<DefaultApi> {
 
 export async function listDataProducts(): Promise<DataProductDTO[]> {
   const logger = createLogger('data-products');
+  logger.info('List Data Products');
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'listDataProducts' }, 'Using static mock data for data products');
     return dataProducts as DataProductDTO[];
   }
 
   try {
+    logger.info('Gertting from api');
+
     const api = await getDataDocClient();
     const startTime = Date.now();
     const rawData = await api.listDataProducts({}, {
