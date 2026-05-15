@@ -1,22 +1,29 @@
-import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { Metadata } from 'next';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
+import { listDataProducts } from '@/libs/data/datasets/datasets';
 import { localization } from '@/libs/language';
 import { tabsData } from '../tabs';
+import { DataProductSearchHit } from './components/DataProductSearchHit';
 
 export const metadata: Metadata = {
   title: localization.pageTitle.datasets,
 };
 
 export default async function Datasets() {
-  const pageInfo = (
-    <Alert data-color='info' data-size='lg'>
-      <Heading level={2}>{localization.info.datasetPrototypeIntro}</Heading>
-      <Paragraph>{localization.info.datasetProtoypeInfo}</Paragraph>
-    </Alert>
-  );
+  const dataProducts = await listDataProducts();
 
   return (
-    <SearchPage tabsId={tabsData.Datasets.id} header={localization.tabs.datasets} searchResult={pageInfo}></SearchPage>
+    <SearchPage
+      tabsId={tabsData.Datasets.id}
+      header={localization.tabs.datasets}
+      totalHits={dataProducts.length}
+      searchResult={
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {dataProducts.map((d, index) => (
+            <DataProductSearchHit key={d.product_short_name || index} dataProduct={d} />
+          ))}
+        </div>
+      }
+    />
   );
 }
