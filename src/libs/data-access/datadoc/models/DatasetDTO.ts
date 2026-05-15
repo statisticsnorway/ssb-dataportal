@@ -45,19 +45,19 @@ export interface DatasetDTO {
      * @type {string}
      * @memberof DatasetDTO
      */
-    storageLocationName?: string | null;
+    storage_location_name?: string | null;
     /**
      * The identifier of the product this dataset belongs to, sourced from the file path.
      * @type {string}
      * @memberof DatasetDTO
      */
-    productShortName?: string | null;
+    product_short_name?: string | null;
     /**
      * A short description of the dataset, sourced from the file path. \[Defined in the Dapla Manual.\](https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn)
      * @type {string}
      * @memberof DatasetDTO
      */
-    shortDescription?: string | null;
+    short_description?: string | null;
     /**
      * 
      * @type {Assessment}
@@ -69,7 +69,7 @@ export interface DatasetDTO {
      * @type {DatasetState}
      * @memberof DatasetDTO
      */
-    datasetState?: DatasetState | null;
+    dataset_state?: DatasetState | null;
     /**
      * The uniform name of the Dapla team which owns the dataset.
      * @type {string}
@@ -98,11 +98,11 @@ export function DatasetDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     return {
         
         'id': json['id'] == null ? undefined : json['id'],
-        'storageLocationName': json['storageLocationName'] == null ? undefined : json['storageLocationName'],
-        'productShortName': json['productShortName'] == null ? undefined : json['productShortName'],
-        'shortDescription': json['shortDescription'] == null ? undefined : json['shortDescription'],
+        'storage_location_name': json['storage_location_name'] == null ? undefined : json['storage_location_name'],
+        'product_short_name': json['product_short_name'] == null ? undefined : json['product_short_name'],
+        'short_description': json['short_description'] == null ? undefined : json['short_description'],
         'assessment': json['assessment'] == null ? undefined : AssessmentFromJSON(json['assessment']),
-        'datasetState': json['datasetState'] == null ? undefined : DatasetStateFromJSON(json['datasetState']),
+        'dataset_state': json['dataset_state'] == null ? undefined : DatasetStateFromJSON(json['dataset_state']),
         'owner': json['owner'] == null ? undefined : json['owner'],
     };
 }
@@ -119,11 +119,11 @@ export function DatasetDTOToJSONTyped(value?: DatasetDTO | null, ignoreDiscrimin
     return {
         
         'id': value['id'],
-        'storageLocationName': value['storageLocationName'],
-        'productShortName': value['productShortName'],
-        'shortDescription': value['shortDescription'],
+        'storage_location_name': value['storage_location_name'],
+        'product_short_name': value['product_short_name'],
+        'short_description': value['short_description'],
         'assessment': AssessmentToJSON(value['assessment']),
-        'datasetState': DatasetStateToJSON(value['datasetState']),
+        'dataset_state': DatasetStateToJSON(value['dataset_state']),
         'owner': value['owner'],
     };
 }

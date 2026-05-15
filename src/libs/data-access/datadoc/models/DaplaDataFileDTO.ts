@@ -60,25 +60,25 @@ export interface DaplaDataFileDTO {
      * @type {string}
      * @memberof DaplaDataFileDTO
      */
-    filePath: string;
+    file_path: string;
     /**
      * The name of the storage location where the data file is stored. In the case of object storage, this is the name of the bucket.
      * @type {string}
      * @memberof DaplaDataFileDTO
      */
-    storageLocationName?: string | null;
+    storage_location_name?: string | null;
     /**
      * 
      * @type {FileType}
      * @memberof DaplaDataFileDTO
      */
-    fileType?: FileType | null;
+    file_type?: FileType | null;
     /**
      * The last modified timestamp of the data file, as reported by the storage provider.
      * @type {Date}
      * @memberof DaplaDataFileDTO
      */
-    dataLastModifiedAt?: Date | null;
+    data_last_modified_at?: Date | null;
     /**
      * The checksum of the data file, as reported by the storage provider. This may be used to detect changes in the data file.
      * @type {string}
@@ -90,25 +90,25 @@ export interface DaplaDataFileDTO {
      * @type {string}
      * @memberof DaplaDataFileDTO
      */
-    shortDescription?: string | null;
+    short_description?: string | null;
     /**
      * 
      * @type {DataProductType}
      * @memberof DaplaDataFileDTO
      */
-    productType?: DataProductType | null;
+    product_type?: DataProductType | null;
     /**
      * The identifier of the product this data file belongs to, sourced from the file path. If this is a \[DataProductType.STATISTIC_PRODUCT\], it must match a short name defined in the Statistic Register. If it is a \[DataProductType.OTHER_DATA_PRODUCT\], it has no canonical definition, but must end with \`_data\`.
      * @type {string}
      * @memberof DaplaDataFileDTO
      */
-    productShortName?: string | null;
+    product_short_name?: string | null;
     /**
      * 
      * @type {StorageCategory}
      * @memberof DaplaDataFileDTO
      */
-    storageCategory?: StorageCategory | null;
+    storage_category?: StorageCategory | null;
     /**
      * 
      * @type {Assessment}
@@ -120,25 +120,25 @@ export interface DaplaDataFileDTO {
      * @type {DatasetState}
      * @memberof DaplaDataFileDTO
      */
-    datasetState?: DatasetState | null;
+    dataset_state?: DatasetState | null;
     /**
      * The version of the data file. Versions correspond to structural changes in the data file. \[Defined in the Dapla Manual.\](https://manual.dapla.ssb.no/statistikkere/navnestandard.html#versjonering-av-datasett)
      * @type {number}
      * @memberof DaplaDataFileDTO
      */
-    dataFileVersion?: number | null;
+    data_file_version?: number | null;
     /**
      * The start date of the time period the data file covers, sourced from the file path.
      * @type {Date}
      * @memberof DaplaDataFileDTO
      */
-    containsDataFrom?: Date | null;
+    contains_data_from?: Date | null;
     /**
      * The end date of the time period the data file covers, sourced from the file path.
      * @type {Date}
      * @memberof DaplaDataFileDTO
      */
-    containsDataUntil?: Date | null;
+    contains_data_until?: Date | null;
     /**
      * The uniform name of the Dapla team which owns the data file.
      * @type {string}
@@ -153,7 +153,7 @@ export interface DaplaDataFileDTO {
  * Check if a given object implements the DaplaDataFileDTO interface.
  */
 export function instanceOfDaplaDataFileDTO(value: object): value is DaplaDataFileDTO {
-    if (!('filePath' in value) || value['filePath'] === undefined) return false;
+    if (!('file_path' in value) || value['file_path'] === undefined) return false;
     return true;
 }
 
@@ -167,20 +167,20 @@ export function DaplaDataFileDTOFromJSONTyped(json: any, ignoreDiscriminator: bo
     }
     return {
         
-        'filePath': json['filePath'],
-        'storageLocationName': json['storageLocationName'] == null ? undefined : json['storageLocationName'],
-        'fileType': json['fileType'] == null ? undefined : FileTypeFromJSON(json['fileType']),
-        'dataLastModifiedAt': json['dataLastModifiedAt'] == null ? undefined : (new Date(json['dataLastModifiedAt'])),
+        'file_path': json['file_path'],
+        'storage_location_name': json['storage_location_name'] == null ? undefined : json['storage_location_name'],
+        'file_type': json['file_type'] == null ? undefined : FileTypeFromJSON(json['file_type']),
+        'data_last_modified_at': json['data_last_modified_at'] == null ? undefined : (new Date(json['data_last_modified_at'])),
         'checksum': json['checksum'] == null ? undefined : json['checksum'],
-        'shortDescription': json['shortDescription'] == null ? undefined : json['shortDescription'],
-        'productType': json['productType'] == null ? undefined : DataProductTypeFromJSON(json['productType']),
-        'productShortName': json['productShortName'] == null ? undefined : json['productShortName'],
-        'storageCategory': json['storageCategory'] == null ? undefined : StorageCategoryFromJSON(json['storageCategory']),
+        'short_description': json['short_description'] == null ? undefined : json['short_description'],
+        'product_type': json['product_type'] == null ? undefined : DataProductTypeFromJSON(json['product_type']),
+        'product_short_name': json['product_short_name'] == null ? undefined : json['product_short_name'],
+        'storage_category': json['storage_category'] == null ? undefined : StorageCategoryFromJSON(json['storage_category']),
         'assessment': json['assessment'] == null ? undefined : AssessmentFromJSON(json['assessment']),
-        'datasetState': json['datasetState'] == null ? undefined : DatasetStateFromJSON(json['datasetState']),
-        'dataFileVersion': json['dataFileVersion'] == null ? undefined : json['dataFileVersion'],
-        'containsDataFrom': json['containsDataFrom'] == null ? undefined : (new Date(json['containsDataFrom'])),
-        'containsDataUntil': json['containsDataUntil'] == null ? undefined : (new Date(json['containsDataUntil'])),
+        'dataset_state': json['dataset_state'] == null ? undefined : DatasetStateFromJSON(json['dataset_state']),
+        'data_file_version': json['data_file_version'] == null ? undefined : json['data_file_version'],
+        'contains_data_from': json['contains_data_from'] == null ? undefined : (new Date(json['contains_data_from'])),
+        'contains_data_until': json['contains_data_until'] == null ? undefined : (new Date(json['contains_data_until'])),
         'owner': json['owner'] == null ? undefined : json['owner'],
     };
 }
@@ -196,20 +196,20 @@ export function DaplaDataFileDTOToJSONTyped(value?: DaplaDataFileDTO | null, ign
 
     return {
         
-        'filePath': value['filePath'],
-        'storageLocationName': value['storageLocationName'],
-        'fileType': FileTypeToJSON(value['fileType']),
-        'dataLastModifiedAt': value['dataLastModifiedAt'] == null ? value['dataLastModifiedAt'] : value['dataLastModifiedAt'].toISOString(),
+        'file_path': value['file_path'],
+        'storage_location_name': value['storage_location_name'],
+        'file_type': FileTypeToJSON(value['file_type']),
+        'data_last_modified_at': value['data_last_modified_at'] == null ? value['data_last_modified_at'] : value['data_last_modified_at'].toISOString(),
         'checksum': value['checksum'],
-        'shortDescription': value['shortDescription'],
-        'productType': DataProductTypeToJSON(value['productType']),
-        'productShortName': value['productShortName'],
-        'storageCategory': StorageCategoryToJSON(value['storageCategory']),
+        'short_description': value['short_description'],
+        'product_type': DataProductTypeToJSON(value['product_type']),
+        'product_short_name': value['product_short_name'],
+        'storage_category': StorageCategoryToJSON(value['storage_category']),
         'assessment': AssessmentToJSON(value['assessment']),
-        'datasetState': DatasetStateToJSON(value['datasetState']),
-        'dataFileVersion': value['dataFileVersion'],
-        'containsDataFrom': value['containsDataFrom'] == null ? value['containsDataFrom'] : value['containsDataFrom'].toISOString(),
-        'containsDataUntil': value['containsDataUntil'] == null ? value['containsDataUntil'] : value['containsDataUntil'].toISOString(),
+        'dataset_state': DatasetStateToJSON(value['dataset_state']),
+        'data_file_version': value['data_file_version'],
+        'contains_data_from': value['contains_data_from'] == null ? value['contains_data_from'] : value['contains_data_from'].toISOString(),
+        'contains_data_until': value['contains_data_until'] == null ? value['contains_data_until'] : value['contains_data_until'].toISOString(),
         'owner': value['owner'],
     };
 }

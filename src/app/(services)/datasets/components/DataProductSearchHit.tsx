@@ -8,7 +8,7 @@ export const DataProductSearchHit = ({ dataProduct }: { dataProduct: DataProduct
   <Card>
     <Heading data-size='md'>
       <Link
-        href={`${tabsData.Datasets.route}/${dataProduct.productShortName}`}
+        href={`${tabsData.Datasets.route}/${dataProduct.product_short_name}`}
         className={styles.dataProductHeadingLink}
       >
         {dataProduct.title}
@@ -16,7 +16,7 @@ export const DataProductSearchHit = ({ dataProduct }: { dataProduct: DataProduct
     </Heading>
     <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
       <Tag data-color='success' data-size='md'>
-        {dataProduct.productShortName}
+        {dataProduct.product_short_name}
       </Tag>
     </div>
   </Card>

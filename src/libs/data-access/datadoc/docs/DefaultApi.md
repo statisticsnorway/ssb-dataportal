@@ -5,9 +5,9 @@ All URIs are relative to *http://localhost*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**createOrUpdateDaplaDataFile**](DefaultApi.md#createorupdatedapladatafile) | **POST** /data-files |  |
-| [**getByFilePath**](DefaultApi.md#getbyfilepath) | **GET** /data-files/{filePath} |  |
+| [**getByFilePath**](DefaultApi.md#getbyfilepath) | **GET** /data-files/{file_path} |  |
 | [**getById**](DefaultApi.md#getbyid) | **GET** /datasets/{id} |  |
-| [**getByShortName**](DefaultApi.md#getbyshortname) | **GET** /data-products/{shortName} |  |
+| [**getByShortName**](DefaultApi.md#getbyshortname) | **GET** /data-products/{short_name} |  |
 | [**listDaplaDataFiles**](DefaultApi.md#listdapladatafiles) | **GET** /data-files |  |
 | [**listDataProducts**](DefaultApi.md#listdataproducts) | **GET** /data-products |  |
 | [**listDatasets**](DefaultApi.md#listdatasets) | **GET** /datasets |  |

@@ -24,14 +24,14 @@ export interface CreateDaplaDataFile {
      * @type {string}
      * @memberof CreateDaplaDataFile
      */
-    filePath: string;
+    file_path: string;
 }
 
 /**
  * Check if a given object implements the CreateDaplaDataFile interface.
  */
 export function instanceOfCreateDaplaDataFile(value: object): value is CreateDaplaDataFile {
-    if (!('filePath' in value) || value['filePath'] === undefined) return false;
+    if (!('file_path' in value) || value['file_path'] === undefined) return false;
     return true;
 }
 
@@ -45,7 +45,7 @@ export function CreateDaplaDataFileFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'filePath': json['filePath'],
+        'file_path': json['file_path'],
     };
 }
 
@@ -60,7 +60,7 @@ export function CreateDaplaDataFileToJSONTyped(value?: CreateDaplaDataFile | nul
 
     return {
         
-        'filePath': value['filePath'],
+        'file_path': value['file_path'],
     };
 }
 

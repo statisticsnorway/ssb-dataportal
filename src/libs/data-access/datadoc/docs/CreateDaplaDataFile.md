@@ -7,7 +7,7 @@ Create a Data File. A Data File is a logically defined blob of data from a file 
 
 Name | Type
 ------------ | -------------
-`filePath` | string
+`file_path` | string
 
 ## Example
 
@@ -16,7 +16,7 @@ import type { CreateDaplaDataFile } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "filePath": null,
+  "file_path": null,
 } satisfies CreateDaplaDataFile
 
 console.log(example)

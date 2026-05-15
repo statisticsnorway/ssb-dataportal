@@ -30,13 +30,14 @@
       "datadoc": {
         "generatorName": "typescript-fetch",
         "output": "src/libs/data-access/datadoc",
-        "inputSpec": "https://metadata.intern.test.ssb.no/docs/openapi/datadoc/internal-datadoc-api-0.1.yml",
+        "inputSpec": "datadoc-spec.yml",
         "additionalProperties": {
           "supportsES6": "true",
           "npmVersion": "6.9.0",
           "withInterfaces": true,
           "enumPropertyNaming": "UPPERCASE",
-          "useSingleRequestParameter": true
+          "useSingleRequestParameter": true,
+          "modelPropertyNaming": "snake_case"
         }
       }
     }

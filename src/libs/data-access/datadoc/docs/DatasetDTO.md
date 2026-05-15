@@ -8,11 +8,11 @@ A Dataset is a group of data files within one product and state with the same sh
 Name | Type
 ------------ | -------------
 `id` | string
-`storageLocationName` | string
-`productShortName` | string
-`shortDescription` | string
+`storage_location_name` | string
+`product_short_name` | string
+`short_description` | string
 `assessment` | [Assessment](Assessment.md)
-`datasetState` | [DatasetState](DatasetState.md)
+`dataset_state` | [DatasetState](DatasetState.md)
 `owner` | string
 
 ## Example
@@ -23,11 +23,11 @@ import type { DatasetDTO } from ''
 // TODO: Update the object below with actual values
 const example = {
   "id": null,
-  "storageLocationName": null,
-  "productShortName": null,
-  "shortDescription": null,
+  "storage_location_name": null,
+  "product_short_name": null,
+  "short_description": null,
   "assessment": null,
-  "datasetState": null,
+  "dataset_state": null,
   "owner": null,
 } satisfies DatasetDTO
 

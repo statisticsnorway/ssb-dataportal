@@ -7,20 +7,20 @@ External representation of a Data File. A Data File is a logically defined blob 
 
 Name | Type
 ------------ | -------------
-`filePath` | string
-`storageLocationName` | string
-`fileType` | [FileType](FileType.md)
-`dataLastModifiedAt` | Date
+`file_path` | string
+`storage_location_name` | string
+`file_type` | [FileType](FileType.md)
+`data_last_modified_at` | Date
 `checksum` | string
-`shortDescription` | string
-`productType` | [DataProductType](DataProductType.md)
-`productShortName` | string
-`storageCategory` | [StorageCategory](StorageCategory.md)
+`short_description` | string
+`product_type` | [DataProductType](DataProductType.md)
+`product_short_name` | string
+`storage_category` | [StorageCategory](StorageCategory.md)
 `assessment` | [Assessment](Assessment.md)
-`datasetState` | [DatasetState](DatasetState.md)
-`dataFileVersion` | number
-`containsDataFrom` | Date
-`containsDataUntil` | Date
+`dataset_state` | [DatasetState](DatasetState.md)
+`data_file_version` | number
+`contains_data_from` | Date
+`contains_data_until` | Date
 `owner` | string
 
 ## Example
@@ -30,20 +30,20 @@ import type { DaplaDataFileDTO } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "filePath": null,
-  "storageLocationName": null,
-  "fileType": null,
-  "dataLastModifiedAt": null,
+  "file_path": null,
+  "storage_location_name": null,
+  "file_type": null,
+  "data_last_modified_at": null,
   "checksum": null,
-  "shortDescription": null,
-  "productType": null,
-  "productShortName": null,
-  "storageCategory": null,
+  "short_description": null,
+  "product_type": null,
+  "product_short_name": null,
+  "storage_category": null,
   "assessment": null,
-  "datasetState": null,
-  "dataFileVersion": null,
-  "containsDataFrom": null,
-  "containsDataUntil": null,
+  "dataset_state": null,
+  "data_file_version": null,
+  "contains_data_from": null,
+  "contains_data_until": null,
   "owner": null,
 } satisfies DaplaDataFileDTO
 

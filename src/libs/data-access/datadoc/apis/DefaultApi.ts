@@ -216,8 +216,8 @@ export class DefaultApi extends runtime.BaseAPI implements DefaultApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/data-files/{filePath}`;
-        urlPath = urlPath.replace(`{${"filePath"}}`, encodeURIComponent(String(requestParameters['filePath'])));
+        let urlPath = `/data-files/{file_path}`;
+        urlPath = urlPath.replace(`{${"file_path"}}`, encodeURIComponent(String(requestParameters['filePath'])));
 
         const response = await this.request({
             path: urlPath,
@@ -286,8 +286,8 @@ export class DefaultApi extends runtime.BaseAPI implements DefaultApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/data-products/{shortName}`;
-        urlPath = urlPath.replace(`{${"shortName"}}`, encodeURIComponent(String(requestParameters['shortName'])));
+        let urlPath = `/data-products/{short_name}`;
+        urlPath = urlPath.replace(`{${"short_name"}}`, encodeURIComponent(String(requestParameters['shortName'])));
 
         const response = await this.request({
             path: urlPath,
@@ -338,7 +338,7 @@ export class DefaultApi extends runtime.BaseAPI implements DefaultApiInterface {
         const queryParameters: any = {};
 
         if (requestParameters['productType'] != null) {
-            queryParameters['productType'] = requestParameters['productType'];
+            queryParameters['product_type'] = requestParameters['productType'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -369,7 +369,7 @@ export class DefaultApi extends runtime.BaseAPI implements DefaultApiInterface {
         const queryParameters: any = {};
 
         if (requestParameters['productShortName'] != null) {
-            queryParameters['productShortName'] = requestParameters['productShortName'];
+            queryParameters['product_short_name'] = requestParameters['productShortName'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

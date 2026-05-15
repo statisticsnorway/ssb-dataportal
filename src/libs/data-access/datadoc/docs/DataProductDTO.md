@@ -7,8 +7,8 @@ Data Product
 
 Name | Type
 ------------ | -------------
-`productType` | [DataProductType](DataProductType.md)
-`productShortName` | string
+`product_type` | [DataProductType](DataProductType.md)
+`product_short_name` | string
 `title` | string
 
 ## Example
@@ -18,8 +18,8 @@ import type { DataProductDTO } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "productType": null,
-  "productShortName": null,
+  "product_type": null,
+  "product_short_name": null,
   "title": null,
 } satisfies DataProductDTO
 

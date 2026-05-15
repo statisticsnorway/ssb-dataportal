@@ -32,13 +32,13 @@ export interface DataProductDTO {
      * @type {DataProductType}
      * @memberof DataProductDTO
      */
-    productType?: DataProductType | null;
+    product_type?: DataProductType | null;
     /**
      * The identifier of this product.
      * @type {string}
      * @memberof DataProductDTO
      */
-    productShortName?: string | null;
+    product_short_name?: string | null;
     /**
      * The presentation title of this product.
      * @type {string}
@@ -66,8 +66,8 @@ export function DataProductDTOFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'productType': json['productType'] == null ? undefined : DataProductTypeFromJSON(json['productType']),
-        'productShortName': json['productShortName'] == null ? undefined : json['productShortName'],
+        'product_type': json['product_type'] == null ? undefined : DataProductTypeFromJSON(json['product_type']),
+        'product_short_name': json['product_short_name'] == null ? undefined : json['product_short_name'],
         'title': json['title'] == null ? undefined : json['title'],
     };
 }
@@ -83,8 +83,8 @@ export function DataProductDTOToJSONTyped(value?: DataProductDTO | null, ignoreD
 
     return {
         
-        'productType': DataProductTypeToJSON(value['productType']),
-        'productShortName': value['productShortName'],
+        'product_type': DataProductTypeToJSON(value['product_type']),
+        'product_short_name': value['product_short_name'],
         'title': value['title'],
     };
 }
