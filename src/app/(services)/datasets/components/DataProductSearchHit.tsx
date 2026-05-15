@@ -1,14 +1,14 @@
 import { Card, Heading, Link, Tag } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
-import { DataProduct } from '@/types/dataset';
+import { DataProductDTO } from '@/libs/data-access/datadoc/models';
 
 import styles from './dataProduct.module.css';
 
-export const DataProductSearchHit = ({ dataProduct }: { dataProduct: DataProduct }) => (
+export const DataProductSearchHit = ({ dataProduct }: { dataProduct: DataProductDTO }) => (
   <Card>
     <Heading data-size='md'>
       <Link
-        href={`${tabsData.Datasets.route}/${dataProduct.product_short_name}`}
+        href={`${tabsData.Datasets.route}/${dataProduct.productShortName}`}
         className={styles.dataProductHeadingLink}
       >
         {dataProduct.title}
@@ -16,7 +16,7 @@ export const DataProductSearchHit = ({ dataProduct }: { dataProduct: DataProduct
     </Heading>
     <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
       <Tag data-color='success' data-size='md'>
-        {dataProduct.product_short_name}
+        {dataProduct.productShortName}
       </Tag>
     </div>
   </Card>

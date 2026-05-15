@@ -1,12 +1,12 @@
 [
   {
-    "product_type": "STATISTIC_PRODUCT",
-    "product_short_name": "arbstatus",
+    "productType": "STATISTIC_PRODUCT",
+    "productShortName": "arbstatus",
     "title": "Tilknytning til arbeid, utdanning og velferdsordninger"
   },
   {
-    "product_type": "OTHER_DATA_PRODUCT",
-    "product_short_name": "ameld",
+    "productType": "OTHER_DATA_PRODUCT",
+    "productShortName": "ameld",
     "title": "Ameldingen"
   }
 ]

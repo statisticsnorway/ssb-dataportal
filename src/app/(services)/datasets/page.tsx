@@ -20,7 +20,7 @@ export default async function Datasets() {
       searchResult={
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {dataProducts.map((d, index) => (
-            <DataProductSearchHit key={d.product_short_name || index} dataProduct={d} />
+            <DataProductSearchHit key={d.productShortName || index} dataProduct={d} />
           ))}
         </div>
       }

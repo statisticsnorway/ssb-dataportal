@@ -4,7 +4,6 @@ import { getM2mToken } from '@/libs/auth/m2m';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import dataProducts from '@/static-data/data-products.json';
-import { DataProduct } from '@/types/dataset';
 import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
 import { DefaultApi } from '../../data-access/datadoc/apis';
@@ -46,19 +45,11 @@ export async function getDataDocClient(): Promise<DefaultApi> {
   return new DefaultApi(new Configuration(configParams));
 }
 
-function mapToDataProduct(dto: DataProductDTO): DataProduct {
-  return {
-    product_type: dto.productType ?? '',
-    product_short_name: dto.productShortName ?? '',
-    title: dto.title ?? '',
-  };
-}
-
-export async function listDataProducts(): Promise<DataProduct[]> {
+export async function listDataProducts(): Promise<DataProductDTO[]> {
   const logger = createLogger('data-products');
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'listDataProducts' }, 'Using static mock data for data products');
-    return dataProducts as DataProduct[];
+    return dataProducts as DataProductDTO[];
   }
 
   try {
@@ -69,12 +60,11 @@ export async function listDataProducts(): Promise<DataProduct[]> {
       next: { revalidate: ttlSeconds },
     } as RequestInit);
     const durationMs = Date.now() - startTime;
-    const data = rawData.map(mapToDataProduct);
-    if (data.length > 0) {
-      logger.debug({ firstProduct: data[0] }, 'Mapped data products');
+    if (rawData.length > 0) {
+      logger.debug({ firstProduct: rawData[0] }, 'Fetched data products');
     }
-    logger.info({ count: data.length, durationMs }, 'Fetched data products from API');
-    return data;
+    logger.info({ count: rawData.length, durationMs }, 'Fetched data products from API');
+    return rawData;
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
       logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
@@ -85,11 +75,11 @@ export async function listDataProducts(): Promise<DataProduct[]> {
   }
 }
 
-export async function getDataProductByShortName(shortName: string): Promise<DataProduct> {
+export async function getDataProductByShortName(shortName: string): Promise<DataProductDTO> {
   const logger = createLogger('data-products');
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'getDataProductByShortName' }, 'Using static mock data for data products');
-    const dataProduct = (dataProducts as DataProduct[]).find((d) => d.product_short_name === shortName);
+    const dataProduct = (dataProducts as DataProductDTO[]).find((d) => d.productShortName === shortName);
     if (!dataProduct) return Promise.reject('Not found');
     return dataProduct;
   }
@@ -98,7 +88,7 @@ export async function getDataProductByShortName(shortName: string): Promise<Data
     const api = await getDataDocClient();
     const dto = await api.getByShortName({ shortName });
     logger.info({ shortName }, 'Fetched data product');
-    return mapToDataProduct(dto);
+    return dto;
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
       logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');

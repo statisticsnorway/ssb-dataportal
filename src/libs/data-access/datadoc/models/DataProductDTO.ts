@@ -65,8 +65,9 @@ export function DataProductDTOFromJSONTyped(json: any, ignoreDiscriminator: bool
         return json;
     }
     return {
-        'productType': json['productType'] == null && json['product_type'] == null ? undefined : DataProductTypeFromJSON(json['productType'] ?? json['product_type']),
-        'productShortName': json['productShortName'] == null ? json['product_short_name'] : json['productShortName'],
+        
+        'productType': json['productType'] == null ? undefined : DataProductTypeFromJSON(json['productType']),
+        'productShortName': json['productShortName'] == null ? undefined : json['productShortName'],
         'title': json['title'] == null ? undefined : json['title'],
     };
 }

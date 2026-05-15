@@ -18,7 +18,7 @@ export default async function DataProductDetail({ params }: { params: Promise<{ 
   return (
     <main style={{ maxWidth: '800px', margin: '2rem auto', padding: '0 1rem' }}>
       <Tag data-color='success' data-size='md' style={{ marginBottom: '0.5rem' }}>
-        {dataProduct.product_short_name}
+        {dataProduct.productShortName}
       </Tag>
       <Heading level={1}>{dataProduct.title}</Heading>
     </main>
