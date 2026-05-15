@@ -14,11 +14,20 @@ const ttlSeconds = Number(process.env.DATADOC_CACHE_TTL_SECONDS) || 3600;
 
 export async function getDataDocClient(): Promise<DefaultApi> {
   const logger = createLogger('data-products');
+  logger.debug(
+    {
+      useM2m: process.env.DATADOC_USE_M2M_TOKEN,
+      hasHardcodedToken: !!process.env.SSB_DATAPORTAL_JWT_TOKEN,
+      basePath: process.env.DATADOC_BASE_PATH,
+    },
+    'DataDoc auth config',
+  );
+
   let token = process.env.SSB_DATAPORTAL_JWT_TOKEN;
   if (token) {
     logger.warn('Using hardcoded access token from environment! (SSB_DATAPORTAL_JWT_TOKEN)');
   } else if (process.env.DATADOC_USE_M2M_TOKEN === 'true') {
-    logger.debug('Using M2M token for DataDoc auth');
+    logger.info('Using M2M token for DataDoc auth');
     token = await getM2mToken();
   } else {
     token = await getEncodedJwt().catch((reason) => {
