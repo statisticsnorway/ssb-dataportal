@@ -4,19 +4,19 @@ import { localization } from '@/libs/language';
 import styles from './text-filter.module.css';
 
 interface TextFilterProps {
-  label?: string;
+  label: string;
   searchTerm: string;
   setSearchTerm: (value: string) => void;
 }
 
-export function TextFilter({ searchTerm, setSearchTerm }: TextFilterProps) {
+export function TextFilter({ label, searchTerm, setSearchTerm }: Readonly<TextFilterProps>) {
   return (
-    <CollapsibleCard heading={localization.search.textFilter.label}>
+    <CollapsibleCard heading={label}>
       <div className={styles.searchScope}>
         <Search>
           <Search.Input
             id={localization.search.textFilter.inputId}
-            aria-label={localization.search.textFilter.search}
+            aria-label={label}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
