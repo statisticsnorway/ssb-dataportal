@@ -3,7 +3,7 @@ import { localization } from '@/libs/language';
 export enum Tabs {
   VariableDefinitions,
   Classifications,
-  Datasets,
+  DataProducts,
 }
 
 export type TabData = { label: string; searchLabel: string; route: string; id: string };
@@ -21,11 +21,11 @@ export const tabsData: Record<keyof typeof Tabs, TabData> = {
     route: '/classifications',
     id: 'classificationsTab',
   },
-  Datasets: {
-    label: localization.tabs.datasets,
-    searchLabel: localization.search.searchForDatasets,
-    route: '/datasets',
-    id: 'datasetsTab',
+  DataProducts: {
+    label: localization.tabs.dataProducts,
+    searchLabel: localization.search.searchForDataProducts,
+    route: '/data-products',
+    id: 'dataProductsTab',
   },
 };
 

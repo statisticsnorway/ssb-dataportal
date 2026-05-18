@@ -53,10 +53,6 @@ export interface GetByShortNameRequest {
     shortName: string;
 }
 
-export interface ListDaplaDataFilesRequest {
-    datasetId?: string | null;
-}
-
 export interface ListDataProductsRequest {
     productType?: DataProductType | null;
 }
@@ -126,16 +122,15 @@ export interface DefaultApiInterface {
 
     /**
      * 
-     * @param {string} [datasetId] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApiInterface
      */
-    listDaplaDataFilesRaw(requestParameters: ListDaplaDataFilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+    listDaplaDataFilesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
      */
-    listDaplaDataFiles(requestParameters: ListDaplaDataFilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    listDaplaDataFiles(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * 
@@ -221,8 +216,8 @@ export class DefaultApi extends runtime.BaseAPI implements DefaultApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/data-files/{filePath}`;
-        urlPath = urlPath.replace(`{${"filePath"}}`, encodeURIComponent(String(requestParameters['filePath'])));
+        let urlPath = `/data-files/{file_path}`;
+        urlPath = urlPath.replace(`{${"file_path"}}`, encodeURIComponent(String(requestParameters['filePath'])));
 
         const response = await this.request({
             path: urlPath,
@@ -313,12 +308,8 @@ export class DefaultApi extends runtime.BaseAPI implements DefaultApiInterface {
 
     /**
      */
-    async listDaplaDataFilesRaw(requestParameters: ListDaplaDataFilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async listDaplaDataFilesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
-
-        if (requestParameters['datasetId'] != null) {
-            queryParameters['dataset-id'] = requestParameters['datasetId'];
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -337,8 +328,8 @@ export class DefaultApi extends runtime.BaseAPI implements DefaultApiInterface {
 
     /**
      */
-    async listDaplaDataFiles(requestParameters: ListDaplaDataFilesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.listDaplaDataFilesRaw(requestParameters, initOverrides);
+    async listDaplaDataFiles(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.listDaplaDataFilesRaw(initOverrides);
     }
 
     /**

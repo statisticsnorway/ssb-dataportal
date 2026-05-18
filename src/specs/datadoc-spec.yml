@@ -19,14 +19,6 @@ paths:
   /data-files:
     get:
       operationId: listDaplaDataFiles
-      parameters:
-      - name: dataset-id
-        in: query
-        explode: false
-        schema:
-          type: string
-          format: uuid
-          nullable: true
       responses:
         "200":
           description: List Dapla Data Files.
@@ -74,11 +66,11 @@ paths:
                     violations:
                     - field: classificationReference
                       message: Code incorrect is not a valid classification id
-  /data-files/{filePath}:
+  /data-files/{file_path}:
     get:
       operationId: getByFilePath
       parameters:
-      - name: filePath
+      - name: file_path
         in: path
         required: true
         schema:

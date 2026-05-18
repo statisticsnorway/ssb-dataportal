@@ -3,15 +3,9 @@ import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getEncodedJwt } from '@/libs/auth/jwt';
 import { getM2mToken } from '@/libs/auth/m2m';
 import { DefaultApi } from '@/libs/data-access/datadoc/apis';
-import { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
+import { DataProductDTO } from '@/libs/data-access/datadoc/models';
 import dataProducts from '@/static-data/data-products.json';
-import datasetsStatic from '@/static-data/datasets.json';
-import {
-  getDataDocClient,
-  getDataProductByShortName,
-  listDataProducts,
-  listDatasetsByProductShortName,
-} from './datasets';
+import { getDataDocClient, getDataProductByShortName, listDataProducts } from './datasets';
 
 vi.mock('server-only', () => ({}));
 vi.mock('@/libs/auth/m2m', () => ({
@@ -120,39 +114,6 @@ describe('datadoc data fetching', () => {
 
       const result = await getDataProductByShortName(shortName);
       expect(result).toEqual(testProduct);
-    });
-  });
-
-  describe('listDatasetsByProductShortName', () => {
-    const staticDatasets = datasetsStatic as DatasetDTO[];
-    const testDataset = staticDatasets[1];
-    assert(testDataset);
-    const shortName = testDataset.product_short_name;
-    assert(shortName);
-
-    it('static data', async () => {
-      vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
-      await expect(listDatasetsByProductShortName(shortName)).resolves.toContainEqual(testDataset);
-      vi.unstubAllEnvs();
-    });
-
-    it('no token available', async () => {
-      process.env.DATADOC_USE_STATIC_DATA = 'false';
-      vi.mocked(getEncodedJwt).mockResolvedValue(undefined);
-      await expect(listDatasetsByProductShortName(shortName)).rejects.toEqual(
-        new Error('Could not retrieve access token!'),
-      );
-    });
-
-    it('mock api call happy path', async () => {
-      process.env.DATADOC_USE_STATIC_DATA = 'false';
-      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
-
-      const mockResult = [testDataset];
-      vi.spyOn(DefaultApi.prototype, 'listDatasets').mockResolvedValue(mockResult);
-
-      const result = await listDatasetsByProductShortName(shortName);
-      expect(result).toEqual(mockResult);
     });
   });
 });

@@ -93,12 +93,16 @@ test('Filter by name', async ({ variableDefinitionsPage }) => {
   const main = variableDefinitionsPage.getByRole('main');
   await variableDefinitionsPage
     .getByRole('complementary', { name: 'Filters' })
-    .getByLabel('Søk', { exact: true })
+    .getByRole('searchbox', {
+      name: localization.search.textFilter.label,
+    })
     .click();
   await variableDefinitionsPage.getByRole('checkbox', { name: 'Befolkning' }).check();
   await variableDefinitionsPage
     .getByRole('complementary', { name: 'Filters' })
-    .getByLabel('Søk', { exact: true })
+    .getByRole('searchbox', {
+      name: localization.search.textFilter.label,
+    })
     .fill('Baderom');
   await expect(main).toContainText('1 treff');
   await variableDefinitionsPage.getByRole('button', { name: 'Remove Navn: Baderom' }).click();
@@ -110,11 +114,15 @@ test('Filter by name remove all', async ({ variableDefinitionsPage }) => {
   await variableDefinitionsPage.getByRole('checkbox', { name: variables.population }).check();
   await variableDefinitionsPage
     .getByRole('complementary', { name: 'Filters' })
-    .getByLabel('Søk', { exact: true })
+    .getByRole('searchbox', {
+      name: localization.search.textFilter.label,
+    })
     .click();
   await variableDefinitionsPage
     .getByRole('complementary', { name: 'Filters' })
-    .getByLabel('Søk', { exact: true })
+    .getByRole('searchbox', {
+      name: localization.search.textFilter.label,
+    })
     .fill('Baderom');
   await expect(main).toContainText('1 treff');
   await variableDefinitionsPage.getByRole('button', { name: `Remove ${localization.button.removeFilter}` }).click();
@@ -175,19 +183,132 @@ test.describe('Variable definitions - pagination', () => {
     await expect(variableDefinitionsPage.getByTestId('page-active')).toHaveText('2');
     await variableDefinitionsPage.getByRole('checkbox', { name: 'Befolkning' }).check();
     await expect(variableDefinitionsPage.getByTestId('page-active')).toHaveText('1');
+    await expect(variableDefinitionsPage).not.toHaveURL(/[?&]page=/);
   });
   test('Sorting resets to page 1', async ({ variableDefinitionsPage }) => {
     await variableDefinitionsPage.getByRole('button', { name: localization.next }).click();
     await expect(variableDefinitionsPage.getByTestId('page-active')).toHaveText('2');
     await variableDefinitionsPage.getByLabel(localization.search.sort.label).selectOption('titleDesc');
     await expect(variableDefinitionsPage.getByTestId('page-active')).toHaveText('1');
+    await expect(variableDefinitionsPage).not.toHaveURL(/[?&]page=/);
   });
   test('Behavior when no hits', async ({ variableDefinitionsPage }) => {
-    const searchInput = variableDefinitionsPage
-      .getByRole('complementary', { name: 'Filters' })
-      .getByLabel('Søk', { exact: true });
+    const searchInput = variableDefinitionsPage.getByRole('complementary', { name: 'Filters' }).getByRole('searchbox', {
+      name: localization.search.textFilter.label,
+    });
     await searchInput.fill('asdasdasd');
     await expect(variableDefinitionsPage.getByRole('main')).toContainText('Ditt søk ga ingen treff');
     await expect(variableDefinitionsPage.getByTestId('pagination')).toHaveCount(0);
+  });
+});
+
+test.describe('Variable definitions URL state', () => {
+  test('updates URL when filtering by name', async ({ variableDefinitionsPage }) => {
+    await variableDefinitionsPage
+      .getByRole('complementary', { name: 'Filters' })
+      .getByRole('searchbox', {
+        name: localization.search.textFilter.label,
+      })
+      .fill('Baderom');
+    await expect(variableDefinitionsPage).toHaveURL(/[?&]q=Baderom/);
+    await expect(variableDefinitionsPage).not.toHaveURL(/[?&]page=/);
+    await expect(variableDefinitionsPage.getByRole('main')).toContainText('1 treff');
+  });
+
+  test('updates URL when selecting status filter', async ({ variableDefinitionsPage }) => {
+    await variableDefinitionsPage.getByRole('checkbox', { name: statuses.draft.label }).check();
+    await expect(variableDefinitionsPage).toHaveURL(/[?&]status=DRAFT/);
+    await expect(variableDefinitionsPage).not.toHaveURL(/[?&]page=/);
+    await expect(variableDefinitionsPage.getByRole('main')).toContainText(statuses.draft.totalHits);
+  });
+
+  test('updates URL when selecting subject filter', async ({ variableDefinitionsPage }) => {
+    await variableDefinitionsPage.getByRole('checkbox', { name: variables.workAndPay }).check();
+    await expect(variableDefinitionsPage).toHaveURL(/[?&]subjects=al/);
+    await expect(variableDefinitionsPage).not.toHaveURL(/[?&]page=/);
+  });
+
+  test('updates URL when sorting', async ({ variableDefinitionsPage }) => {
+    await variableDefinitionsPage.getByLabel(localization.search.sort.label).selectOption('titleDesc');
+    await expect(variableDefinitionsPage).toHaveURL(/[?&]sort=titleDesc/);
+    await expect(variableDefinitionsPage).not.toHaveURL(/[?&]page=/);
+    await expect(variableDefinitionsPage.getByRole('main')).toContainText('Årslønn');
+  });
+
+  test('updates URL when changing page', async ({ variableDefinitionsPage }) => {
+    await variableDefinitionsPage.getByRole('button', { name: localization.next }).click();
+    await expect(variableDefinitionsPage).toHaveURL(/[?&]page=2/);
+    await expect(variableDefinitionsPage.getByTestId('page-active')).toHaveText('2');
+  });
+
+  test('filtering from page 2 resets page parameter', async ({ variableDefinitionsPage }) => {
+    await variableDefinitionsPage.getByRole('button', { name: localization.next }).click();
+    await expect(variableDefinitionsPage).toHaveURL(/[?&]page=2/);
+    await expect(variableDefinitionsPage.getByTestId('page-active')).toHaveText('2');
+    await variableDefinitionsPage.getByRole('checkbox', { name: variables.population }).check();
+    await expect(variableDefinitionsPage).toHaveURL(/[?&]subjects=be/);
+    await expect(variableDefinitionsPage).not.toHaveURL(/[?&]page=/);
+    await expect(variableDefinitionsPage.getByTestId('page-active')).toHaveText('1');
+  });
+
+  test('sorting from page 2 resets page parameter', async ({ variableDefinitionsPage }) => {
+    await variableDefinitionsPage.getByRole('button', { name: localization.next }).click();
+    await expect(variableDefinitionsPage).toHaveURL(/[?&]page=2/);
+    await expect(variableDefinitionsPage.getByTestId('page-active')).toHaveText('2');
+    await variableDefinitionsPage.getByLabel(localization.search.sort.label).selectOption('titleDesc');
+    await expect(variableDefinitionsPage).toHaveURL(/[?&]sort=titleDesc/);
+    await expect(variableDefinitionsPage).not.toHaveURL(/[?&]page=/);
+    await expect(variableDefinitionsPage.getByTestId('page-active')).toHaveText('1');
+  });
+
+  test('hydrates UI from shared URL', async ({ variableDefinitionsPage }) => {
+    await variableDefinitionsPage.goto('/variable-definitions?q=Baderom&subjects=be&sort=titleDesc');
+    await expect(
+      variableDefinitionsPage.getByRole('complementary', { name: 'Filters' }).getByRole('searchbox', {
+        name: localization.search.textFilter.label,
+      }),
+    ).toHaveValue('Baderom');
+    await expect(variableDefinitionsPage.getByRole('checkbox', { name: variables.population })).toBeChecked();
+    await expect(variableDefinitionsPage.getByLabel(localization.search.sort.label)).toHaveValue('titleDesc');
+    await expect(variableDefinitionsPage.getByRole('main')).toContainText('1 treff');
+  });
+
+  test('keeps URL state after refresh', async ({ variableDefinitionsPage }) => {
+    await variableDefinitionsPage.goto('/variable-definitions?q=Baderom&subjects=be&sort=titleDesc');
+    await variableDefinitionsPage.reload();
+    await expect(
+      variableDefinitionsPage
+        .getByRole('complementary', { name: 'Filters' })
+        .getByRole('searchbox', { name: localization.search.textFilter.label }),
+    ).toHaveValue('Baderom');
+    await expect(variableDefinitionsPage.getByRole('checkbox', { name: variables.population })).toBeChecked();
+    await expect(variableDefinitionsPage.getByLabel(localization.search.sort.label)).toHaveValue('titleDesc');
+    await expect(variableDefinitionsPage).toHaveURL(/[?&]q=Baderom/);
+    await expect(variableDefinitionsPage).toHaveURL(/[?&]subjects=be/);
+    await expect(variableDefinitionsPage).toHaveURL(/[?&]sort=titleDesc/);
+  });
+
+  test('hydrates shared URL with search, filters and sorting', async ({ variableDefinitionsPage }) => {
+    await variableDefinitionsPage.goto('/variable-definitions?q=inntekt&subjects=al&status=DRAFT&sort=titleDesc');
+    await expect(
+      variableDefinitionsPage.getByRole('complementary', { name: 'Filters' }).getByRole('searchbox', {
+        name: localization.search.textFilter.label,
+      }),
+    ).toHaveValue('inntekt');
+    await expect(variableDefinitionsPage.getByRole('checkbox', { name: statuses.draft.label })).toBeChecked();
+    await expect(variableDefinitionsPage.getByRole('checkbox', { name: variables.workAndPay })).toBeChecked();
+    await expect(variableDefinitionsPage.getByLabel(localization.search.sort.label)).toHaveValue('titleDesc');
+    await expect(variableDefinitionsPage).toHaveURL(/[?&]q=inntekt/);
+    await expect(variableDefinitionsPage).toHaveURL(/[?&]subjects=al/);
+    await expect(variableDefinitionsPage).toHaveURL(/[?&]status=DRAFT/);
+    await expect(variableDefinitionsPage).toHaveURL(/[?&]sort=titleDesc/);
+    await expect(variableDefinitionsPage.getByRole('main')).toContainText(/treff/);
+  });
+
+  test('hydrates page from shared URL', async ({ variableDefinitionsPage }) => {
+    await variableDefinitionsPage.goto('/variable-definitions?page=2');
+    await expect(variableDefinitionsPage.getByTestId('page-active')).toHaveText('2');
+    await expect(variableDefinitionsPage).toHaveURL(/[?&]page=2/);
+    await expect(variableDefinitionsPage.getByTestId('vardef-search-card')).toHaveCount(8);
   });
 });

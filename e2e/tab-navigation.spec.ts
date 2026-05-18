@@ -11,13 +11,13 @@ test.describe('Tabs navigation', () => {
     await expect(variableDefinitionsPage).toHaveURL('/classifications');
   });
 
-  test('navigate to datasets', async ({ variableDefinitionsPage }) => {
-    const datasetTab = variableDefinitionsPage.getByRole('tab', { name: localization.tabs.datasets });
+  test('navigate to data products', async ({ variableDefinitionsPage }) => {
+    const dataProductsTab = variableDefinitionsPage.getByRole('tab', { name: localization.tabs.dataProducts });
 
-    await expect(datasetTab).toBeEnabled();
+    await expect(dataProductsTab).toBeEnabled();
 
-    await Promise.all([variableDefinitionsPage.waitForURL('/datasets'), datasetTab.click()]);
-    await expect(variableDefinitionsPage).toHaveURL('/datasets');
+    await Promise.all([variableDefinitionsPage.waitForURL('/data-products'), dataProductsTab.click()]);
+    await expect(variableDefinitionsPage).toHaveURL('/data-products');
   });
 
   test('navigate to variable definitions', async ({ variableDefinitionsPage }) => {
