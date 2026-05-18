@@ -213,6 +213,28 @@ SSB Dataportal uses Playwright with axe for accessibility testing.
 pnpm test:e2e:accessibility
 ```
 
+### URL state
+
+The variable definitions search page stores search, filter, sort, and pagination state in the URL query parameters.
+
+This makes it possible to share links, refresh the page, and restore the same view from a URL.
+
+#### Query parameters
+
+| Parameter | Description | Example |
+|---|---|---|
+| `q` | Text filter for variable name / short name | `?q=inntekt` |
+| `subjects` | Selected statistical subject codes | `?subjects=al` |
+| `status` | Selected publication statuses | `?status=DRAFT` |
+| `sort` | Selected sort option | `?sort=titleDesc` |
+| `page` | Current pagination page | `?page=2` |
+
+Example:
+
+```txt
+/variable-definitions?q=inntekt&subjects=al&status=DRAFT&sort=titleDesc&page=2
+```
+
 ### Generate client code
 
 This project uses OpenAPI Generator to generate TypeScript clients from OpenAPI specs.
