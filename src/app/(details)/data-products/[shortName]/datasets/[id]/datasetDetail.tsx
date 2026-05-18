@@ -37,14 +37,14 @@ export default function DatasetDetail({
           {dataset.short_description}
         </Heading>
         <DetailsTable
-          title={'Om datasettet'}
+          title={localization.datasetDetail.aboutDataset}
           content={[
-            { label: 'Dataprodukt', value: dataset.product_short_name },
-            { label: 'Bøtte', value: dataset.storage_location_name },
-            { label: 'Datatilstand', value: dataset.dataset_state },
-            { label: 'Vurdering', value: dataset.assessment },
+            { label: localization.datasetDetail.dataProduct, value: dataset.product_short_name },
+            { label: localization.datasetDetail.bucket, value: dataset.storage_location_name },
+            { label: localization.datasetDetail.datasetState, value: dataset.dataset_state },
+            { label: localization.datasetDetail.assessment, value: dataset.assessment },
             {
-              label: 'Eier',
+              label: localization.datasetDetail.owner,
               value: (
                 <ExternalLink
                   linkText={dataset.owner ?? 'undefined'}
@@ -52,12 +52,12 @@ export default function DatasetDetail({
                 />
               ),
             },
-            { label: 'ID', value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
+            { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
           ]}
         />
         <Card className={styles.tableContainer}>
           <Heading level={2} className={styles.detailsHeading} data-size='md' id={`tableHeading-dataFiles`}>
-            Datafiler
+            {localization.datasetDetail.dataFiles}
           </Heading>
           {dataFiles
             .sort((a, b) =>
