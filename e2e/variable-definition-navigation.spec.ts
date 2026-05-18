@@ -51,7 +51,7 @@ test.describe('Variable definitions breadcrumbs', () => {
     const variable = variableDefinitions[0];
     assert(variable);
     await goToVariable(variable);
-    const nav = page.getByTestId('vardefBreadcrumbs');
+    const nav = page.getByTestId('dataportalBreadcrumbs');
     await expect(nav).toBeVisible();
     const items = nav.locator('ol > li');
     await expect(items).toHaveCount(3);
@@ -64,7 +64,7 @@ test.describe('Variable definitions breadcrumbs', () => {
     await currentElement.click({ trial: true });
     await currentElement.click();
     await expect(page).toHaveURL(before);
-    await expect(current).toContainText(variable.name.toLowerCase());
+    await expect(current).toContainText(variable.short_name);
   });
 
   test('click on "Home" navigates to /', async ({ page, goToVariable }) => {
