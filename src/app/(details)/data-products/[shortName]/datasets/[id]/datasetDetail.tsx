@@ -9,6 +9,7 @@ import { CopyTag } from '@/components/tag-components/copy-tag';
 import { DaplaDataFileDTO, DatasetDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
+import { getDaplaCtrlUrl } from '@/utils/config';
 import { sortDateStringsDescending } from '@/utils/sort';
 import styles from './dataset-page.module.css';
 
@@ -48,7 +49,7 @@ export default function DatasetDetail({
               value: (
                 <ExternalLink
                   linkText={dataset.owner ?? 'undefined'}
-                  href={`https://dapla-ctrl.intern.ssb.no/team/${dataset.owner}`}
+                  href={`${getDaplaCtrlUrl()}/team/${dataset.owner}`}
                 />
               ),
             },
