@@ -4,6 +4,7 @@ import { Card, Divider, Heading } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { DetailsTable } from '@/components/details-list';
+import { ExternalLink } from '@/components/link-components/externalLink';
 import { CopyTag } from '@/components/tag-components/copy-tag';
 import { DaplaDataFileDTO, DatasetDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
@@ -42,7 +43,15 @@ export default function DatasetDetail({
             { label: 'Bøtte', value: dataset.storage_location_name },
             { label: 'Datatilstand', value: dataset.dataset_state },
             { label: 'Vurdering', value: dataset.assessment },
-            { label: 'Eier', value: dataset.owner },
+            {
+              label: 'Eier',
+              value: (
+                <ExternalLink
+                  linkText={dataset.owner ?? 'undefined'}
+                  href={`https://dapla-ctrl.intern.ssb.no/team/${dataset.owner}`}
+                />
+              ),
+            },
             { label: 'ID', value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
           ]}
         />
