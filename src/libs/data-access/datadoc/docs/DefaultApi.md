@@ -5,11 +5,7 @@ All URIs are relative to *http://localhost*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**createOrUpdateDaplaDataFile**](DefaultApi.md#createorupdatedapladatafile) | **POST** /data-files |  |
-<<<<<<< HEAD
-| [**getByFilePath**](DefaultApi.md#getbyfilepath) | **GET** /data-files/{filePath} |  |
-=======
 | [**getByFilePath**](DefaultApi.md#getbyfilepath) | **GET** /data-files/{file_path} |  |
->>>>>>> origin/main
 | [**getById**](DefaultApi.md#getbyid) | **GET** /datasets/{id} |  |
 | [**getByShortName**](DefaultApi.md#getbyshortname) | **GET** /data-products/{short_name} |  |
 | [**listDaplaDataFiles**](DefaultApi.md#listdapladatafiles) | **GET** /data-files |  |
@@ -285,11 +281,7 @@ No authorization required
 
 ## listDaplaDataFiles
 
-<<<<<<< HEAD
-> listDaplaDataFiles(datasetId)
-=======
 > listDaplaDataFiles()
->>>>>>> origin/main
 
 
 
@@ -306,18 +298,8 @@ async function example() {
   console.log("🚀 Testing  SDK...");
   const api = new DefaultApi();
 
-<<<<<<< HEAD
-  const body = {
-    // string (optional)
-    datasetId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-  } satisfies ListDaplaDataFilesRequest;
-
-  try {
-    const data = await api.listDaplaDataFiles(body);
-=======
   try {
     const data = await api.listDaplaDataFiles();
->>>>>>> origin/main
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -330,14 +312,7 @@ example().catch(console.error);
 
 ### Parameters
 
-<<<<<<< HEAD
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **datasetId** | `string` |  | [Optional] [Defaults to `undefined`] |
-=======
 This endpoint does not need any parameter.
->>>>>>> origin/main
 
 ### Return type
 
