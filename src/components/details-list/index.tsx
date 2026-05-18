@@ -23,7 +23,7 @@ const DetailsList = ({ title, content, popoverContent }: DetailsListProps) => {
                 <span className={styles.popoverLabel}>{row.label}</span>
                 <Popover.TriggerContext>
                   <Popover.Trigger aria-label={`${row.label} information`} inline className={styles.popoverButton}>
-                    <QuestionmarkCircleIcon title='Information' fontSize='2rem' aria-hidden='true' />
+                    <QuestionmarkCircleIcon title='Information' fontSize='2rem' aria-hidden focusable='false' />
                   </Popover.Trigger>
                   <Popover placement='top' id='info'>
                     {popoverContent}
