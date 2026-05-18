@@ -1,0 +1,8 @@
+.dataProductHeadingLink {
+  text-decoration: none !important;
+  color: inherit;
+}
+
+.dataProductHeadingLink:hover {
+  text-decoration: none !important;
+}

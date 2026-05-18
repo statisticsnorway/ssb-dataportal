@@ -38,7 +38,7 @@ export default function Home() {
           case localization.tabs.classifications:
             icon = <NetworkIcon aria-hidden='true' />;
             break;
-          case localization.tabs.datasets:
+          case localization.tabs.dataProducts:
             icon = <DatasetIcon aria-hidden='true' />;
             break;
         }

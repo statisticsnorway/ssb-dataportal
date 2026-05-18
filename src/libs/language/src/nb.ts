@@ -7,6 +7,16 @@
  */
 
 export const nb = {
+  datasetDetail: {
+    aboutDataset: 'Om datasettet',
+    dataProduct: 'Dataprodukt',
+    bucket: 'Bøtte',
+    datasetState: 'Datatilstand',
+    assessment: 'Vurdering',
+    owner: 'Eier',
+    id: 'ID',
+    dataFiles: 'Datafiler',
+  },
   apiDocumentation: 'API-dokumentasjon',
   appTitle: 'SSB Dataportal',
 
@@ -170,7 +180,7 @@ export const nb = {
     noHits: 'Ditt søk ga ingen treff',
     searchDataportal: 'Søk i SSB Dataportal',
     searchForClassifications: 'Søk i kodeverk',
-    searchForDatasets: 'Søk i datasett',
+    searchForDataProducts: 'Søk i dataprodukter',
     searchForVariableDefinitions: 'Søk i variabeldefinisjoner',
 
     textFilter: {
@@ -209,7 +219,7 @@ export const nb = {
 
   tabs: {
     classifications: 'Klassifikasjoner',
-    datasets: 'Datasett',
+    dataProducts: 'Dataprodukter',
     variableDefinitions: 'Variabeldefinisjoner',
   },
 

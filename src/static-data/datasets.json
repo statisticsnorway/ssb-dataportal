@@ -1,0 +1,30 @@
+[
+  {
+    "id": "ds-1",
+    "product_short_name": "arbstatus",
+    "short_description": "Arbeidsstatus datasett 1",
+    "owner": "team-a",
+    "storage_location_name": "bucket-a"
+  },
+  {
+    "id": "ds-2",
+    "product_short_name": "arbstatus",
+    "short_description": "Arbeidsstatus datasett 2",
+    "owner": "team-a",
+    "storage_location_name": "bucket-a"
+  },
+  {
+    "id": "ds-3",
+    "product_short_name": "arbstatus",
+    "short_description": "Arbeidsstatus datasett 3",
+    "owner": "team-a",
+    "storage_location_name": "bucket-a"
+  },
+  {
+    "id": "ds-2",
+    "product_short_name": "ameld",
+    "short_description": "Ameldingen dataset",
+    "owner": "team-b",
+    "storage_location_name": "bucket-b"
+  }
+]

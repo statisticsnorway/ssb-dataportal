@@ -4,7 +4,7 @@
 
 A frontend for discovery and display of Statistics Norway's metadata. Once complete this app will provide internal and public visibility for the following categories of metadata:
 
-- Datasets
+- Data products
 - Variable instances
 - Variable definitions
 - Classifications and code lists

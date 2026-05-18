@@ -1,4 +1,4 @@
-import { Card, Heading, Link, Tag } from '@digdir/designsystemet-react';
+import { Card, Heading, Link } from '@digdir/designsystemet-react';
 import { type ReactNode } from 'react';
 
 import { tabsData } from '@/app/(services)/tabs';
@@ -22,19 +22,15 @@ interface DataProductSearchHitProps {
 }
 
 export const DataProductSearchHit = ({ dataProduct }: DataProductSearchHitProps) => {
-  const dataProductRoute = `${tabsData.Datasets.route}/${dataProduct.product_short_name}`;
+  const dataProductRoute = `${tabsData.DataProducts.route}/${dataProduct.product_short_name}`;
 
   return (
     <Card data-testid='data-product-search-card'>
       <Heading data-size='md' className={styles.dataProductHeadingLink}>
         <HeadingLink href={dataProductRoute}>
-          <span className='heading12'>{dataProduct.title}</span>
+          <span className='heading12'>{dataProduct.product_short_name}</span>
         </HeadingLink>
       </Heading>
-
-      <Tag data-color='success' className={styles.dataProductShortName}>
-        {dataProduct.product_short_name}
-      </Tag>
     </Card>
   );
 };
