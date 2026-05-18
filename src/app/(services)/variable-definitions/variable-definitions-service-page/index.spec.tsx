@@ -1,10 +1,10 @@
-import { act, render } from '@testing-library/react';
-import { NuqsTestingAdapter } from 'nuqs/adapters/testing';
-import React from 'react';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import { NuqsTestingAdapter, type UrlUpdateEvent } from 'nuqs/adapters/testing';
 import { describe, expect, it, vi } from 'vitest';
 import { AuthProvider } from '@/app/authContext';
 import { CodeItem } from '@/libs/data-access/klass';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
+import { localization } from '@/libs/language';
 import { fetchStaticSubjectFields, getVariableDefinitions } from '@/utils/mock-data';
 import VariableDefinitionsServicePage from '.';
 
@@ -16,6 +16,7 @@ async function renderPage(
   }),
   subjectFieldsPromise?: Promise<{ data: CodeItem[]; error: Error | null }>,
   searchParams = '',
+  onUrlUpdate: (event: UrlUpdateEvent) => void = vi.fn(),
 ) {
   let resolvedSubjectFieldsPromise = subjectFieldsPromise;
   if (!resolvedSubjectFieldsPromise) {
@@ -25,12 +26,10 @@ async function renderPage(
       error: null,
     });
   }
-
   let result: ReturnType<typeof render>;
-
   await act(async () => {
     result = render(
-      <NuqsTestingAdapter searchParams={searchParams}>
+      <NuqsTestingAdapter searchParams={searchParams} onUrlUpdate={onUrlUpdate}>
         <AuthProvider isAuthenticated={isAuthenticated}>
           <VariableDefinitionsServicePage
             variablesPromise={variablesPromise}
@@ -40,39 +39,45 @@ async function renderPage(
       </NuqsTestingAdapter>,
     );
   });
-
   return result!;
 }
 
 vi.mock('@/components/sort-fields', () => {
   return {
     SortFields: ({
-      children,
-      sortOptions,
       sortValue,
       onSortChange,
-      ...props
     }: {
-      children?: React.ReactNode;
-      sortOptions?: unknown;
+      sortOptions?: readonly string[];
       sortValue?: string;
       onSortChange?: (value: string) => void;
-    } & React.SelectHTMLAttributes<HTMLSelectElement>) => <select {...props}>{children}</select>,
+    }) => (
+      <select aria-label='Sortering' value={sortValue} onChange={(event) => onSortChange?.(event.target.value)}>
+        <option value='titleAsc'>Tittel stigende</option>
+        <option value='titleDesc'>Tittel synkende</option>
+      </select>
+    ),
   };
 });
 
 vi.mock('@/components/filters/text-filter', () => {
   return {
     TextFilter: ({
-      children,
+      label,
       searchTerm,
       setSearchTerm,
-      ...props
     }: {
-      children?: React.ReactNode;
+      label: string;
       searchTerm?: string;
       setSearchTerm?: (value: string) => void;
-    } & React.InputHTMLAttributes<HTMLInputElement>) => React.createElement('input', props, children),
+    }) => (
+      <input
+        aria-label={label}
+        type='search'
+        value={searchTerm ?? ''}
+        onChange={(event) => setSearchTerm?.(event.target.value)}
+      />
+    ),
   };
 });
 
@@ -86,37 +91,186 @@ vi.mock('@digdir/designsystemet-react', async (importOriginal) => {
 });
 
 describe('VariableDefinitionsServicePage', () => {
-  it('happy path', async () => {
-    const { baseElement, findByRole } = await renderPage();
+  it('renders the authenticated search page', async () => {
+    const { findByRole, findByLabelText } = await renderPage();
     await findByRole('main');
-    expect(baseElement).toBeTruthy();
-    expect(baseElement).toMatchSnapshot();
+    expect(
+      await findByLabelText(localization.search.textFilter.label, {
+        selector: 'input',
+      }),
+    ).toBeInTheDocument();
+    expect(
+      await findByRole('button', {
+        name: /Status/,
+        hidden: true,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      await findByRole('button', {
+        name: /Statistikkområde/,
+        hidden: true,
+      }),
+    ).toBeInTheDocument();
   });
+
   it('unauthenticated - hides status filter panel', async () => {
-    const { baseElement, findByRole } = await renderPage(false);
+    const { findByRole, queryByRole, findByLabelText } = await renderPage(false);
     await findByRole('main');
-    expect(baseElement).toBeTruthy();
-    expect(baseElement).toMatchSnapshot();
+    expect(
+      await findByLabelText(localization.search.textFilter.label, {
+        selector: 'input',
+      }),
+    ).toBeInTheDocument();
+    expect(
+      queryByRole('button', {
+        name: /Status/,
+        hidden: true,
+      }),
+    ).not.toBeInTheDocument();
+    expect(
+      await findByRole('button', {
+        name: /Statistikkområde/,
+        hidden: true,
+      }),
+    ).toBeInTheDocument();
   });
+
   it('page renders while waiting for variable definitions', async () => {
-    const neverResolvingPromise = <T,>() =>
-      new Promise<T>((resolve) => {
-        void resolve;
-      });
-    const variablesPromise = neverResolvingPromise<{ data: RenderedView[]; error: Error | null }>();
-    const { baseElement, findByRole, findByLabelText } = await renderPage(true, variablesPromise);
+    const variablesPromise = new Promise<{ data: RenderedView[]; error: Error | null }>(() => undefined);
+    const { findByRole, findByLabelText } = await renderPage(true, variablesPromise);
     await findByRole('main');
-    await findByLabelText('Laster resultater...');
-    expect(baseElement).toBeTruthy();
-    expect(baseElement).toMatchSnapshot();
+    expect(
+      await findByLabelText(localization.search.textFilter.label, {
+        selector: 'input',
+      }),
+    ).toBeInTheDocument();
+    expect(await findByLabelText('Laster resultater...')).toBeInTheDocument();
   });
+
   it('page renders filters', async () => {
-    const { baseElement, findByRole, findByText } = await renderPage();
+    const { findByRole, findByText, findByLabelText } = await renderPage();
     await findByRole('main');
-    await findByText('Filter');
-    expect(baseElement).toBeTruthy();
-    expect(baseElement).toMatchSnapshot();
+    expect(await findByText('Filter')).toBeInTheDocument();
+    expect(
+      await findByLabelText(localization.search.textFilter.label, {
+        selector: 'input',
+      }),
+    ).toBeInTheDocument();
+    expect(
+      await findByRole('button', {
+        name: /Status/,
+        hidden: true,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      await findByRole('button', {
+        name: /Statistikkområde/,
+        hidden: true,
+      }),
+    ).toBeInTheDocument();
   });
 });
 
-// TODO(jhs): Tests for URL state
+describe('URL state', () => {
+  it('hydrates search field from q parameter', async () => {
+    const { findByLabelText } = await renderPage(true, undefined, undefined, '?q=inntekt');
+    const searchInput = await findByLabelText(localization.search.textFilter.label, {
+      selector: 'input',
+    });
+    expect(searchInput).toHaveValue('inntekt');
+  });
+
+  it('updates q parameter when search field changes', async () => {
+    const onUrlUpdate = vi.fn<(event: UrlUpdateEvent) => void>();
+    const { findByLabelText } = await renderPage(true, undefined, undefined, '', onUrlUpdate);
+    const searchInput = await findByLabelText(localization.search.textFilter.label, {
+      selector: 'input',
+    });
+    fireEvent.change(searchInput, {
+      target: { value: 'inntekt' },
+    });
+    await waitFor(() => {
+      expect(onUrlUpdate).toHaveBeenCalled();
+    });
+    const searchParams = onUrlUpdate.mock.calls.at(-1)?.[0].searchParams;
+    expect(searchParams?.get('q')).toBe('inntekt');
+    expect(searchParams?.get('page')).toBeNull();
+  });
+
+  it('hydrates selected status filter from status parameter', async () => {
+    const { findByRole } = await renderPage(true, undefined, undefined, '?status=DRAFT');
+    const draftCheckbox = await findByRole('checkbox', {
+      name: /Utkast/,
+      hidden: true,
+    });
+    expect(draftCheckbox).toBeChecked();
+  });
+
+  it('updates status parameter when status filter is selected', async () => {
+    const onUrlUpdate = vi.fn<(event: UrlUpdateEvent) => void>();
+    const { findByRole } = await renderPage(true, undefined, undefined, '', onUrlUpdate);
+    const draftCheckbox = await findByRole('checkbox', {
+      name: /Utkast/,
+      hidden: true,
+    });
+    fireEvent.click(draftCheckbox);
+    await waitFor(() => {
+      expect(onUrlUpdate).toHaveBeenCalled();
+    });
+    const searchParams = onUrlUpdate.mock.calls.at(-1)?.[0].searchParams;
+    expect(searchParams?.getAll('status')).toContain('DRAFT');
+    expect(searchParams?.get('page')).toBeNull();
+  });
+
+  it('hydrates selected subject filter from subjects parameter', async () => {
+    const { findByRole } = await renderPage(true, undefined, undefined, '?subjects=al');
+    const subjectCheckbox = await findByRole('checkbox', {
+      name: /Arbeid/,
+      hidden: true,
+    });
+    expect(subjectCheckbox).toBeChecked();
+  });
+
+  it('updates subjects parameter when subject filter is selected', async () => {
+    const onUrlUpdate = vi.fn<(event: UrlUpdateEvent) => void>();
+    const { findByRole } = await renderPage(true, undefined, undefined, '', onUrlUpdate);
+    const subjectCheckbox = await findByRole('checkbox', {
+      name: /Arbeid/,
+      hidden: true,
+    });
+    fireEvent.click(subjectCheckbox);
+    await waitFor(() => {
+      expect(onUrlUpdate).toHaveBeenCalled();
+    });
+    const searchParams = onUrlUpdate.mock.calls.at(-1)?.[0].searchParams;
+    expect(searchParams?.getAll('subjects')).toContain('al');
+    expect(searchParams?.get('page')).toBeNull();
+  });
+
+  it('hydrates sort field from sort parameter', async () => {
+    const { findByRole } = await renderPage(true, undefined, undefined, '?sort=titleDesc');
+    const sortSelect = await findByRole('combobox', {
+      name: 'Sortering',
+      hidden: true,
+    });
+    expect(sortSelect).toHaveValue('titleDesc');
+  });
+
+  it('updates sort parameter when sort option changes', async () => {
+    const onUrlUpdate = vi.fn<(event: UrlUpdateEvent) => void>();
+    const { findByRole } = await renderPage(true, undefined, undefined, '', onUrlUpdate);
+    const sortSelect = await findByRole('combobox', {
+      name: 'Sortering',
+      hidden: true,
+    });
+    fireEvent.change(sortSelect, {
+      target: { value: 'titleDesc' },
+    });
+    await waitFor(() => {
+      expect(onUrlUpdate).toHaveBeenCalled();
+    });
+    const searchParams = onUrlUpdate.mock.calls.at(-1)?.[0].searchParams;
+    expect(searchParams?.get('sort')).toBe('titleDesc');
+    expect(searchParams?.get('page')).toBeNull();
+  });
+});

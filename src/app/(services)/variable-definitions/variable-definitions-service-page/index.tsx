@@ -127,7 +127,7 @@ const VariableDefinitionsServicePage = ({
               searchTerm={q}
               setSearchTerm={(value) =>
                 void setQueryState({
-                  q: value,
+                  q: value || null,
                   page: 1,
                 })
               }
@@ -163,7 +163,7 @@ const VariableDefinitionsServicePage = ({
               onClearAll={clearAll}
               onClearSearch={() =>
                 void setQueryState({
-                  q: '',
+                  q: null,
                   page: 1,
                 })
               }
