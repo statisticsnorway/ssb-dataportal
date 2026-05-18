@@ -170,7 +170,7 @@ export const nb = {
     noHits: 'Ditt søk ga ingen treff',
     searchDataportal: 'Søk i SSB Dataportal',
     searchForClassifications: 'Søk i kodeverk',
-    searchForDatasets: 'Søk i datasett',
+    searchForDataProducts: 'Søk i dataprodukter',
     searchForVariableDefinitions: 'Søk i variabeldefinisjoner',
 
     textFilter: {
@@ -209,7 +209,7 @@ export const nb = {
 
   tabs: {
     classifications: 'Klassifikasjoner',
-    datasets: 'Datasett',
+    dataProducts: 'Dataprodukter',
     variableDefinitions: 'Variabeldefinisjoner',
   },
 
