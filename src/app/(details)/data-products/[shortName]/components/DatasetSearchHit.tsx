@@ -1,8 +1,8 @@
 import { Card, Heading, Link } from '@digdir/designsystemet-react';
 import { type ReactNode } from 'react';
-import styles from '@/app/(services)/datasets/components/dataProduct.module.css';
 import { tabsData } from '@/app/(services)/tabs';
 import { DatasetDTO } from '@/libs/data-access/datadoc/models';
+import styles from './datasetSearchHit.module.css';
 
 interface HeadingLinkProps {
   readonly href: string;
@@ -20,7 +20,7 @@ interface DatasetSearchHitProps {
 }
 
 export const DatasetSearchHit = ({ dataset }: DatasetSearchHitProps) => {
-  const route = `${tabsData.Datasets.route}/${dataset.product_short_name}/${dataset.id}`;
+  const route = `${tabsData.DataProducts.route}/${dataset.product_short_name}/datasets/${dataset.id}`;
 
   return (
     <Card data-testid='dataset-search-card'>
@@ -29,8 +29,6 @@ export const DatasetSearchHit = ({ dataset }: DatasetSearchHitProps) => {
           <span className='heading12'>{dataset.short_description ?? dataset.id}</span>
         </HeadingLink>
       </Heading>
-
-      {/* product short name tag removed by request */}
     </Card>
   );
 };

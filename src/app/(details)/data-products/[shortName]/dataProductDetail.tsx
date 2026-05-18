@@ -4,7 +4,7 @@ import { VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
 import { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
-import { DatasetSearchHit } from '../components/DatasetSearchHit';
+import { DatasetSearchHit } from './components/DatasetSearchHit';
 import styles from './page.module.css';
 
 export default function DataProductDetail({
@@ -18,7 +18,7 @@ export default function DataProductDetail({
     <div className={`${styles.detailsPage} container`}>
       <VardefBreadcrumbs
         homeUrl={getHomeBreadcrumb()}
-        items={[{ text: localization.tabs.datasets, href: tabsData.Datasets.route }]}
+        items={[{ text: localization.tabs.dataProducts, href: tabsData.DataProducts.route }]}
         currentText={dataProduct.product_short_name ?? undefined}
       />
 
@@ -27,11 +27,9 @@ export default function DataProductDetail({
           {dataProduct.product_short_name ?? dataProduct.title}
         </Heading>
 
-        {/* product short name tag removed by request */}
-
         <section>
           <Heading level={2} className={styles.sectionHeading}>
-            {localization.tabs.datasets}
+            Datasett
           </Heading>
           <div className={styles.datasetList}>
             {datasets.map((d) => (
