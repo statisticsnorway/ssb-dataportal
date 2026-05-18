@@ -19,15 +19,23 @@ paths:
   /data-files:
     get:
       operationId: listDaplaDataFiles
+      parameters:
+      - name: dataset-id
+        in: query
+        explode: false
+        schema:
+          type: string
+          format: uuid
+          nullable: true
       responses:
         "200":
           description: List Dapla Data Files.
           content:
             application/json:
-              examples:
-                example:
-                  value: "[{\"file_path\":\"gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_p2022_v2.parquet\"\
-                    }]"
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DaplaDataFileDTO"
     post:
       operationId: createOrUpdateDaplaDataFile
       requestBody:

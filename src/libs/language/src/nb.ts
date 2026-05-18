@@ -7,6 +7,16 @@
  */
 
 export const nb = {
+  datasetDetail: {
+    aboutDataset: 'Om datasettet',
+    dataProduct: 'Dataprodukt',
+    bucket: 'Bøtte',
+    datasetState: 'Datatilstand',
+    assessment: 'Vurdering',
+    owner: 'Eier',
+    id: 'ID',
+    dataFiles: 'Datafiler',
+  },
   apiDocumentation: 'API-dokumentasjon',
   appTitle: 'SSB Dataportal',
 

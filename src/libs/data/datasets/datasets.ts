@@ -8,7 +8,7 @@ import datasetsStatic from '@/static-data/datasets.json';
 import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
 import { DefaultApi } from '../../data-access/datadoc/apis';
-import { DataProductDTO, DatasetDTO } from '../../data-access/datadoc/models';
+import { DaplaDataFileDTO, DataProductDTO, DatasetDTO } from '../../data-access/datadoc/models';
 import { Configuration, ConfigurationParameters, ResponseError } from '../../data-access/datadoc/runtime';
 
 const ttlSeconds = Number(process.env.DATADOC_CACHE_TTL_SECONDS) || 3600;
@@ -136,6 +136,24 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
     const api = await getDataDocClient();
     const dto = await api.getById({ id: id });
     logger.info('Fetched Dataset');
+    return dto;
+  } catch (error: unknown) {
+    if (error instanceof ResponseError) {
+      logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
+    } else {
+      logger.error({ error }, 'Unexpected error during fetch');
+    }
+    throw error;
+  }
+}
+
+export async function listDataFilesByDatasetId(datasetId: string): Promise<Array<DaplaDataFileDTO>> {
+  const logger = createLoggerWithBindings({ module: 'datasets', fn: 'listDataFilesByDatasetId', id: datasetId });
+  try {
+    const api = await getDataDocClient();
+    const dto = await api.listDaplaDataFiles({ datasetId: datasetId });
+    logger.info('Fetched Dapla Data Files');
+    logger.info({ count: dto.length }, 'Fetched data products from API');
     return dto;
   } catch (error: unknown) {
     if (error instanceof ResponseError) {

@@ -281,7 +281,7 @@ No authorization required
 
 ## listDaplaDataFiles
 
-> listDaplaDataFiles()
+> Array&lt;DaplaDataFileDTO&gt; listDaplaDataFiles(datasetId)
 
 
 
@@ -298,8 +298,13 @@ async function example() {
   console.log("🚀 Testing  SDK...");
   const api = new DefaultApi();
 
+  const body = {
+    // string (optional)
+    datasetId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+  } satisfies ListDaplaDataFilesRequest;
+
   try {
-    const data = await api.listDaplaDataFiles();
+    const data = await api.listDaplaDataFiles(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -312,11 +317,14 @@ example().catch(console.error);
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **datasetId** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-`void` (Empty response body)
+[**Array&lt;DaplaDataFileDTO&gt;**](DaplaDataFileDTO.md)
 
 ### Authorization
 
