@@ -17,9 +17,35 @@ test.describe('Heading and short name', () => {
   test.beforeEach(async ({ page }) => {
     await goToDetail(page);
   });
-  test('Heading displays short name', async ({ page }) => {
+  test('Heading displays name', async ({ page }) => {
     const heading = page.getByRole('heading', { level: 1 });
-    await expect(heading).toContainText(variable_org!.short_name!);
+    await expect(heading).toContainText(variable_org!.name!);
+  });
+
+  test('Short name can copy value', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'firefox');
+    await page
+      .getByLabel(`${localization.variableDefinition.shortName}`, { exact: true })
+      .getByText(KNOWN_SHORT_NAME)
+      .click();
+    await expect(
+      page.getByLabel(`${localization.variableDefinition.shortName}`, { exact: true }).locator('span'),
+    ).toContainText(KNOWN_SHORT_NAME);
+
+    const copyButton = page.getByRole('button', { name: `${localization.copy.shortName}` });
+
+    await expect(copyButton).toBeAttached();
+    await copyButton.click();
+
+    const tooltip = page.locator('.ds-tooltip', { hasText: `${localization.copy.copied}` });
+
+    // Text copied
+    await expect(tooltip).toBeVisible();
+    const clipboardText = await page.evaluate(() => navigator.clipboard.readText());
+    expect(clipboardText).toBe(KNOWN_SHORT_NAME);
+
+    // Reset text
+    await expect(copyButton).toBeVisible();
   });
 });
 

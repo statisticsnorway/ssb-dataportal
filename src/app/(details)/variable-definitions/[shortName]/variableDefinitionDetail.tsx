@@ -6,6 +6,7 @@ import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { DetailsTable } from '@/components/details-list';
+import { CopyTag } from '@/components/tag-components/copy-tag';
 import { StatusTag } from '@/components/tag-components/statusTag';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
@@ -39,8 +40,9 @@ export default function VariableDefinitionDetail({
       />
       <main className={styles.mainContent}>
         <Heading className={styles.detailsHeading} data-size='2xl' level={1}>
-          {variableDefinition.short_name}
+          {variableDefinition.name}
         </Heading>
+        <CopyTag text={variableDefinition.short_name} />
         <Paragraph className={`${styles.definition} ingress`}>{variableDefinition.definition}</Paragraph>
         {isAuthenticated && <StatusTag variableStatus={variableDefinition.variable_status} />}
         {variableDefinition.comment ? (
