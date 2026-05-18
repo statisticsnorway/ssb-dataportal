@@ -1,4 +1,4 @@
-import { Breadcrumbs } from '@digdir/designsystemet-react';
+import { Breadcrumbs, BreadcrumbsItem, BreadcrumbsLink, BreadcrumbsList } from '@digdir/designsystemet-react';
 import { localization } from '@/libs/language';
 
 export type BreadcrumbItem = {
@@ -6,29 +6,33 @@ export type BreadcrumbItem = {
   text: string;
 };
 
-export type VardefBreadcrumbsProps = { homeUrl: BreadcrumbItem; items: BreadcrumbItem[]; currentText?: string };
+export type VardefBreadcrumbsProps = {
+  homeUrl: BreadcrumbItem;
+  items: BreadcrumbItem[];
+  currentText?: string;
+};
 
 export const VardefBreadcrumbs = ({ homeUrl, items, currentText }: VardefBreadcrumbsProps) => {
   return (
     <nav style={{ padding: '1rem 0' }} data-testid='vardefBreadcrumbs'>
       <Breadcrumbs aria-label={localization.breadcrumbsLabel}>
-        <Breadcrumbs.List>
-          <Breadcrumbs.Item>
-            <Breadcrumbs.Link href={homeUrl.href}>{homeUrl.text}</Breadcrumbs.Link>
-          </Breadcrumbs.Item>
+        <BreadcrumbsList>
+          <BreadcrumbsItem>
+            <BreadcrumbsLink href={homeUrl.href}>{homeUrl.text}</BreadcrumbsLink>
+          </BreadcrumbsItem>
           {items.map((crumb, index) => (
-            <Breadcrumbs.Item key={`${crumb.href}-${index}`}>
-              <Breadcrumbs.Link href={crumb.href}>{crumb.text}</Breadcrumbs.Link>
-            </Breadcrumbs.Item>
+            <BreadcrumbsItem key={`${crumb.href}-${index}`}>
+              <BreadcrumbsLink href={crumb.href}>{crumb.text}</BreadcrumbsLink>
+            </BreadcrumbsItem>
           ))}
           {currentText && (
-            <Breadcrumbs.Item>
-              <Breadcrumbs.Link href={undefined} aria-current='page'>
+            <BreadcrumbsItem>
+              <BreadcrumbsLink href={undefined} aria-current='page'>
                 {currentText}
-              </Breadcrumbs.Link>
-            </Breadcrumbs.Item>
+              </BreadcrumbsLink>
+            </BreadcrumbsItem>
           )}
-        </Breadcrumbs.List>
+        </BreadcrumbsList>
       </Breadcrumbs>
     </nav>
   );

@@ -1,10 +1,8 @@
 import { Card, Heading, Link } from '@digdir/designsystemet-react';
 import { type ReactNode } from 'react';
-
+import styles from '@/app/(services)/datasets/components/dataProduct.module.css';
 import { tabsData } from '@/app/(services)/tabs';
-import { DataProductDTO } from '@/libs/data-access/datadoc/models';
-
-import styles from './dataProduct.module.css';
+import { DatasetDTO } from '@/libs/data-access/datadoc/models';
 
 interface HeadingLinkProps {
   readonly href: string;
@@ -17,18 +15,18 @@ const HeadingLink = ({ href, children }: HeadingLinkProps) => (
   </Link>
 );
 
-interface DataProductSearchHitProps {
-  readonly dataProduct: DataProductDTO;
+interface DatasetSearchHitProps {
+  readonly dataset: DatasetDTO;
 }
 
-export const DataProductSearchHit = ({ dataProduct }: DataProductSearchHitProps) => {
-  const dataProductRoute = `${tabsData.Datasets.route}/${dataProduct.product_short_name}`;
+export const DatasetSearchHit = ({ dataset }: DatasetSearchHitProps) => {
+  const route = `${tabsData.Datasets.route}/${dataset.product_short_name}/${dataset.id}`;
 
   return (
-    <Card data-testid='data-product-search-card'>
+    <Card data-testid='dataset-search-card'>
       <Heading data-size='md' className={styles.dataProductHeadingLink}>
-        <HeadingLink href={dataProductRoute}>
-          <span className='heading12'>{dataProduct.product_short_name ?? dataProduct.title}</span>
+        <HeadingLink href={route}>
+          <span className='heading12'>{dataset.short_description ?? dataset.id}</span>
         </HeadingLink>
       </Heading>
 

@@ -1,27 +1,35 @@
-import { Heading, Tag } from '@digdir/designsystemet-react';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getDataProductByShortName } from '@/libs/data/datasets/datasets';
-import styles from './page.module.css';
+import { cache } from 'react';
+import { getDataProductByShortName, listDatasetsByProductShortName } from '@/libs/data/datasets/datasets';
+import { sanitizeError } from '@/libs/logger/sanitize';
+import { createLogger } from '@/libs/logger/server-logger';
+import DataProductDetail from './dataProductDetail';
+
+const getPageData = cache(async (shortName: string) => {
+  const [dataProduct, datasets] = await Promise.all([
+    getDataProductByShortName(shortName),
+    listDatasetsByProductShortName(shortName).catch(() => []),
+  ]);
+  return { dataProduct, datasets };
+});
 
 export async function generateMetadata({ params }: { params: Promise<{ shortName: string }> }): Promise<Metadata> {
   const { shortName } = await params;
-  const dataProduct = await getDataProductByShortName(shortName).catch(() => null);
+  const { dataProduct } = await getPageData(shortName).catch(() => ({ dataProduct: null }));
   return { title: dataProduct?.title ?? shortName };
 }
 
-export default async function DataProductDetail({ params }: { params: Promise<{ shortName: string }> }) {
+export default async function DataProduct({ params }: { params: Promise<{ shortName: string }> }) {
+  const logger = createLogger('data-product-detail-page');
+
   const { shortName } = await params;
-  const dataProduct = await getDataProductByShortName(shortName).catch(() => null);
+  const { dataProduct, datasets } = await getPageData(shortName).catch((error) => {
+    logger.error({ shortName, error: sanitizeError(error) }, 'Failed to load data product details');
+    return notFound();
+  });
 
   if (!dataProduct) return notFound();
 
-  return (
-    <main className={styles.main}>
-      <Heading level={1}>{dataProduct.title}</Heading>
-      <Tag data-color='success' data-size='md' className={styles.tag}>
-        {dataProduct.product_short_name}
-      </Tag>
-    </main>
-  );
+  return <DataProductDetail dataProduct={dataProduct} datasets={datasets} />;
 }
