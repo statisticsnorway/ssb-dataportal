@@ -64,3 +64,11 @@ export function addGlobalLoggerBindings(bindings: Record<string, unknown>) {
 export function createLogger(module: string) {
   return rootLogger.child({ module });
 }
+
+/**
+ * Creates a child logger with the given module name pre-bound.
+ * Every log entry will include a `module` field in the JSON output.
+ */
+export function createLoggerWithBindings(bindings: Record<string, unknown>) {
+  return rootLogger.child(bindings);
+}

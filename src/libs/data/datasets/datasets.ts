@@ -2,12 +2,12 @@
 
 import { getM2mToken } from '@/libs/auth/m2m';
 import { sanitizeError } from '@/libs/logger/sanitize';
-import { createLogger } from '@/libs/logger/server-logger';
+import { createLogger, createLoggerWithBindings } from '@/libs/logger/server-logger';
 import dataProducts from '@/static-data/data-products.json';
 import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
 import { DefaultApi } from '../../data-access/datadoc/apis';
-import { DataProductDTO } from '../../data-access/datadoc/models';
+import { DataProductDTO, DatasetDTO } from '../../data-access/datadoc/models';
 import { Configuration, ConfigurationParameters, ResponseError } from '../../data-access/datadoc/runtime';
 
 const ttlSeconds = Number(process.env.DATADOC_CACHE_TTL_SECONDS) || 3600;
@@ -90,6 +90,23 @@ export async function getDataProductByShortName(shortName: string): Promise<Data
     const api = await getDataDocClient();
     const dto = await api.getByShortName({ shortName });
     logger.info({ shortName }, 'Fetched data product');
+    return dto;
+  } catch (error: unknown) {
+    if (error instanceof ResponseError) {
+      logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
+    } else {
+      logger.error({ error }, 'Unexpected error during fetch');
+    }
+    throw error;
+  }
+}
+
+export async function getDatasetById(id: string): Promise<DatasetDTO> {
+  const logger = createLoggerWithBindings({ module: 'datasets', fn: 'getDatasetById', id: id });
+  try {
+    const api = await getDataDocClient();
+    const dto = await api.getById({ id: id });
+    logger.info('Fetched Dataset');
     return dto;
   } catch (error: unknown) {
     if (error instanceof ResponseError) {

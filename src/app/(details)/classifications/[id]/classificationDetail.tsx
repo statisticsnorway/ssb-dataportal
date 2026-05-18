@@ -1,5 +1,5 @@
 import { Alert, Heading } from '@digdir/designsystemet-react';
-import { BreadcrumbItem, VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
+import { BreadcrumbItem, DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import styles from './classification-page.module.css';
@@ -10,7 +10,7 @@ export default function ClassificationDetail({ classification }: Readonly<{ clas
 
   return (
     <section className={`${styles.detailsPage} container`}>
-      <VardefBreadcrumbs items={breadcrumbList} homeUrl={homeUrl} />
+      <DataportalBreadcrumbs items={breadcrumbList} homeUrl={homeUrl} />
       <header>
         <Heading className={styles.detailsPageHeader} level={1} data-size='lg'>
           {classification.name}
