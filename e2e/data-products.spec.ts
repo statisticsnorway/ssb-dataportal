@@ -15,5 +15,5 @@ test('Clicking a data product navigates to details page', async ({ dataProductsP
 
   await main.getByRole('link', { name: 'ameld' }).click();
   await expect(dataProductsPage).toHaveURL(/\/data-products\/ameld$/);
-  await expect(dataProductsPage.getByRole('heading', { name: 'ameld' })).toBeVisible();
+  await expect(dataProductsPage.getByRole('heading', { level: 1, name: 'ameld' })).toBeVisible();
 });
