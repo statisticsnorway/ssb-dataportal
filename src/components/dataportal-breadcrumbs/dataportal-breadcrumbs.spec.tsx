@@ -11,9 +11,9 @@ vi.mock('@/libs/language', () => ({
 
 vi.mock('@digdir/designsystemet-react', () => {
   const Breadcrumbs = ({ children, ...props }: any) => <nav {...props}>{children}</nav>;
-  Breadcrumbs.List = ({ children }: any) => <ol>{children}</ol>;
-  Breadcrumbs.Item = ({ children }: any) => <li>{children}</li>;
-  Breadcrumbs.Link = ({ children, href, ...props }: any) => {
+  const BreadcrumbsList = ({ children }: any) => <ol>{children}</ol>;
+  const BreadcrumbsItem = ({ children }: any) => <li>{children}</li>;
+  const BreadcrumbsLink = ({ children, href, ...props }: any) => {
     // In the component: last crumb uses href={undefined}.
     // We model that as non-link text (span) to assert "not clickable".
     if (!href) return <span {...props}>{children}</span>;
@@ -23,10 +23,10 @@ vi.mock('@digdir/designsystemet-react', () => {
       </a>
     );
   };
-  return { Breadcrumbs };
+  return { Breadcrumbs, BreadcrumbsItem, BreadcrumbsLink, BreadcrumbsList };
 });
 
-describe('VardefBreadcrumbs', () => {
+describe('DataportalBreadcrumbs', () => {
   test('renders nav with aria-label from localization', () => {
     render(<DataportalBreadcrumbs homeUrl={{ href: '/', text: 'Hjem' }} items={[{ href: '/a', text: 'A' }]} />);
     expect(screen.getByRole('navigation', { name: 'MinBrødsmulesti' })).toBeTruthy();
