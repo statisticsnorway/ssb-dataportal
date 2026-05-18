@@ -4,6 +4,7 @@ import { getM2mToken } from '@/libs/auth/m2m';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger, createLoggerWithBindings } from '@/libs/logger/server-logger';
 import dataProducts from '@/static-data/data-products.json';
+import datasetsStatic from '@/static-data/datasets.json';
 import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
 import { DefaultApi } from '../../data-access/datadoc/apis';
@@ -91,6 +92,34 @@ export async function getDataProductByShortName(shortName: string): Promise<Data
     const dto = await api.getByShortName({ shortName });
     logger.info({ shortName }, 'Fetched data product');
     return dto;
+  } catch (error: unknown) {
+    if (error instanceof ResponseError) {
+      logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
+    } else {
+      logger.error({ error }, 'Unexpected error during fetch');
+    }
+    throw error;
+  }
+}
+
+export async function listDatasetsByProductShortName(shortName: string): Promise<DatasetDTO[]> {
+  const logger = createLogger('datasets');
+  logger.info({ shortName }, 'List datasets for product');
+  if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
+    logger.warn({ fn: 'listDatasetsByProductShortName' }, 'Using static mock data for datasets');
+    return (datasetsStatic as DatasetDTO[]).filter((d) => d.product_short_name === shortName);
+  }
+
+  try {
+    const api = await getDataDocClient();
+    const startTime = Date.now();
+    const rawData = await api.listDatasets({ productShortName: shortName }, {
+      cache: 'force-cache',
+      next: { revalidate: ttlSeconds },
+    } as RequestInit);
+    const durationMs = Date.now() - startTime;
+    logger.info({ count: rawData.length, durationMs }, 'Fetched datasets from API');
+    return rawData;
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
       logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
