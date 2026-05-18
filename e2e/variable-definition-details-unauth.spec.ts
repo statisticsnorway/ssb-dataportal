@@ -50,7 +50,7 @@ test.describe('unauthenticated view', () => {
 
   test('public content still visible', async ({ unauthPage }) => {
     await unauthPage.goto(DETAIL_URL);
-    await expect(unauthPage.getByTestId('vardefBreadcrumbs')).toBeVisible();
+    await expect(unauthPage.getByTestId('dataportalBreadcrumbs')).toBeVisible();
     await expect(unauthPage.getByRole('heading', { level: 1 })).toBeVisible();
   });
 });
