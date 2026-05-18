@@ -4,10 +4,10 @@ import { Card, Details, DetailsContent, DetailsSummary, Heading, Paragraph } fro
 import { notFound } from 'next/navigation';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
+import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { DetailsTable } from '@/components/details-list';
 import { CopyTag } from '@/components/tag-components/copy-tag';
 import { StatusTag } from '@/components/tag-components/statusTag';
-import { VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
@@ -33,7 +33,7 @@ export default function VariableDefinitionDetail({
 
   return (
     <div className={`${styles.detailsPage} container`}>
-      <VardefBreadcrumbs
+      <DataportalBreadcrumbs
         homeUrl={getHomeBreadcrumb()}
         items={[{ text: localization.variableDefinition.labelPlural, href: tabsData.VariableDefinitions.route }]}
         currentText={variableDefinition.short_name}

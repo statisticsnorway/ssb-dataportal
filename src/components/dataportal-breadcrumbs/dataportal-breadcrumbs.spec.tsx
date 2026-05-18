@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: Use any in mocks for convenience */
 import { render, screen } from '@testing-library/react';
 import { describe, expect, test, vi } from 'vitest';
-import { VardefBreadcrumbs } from './index';
+import { DataportalBreadcrumbs } from './index';
 
 vi.mock('@/libs/language', () => ({
   localization: {
@@ -28,19 +28,19 @@ vi.mock('@digdir/designsystemet-react', () => {
 
 describe('VardefBreadcrumbs', () => {
   test('renders nav with aria-label from localization', () => {
-    render(<VardefBreadcrumbs homeUrl={{ href: '/', text: 'Hjem' }} items={[{ href: '/a', text: 'A' }]} />);
+    render(<DataportalBreadcrumbs homeUrl={{ href: '/', text: 'Hjem' }} items={[{ href: '/a', text: 'A' }]} />);
     expect(screen.getByRole('navigation', { name: 'MinBrødsmulesti' })).toBeTruthy();
   });
 
   test('renders home crumb as a link', () => {
-    render(<VardefBreadcrumbs homeUrl={{ href: '/', text: 'Hjem' }} items={[{ href: '/a', text: 'A' }]} />);
+    render(<DataportalBreadcrumbs homeUrl={{ href: '/', text: 'Hjem' }} items={[{ href: '/a', text: 'A' }]} />);
     const homeLink = screen.getByRole('link', { name: 'Hjem' });
     expect(homeLink).toHaveAttribute('href', '/');
   });
 
   test('renders intermediate crumbs as links, and last crumb as current page (not a link)', () => {
     render(
-      <VardefBreadcrumbs
+      <DataportalBreadcrumbs
         homeUrl={{ href: '/', text: 'Hjem' }}
         items={[{ href: '/variabeldefinisjoner', text: 'Variabeldefinisjoner' }]}
         currentText={'Annen kapital'}
