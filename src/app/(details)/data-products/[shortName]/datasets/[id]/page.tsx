@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
-import { getDatasetById } from '@/libs/data/datasets/datasets';
+import { getDatasetById, listDataFilesByDatasetId } from '@/libs/data/datasets/datasets';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import DatasetDetail from './datasetDetail';
@@ -11,7 +11,8 @@ import DatasetDetail from './datasetDetail';
  */
 const getPageData = cache(async (id: string) => {
   const dataset = await getDatasetById(id);
-  return { dataset: dataset };
+  const dataFiles = await listDataFilesByDatasetId(id);
+  return { dataset: dataset, dataFiles: dataFiles };
 });
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
@@ -25,10 +26,10 @@ export default async function Dataset({ params }: { params: Promise<{ id: string
   const { id: id } = await params;
   logger.info({ id: id }, 'Dataset detail page access');
 
-  const { dataset: dataset } = await getPageData(id).catch((error) => {
+  const { dataset: dataset, dataFiles: dataFiles } = await getPageData(id).catch((error) => {
     logger.error({ id: id, error: sanitizeError(error) }, 'Failed to load dataset');
     return notFound();
   });
 
-  return <DatasetDetail dataset={dataset} />;
+  return <DatasetDetail dataset={dataset} dataFiles={dataFiles} />;
 }
