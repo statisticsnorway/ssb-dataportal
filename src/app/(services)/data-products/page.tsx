@@ -22,8 +22,8 @@ export default async function Datasets() {
 
   return (
     <SearchPage
-      tabsId={tabsData.Datasets.id}
-      header={localization.tabs.datasets}
+      tabsId={tabsData.DataProducts.id}
+      header={localization.tabs.dataProducts}
       totalHits={dataProducts.length}
       infoContent={pageInfo}
       searchResult={

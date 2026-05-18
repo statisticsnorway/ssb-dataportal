@@ -22,7 +22,7 @@ interface DataProductSearchHitProps {
 }
 
 export const DataProductSearchHit = ({ dataProduct }: DataProductSearchHitProps) => {
-  const dataProductRoute = `${tabsData.Datasets.route}/${dataProduct.product_short_name}`;
+  const dataProductRoute = `${tabsData.DataProducts.route}/${dataProduct.product_short_name}`;
 
   return (
     <Card data-testid='data-product-search-card'>
