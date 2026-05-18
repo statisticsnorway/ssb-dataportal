@@ -1,6 +1,6 @@
 import { Heading } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
-import { VardefBreadcrumbs } from '@/components/vardef-breadcrumbs';
+import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
@@ -16,7 +16,7 @@ export default function DataProductDetail({
 }) {
   return (
     <div className={`${styles.detailsPage} container`}>
-      <VardefBreadcrumbs
+      <DataportalBreadcrumbs
         homeUrl={getHomeBreadcrumb()}
         items={[{ text: localization.tabs.dataProducts, href: tabsData.DataProducts.route }]}
         currentText={dataProduct.product_short_name ?? undefined}
