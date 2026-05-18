@@ -38,7 +38,7 @@ test.describe('Variable definitions navigation', () => {
       await expect(
         page.getByRole('heading', {
           level: 1,
-          name: `${variable.name}`,
+          name: `${variable.short_name}`,
         }),
       ).toBeVisible();
     });
@@ -64,7 +64,7 @@ test.describe('Variable definitions breadcrumbs', () => {
     await currentElement.click({ trial: true });
     await currentElement.click();
     await expect(page).toHaveURL(before);
-    await expect(current).toContainText(variable.name.toLowerCase());
+    await expect(current).toContainText(variable.short_name);
   });
 
   test('click on "Home" navigates to /', async ({ page, goToVariable }) => {
