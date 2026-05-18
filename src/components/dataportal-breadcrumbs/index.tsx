@@ -6,13 +6,9 @@ export type BreadcrumbItem = {
   text: string;
 };
 
-export type VardefBreadcrumbsProps = {
-  homeUrl: BreadcrumbItem;
-  items: BreadcrumbItem[];
-  currentText?: string;
-};
+export type DataportalBreadcrumbsProps = { homeUrl: BreadcrumbItem; items: BreadcrumbItem[]; currentText?: string };
 
-export const VardefBreadcrumbs = ({ homeUrl, items, currentText }: VardefBreadcrumbsProps) => {
+export const DataportalBreadcrumbs = ({ homeUrl, items, currentText }: DataportalBreadcrumbsProps) => {
   return (
     <nav style={{ padding: '1rem 0' }} data-testid='vardefBreadcrumbs'>
       <Breadcrumbs aria-label={localization.breadcrumbsLabel}>

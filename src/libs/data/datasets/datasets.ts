@@ -2,7 +2,7 @@
 
 import { getM2mToken } from '@/libs/auth/m2m';
 import { sanitizeError } from '@/libs/logger/sanitize';
-import { createLogger } from '@/libs/logger/server-logger';
+import { createLogger, createLoggerWithBindings } from '@/libs/logger/server-logger';
 import dataProducts from '@/static-data/data-products.json';
 import datasetsStatic from '@/static-data/datasets.json';
 import { getUserAgent } from '@/utils/userAgent';
@@ -120,6 +120,23 @@ export async function listDatasetsByProductShortName(shortName: string): Promise
     const durationMs = Date.now() - startTime;
     logger.info({ count: rawData.length, durationMs }, 'Fetched datasets from API');
     return rawData;
+  } catch (error: unknown) {
+    if (error instanceof ResponseError) {
+      logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
+    } else {
+      logger.error({ error }, 'Unexpected error during fetch');
+    }
+    throw error;
+  }
+}
+
+export async function getDatasetById(id: string): Promise<DatasetDTO> {
+  const logger = createLoggerWithBindings({ module: 'datasets', fn: 'getDatasetById', id: id });
+  try {
+    const api = await getDataDocClient();
+    const dto = await api.getById({ id: id });
+    logger.info('Fetched Dataset');
+    return dto;
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
       logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
