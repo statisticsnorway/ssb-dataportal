@@ -25,7 +25,7 @@ test.describe('unauthenticated access control', () => {
 
   test('allows PUBLISHED_EXTERNAL variable', async ({ page }) => {
     await page.goto(EXTERNAL_URL);
-    await expect(page.getByTestId('vardefBreadcrumbs')).toBeVisible();
+    await expect(page.getByTestId('dataportalBreadcrumbs')).toBeVisible();
   });
 });
 
@@ -36,16 +36,16 @@ test.describe('authenticated access control', () => {
 
   test('allows DRAFT variable', async ({ page }) => {
     await page.goto(DRAFT_URL);
-    await expect(page.getByTestId('vardefBreadcrumbs')).toBeVisible();
+    await expect(page.getByTestId('dataportalBreadcrumbs')).toBeVisible();
   });
 
   test('allows PUBLISHED_INTERNAL variable', async ({ page }) => {
     await page.goto(INTERNAL_URL);
-    await expect(page.getByTestId('vardefBreadcrumbs')).toBeVisible();
+    await expect(page.getByTestId('dataportalBreadcrumbs')).toBeVisible();
   });
 
   test('allows PUBLISHED_EXTERNAL variable', async ({ page }) => {
     await page.goto(EXTERNAL_URL);
-    await expect(page.getByTestId('vardefBreadcrumbs')).toBeVisible();
+    await expect(page.getByTestId('dataportalBreadcrumbs')).toBeVisible();
   });
 });

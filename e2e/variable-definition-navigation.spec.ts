@@ -51,7 +51,7 @@ test.describe('Variable definitions breadcrumbs', () => {
     const variable = variableDefinitions[0];
     assert(variable);
     await goToVariable(variable);
-    const nav = page.getByTestId('vardefBreadcrumbs');
+    const nav = page.getByTestId('dataportalBreadcrumbs');
     await expect(nav).toBeVisible();
     const items = nav.locator('ol > li');
     await expect(items).toHaveCount(3);
