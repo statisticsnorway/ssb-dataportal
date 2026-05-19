@@ -7,7 +7,15 @@ jobs:
     # https://docs.github.com/en/code-security/code-scanning/integrating-with-code-scanning/uploading-a-sarif-file-to-github
     permissions:
       security-events: write
+      contents: "read"
+      id-token: "write"
+      packages: "read"
+      actions: "read"
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
       - uses: actions/checkout@v5
       - name: Install pnpm
         uses: pnpm/action-setup@v4
