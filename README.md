@@ -33,6 +33,16 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 Pnpm is our package manager. This must be installed with a system-wide manual installation. Installation instructions and documentation are available here: <https://pnpm.io/installation>
 
+#### Update dependencies
+
+To reduce the risk of installing compromised packages cooldown period of 7 days is set in `pnpm-workspace.yaml`
+
+Run
+```bash
+pnpm outdated
+```
+Update versions in `package.json`
+
 ### Vulnerability scanning
 
 We use `grype` for vulnerability scanning.
