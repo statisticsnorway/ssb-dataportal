@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Divider, Heading } from '@digdir/designsystemet-react';
+import { Card, Divider, Heading, Tag } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { DetailsTable } from '@/components/details-list';
@@ -42,7 +42,10 @@ export default function DatasetDetail({
           content={[
             { label: localization.datasetDetail.dataProduct, value: dataset.product_short_name },
             { label: localization.datasetDetail.bucket, value: dataset.storage_location_name },
-            { label: localization.datasetDetail.datasetState, value: dataset.dataset_state },
+            {
+              label: localization.datasetDetail.datasetState,
+              value: <Tag data-color='success'> {dataset.dataset_state}</Tag>,
+            },
             { label: localization.datasetDetail.assessment, value: dataset.assessment },
             {
               label: localization.datasetDetail.owner,
