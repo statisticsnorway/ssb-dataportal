@@ -1,3 +1,0 @@
-# ignore matches for vulnerabilities that are not fixed (env: GRYPE_ONLY_FIXED)
-only-fixed: true
-fail-build: false
