@@ -19,16 +19,12 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Build the Container image
         run: docker build . --file Dockerfile --tag ssb-dataportal:latest
-      - name: Scan Image with Grype
+      - name: Scan image with Grype
         uses: anchore/scan-action@v7
-        with:
-          image: "ssb-dataportal:latest"
-          output-format: table
-          fail-build: false
-      - uses: anchore/scan-action@v7
         id: scan
         with:
           image: "ssb-dataportal:latest"
+          output-format: table
           fail-build: false
       - name: upload Anchore scan SARIF report
         uses: github/codeql-action/upload-sarif@v4
