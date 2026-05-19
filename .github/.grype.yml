@@ -4,6 +4,4 @@ ignore-wontfix: true
 # sort the match results with the given strategy, options=[package severity epss risk kev vulnerability] (env: GRYPE_SORT_BY)
 sort-by: "risk"
 
-severity:
-  - high
-  - critical
+severity: "high"
