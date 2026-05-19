@@ -33,6 +33,30 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 Pnpm is our package manager. This must be installed with a system-wide manual installation. Installation instructions and documentation are available here: <https://pnpm.io/installation>
 
+### Vulnerability scanning
+
+We use `grype` for vulnerability scanning.
+The result will show a risk score based on: threat, impact and context.
+
+Read more https://oss.anchore.com/docs/guides/vulnerability/interpreting-results/#why-risk-based-sorting-works-best
+
+See https://oss.anchore.com/docs/installation/grype/
+
+#### Local scans
+
+Scan filesystem
+```bash
+grype .
+```
+
+Scan docker image
+
+```bash
+docker build --no-cache -t ssb-dataportal:latest .
+
+grype ssb-dataportal
+```
+
 ### Lint and format
 
 We use [`biome`](https://biomejs.dev/guides/getting-started/).
