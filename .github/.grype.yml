@@ -5,6 +5,5 @@ ignore-wontfix: true
 sort-by: "risk"
 
 ignore:
-  - severity:
-    - negligible
-    - low
+  - severity: negligible
+  - severity: low
