@@ -1,6 +1,6 @@
 # ignore matches for vulnerabilities with specified comma separated fix states, options=[fixed not-fixed unknown wont-fix] (env: GRYPE_IGNORE_WONTFIX)
-ignore-wontfix: true
-
+ignore-states:
+  - wont-fix
 # sort the match results with the given strategy, options=[package severity epss risk kev vulnerability] (env: GRYPE_SORT_BY)
 sort-by: "risk"
 
