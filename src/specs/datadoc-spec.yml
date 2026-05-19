@@ -20,7 +20,7 @@ paths:
     get:
       operationId: listDaplaDataFiles
       parameters:
-      - name: dataset-id
+      - name: dataset_id
         in: query
         explode: false
         schema:
@@ -43,6 +43,10 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CreateDaplaDataFile"
+            examples:
+              example:
+                value:
+                  file_path: gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_p2022_v2.parquet
         required: true
       responses:
         "201":
@@ -74,15 +78,20 @@ paths:
                     violations:
                     - field: classificationReference
                       message: Code incorrect is not a valid classification id
-  /data-files/{file_path}:
+  /data-files/{file-path}:
     get:
       operationId: getByFilePath
       parameters:
-      - name: file_path
+      - name: file-path
         in: path
         required: true
         schema:
           type: string
+        content:
+          application/json:
+            examples:
+              example:
+                value: gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_p2022_v2.parquet
       responses:
         "200":
           description: Get the Dapla Data File by its file path.
@@ -123,11 +132,11 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/DataProductDTO"
-  /data-products/{short_name}:
+  /data-products/{short-name}:
     get:
       operationId: getByShortName
       parameters:
-      - name: short_name
+      - name: short-name
         in: path
         required: true
         schema:

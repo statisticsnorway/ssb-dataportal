@@ -5,9 +5,9 @@ All URIs are relative to *http://localhost*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**createOrUpdateDaplaDataFile**](DefaultApi.md#createorupdatedapladatafile) | **POST** /data-files |  |
-| [**getByFilePath**](DefaultApi.md#getbyfilepath) | **GET** /data-files/{file_path} |  |
+| [**getByFilePath**](DefaultApi.md#getbyfilepath) | **GET** /data-files/{file-path} |  |
 | [**getById**](DefaultApi.md#getbyid) | **GET** /datasets/{id} |  |
-| [**getByShortName**](DefaultApi.md#getbyshortname) | **GET** /data-products/{short_name} |  |
+| [**getByShortName**](DefaultApi.md#getbyshortname) | **GET** /data-products/{short-name} |  |
 | [**listDaplaDataFiles**](DefaultApi.md#listdapladatafiles) | **GET** /data-files |  |
 | [**listDataProducts**](DefaultApi.md#listdataproducts) | **GET** /data-products |  |
 | [**listDatasets**](DefaultApi.md#listdatasets) | **GET** /datasets |  |
@@ -35,7 +35,7 @@ async function example() {
 
   const body = {
     // CreateDaplaDataFile
-    createDaplaDataFile: ...,
+    createDaplaDataFile: {"file_path":"gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_p2022_v2.parquet"},
   } satisfies CreateOrUpdateDaplaDataFileRequest;
 
   try {
