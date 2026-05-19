@@ -3,6 +3,7 @@
     "id": "ds-1",
     "product_short_name": "arbstatus",
     "short_description": "Arbeidsstatus datasett 1",
+    "dataset_state": "SOURCE_DATA",
     "owner": "team-a",
     "storage_location_name": "bucket-a"
   },
@@ -10,6 +11,7 @@
     "id": "ds-2",
     "product_short_name": "arbstatus",
     "short_description": "Arbeidsstatus datasett 2",
+    "dataset_state": "INPUT_DATA",
     "owner": "team-a",
     "storage_location_name": "bucket-a"
   },
@@ -17,6 +19,7 @@
     "id": "ds-3",
     "product_short_name": "arbstatus",
     "short_description": "Arbeidsstatus datasett 3",
+    "dataset_state": "PROCESSED_DATA",
     "owner": "team-a",
     "storage_location_name": "bucket-a"
   },
@@ -24,6 +27,7 @@
     "id": "ds-2",
     "product_short_name": "ameld",
     "short_description": "Ameldingen dataset",
+    "dataset_state": "OUTPUT_DATA",
     "owner": "team-b",
     "storage_location_name": "bucket-b"
   }
