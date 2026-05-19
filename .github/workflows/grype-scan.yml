@@ -26,18 +26,6 @@ jobs:
           output-format: table
           fail-build: false
           severity-cutoff: high
-      - name: Run Grype scan (JSON output)
-        uses: anchore/scan-action@v7
-        id: scan_json
-        with:
-          image: "ssb-dataportal:latest"
-          fail-build: false
-          severity-cutoff: high
-          output-format: json
-      - name: Print scan JSON
-        run: |
-          echo "==== Grype JSON Output ===="
-          cat ${{ steps.scan_json.outputs.json }}
       - name: Create sarif file
         uses: anchore/scan-action@v7
         id: scan
