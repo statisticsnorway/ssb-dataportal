@@ -20,12 +20,24 @@ jobs:
         run: docker build . --file Dockerfile --tag ssb-dataportal:latest
       - name: Display scan result as table
         uses: anchore/scan-action@v7
+        id: scan_table
         with:
           image: "ssb-dataportal:latest"
           output-format: table
           fail-build: false
           severity-cutoff: high
-          config: .github/.grype.yml
+      - name: Run Grype scan (JSON output)
+        uses: anchore/scan-action@v7
+        id: scan_json
+        with:
+          image: "ssb-dataportal:latest"
+          fail-build: false
+          severity-cutoff: high
+          output-format: json
+      - name: Print scan JSON
+        run: |
+          echo "==== Grype JSON Output ===="
+          cat ${{ steps.scan_json.outputs.json }}
       - name: Create sarif file
         uses: anchore/scan-action@v7
         id: scan
