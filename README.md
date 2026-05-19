@@ -50,9 +50,11 @@ The result will show a risk score based on: threat, impact and context.
 
 Read more https://oss.anchore.com/docs/guides/vulnerability/interpreting-results/#why-risk-based-sorting-works-best
 
-See https://oss.anchore.com/docs/installation/grype/
+For now handling reported vulnerabilities must be handled manually.
 
 #### Local scans
+
+Install [Grype](https://oss.anchore.com/docs/installation/grype/)
 
 Scan filesystem
 ```bash
