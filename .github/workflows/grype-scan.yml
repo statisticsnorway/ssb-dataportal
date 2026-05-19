@@ -25,6 +25,12 @@ jobs:
           image: "ssb-dataportal:latest"
           output-format: table
           fail-build: false
+      - name: Return json format
+        uses: anchore/scan-action@v7
+        with:
+          image: "ssb-dataportal:latest"
+          output-format: json
+          fail-build: false
       - uses: anchore/scan-action@v7
         id: scan
         with:
