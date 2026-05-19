@@ -43,6 +43,32 @@ pnpm outdated
 ```
 Update versions in `package.json`
 
+### Vulnerability scanning
+
+We use `grype` for vulnerability scanning.
+The result will show a risk score based on: threat, impact and context.
+
+Read more https://oss.anchore.com/docs/guides/vulnerability/interpreting-results/#why-risk-based-sorting-works-best
+
+For now handling reported vulnerabilities must be handled manually.
+
+#### Local scans
+
+Install [Grype](https://oss.anchore.com/docs/installation/grype/)
+
+Scan filesystem
+```bash
+grype .
+```
+
+Scan docker image
+
+```bash
+docker build --no-cache -t ssb-dataportal:latest .
+
+grype ssb-dataportal
+```
+
 ### Lint and format
 
 We use [`biome`](https://biomejs.dev/guides/getting-started/).
