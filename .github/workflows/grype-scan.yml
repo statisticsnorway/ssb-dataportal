@@ -26,6 +26,7 @@ jobs:
           output-format: table
           fail-build: false
           severity-cutoff: high
+          config: .github/.grype.yml
       - name: Create sarif file
         uses: anchore/scan-action@v7
         id: scan
