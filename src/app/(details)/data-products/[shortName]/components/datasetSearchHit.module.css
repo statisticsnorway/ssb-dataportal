@@ -6,3 +6,11 @@
 .dataProductHeadingLink:hover {
   text-decoration: none !important;
 }
+
+.tagsList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--small-gap);
+  margin-top: 0.5rem;
+}

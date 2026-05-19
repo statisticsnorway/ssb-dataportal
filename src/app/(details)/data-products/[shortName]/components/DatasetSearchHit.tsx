@@ -1,4 +1,4 @@
-import { Card, Heading, Link } from '@digdir/designsystemet-react';
+import { Card, Heading, Link, Tag } from '@digdir/designsystemet-react';
 import { type ReactNode } from 'react';
 import { tabsData } from '@/app/(services)/tabs';
 import { DatasetDTO } from '@/libs/data-access/datadoc/models';
@@ -29,6 +29,9 @@ export const DatasetSearchHit = ({ dataset }: DatasetSearchHitProps) => {
           <span className='heading12'>{dataset.short_description ?? dataset.id}</span>
         </HeadingLink>
       </Heading>
+      <div className={styles.tagsList}>
+        {dataset.dataset_state && <Tag data-color='success'>{dataset.dataset_state}</Tag>}
+      </div>
     </Card>
   );
 };
