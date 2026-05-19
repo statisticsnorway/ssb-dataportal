@@ -30,7 +30,8 @@ export const DatasetSearchHit = ({ dataset }: DatasetSearchHitProps) => {
         </HeadingLink>
       </Heading>
       <div className={styles.tagsList}>
-        {dataset.dataset_state && <Tag data-color='success'>{dataset.dataset_state}</Tag>}
+        {<Tag data-color='success'>{dataset.dataset_state}</Tag>}
+        {<Tag> {dataset.owner ?? 'undefined'}</Tag>}
       </div>
     </Card>
   );
