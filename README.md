@@ -124,7 +124,7 @@ Configuration is primarily source from `.env*` files. This may be overridden in 
 | `NEXT_PUBLIC_LOGOUT_URL`         | URL to logout page - value accessible in the browser.                                                        |
 | `NEXT_PUBLIC_ENABLE_TEST_ROUTES` | `true` to enable local test-specific routes.                                                                 |
 | `VARDEF_API_DOCS_URL`            | URL to the Swagger API docs for variable definitions.                                                        |
- | `SITE_URL`                      | The base URL of the deployed site. Can be set to `localhost:3000` for local testing or development.          |
+ | `SITE_URL`                      | The base URL of the deployed site. Can be set to `http://localhost:3000` for local testing or development.          |
 
 ### Local auth
 
