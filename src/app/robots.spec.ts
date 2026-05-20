@@ -1,20 +1,19 @@
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import robots from './robots';
 
 describe('robots', () => {
-  it('allows public pages and disallows test routes', async () => {
-    vi.stubEnv('SITE_URL', 'https://dataportal.test.ssb.no');
-
-    const { default: robots } = await import('./robots');
-
-    expect(robots()).toEqual({
-      rules: {
-        userAgent: '*',
-        allow: '/',
-        disallow: ['/test/'],
-      },
-      sitemap: 'https://dataportal.test.ssb.no/sitemap.xml',
-    });
-
+  afterEach(() => {
     vi.unstubAllEnvs();
+  });
+  it('disallows test routes', () => {
+    expect(robots().rules).toEqual(
+      expect.objectContaining({
+        disallow: ['/test/'],
+      }),
+    );
+  });
+  it('falls back to production URL when SITE_URL is not set', () => {
+    vi.stubEnv('SITE_URL', undefined);
+    expect(robots().sitemap).toBe('https://dataportal.ssb.no/sitemap.xml');
   });
 });

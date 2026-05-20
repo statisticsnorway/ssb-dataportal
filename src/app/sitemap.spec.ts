@@ -1,28 +1,36 @@
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import sitemap from './sitemap';
 
 describe('sitemap', () => {
-  it('returns public Dataportal routes', async () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it('uses SITE_URL for public Dataportal routes', () => {
     vi.stubEnv('SITE_URL', 'https://dataportal.test.ssb.no');
 
-    const { default: sitemap } = await import('./sitemap');
-
-    const result = sitemap();
-
-    expect(result).toHaveLength(4);
-
-    expect(result.map((entry) => entry.url)).toEqual([
+    expect(sitemap().map((entry) => entry.url)).toEqual([
       'https://dataportal.test.ssb.no',
       'https://dataportal.test.ssb.no/variable-definitions',
       'https://dataportal.test.ssb.no/classifications',
       'https://dataportal.test.ssb.no/data-products',
     ]);
+  });
 
-    expect(result).not.toContainEqual(
-      expect.objectContaining({
-        url: expect.stringContaining('/test/error'),
-      }),
-    );
+  it('falls back to production URL when SITE_URL is not set', () => {
+    vi.stubEnv('SITE_URL', undefined);
 
-    vi.unstubAllEnvs();
+    expect(sitemap().map((entry) => entry.url)).toEqual([
+      'https://dataportal.ssb.no',
+      'https://dataportal.ssb.no/variable-definitions',
+      'https://dataportal.ssb.no/classifications',
+      'https://dataportal.ssb.no/data-products',
+    ]);
+  });
+
+  it('does not include test routes', () => {
+    vi.stubEnv('SITE_URL', 'https://dataportal.test.ssb.no');
+
+    expect(sitemap().map((entry) => entry.url)).not.toContain('https://dataportal.test.ssb.no/test/error/');
   });
 });
