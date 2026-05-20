@@ -56,7 +56,7 @@ const CodeSnippet = ({
             borderRadius: '5px',
             fontSize: 'calc(0.9rem + 0.25vw)',
             margin: 0,
-            padding: '2rem 3rem 1rem 2rem',
+            padding: '3rem 3rem 1rem 2rem',
           }}
         >
           {codeString}

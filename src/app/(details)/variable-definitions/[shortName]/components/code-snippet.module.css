@@ -22,7 +22,7 @@
 
 .copyCodeButton {
   position: absolute;
-  top: 1.2rem;
+  top: 1.5rem;
   right: 2rem;
   z-index: 2;
   color: var(--main-font-color);
