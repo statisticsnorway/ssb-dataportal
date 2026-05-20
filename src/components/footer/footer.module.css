@@ -1,7 +1,11 @@
+.footerWrapper {
+  background-color: var(--ssb-dark-color-5);
+  width: 100%;
+}
 .footer {
   height: auto;
-  padding: var(--medium-gap) var(--large-gap);
   background-color: var(--ssb-dark-color-5);
+  padding: var(--medium-gap) var(--large-gap);
   color: white;
   gap: var(--medium-gap);
   display: flex;

@@ -33,7 +33,7 @@ const CopyTag = ({ text, copyType = 'short_name' }: CopyTagProps) => {
             icon
             onClick={() => copyToClipboard(text)}
           >
-            <FilesIcon aria-hidden />
+            <FilesIcon aria-hidden focusable='false' />
           </Button>
         </Tooltip>
       </div>

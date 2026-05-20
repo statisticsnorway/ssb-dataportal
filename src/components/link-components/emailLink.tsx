@@ -5,7 +5,7 @@ import styles from './links.module.css';
 export const EmailLink = ({ email }: { email: string }) => {
   return (
     <div className={styles.mail}>
-      <EnvelopeClosedIcon aria-hidden='true' style={{ marginRight: '0.5rem', fontSize: '1.8rem' }} />
+      <EnvelopeClosedIcon aria-hidden focusable='false' style={{ marginRight: '0.5rem', fontSize: '1.8rem' }} />
       <ExternalLink href={`mailto:${email}`} linkText={email} />
     </div>
   );
