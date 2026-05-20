@@ -221,8 +221,8 @@ export class DefaultApi extends runtime.BaseAPI implements DefaultApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/data-files/{file_path}`;
-        urlPath = urlPath.replace(`{${"file_path"}}`, encodeURIComponent(String(requestParameters['filePath'])));
+        let urlPath = `/data-files/{file-path}`;
+        urlPath = urlPath.replace(`{${"file-path"}}`, encodeURIComponent(String(requestParameters['filePath'])));
 
         const response = await this.request({
             path: urlPath,
@@ -291,8 +291,8 @@ export class DefaultApi extends runtime.BaseAPI implements DefaultApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/data-products/{short_name}`;
-        urlPath = urlPath.replace(`{${"short_name"}}`, encodeURIComponent(String(requestParameters['shortName'])));
+        let urlPath = `/data-products/{short-name}`;
+        urlPath = urlPath.replace(`{${"short-name"}}`, encodeURIComponent(String(requestParameters['shortName'])));
 
         const response = await this.request({
             path: urlPath,
@@ -317,7 +317,7 @@ export class DefaultApi extends runtime.BaseAPI implements DefaultApiInterface {
         const queryParameters: any = {};
 
         if (requestParameters['datasetId'] != null) {
-            queryParameters['dataset-id'] = requestParameters['datasetId'];
+            queryParameters['dataset_id'] = requestParameters['datasetId'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
