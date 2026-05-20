@@ -6,6 +6,7 @@ const isTest = process.env.NODE_ENV === 'test';
 import { version as appVersion, name as appName } from './package.json';
 
 const nextConfig: NextConfig = {
+  productionBrowserSourceMaps: true,
   turbopack: {
     root: path.resolve(__dirname),
     resolveAlias: {
