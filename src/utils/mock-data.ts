@@ -23,8 +23,7 @@ export function getVariableDefinitionByShortName(shortName: string | number): Re
 export function getClassification(id: number): ClassificationResource | undefined {
   const classifications = classificationsMock.classifications;
   const classification = classifications.find((v) => v.id === id);
-  const parsedClassification = parseClassification(classification);
-  return parsedClassification;
+  return parseClassification(classification);
 }
 
 /** * Transforms JSON read from file into proper typed objects */
