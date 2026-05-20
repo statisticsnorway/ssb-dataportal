@@ -13,23 +13,26 @@ jobs:
       actions: "read"
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Build the Container image
         run: docker build . --file Dockerfile --tag ssb-dataportal:latest
       - name: Display scan result as table
         uses: anchore/scan-action@v7
+        id: scan_table
         with:
           image: "ssb-dataportal:latest"
           output-format: table
           fail-build: false
-      - uses: anchore/scan-action@v7
+          severity-cutoff: high
+      - name: Create sarif file
+        uses: anchore/scan-action@v7
         id: scan
         with:
           image: "ssb-dataportal:latest"
           fail-build: false
+          severity-cutoff: high
       - name: upload Anchore scan SARIF report
         uses: github/codeql-action/upload-sarif@v4
         with:
