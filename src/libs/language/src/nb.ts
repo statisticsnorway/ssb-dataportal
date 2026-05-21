@@ -207,7 +207,7 @@ export const nb = {
   products: {
     other: 'Annen dataprodukt',
     statistic: 'Statistikkprodukt',
-    unknown: 'Ukjent produkttype'
+    unknown: 'Ukjent produkttype',
   },
 
   ssbDataportal: 'SSB Dataportal',
