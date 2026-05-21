@@ -24,6 +24,7 @@
     "format:check": "biome format  .",
     "format:fix": "biome format --write . ",
     "setup:dev": "pnpm install && which pre-commit && pre-commit install",
+    "setup:test:e2e": "pnpm playwright install",
     "types:check": "tsc --noEmit",
     "test": "vitest",
     "test:watch": "vitest --watch",
