@@ -46,9 +46,12 @@ export default function DatasetDetail({
               label: localization.datasetDetail.datasetState,
               value: <Tag data-color='success'> {dataset.dataset_state}</Tag>,
             },
-            { label: localization.datasetDetail.assessment, value: dataset.assessment },
             {
-              label: localization.datasetDetail.owner,
+              label: localization.datasetDetail.assessment,
+              value: <Tag data-color='warning'> {dataset.assessment}</Tag>,
+            },
+            {
+              label: localization.datasetDetail.responsible,
               value: (
                 <ExternalLink
                   linkText={dataset.owner ?? 'undefined'}

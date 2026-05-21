@@ -13,7 +13,7 @@ export const nb = {
     bucket: 'Bøtte',
     datasetState: 'Datatilstand',
     assessment: 'Vurdering',
-    owner: 'Eier',
+    responsible: 'Ansvarlig team',
     id: 'ID',
     dataFiles: 'Datafiler',
   },
