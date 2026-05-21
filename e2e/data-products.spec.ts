@@ -1,13 +1,13 @@
 import { expect, test } from './fixtures/dataProducts.fixture';
 import { localization } from '@/libs/language';
 
-test('Data products page displays static data product short names', async ({ dataProductsPage }) => {
+test('Data products page displays data products', async ({ dataProductsPage }) => {
   const main = dataProductsPage.getByRole('main');
 
   await expect(main.getByRole('heading', { name: localization.tabs.dataProducts })).toBeVisible();
   await expect(main).toContainText('2 treff');
-  await expect(main).toContainText('arbstatus');
-  await expect(main).toContainText('ameld');
+  await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
+  await expect(main).toContainText('Ameldingen');
 });
 
 test('Clicking a data product navigates to details page', async ({ dataProductsPage }) => {

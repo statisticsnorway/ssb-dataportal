@@ -18,7 +18,7 @@ It's currently in the prototype stage, with a goal of displaying Variable defini
 1. Install Node: <https://nodejs.org/en/download>
 1. Install pnpm: <https://pnpm.io/installation>
 1. Install dev dependencies: `pnpm install`
-1. Install pre-commit: `pipx install pre-commit`
+1. Install pre-commit: `uv tool install pre-commit`
 1. Install pre-commit hooks: `pre-commit install`
 
 ### Run the development server
@@ -32,6 +32,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ### Package manager
 
 Pnpm is our package manager. This must be installed with a system-wide manual installation. Installation instructions and documentation are available here: <https://pnpm.io/installation>
+
+#### Update package manager
+
+`pnpm self-update`
 
 #### Update dependencies
 

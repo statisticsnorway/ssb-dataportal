@@ -19,12 +19,12 @@ export default function DataProductDetail({
       <DataportalBreadcrumbs
         homeUrl={getHomeBreadcrumb()}
         items={[{ text: localization.tabs.dataProducts, href: tabsData.DataProducts.route }]}
-        currentText={dataProduct.product_short_name ?? undefined}
+        currentText={dataProduct.title ?? dataProduct.product_short_name ?? undefined}
       />
 
       <main className={styles.mainContent}>
         <Heading className={styles.detailsHeading} data-size='2xl' level={1}>
-          {dataProduct.product_short_name ?? dataProduct.title}
+          {dataProduct.title ?? dataProduct.product_short_name}
         </Heading>
 
         <section>

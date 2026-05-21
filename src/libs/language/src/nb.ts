@@ -13,7 +13,7 @@ export const nb = {
     bucket: 'Bøtte',
     datasetState: 'Datatilstand',
     assessment: 'Vurdering',
-    owner: 'Eier',
+    responsible: 'Ansvarlig team',
     id: 'ID',
     dataFiles: 'Datafiler',
   },
@@ -202,6 +202,12 @@ export const nb = {
       titleAlphabeticalAsc: 'Tittel A-Å',
       titleAlphabeticalDesc: 'Tittel Å-A',
     },
+  },
+
+  products: {
+    other: 'Annen dataprodukt',
+    statistic: 'Statistikkprodukt',
+    unknown: 'Ukjent produkttype',
   },
 
   ssbDataportal: 'SSB Dataportal',
