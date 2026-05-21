@@ -18,7 +18,7 @@ It's currently in the prototype stage, with a goal of displaying Variable defini
 1. Install Node: <https://nodejs.org/en/download>
 1. Install pnpm: <https://pnpm.io/installation>
 1. Install dev dependencies: `pnpm install`
-1. Install pre-commit: `pipx install pre-commit`
+1. Install pre-commit: `uv tool install pre-commit`
 1. Install pre-commit hooks: `pre-commit install`
 
 ### Run the development server

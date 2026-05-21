@@ -23,6 +23,7 @@
     "lint:fix": "biome check --write  .",
     "format:check": "biome format  .",
     "format:fix": "biome format --write . ",
+    "setup:dev": "pnpm install && which pre-commit && pre-commit install",
     "types:check": "tsc --noEmit",
     "test": "vitest",
     "test:watch": "vitest --watch",
@@ -35,8 +36,7 @@
     "test:e2e:generate": "pnpm dev & playwright codegen http://localhost:3000",
     "codegen:vardef-internal": "openapi-generator-cli generate --generator-key vardef-internal",
     "codegen:klass": "openapi-generator-cli generate --generator-key klass",
-    "codegen:datadoc": "openapi-generator-cli generate --generator-key datadoc",
-    "preinstall": "npx only-allow pnpm"
+    "codegen:datadoc": "openapi-generator-cli generate --generator-key datadoc"
   },
   "dependencies": {
     "@biomejs/biome": "2.4.15",
