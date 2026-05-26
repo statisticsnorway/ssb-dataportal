@@ -20,7 +20,7 @@ export async function getDataDocClient(): Promise<DefaultApi> {
     logger.warn('Using hardcoded access token from environment! (SSB_DATAPORTAL_JWT_TOKEN)');
   } else if (process.env.DATADOC_USE_M2M_TOKEN === 'true') {
     logger.info('Using M2M token for DataDoc auth');
-    token = await getM2mToken();
+    token = await getM2mToken(process.env.DATADOC_M2M_CLIENT_ID, process.env.DATADOC_M2M_CLIENT_SECRET);
   } else {
     token = await getEncodedJwt().catch((reason) => {
       logger.error({ error: sanitizeError(reason) }, 'JWT retrieval unexpectedly failed');
