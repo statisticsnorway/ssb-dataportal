@@ -207,6 +207,7 @@ export const nb = {
   products: {
     other: 'Annen dataprodukt',
     statistic: 'Statistikkprodukt',
+    typeFilterLabel: 'Dataprodukttype',
     unknown: 'Ukjent produkttype',
   },
 
