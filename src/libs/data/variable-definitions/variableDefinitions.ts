@@ -31,7 +31,7 @@ export async function getVardefClient(): Promise<VariableDefinitionsApi> {
     logger.warn('Using hardcoded access token from environment! (SSB_DATAPORTAL_JWT_TOKEN)');
   } else if (process.env.VARDEF_USE_M2M_TOKEN === 'true') {
     logger.debug('Using M2M token for Vardef auth');
-    token = await getM2mToken();
+    token = await getM2mToken(process.env.VARDEF_M2M_CLIENT_ID, process.env.VARDEF_M2M_CLIENT_SECRET);
   } else {
     token = await getEncodedJwt().catch((reason) => {
       logger.error({ error: sanitizeError(reason) }, 'JWT retrieval unexpectedly failed');
