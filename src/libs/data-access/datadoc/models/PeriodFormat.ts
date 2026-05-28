@@ -14,21 +14,26 @@
 
 
 /**
- * Describes the kind of Dapla bucket a data file is stored in.
+ * The category of time period that a data file covers.
  * @export
  */
-export const StorageCategory = {
-    SOURCE: 'SOURCE',
-    PRODUCT: 'PRODUCT',
-    SHARED: 'SHARED'
+export const PeriodFormat = {
+    YEAR: 'YEAR',
+    YEAR_MONTH: 'YEAR_MONTH',
+    YEAR_MONTH_DAY: 'YEAR_MONTH_DAY',
+    YEAR_WEEK: 'YEAR_WEEK',
+    BIMESTER: 'BIMESTER',
+    QUARTER: 'QUARTER',
+    TRIANNUAL: 'TRIANNUAL',
+    HALF_YEAR: 'HALF_YEAR'
 } as const;
-export type StorageCategory = typeof StorageCategory[keyof typeof StorageCategory];
+export type PeriodFormat = typeof PeriodFormat[keyof typeof PeriodFormat];
 
 
-export function instanceOfStorageCategory(value: any): boolean {
-    for (const key in StorageCategory) {
-        if (Object.prototype.hasOwnProperty.call(StorageCategory, key)) {
-            if (StorageCategory[key as keyof typeof StorageCategory] === value) {
+export function instanceOfPeriodFormat(value: any): boolean {
+    for (const key in PeriodFormat) {
+        if (Object.prototype.hasOwnProperty.call(PeriodFormat, key)) {
+            if (PeriodFormat[key as keyof typeof PeriodFormat] === value) {
                 return true;
             }
         }
@@ -36,19 +41,19 @@ export function instanceOfStorageCategory(value: any): boolean {
     return false;
 }
 
-export function StorageCategoryFromJSON(json: any): StorageCategory {
-    return StorageCategoryFromJSONTyped(json, false);
+export function PeriodFormatFromJSON(json: any): PeriodFormat {
+    return PeriodFormatFromJSONTyped(json, false);
 }
 
-export function StorageCategoryFromJSONTyped(json: any, ignoreDiscriminator: boolean): StorageCategory {
-    return json as StorageCategory;
+export function PeriodFormatFromJSONTyped(json: any, ignoreDiscriminator: boolean): PeriodFormat {
+    return json as PeriodFormat;
 }
 
-export function StorageCategoryToJSON(value?: StorageCategory | null): any {
+export function PeriodFormatToJSON(value?: PeriodFormat | null): any {
     return value as any;
 }
 
-export function StorageCategoryToJSONTyped(value: any, ignoreDiscriminator: boolean): StorageCategory {
-    return value as StorageCategory;
+export function PeriodFormatToJSONTyped(value: any, ignoreDiscriminator: boolean): PeriodFormat {
+    return value as PeriodFormat;
 }
 

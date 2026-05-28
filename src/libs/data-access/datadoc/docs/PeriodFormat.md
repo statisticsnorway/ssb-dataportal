@@ -1,7 +1,7 @@
 
-# StorageCategory
+# PeriodFormat
 
-Describes the kind of Dapla bucket a data file is stored in.
+The category of time period that a data file covers.
 
 ## Properties
 
@@ -11,11 +11,11 @@ Name | Type
 ## Example
 
 ```typescript
-import type { StorageCategory } from ''
+import type { PeriodFormat } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-} satisfies StorageCategory
+} satisfies PeriodFormat
 
 console.log(example)
 
@@ -24,7 +24,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as StorageCategory
+const exampleParsed = JSON.parse(exampleJSON) as PeriodFormat
 console.log(exampleParsed)
 ```
 

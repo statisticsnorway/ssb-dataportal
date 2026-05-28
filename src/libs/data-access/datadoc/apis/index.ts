@@ -1,3 +1,5 @@
 /* tslint:disable */
 /* eslint-disable */
-export * from './DefaultApi';
+export * from './DataFilesApi';
+export * from './DataProductsApi';
+export * from './DatasetsApi';

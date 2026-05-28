@@ -14,7 +14,7 @@
 
 
 /**
- * 
+ * The type of data product.
  * @export
  */
 export const DataProductType = {
