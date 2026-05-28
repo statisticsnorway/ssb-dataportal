@@ -7,7 +7,7 @@ import { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
 import dataProducts from '@/static-data/data-products.json';
 import datasetsStatic from '@/static-data/datasets.json';
 import {
-  getDataDocClient,
+  getClientForApi,
   getDataProductByShortName,
   listDataProducts,
   listDatasetsByProductShortName,
@@ -35,13 +35,13 @@ describe('datadoc data fetching', () => {
   describe('getDataDocClient', () => {
     it('no token available', async () => {
       vi.mocked(getEncodedJwt).mockResolvedValue(undefined);
-      await expect(getDataDocClient()).rejects.toEqual(new Error('Could not retrieve access token!'));
+      await expect(getClientForApi()).rejects.toEqual(new Error('Could not retrieve access token!'));
     });
 
     it('hardcoded token', async () => {
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
       process.env.METADATA_API_BASE_PATH = 'my-cool-base-path';
-      const client = await getDataDocClient();
+      const client = await getClientForApi();
       expect(client).toBeInstanceOf(DefaultApi);
       // @ts-ignore only protected access in test
       const tokenReturn = client.configuration.accessToken?.();
@@ -54,7 +54,7 @@ describe('datadoc data fetching', () => {
     it('M2M token', async () => {
       process.env.DATADOC_USE_M2M_TOKEN = 'true';
       vi.mocked(getM2mToken).mockResolvedValue('m2m-token');
-      const client = await getDataDocClient();
+      const client = await getClientForApi();
       expect(client).toBeInstanceOf(DefaultApi);
       // @ts-ignore only protected access in test
       const tokenReturn = client.configuration.accessToken?.();

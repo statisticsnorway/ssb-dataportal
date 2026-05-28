@@ -1,19 +1,28 @@
 'use server';
 
 import { getM2mToken } from '@/libs/auth/m2m';
+import {
+  DataFilesApi,
+  DataFilesApiInterface,
+  DataProductsApi,
+  DataProductsApiInterface,
+  DatasetsApi,
+  DatasetsApiInterface,
+} from '@/libs/data-access/datadoc';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger, createLoggerWithBindings } from '@/libs/logger/server-logger';
 import dataProducts from '@/static-data/data-products.json';
 import datasetsStatic from '@/static-data/datasets.json';
 import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
-import { DefaultApi } from '../../data-access/datadoc/apis';
 import { DaplaDataFileDTO, DataProductDTO, DatasetDTO } from '../../data-access/datadoc/models';
 import { Configuration, ConfigurationParameters, ResponseError } from '../../data-access/datadoc/runtime';
 
 const ttlSeconds = Number(process.env.DATADOC_CACHE_TTL_SECONDS) || 3600;
 
-export async function getDataDocClient(): Promise<DefaultApi> {
+type Apis = DataProductsApiInterface | DatasetsApiInterface | DataFilesApiInterface;
+
+export async function getClientForApi<T extends Apis>(api: new (configuration: Configuration) => T): Promise<T> {
   const logger = createLogger('data-products');
   let token = process.env.SSB_DATAPORTAL_JWT_TOKEN;
   if (token) {
@@ -43,7 +52,7 @@ export async function getDataDocClient(): Promise<DefaultApi> {
     logger.debug({ basePath }, 'DataDoc API base path configured');
     configParams.basePath = basePath;
   }
-  return new DefaultApi(new Configuration(configParams));
+  return new api(new Configuration(configParams));
 }
 
 export async function listDataProducts(): Promise<DataProductDTO[]> {
@@ -56,7 +65,7 @@ export async function listDataProducts(): Promise<DataProductDTO[]> {
 
   try {
     logger.info('Getting from api');
-    const api = await getDataDocClient();
+    const api = await getClientForApi(DataProductsApi);
     const startTime = Date.now();
     const rawData = await api.listDataProducts({}, {
       cache: 'force-cache',
@@ -88,8 +97,8 @@ export async function getDataProductByShortName(shortName: string): Promise<Data
   }
 
   try {
-    const api = await getDataDocClient();
-    const dto = await api.getByShortName({ shortName });
+    const api = await getClientForApi(DataProductsApi);
+    const dto = await api.getDataProductByShortName({ shortName });
     logger.info({ shortName }, 'Fetched data product');
     return dto;
   } catch (error: unknown) {
@@ -111,7 +120,7 @@ export async function listDatasetsByProductShortName(shortName: string): Promise
   }
 
   try {
-    const api = await getDataDocClient();
+    const api = await getClientForApi(DatasetsApi);
     const startTime = Date.now();
     const rawData = await api.listDatasets({ productShortName: shortName }, {
       cache: 'force-cache',
@@ -133,8 +142,8 @@ export async function listDatasetsByProductShortName(shortName: string): Promise
 export async function getDatasetById(id: string): Promise<DatasetDTO> {
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'getDatasetById', id: id });
   try {
-    const api = await getDataDocClient();
-    const dto = await api.getById({ id: id });
+    const api = await getClientForApi(DatasetsApi);
+    const dto = await api.getDatasetById({ id: id });
     logger.info('Fetched Dataset');
     return dto;
   } catch (error: unknown) {
@@ -150,8 +159,8 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
 export async function listDataFilesByDatasetId(datasetId: string): Promise<Array<DaplaDataFileDTO>> {
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'listDataFilesByDatasetId', id: datasetId });
   try {
-    const api = await getDataDocClient();
-    const dto = await api.listDaplaDataFiles({ datasetId: datasetId });
+    const api = await getClientForApi(DataFilesApi);
+    const dto = await api.listDataFiles({ datasetId: datasetId });
     logger.info('Fetched Dapla Data Files');
     logger.info({ count: dto.length }, 'Fetched data products from API');
     return dto;
