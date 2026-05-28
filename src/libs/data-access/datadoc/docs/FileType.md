@@ -1,6 +1,7 @@
 
 # FileType
 
+Represents the physical file format of a dataset file.
 
 ## Properties
 

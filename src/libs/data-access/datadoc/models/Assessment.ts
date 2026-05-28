@@ -14,7 +14,7 @@
 
 
 /**
- * 
+ * Describes the confidentiality level implied by where a dataset is stored in the Dapla folder structure.
  * @export
  */
 export const Assessment = {

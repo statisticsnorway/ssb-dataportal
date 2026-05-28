@@ -21,7 +21,9 @@ Name | Type
 `data_file_version` | number
 `contains_data_from` | Date
 `contains_data_until` | Date
+`period_type` | [PeriodFormat](PeriodFormat.md)
 `owner` | string
+`naming_standard_violations` | Array&lt;string&gt;
 
 ## Example
 
@@ -44,7 +46,9 @@ const example = {
   "data_file_version": null,
   "contains_data_from": null,
   "contains_data_until": null,
+  "period_type": null,
   "owner": null,
+  "naming_standard_violations": null,
 } satisfies DaplaDataFileDTO
 
 console.log(example)

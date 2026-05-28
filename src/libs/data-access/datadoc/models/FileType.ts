@@ -14,11 +14,12 @@
 
 
 /**
- * 
+ * Represents the physical file format of a dataset file.
  * @export
  */
 export const FileType = {
     PARQUET: 'PARQUET',
+    PARQUET_GZIP: 'PARQUET_GZIP',
     PARQUET_PARTITIONED: 'PARQUET_PARTITIONED',
     CSV: 'CSV',
     JSON: 'JSON',

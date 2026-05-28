@@ -8,5 +8,6 @@ export * from './DataProductType';
 export * from './DatasetDTO';
 export * from './DatasetState';
 export * from './FileType';
+export * from './PeriodFormat';
 export * from './Problem';
 export * from './StorageCategory';
