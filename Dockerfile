@@ -2,9 +2,9 @@
 
 # Based on example from: https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
 
-FROM node:22 AS base
+FROM node:lts-alpine3.23@sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14 AS base
 
-RUN npm install -g pnpm@11.0.0
+RUN npm install -g pnpm@11.3.0
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -26,7 +26,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN pnpm run build;
 
 # Production image, copy all the files and run next
-FROM gcr.io/distroless/nodejs22-debian12 AS runner
+FROM gcr.io/distroless/nodejs24-debian13 AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
