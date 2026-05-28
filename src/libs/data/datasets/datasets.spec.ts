@@ -2,7 +2,7 @@ import assert from 'assert';
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getEncodedJwt } from '@/libs/auth/jwt';
 import { getM2mToken } from '@/libs/auth/m2m';
-import { DefaultApi } from '@/libs/data-access/datadoc/apis';
+import { DataProductsApi, DatasetsApi } from '@/libs/data-access/datadoc';
 import { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
 import dataProducts from '@/static-data/data-products.json';
 import datasetsStatic from '@/static-data/datasets.json';
@@ -35,14 +35,14 @@ describe('datadoc data fetching', () => {
   describe('getDataDocClient', () => {
     it('no token available', async () => {
       vi.mocked(getEncodedJwt).mockResolvedValue(undefined);
-      await expect(getClientForApi()).rejects.toEqual(new Error('Could not retrieve access token!'));
+      await expect(getClientForApi(DataProductsApi)).rejects.toEqual(new Error('Could not retrieve access token!'));
     });
 
     it('hardcoded token', async () => {
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
       process.env.METADATA_API_BASE_PATH = 'my-cool-base-path';
-      const client = await getClientForApi();
-      expect(client).toBeInstanceOf(DefaultApi);
+      const client = await getClientForApi(DataProductsApi);
+      expect(client).toBeInstanceOf(DataProductsApi);
       // @ts-ignore only protected access in test
       const tokenReturn = client.configuration.accessToken?.();
       const token = await tokenReturn;
@@ -54,8 +54,8 @@ describe('datadoc data fetching', () => {
     it('M2M token', async () => {
       process.env.DATADOC_USE_M2M_TOKEN = 'true';
       vi.mocked(getM2mToken).mockResolvedValue('m2m-token');
-      const client = await getClientForApi();
-      expect(client).toBeInstanceOf(DefaultApi);
+      const client = await getClientForApi(DatasetsApi);
+      expect(client).toBeInstanceOf(DatasetsApi);
       // @ts-ignore only protected access in test
       const tokenReturn = client.configuration.accessToken?.();
       const token = await tokenReturn;
@@ -80,7 +80,7 @@ describe('datadoc data fetching', () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
 
-      vi.spyOn(DefaultApi.prototype, 'listDataProducts').mockResolvedValue(dataProducts as DataProductDTO[]);
+      vi.spyOn(DataProductsApi.prototype, 'listDataProducts').mockResolvedValue(dataProducts as DataProductDTO[]);
 
       const result = await listDataProducts();
       expect(result).toContainEqual((dataProducts as DataProductDTO[])[0]);
@@ -116,7 +116,7 @@ describe('datadoc data fetching', () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
 
-      vi.spyOn(DefaultApi.prototype, 'getByShortName').mockResolvedValue(testProduct);
+      vi.spyOn(DataProductsApi.prototype, 'getDataProductByShortName').mockResolvedValue(testProduct);
 
       const result = await getDataProductByShortName(shortName);
       expect(result).toEqual(testProduct);
@@ -149,7 +149,7 @@ describe('datadoc data fetching', () => {
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
 
       const mockResult = [testDataset];
-      vi.spyOn(DefaultApi.prototype, 'listDatasets').mockResolvedValue(mockResult);
+      vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue(mockResult);
 
       const result = await listDatasetsByProductShortName(shortName);
       expect(result).toEqual(mockResult);
