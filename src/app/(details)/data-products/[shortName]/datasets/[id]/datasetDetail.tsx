@@ -12,6 +12,7 @@ import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { getDaplaCtrlUrl } from '@/utils/config';
 import { sortDateStringsDescending } from '@/utils/sort';
 import styles from './dataset-page.module.css';
+import DataCoverageTimeline from '@/components/data-coverage-timeline/dataCoverageTimeline';
 
 export default function DatasetDetail({
   dataset: dataset,
@@ -62,6 +63,9 @@ export default function DatasetDetail({
             { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
           ]}
         />
+        <DataCoverageTimeline data={dataFiles}>
+          
+        </DataCoverageTimeline>
         <Card className={styles.tableContainer}>
           <Heading level={2} className={styles.detailsHeading} data-size='md' id={`tableHeading-dataFiles`}>
             {localization.datasetDetail.dataFiles}

@@ -30,5 +30,15 @@
     "dataset_state": "OUTPUT_DATA",
     "owner": "team-b",
     "storage_location_name": "bucket-b"
+  },
+  {
+    "id": "ca482153-9f4c-4277-b78d-1f5295b3078a",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "arblonn",
+    "short_description": "arblonn",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
   }
 ]
+

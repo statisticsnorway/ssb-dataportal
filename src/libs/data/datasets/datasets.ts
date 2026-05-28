@@ -5,6 +5,7 @@ import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger, createLoggerWithBindings } from '@/libs/logger/server-logger';
 import dataProducts from '@/static-data/data-products.json';
 import datasetsStatic from '@/static-data/datasets.json';
+import dataFilesStatic from '@/static-data/data-files.json';
 import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
 import { DefaultApi } from '../../data-access/datadoc/apis';
@@ -149,6 +150,23 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
 
 export async function listDataFilesByDatasetId(datasetId: string): Promise<Array<DaplaDataFileDTO>> {
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'listDataFilesByDatasetId', id: datasetId });
+  if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
+    logger.warn({ fn: 'listDataFilesByDatasetId' }, 'Using static mock data for data files');
+    const exampleDatasetId = 'ca482153-9f4c-4277-b78d-1f5295b3078a';
+    if (datasetId === exampleDatasetId) {
+      const mapped = (dataFilesStatic as unknown as Array<any>).map((f) => {
+        //TODO: Remove: Mapping dates temporarily 
+        return ({
+          ...f,
+          contains_data_from: f.contains_data_from ? new Date(f.contains_data_from) : undefined,
+          contains_data_until: f.contains_data_until ? new Date(f.contains_data_until) : undefined,
+          data_last_modified_at: f.data_last_modified_at ? new Date(f.data_last_modified_at) : undefined,
+        } as DaplaDataFileDTO);
+      });
+      return mapped;
+    }
+    return [];
+  }
   try {
     const api = await getDataDocClient();
     const dto = await api.listDaplaDataFiles({ datasetId: datasetId });
