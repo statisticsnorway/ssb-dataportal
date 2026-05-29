@@ -1,7 +1,7 @@
 name: Test and lint
 on:
   push:
-    branches: [main, chore/add-playwright-test-coverage]
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -88,6 +88,7 @@ jobs:
           path: coverage/
 
   e2e-tests:
+    if: github.event_name == 'pull_request'
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -121,7 +122,7 @@ jobs:
           path: playwright-report/
           retention-days: 30
   sonarqube:
-    if: github.actor != 'dependabot[bot]'
+    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
     needs: [unit-tests, e2e-tests]
     permissions:
       contents: read
