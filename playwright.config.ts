@@ -8,6 +8,7 @@ import path from 'path';
 export default defineConfig({
   reporter: [
     ['list'],
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
     [
       '@bgotink/playwright-coverage',
       defineCoverageReporterConfig({
@@ -76,7 +77,6 @@ export default defineConfig({
       name: 'chrome-unauth',
       use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:8000' },
     },
-    // Keep firefox for normal e2e, but do not use it for coverage runs.
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'], baseURL: 'http://localhost:3000' },
@@ -112,22 +112,14 @@ export default defineConfig({
   webServer: [
     {
       name: 'authenticated',
-      command:
-        process.env.E2E_COVERAGE === 'true'
-          ? 'pnpm build:test && pnpm start:test'
-          : process.env.CI
-            ? 'pnpm build:test && pnpm start:test'
-            : 'pnpm dev:test',
+      command: process.env.CI ? 'pnpm build:test && pnpm start:test' : 'pnpm dev:test',
       url: 'http://localhost:3000',
       timeout: 120 * 1000,
       reuseExistingServer: !process.env.CI,
     },
     {
       name: 'unauthenticated',
-      command:
-        process.env.E2E_COVERAGE === 'true'
-          ? 'pnpm build:test:unauth && pnpm start:test:unauth'
-          : 'pnpm build:test:unauth && pnpm start:test:unauth',
+      command: 'pnpm build:test:unauth && pnpm start:test:unauth',
       url: 'http://localhost:8000',
       timeout: 120 * 1000,
       reuseExistingServer: !process.env.CI,
