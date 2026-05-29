@@ -13,15 +13,15 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: Build and push
-        uses: nais/docker-build-push@v0
+        uses: nais/docker-build-push@751a312f0803eb96a05a41fadf51be19b7be362c # v0
         id: docker-build-push
         with:
           team: dapla-metadata
 
-      - uses: nais/deploy/actions/deploy@v2
+      - uses: nais/deploy/actions/deploy@e90640a98702d2554350fb35c4d5d242dd8e4346 # v2
         env:
           CLUSTER: test
           RESOURCE: .nais/test/dev.yaml

@@ -1,6 +1,7 @@
 
 # DatasetState
 
+Represents the processing state of a dataset as expressed in the Dapla path structure.
 
 ## Properties
 

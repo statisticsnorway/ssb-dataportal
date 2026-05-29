@@ -15,12 +15,23 @@ info:
     name: CC BY 4.0
     url: https://creativecommons.org/licenses/by/4.0/deed.no
   version: "0.1"
+security:
+- keycloak-token: []
+tags:
+- name: Data Files
+  description: Maintain and retrieve metadata about Data Files.
+- name: Datasets
+  description: Retrieve metadata about Datasets.
+- name: Data Products
+  description: Retrieve metadata about Data Products.
 paths:
   /data-files:
     get:
-      operationId: listDaplaDataFiles
+      tags:
+      - Data Files
+      operationId: listDataFiles
       parameters:
-      - name: dataset-id
+      - name: dataset_id
         in: query
         explode: false
         schema:
@@ -36,13 +47,26 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/DaplaDataFileDTO"
+            application/problem+json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DaplaDataFileDTO"
+      security:
+      - keycloak-token: []
     post:
+      tags:
+      - Data Files
       operationId: createOrUpdateDaplaDataFile
       requestBody:
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/CreateDaplaDataFile"
+            examples:
+              example:
+                value:
+                  file_path: gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_p2022_v2.parquet
         required: true
       responses:
         "201":
@@ -74,20 +98,32 @@ paths:
                     violations:
                     - field: classificationReference
                       message: Code incorrect is not a valid classification id
-  /data-files/{file_path}:
+      security:
+      - metamapper-datadoc-m2m: []
+  /data-files/{file-path}:
     get:
-      operationId: getByFilePath
+      tags:
+      - Data Files
+      operationId: getDataFileByFilePath
       parameters:
-      - name: file_path
+      - name: file-path
         in: path
         required: true
         schema:
           type: string
+        content:
+          application/json:
+            examples:
+              example:
+                value: gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_p2022_v2.parquet
       responses:
         "200":
           description: Get the Dapla Data File by its file path.
           content:
             application/json:
+              schema:
+                $ref: "#/components/schemas/DaplaDataFileDTO"
+            application/problem+json:
               schema:
                 $ref: "#/components/schemas/DaplaDataFileDTO"
         "404":
@@ -103,11 +139,15 @@ paths:
                     status: 404
                     detail: Not found
                     parameters: {}
+      security:
+      - keycloak-token: []
   /data-products:
     get:
+      tags:
+      - Data Products
       operationId: listDataProducts
       parameters:
-      - name: product_type
+      - name: productType
         in: query
         explode: false
         schema:
@@ -123,11 +163,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/DataProductDTO"
-  /data-products/{short_name}:
+            application/problem+json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DataProductDTO"
+      security:
+      - keycloak-token: []
+  /data-products/{short-name}:
     get:
-      operationId: getByShortName
+      tags:
+      - Data Products
+      operationId: getDataProductByShortName
       parameters:
-      - name: short_name
+      - name: short-name
         in: path
         required: true
         schema:
@@ -137,6 +186,9 @@ paths:
           description: Get the Data Product by its short name.
           content:
             application/json:
+              schema:
+                $ref: "#/components/schemas/DataProductDTO"
+            application/problem+json:
               schema:
                 $ref: "#/components/schemas/DataProductDTO"
         "404":
@@ -152,8 +204,12 @@ paths:
                     status: 404
                     detail: Not found
                     parameters: {}
+      security:
+      - keycloak-token: []
   /datasets:
     get:
+      tags:
+      - Datasets
       operationId: listDatasets
       parameters:
       - name: product_short_name
@@ -171,9 +227,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/DatasetDTO"
+            application/problem+json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DatasetDTO"
+      security:
+      - keycloak-token: []
   /datasets/{id}:
     get:
-      operationId: getById
+      tags:
+      - Datasets
+      operationId: getDatasetById
       parameters:
       - name: id
         in: path
@@ -186,6 +251,9 @@ paths:
           description: Get a Dataset by ID.
           content:
             application/json:
+              schema:
+                $ref: "#/components/schemas/DatasetDTO"
+            application/problem+json:
               schema:
                 $ref: "#/components/schemas/DatasetDTO"
         "404":
@@ -201,10 +269,47 @@ paths:
                     status: 404
                     detail: Not found
                     parameters: {}
+      security:
+      - keycloak-token: []
+    delete:
+      tags:
+      - Datasets
+      summary: Delete a dataset.
+      description: Delete a dataset. Also deletes the data files which make up this
+        dataset. May delete a data product if this is the only dataset which is part
+        of the product.
+      operationId: deleteDatasetById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Delete a Dataset by ID.
+        "404":
+          description: Not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Not found:
+                  value:
+                    type: about:blank
+                    status: 404
+                    detail: Not found
+                    parameters: {}
+      security:
+      - keycloak-token: []
 components:
   schemas:
     Assessment:
       type: string
+      description: Describes the confidentiality level implied by where a dataset
+        is stored in the Dapla folder structure.
       enum:
       - SENSITIVE
       - PROTECTED
@@ -222,6 +327,7 @@ components:
     DaplaDataFileDTO:
       required:
       - file_path
+      - naming_standard_violations
       type: object
       properties:
         file_path:
@@ -295,10 +401,20 @@ components:
             \ from the file path."
           format: date-time
           nullable: true
+        period_type:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/PeriodFormat"
         owner:
           type: string
           description: The uniform name of the Dapla team which owns the data file.
           nullable: true
+        naming_standard_violations:
+          type: array
+          description: The list of naming-standard violations found for the file path.
+            Empty means valid.
+          items:
+            type: string
       description: External representation of a Data File. A Data File is a logically
         defined blob of data from a file system or object storage. Its file path shall
         follow Dapla's naming conventions. This model is used to represent a data
@@ -321,6 +437,7 @@ components:
       description: Data Product
     DataProductType:
       type: string
+      description: The type of data product.
       enum:
       - OTHER_DATA_PRODUCT
       - STATISTIC_PRODUCT
@@ -370,6 +487,8 @@ components:
         with the same short description.
     DatasetState:
       type: string
+      description: Represents the processing state of a dataset as expressed in the
+        Dapla path structure.
       enum:
       - SOURCE_DATA
       - INPUT_DATA
@@ -378,16 +497,43 @@ components:
       - OUTPUT_DATA
     FileType:
       type: string
+      description: Represents the physical file format of a dataset file.
       enum:
       - PARQUET
+      - PARQUET_GZIP
       - PARQUET_PARTITIONED
       - CSV
       - JSON
       - XML
       - XLSX
+    PeriodFormat:
+      type: string
+      description: The category of time period that a data file covers.
+      enum:
+      - YEAR
+      - YEAR_MONTH
+      - YEAR_MONTH_DAY
+      - YEAR_WEEK
+      - BIMESTER
+      - QUARTER
+      - TRIANNUAL
+      - HALF_YEAR
     StorageCategory:
       type: string
+      description: Describes the kind of Dapla bucket a data file is stored in.
       enum:
       - SOURCE
       - PRODUCT
       - SHARED
+  securitySchemes:
+    keycloak-token:
+      type: http
+      description: A token granted by Statistics Norway's Keycloak instance.
+      scheme: bearer
+      bearerFormat: JWT
+    metamapper-datadoc-m2m:
+      type: http
+      description: A token granted by Statistics Norway's Keycloak instance. Only
+        for use by Metamapper.
+      scheme: bearer
+      bearerFormat: JWT

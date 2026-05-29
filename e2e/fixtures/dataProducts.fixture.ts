@@ -6,7 +6,7 @@ export const test = base.extend<{
   dataProductsPage: Page;
 }>({
   dataProductsPage: async ({ page }, use, testInfo: TestInfo) => {
-    test.skip(testInfo.project.name === 'chrome-unauth');
+    test.skip(testInfo.project.name !== 'chrome-unauth');
     await page.goto(tabsData.DataProducts.route);
     await expect(page).toHaveURL(/\/data-products$/);
     await stabilize();

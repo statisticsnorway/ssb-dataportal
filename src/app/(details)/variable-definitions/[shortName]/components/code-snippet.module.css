@@ -22,14 +22,8 @@
 
 .copyCodeButton {
   position: absolute;
-  bottom: 1.5rem;
+  top: 1.5rem;
   right: 2rem;
   z-index: 2;
   color: var(--main-font-color);
-}
-
-@media (min-width: 530px) {
-  .copyCodeButton {
-    top: 2rem;
-  }
 }

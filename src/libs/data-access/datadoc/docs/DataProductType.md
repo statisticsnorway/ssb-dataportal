@@ -1,6 +1,7 @@
 
 # DataProductType
 
+The type of data product.
 
 ## Properties
 

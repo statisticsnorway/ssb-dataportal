@@ -6,23 +6,21 @@ import { createLogger } from '../logger/server-logger';
 
 const ttlSeconds = Number(process.env.M2M_TOKEN_TTL_SECONDS);
 
-export async function getM2mToken() {
+export async function getM2mToken(clientId: string | undefined, clientSecret: string | undefined) {
   const logger = createLogger('m2m-token');
-  logger.debug('Fetching M2M token from Keycloak');
+  logger.debug(`Fetching M2M token from Keycloak for client ${clientId}`);
   try {
     const keycloakHost = process.env.KEYCLOAK_HOST;
-    const vardefM2mClientId = process.env.VARDEF_M2M_CLIENT_ID;
-    const vardefM2mClientSecret = process.env.VARDEF_M2M_CLIENT_SECRET;
-    if (!keycloakHost || !vardefM2mClientId || !vardefM2mClientSecret) {
-      throw new Error('Necessary environment variable not set');
+    if (!keycloakHost || !clientId || !clientSecret) {
+      throw new Error('Necessary data not provided');
     }
 
     let response = await fetch(keycloakHost + '/realms/ssb/protocol/openid-connect/token', {
       method: 'POST',
       body: new URLSearchParams({
         grant_type: 'client_credentials',
-        client_id: vardefM2mClientId,
-        client_secret: vardefM2mClientSecret,
+        client_id: clientId,
+        client_secret: clientSecret,
       }),
       headers: {
         'User-Agent': getUserAgent(),
