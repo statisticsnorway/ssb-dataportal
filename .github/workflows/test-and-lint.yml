@@ -121,7 +121,7 @@ jobs:
           path: playwright-report/
           retention-days: 30
   sonarqube:
-    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
+    if: github.actor != 'dependabot[bot]'
     needs: [unit-tests, e2e-tests]
     permissions:
       contents: read
