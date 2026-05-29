@@ -1,6 +1,11 @@
 .tabsContainer {
   flex: 1 0 auto;
 }
+.tabsNavigationContainer {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
 .searchPageWrapper {
   display: flex;
   flex-flow: column wrap;
@@ -33,7 +38,7 @@
 }
 
 .tab {
-  display: flex;
+  /*display: flex;
   justify-content: center;
   align-items: center;
   list-style-type: none;
@@ -46,9 +51,12 @@
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   white-space: nowrap;
-  font-size: small;
+  font-size: small;*/
+  font-size: 1.3rem;
+  margin: 0;
 }
 
+/*
 .tab:hover {
   background-color: var(--lighter-shade-of-ssb-5);
 }
@@ -56,14 +64,14 @@
   background-color: var(--ssb-dark-color-1);
   color: var(--main-font-color);
 }
-
+*/
 .searchLabel {
   color: white;
 }
 
 @media (min-width: 400px) {
   .tab {
-    font-size: medium;
+    /*font-size: medium;*/
   }
 }
 @media (min-width: 768px) {
@@ -73,10 +81,6 @@
   .tabsNavigationContainer {
     padding-left: 1rem;
     padding-right: 1rem;
-  }
-
-  .tab {
-    margin: 0;
   }
 
   #searchValue.ds-input {

@@ -119,7 +119,8 @@ select#sortVariables.ds-input {
 }
 
 /* Global overrides for selected Design System components */
-.ds-tabs {
+
+/*.ds-tabs {
   --dsc-tabs-tab-padding: var(--ds-size-3) var(--ds-size-5);
   --dsc-tabs-tab-color: var(--ds-color-neutral-text-subtle);
   --dsc-tabs-tab-color--hover: var(--ssb-dark-color-2);
@@ -137,7 +138,7 @@ select#sortVariables.ds-input {
 .ds-tabs:focus {
   outline: none;
 }
-
+*/
 div.ds-card {
   border-color: var(--ssb-dark-color-2);
 }
