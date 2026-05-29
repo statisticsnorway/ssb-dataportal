@@ -1,7 +1,7 @@
 name: Test and lint
 on:
   push:
-    branches: [main]
+    branches: [main, chore/add-playwright-test-coverage]
   pull_request:
     branches: [main]
 
