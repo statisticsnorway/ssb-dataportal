@@ -52,10 +52,10 @@ export default function Home() {
       <main className={`${styles.mainContainer} container`}>
         <Card data-color='brand1' variant='tinted' className={styles.headerCard}>
           <header className={styles.pageHeader}>
-            <Heading level={1} data-size='lg' className={`${styles.pageTitle} heading12`}>
+            <Heading level={1} data-size='lg' className={`${styles.pageTitle} primaryHeading`}>
               {localization.info.landingPageTitle}
             </Heading>
-            <Heading level={2} data-size='md' className={`${styles.subTitle} heading345`}>
+            <Heading level={2} data-size='md' className={`${styles.subTitle} secondaryHeading`}>
               {localization.info.landingPageSubTitle}
             </Heading>
             <div className={styles.infoDetails}>

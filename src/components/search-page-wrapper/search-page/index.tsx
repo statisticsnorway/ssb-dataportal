@@ -66,6 +66,7 @@ const SearchPage: FC<SearchPageProps> = ({
           {banner && (
             <Alert data-color='info' style={{ marginBottom: '1rem' }}>
               <Heading
+                className='primaryHeading'
                 level={2}
                 data-size='sm'
                 style={{

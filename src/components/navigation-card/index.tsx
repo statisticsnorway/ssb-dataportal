@@ -13,7 +13,7 @@ const NavigationCard = ({ title, icon, href, id }: NavigationCardProps) => {
   return (
     <Card className={styles.navigationCard} id={id}>
       <div className={styles.icon}>{icon}</div>
-      <Heading level={2} className={styles.navigationHeading}>
+      <Heading level={2} className={`${styles.navigationHeading} primaryHeading`}>
         <Link className={styles.linkService} href={href}>
           {title}
         </Link>
