@@ -19,7 +19,7 @@ jobs:
       - name: Build the Container image
         run: docker build . --file Dockerfile --tag ssb-dataportal:latest
       - name: Display scan result as table
-        uses: anchore/scan-action@v7
+        uses: anchore/scan-action@e1165082ffb1fe366ebaf02d8526e7c4989ea9d2 # v7.4.0
         id: scan_table
         with:
           image: "ssb-dataportal:latest"
@@ -27,13 +27,13 @@ jobs:
           fail-build: false
           severity-cutoff: high
       - name: Create sarif file
-        uses: anchore/scan-action@v7
+        uses: anchore/scan-action@e1165082ffb1fe366ebaf02d8526e7c4989ea9d2 # v7.4.0
         id: scan
         with:
           image: "ssb-dataportal:latest"
           fail-build: false
           severity-cutoff: high
       - name: upload Anchore scan SARIF report
-        uses: github/codeql-action/upload-sarif@v4
+        uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4.36.0
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
