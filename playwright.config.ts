@@ -14,9 +14,9 @@ export default defineConfig({
         /* Path to the root files should be resolved from, most likely your repository root */
         sourceRoot: __dirname,
         /* Files to ignore in coverage, useful
-           - if you're testing the demo app of a component library and want to exclude the demo sources
-           - or part of the code is generated
-           - or if you're running into any of the other many reasons people have for excluding files */
+            - if you're testing the demo app of a component library and want to exclude the demo sources
+            - or part of the code is generated
+            - or if you're running into any of the other many reasons people have for excluding files */
         exclude: ['path/to/ignored/code/**'],
         /* Directory in which to write coverage reports */
         resultDir: path.join(__dirname, 'results/e2e-coverage'),
