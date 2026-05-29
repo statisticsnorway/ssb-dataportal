@@ -30,7 +30,6 @@
     "test:watch": "vitest --watch",
     "test:update-snapshots": "vitest -u",
     "test:e2e": "playwright test",
-    "test:e2e:coverage": "E2E_COVERAGE=true playwright test --project=chromium --project=chrome-unauth",
     "test:e2e:no-accessibility": "playwright test --grep-invert 'Accessibility'",
     "test:e2e:accessibility": "playwright test --grep 'Accessibility'",
     "test:e2e:headed": "playwright test --headed",
