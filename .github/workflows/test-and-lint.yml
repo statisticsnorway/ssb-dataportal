@@ -84,7 +84,7 @@ jobs:
       - name: Upload coverage
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a #v7.0.1
         with:
-          name: coverage
+          name: unit-coverage
           path: coverage/
 
   e2e-tests:
@@ -105,10 +105,15 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Install Playwright Browsers
         run: pnpm playwright install --with-deps
-      - name: Run Playwright tests
+      - name: Run Playwright tests with coverage
         run: pnpm test:e2e
         env:
           NEXT_TEST: "test"
+      - name: Upload e2e coverage
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a #v7.0.1
+        with:
+          name: e2e-coverage
+          path: results/e2e-coverage/
       - name: Upload Playwright report
         if: ${{ always() }}
         uses: actions/upload-artifact@v6
@@ -118,7 +123,7 @@ jobs:
           retention-days: 30
   sonarqube:
     if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
-    needs: unit-tests
+    needs: [unit-tests, e2e-tests]
     permissions:
       contents: read
       actions: read
@@ -128,11 +133,16 @@ jobs:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Download coverage artifact
+      - name: Download unit coverage artifact
         uses: actions/download-artifact@v6
         with:
-          name: coverage
+          name: unit-coverage
           path: coverage/
+      - name: Download e2e coverage artifact
+        uses: actions/download-artifact@v6
+        with:
+          name: e2e-coverage
+          path: results/e2e-coverage/
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@fd88b7d7ccbaefd23d8f36f73b59db7a3d246602 # v6.0.0
         env:
