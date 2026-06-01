@@ -71,8 +71,8 @@
 
 html * {
   font-display: swap;
-  /*-webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;*/
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   font-family: var(--font-open-sans), var(--font-roboto), var(--font-roboto-condensed), sans-serif;
 }
 
@@ -118,27 +118,6 @@ select#sortVariables.ds-input {
   max-width: 100%;
 }
 
-/* Global overrides for selected Design System components */
-
-/*.ds-tabs {
-  --dsc-tabs-tab-padding: var(--ds-size-3) var(--ds-size-5);
-  --dsc-tabs-tab-color: var(--ds-color-neutral-text-subtle);
-  --dsc-tabs-tab-color--hover: var(--ssb-dark-color-2);
-  --dsc-tabs-tab-color--selected: var(--main-background-color);
-  --dsc-tabs-content-padding: var(--ds-size-4) var(--ds-size-5);
-  --dsc-tabs-list-border-color: none;
-  --dsc-tabs-list-border-bottom-width: none;
-  --dsc-tabs-list-border-bottom-style: none;
-  outline: none;
-}
-
-.ds-tabs::after {
-  --dsc-tabs-tab-color: var(--main-background-color);
-}
-.ds-tabs:focus {
-  outline: none;
-}
-*/
 div.ds-card {
   border-color: var(--ssb-dark-color-2);
 }
@@ -154,46 +133,15 @@ We don't set font-size for the headings, this can be controlled using the
 level prop on the Heading component from Designsystemet
 */
 
-/*
-  Typically used on H1, H2
-*/
-.primaryHeading {
-  font-family: var(--font-roboto-condensed), sans-serif;
-  font-weight: var(--font-weight-heavy);
-  color: var(--ssb-dark-color-6);
-}
-
-/*
 :is(h1, h1.ds-heading, h2, h2.ds-heading, .heading12) {
   font-family: var(--font-roboto-condensed), sans-serif;
   font-weight: var(--font-weight-heavy);
   color: var(--ssb-dark-color-6);
 }
-*/
-/*
-  Typically used on H3, H4, H5
-*/
-.secondaryHeading {
-  font-family: var(--font-roboto), sans-serif;
-  font-weight: var(--font-weight-heavy);
-  color: var(--ssb-dark-color-6);
-}
 
-/*
 :is(h3, h3.ds-heading, h4, h4.ds-heading, h5, h5.ds-heading, .heading345) {
   font-family: var(--font-roboto), sans-serif;
   font-weight: var(--font-weight-heavy);
-  color: var(--ssb-dark-color-6);
-}
-*/
-.bodyText {
-  font-family: var(--font-open-sans), sans-serif;
-  font-size: var(--font-size-md);
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
   color: var(--ssb-dark-color-6);
 }
 
@@ -232,6 +180,7 @@ button {
   width: 100%;
   --dsc-alert-padding-block: var(--ds-size-4);
 }
+
 h2[id^="tableHeading"] {
   font-family: var(--font-open-sans);
   font-weight: var(--font-weight-medium);
