@@ -2,17 +2,9 @@
   flex: 1 0 auto;
 }
 .tabsNavigationContainer {
-  margin-top: 6rem;
+  margin-top: 2rem;
   margin-bottom: 1rem;
 }
-
-/*
-.tabsNavigationContainer {
-  width: 100%;
-  overflow-x: hidden;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}*/
 
 .tabsNavigation {
   display: flex;
@@ -21,33 +13,10 @@
 }
 
 .tab {
-  /*display: flex;
-  justify-content: center;
-  align-items: center;
-  list-style-type: none;
-  position: relative;
-  overflow: hidden;
-  color: #e6eff8;
-  width: fit-content;
-  padding: 0.75rem 1.25rem;
-  margin: 0;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  white-space: nowrap;
-  font-size: small;*/
   font-size: 1rem;
   margin: 0;
 }
 
-/*
-.tab:hover {
-  background-color: var(--lighter-shade-of-ssb-5);
-}
-.tab[aria-selected="true"] {
-  background-color: var(--ssb-dark-color-1);
-  color: var(--main-font-color);
-}
-*/
 .searchLabel {
   color: white;
 }
