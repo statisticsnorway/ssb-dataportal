@@ -16,8 +16,8 @@ export default function ClassificationDetail({ classification }: Readonly<{ clas
           {classification.name}
         </Heading>
       </header>
-      <main className={styles.classificationsDetail}>
-        <Alert data-color={'warning'} className='infoAlert' data-size={'md'}>
+      <main className={styles.detailsPage}>
+        <Alert data-color={'warning'} className='infoAlert'>
           Detaljside for klassifikasjon er ikke klar for testing.
         </Alert>
       </main>
