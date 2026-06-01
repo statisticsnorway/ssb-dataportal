@@ -56,3 +56,5 @@ node_modules/
 
 # vscode
 .vscode/extensions.json
+
+/results
