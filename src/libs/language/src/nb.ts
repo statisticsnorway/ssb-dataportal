@@ -225,6 +225,7 @@ export const nb = {
   subjectFields: 'Statistikkområder',
 
   tabs: {
+    ariaLabel: 'Navigasjon kataloger',
     classifications: 'Klassifikasjoner',
     dataProducts: 'Dataprodukter',
     variableDefinitions: 'Variabeldefinisjoner',
