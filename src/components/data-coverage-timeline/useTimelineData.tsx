@@ -98,8 +98,8 @@ const buildYearSlots = (
   items: TimelineItem[],
   periodType: PeriodFormat,
 ): { years: number[]; slots: Record<number, Slot[]> } => {
-  const minYear = items[0]!.start.getUTCFullYear();
-  const maxYear = items[items.length - 1]!.start.getUTCFullYear();
+  const minYear = items.at(0)!.start.getUTCFullYear();
+  const maxYear = items.at(-1)!.start.getUTCFullYear();
   const years = Array.from({ length: maxYear - minYear + 1 }, (_, i) => minYear + i);
   const slots = Object.fromEntries(years.map((year) => [year, generateYearSlots(year, periodType)]));
   return { years, slots };
