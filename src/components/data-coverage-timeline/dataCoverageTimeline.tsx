@@ -1,45 +1,37 @@
 import { Card, Heading, Tooltip } from '@digdir/designsystemet-react';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { type DaplaDataFileDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language/src/localization';
 import styles from './dataCoverageTimeline.module.css';
 import { type Slot, type TimelineItem } from './types';
 import { useTimelineData } from './useTimelineData';
 
-/**
- * Aria labels
- */
-const ariaLabelWithFilePathTemplate = '{status}: {slotLabel} {year}. {filePathLabel}: {filePath}';
-const ariaLabelWithoutFilePathTemplate = '{status}: {slotLabel} {year}.';
-const tooltipDataPresentTemplate = '{status}: {slotLabel} {year}';
-const tooltipMissingTargetSegmentTemplate = '{status}: {slotLabel} {year}';
+const TOOLTIP_TEMPLATE = '{status}: {slotLabel} {year}';
+const ARIA_TEMPLATE_BASE = '{status}: {slotLabel} {year}.';
+const ARIA_TEMPLATE_WITH_FILE = '{status}: {slotLabel} {year}. {filePathLabel}: {filePath}';
 
 /**
- * Convert a Date into a UTC year-month key string used for slot matching.
+ * Replace `{key}` placeholders in `template` with the corresponding values.
+ * Generic utility — not component-specific.
  *
- * We compare on UTC year+month rather than exact timestamps to make matching
- * robust against sub-day timezone differences. The returned string is
- * `${year}-${monthIndex}` where `monthIndex` is the zero-based UTC month (0-11).
+ * @param template - String containing `{key}` placeholders.
+ * @param values   - Map of placeholder keys to replacement values.
+ * @returns The template with all placeholders replaced.
+ */
+export const formatTemplate = (template: string, values: Record<string, string | number>): string =>
+  Object.entries(values).reduce((result, [key, value]) => result.replaceAll(`{${key}}`, String(value)), template);
+
+/**
+ * Convert a Date to a UTC year-month key string used for slot matching.
+ *
+ * Comparing on UTC year+month (rather than exact timestamps) makes matching
+ * robust against sub-day timezone differences.
  *
  * @param d - Date to convert.
- * @returns A string key representing the UTC year and month.
+ * @returns A `"${year}-${monthIndex}"` string where `monthIndex` is 0-based.
  */
-const toYearMonth = (d: Date) => `${d.getUTCFullYear()}-${d.getUTCMonth()}`;
+const toYearMonth = (d: Date): string => `${d.getUTCFullYear()}-${d.getUTCMonth()}`;
 
-/**
- * Find the timeline item that corresponds to a given slot by comparing
- * UTC year+month keys. Returns `undefined` when no matching item exists.
- *
- * @param slot - Slot to match.
- * @param items - Parsed timeline items to search.
- * @returns The matched `TimelineItem` or `undefined`.
- */
-const findItemForSlot = (slot: Slot, items: TimelineItem[]): TimelineItem | undefined =>
-  items.find((item) => toYearMonth(item.start) === toYearMonth(slot.start));
-
-/**
- * Props for `TimelineCell`.
- */
 interface CellProps {
   slot: Slot;
   idx: number;
@@ -48,51 +40,38 @@ interface CellProps {
   matchedItem: TimelineItem | undefined;
 }
 
-const formatTemplate = (template: string, values: Record<string, string | number>): string =>
-  Object.entries(values).reduce((result, [key, value]) => result.replaceAll(`{${key}}`, String(value)), template);
-
 /**
  * Renders a single slot cell within a year's timeline row.
  *
- * Shows a filled or empty visual state and attaches a tooltip (via
- * @digdir/designsystemet-react) displaying the slot label and matched
- * file path when present. Tooltip positioning is delegated to Floating UI.
+ * Shows a filled or empty visual state and attaches a Tooltip with the slot label and file path when present.
  *
- * @param slot - Slot definition to render.
- * @param idx - Index of the slot within the year.
- * @param totalSlots - Total number of slots in the year (used to compute width).
- * @param year - Year the slot belongs to.
- * @param matchedItem - Optional matched `TimelineItem` for filled state and tooltip.
+ * @param slot        - Slot definition to render.
+ * @param idx         - Zero-based index of the slot within the year.
+ * @param totalSlots  - Total slots in the year, used to compute percentage width.
+ * @param year        - The year this slot belongs to.
+ * @param matchedItem - Matched `TimelineItem` when data exists for this slot.
  */
 const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matchedItem }) => {
   const slotWidth = 100 / totalSlots;
-  const hasData = Boolean(matchedItem);
   const text = localization.dataCoverageTimeline;
-  const ariaLabel = hasData
-    ? formatTemplate(ariaLabelWithFilePathTemplate, {
+  const baseValues = { slotLabel: slot.label, year };
+
+  const ariaLabel = matchedItem
+    ? formatTemplate(ARIA_TEMPLATE_WITH_FILE, {
+        ...baseValues,
         status: text.statusDataPresent,
-        slotLabel: slot.label,
-        year,
         filePathLabel: text.filePathLabel,
-        filePath: matchedItem!.filePath,
+        filePath: matchedItem.filePath,
       })
-    : formatTemplate(ariaLabelWithoutFilePathTemplate, {
+    : formatTemplate(ARIA_TEMPLATE_BASE, {
+        ...baseValues,
         status: text.statusMissingTargetSegment,
-        slotLabel: slot.label,
-        year,
       });
 
-  const tooltipContent = matchedItem
-    ? formatTemplate(tooltipDataPresentTemplate, {
-        status: text.tooltipStatusDataPresent,
-        slotLabel: slot.label,
-        year,
-      })
-    : formatTemplate(tooltipMissingTargetSegmentTemplate, {
-        status: text.tooltipStatusMissingTargetSegment,
-        slotLabel: slot.label,
-        year,
-      });
+  const tooltipContent = formatTemplate(TOOLTIP_TEMPLATE, {
+    ...baseValues,
+    status: matchedItem ? text.tooltipStatusDataPresent : text.tooltipStatusMissingTargetSegment,
+  });
 
   return (
     <Tooltip content={tooltipContent} placement='top'>
@@ -107,24 +86,30 @@ const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matche
   );
 };
 
-/**
- * Main component that renders the full timeline.
- *
- * Renders one row per year, each row divided into slots.
- * The axis row at the bottom shows slot labels (Jan-Dec, Q1-Q4, etc.)
- * and is derived from the first year's slots so labels always stay in sync.
- *
- * @param data - Array of file DTOs from the dataset API response.
- */
 interface TimelineProps {
   data: DaplaDataFileDTO[];
 }
 
+/**
+ * Renders the full data coverage timeline.
+ *
+ * One row is rendered per year, each divided into slots whose granularity
+ * (month, quarter, week, etc.) is driven by the dataset's `period_type` field.
+ * The axis row at the bottom mirrors the first year's slot labels so they
+ * always stay in sync with the grid.
+ *
+ * Renders nothing when `isValid` is false (e.g. mixed `period_type` values).
+ *
+ * @param data - Array of file DTOs from the dataset API response.
+ */
 const DataCoverageTimeline: React.FC<TimelineProps> = ({ data }) => {
   const { isValid, items, years, slots } = useTimelineData(data);
 
+  const itemsByYearMonth = useMemo(() => new Map(items.map((item) => [toYearMonth(item.start), item])), [items]);
+
   if (!isValid) return null;
 
+  // Safe: `isValid` guarantees `years` is non-empty.
   const firstYear = years[0]!;
 
   return (
@@ -147,7 +132,7 @@ const DataCoverageTimeline: React.FC<TimelineProps> = ({ data }) => {
                       idx={idx}
                       totalSlots={yearSlots.length}
                       year={year}
-                      matchedItem={findItemForSlot(slot, items)}
+                      matchedItem={itemsByYearMonth.get(toYearMonth(slot.start))}
                     />
                   ))}
                 </div>
