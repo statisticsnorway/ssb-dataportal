@@ -23,8 +23,22 @@ import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
 
 const ttlSeconds = Number(process.env.DATADOC_CACHE_TTL_SECONDS) || 3600;
+const dataDocFetchOptions = {
+  cache: 'force-cache',
+  next: { revalidate: ttlSeconds },
+} as const;
 
 type Apis = DataProductsApiInterface | DatasetsApiInterface | DataFilesApiInterface;
+type Logger = ReturnType<typeof createLogger>;
+
+function logAndThrowFetchError(logger: Logger, error: unknown): never {
+  if (error instanceof ResponseError) {
+    logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
+  } else {
+    logger.error({ error }, 'Unexpected error during fetch');
+  }
+  throw error;
+}
 
 export async function getClientForApi<T extends Apis>(api: new (configuration: Configuration) => T): Promise<T> {
   const logger = createLogger('data-products');
@@ -41,7 +55,7 @@ export async function getClientForApi<T extends Apis>(api: new (configuration: C
     });
     if (!token) {
       logger.error('No JWT token found in request headers and M2M is disabled');
-      return Promise.reject(new Error('Could not retrieve access token!'));
+      throw new Error('Could not retrieve access token!');
     }
     logger.debug('Successfully retrieved JWT from authorization header');
   }
@@ -70,13 +84,7 @@ export async function listDataProducts(): Promise<DataProductDTO[]> {
     logger.info('Getting from api');
     const api = await getClientForApi(DataProductsApi);
     const startTime = Date.now();
-    const rawData = await api.listDataProducts(
-      {},
-      {
-        cache: 'force-cache',
-        next: { revalidate: ttlSeconds },
-      },
-    );
+    const rawData = await api.listDataProducts({}, dataDocFetchOptions);
     const durationMs = Date.now() - startTime;
     if (rawData.length > 0) {
       logger.debug({ firstProduct: rawData[0] }, 'Fetched data products');
@@ -84,12 +92,7 @@ export async function listDataProducts(): Promise<DataProductDTO[]> {
     logger.info({ count: rawData.length, durationMs }, 'Fetched data products from API');
     return rawData;
   } catch (error: unknown) {
-    if (error instanceof ResponseError) {
-      logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
-    } else {
-      logger.error({ error }, 'Unexpected error during fetch');
-    }
-    throw error;
+    logAndThrowFetchError(logger, error);
   }
 }
 
@@ -98,22 +101,16 @@ export async function getDataProductByShortName(shortName: string): Promise<Data
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'getDataProductByShortName' }, 'Using static mock data for data products');
     const dataProduct = (dataProducts as DataProductDTO[]).find((d) => d.product_short_name === shortName);
-    if (!dataProduct) return Promise.reject('Not found');
+    if (!dataProduct) throw new Error('Not found');
     return dataProduct;
   }
-
   try {
     const api = await getClientForApi(DataProductsApi);
     const dto = await api.getDataProductByShortName({ shortName });
     logger.info({ shortName }, 'Fetched data product');
     return dto;
   } catch (error: unknown) {
-    if (error instanceof ResponseError) {
-      logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
-    } else {
-      logger.error({ error }, 'Unexpected error during fetch');
-    }
-    throw error;
+    logAndThrowFetchError(logger, error);
   }
 }
 
@@ -124,27 +121,15 @@ export async function listDatasetsByProductShortName(shortName: string): Promise
     logger.warn({ fn: 'listDatasetsByProductShortName' }, 'Using static mock data for datasets');
     return (datasetsStatic as DatasetDTO[]).filter((d) => d.product_short_name === shortName);
   }
-
   try {
     const api = await getClientForApi(DatasetsApi);
     const startTime = Date.now();
-    const rawData = await api.listDatasets(
-      { productShortName: shortName },
-      {
-        cache: 'force-cache',
-        next: { revalidate: ttlSeconds },
-      },
-    );
+    const rawData = await api.listDatasets({ productShortName: shortName }, dataDocFetchOptions);
     const durationMs = Date.now() - startTime;
     logger.info({ count: rawData.length, durationMs }, 'Fetched datasets from API');
     return rawData;
   } catch (error: unknown) {
-    if (error instanceof ResponseError) {
-      logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
-    } else {
-      logger.error({ error }, 'Unexpected error during fetch');
-    }
-    throw error;
+    logAndThrowFetchError(logger, error);
   }
 }
 
@@ -155,27 +140,15 @@ export async function listDatasets(): Promise<DatasetDTO[]> {
     logger.warn({ fn: 'listDatasets' }, 'Using static mock data for datasets');
     return datasetsStatic as DatasetDTO[];
   }
-
   try {
     const api = await getClientForApi(DatasetsApi);
     const startTime = Date.now();
-    const rawData = await api.listDatasets(
-      {},
-      {
-        cache: 'force-cache',
-        next: { revalidate: ttlSeconds },
-      },
-    );
+    const rawData = await api.listDatasets({}, dataDocFetchOptions);
     const durationMs = Date.now() - startTime;
     logger.info({ count: rawData.length, durationMs }, 'Fetched datasets from API');
     return rawData;
   } catch (error: unknown) {
-    if (error instanceof ResponseError) {
-      logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
-    } else {
-      logger.error({ error }, 'Unexpected error during fetch');
-    }
-    throw error;
+    logAndThrowFetchError(logger, error);
   }
 }
 
@@ -187,12 +160,7 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
     logger.info('Fetched Dataset');
     return dto;
   } catch (error: unknown) {
-    if (error instanceof ResponseError) {
-      logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
-    } else {
-      logger.error({ error }, 'Unexpected error during fetch');
-    }
-    throw error;
+    logAndThrowFetchError(logger, error);
   }
 }
 
@@ -205,11 +173,6 @@ export async function listDataFilesByDatasetId(datasetId: string): Promise<Array
     logger.info({ count: dto.length }, 'Fetched data products from API');
     return dto;
   } catch (error: unknown) {
-    if (error instanceof ResponseError) {
-      logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
-    } else {
-      logger.error({ error }, 'Unexpected error during fetch');
-    }
-    throw error;
+    logAndThrowFetchError(logger, error);
   }
 }
