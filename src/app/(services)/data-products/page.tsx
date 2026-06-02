@@ -17,6 +17,9 @@ export default async function Datasets({
   const logger = createLogger('data-products-discover-page');
   logger.info({ params }, 'Data products page access');
   const dataProducts = await listDataProducts();
-  const datasets = await listDatasets().catch(() => []);
+  const datasets = await listDatasets().catch((error) => {
+    logger.error({ error }, 'Failed to list datasets');
+    return [];
+  });
   return <DataProductsServicePage dataProducts={dataProducts} datasets={datasets} />;
 }
