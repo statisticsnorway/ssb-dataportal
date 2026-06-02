@@ -70,9 +70,6 @@ const hasMixedPeriodTypes = (items: TimelineItem[]): boolean => new Set(items.ma
 /**
  * Returns `true` if any item's start date is on or before the previous item's end date.
  *
- * Assumes `items` is sorted ascending by start date, which allows a single linear pass
- * rather than an O(n²) pairwise comparison.
- *
  * @param items - Parsed and sorted timeline items.
  */
 const hasOverlappingPeriods = (items: TimelineItem[]): boolean =>
