@@ -28,7 +28,7 @@ const CodeSnippet = ({
   const pyPiPackageUrl = process.env.NEXT_PUBLIC_DAPLA_METADATA_PYPI;
   return (
     <Card>
-      <Heading className={`${styles.header}`} id={`tableHeading-code`} data-size='md' level={2}>
+      <Heading className={`${styles.header} infoHeadingSecondary`} id={`tableHeading-code`} data-size='md' level={2}>
         {localization.codeSnippet.codeExample}
       </Heading>
       {pyPiPackageUrl && (
