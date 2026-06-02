@@ -147,7 +147,7 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'getDatasetById' }, 'Using static mock data for datasets');
     const dataset = (datasetsStatic as DatasetDTO[]).find((d) => d.id === id);
-    if (!dataset) return Promise.reject('Not found');
+    if (!dataset) throw new Error('Not found');
     return dataset;
   }
 
