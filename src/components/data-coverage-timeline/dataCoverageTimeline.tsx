@@ -77,7 +77,7 @@ const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matche
     <Tooltip content={tooltipContent} placement='top'>
       <div
         tabIndex={0}
-        role='img'
+        role='group'
         aria-label={ariaLabel}
         className={`${styles.cell} ${matchedItem ? styles.cellFilled : styles.cellEmpty}`}
         style={{ left: `${idx * slotWidth}%`, width: `${slotWidth}%` }}
