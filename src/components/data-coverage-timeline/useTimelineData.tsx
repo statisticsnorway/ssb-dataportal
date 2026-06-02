@@ -6,7 +6,7 @@ import { type Slot, type TimelineItem } from './types';
 
 const empty = {
   isValid: false as const,
-  periodType: '',
+  periodType: '' as PeriodFormat | '',
   items: [] as TimelineItem[],
   years: [] as number[],
   slots: {} as Record<number, Slot[]>,
@@ -125,7 +125,7 @@ export const useTimelineData = (
   data: DaplaDataFileDTO[],
 ): {
   isValid: boolean;
-  periodType: PeriodFormat | string;
+  periodType: PeriodFormat | '';
   items: TimelineItem[];
   years: number[];
   slots: Record<number, Slot[]>;
@@ -135,7 +135,6 @@ export const useTimelineData = (
       clientLogger.warn('Timeline hidden reason: no data');
       return empty;
     }
-
     const items = parseItems(data);
     if (items.length === 0) {
       clientLogger.warn('Timeline hidden reason: no valid timeline items');
@@ -149,14 +148,12 @@ export const useTimelineData = (
       clientLogger.warn('Timeline hidden reason: overlapping periods');
       return empty;
     }
-
     const periodType = items[0]!.periodType;
     if (!hasSupportedPeriodType(periodType)) {
       clientLogger.warn(`Timeline hidden reason: unsupported period type (${periodType})`);
       return empty;
     }
     const { years, slots } = buildYearSlots(items, periodType);
-
     return { isValid: true as const, periodType, items, years, slots };
   }, [data]);
 };
