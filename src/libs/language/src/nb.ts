@@ -278,6 +278,6 @@ export const nb = {
     statusDataPresent: 'Data finnes',
     statusMissingTargetSegment: 'Ingen fil med data for perioden',
     tooltipStatusDataPresent: 'Fil med data finnes',
-    tooltipStatusMissingTargetSegment: 'Ingen file data for perioden',
+    tooltipStatusMissingTargetSegment: 'Ingen fil med data for perioden',
   },
 };
