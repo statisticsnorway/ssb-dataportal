@@ -1,10 +1,7 @@
 
 # PeriodFormat
 
-<<<<<<< HEAD
-=======
 The category of time period that a data file covers.
->>>>>>> origin/main
 
 ## Properties
 
