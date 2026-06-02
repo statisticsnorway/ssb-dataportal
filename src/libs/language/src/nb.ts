@@ -8,8 +8,6 @@
 
 export const nb = {
   dataCoverageTimeline: {
-    ariaLabelWithFilePathTemplate: '{status}: {slotLabel} {year}. {filePathLabel}: {filePath}',
-    ariaLabelWithoutFilePathTemplate: '{status}: {slotLabel} {year}.',
     filePathLabel: 'Filsti',
     labelBimesterPrefix: 'B',
     labelFullYear: 'Hele året',
@@ -19,10 +17,8 @@ export const nb = {
     monthsShort: ['jan.', 'feb.', 'mars', 'apr.', 'mai', 'juni', 'juli', 'aug.', 'sep.', 'okt.', 'nov.', 'des.'],
     statusDataPresent: 'Data finnes',
     statusMissingTargetSegment: 'Mangler målsegment',
-    tooltipDataPresentTemplate: '{status}: {slotLabel} {year}',
-    tooltipMissingTargetSegmentTemplate: '{status}: {slotLabel} {year}',
     tooltipStatusDataPresent: 'Fil med data finnes',
-    tooltipStatusMissingTargetSegment: 'Mangler målsegment',
+    tooltipStatusMissingTargetSegment: 'Mangler data',
   },
 
   datasetDetail: {

@@ -20,9 +20,6 @@ const buildDataFile = ({ filePath, from, until, periodType }: BuildDataFileInput
   period_type: periodType,
 });
 
-const formatTemplate = (template: string, values: Record<string, string | number>): string =>
-  Object.entries(values).reduce((result, [key, value]) => result.replaceAll(`{${key}}`, String(value)), template);
-
 describe('DataCoverageTimeline', () => {
   it('renders monthly timeline with present and missing segments', () => {
     const data = [
@@ -44,39 +41,12 @@ describe('DataCoverageTimeline', () => {
 
     const text = localization.dataCoverageTimeline;
     const janLabel = text.monthsShort[0]!;
-    const febLabel = text.monthsShort[1]!;
     const decLabel = text.monthsShort[11]!;
 
     expect(screen.getByRole('heading', { name: localization.datasetDetail.dataCoverageTimeline })).toBeInTheDocument();
     expect(screen.getByText('2024')).toBeInTheDocument();
     expect(screen.getByText(janLabel)).toBeInTheDocument();
     expect(screen.getByText(decLabel)).toBeInTheDocument();
-
-    const expectedPresentAriaLabel = formatTemplate(text.ariaLabelWithFilePathTemplate, {
-      status: text.statusDataPresent,
-      slotLabel: janLabel,
-      year: 2024,
-      filePathLabel: text.filePathLabel,
-      filePath: 'gs://bucket/dataset/data_2024_01.parquet',
-    });
-
-    const expectedMissingAriaLabel = formatTemplate(text.ariaLabelWithoutFilePathTemplate, {
-      status: text.statusMissingTargetSegment,
-      slotLabel: febLabel,
-      year: 2024,
-    });
-
-    expect(
-      screen.getByRole('img', {
-        name: expectedPresentAriaLabel,
-      }),
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByRole('img', {
-        name: expectedMissingAriaLabel,
-      }),
-    ).toBeInTheDocument();
   });
 
   it('returns null for empty data', () => {

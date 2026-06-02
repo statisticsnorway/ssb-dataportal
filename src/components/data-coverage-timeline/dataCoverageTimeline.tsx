@@ -7,6 +7,14 @@ import { type Slot, type TimelineItem } from './types';
 import { useTimelineData } from './useTimelineData';
 
 /**
+ * Aria labels
+ */
+const ariaLabelWithFilePathTemplate = '{status}: {slotLabel} {year}. {filePathLabel}: {filePath}';
+const ariaLabelWithoutFilePathTemplate = '{status}: {slotLabel} {year}.';
+const tooltipDataPresentTemplate = '{status}: {slotLabel} {year}';
+const tooltipMissingTargetSegmentTemplate = '{status}: {slotLabel} {year}';
+
+/**
  * Convert a Date into a UTC year-month key string used for slot matching.
  *
  * We compare on UTC year+month rather than exact timestamps to make matching
@@ -61,26 +69,26 @@ const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matche
   const hasData = Boolean(matchedItem);
   const text = localization.dataCoverageTimeline;
   const ariaLabel = hasData
-    ? formatTemplate(text.ariaLabelWithFilePathTemplate, {
+    ? formatTemplate(ariaLabelWithFilePathTemplate, {
         status: text.statusDataPresent,
         slotLabel: slot.label,
         year,
         filePathLabel: text.filePathLabel,
         filePath: matchedItem!.filePath,
       })
-    : formatTemplate(text.ariaLabelWithoutFilePathTemplate, {
+    : formatTemplate(ariaLabelWithoutFilePathTemplate, {
         status: text.statusMissingTargetSegment,
         slotLabel: slot.label,
         year,
       });
 
   const tooltipContent = matchedItem
-    ? formatTemplate(text.tooltipDataPresentTemplate, {
+    ? formatTemplate(tooltipDataPresentTemplate, {
         status: text.tooltipStatusDataPresent,
         slotLabel: slot.label,
         year,
       })
-    : formatTemplate(text.tooltipMissingTargetSegmentTemplate, {
+    : formatTemplate(tooltipMissingTargetSegmentTemplate, {
         status: text.tooltipStatusMissingTargetSegment,
         slotLabel: slot.label,
         year,
