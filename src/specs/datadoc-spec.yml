@@ -304,6 +304,10 @@ components:
             \ from the file path."
           format: date-time
           nullable: true
+        periodType:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/PeriodFormat"
         owner:
           type: string
           description: The uniform name of the Dapla team which owns the data file.
@@ -394,6 +398,17 @@ components:
       - JSON
       - XML
       - XLSX
+    PeriodFormat:
+      type: string
+      enum:
+      - YEAR
+      - YEAR_MONTH
+      - YEAR_MONTH_DAY
+      - YEAR_WEEK
+      - BIMESTER
+      - QUARTER
+      - TRIANNUAL
+      - HALF_YEAR
     StorageCategory:
       type: string
       enum:

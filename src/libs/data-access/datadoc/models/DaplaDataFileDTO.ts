@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { PeriodFormat } from './PeriodFormat';
+import {
+    PeriodFormatFromJSON,
+    PeriodFormatFromJSONTyped,
+    PeriodFormatToJSON,
+    PeriodFormatToJSONTyped,
+} from './PeriodFormat';
 import type { FileType } from './FileType';
 import {
     FileTypeFromJSON,
@@ -140,6 +147,12 @@ export interface DaplaDataFileDTO {
      */
     contains_data_until?: Date | null;
     /**
+     * 
+     * @type {PeriodFormat}
+     * @memberof DaplaDataFileDTO
+     */
+    period_type?: PeriodFormat | null;
+    /**
      * The uniform name of the Dapla team which owns the data file.
      * @type {string}
      * @memberof DaplaDataFileDTO
@@ -181,6 +194,7 @@ export function DaplaDataFileDTOFromJSONTyped(json: any, ignoreDiscriminator: bo
         'data_file_version': json['data_file_version'] == null ? undefined : json['data_file_version'],
         'contains_data_from': json['contains_data_from'] == null ? undefined : (new Date(json['contains_data_from'])),
         'contains_data_until': json['contains_data_until'] == null ? undefined : (new Date(json['contains_data_until'])),
+        'period_type': json['periodType'] == null ? undefined : PeriodFormatFromJSON(json['periodType']),
         'owner': json['owner'] == null ? undefined : json['owner'],
     };
 }
@@ -210,6 +224,7 @@ export function DaplaDataFileDTOToJSONTyped(value?: DaplaDataFileDTO | null, ign
         'data_file_version': value['data_file_version'],
         'contains_data_from': value['contains_data_from'] == null ? value['contains_data_from'] : value['contains_data_from'].toISOString(),
         'contains_data_until': value['contains_data_until'] == null ? value['contains_data_until'] : value['contains_data_until'].toISOString(),
+        'periodType': PeriodFormatToJSON(value['period_type']),
         'owner': value['owner'],
     };
 }

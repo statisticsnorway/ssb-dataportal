@@ -1,0 +1,62 @@
+[
+  {
+    "file_path": "gs://.../arblonn_p2016-B1.parquet",
+    "contains_data_from": "2016-01-01T00:00:00",
+    "contains_data_until": "2016-02-29T23:59:59",
+    "period_type": "BIMESTER",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "file_type": "PARQUET",
+    "short_description": "arblonn",
+    "product_type": "STATISTIC_PRODUCT",
+    "product_short_name": "arblonn",
+    "storage_category": "PRODUCT",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "file_path": "gs://.../arblonn_p2016-B2.parquet",
+    "contains_data_from": "2016-03-01T00:00:00",
+    "contains_data_until": "2016-04-30T23:59:59",
+    "period_type": "BIMESTER",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "file_type": "PARQUET",
+    "short_description": "arblonn",
+    "product_type": "STATISTIC_PRODUCT",
+    "product_short_name": "arblonn",
+    "storage_category": "PRODUCT",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "file_path": "gs://.../arblonn_p2016-B4.parquet",
+    "contains_data_from": "2016-07-01T00:00:00",
+    "contains_data_until": "2016-08-31T23:59:59",
+    "period_type": "BIMESTER",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "file_type": "PARQUET",
+    "short_description": "arblonn",
+    "product_type": "STATISTIC_PRODUCT",
+    "product_short_name": "arblonn",
+    "storage_category": "PRODUCT",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "file_path": "gs://.../arblonn_p2016-B6.parquet",
+    "contains_data_from": "2016-11-01T00:00:00",
+    "contains_data_until": "2016-12-31T23:59:59",
+    "period_type": "BIMESTER",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "file_type": "PARQUET",
+    "short_description": "arblonn",
+    "product_type": "STATISTIC_PRODUCT",
+    "product_short_name": "arblonn",
+    "storage_category": "PRODUCT",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  }
+]

@@ -21,6 +21,7 @@ Name | Type
 `data_file_version` | number
 `contains_data_from` | Date
 `contains_data_until` | Date
+`period_type` | [PeriodFormat](PeriodFormat.md)
 `owner` | string
 
 ## Example
@@ -44,6 +45,7 @@ const example = {
   "data_file_version": null,
   "contains_data_from": null,
   "contains_data_until": null,
+  "period_type": null,
   "owner": null,
 } satisfies DaplaDataFileDTO
 

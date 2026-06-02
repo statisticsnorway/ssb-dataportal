@@ -5,7 +5,12 @@ import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger, createLoggerWithBindings } from '@/libs/logger/server-logger';
 import dataProducts from '@/static-data/data-products.json';
 import datasetsStatic from '@/static-data/datasets.json';
-import dataFilesStatic from '@/static-data/data-files.json';
+import dataFilesStatic_id1 from '@/static-data/id1.json';
+import dataFilesStatic_id2 from '@/static-data/id2.json';
+import dataFilesStatic_id3 from '@/static-data/id3.json';
+import dataFilesStatic_id4 from '@/static-data/id4.json';
+import dataFilesStatic_id5 from '@/static-data/id5.json';
+import dataFilesStatic_id6 from '@/static-data/id6.json';
 import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
 import { DefaultApi } from '../../data-access/datadoc/apis';
@@ -133,6 +138,13 @@ export async function listDatasetsByProductShortName(shortName: string): Promise
 
 export async function getDatasetById(id: string): Promise<DatasetDTO> {
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'getDatasetById', id: id });
+  if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
+    logger.warn({ fn: 'getDatasetById' }, 'Using static mock data for datasets');
+    const dataset = (datasetsStatic as DatasetDTO[]).find((d) => d.id === id);
+    if (!dataset) return Promise.reject('Not found');
+    return dataset;
+  }
+
   try {
     const api = await getDataDocClient();
     const dto = await api.getById({ id: id });
@@ -152,20 +164,33 @@ export async function listDataFilesByDatasetId(datasetId: string): Promise<Array
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'listDataFilesByDatasetId', id: datasetId });
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'listDataFilesByDatasetId' }, 'Using static mock data for data files');
-    const exampleDatasetId = 'ca482153-9f4c-4277-b78d-1f5295b3078a';
-    if (datasetId === exampleDatasetId) {
-      const mapped = (dataFilesStatic as unknown as Array<any>).map((f) => {
-        //TODO: Remove: Mapping dates temporarily 
-        return ({
-          ...f,
-          contains_data_from: f.contains_data_from ? new Date(f.contains_data_from) : undefined,
-          contains_data_until: f.contains_data_until ? new Date(f.contains_data_until) : undefined,
-          data_last_modified_at: f.data_last_modified_at ? new Date(f.data_last_modified_at) : undefined,
-        } as DaplaDataFileDTO);
-      });
-      return mapped;
+
+    if (datasetId == 'id1') {
+      var dataFilesStatic = dataFilesStatic_id1;
+    } else if (datasetId == 'id2') {
+      var dataFilesStatic = dataFilesStatic_id2;
+    } else if (datasetId == 'id3') {
+      var dataFilesStatic = dataFilesStatic_id3;
+    } else if (datasetId == 'id3') {
+      var dataFilesStatic = dataFilesStatic_id4;
+    } else if (datasetId == 'id5') {
+      var dataFilesStatic = dataFilesStatic_id5;
+    } else if (datasetId == 'id6') {
+      var dataFilesStatic = dataFilesStatic_id6;
+    } else {
+      dataFilesStatic = dataFilesStatic_id1;
     }
-    return [];
+
+    const mapped = (dataFilesStatic as unknown as Array<any>).map((f) => {
+      //TODO: see if this can be better
+      return {
+        ...f,
+        contains_data_from: f.contains_data_from ? new Date(f.contains_data_from) : undefined,
+        contains_data_until: f.contains_data_until ? new Date(f.contains_data_until) : undefined,
+        data_last_modified_at: f.data_last_modified_at ? new Date(f.data_last_modified_at) : undefined,
+      } as DaplaDataFileDTO;
+    });
+    return mapped;
   }
   try {
     const api = await getDataDocClient();

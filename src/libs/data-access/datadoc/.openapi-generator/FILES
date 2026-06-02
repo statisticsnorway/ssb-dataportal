@@ -9,6 +9,7 @@ docs/DatasetDTO.md
 docs/DatasetState.md
 docs/DefaultApi.md
 docs/FileType.md
+docs/PeriodFormat.md
 docs/Problem.md
 docs/StorageCategory.md
 index.ts
@@ -20,6 +21,7 @@ models/DataProductType.ts
 models/DatasetDTO.ts
 models/DatasetState.ts
 models/FileType.ts
+models/PeriodFormat.ts
 models/Problem.ts
 models/StorageCategory.ts
 models/index.ts
