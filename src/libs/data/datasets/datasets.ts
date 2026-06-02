@@ -139,6 +139,34 @@ export async function listDatasetsByProductShortName(shortName: string): Promise
   }
 }
 
+export async function listDatasets(): Promise<DatasetDTO[]> {
+  const logger = createLogger('datasets');
+  logger.info('List datasets');
+  if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
+    logger.warn({ fn: 'listDatasets' }, 'Using static mock data for datasets');
+    return datasetsStatic as DatasetDTO[];
+  }
+
+  try {
+    const api = await getClientForApi(DatasetsApi);
+    const startTime = Date.now();
+    const rawData = await api.listDatasets({}, {
+      cache: 'force-cache',
+      next: { revalidate: ttlSeconds },
+    } as RequestInit);
+    const durationMs = Date.now() - startTime;
+    logger.info({ count: rawData.length, durationMs }, 'Fetched datasets from API');
+    return rawData;
+  } catch (error: unknown) {
+    if (error instanceof ResponseError) {
+      logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
+    } else {
+      logger.error({ error }, 'Unexpected error during fetch');
+    }
+    throw error;
+  }
+}
+
 export async function getDatasetById(id: string): Promise<DatasetDTO> {
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'getDatasetById', id: id });
   try {

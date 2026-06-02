@@ -10,6 +10,7 @@ import {
   getClientForApi,
   getDataProductByShortName,
   listDataProducts,
+  listDatasets,
   listDatasetsByProductShortName,
 } from './datasets';
 
@@ -153,6 +154,34 @@ describe('datadoc data fetching', () => {
 
       const result = await listDatasetsByProductShortName(shortName);
       expect(result).toEqual(mockResult);
+    });
+  });
+
+  describe('listDatasets', () => {
+    const staticDatasets = datasetsStatic as DatasetDTO[];
+    const testDataset = staticDatasets[0];
+    assert(testDataset);
+
+    it('static data', async () => {
+      vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
+      await expect(listDatasets()).resolves.toContainEqual(testDataset);
+      vi.unstubAllEnvs();
+    });
+
+    it('no token available', async () => {
+      process.env.DATADOC_USE_STATIC_DATA = 'false';
+      vi.mocked(getEncodedJwt).mockResolvedValue(undefined);
+      await expect(listDatasets()).rejects.toEqual(new Error('Could not retrieve access token!'));
+    });
+
+    it('mock api call happy path', async () => {
+      process.env.DATADOC_USE_STATIC_DATA = 'false';
+      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
+
+      vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue(staticDatasets);
+
+      const result = await listDatasets();
+      expect(result).toEqual(staticDatasets);
     });
   });
 });

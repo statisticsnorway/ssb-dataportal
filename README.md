@@ -116,6 +116,7 @@ Configuration is primarily source from `.env*` files. This may be overridden in 
 | Key                              | Description                                                                                                  |
 |----------------------------------|--------------------------------------------------------------------------------------------------------------|
 | `METADATA_API_BASE_PATH`         | Which Metadata API instance to point to. Can be set to `http://localhost:8081` to work with a local instance |
+| `DATADOC_USE_STATIC_DATA`        | `true` to use the static data product and dataset data from the repo. Otherwise the data will be retrieved from a live instance. |
 | `VARDEF_USE_STATIC_DATA`         | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance.      |
 | `KLASS_BASE_PATH`                | Which Klass instance to point to. Can be set to `http://localhost:8080` to work with a local instance        |
 | `KLASS_USE_STATIC_DATA`          | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance.      |
