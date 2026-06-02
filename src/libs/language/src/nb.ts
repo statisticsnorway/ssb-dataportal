@@ -7,20 +7,6 @@
  */
 
 export const nb = {
-  dataCoverageTimeline: {
-    filePathLabel: 'Filsti',
-    labelBimesterPrefix: 'B',
-    labelFullYear: 'Hele året',
-    labelHalfYearPrefix: 'H',
-    labelQuarterPrefix: 'K',
-    labelTriannualPrefix: 'T',
-    monthsShort: ['jan.', 'feb.', 'mars', 'apr.', 'mai', 'juni', 'juli', 'aug.', 'sep.', 'okt.', 'nov.', 'des.'],
-    statusDataPresent: 'Data finnes',
-    statusMissingTargetSegment: 'Mangler målsegment',
-    tooltipStatusDataPresent: 'Fil med data finnes',
-    tooltipStatusMissingTargetSegment: 'Mangler data',
-  },
-
   datasetDetail: {
     aboutDataset: 'Om datasettet',
     dataProduct: 'Dataprodukt',
@@ -279,5 +265,19 @@ export const nb = {
     validTo: 'Gyldig til',
     viewExternalReference: 'Se ekstern referanse',
     viewRelevant: 'Se relevant variabeldefinisjon',
+  },
+
+  dataCoverageTimeline: {
+    filePathLabel: 'Filsti',
+    labelBimesterPrefix: 'B',
+    labelFullYear: 'Hele året',
+    labelHalfYearPrefix: 'H',
+    labelQuarterPrefix: 'K',
+    labelTriannualPrefix: 'T',
+    monthsShort: ['jan.', 'feb.', 'mars', 'apr.', 'mai', 'juni', 'juli', 'aug.', 'sep.', 'okt.', 'nov.', 'des.'],
+    statusDataPresent: 'Data finnes',
+    statusMissingTargetSegment: 'Ingen fil med data for perioden',
+    tooltipStatusDataPresent: 'Fil med data finnes',
+    tooltipStatusMissingTargetSegment: 'Ingen file data for perioden',
   },
 };
