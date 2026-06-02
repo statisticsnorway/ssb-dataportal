@@ -110,6 +110,16 @@ body {
   box-sizing: border-box;
 }
 
+/* Use for responsive container centered with top/bottom margin*/
+.containerBox {
+  width: 100%;
+  max-width: 1400px;
+  margin: var(--center-element-top);
+  padding-left: var(--medium-gap);
+  padding-right: var(--medium-gap);
+  box-sizing: border-box;
+}
+
 select#sortVariables.ds-input {
   padding: 0.5rem;
   border-radius: 5px;
