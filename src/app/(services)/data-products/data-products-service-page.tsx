@@ -72,7 +72,10 @@ const getAssessmentLabel = (assessment: AssessmentFilterValue) => {
     case UNKNOWN_ASSESSMENT:
       return localization.products.assessment.unknown;
     default:
-      return assessment;
+      return assessment
+        .toLowerCase()
+        .replaceAll('_', ' ')
+        .replace(/^./, (firstCharacter) => firstCharacter.toUpperCase());
   }
 };
 
