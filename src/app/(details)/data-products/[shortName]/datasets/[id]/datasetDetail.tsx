@@ -63,12 +63,8 @@ export default function DatasetDetail({
             { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
           ]}
         />
-        <Card>
-          <Heading level={2} className={styles.detailsHeading} data-size='md' id={`dataCoverageTimelineHeading`}>
-            {localization.datasetDetail.dataCoverageTimeline}
-          </Heading>
-          <DataCoverageTimeline data={dataFiles}></DataCoverageTimeline>
-        </Card>
+
+        <DataCoverageTimeline data={dataFiles}></DataCoverageTimeline>
 
         <Card className={styles.tableContainer}>
           <Heading level={2} className={styles.detailsHeading} data-size='md' id={`tableHeading-dataFiles`}>

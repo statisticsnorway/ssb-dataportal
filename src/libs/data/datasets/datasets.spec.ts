@@ -2,13 +2,14 @@ import assert from 'assert';
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getEncodedJwt } from '@/libs/auth/jwt';
 import { getM2mToken } from '@/libs/auth/m2m';
-import { DataProductsApi, DatasetsApi } from '@/libs/data-access/datadoc';
-import { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
+import { DataFilesApi, DataProductsApi, DatasetsApi } from '@/libs/data-access/datadoc';
+import { DaplaDataFileDTO, DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
 import dataProducts from '@/static-data/data-products.json';
 import datasetsStatic from '@/static-data/datasets.json';
 import {
   getClientForApi,
   getDataProductByShortName,
+  listDataFilesByDatasetId,
   listDataProducts,
   listDatasetsByProductShortName,
 } from './datasets';
@@ -152,6 +153,38 @@ describe('datadoc data fetching', () => {
       vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue(mockResult);
 
       const result = await listDatasetsByProductShortName(shortName);
+      expect(result).toEqual(mockResult);
+    });
+  });
+
+  describe('listDataFilesByDatasetId', () => {
+    it('static data uses datafiles/<datasetId>.json and converts dates', async () => {
+      vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
+
+      const result = await listDataFilesByDatasetId('id1');
+      expect(result.length).toBeGreaterThan(0);
+      expect(result[0]?.product_short_name).toEqual('arblonn');
+      expect(result[0]?.contains_data_from).toBeInstanceOf(Date);
+
+      vi.unstubAllEnvs();
+    });
+
+    it('static data returns empty array when no file exists', async () => {
+      vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
+
+      await expect(listDataFilesByDatasetId('does-not-exist')).resolves.toEqual([]);
+
+      vi.unstubAllEnvs();
+    });
+
+    it('mock api call happy path', async () => {
+      process.env.DATADOC_USE_STATIC_DATA = 'false';
+      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
+
+      const mockResult = [{ file_path: 'gs://bucket/file.parquet' }] as DaplaDataFileDTO[];
+      vi.spyOn(DataFilesApi.prototype, 'listDataFiles').mockResolvedValue(mockResult);
+
+      const result = await listDataFilesByDatasetId('id1');
       expect(result).toEqual(mockResult);
     });
   });

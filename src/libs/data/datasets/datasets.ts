@@ -1,5 +1,7 @@
 'use server';
 
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { getM2mToken } from '@/libs/auth/m2m';
 import {
   DataFilesApi,
@@ -16,6 +18,7 @@ import datasetsStatic from '@/static-data/datasets.json';
 import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
 import { DaplaDataFileDTO, DataProductDTO, DatasetDTO } from '../../data-access/datadoc/models';
+import { DaplaDataFileDTOFromJSON } from '../../data-access/datadoc/models/DaplaDataFileDTO';
 import { Configuration, ConfigurationParameters, ResponseError } from '../../data-access/datadoc/runtime';
 
 const ttlSeconds = Number(process.env.DATADOC_CACHE_TTL_SECONDS) || 3600;
@@ -165,6 +168,23 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
 
 export async function listDataFilesByDatasetId(datasetId: string): Promise<Array<DaplaDataFileDTO>> {
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'listDataFilesByDatasetId', id: datasetId });
+  if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
+    logger.warn({ fn: 'listDataFilesByDatasetId' }, 'Using static mock data for data files');
+    const datafilePath = join(process.cwd(), 'src', 'static-data', 'datafiles', `${datasetId}.json`);
+    try {
+      const rawData = await readFile(datafilePath, 'utf-8');
+      const parsedData = JSON.parse(rawData) as unknown;
+      if (!Array.isArray(parsedData)) {
+        logger.warn({ datafilePath }, 'Static datafile is not an array');
+        return [];
+      }
+      return parsedData.map((item) => DaplaDataFileDTOFromJSON(item));
+    } catch (error: unknown) {
+      logger.warn({ error: sanitizeError(error), datafilePath }, 'No static datafile found for dataset id');
+      return [];
+    }
+  }
+
   try {
     const api = await getClientForApi(DataFilesApi);
     const dto = await api.listDataFiles({ datasetId: datasetId });

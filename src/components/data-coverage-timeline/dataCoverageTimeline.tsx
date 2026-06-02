@@ -1,6 +1,7 @@
-import { Tooltip } from '@digdir/designsystemet-react';
+import { Card, Heading, Tooltip } from '@digdir/designsystemet-react';
 import React from 'react';
 import { type DaplaDataFileDTO } from '@/libs/data-access/datadoc';
+import { localization } from '@/libs/language/src/localization';
 import styles from './dataCoverageTimeline.module.css';
 import { type Slot, type TimelineItem } from './types';
 import { useTimelineData } from './useTimelineData';
@@ -98,40 +99,45 @@ const DataCoverageTimeline: React.FC<TimelineProps> = ({ data }) => {
   const firstYear = years[0]!;
 
   return (
-    <div className={styles.container}>
-      <div className={styles.timelineBody}>
-        {years.map((year) => {
-          const yearSlots = slots[year] ?? [];
-          return (
-            <div key={year} className={styles.rowWrapper}>
-              <span className={styles.yearLabel}>{year}</span>
-              <div className={styles.track}>
-                {yearSlots.map((slot, idx) => (
-                  <TimelineCell
-                    key={slot.label}
-                    slot={slot}
-                    idx={idx}
-                    totalSlots={yearSlots.length}
-                    year={year}
-                    matchedItem={findItemForSlot(slot, items)}
-                  />
-                ))}
+    <Card>
+      <Heading level={2} className={styles.detailsHeading} data-size='md' id='tableHeading-dataCoverageTimeline'>
+        {localization.datasetDetail.dataCoverageTimeline}
+      </Heading>
+      <div className={styles.container}>
+        <div className={styles.timelineBody}>
+          {years.map((year) => {
+            const yearSlots = slots[year] ?? [];
+            return (
+              <div key={year} className={styles.rowWrapper}>
+                <span className={styles.yearLabel}>{year}</span>
+                <div className={styles.track}>
+                  {yearSlots.map((slot, idx) => (
+                    <TimelineCell
+                      key={slot.label}
+                      slot={slot}
+                      idx={idx}
+                      totalSlots={yearSlots.length}
+                      year={year}
+                      matchedItem={findItemForSlot(slot, items)}
+                    />
+                  ))}
+                </div>
               </div>
+            );
+          })}
+          <div className={styles.axisRow}>
+            <div className={styles.axisSpacer} />
+            <div className={styles.axisLabelsContainer}>
+              {(slots[firstYear] ?? []).map((slot) => (
+                <span key={slot.label} className={styles.axisLabel}>
+                  {slot.label}
+                </span>
+              ))}
             </div>
-          );
-        })}
-        <div className={styles.axisRow}>
-          <div className={styles.axisSpacer} />
-          <div className={styles.axisLabelsContainer}>
-            {(slots[firstYear] ?? []).map((slot) => (
-              <span key={slot.label} className={styles.axisLabel}>
-                {slot.label}
-              </span>
-            ))}
           </div>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 
