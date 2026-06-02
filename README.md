@@ -328,6 +328,13 @@ Commit with message like `Bump version x.x.x -> y.y.y`.
 
 Open and merge a PR.
 
+## Styling
+- Use `global.css` for shared CSS variables and global utility classes that are reused across the application.
+- Use *.module.css files for component-specific styles, keeping them close to the component they belong to.
+- For typography, use the predefined SSB styling classes:
+  - `primaryHeading` for main titles.
+  - `secondaryHeading` for secondary headings and subsections.
+
 ## Next.js
 
 To learn more about Next.js, take a look at the following resources:
