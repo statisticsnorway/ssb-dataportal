@@ -2,12 +2,18 @@
 
 import { getM2mToken } from '@/libs/auth/m2m';
 import {
+  Configuration,
+  ConfigurationParameters,
+  DaplaDataFileDTO,
   DataFilesApi,
   DataFilesApiInterface,
+  DataProductDTO,
   DataProductsApi,
   DataProductsApiInterface,
+  DatasetDTO,
   DatasetsApi,
   DatasetsApiInterface,
+  ResponseError,
 } from '@/libs/data-access/datadoc';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger, createLoggerWithBindings } from '@/libs/logger/server-logger';
@@ -15,8 +21,6 @@ import dataProducts from '@/static-data/data-products.json';
 import datasetsStatic from '@/static-data/datasets.json';
 import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
-import { DaplaDataFileDTO, DataProductDTO, DatasetDTO } from '../../data-access/datadoc/models';
-import { Configuration, ConfigurationParameters, ResponseError } from '../../data-access/datadoc/runtime';
 
 const ttlSeconds = Number(process.env.DATADOC_CACHE_TTL_SECONDS) || 3600;
 
@@ -62,15 +66,17 @@ export async function listDataProducts(): Promise<DataProductDTO[]> {
     logger.warn({ fn: 'listDataProducts' }, 'Using static mock data for data products');
     return dataProducts as DataProductDTO[];
   }
-
   try {
     logger.info('Getting from api');
     const api = await getClientForApi(DataProductsApi);
     const startTime = Date.now();
-    const rawData = await api.listDataProducts({}, {
-      cache: 'force-cache',
-      next: { revalidate: ttlSeconds },
-    } as RequestInit);
+    const rawData = await api.listDataProducts(
+      {},
+      {
+        cache: 'force-cache',
+        next: { revalidate: ttlSeconds },
+      },
+    );
     const durationMs = Date.now() - startTime;
     if (rawData.length > 0) {
       logger.debug({ firstProduct: rawData[0] }, 'Fetched data products');
@@ -122,10 +128,13 @@ export async function listDatasetsByProductShortName(shortName: string): Promise
   try {
     const api = await getClientForApi(DatasetsApi);
     const startTime = Date.now();
-    const rawData = await api.listDatasets({ productShortName: shortName }, {
-      cache: 'force-cache',
-      next: { revalidate: ttlSeconds },
-    } as RequestInit);
+    const rawData = await api.listDatasets(
+      { productShortName: shortName },
+      {
+        cache: 'force-cache',
+        next: { revalidate: ttlSeconds },
+      },
+    );
     const durationMs = Date.now() - startTime;
     logger.info({ count: rawData.length, durationMs }, 'Fetched datasets from API');
     return rawData;
@@ -150,10 +159,13 @@ export async function listDatasets(): Promise<DatasetDTO[]> {
   try {
     const api = await getClientForApi(DatasetsApi);
     const startTime = Date.now();
-    const rawData = await api.listDatasets({}, {
-      cache: 'force-cache',
-      next: { revalidate: ttlSeconds },
-    } as RequestInit);
+    const rawData = await api.listDatasets(
+      {},
+      {
+        cache: 'force-cache',
+        next: { revalidate: ttlSeconds },
+      },
+    );
     const durationMs = Date.now() - startTime;
     logger.info({ count: rawData.length, durationMs }, 'Fetched datasets from API');
     return rawData;

@@ -27,7 +27,6 @@ vi.mock('@/components/search-page-wrapper/search-page', () => {
       <section>{searchResult}</section>
     </main>
   );
-
   return { SearchPage };
 });
 
@@ -113,6 +112,71 @@ describe('DataProductsServicePage', () => {
     expect(main).toHaveTextContent('1 treff');
     expect(main).toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
     expect(main).not.toHaveTextContent('Ameldingen');
+    fireEvent.click(protectedAssessmentFilter);
+    expect(main).toHaveTextContent('2 treff');
+    expect(main).toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
+    expect(main).toHaveTextContent('Ameldingen');
+  });
+
+  it('renders sensitive, unknown and unexpected assessment values', () => {
+    render(
+      <DataProductsServicePage
+        dataProducts={[
+          ...dataProducts,
+          {
+            product_type: DataProductType.OTHER_DATA_PRODUCT,
+            product_short_name: 'sensitive-product',
+            title: 'Sensitivt dataprodukt',
+          },
+          {
+            product_type: DataProductType.OTHER_DATA_PRODUCT,
+            product_short_name: 'missing-assessment-product',
+            title: 'Dataprodukt uten verdivurdering',
+          },
+          {
+            product_type: DataProductType.OTHER_DATA_PRODUCT,
+            product_short_name: 'unexpected-a-product',
+            title: 'Dataprodukt med ad hoc-verdi',
+          },
+          {
+            product_type: DataProductType.OTHER_DATA_PRODUCT,
+            product_short_name: 'unexpected-b-product',
+            title: 'Dataprodukt med intern verdi',
+          },
+        ]}
+        datasets={[
+          ...datasets,
+          {
+            id: 'ds-4',
+            product_short_name: 'sensitive-product',
+            short_description: 'Sensitivt datasett',
+            assessment: Assessment.SENSITIVE,
+          },
+          {
+            id: 'ds-5',
+            product_short_name: 'missing-assessment-product',
+            short_description: 'Datasett uten verdivurdering',
+            assessment: null,
+          },
+          {
+            id: 'ds-6',
+            product_short_name: 'unexpected-a-product',
+            short_description: 'Datasett med ad hoc-verdi',
+            assessment: 'AD_HOC_VALUE' as Assessment,
+          },
+          {
+            id: 'ds-7',
+            product_short_name: 'unexpected-b-product',
+            short_description: 'Datasett med intern verdi',
+            assessment: 'INTERNAL_VALUE' as Assessment,
+          },
+        ]}
+      />,
+    );
+    expect(screen.getByRole('checkbox', { name: 'Sensitiv (1)' })).not.toBeChecked();
+    expect(screen.getByRole('checkbox', { name: 'Ad hoc value (1)' })).not.toBeChecked();
+    expect(screen.getByRole('checkbox', { name: 'Internal value (1)' })).not.toBeChecked();
+    expect(screen.getByRole('checkbox', { name: 'Ukjent verdivurdering (1)' })).not.toBeChecked();
   });
 
   it('combines product type and assessment filters', () => {
