@@ -21,7 +21,7 @@ test('Clicking a data product navigates to details page', async ({ dataProductsP
 test('Data products can be filtered by product type', async ({ dataProductsPage }) => {
   const main = dataProductsPage.getByRole('main');
   const statisticProductFilter = main.getByRole('checkbox', { name: 'Statistikkprodukt (1)' });
-  const otherProductFilter = main.getByRole('checkbox', { name: 'Annen dataprodukt (1)' });
+  const otherProductFilter = main.getByRole('checkbox', { name: 'Annen dataprodukt (2)' });
 
   await statisticProductFilter.check();
   await expect(main).toContainText('1 treff');

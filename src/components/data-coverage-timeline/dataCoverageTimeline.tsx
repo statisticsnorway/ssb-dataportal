@@ -40,6 +40,9 @@ interface CellProps {
   matchedItem: TimelineItem | undefined;
 }
 
+const formatTemplate = (template: string, values: Record<string, string | number>): string =>
+  Object.entries(values).reduce((result, [key, value]) => result.replaceAll(`{${key}}`, String(value)), template);
+
 /**
  * Renders a single slot cell within a year's timeline row.
  *
@@ -56,14 +59,32 @@ interface CellProps {
 const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matchedItem }) => {
   const slotWidth = 100 / totalSlots;
   const hasData = Boolean(matchedItem);
-  const statusLabel = hasData ? 'Data present' : 'Missing target segment';
+  const text = localization.dataCoverageTimeline;
   const ariaLabel = hasData
-    ? `${statusLabel}: ${slot.label} ${year}. File path: ${matchedItem!.filePath}`
-    : `${statusLabel}: ${slot.label} ${year}.`;
+    ? formatTemplate(text.ariaLabelWithFilePathTemplate, {
+        status: text.statusDataPresent,
+        slotLabel: slot.label,
+        year,
+        filePathLabel: text.filePathLabel,
+        filePath: matchedItem!.filePath,
+      })
+    : formatTemplate(text.ariaLabelWithoutFilePathTemplate, {
+        status: text.statusMissingTargetSegment,
+        slotLabel: slot.label,
+        year,
+      });
 
   const tooltipContent = matchedItem
-    ? `File Data Present — ${slot.label} ${year}\n${matchedItem.filePath}`
-    : `Missing Target Segment — ${slot.label} ${year}`;
+    ? formatTemplate(text.tooltipDataPresentTemplate, {
+        status: text.tooltipStatusDataPresent,
+        slotLabel: slot.label,
+        year,
+      })
+    : formatTemplate(text.tooltipMissingTargetSegmentTemplate, {
+        status: text.tooltipStatusMissingTargetSegment,
+        slotLabel: slot.label,
+        year,
+      });
 
   return (
     <Tooltip content={tooltipContent} placement='top'>

@@ -1,4 +1,5 @@
 import { PeriodFormat } from '@/libs/data-access/datadoc';
+import { localization } from '@/libs/language/src/localization';
 import { type PeriodDef, type Slot } from './types';
 
 /**
@@ -16,20 +17,34 @@ export const PERIOD_DEFS: Partial<Record<PeriodFormat, PeriodDef>> = {
   [PeriodFormat.YEAR_MONTH]: {
     count: 12,
     monthsEach: 1,
-    label: (i) =>
-      new Intl.DateTimeFormat('en-US', { month: 'short', timeZone: 'UTC' }).format(new Date(Date.UTC(2000, i, 1))),
+    label: (i) => localization.dataCoverageTimeline.monthsShort[i] ?? '',
   },
   [PeriodFormat.YEAR_MONTH_DAY]: {
     count: 12,
     monthsEach: 1,
-    label: (i) =>
-      new Intl.DateTimeFormat('en-US', { month: 'short', timeZone: 'UTC' }).format(new Date(Date.UTC(2000, i, 1))),
+    label: (i) => localization.dataCoverageTimeline.monthsShort[i] ?? '',
   },
-  [PeriodFormat.BIMESTER]: { count: 6, monthsEach: 2, label: (i) => `B${i + 1}` },
-  [PeriodFormat.QUARTER]: { count: 4, monthsEach: 3, label: (i) => `Q${i + 1}` },
-  [PeriodFormat.TRIANNUAL]: { count: 3, monthsEach: 4, label: (i) => `T${i + 1}` },
-  [PeriodFormat.HALF_YEAR]: { count: 2, monthsEach: 6, label: (i) => `H${i + 1}` },
-  [PeriodFormat.YEAR]: { count: 1, monthsEach: 12, label: () => 'Full Year' },
+  [PeriodFormat.BIMESTER]: {
+    count: 6,
+    monthsEach: 2,
+    label: (i) => `${localization.dataCoverageTimeline.labelBimesterPrefix}${i + 1}`,
+  },
+  [PeriodFormat.QUARTER]: {
+    count: 4,
+    monthsEach: 3,
+    label: (i) => `${localization.dataCoverageTimeline.labelQuarterPrefix}${i + 1}`,
+  },
+  [PeriodFormat.TRIANNUAL]: {
+    count: 3,
+    monthsEach: 4,
+    label: (i) => `${localization.dataCoverageTimeline.labelTriannualPrefix}${i + 1}`,
+  },
+  [PeriodFormat.HALF_YEAR]: {
+    count: 2,
+    monthsEach: 6,
+    label: (i) => `${localization.dataCoverageTimeline.labelHalfYearPrefix}${i + 1}`,
+  },
+  [PeriodFormat.YEAR]: { count: 1, monthsEach: 12, label: () => localization.dataCoverageTimeline.labelFullYear },
 };
 
 /**
