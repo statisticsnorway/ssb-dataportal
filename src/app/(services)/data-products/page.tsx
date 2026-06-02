@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { listDataProducts } from '@/libs/data/datasets/datasets';
+import { listDataProducts, listDatasets } from '@/libs/data/datasets/datasets';
 import { localization } from '@/libs/language';
 import { createLogger } from '@/libs/logger/server-logger';
 import { DataProductsServicePage } from './data-products-service-page';
@@ -17,6 +17,9 @@ export default async function Datasets({
   const logger = createLogger('data-products-discover-page');
   logger.info({ params }, 'Data products page access');
   const dataProducts = await listDataProducts();
-
-  return <DataProductsServicePage dataProducts={dataProducts} />;
+  const datasets = await listDatasets().catch((error) => {
+    logger.error({ error }, 'Failed to list datasets');
+    return [];
+  });
+  return <DataProductsServicePage dataProducts={dataProducts} datasets={datasets} />;
 }
