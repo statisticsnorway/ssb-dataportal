@@ -28,7 +28,7 @@ const LoginButton = () => {
     <Dialog.TriggerContext>
       <Dialog.Trigger>{localization.authentication.logIn}</Dialog.Trigger>
       <Dialog>
-        <Heading id='detailsHeading' level={1}>
+        <Heading id='detailsHeading' className='infoHeadingPrimary' level={1}>
           {localization.authentication.loginHeading}
         </Heading>
         <p>{localization.authentication.loginInfo}</p>

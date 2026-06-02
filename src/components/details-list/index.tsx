@@ -12,7 +12,12 @@ interface DetailsListProps {
 const DetailsList = ({ title, content, popoverContent }: DetailsListProps) => {
   return (
     <Card className={styles.tableContainer}>
-      <Heading level={2} className={styles.detailsHeading} data-size='md' id={`tableHeading-${title}`}>
+      <Heading
+        level={2}
+        className={`${styles.detailsHeading} infoHeadingSecondary`}
+        data-size='md'
+        id={`tableHeading-${title}`}
+      >
         {title}
       </Heading>
       {content.map((row, index) => (

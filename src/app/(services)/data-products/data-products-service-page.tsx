@@ -74,7 +74,9 @@ export const DataProductsServicePage = ({ dataProducts }: DataProductsServicePag
 
   const pageInfo = (
     <Alert data-color='info'>
-      <Heading level={2}>{localization.info.datasetPrototypeIntro}</Heading>
+      <Heading level={2} className='infoHeadingSecondary'>
+        {localization.info.datasetPrototypeIntro}
+      </Heading>
       <Paragraph>{localization.info.datasetProtoypeInfo}</Paragraph>
     </Alert>
   );

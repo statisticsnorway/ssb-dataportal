@@ -56,6 +56,31 @@ describe('DataProductsServicePage', () => {
     expect(otherProductFilter).not.toBeChecked();
   });
 
+  it('renders title or short name for each data product', () => {
+    render(
+      <DataProductsServicePage
+        dataProducts={[
+          ...dataProducts,
+          {
+            product_type: DataProductType.OTHER_DATA_PRODUCT,
+            product_short_name: 'kortnavn',
+          },
+        ]}
+      />,
+    );
+
+    expect(
+      screen.getByRole('link', {
+        name: 'Tilknytning til arbeid, utdanning og velferdsordninger',
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', {
+        name: 'kortnavn',
+      }),
+    ).toBeInTheDocument();
+  });
+
   it('filters data products by selected product types', () => {
     render(<DataProductsServicePage dataProducts={dataProducts} />);
 
