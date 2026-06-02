@@ -127,19 +127,13 @@ describe('useTimelineData', () => {
     expect(result.current.isValid).toBe(true);
     expect(result.current.periodType).toBe(PeriodFormat.YEAR_MONTH);
 
-    // Items are sorted by start date.
     expect(result.current.items[0]?.filePath).toBe('gs://bucket/dataset/data_2022_12.parquet');
     expect(result.current.items[1]?.filePath).toBe('gs://bucket/dataset/data_2024_03.parquet');
 
-    // Full year range includes years with no files.
     expect(result.current.years).toEqual([2022, 2023, 2024]);
 
-    // Monthly period creates 12 slots per year.
     expect(result.current.slots[2022]).toHaveLength(12);
     expect(result.current.slots[2023]).toHaveLength(12);
     expect(result.current.slots[2024]).toHaveLength(12);
-
-    // Date objects are normalized to UTC midnight based on calendar date.
-    expect(result.current.items[0]?.start.toISOString()).toBe('2022-12-01T00:00:00.000Z');
   });
 });

@@ -32,7 +32,6 @@ export const PERIOD_DEFS: Partial<Record<PeriodFormat, PeriodDef>> = {
   [PeriodFormat.YEAR]: { count: 1, monthsEach: 12, label: () => 'Full Year' },
 };
 
-// Looks up a period def by exact PeriodFormat key.
 /**
  * Looks up a period def by exact `PeriodFormat` key.
  *
