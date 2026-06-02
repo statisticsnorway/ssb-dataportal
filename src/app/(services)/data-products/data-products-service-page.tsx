@@ -13,11 +13,12 @@ import styles from './page.module.css';
 
 interface DataProductsServicePageProps {
   readonly dataProducts: DataProductDTO[];
-  readonly datasets: DatasetDTO[];
+  readonly datasets?: DatasetDTO[];
 }
 
 const UNKNOWN_PRODUCT_TYPE = 'UNKNOWN_PRODUCT_TYPE';
 const UNKNOWN_ASSESSMENT = 'UNKNOWN_ASSESSMENT';
+const EMPTY_DATASETS: DatasetDTO[] = [];
 
 type ProductTypeFilterValue = DataProductType | typeof UNKNOWN_PRODUCT_TYPE;
 type AssessmentFilterValue = Assessment | typeof UNKNOWN_ASSESSMENT | (string & {});
@@ -89,7 +90,7 @@ const getAssessmentFilterOrder = (counts: Record<string, Set<string>>) => {
   return [...knownValues, ...additionalValues, UNKNOWN_ASSESSMENT];
 };
 
-export const DataProductsServicePage = ({ dataProducts, datasets }: DataProductsServicePageProps) => {
+export const DataProductsServicePage = ({ dataProducts, datasets = EMPTY_DATASETS }: DataProductsServicePageProps) => {
   const [selectedProductTypeFilters, setSelectedProductTypeFilters] = useState<FilterItem[]>([]);
   const [selectedAssessmentFilters, setSelectedAssessmentFilters] = useState<FilterItem[]>([]);
   const productTypeFilters = useMemo<FilterItem[]>(() => {
