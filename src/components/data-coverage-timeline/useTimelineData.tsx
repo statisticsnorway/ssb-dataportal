@@ -28,14 +28,14 @@ const empty = {
  *   input is missing or unparseable.
  */
 const parseDate = (value: string | Date | undefined | null): Date => {
-  if (!value) return new Date(NaN);
+  if (!value) return new Date(Number.NaN);
 
   const [y, m, d] =
     value instanceof Date
       ? [value.getFullYear(), value.getMonth() + 1, value.getDate()]
       : (value.match(/^(\d{4})-(\d{2})-(\d{2})/)?.slice(1) ?? []);
 
-  return y ? new Date(Date.UTC(+y, +m - 1, +d)) : new Date(NaN);
+  return y ? new Date(Date.UTC(+y, +m - 1, +d)) : new Date(Number.NaN);
 };
 
 /**
@@ -52,7 +52,7 @@ const parseItems = (data: DaplaDataFileDTO[]): TimelineItem[] =>
     .flatMap(({ file_path, contains_data_from, contains_data_until, period_type }) => {
       const start = parseDate(contains_data_from);
       const end = parseDate(contains_data_until);
-      if (isNaN(start.getTime()) || isNaN(end.getTime()) || !period_type) return [];
+      if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime()) || !period_type) return [];
       return [{ filePath: file_path, periodType: period_type, start, end }];
     })
     .sort((a, b) => a.start.getTime() - b.start.getTime());
