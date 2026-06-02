@@ -14,7 +14,7 @@
 
 
 /**
- * 
+ * The category of time period that a data file covers.
  * @export
  */
 export const PeriodFormat = {

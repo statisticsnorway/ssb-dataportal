@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default async function Classifications() {
   const pageInfo = (
-    <Alert data-color='info' data-size='lg'>
+    <Alert data-color='info'>
       <Heading level={2}>{localization.info.classificationsPrototypeIntro}</Heading>
       <Paragraph>
         {localization.info.classificationsPrototypeInfo}{' '}

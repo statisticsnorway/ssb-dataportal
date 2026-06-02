@@ -23,6 +23,7 @@ export default defineConfig({
         '**/*.d.ts',
         '**/*.config.*',
         '**/vitest.setup.ts',
+        '**/libs/data-access/**'
       ],
     },
 

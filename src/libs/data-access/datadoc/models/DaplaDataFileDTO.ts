@@ -158,6 +158,12 @@ export interface DaplaDataFileDTO {
      * @memberof DaplaDataFileDTO
      */
     owner?: string | null;
+    /**
+     * The list of naming-standard violations found for the file path. Empty means valid.
+     * @type {Array<string>}
+     * @memberof DaplaDataFileDTO
+     */
+    naming_standard_violations: Array<string>;
 }
 
 
@@ -167,6 +173,7 @@ export interface DaplaDataFileDTO {
  */
 export function instanceOfDaplaDataFileDTO(value: object): value is DaplaDataFileDTO {
     if (!('file_path' in value) || value['file_path'] === undefined) return false;
+    if (!('naming_standard_violations' in value) || value['naming_standard_violations'] === undefined) return false;
     return true;
 }
 
@@ -194,8 +201,9 @@ export function DaplaDataFileDTOFromJSONTyped(json: any, ignoreDiscriminator: bo
         'data_file_version': json['data_file_version'] == null ? undefined : json['data_file_version'],
         'contains_data_from': json['contains_data_from'] == null ? undefined : (new Date(json['contains_data_from'])),
         'contains_data_until': json['contains_data_until'] == null ? undefined : (new Date(json['contains_data_until'])),
-        'period_type': json['periodType'] == null ? undefined : PeriodFormatFromJSON(json['periodType']),
+        'period_type': json['period_type'] == null ? undefined : PeriodFormatFromJSON(json['period_type']),
         'owner': json['owner'] == null ? undefined : json['owner'],
+        'naming_standard_violations': json['naming_standard_violations'],
     };
 }
 
@@ -224,8 +232,9 @@ export function DaplaDataFileDTOToJSONTyped(value?: DaplaDataFileDTO | null, ign
         'data_file_version': value['data_file_version'],
         'contains_data_from': value['contains_data_from'] == null ? value['contains_data_from'] : value['contains_data_from'].toISOString(),
         'contains_data_until': value['contains_data_until'] == null ? value['contains_data_until'] : value['contains_data_until'].toISOString(),
-        'periodType': PeriodFormatToJSON(value['period_type']),
+        'period_type': PeriodFormatToJSON(value['period_type']),
         'owner': value['owner'],
+        'naming_standard_violations': value['naming_standard_violations'],
     };
 }
 

@@ -51,8 +51,8 @@ export default function Home() {
     <div className={styles.background}>
       <main className={`${styles.mainContainer} container`}>
         <Card data-color='brand1' variant='tinted' className={styles.headerCard}>
-          <header className={styles.pageHeader}>
-            <Heading level={1} data-size='lg' className={`${styles.pageTitle} heading12`}>
+          <header className={`${styles.pageTitle} heading12`}>
+            <Heading level={1} data-size='lg' className={styles.pageTitle}>
               {localization.info.landingPageTitle}
             </Heading>
             <Heading level={2} data-size='md' className={`${styles.subTitle} heading345`}>

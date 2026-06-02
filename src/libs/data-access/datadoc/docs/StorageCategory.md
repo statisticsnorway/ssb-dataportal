@@ -1,6 +1,7 @@
 
 # StorageCategory
 
+Describes the kind of Dapla bucket a data file is stored in.
 
 ## Properties
 

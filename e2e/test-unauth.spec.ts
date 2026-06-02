@@ -1,5 +1,5 @@
 import { localization } from '@/libs/language';
-import test, { expect } from '@playwright/test';
+import { test, expect } from '@bgotink/playwright-coverage';
 
 test('Unauthenticated page test', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'chrome-unauth');

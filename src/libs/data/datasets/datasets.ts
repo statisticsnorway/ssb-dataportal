@@ -1,32 +1,35 @@
 'use server';
 
 import { getM2mToken } from '@/libs/auth/m2m';
+import {
+  DataFilesApi,
+  DataFilesApiInterface,
+  DataProductsApi,
+  DataProductsApiInterface,
+  DatasetsApi,
+  DatasetsApiInterface,
+} from '@/libs/data-access/datadoc';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger, createLoggerWithBindings } from '@/libs/logger/server-logger';
 import dataProducts from '@/static-data/data-products.json';
 import datasetsStatic from '@/static-data/datasets.json';
-import dataFilesStatic_id1 from '@/static-data/id1.json';
-import dataFilesStatic_id2 from '@/static-data/id2.json';
-import dataFilesStatic_id3 from '@/static-data/id3.json';
-import dataFilesStatic_id4 from '@/static-data/id4.json';
-import dataFilesStatic_id5 from '@/static-data/id5.json';
-import dataFilesStatic_id6 from '@/static-data/id6.json';
 import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
-import { DefaultApi } from '../../data-access/datadoc/apis';
 import { DaplaDataFileDTO, DataProductDTO, DatasetDTO } from '../../data-access/datadoc/models';
 import { Configuration, ConfigurationParameters, ResponseError } from '../../data-access/datadoc/runtime';
 
 const ttlSeconds = Number(process.env.DATADOC_CACHE_TTL_SECONDS) || 3600;
 
-export async function getDataDocClient(): Promise<DefaultApi> {
+type Apis = DataProductsApiInterface | DatasetsApiInterface | DataFilesApiInterface;
+
+export async function getClientForApi<T extends Apis>(api: new (configuration: Configuration) => T): Promise<T> {
   const logger = createLogger('data-products');
   let token = process.env.SSB_DATAPORTAL_JWT_TOKEN;
   if (token) {
     logger.warn('Using hardcoded access token from environment! (SSB_DATAPORTAL_JWT_TOKEN)');
   } else if (process.env.DATADOC_USE_M2M_TOKEN === 'true') {
     logger.info('Using M2M token for DataDoc auth');
-    token = await getM2mToken();
+    token = await getM2mToken(process.env.DATADOC_M2M_CLIENT_ID, process.env.DATADOC_M2M_CLIENT_SECRET);
   } else {
     token = await getEncodedJwt().catch((reason) => {
       logger.error({ error: sanitizeError(reason) }, 'JWT retrieval unexpectedly failed');
@@ -49,7 +52,7 @@ export async function getDataDocClient(): Promise<DefaultApi> {
     logger.debug({ basePath }, 'DataDoc API base path configured');
     configParams.basePath = basePath;
   }
-  return new DefaultApi(new Configuration(configParams));
+  return new api(new Configuration(configParams));
 }
 
 export async function listDataProducts(): Promise<DataProductDTO[]> {
@@ -62,7 +65,7 @@ export async function listDataProducts(): Promise<DataProductDTO[]> {
 
   try {
     logger.info('Getting from api');
-    const api = await getDataDocClient();
+    const api = await getClientForApi(DataProductsApi);
     const startTime = Date.now();
     const rawData = await api.listDataProducts({}, {
       cache: 'force-cache',
@@ -94,8 +97,8 @@ export async function getDataProductByShortName(shortName: string): Promise<Data
   }
 
   try {
-    const api = await getDataDocClient();
-    const dto = await api.getByShortName({ shortName });
+    const api = await getClientForApi(DataProductsApi);
+    const dto = await api.getDataProductByShortName({ shortName });
     logger.info({ shortName }, 'Fetched data product');
     return dto;
   } catch (error: unknown) {
@@ -117,7 +120,7 @@ export async function listDatasetsByProductShortName(shortName: string): Promise
   }
 
   try {
-    const api = await getDataDocClient();
+    const api = await getClientForApi(DatasetsApi);
     const startTime = Date.now();
     const rawData = await api.listDatasets({ productShortName: shortName }, {
       cache: 'force-cache',
@@ -146,8 +149,8 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
   }
 
   try {
-    const api = await getDataDocClient();
-    const dto = await api.getById({ id: id });
+    const api = await getClientForApi(DatasetsApi);
+    const dto = await api.getDatasetById({ id: id });
     logger.info('Fetched Dataset');
     return dto;
   } catch (error: unknown) {
@@ -162,39 +165,9 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
 
 export async function listDataFilesByDatasetId(datasetId: string): Promise<Array<DaplaDataFileDTO>> {
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'listDataFilesByDatasetId', id: datasetId });
-  if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
-    logger.warn({ fn: 'listDataFilesByDatasetId' }, 'Using static mock data for data files');
-
-    if (datasetId == 'id1') {
-      var dataFilesStatic = dataFilesStatic_id1;
-    } else if (datasetId == 'id2') {
-      var dataFilesStatic = dataFilesStatic_id2;
-    } else if (datasetId == 'id3') {
-      var dataFilesStatic = dataFilesStatic_id3;
-    } else if (datasetId == 'id3') {
-      var dataFilesStatic = dataFilesStatic_id4;
-    } else if (datasetId == 'id5') {
-      var dataFilesStatic = dataFilesStatic_id5;
-    } else if (datasetId == 'id6') {
-      var dataFilesStatic = dataFilesStatic_id6;
-    } else {
-      dataFilesStatic = dataFilesStatic_id1;
-    }
-
-    const mapped = (dataFilesStatic as unknown as Array<any>).map((f) => {
-      //TODO: see if this can be better
-      return {
-        ...f,
-        contains_data_from: f.contains_data_from ? new Date(f.contains_data_from) : undefined,
-        contains_data_until: f.contains_data_until ? new Date(f.contains_data_until) : undefined,
-        data_last_modified_at: f.data_last_modified_at ? new Date(f.data_last_modified_at) : undefined,
-      } as DaplaDataFileDTO;
-    });
-    return mapped;
-  }
   try {
-    const api = await getDataDocClient();
-    const dto = await api.listDaplaDataFiles({ datasetId: datasetId });
+    const api = await getClientForApi(DataFilesApi);
+    const dto = await api.listDataFiles({ datasetId: datasetId });
     logger.info('Fetched Dapla Data Files');
     logger.info({ count: dto.length }, 'Fetched data products from API');
     return dto;

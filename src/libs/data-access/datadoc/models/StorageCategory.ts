@@ -14,7 +14,7 @@
 
 
 /**
- * 
+ * Describes the kind of Dapla bucket a data file is stored in.
  * @export
  */
 export const StorageCategory = {

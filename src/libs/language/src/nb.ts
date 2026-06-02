@@ -208,6 +208,7 @@ export const nb = {
   products: {
     other: 'Annen dataprodukt',
     statistic: 'Statistikkprodukt',
+    typeFilterLabel: 'Dataprodukttype',
     unknown: 'Ukjent produkttype',
   },
 
@@ -225,6 +226,7 @@ export const nb = {
   subjectFields: 'Statistikkområder',
 
   tabs: {
+    ariaLabel: 'Navigasjon kataloger',
     classifications: 'Klassifikasjoner',
     dataProducts: 'Dataprodukter',
     variableDefinitions: 'Variabeldefinisjoner',
