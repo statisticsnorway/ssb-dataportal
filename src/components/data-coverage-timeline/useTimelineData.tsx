@@ -77,6 +77,8 @@ const hasMixedPeriodTypes = (items: TimelineItem[]): boolean => new Set(items.ma
 const hasOverlappingPeriods = (items: TimelineItem[]): boolean =>
   items.some((item, i) => i > 0 && item.start <= items[i - 1]!.end);
 
+const hasSupportedPeriodType = (periodType: PeriodFormat): boolean => generateYearSlots(2000, periodType).length > 0;
+
 /**
  * Derives the full year range covered by the items and pre-generates a slot grid for
  * each year in that range.
@@ -113,6 +115,7 @@ const buildYearSlots = (
  * - `data` is empty or all entries fail to parse
  * - items have mixed `period_type` values (the slot grid would be ambiguous)
  * - any two items have overlapping date ranges
+ * - `period_type` has no supported slot definition
  *
  * All derived values are memoised on `data` reference equality so the component only
  * recomputes when the API response actually changes.
@@ -138,6 +141,7 @@ export const useTimelineData = (
     if (hasOverlappingPeriods(items)) return empty;
 
     const periodType = items[0]!.periodType;
+    if (!hasSupportedPeriodType(periodType)) return empty;
     const { years, slots } = buildYearSlots(items, periodType);
 
     return { isValid: true as const, periodType, items, years, slots };

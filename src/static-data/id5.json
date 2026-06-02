@@ -1,9 +1,9 @@
 [
   {
-    "file_path": "gs://.../arblonn_p2016-T1.parquet",
-    "contains_data_from": "2016-01-01T00:00:00",
-    "contains_data_until": "2016-04-30T23:59:59",
-    "period_type": "TRIANNUAL",
+    "file_path": "gs://.../arblonn_p2016-W1.parquet",
+    "contains_data_from": "2016-01-04T00:00:00",
+    "contains_data_until": "2016-01-10T23:59:59",
+    "period_type": "WEEKLY",
     "storage_location_name": "ssb-arbmark-register-data-produkt-test",
     "file_type": "PARQUET",
     "short_description": "arblonn",
@@ -15,10 +15,10 @@
     "owner": "arbmark-register"
   },
   {
-    "file_path": "gs://.../arblonn_p2016-T3.parquet",
-    "contains_data_from": "2016-09-01T00:00:00",
-    "contains_data_until": "2016-12-31T23:59:59",
-    "period_type": "TRIANNUAL",
+    "file_path": "gs://.../arblonn_p2016-W2.parquet",
+    "contains_data_from": "2016-01-11T00:00:00",
+    "contains_data_until": "2016-01-17T23:59:59",
+    "period_type": "WEEKLY",
     "storage_location_name": "ssb-arbmark-register-data-produkt-test",
     "file_type": "PARQUET",
     "short_description": "arblonn",
@@ -30,25 +30,10 @@
     "owner": "arbmark-register"
   },
   {
-    "file_path": "gs://.../arblonn_p2017-T1.parquet",
-    "contains_data_from": "2017-01-01T00:00:00",
-    "contains_data_until": "2017-04-30T23:59:59",
-    "period_type": "TRIANNUAL",
-    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
-    "file_type": "PARQUET",
-    "short_description": "arblonn",
-    "product_type": "STATISTIC_PRODUCT",
-    "product_short_name": "arblonn",
-    "storage_category": "PRODUCT",
-    "assessment": "PROTECTED",
-    "dataset_state": "PROCESSED_DATA",
-    "owner": "arbmark-register"
-  },
-  {
-    "file_path": "gs://.../arblonn_p2017-T3.parquet",
-    "contains_data_from": "2017-09-01T00:00:00",
-    "contains_data_until": "2017-12-31T23:59:59",
-    "period_type": "TRIANNUAL",
+    "file_path": "gs://.../arblonn_p2017-W3.parquet",
+    "contains_data_from": "2017-01-16T00:00:00",
+    "contains_data_until": "2017-01-22T23:59:59",
+    "period_type": "WEEKLY",
     "storage_location_name": "ssb-arbmark-register-data-produkt-test",
     "file_type": "PARQUET",
     "short_description": "arblonn",
