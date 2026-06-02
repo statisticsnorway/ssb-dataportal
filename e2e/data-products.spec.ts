@@ -34,7 +34,7 @@ test('Data products can be filtered by product type', async ({ dataProductsPage 
   await expect(main).toContainText('Ameldingen');
 
   await statisticProductFilter.uncheck();
-  await expect(main).toContainText('1 treff');
+  await expect(main).toContainText('2 treff');
   await expect(main).toContainText('Ameldingen');
   await expect(main).not.toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
 });
