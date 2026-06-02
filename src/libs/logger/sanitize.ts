@@ -4,7 +4,6 @@
  * Extracts only safe fields from error objects to prevent
  * leaking stack traces, tokens, or internal details into logs.
  */
-
 interface SanitizedError {
   message: string;
   code?: string;

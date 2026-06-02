@@ -80,9 +80,7 @@ describe('datadoc data fetching', () => {
     it('mock api call happy path', async () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
-
       vi.spyOn(DataProductsApi.prototype, 'listDataProducts').mockResolvedValue(dataProducts as DataProductDTO[]);
-
       const result = await listDataProducts();
       expect(result).toContainEqual((dataProducts as DataProductDTO[])[0]);
     });
@@ -116,9 +114,7 @@ describe('datadoc data fetching', () => {
     it('mock api call happy path', async () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
-
       vi.spyOn(DataProductsApi.prototype, 'getDataProductByShortName').mockResolvedValue(testProduct);
-
       const result = await getDataProductByShortName(shortName);
       expect(result).toEqual(testProduct);
     });
@@ -148,10 +144,8 @@ describe('datadoc data fetching', () => {
     it('mock api call happy path', async () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
-
       const mockResult = [testDataset];
       vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue(mockResult);
-
       const result = await listDatasetsByProductShortName(shortName);
       expect(result).toEqual(mockResult);
     });
@@ -177,9 +171,7 @@ describe('datadoc data fetching', () => {
     it('mock api call happy path', async () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
-
       vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue(staticDatasets);
-
       const result = await listDatasets();
       expect(result).toEqual(staticDatasets);
     });
