@@ -93,6 +93,24 @@ describe('DataProductsServicePage', () => {
     expect(main).not.toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
   });
 
+  it('renders title or short name for each data product without datasets', () => {
+    render(
+      <DataProductsServicePage
+        dataProducts={[
+          ...dataProducts,
+          {
+            product_type: DataProductType.OTHER_DATA_PRODUCT,
+            product_short_name: 'produkt-uten-tittel',
+          },
+        ]}
+      />,
+    );
+    const main = screen.getByRole('main');
+    expect(main).toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
+    expect(main).toHaveTextContent('Ameldingen');
+    expect(main).toHaveTextContent('produkt-uten-tittel');
+  });
+
   it('renders assessment checkboxes with counts', () => {
     render(<DataProductsServicePage dataProducts={dataProducts} datasets={datasets} />);
     const openAssessmentFilter = screen.getByRole('checkbox', { name: 'Åpen (2)' });
