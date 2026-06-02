@@ -7,8 +7,6 @@ import { type Slot, type TimelineItem } from './types';
 import { useTimelineData } from './useTimelineData';
 
 const TOOLTIP_TEMPLATE = '{status}: {slotLabel} {year}';
-const ARIA_TEMPLATE_BASE = '{status}: {slotLabel} {year}.';
-const ARIA_TEMPLATE_WITH_FILE = '{status}: {slotLabel} {year}. {filePathLabel}: {filePath}';
 
 /**
  * Replace `{key}` placeholders in `template` with the corresponding values.
@@ -56,18 +54,6 @@ const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matche
   const text = localization.dataCoverageTimeline;
   const baseValues = { slotLabel: slot.label, year };
 
-  const ariaLabel = matchedItem
-    ? formatTemplate(ARIA_TEMPLATE_WITH_FILE, {
-        ...baseValues,
-        status: text.statusDataPresent,
-        filePathLabel: text.filePathLabel,
-        filePath: matchedItem.filePath,
-      })
-    : formatTemplate(ARIA_TEMPLATE_BASE, {
-        ...baseValues,
-        status: text.statusMissingTargetSegment,
-      });
-
   const tooltipContent = formatTemplate(TOOLTIP_TEMPLATE, {
     ...baseValues,
     status: matchedItem ? text.tooltipStatusDataPresent : text.tooltipStatusMissingTargetSegment,
@@ -76,9 +62,7 @@ const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matche
   return (
     <Tooltip content={tooltipContent} placement='top'>
       <div
-        tabIndex={0}
-        role='group'
-        aria-label={ariaLabel}
+        aria-hidden='true'
         className={`${styles.cell} ${matchedItem ? styles.cellFilled : styles.cellEmpty}`}
         style={{ left: `${idx * slotWidth}%`, width: `${slotWidth}%` }}
       />
