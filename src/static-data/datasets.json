@@ -24,18 +24,10 @@
     "storage_location_name": "bucket-a"
   },
   {
-    "id": "ds-2",
-    "product_short_name": "ameld",
-    "short_description": "Ameldingen dataset",
-    "dataset_state": "OUTPUT_DATA",
-    "owner": "team-b",
-    "storage_location_name": "bucket-b"
-  },
-  {
     "id": "id1",
     "storage_location_name": "ssb-arbmark-register-data-produkt-test",
     "product_short_name": "arblonn",
-    "short_description": "arblonn",
+    "short_description": "Arblonn datasett 1",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
     "owner": "arbmark-register"
@@ -44,7 +36,7 @@
     "id": "id2",
     "storage_location_name": "ssb-arbmark-register-data-produkt-test",
     "product_short_name": "arblonn",
-    "short_description": "arblonn2",
+    "short_description": "Arblonn datasett 2",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
     "owner": "arbmark-register"
@@ -53,7 +45,7 @@
     "id": "id3",
     "storage_location_name": "ssb-arbmark-register-data-produkt-test",
     "product_short_name": "arblonn",
-    "short_description": "arblonn3",
+    "short_description": "Arblonn datasett 3",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
     "owner": "arbmark-register"
@@ -62,7 +54,7 @@
     "id": "id4",
     "storage_location_name": "ssb-arbmark-register-data-produkt-test",
     "product_short_name": "arblonn",
-    "short_description": "arblonn4",
+    "short_description": "Arblonn datasett 4",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
     "owner": "arbmark-register"
@@ -71,7 +63,7 @@
     "id": "id5",
     "storage_location_name": "ssb-arbmark-register-data-produkt-test",
     "product_short_name": "arblonn",
-    "short_description": "arblonn5",
+    "short_description": "Arblonn datasett 5",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
     "owner": "arbmark-register"
@@ -80,7 +72,7 @@
     "id": "id6",
     "storage_location_name": "ssb-arbmark-register-data-produkt-test",
     "product_short_name": "arblonn",
-    "short_description": "arblonn6",
+    "short_description": "Arblonn datasett 6",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
     "owner": "arbmark-register"

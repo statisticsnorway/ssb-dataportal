@@ -5,7 +5,7 @@ test('Data products page displays data products', async ({ dataProductsPage }) =
   const main = dataProductsPage.getByRole('main');
 
   await expect(main.getByRole('heading', { name: localization.tabs.dataProducts })).toBeVisible();
-  await expect(main).toContainText('2 treff');
+  await expect(main).toContainText('3 treff');
   await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
   await expect(main).toContainText('Ameldingen');
 });
@@ -29,7 +29,7 @@ test('Data products can be filtered by product type', async ({ dataProductsPage 
   await expect(main).not.toContainText('Ameldingen');
 
   await otherProductFilter.check();
-  await expect(main).toContainText('2 treff');
+  await expect(main).toContainText('3 treff');
   await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
   await expect(main).toContainText('Ameldingen');
 
