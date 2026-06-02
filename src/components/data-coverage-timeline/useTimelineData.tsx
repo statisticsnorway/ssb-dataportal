@@ -33,7 +33,7 @@ const parseDate = (value: string | Date | undefined | null): Date => {
   const [y, m, d] =
     value instanceof Date
       ? [value.getFullYear(), value.getMonth() + 1, value.getDate()]
-      : (value.match(/^(\d{4})-(\d{2})-(\d{2})/)?.slice(1) ?? []);
+      : (/^(\d{4})-(\d{2})-(\d{2})/.exec(value)?.slice(1) ?? []);
 
   return y ? new Date(Date.UTC(+y, +m - 1, +d)) : new Date(Number.NaN);
 };
