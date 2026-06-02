@@ -54,6 +54,11 @@ interface CellProps {
  */
 const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matchedItem }) => {
   const slotWidth = 100 / totalSlots;
+  const hasData = Boolean(matchedItem);
+  const statusLabel = hasData ? 'Data present' : 'Missing target segment';
+  const ariaLabel = hasData
+    ? `${statusLabel}: ${slot.label} ${year}. File path: ${matchedItem!.filePath}`
+    : `${statusLabel}: ${slot.label} ${year}.`;
 
   const tooltipContent = matchedItem
     ? `File Data Present — ${slot.label} ${year}\n${matchedItem.filePath}`
@@ -62,6 +67,9 @@ const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matche
   return (
     <Tooltip content={tooltipContent} placement='top'>
       <div
+        tabIndex={0}
+        role='img'
+        aria-label={ariaLabel}
         className={`${styles.cell} ${matchedItem ? styles.cellFilled : styles.cellEmpty}`}
         style={{ left: `${idx * slotWidth}%`, width: `${slotWidth}%` }}
       />
@@ -112,9 +120,6 @@ const DataCoverageTimeline: React.FC<TimelineProps> = ({ data }) => {
             </div>
           );
         })}
-
-        {/* Axis labels — derived from the first year's slots so they always
-            match the grid regardless of period type */}
         <div className={styles.axisRow}>
           <div className={styles.axisSpacer} />
           <div className={styles.axisLabelsContainer}>

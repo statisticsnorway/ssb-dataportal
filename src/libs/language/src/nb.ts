@@ -16,6 +16,7 @@ export const nb = {
     responsible: 'Ansvarlig team',
     id: 'ID',
     dataFiles: 'Datafiler',
+    dataCoverageTimeline: 'Tidslinje',
   },
   apiDocumentation: 'API-dokumentasjon',
   appTitle: 'SSB Dataportal',
