@@ -67,7 +67,7 @@ const parseItems = (data: DaplaDataFileDTO[]): TimelineItem[] =>
 const hasMixedPeriodTypes = (items: TimelineItem[]): boolean => new Set(items.map((d) => d.periodType)).size !== 1;
 
 /**
- * Returns `true` if any item's start date is on or before the previous item's end date.
+ * Returns `true` if any item's start date is strictly before the previous item's end date.
  *
  * @param items - Parsed and sorted timeline items.
  */
@@ -79,7 +79,7 @@ const hasOverlappingPeriods = (items: TimelineItem[]): boolean => {
 
     const previous = items[i - 1]!;
 
-    console.log("Comparing periods", {
+    console.log('Comparing periods', {
       current: {
         start: item.start,
         end: item.end,
@@ -88,10 +88,10 @@ const hasOverlappingPeriods = (items: TimelineItem[]): boolean => {
         start: previous.start,
         end: previous.end,
       },
-      overlaps: item.start <= previous.end,
+      overlaps: item.start < previous.end,
     });
 
-    return item.start <= previous.end;
+    return item.start < previous.end;
   });
 };
 

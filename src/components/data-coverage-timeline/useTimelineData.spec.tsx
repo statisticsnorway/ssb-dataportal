@@ -91,6 +91,28 @@ describe('useTimelineData', () => {
     expect(result.current.isValid).toBe(false);
   });
 
+  it('accepts adjacent periods when API provides Date objects with boundary timestamps', () => {
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_2021_01.parquet',
+        from: new Date('2021-01-01T00:00:00Z'),
+        until: new Date('2021-02-01T00:00:00Z'),
+        periodType: PeriodFormat.YEAR_MONTH,
+      }),
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_2021_02.parquet',
+        from: new Date('2021-02-01T00:00:00Z'),
+        until: new Date('2021-03-01T00:00:00Z'),
+        periodType: PeriodFormat.YEAR_MONTH,
+      }),
+    ];
+
+    const { result } = renderHook(() => useTimelineData(data));
+
+    expect(result.current.isValid).toBe(true);
+    expect(result.current.items).toHaveLength(2);
+  });
+
   it('returns empty state for unsupported period type', () => {
     const data = [
       buildDataFile({
