@@ -56,6 +56,8 @@ const parseItems = (data: DaplaDataFileDTO[]): TimelineItem[] =>
     })
     .sort((a, b) => a.start.getTime() - b.start.getTime());
 
+  const toDateOnly = (date: Date): string => date.toISOString().slice(0, 10);
+
 /**
  * Returns `true` if the items span more than one distinct `periodType`.
  *
@@ -81,12 +83,12 @@ const hasOverlappingPeriods = (items: TimelineItem[]): boolean => {
 
     console.log('Comparing periods', {
       current: {
-        start: item.start,
-        end: item.end,
+        start: toDateOnly(item.start),
+        end: toDateOnly(item.end),
       },
       previous: {
-        start: previous.start,
-        end: previous.end,
+        start: toDateOnly(previous.start),
+        end: toDateOnly(previous.end),
       },
       overlaps: item.start < previous.end,
     });
