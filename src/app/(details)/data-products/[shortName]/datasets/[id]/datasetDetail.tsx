@@ -2,6 +2,7 @@
 
 import { Card, Divider, Heading, Tag } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
+import DataCoverageTimeline from '@/components/data-coverage-timeline/dataCoverageTimeline';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { DetailsTable } from '@/components/details-list';
 import { ExternalLink } from '@/components/link-components/externalLink';
@@ -62,6 +63,9 @@ export default function DatasetDetail({
             { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
           ]}
         />
+
+        <DataCoverageTimeline data={dataFiles}></DataCoverageTimeline>
+
         <Card className={styles.tableContainer}>
           <Heading
             level={2}

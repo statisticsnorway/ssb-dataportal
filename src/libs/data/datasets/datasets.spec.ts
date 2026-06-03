@@ -9,6 +9,7 @@ import datasetsStatic from '@/static-data/datasets.json';
 import {
   getClientForApi,
   getDataProductByShortName,
+  listDataFilesByDatasetId,
   listDataProducts,
   listDatasets,
   listDatasetsByProductShortName,
@@ -148,6 +149,27 @@ describe('datadoc data fetching', () => {
       vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue(mockResult);
       const result = await listDatasetsByProductShortName(shortName);
       expect(result).toEqual(mockResult);
+    });
+  });
+
+  describe('listDataFilesByDatasetId', () => {
+    it('static data uses datafiles/<datasetId>.json and converts dates', async () => {
+      vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
+
+      const result = await listDataFilesByDatasetId('id1');
+      expect(result.length).toBeGreaterThan(0);
+      expect(result[0]?.product_short_name).toEqual('arblonn');
+      expect(result[0]?.contains_data_from).toBeInstanceOf(Date);
+
+      vi.unstubAllEnvs();
+    });
+
+    it('static data returns empty array when no file exists', async () => {
+      vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
+
+      await expect(listDataFilesByDatasetId('does-not-exist')).resolves.toEqual([]);
+
+      vi.unstubAllEnvs();
     });
   });
 

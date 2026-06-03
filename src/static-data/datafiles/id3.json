@@ -1,0 +1,32 @@
+[
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/arblonn_p2016.parquet",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "file_type": "PARQUET",
+    "short_description": "arblonn",
+    "product_type": "STATISTIC_PRODUCT",
+    "product_short_name": "arblonn",
+    "storage_category": "PRODUCT",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "contains_data_from": "2016-01-01T00:00:00",
+    "contains_data_until": "2016-12-31T23:59:59",
+    "period_type": "YEAR",
+    "owner": "arbmark-register"
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/arblonn_p2017.parquet",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "file_type": "PARQUET",
+    "short_description": "arblonn",
+    "product_type": "STATISTIC_PRODUCT",
+    "product_short_name": "arblonn",
+    "storage_category": "PRODUCT",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "contains_data_from": "2017-01-01T00:00:00",
+    "contains_data_until": "2017-12-31T23:59:59",
+    "period_type": "YEAR",
+    "owner": "arbmark-register"
+  }
+]
