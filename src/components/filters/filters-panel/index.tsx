@@ -14,7 +14,7 @@ interface FiltersPanelProps {
 const FiltersPanel = ({ children }: FiltersPanelProps) => {
   return (
     <>
-      <Heading level={2} data-size='sm'>
+      <Heading className='secondaryHeading' level={2} data-size='sm'>
         {localization.search.filter.label}
       </Heading>
       {children}

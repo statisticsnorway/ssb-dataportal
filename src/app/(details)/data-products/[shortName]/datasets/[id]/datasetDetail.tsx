@@ -3,6 +3,7 @@
 import { Card, Divider, Heading, Tag } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
+import DataCoverageTimeline from '@/components/data-coverage-timeline/dataCoverageTimeline';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { DetailsTable } from '@/components/details-list';
 import { ExternalLink } from '@/components/link-components/externalLink';
@@ -41,7 +42,7 @@ export default function DatasetDetail({
         currentText={dataset.short_description ?? ''}
       />
       <main className={styles.mainContent}>
-        <Heading className={styles.detailsHeading} data-size='2xl' level={1}>
+        <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='2xl' level={1}>
           {dataset.short_description}
         </Heading>
         <DetailsTable
@@ -69,8 +70,16 @@ export default function DatasetDetail({
             { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
           ]}
         />
+
+        <DataCoverageTimeline data={dataFiles}></DataCoverageTimeline>
+
         <Card className={styles.tableContainer}>
-          <Heading level={2} className={styles.detailsHeading} data-size='md' id={`tableHeading-dataFiles`}>
+          <Heading
+            level={2}
+            className={`${styles.detailsHeading} secondaryHeading`}
+            data-size='md'
+            id={`tableHeading-dataFiles`}
+          >
             {localization.datasetDetail.dataFiles}
           </Heading>
           {dataFiles

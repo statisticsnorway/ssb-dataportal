@@ -12,7 +12,7 @@ export default function ClassificationDetail({ classification }: Readonly<{ clas
     <section className={`${styles.detailsPage} container`}>
       <DataportalBreadcrumbs items={breadcrumbList} homeUrl={homeUrl} />
       <header>
-        <Heading className={styles.detailsPageHeader} level={1} data-size='lg'>
+        <Heading className={`${styles.detailsPageHeader} primaryHeading`} level={1} data-size='lg'>
           {classification.name}
         </Heading>
       </header>

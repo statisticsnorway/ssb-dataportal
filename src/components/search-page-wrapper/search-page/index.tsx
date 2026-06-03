@@ -66,11 +66,11 @@ const SearchPage: FC<SearchPageProps> = ({
           {banner && (
             <Alert data-color='info' style={{ marginBottom: '1rem' }}>
               <Heading
+                className='infoHeadingSecondary'
                 level={2}
                 data-size='sm'
                 style={{
                   marginBottom: 'var(--ds-size-2)',
-                  fontFamily: 'sans-serif',
                 }}
               >
                 {localization.migration.header}

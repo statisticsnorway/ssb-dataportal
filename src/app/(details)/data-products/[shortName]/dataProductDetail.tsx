@@ -23,12 +23,12 @@ export default function DataProductDetail({
       />
 
       <main className={styles.mainContent}>
-        <Heading className={styles.detailsHeading} data-size='2xl' level={1}>
+        <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='2xl' level={1}>
           {dataProduct.title ?? dataProduct.product_short_name}
         </Heading>
 
         <section>
-          <Heading level={2} className={styles.sectionHeading}>
+          <Heading level={2} className={`${styles.sectionHeading} secondaryHeading`}>
             Datasett
           </Heading>
           <div className={styles.datasetList}>

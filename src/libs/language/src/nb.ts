@@ -16,6 +16,7 @@ export const nb = {
     responsible: 'Ansvarlig team',
     id: 'ID',
     dataFiles: 'Datafiler',
+    dataCoverageTimeline: 'Tidslinje',
   },
   apiDocumentation: 'API-dokumentasjon',
   appTitle: 'SSB Dataportal',
@@ -205,6 +206,13 @@ export const nb = {
   },
 
   products: {
+    assessment: {
+      filterLabel: 'Verdivurdering',
+      open: 'Åpen',
+      protected: 'Beskyttet',
+      sensitive: 'Sensitiv',
+      unknown: 'Ukjent verdivurdering',
+    },
     other: 'Annen dataprodukt',
     statistic: 'Statistikkprodukt',
     typeFilterLabel: 'Dataprodukttype',
@@ -264,5 +272,19 @@ export const nb = {
     validTo: 'Gyldig til',
     viewExternalReference: 'Se ekstern referanse',
     viewRelevant: 'Se relevant variabeldefinisjon',
+  },
+
+  dataCoverageTimeline: {
+    filePathLabel: 'Filsti',
+    labelBimesterPrefix: 'B',
+    labelFullYear: 'Hele året',
+    labelHalfYearPrefix: 'H',
+    labelQuarterPrefix: 'K',
+    labelTriannualPrefix: 'T',
+    monthsShort: ['jan.', 'feb.', 'mars', 'apr.', 'mai', 'juni', 'juli', 'aug.', 'sep.', 'okt.', 'nov.', 'des.'],
+    statusDataPresent: 'Data finnes',
+    statusMissingTargetSegment: 'Ingen fil med data for perioden',
+    tooltipStatusDataPresent: 'Fil med data finnes',
+    tooltipStatusMissingTargetSegment: 'Ingen fil med data for perioden',
   },
 };

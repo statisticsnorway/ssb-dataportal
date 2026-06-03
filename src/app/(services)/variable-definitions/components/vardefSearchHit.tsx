@@ -41,9 +41,9 @@ const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
 
   return (
     <Card data-testid='vardef-search-card'>
-      <Heading data-size='md' className={styles.vardefHeadingLink}>
+      <Heading data-size='md' className={styles.vardefHeadingLink} level={2}>
         <HeadingLink href={vardefRoute}>
-          <span className='heading12'>{variableDefinition.name}</span>
+          <span className='secondaryHeading'>{variableDefinition.name}</span>
         </HeadingLink>
       </Heading>
 

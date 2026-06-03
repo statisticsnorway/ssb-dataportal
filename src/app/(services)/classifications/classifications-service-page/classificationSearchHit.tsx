@@ -9,7 +9,7 @@ interface SearchHitProps {
 const ClassificationSearchHit = ({ classification }: SearchHitProps) => {
   return (
     <Card>
-      <Heading level={2} data-size='sm'>
+      <Heading className='secondaryHeading' level={2} data-size='sm'>
         <Link href={`/classifications/${classification?.id}`}>{classification?.name}</Link>
       </Heading>
       <section>
