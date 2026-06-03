@@ -51,11 +51,11 @@ export default function Home() {
     <div className={styles.background}>
       <main className={`${styles.mainContainer} container`}>
         <Card data-color='brand1' variant='tinted' className={styles.headerCard}>
-          <header className={`${styles.pageTitle} heading12`}>
-            <Heading level={1} data-size='lg' className={styles.pageTitle}>
+          <header>
+            <Heading level={1} data-size='lg' className={`${styles.pageTitle} primaryHeading`}>
               {localization.info.landingPageTitle}
             </Heading>
-            <Heading level={2} data-size='md' className={`${styles.subTitle} heading345`}>
+            <Heading level={2} data-size='md' className={`${styles.subTitle} secondaryHeading`}>
               {localization.info.landingPageSubTitle}
             </Heading>
             <div className={styles.infoDetails}>
@@ -68,7 +68,7 @@ export default function Home() {
           </header>
         </Card>
         <nav className={styles.pageNavigation} id='menu'>
-          {Object.values(navigationItems).map((item, index) => (
+          {Object.values(navigationItems).map((item) => (
             <NavigationCard id={item.id} key={item.id} title={item.label} href={item.route} icon={item.icon} />
           ))}
         </nav>

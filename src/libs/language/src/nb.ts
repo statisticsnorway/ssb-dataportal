@@ -206,6 +206,13 @@ export const nb = {
   },
 
   products: {
+    assessment: {
+      filterLabel: 'Verdivurdering',
+      open: 'Åpen',
+      protected: 'Beskyttet',
+      sensitive: 'Sensitiv',
+      unknown: 'Ukjent verdivurdering',
+    },
     other: 'Annen dataprodukt',
     statistic: 'Statistikkprodukt',
     typeFilterLabel: 'Dataprodukttype',

@@ -35,7 +35,7 @@ export default function DatasetDetail({
         currentText={dataset.short_description ?? ''}
       />
       <main className={styles.mainContent}>
-        <Heading className={styles.detailsHeading} data-size='2xl' level={1}>
+        <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='2xl' level={1}>
           {dataset.short_description}
         </Heading>
         <DetailsTable
@@ -67,7 +67,12 @@ export default function DatasetDetail({
         <DataCoverageTimeline data={dataFiles}></DataCoverageTimeline>
 
         <Card className={styles.tableContainer}>
-          <Heading level={2} className={styles.detailsHeading} data-size='md' id={`tableHeading-dataFiles`}>
+          <Heading
+            level={2}
+            className={`${styles.detailsHeading} secondaryHeading`}
+            data-size='md'
+            id={`tableHeading-dataFiles`}
+          >
             {localization.datasetDetail.dataFiles}
           </Heading>
           {dataFiles

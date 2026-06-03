@@ -133,13 +133,19 @@ We don't set font-size for the headings, this can be controlled using the
 level prop on the Heading component from Designsystemet
 */
 
-:is(h1, h1.ds-heading, h2, h2.ds-heading, .heading12) {
+/*
+  Typically used on H1, H2
+*/
+.primaryHeading {
   font-family: var(--font-roboto-condensed), sans-serif;
   font-weight: var(--font-weight-heavy);
   color: var(--ssb-dark-color-6);
 }
 
-:is(h3, h3.ds-heading, h4, h4.ds-heading, h5, h5.ds-heading, .heading345) {
+/*
+  Typically used on H3, H4, H5
+*/
+.secondaryHeading {
   font-family: var(--font-roboto), sans-serif;
   font-weight: var(--font-weight-heavy);
   color: var(--ssb-dark-color-6);
@@ -181,14 +187,18 @@ button {
   --dsc-alert-padding-block: var(--ds-size-4);
 }
 
-h2[id^="tableHeading"] {
-  font-family: var(--font-open-sans);
-  font-weight: var(--font-weight-medium);
-}
-
-h1[id^="detailsHeading"] {
+/* Typically used in alerts etc */
+.infoHeadingPrimary {
   font-family: var(--font-open-sans);
   font-weight: var(--font-weight-heavy);
+  color: var(--ssb-dark-color-6);
+}
+
+/* Typically used for key headings in tables etc */
+.infoHeadingSecondary {
+  font-family: var(--font-open-sans);
+  font-weight: var(--font-weight-medium);
+  color: var(--ssb-dark-color-6);
 }
 
 @media (min-width: 768px) {

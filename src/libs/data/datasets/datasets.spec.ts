@@ -2,8 +2,8 @@ import assert from 'assert';
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getEncodedJwt } from '@/libs/auth/jwt';
 import { getM2mToken } from '@/libs/auth/m2m';
-import { DataFilesApi, DataProductsApi, DatasetsApi } from '@/libs/data-access/datadoc';
-import { DaplaDataFileDTO, DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
+import { DataProductsApi, DatasetsApi } from '@/libs/data-access/datadoc';
+import { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
 import dataProducts from '@/static-data/data-products.json';
 import datasetsStatic from '@/static-data/datasets.json';
 import {
@@ -11,6 +11,7 @@ import {
   getDataProductByShortName,
   listDataFilesByDatasetId,
   listDataProducts,
+  listDatasets,
   listDatasetsByProductShortName,
 } from './datasets';
 
@@ -80,9 +81,7 @@ describe('datadoc data fetching', () => {
     it('mock api call happy path', async () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
-
       vi.spyOn(DataProductsApi.prototype, 'listDataProducts').mockResolvedValue(dataProducts as DataProductDTO[]);
-
       const result = await listDataProducts();
       expect(result).toContainEqual((dataProducts as DataProductDTO[])[0]);
     });
@@ -103,7 +102,7 @@ describe('datadoc data fetching', () => {
 
     it('static data - not found', async () => {
       vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
-      await expect(getDataProductByShortName('non-existent-product')).rejects.toThrow('Not found');
+      await expect(getDataProductByShortName('non-existent-product')).rejects.toEqual(new Error('Not found'));
       vi.unstubAllEnvs();
     });
 
@@ -116,9 +115,7 @@ describe('datadoc data fetching', () => {
     it('mock api call happy path', async () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
-
       vi.spyOn(DataProductsApi.prototype, 'getDataProductByShortName').mockResolvedValue(testProduct);
-
       const result = await getDataProductByShortName(shortName);
       expect(result).toEqual(testProduct);
     });
@@ -148,10 +145,8 @@ describe('datadoc data fetching', () => {
     it('mock api call happy path', async () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
-
       const mockResult = [testDataset];
       vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue(mockResult);
-
       const result = await listDatasetsByProductShortName(shortName);
       expect(result).toEqual(mockResult);
     });
@@ -176,16 +171,31 @@ describe('datadoc data fetching', () => {
 
       vi.unstubAllEnvs();
     });
+  });
+
+  describe('listDatasets', () => {
+    const staticDatasets = datasetsStatic as DatasetDTO[];
+    const testDataset = staticDatasets[0];
+    assert(testDataset);
+
+    it('static data', async () => {
+      vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
+      await expect(listDatasets()).resolves.toContainEqual(testDataset);
+      vi.unstubAllEnvs();
+    });
+
+    it('no token available', async () => {
+      process.env.DATADOC_USE_STATIC_DATA = 'false';
+      vi.mocked(getEncodedJwt).mockResolvedValue(undefined);
+      await expect(listDatasets()).rejects.toEqual(new Error('Could not retrieve access token!'));
+    });
 
     it('mock api call happy path', async () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
-
-      const mockResult = [{ file_path: 'gs://bucket/file.parquet' }] as DaplaDataFileDTO[];
-      vi.spyOn(DataFilesApi.prototype, 'listDataFiles').mockResolvedValue(mockResult);
-
-      const result = await listDataFilesByDatasetId('id1');
-      expect(result).toEqual(mockResult);
+      vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue(staticDatasets);
+      const result = await listDatasets();
+      expect(result).toEqual(staticDatasets);
     });
   });
 });

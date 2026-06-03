@@ -12,7 +12,9 @@ export const metadata: Metadata = {
 export default async function Classifications() {
   const pageInfo = (
     <Alert data-color='info'>
-      <Heading level={2}>{localization.info.classificationsPrototypeIntro}</Heading>
+      <Heading className='infoHeadingSecondary' level={2}>
+        {localization.info.classificationsPrototypeIntro}
+      </Heading>
       <Paragraph>
         {localization.info.classificationsPrototypeInfo}{' '}
         <ExternalLink href={'https://www.ssb.no/klass/'} linkText='ssb.no/klass' />

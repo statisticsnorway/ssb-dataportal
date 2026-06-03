@@ -42,7 +42,7 @@ export const DataProductSearchHit = ({ dataProduct }: DataProductSearchHitProps)
     <Card data-testid='data-product-search-card'>
       <Heading data-size='md' className={styles.dataProductHeadingLink}>
         <HeadingLink href={dataProductRoute}>
-          <span className='heading12'>{dataProduct.title ?? dataProduct.product_short_name}</span>
+          <span className='primaryHeading'>{dataProduct.title ?? dataProduct.product_short_name}</span>
         </HeadingLink>
       </Heading>
       {<Tag> {localizeDataProductType(dataProduct.product_type)}</Tag>}

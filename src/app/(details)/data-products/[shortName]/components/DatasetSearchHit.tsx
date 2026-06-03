@@ -24,9 +24,9 @@ export const DatasetSearchHit = ({ dataset }: DatasetSearchHitProps) => {
 
   return (
     <Card data-testid='dataset-search-card'>
-      <Heading data-size='md' className={styles.dataProductHeadingLink}>
+      <Heading data-size='md' level={2} className={`${styles.dataProductHeadingLink} secondaryHeading`}>
         <HeadingLink href={route}>
-          <span className='heading12'>{dataset.short_description ?? dataset.id}</span>
+          <span>{dataset.short_description ?? dataset.id}</span>
         </HeadingLink>
       </Heading>
       <div className={styles.tagsList}>
