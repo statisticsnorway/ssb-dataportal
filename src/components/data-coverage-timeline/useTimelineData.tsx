@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { type DaplaDataFileDTO, PeriodFormat } from '@/libs/data-access/datadoc';
+import { clientLogger } from '@/libs/logger/client-logger';
 import { generateYearSlots } from './periodDefs';
 import { type Slot, type TimelineItem } from './types';
 
@@ -56,8 +57,6 @@ const parseItems = (data: DaplaDataFileDTO[]): TimelineItem[] =>
     })
     .sort((a, b) => a.start.getTime() - b.start.getTime());
 
-  const toDateOnly = (date: Date): string => date.toISOString().slice(0, 10);
-
 /**
  * Returns `true` if the items span more than one distinct `periodType`.
  *
@@ -73,29 +72,8 @@ const hasMixedPeriodTypes = (items: TimelineItem[]): boolean => new Set(items.ma
  *
  * @param items - Parsed and sorted timeline items.
  */
-const hasOverlappingPeriods = (items: TimelineItem[]): boolean => {
-  return items.some((item, i) => {
-    if (i === 0) {
-      return false;
-    }
-
-    const previous = items[i - 1]!;
-
-    console.log('Comparing periods', {
-      current: {
-        start: toDateOnly(item.start),
-        end: toDateOnly(item.end),
-      },
-      previous: {
-        start: toDateOnly(previous.start),
-        end: toDateOnly(previous.end),
-      },
-      overlaps: item.start < previous.end,
-    });
-
-    return item.start < previous.end;
-  });
-};
+const hasOverlappingPeriods = (items: TimelineItem[]): boolean =>
+  items.some((item, i) => i > 0 && item.start < items[i - 1]!.end);
 
 const hasSupportedPeriodType = (periodType: PeriodFormat): boolean => generateYearSlots(2000, periodType).length > 0;
 
@@ -154,25 +132,25 @@ export const useTimelineData = (
 } => {
   return useMemo(() => {
     if (data.length === 0) {
-      console.log('Timeline hidden reason: no data');
+      clientLogger.warn('Timeline hidden reason: no data');
       return empty;
     }
     const items = parseItems(data);
     if (items.length === 0) {
-      console.log('Timeline hidden reason: no valid timeline items');
+      clientLogger.warn('Timeline hidden reason: no valid timeline items');
       return empty;
     }
     if (hasMixedPeriodTypes(items)) {
-      console.log('Timeline hidden reason: mixed period types');
+      clientLogger.warn('Timeline hidden reason: mixed period types');
       return empty;
     }
     if (hasOverlappingPeriods(items)) {
-      console.log('Timeline hidden reason: overlapping periods');
+      clientLogger.warn('Timeline hidden reason: overlapping periods');
       return empty;
     }
     const periodType = items[0]!.periodType;
     if (!hasSupportedPeriodType(periodType)) {
-      console.log(`Timeline hidden reason: unsupported period type (${periodType})`);
+      clientLogger.warn(`Timeline hidden reason: unsupported period type (${periodType})`);
       return empty;
     }
     const { years, slots } = buildYearSlots(items, periodType);
