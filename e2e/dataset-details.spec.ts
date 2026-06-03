@@ -2,8 +2,8 @@ import { test, expect } from '@playwright/test';
 import { tabsData } from '@/app/(services)/tabs';
 
 const route = tabsData.DataProducts.route;
-const EXAMPLE_DATASET = `${route}/ameld/datasets/ds-2`;
-const DATA_FILE_NAME_VIOLATES_NAMING_STANDARD = 'skjema_forelopig';
+const EXAMPLE_DATASET = `${route}/arblonn/datasets/id7`;
+const DATA_FILE_NAME_VIOLATES_NAMING_STANDARD = 'invalid.parquet';
 
 test.describe('unauthenticated', () => {
   test.beforeEach(async ({}, testInfo) => {

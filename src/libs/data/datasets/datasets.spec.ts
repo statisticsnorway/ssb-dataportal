@@ -106,7 +106,7 @@ describe('datadoc data fetching', () => {
 
     it('static data - not found', async () => {
       vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
-      await expect(getDataProductByShortName('non-existent-product')).rejects.toEqual(new Error('Not found'));
+      await expect(getDataProductByShortName('non-existent-product')).rejects.toMatchObject({ message: 'Not found' });
       vi.unstubAllEnvs();
     });
 

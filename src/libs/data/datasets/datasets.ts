@@ -109,7 +109,7 @@ export async function getDataProductByShortName(shortName: string): Promise<Data
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'getDataProductByShortName' }, 'Using static mock data for data products');
     const dataProduct = staticDataProducts.find((d) => d.product_short_name === shortName);
-    if (!dataProduct) return Promise.reject('Not found');
+    if (!dataProduct) throw new ResponseError(new Response(null, { status: 404 }), 'Not found');
     return dataProduct;
   }
   try {
