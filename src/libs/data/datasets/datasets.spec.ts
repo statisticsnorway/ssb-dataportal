@@ -2,13 +2,20 @@ import assert from 'assert';
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getEncodedJwt } from '@/libs/auth/jwt';
 import { getM2mToken } from '@/libs/auth/m2m';
-import { DataProductsApi, DatasetsApi } from '@/libs/data-access/datadoc';
-import { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
+import { DataFilesApi, DataProductsApi, DatasetsApi } from '@/libs/data-access/datadoc';
+import {
+  DaplaDataFileDTO,
+  DataProductDTO,
+  DataProductDTOFromJSON,
+  DatasetDTOFromJSON,
+} from '@/libs/data-access/datadoc/models';
+import dataFilesStatic from '@/static-data/data-files.json';
 import dataProducts from '@/static-data/data-products.json';
 import datasetsStatic from '@/static-data/datasets.json';
 import {
   getClientForApi,
   getDataProductByShortName,
+  listDataFilesByDatasetId,
   listDataProducts,
   listDatasetsByProductShortName,
 } from './datasets';
@@ -66,7 +73,7 @@ describe('datadoc data fetching', () => {
   describe('listDataProducts', () => {
     it('static data', async () => {
       vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
-      await expect(listDataProducts()).resolves.toContainEqual((dataProducts as DataProductDTO[])[0]);
+      await expect(listDataProducts()).resolves.toContainEqual(DataProductDTOFromJSON(dataProducts[0]));
       vi.unstubAllEnvs();
     });
 
@@ -88,8 +95,7 @@ describe('datadoc data fetching', () => {
   });
 
   describe('getDataProductByShortName', () => {
-    const staticProducts = dataProducts as DataProductDTO[];
-    const testProduct = staticProducts[0];
+    const testProduct = DataProductDTOFromJSON(dataProducts[0]);
     assert(testProduct);
     const shortName = testProduct.product_short_name;
     assert(shortName);
@@ -124,8 +130,7 @@ describe('datadoc data fetching', () => {
   });
 
   describe('listDatasetsByProductShortName', () => {
-    const staticDatasets = datasetsStatic as DatasetDTO[];
-    const testDataset = staticDatasets[1];
+    const testDataset = DatasetDTOFromJSON(datasetsStatic[1]);
     assert(testDataset);
     const shortName = testDataset.product_short_name;
     assert(shortName);
@@ -152,6 +157,42 @@ describe('datadoc data fetching', () => {
       vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue(mockResult);
 
       const result = await listDatasetsByProductShortName(shortName);
+      expect(result).toEqual(mockResult);
+    });
+  });
+
+  describe('listDataFilesByDatasetId', () => {
+    const testDataFile = dataFilesStatic[0];
+    assert(testDataFile);
+
+    it('static data converts date strings to Date instances', async () => {
+      vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
+
+      const result = await listDataFilesByDatasetId('unused-with-static-data');
+      const firstMatch = result.find((dataFile) => dataFile.file_path === testDataFile.file_path);
+
+      expect(firstMatch).toBeDefined();
+      expect(firstMatch?.contains_data_from).toBeInstanceOf(Date);
+      expect(firstMatch?.contains_data_until).toBeInstanceOf(Date);
+      expect(firstMatch?.contains_data_from?.toISOString()).toEqual('2024-01-01T00:00:00.000Z');
+      expect(firstMatch?.contains_data_until?.toISOString()).toEqual('2024-03-31T23:59:59.000Z');
+
+      vi.unstubAllEnvs();
+    });
+
+    it('mock api call happy path', async () => {
+      process.env.DATADOC_USE_STATIC_DATA = 'false';
+      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
+
+      const mockResult = [
+        {
+          file_path: 'gs://bucket/path/file.parquet',
+          naming_standard_violations: [],
+        } as DaplaDataFileDTO,
+      ];
+      vi.spyOn(DataFilesApi.prototype, 'listDataFiles').mockResolvedValue(mockResult);
+
+      const result = await listDataFilesByDatasetId('dataset-id');
       expect(result).toEqual(mockResult);
     });
   });

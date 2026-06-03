@@ -11,14 +11,25 @@ import {
 } from '@/libs/data-access/datadoc';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger, createLoggerWithBindings } from '@/libs/logger/server-logger';
-import dataProducts from '@/static-data/data-products.json';
+import dataFilesStatic from '@/static-data/data-files.json';
+import dataProductsStatic from '@/static-data/data-products.json';
 import datasetsStatic from '@/static-data/datasets.json';
 import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
-import { DaplaDataFileDTO, DataProductDTO, DatasetDTO } from '../../data-access/datadoc/models';
+import {
+  DaplaDataFileDTO,
+  DaplaDataFileDTOFromJSON,
+  DataProductDTO,
+  DataProductDTOFromJSON,
+  DatasetDTO,
+  DatasetDTOFromJSON,
+} from '../../data-access/datadoc/models';
 import { Configuration, ConfigurationParameters, ResponseError } from '../../data-access/datadoc/runtime';
 
 const ttlSeconds = Number(process.env.DATADOC_CACHE_TTL_SECONDS) || 3600;
+const staticDataFiles = dataFilesStatic.map((dataFile) => DaplaDataFileDTOFromJSON(dataFile));
+const staticDataProducts = dataProductsStatic.map((dataProduct) => DataProductDTOFromJSON(dataProduct));
+const staticDatasets = datasetsStatic.map((dataset) => DatasetDTOFromJSON(dataset));
 
 type Apis = DataProductsApiInterface | DatasetsApiInterface | DataFilesApiInterface;
 
@@ -60,7 +71,7 @@ export async function listDataProducts(): Promise<DataProductDTO[]> {
   logger.info('List Data Products');
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'listDataProducts' }, 'Using static mock data for data products');
-    return dataProducts as DataProductDTO[];
+    return staticDataProducts;
   }
 
   try {
@@ -91,7 +102,7 @@ export async function getDataProductByShortName(shortName: string): Promise<Data
   const logger = createLogger('data-products');
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'getDataProductByShortName' }, 'Using static mock data for data products');
-    const dataProduct = (dataProducts as DataProductDTO[]).find((d) => d.product_short_name === shortName);
+    const dataProduct = staticDataProducts.find((d) => d.product_short_name === shortName);
     if (!dataProduct) return Promise.reject('Not found');
     return dataProduct;
   }
@@ -116,7 +127,7 @@ export async function listDatasetsByProductShortName(shortName: string): Promise
   logger.info({ shortName }, 'List datasets for product');
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'listDatasetsByProductShortName' }, 'Using static mock data for datasets');
-    return (datasetsStatic as DatasetDTO[]).filter((d) => d.product_short_name === shortName);
+    return staticDatasets.filter((d) => d.product_short_name === shortName);
   }
 
   try {
@@ -141,6 +152,14 @@ export async function listDatasetsByProductShortName(shortName: string): Promise
 
 export async function getDatasetById(id: string): Promise<DatasetDTO> {
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'getDatasetById', id: id });
+  if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
+    logger.warn({ fn: 'getDatasetById' }, 'Using static mock data for datasets');
+    let dataset = staticDatasets.find((dataset) => dataset.id === id);
+    if (dataset === undefined) {
+      throw new ResponseError(new Response(null, { status: 404 }));
+    }
+    return dataset;
+  }
   try {
     const api = await getClientForApi(DatasetsApi);
     const dto = await api.getDatasetById({ id: id });
@@ -158,6 +177,11 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
 
 export async function listDataFilesByDatasetId(datasetId: string): Promise<Array<DaplaDataFileDTO>> {
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'listDataFilesByDatasetId', id: datasetId });
+
+  if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
+    logger.warn({ fn: 'listDataFilesByDatasetId' }, 'Using static mock data for data files');
+    return staticDataFiles;
+  }
   try {
     const api = await getClientForApi(DataFilesApi);
     const dto = await api.listDataFiles({ datasetId: datasetId });
