@@ -71,8 +71,29 @@ const hasMixedPeriodTypes = (items: TimelineItem[]): boolean => new Set(items.ma
  *
  * @param items - Parsed and sorted timeline items.
  */
-const hasOverlappingPeriods = (items: TimelineItem[]): boolean =>
-  items.some((item, i) => i > 0 && item.start <= items[i - 1]!.end);
+const hasOverlappingPeriods = (items: TimelineItem[]): boolean => {
+  return items.some((item, i) => {
+    if (i === 0) {
+      return false;
+    }
+
+    const previous = items[i - 1]!;
+
+    console.log("Comparing periods", {
+      current: {
+        start: item.start,
+        end: item.end,
+      },
+      previous: {
+        start: previous.start,
+        end: previous.end,
+      },
+      overlaps: item.start <= previous.end,
+    });
+
+    return item.start <= previous.end;
+  });
+};
 
 const hasSupportedPeriodType = (periodType: PeriodFormat): boolean => generateYearSlots(2000, periodType).length > 0;
 
