@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { type DaplaDataFileDTO, PeriodFormat } from '@/libs/data-access/datadoc';
-import { clientLogger } from '@/libs/logger/client-logger';
 import { generateYearSlots } from './periodDefs';
 import { type Slot, type TimelineItem } from './types';
 
@@ -132,25 +131,25 @@ export const useTimelineData = (
 } => {
   return useMemo(() => {
     if (data.length === 0) {
-      clientLogger.warn('Timeline hidden reason: no data');
+      console.log('Timeline hidden reason: no data');
       return empty;
     }
     const items = parseItems(data);
     if (items.length === 0) {
-      clientLogger.warn('Timeline hidden reason: no valid timeline items');
+      console.log('Timeline hidden reason: no valid timeline items');
       return empty;
     }
     if (hasMixedPeriodTypes(items)) {
-      clientLogger.warn('Timeline hidden reason: mixed period types');
+      console.log('Timeline hidden reason: mixed period types');
       return empty;
     }
     if (hasOverlappingPeriods(items)) {
-      clientLogger.warn('Timeline hidden reason: overlapping periods');
+      console.log('Timeline hidden reason: overlapping periods');
       return empty;
     }
     const periodType = items[0]!.periodType;
     if (!hasSupportedPeriodType(periodType)) {
-      clientLogger.warn(`Timeline hidden reason: unsupported period type (${periodType})`);
+      console.log(`Timeline hidden reason: unsupported period type (${periodType})`);
       return empty;
     }
     const { years, slots } = buildYearSlots(items, periodType);
