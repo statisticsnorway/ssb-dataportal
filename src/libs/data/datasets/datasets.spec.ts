@@ -2,13 +2,16 @@ import assert from 'assert';
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getEncodedJwt } from '@/libs/auth/jwt';
 import { getM2mToken } from '@/libs/auth/m2m';
-import { DataFilesApi, DataProductsApi, DatasetsApi } from '@/libs/data-access/datadoc';
 import {
   DaplaDataFileDTO,
+  DataFilesApi,
   DataProductDTO,
   DataProductDTOFromJSON,
+  DataProductsApi,
+  DatasetDTO,
   DatasetDTOFromJSON,
-} from '@/libs/data-access/datadoc/models';
+  DatasetsApi,
+} from '@/libs/data-access/datadoc';
 import dataProducts from '@/static-data/data-products.json';
 import datasetsStatic from '@/static-data/datasets.json';
 import {
