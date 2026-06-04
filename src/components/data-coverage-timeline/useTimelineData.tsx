@@ -42,7 +42,16 @@ const parseDay = (value: string | Date | undefined | null): string | null => {
 
   if (value instanceof Date) {
     if (Number.isNaN(value.getTime())) return null;
-    return `${value.getFullYear()}-${pad2(value.getMonth() + 1)}-${pad2(value.getDate())}`;
+
+    const utcDay = value.toISOString().slice(0, 10);
+    const localDay = `${value.getFullYear()}-${pad2(value.getMonth() + 1)}-${pad2(value.getDate())}`;
+
+    // If a Date came from a timezone-less local midnight string (e.g. "YYYY-MM-DDT00:00:00"),
+    // UTC conversion may move it to the previous day in positive-offset timezones.
+    const isLocalMidnight =
+      value.getHours() === 0 && value.getMinutes() === 0 && value.getSeconds() === 0 && value.getMilliseconds() === 0;
+
+    return isLocalMidnight && utcDay < localDay ? localDay : utcDay;
   }
 
   const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(value);

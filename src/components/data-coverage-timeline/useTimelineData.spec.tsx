@@ -176,4 +176,21 @@ describe('useTimelineData', () => {
     expect(result.current.items[0]?.start).toBe('2018-01-01');
     expect(result.current.items[0]?.end).toBe('2019-12-31');
   });
+
+  it('uses UTC day when Date local time is shifted into next day', () => {
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_2018_2019.parquet',
+        from: new Date('2018-01-01T00:00:00Z'),
+        until: new Date('2019-12-31T23:59:59Z'),
+        periodType: PeriodFormat.YEAR,
+      }),
+    ];
+
+    const { result } = renderHook(() => useTimelineData(data));
+
+    expect(result.current.isValid).toBe(true);
+    expect(result.current.items[0]?.start).toBe('2018-01-01');
+    expect(result.current.items[0]?.end).toBe('2019-12-31');
+  });
 });
