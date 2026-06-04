@@ -12,6 +12,9 @@ const empty = {
   slots: {} as Record<number, Slot[]>,
 };
 
+/**
+ * Padding of dates to ensure proper sorting
+ */
 const pad2 = (value: number): string => String(value).padStart(2, '0');
 
 /**
