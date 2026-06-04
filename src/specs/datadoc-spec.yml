@@ -434,6 +434,11 @@ components:
           type: string
           description: The presentation title of this product.
           nullable: true
+        subject_code:
+          type: string
+          description: The subject area this product is categorized within. Defined
+            by codes in Level 2 of https://www.ssb.no/klass/klassifikasjoner/618
+          nullable: true
       description: Data Product
     DataProductType:
       type: string

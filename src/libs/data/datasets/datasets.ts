@@ -11,19 +11,24 @@ import {
   DataFilesApi,
   DataFilesApiInterface,
   DataProductDTO,
+  DataProductDTOFromJSON,
   DataProductsApi,
   DataProductsApiInterface,
   DatasetDTO,
+  DatasetDTOFromJSON,
   DatasetsApi,
   DatasetsApiInterface,
   ResponseError,
 } from '@/libs/data-access/datadoc';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger, createLoggerWithBindings } from '@/libs/logger/server-logger';
-import dataProducts from '@/static-data/data-products.json';
+import dataProductsStatic from '@/static-data/data-products.json';
 import datasetsStatic from '@/static-data/datasets.json';
 import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
+
+const staticDataProducts = dataProductsStatic.map((dataProduct) => DataProductDTOFromJSON(dataProduct));
+const staticDatasets = datasetsStatic.map((dataset) => DatasetDTOFromJSON(dataset));
 
 const ttlSeconds = Number(process.env.DATADOC_CACHE_TTL_SECONDS) || 3600;
 const dataDocFetchOptions = {
@@ -81,7 +86,7 @@ export async function listDataProducts(): Promise<DataProductDTO[]> {
   logger.info('List Data Products');
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'listDataProducts' }, 'Using static mock data for data products');
-    return dataProducts as DataProductDTO[];
+    return staticDataProducts;
   }
   try {
     logger.info('Getting from api');
@@ -103,8 +108,8 @@ export async function getDataProductByShortName(shortName: string): Promise<Data
   const logger = createLogger('data-products');
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'getDataProductByShortName' }, 'Using static mock data for data products');
-    const dataProduct = (dataProducts as DataProductDTO[]).find((d) => d.product_short_name === shortName);
-    if (!dataProduct) throw new Error('Not found');
+    const dataProduct = staticDataProducts.find((d) => d.product_short_name === shortName);
+    if (!dataProduct) throw new ResponseError(new Response(null, { status: 404 }), 'Not found');
     return dataProduct;
   }
   try {
@@ -122,7 +127,7 @@ export async function listDatasetsByProductShortName(shortName: string): Promise
   logger.info({ shortName }, 'List datasets for product');
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'listDatasetsByProductShortName' }, 'Using static mock data for datasets');
-    return (datasetsStatic as DatasetDTO[]).filter((d) => d.product_short_name === shortName);
+    return staticDatasets.filter((d) => d.product_short_name === shortName);
   }
   try {
     const api = await getClientForApi(DatasetsApi);
@@ -159,11 +164,10 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'getDatasetById', id: id });
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'getDatasetById' }, 'Using static mock data for datasets');
-    const dataset = (datasetsStatic as DatasetDTO[]).find((d) => d.id === id);
-    if (!dataset) throw new Error('Not found');
+    let dataset = staticDatasets.find((dataset) => dataset.id === id);
+    if (!dataset) throw new ResponseError(new Response(null, { status: 404 }));
     return dataset;
   }
-
   try {
     const api = await getClientForApi(DatasetsApi);
     const dto = await api.getDatasetById({ id: id });
@@ -176,9 +180,10 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
 
 export async function listDataFilesByDatasetId(datasetId: string): Promise<Array<DaplaDataFileDTO>> {
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'listDataFilesByDatasetId', id: datasetId });
+
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'listDataFilesByDatasetId' }, 'Using static mock data for data files');
-    const datafilePath = join(process.cwd(), 'src', 'static-data', 'datafiles', `${datasetId}.json`);
+    const datafilePath = join(process.cwd(), 'src', 'static-data', 'data-files', `${datasetId}.json`);
     try {
       const rawData = await readFile(datafilePath, 'utf-8');
       const parsedData = JSON.parse(rawData) as unknown;

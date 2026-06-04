@@ -2,8 +2,16 @@ import assert from 'assert';
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getEncodedJwt } from '@/libs/auth/jwt';
 import { getM2mToken } from '@/libs/auth/m2m';
-import { DataProductsApi, DatasetsApi } from '@/libs/data-access/datadoc';
-import { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
+import {
+  DaplaDataFileDTO,
+  DataFilesApi,
+  DataProductDTO,
+  DataProductDTOFromJSON,
+  DataProductsApi,
+  DatasetDTO,
+  DatasetDTOFromJSON,
+  DatasetsApi,
+} from '@/libs/data-access/datadoc';
 import dataProducts from '@/static-data/data-products.json';
 import datasetsStatic from '@/static-data/datasets.json';
 import {
@@ -68,7 +76,7 @@ describe('datadoc data fetching', () => {
   describe('listDataProducts', () => {
     it('static data', async () => {
       vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
-      await expect(listDataProducts()).resolves.toContainEqual((dataProducts as DataProductDTO[])[0]);
+      await expect(listDataProducts()).resolves.toContainEqual(DataProductDTOFromJSON(dataProducts[0]));
       vi.unstubAllEnvs();
     });
 
@@ -88,8 +96,7 @@ describe('datadoc data fetching', () => {
   });
 
   describe('getDataProductByShortName', () => {
-    const staticProducts = dataProducts as DataProductDTO[];
-    const testProduct = staticProducts[0];
+    const testProduct = DataProductDTOFromJSON(dataProducts[0]);
     assert(testProduct);
     const shortName = testProduct.product_short_name;
     assert(shortName);
@@ -102,7 +109,7 @@ describe('datadoc data fetching', () => {
 
     it('static data - not found', async () => {
       vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
-      await expect(getDataProductByShortName('non-existent-product')).rejects.toEqual(new Error('Not found'));
+      await expect(getDataProductByShortName('non-existent-product')).rejects.toMatchObject({ message: 'Not found' });
       vi.unstubAllEnvs();
     });
 
@@ -122,8 +129,7 @@ describe('datadoc data fetching', () => {
   });
 
   describe('listDatasetsByProductShortName', () => {
-    const staticDatasets = datasetsStatic as DatasetDTO[];
-    const testDataset = staticDatasets[1];
+    const testDataset = DatasetDTOFromJSON(datasetsStatic[1]);
     assert(testDataset);
     const shortName = testDataset.product_short_name;
     assert(shortName);
@@ -164,6 +170,21 @@ describe('datadoc data fetching', () => {
       vi.unstubAllEnvs();
     });
 
+    it('mock api call happy path', async () => {
+      process.env.DATADOC_USE_STATIC_DATA = 'false';
+      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
+
+      const mockResult = [
+        {
+          file_path: 'gs://bucket/path/file.parquet',
+          naming_standard_violations: [],
+        } as DaplaDataFileDTO,
+      ];
+      vi.spyOn(DataFilesApi.prototype, 'listDataFiles').mockResolvedValue(mockResult);
+
+      const result = await listDataFilesByDatasetId('dataset-id');
+      expect(result).toEqual(mockResult);
+    });
     it('static data returns empty array when no file exists', async () => {
       vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
 
