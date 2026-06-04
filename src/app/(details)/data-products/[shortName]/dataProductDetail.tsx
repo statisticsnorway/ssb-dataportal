@@ -1,19 +1,22 @@
 import { Heading } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
+import { useAuthContext } from '@/app/authContext';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
+import { listDataFilesByDatasetId } from '@/libs/data/datasets/datasets';
 import { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { DatasetSearchHit } from './components/DatasetSearchHit';
 import styles from './page.module.css';
 
-export default function DataProductDetail({
+export default async function DataProductDetail({
   dataProduct,
   datasets,
 }: {
   dataProduct: DataProductDTO;
   datasets: DatasetDTO[];
 }) {
+  const { isAuthenticated } = useAuthContext();
   return (
     <div className={`${styles.detailsPage} container`}>
       <DataportalBreadcrumbs
@@ -32,9 +35,11 @@ export default function DataProductDetail({
             Datasett
           </Heading>
           <div className={styles.datasetList}>
-            {datasets.map((d) => (
-              <DatasetSearchHit key={d.id ?? `${d.product_short_name}-${d.short_description}`} dataset={d} />
-            ))}
+            {datasets
+              .filter((d) => d.id && !isAuthenticated && listDataFilesByDatasetId(d.id))
+              .map((d) => (
+                <DatasetSearchHit key={d.id ?? `${d.product_short_name}-${d.short_description}`} dataset={d} />
+              ))}
           </div>
         </section>
       </main>
