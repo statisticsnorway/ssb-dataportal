@@ -2,7 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { type DaplaDataFileDTO, PeriodFormat } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language/src/localization';
-import DataCoverageTimeline from './dataCoverageTimeline';
+import DataCoverageTimeline, { slotOverlapsItem } from './dataCoverageTimeline';
+import { type Slot, type TimelineItem } from './types';
 
 type BuildDataFileInput = {
   filePath: string;
@@ -21,6 +22,23 @@ const buildDataFile = ({ filePath, from, until, periodType }: BuildDataFileInput
 });
 
 describe('DataCoverageTimeline', () => {
+  it('treats YEAR slot as covered when an item spans multiple years', () => {
+    const slot: Slot = {
+      start: new Date(Date.UTC(2019, 0, 1)),
+      end: new Date(Date.UTC(2019, 11, 31, 23, 59, 59, 999)),
+      label: localization.dataCoverageTimeline.labelFullYear,
+    };
+
+    const item: TimelineItem = {
+      filePath: 'gs://bucket/dataset/ufo-observasjoner_p2018_p2019_v1.parquet',
+      periodType: PeriodFormat.YEAR,
+      start: '2018-01-01',
+      end: '2019-12-31',
+    };
+
+    expect(slotOverlapsItem(slot, item)).toBe(true);
+  });
+
   it('renders monthly timeline with present and missing segments', () => {
     const data = [
       buildDataFile({
