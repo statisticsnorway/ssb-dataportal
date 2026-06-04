@@ -35,19 +35,24 @@ const parseDay = (value: string | Date | undefined | null): string | null => {
     if (Number.isNaN(value.getTime())) return null;
 
     const utcDay = value.toISOString().slice(0, 10);
-    const localDay = `${value.getFullYear()}-${pad2(value.getMonth() + 1)}-${pad2(value.getDate())}`;
 
-    // If a Date came from a timezone-less local midnight string (e.g. "YYYY-MM-DDT00:00:00"),
-    // UTC conversion may move it to the previous day in positive-offset timezones.
-    const isLocalMidnight =
-      value.getHours() === 0 && value.getMinutes() === 0 && value.getSeconds() === 0 && value.getMilliseconds() === 0;
+    // Dates parsed from timezone-less strings (e.g. "2024-03-15T00:00:00") are
+    // treated as local midnight. In positive-offset zones, UTC conversion shifts
+    // them to the previous day — return the local calendar date instead.
+    if (
+      value.getHours() === 0 &&
+      value.getMinutes() === 0 &&
+      value.getSeconds() === 0 &&
+      value.getMilliseconds() === 0
+    ) {
+      return `${value.getFullYear()}-${pad2(value.getMonth() + 1)}-${pad2(value.getDate())}`;
+    }
 
-    return isLocalMidnight && utcDay < localDay ? localDay : utcDay;
+    return utcDay;
   }
 
-  const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(value);
+  const match = /^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])/.exec(value);
   if (!match) return null;
-
   const [, y, m, d] = match;
   return `${y}-${m}-${d}`;
 };
