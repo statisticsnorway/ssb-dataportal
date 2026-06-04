@@ -8,6 +8,15 @@ import { useTimelineData } from './useTimelineData';
 
 const TOOLTIP_TEMPLATE = '{status}: {slotLabel} {year}';
 
+const isTimelineDebugEnabled = (): boolean =>
+  typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('timelineDebug') === '1';
+
+const timelineDebug = (message: string, details?: unknown): void => {
+  if (!isTimelineDebugEnabled()) return;
+  /* biome-ignore lint/suspicious/noConsole: opt-in troubleshooting logs for deployed timeline debugging */
+  console.info(`[timeline-debug] ${message}`, details);
+};
+
 /**
  * Replace `{key}` placeholders in `template` with the corresponding values.
  * Generic utility — not component-specific.
@@ -24,8 +33,19 @@ const toDayFromSlotDate = (date: Date): string => date.toISOString().slice(0, 10
 export const slotOverlapsItem = (slot: Slot, item: TimelineItem): boolean => {
   const slotStart = toDayFromSlotDate(slot.start);
   const slotEnd = toDayFromSlotDate(slot.end);
+  const overlaps = item.start <= slotEnd && item.end >= slotStart;
 
-  return item.start <= slotEnd && item.end >= slotStart;
+  if (overlaps && (slotStart.startsWith('2020-') || slotEnd.startsWith('2020-'))) {
+    timelineDebug('slot overlaps item', {
+      slotStart,
+      slotEnd,
+      itemStart: item.start,
+      itemEnd: item.end,
+      filePath: item.filePath,
+    });
+  }
+
+  return overlaps;
 };
 
 interface CellProps {

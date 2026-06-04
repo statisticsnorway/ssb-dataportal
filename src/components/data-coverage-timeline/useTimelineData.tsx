@@ -12,6 +12,15 @@ const empty = {
   slots: {} as Record<number, Slot[]>,
 };
 
+const isTimelineDebugEnabled = (): boolean =>
+  typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('timelineDebug') === '1';
+
+const timelineDebug = (message: string, details?: unknown): void => {
+  if (!isTimelineDebugEnabled()) return;
+  /* biome-ignore lint/suspicious/noConsole: opt-in troubleshooting logs for deployed timeline debugging */
+  console.info(`[timeline-debug] ${message}`, details);
+};
+
 const pad2 = (value: number): string => String(value).padStart(2, '0');
 
 /**
@@ -57,6 +66,14 @@ const parseItems = (data: DaplaDataFileDTO[]): TimelineItem[] =>
     .flatMap(({ file_path, contains_data_from, contains_data_until, period_type }) => {
       const start = parseDay(contains_data_from);
       const end = parseDay(contains_data_until);
+      timelineDebug('parse item', {
+        filePath: file_path,
+        rawFrom: contains_data_from instanceof Date ? contains_data_from.toString() : contains_data_from,
+        rawUntil: contains_data_until instanceof Date ? contains_data_until.toString() : contains_data_until,
+        parsedFrom: start,
+        parsedUntil: end,
+        periodType: period_type,
+      });
       if (!start || !end || !period_type) return [];
       return [{ filePath: file_path, periodType: period_type, start, end }];
     })
@@ -136,11 +153,25 @@ export const useTimelineData = (
   slots: Record<number, Slot[]>;
 } => {
   return useMemo(() => {
+    timelineDebug('received timeline data', {
+      count: data.length,
+      sample: data.slice(0, 5).map((d) => ({
+        filePath: d.file_path,
+        from: d.contains_data_from instanceof Date ? d.contains_data_from.toString() : d.contains_data_from,
+        until: d.contains_data_until instanceof Date ? d.contains_data_until.toString() : d.contains_data_until,
+        periodType: d.period_type,
+      })),
+    });
+
     if (data.length === 0) {
       clientLogger.warn('Timeline hidden reason: no data');
       return empty;
     }
     const items = parseItems(data);
+    timelineDebug('parsed timeline items', {
+      items,
+      covers2020: items.filter((item) => item.start <= '2020-12-31' && item.end >= '2020-01-01'),
+    });
     if (items.length === 0) {
       clientLogger.warn('Timeline hidden reason: no valid timeline items');
       return empty;
@@ -159,6 +190,7 @@ export const useTimelineData = (
       return empty;
     }
     const { years, slots } = buildYearSlots(items, periodType);
+    timelineDebug('built timeline structure', { periodType, years });
     return { isValid: true as const, periodType, items, years, slots };
   }, [data]);
 };
