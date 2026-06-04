@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { type DaplaDataFileDTO, PeriodFormat } from '@/libs/data-access/datadoc';
 import { clientLogger } from '@/libs/logger/client-logger';
-import { generateYearSlots } from './periodDefs';
+import { generateYearSlots } from './periodDefinitions';
 import { type Slot, type TimelineItem } from './types';
 import { pad2 } from './utils';
 
