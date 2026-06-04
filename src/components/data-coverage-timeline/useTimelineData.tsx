@@ -20,41 +20,25 @@ const pad2 = (value: number): string => String(value).padStart(2, '0');
  * We strip the time component entirely because we only care about day-level
  * semantics in the timeline, never the time within that day.
  *
- * If a pre-parsed `Date` object arrives, we read its local calendar day. The API currently
- * sends timezone-less datetimes, so these values represent floating calendar days rather
- * than absolute UTC instants.
+ * The API currently sends timezone-less datetimes, so Date objects represent
+ * floating calendar days rather than absolute UTC instants. We therefore read
+ * the local calendar day, not the UTC day.
  *
- * @param value - A date string in `YYYY-MM-DD` (or `YYYY-MM-DDTHH:mm:ss`) format, a `Date`
- *   object, or a nullish value.
- * @returns A date-only key string (`YYYY-MM-DD`) or `null` if input is missing/unparseable.
+ * @param value - A `Date` object, or null or undefined.
+ * @returns A date-only key string (`YYYY-MM-DD`), or `null` if the input is missing or invalid.
  */
-const parseDay = (value: string | Date | undefined | null): string | null => {
+const parseDay = (value: Date | undefined | null): string | null => {
   if (!value) return null;
+  if (Number.isNaN(value.getTime())) return null;
 
-  if (value instanceof Date) {
-    if (Number.isNaN(value.getTime())) return null;
-
-    const utcDay = value.toISOString().slice(0, 10);
-
-    // Dates parsed from timezone-less strings (e.g. "2024-03-15T00:00:00") are
-    // treated as local midnight. In positive-offset zones, UTC conversion shifts
-    // them to the previous day — return the local calendar date instead.
-    if (
-      value.getHours() === 0 &&
-      value.getMinutes() === 0 &&
-      value.getSeconds() === 0 &&
-      value.getMilliseconds() === 0
-    ) {
-      return `${value.getFullYear()}-${pad2(value.getMonth() + 1)}-${pad2(value.getDate())}`;
-    }
-
-    return utcDay;
+  // Dates parsed from timezone-less strings (e.g. "2024-03-15T00:00:00") are
+  // treated as local midnight. In positive-offset zones, UTC conversion shifts
+  // them to the previous day — return the local calendar date instead.
+  if (value.getHours() === 0 && value.getMinutes() === 0 && value.getSeconds() === 0 && value.getMilliseconds() === 0) {
+    return `${value.getFullYear()}-${pad2(value.getMonth() + 1)}-${pad2(value.getDate())}`;
   }
 
-  const match = /^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])/.exec(value);
-  if (!match) return null;
-  const [, y, m, d] = match;
-  return `${y}-${m}-${d}`;
+  return value.toISOString().slice(0, 10);
 };
 
 /**
