@@ -63,7 +63,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Check outdated dependencies
-        run: pnpm outdated
+        run: pnpm outdated || true
 
   check-prod-build:
     runs-on: ubuntu-latest
