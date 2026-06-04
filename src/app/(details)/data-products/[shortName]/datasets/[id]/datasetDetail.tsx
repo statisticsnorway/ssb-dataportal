@@ -2,7 +2,6 @@
 
 import { Card, Divider, Heading, Tag } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
-import { useAuthContext } from '@/app/authContext';
 import DataCoverageTimeline from '@/components/data-coverage-timeline/dataCoverageTimeline';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { DetailsTable } from '@/components/details-list';
@@ -22,11 +21,11 @@ export default function DatasetDetail({
   dataset: DatasetDTO;
   dataFiles: Array<DaplaDataFileDTO>;
 }>) {
-  const { isAuthenticated } = useAuthContext();
+  //const { isAuthenticated } = useAuthContext();
 
-  if (!isAuthenticated) {
-    dataFiles = dataFiles.filter((df) => df.naming_standard_violations.length === 0);
-  }
+  // if (!isAuthenticated) {
+  //   dataFiles = dataFiles.filter((df) => df.naming_standard_violations.length === 0);
+  // }
 
   return (
     <div className={`${styles.detailsPage} container`}>
