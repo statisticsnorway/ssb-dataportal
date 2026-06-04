@@ -12,9 +12,6 @@ const empty = {
   slots: {} as Record<number, Slot[]>,
 };
 
-/**
- * Padding of dates to ensure proper sorting
- */
 const pad2 = (value: number): string => String(value).padStart(2, '0');
 
 /**
@@ -23,9 +20,9 @@ const pad2 = (value: number): string => String(value).padStart(2, '0');
  * We strip the time component entirely because we only care about day-level
  * semantics in the timeline, never the time within that day.
  *
- * If a pre-parsed `Date` object arrives (already shifted), we recover the correct calendar
- * date using local getters (`getFullYear`/`getMonth`/`getDate`), which still reflect the
- * intended date even though the UTC timestamp is wrong.
+ * If a pre-parsed `Date` object arrives, we read its local calendar day. The API currently
+ * sends timezone-less datetimes, so these values represent floating calendar days rather
+ * than absolute UTC instants.
  *
  * @param value - A date string in `YYYY-MM-DD` (or `YYYY-MM-DDTHH:mm:ss`) format, a `Date`
  *   object, or a nullish value.
@@ -35,6 +32,7 @@ const parseDay = (value: string | Date | undefined | null): string | null => {
   if (!value) return null;
 
   if (value instanceof Date) {
+    if (Number.isNaN(value.getTime())) return null;
     return `${value.getFullYear()}-${pad2(value.getMonth() + 1)}-${pad2(value.getDate())}`;
   }
 

@@ -136,4 +136,44 @@ describe('useTimelineData', () => {
     expect(result.current.slots[2023]).toHaveLength(12);
     expect(result.current.slots[2024]).toHaveLength(12);
   });
+
+  it('normalizes timezone-aware Date boundaries to UTC day keys', () => {
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_2018_2019.parquet',
+        from: new Date('2018-01-01T00:00:00Z'),
+        until: new Date('2019-12-31T23:59:59Z'),
+        periodType: PeriodFormat.YEAR,
+      }),
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_2021.parquet',
+        from: new Date('2021-01-01T00:00:00Z'),
+        until: new Date('2021-12-31T23:59:59Z'),
+        periodType: PeriodFormat.YEAR,
+      }),
+    ];
+
+    const { result } = renderHook(() => useTimelineData(data));
+
+    expect(result.current.isValid).toBe(true);
+    expect(result.current.items[0]?.end).toBe('2019-12-31');
+    expect(result.current.years).toEqual([2018, 2019, 2020, 2021]);
+  });
+
+  it('keeps local calendar day for timezone-less Date values', () => {
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_2018_2019.parquet',
+        from: new Date(2018, 0, 1, 0, 0, 0),
+        until: new Date(2019, 11, 31, 23, 59, 59),
+        periodType: PeriodFormat.YEAR,
+      }),
+    ];
+
+    const { result } = renderHook(() => useTimelineData(data));
+
+    expect(result.current.isValid).toBe(true);
+    expect(result.current.items[0]?.start).toBe('2018-01-01');
+    expect(result.current.items[0]?.end).toBe('2019-12-31');
+  });
 });
