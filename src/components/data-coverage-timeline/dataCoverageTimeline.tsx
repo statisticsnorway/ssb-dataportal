@@ -19,14 +19,8 @@ const TOOLTIP_TEMPLATE = '{status}: {slotLabel} {year}';
 export const formatTemplate = (template: string, values: Record<string, string | number>): string =>
   Object.entries(values).reduce((result, [key, value]) => result.replaceAll(`{${key}}`, String(value)), template);
 
-const toDayFromSlotDate = (date: Date): string => date.toISOString().slice(0, 10);
-
-export const slotOverlapsItem = (slot: Slot, item: TimelineItem): boolean => {
-  const slotStart = toDayFromSlotDate(slot.start);
-  const slotEnd = toDayFromSlotDate(slot.end);
-
-  return item.start <= slotEnd && item.end >= slotStart;
-};
+export const slotOverlapsItem = (slot: Slot, item: TimelineItem): boolean =>
+  item.start <= slot.end && item.end >= slot.start;
 
 interface CellProps {
   slot: Slot;

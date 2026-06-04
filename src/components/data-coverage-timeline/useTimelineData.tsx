@@ -3,6 +3,7 @@ import { type DaplaDataFileDTO, PeriodFormat } from '@/libs/data-access/datadoc'
 import { clientLogger } from '@/libs/logger/client-logger';
 import { generateYearSlots } from './periodDefs';
 import { type Slot, type TimelineItem } from './types';
+import { pad2 } from './utils';
 
 const empty = {
   isValid: false as const,
@@ -11,8 +12,6 @@ const empty = {
   years: [] as number[],
   slots: {} as Record<number, Slot[]>,
 };
-
-const pad2 = (value: number): string => String(value).padStart(2, '0');
 
 /**
  * Parses a backend date value into a date-only string (`YYYY-MM-DD`).
@@ -102,7 +101,7 @@ const buildYearSlots = (
   periodType: PeriodFormat,
 ): { years: number[]; slots: Record<number, Slot[]> } => {
   const minYear = Number(items.at(0)!.start.slice(0, 4));
-  const maxYear = Number(items.at(-1)!.start.slice(0, 4));
+  const maxYear = Number(items.at(-1)!.end.slice(0, 4));
   const years = Array.from({ length: maxYear - minYear + 1 }, (_, i) => minYear + i);
   const slots = Object.fromEntries(years.map((year) => [year, generateYearSlots(year, periodType)]));
   return { years, slots };

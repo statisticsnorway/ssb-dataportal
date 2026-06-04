@@ -23,18 +23,16 @@ const buildDataFile = ({ filePath, from, until, periodType }: BuildDataFileInput
 describe('DataCoverageTimeline', () => {
   it('treats YEAR slot as covered when an item spans multiple years', () => {
     const slot: Slot = {
-      start: new Date(Date.UTC(2019, 0, 1)),
-      end: new Date(Date.UTC(2019, 11, 31, 23, 59, 59, 999)),
+      start: '2019-01-01',
+      end: '2019-12-31',
       label: localization.dataCoverageTimeline.labelFullYear,
     };
-
     const item: TimelineItem = {
       filePath: 'gs://bucket/dataset/ufo-observasjoner_p2018_p2019_v1.parquet',
       periodType: PeriodFormat.YEAR,
       start: '2018-01-01',
       end: '2019-12-31',
     };
-
     expect(slotOverlapsItem(slot, item)).toBe(true);
   });
 

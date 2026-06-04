@@ -8,8 +8,8 @@ export type TimelineItem = {
 };
 
 export type Slot = {
-  start: Date;
-  end: Date;
+  start: string;
+  end: string;
   label: string;
 };
 
