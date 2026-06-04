@@ -5,16 +5,16 @@ import { useTimelineData } from './useTimelineData';
 
 type BuildDataFileInput = {
   filePath: string;
-  from?: string | Date | null;
-  until?: string | Date | null;
+  from?: Date | null;
+  until?: Date | null;
   periodType?: PeriodFormat | null;
 };
 
 const buildDataFile = ({ filePath, from, until, periodType }: BuildDataFileInput): DaplaDataFileDTO => ({
   file_path: filePath,
   naming_standard_violations: [],
-  contains_data_from: (from ?? null) as Date | null,
-  contains_data_until: (until ?? null) as Date | null,
+  contains_data_from: from ?? null,
+  contains_data_until: until ?? null,
   period_type: (periodType ?? null) as PeriodFormat | null,
 });
 
@@ -33,8 +33,8 @@ describe('useTimelineData', () => {
     const data = [
       buildDataFile({
         filePath: 'gs://bucket/dataset/no_period.parquet',
-        from: '2024-01-01',
-        until: '2024-01-31',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-01-31'),
         periodType: null,
       }),
       buildDataFile({
@@ -53,14 +53,14 @@ describe('useTimelineData', () => {
     const data = [
       buildDataFile({
         filePath: 'gs://bucket/dataset/month_2024_01.parquet',
-        from: '2024-01-01',
-        until: '2024-01-31',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-01-31'),
         periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
         filePath: 'gs://bucket/dataset/q2_2024.parquet',
-        from: '2024-04-01',
-        until: '2024-06-30',
+        from: new Date('2024-04-01'),
+        until: new Date('2024-06-30'),
         periodType: PeriodFormat.QUARTER,
       }),
     ];
@@ -74,14 +74,14 @@ describe('useTimelineData', () => {
     const data = [
       buildDataFile({
         filePath: 'gs://bucket/dataset/data_2024_01.parquet',
-        from: '2024-01-01',
-        until: '2024-01-31',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-01-31'),
         periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
         filePath: 'gs://bucket/dataset/data_2024_01_15.parquet',
-        from: '2024-01-15',
-        until: '2024-02-15',
+        from: new Date('2024-01-15'),
+        until: new Date('2024-02-15'),
         periodType: PeriodFormat.YEAR_MONTH,
       }),
     ];
@@ -95,8 +95,8 @@ describe('useTimelineData', () => {
     const data = [
       buildDataFile({
         filePath: 'gs://bucket/dataset/week_2024_w01.parquet',
-        from: '2024-01-01',
-        until: '2024-01-07',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-01-07'),
         periodType: PeriodFormat.YEAR_WEEK,
       }),
     ];
@@ -110,8 +110,8 @@ describe('useTimelineData', () => {
     const data = [
       buildDataFile({
         filePath: 'gs://bucket/dataset/data_2024_03.parquet',
-        from: '2024-03-01',
-        until: '2024-03-31',
+        from: new Date('2024-03-01'),
+        until: new Date('2024-03-31'),
         periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
