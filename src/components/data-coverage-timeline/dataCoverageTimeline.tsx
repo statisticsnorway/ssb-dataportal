@@ -20,15 +20,18 @@ export const formatTemplate = (template: string, values: Record<string, string |
   Object.entries(values).reduce((result, [key, value]) => result.replaceAll(`{${key}}`, String(value)), template);
 
 /**
- * Convert a Date to a UTC year-month key string used for slot matching.
+ * Convert a date-only string (`YYYY-MM-DD`) to a year-month key used for slot matching.
  *
- * Comparing on UTC year+month (rather than exact timestamps) makes matching
- * robust against sub-day timezone differences.
+ * Comparing on year+month keys (rather than exact timestamps) keeps matching
+ * independent from timezone offsets.
  *
- * @param d - Date to convert.
- * @returns A `"${year}-${monthIndex}"` string where `monthIndex` is 0-based.
+ * @param day - Date-only day string.
+ * @returns A `YYYY-MM` key.
  */
-const toYearMonth = (d: Date): string => `${d.getUTCFullYear()}-${d.getUTCMonth()}`;
+const toYearMonthFromDay = (day: string): string => day.slice(0, 7);
+
+const toYearMonthFromSlotDate = (date: Date): string =>
+  `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}`;
 
 interface CellProps {
   slot: Slot;
@@ -89,7 +92,7 @@ interface TimelineProps {
 const DataCoverageTimeline: React.FC<TimelineProps> = ({ data }) => {
   const { isValid, items, years, slots } = useTimelineData(data);
 
-  const itemsByYearMonth = useMemo(() => new Map(items.map((item) => [toYearMonth(item.start), item])), [items]);
+  const itemsByYearMonth = useMemo(() => new Map(items.map((item) => [toYearMonthFromDay(item.start), item])), [items]);
 
   if (!isValid) return null;
 
@@ -116,7 +119,7 @@ const DataCoverageTimeline: React.FC<TimelineProps> = ({ data }) => {
                       idx={idx}
                       totalSlots={yearSlots.length}
                       year={year}
-                      matchedItem={itemsByYearMonth.get(toYearMonth(slot.start))}
+                      matchedItem={itemsByYearMonth.get(toYearMonthFromSlotDate(slot.start))}
                     />
                   ))}
                 </div>

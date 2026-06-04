@@ -12,11 +12,13 @@ const empty = {
   slots: {} as Record<number, Slot[]>,
 };
 
+const pad2 = (value: number): string => String(value).padStart(2, '0');
+
 /**
- * Parses a backend date string or pre-parsed Date into a UTC midnight Date object.
+ * Parses a backend date value into a date-only string (`YYYY-MM-DD`).
  *
- * We strip the time component entirely because we only care about which year/month/day
- * a period falls on, never the time within that day.
+ * We strip the time component entirely because we only care about day-level
+ * semantics in the timeline, never the time within that day.
  *
  * If a pre-parsed `Date` object arrives (already shifted), we recover the correct calendar
  * date using local getters (`getFullYear`/`getMonth`/`getDate`), which still reflect the
@@ -24,18 +26,20 @@ const empty = {
  *
  * @param value - A date string in `YYYY-MM-DD` (or `YYYY-MM-DDTHH:mm:ss`) format, a `Date`
  *   object, or a nullish value.
- * @returns A UTC midnight `Date` for the given calendar date, or `new Date(NaN)` if the
- *   input is missing or unparseable.
+ * @returns A date-only key string (`YYYY-MM-DD`) or `null` if input is missing/unparseable.
  */
-const parseDate = (value: string | Date | undefined | null): Date => {
-  if (!value) return new Date(Number.NaN);
+const parseDay = (value: string | Date | undefined | null): string | null => {
+  if (!value) return null;
 
-  const [y, m, d] =
-    value instanceof Date
-      ? [value.getFullYear(), value.getMonth() + 1, value.getDate()]
-      : (/^(\d{4})-(\d{2})-(\d{2})/.exec(value)?.slice(1) ?? []);
+  if (value instanceof Date) {
+    return `${value.getFullYear()}-${pad2(value.getMonth() + 1)}-${pad2(value.getDate())}`;
+  }
 
-  return y ? new Date(Date.UTC(+y, +m - 1, +d)) : new Date(Number.NaN);
+  const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(value);
+  if (!match) return null;
+
+  const [, y, m, d] = match;
+  return `${y}-${m}-${d}`;
 };
 
 /**
@@ -50,12 +54,12 @@ const parseDate = (value: string | Date | undefined | null): Date => {
 const parseItems = (data: DaplaDataFileDTO[]): TimelineItem[] =>
   data
     .flatMap(({ file_path, contains_data_from, contains_data_until, period_type }) => {
-      const start = parseDate(contains_data_from);
-      const end = parseDate(contains_data_until);
-      if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime()) || !period_type) return [];
+      const start = parseDay(contains_data_from);
+      const end = parseDay(contains_data_until);
+      if (!start || !end || !period_type) return [];
       return [{ filePath: file_path, periodType: period_type, start, end }];
     })
-    .sort((a, b) => a.start.getTime() - b.start.getTime());
+    .sort((a, b) => a.start.localeCompare(b.start));
 
 /**
  * Returns `true` if the items span more than one distinct `periodType`.
@@ -98,8 +102,8 @@ const buildYearSlots = (
   items: TimelineItem[],
   periodType: PeriodFormat,
 ): { years: number[]; slots: Record<number, Slot[]> } => {
-  const minYear = items.at(0)!.start.getUTCFullYear();
-  const maxYear = items.at(-1)!.start.getUTCFullYear();
+  const minYear = Number(items.at(0)!.start.slice(0, 4));
+  const maxYear = Number(items.at(-1)!.start.slice(0, 4));
   const years = Array.from({ length: maxYear - minYear + 1 }, (_, i) => minYear + i);
   const slots = Object.fromEntries(years.map((year) => [year, generateYearSlots(year, periodType)]));
   return { years, slots };
