@@ -30,13 +30,11 @@
 .pageTitle {
   margin-bottom: 0.5rem;
   background-color: var(--ssb-dark-color-2);
-  background-color: var(--ssb-dark-color-2);
   padding: 0 1rem;
 }
 
 .subTitle {
   margin-bottom: 1rem;
-  background-color: var(--ssb-dark-color-2);
   background-color: var(--ssb-dark-color-2);
   padding: 0 1rem;
   font-size: var(--ds-heading-sm-font-size);
