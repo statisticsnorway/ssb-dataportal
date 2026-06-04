@@ -88,5 +88,14 @@
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
     "owner": "arbmark-register"
+  },
+  {
+    "id": "id8",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "ameld",
+    "short_description": "invalid-dataset",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
   }
 ]

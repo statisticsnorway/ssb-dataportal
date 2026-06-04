@@ -1,5 +1,9 @@
 import { expect, test } from './fixtures/dataProducts.fixture';
 import { localization } from '@/libs/language';
+import { stabilize } from './utils/commonUtils';
+import { use } from 'react';
+import { tabsData } from '@/app/(services)/tabs';
+import { wait } from '@testing-library/user-event/dist/cjs/utils/index.js';
 
 test('Data products page displays data products', async ({ dataProductsPage }) => {
   const main = dataProductsPage.getByRole('main');
@@ -37,4 +41,23 @@ test('Data products can be filtered by product type', async ({ dataProductsPage 
   await expect(main).toContainText('2 treff');
   await expect(main).toContainText('Ameldingen');
   await expect(main).not.toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
+});
+
+test.describe('unauthenticated', () => {
+  test.beforeEach(async ({}, testInfo) => {
+    test.skip(testInfo.project.name !== 'chrome-unauth');
+  });
+
+  test('Data product details page excludes datasets with no valid data files', async ({ page }) => {
+    await page.goto(tabsData.DataProducts.route);
+    await expect(page).toHaveURL(/\/data-products$/);
+    await stabilize();
+    const main = page.getByRole('main');
+
+    await main.getByRole('link', { name: 'ameld' }).click();
+    await expect(page).toHaveURL(/\/data-products\/ameld$/);
+    page.pause();
+    await expect(page.getByRole('heading', { level: 1, name: 'ameld' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'invalid-dataset' })).not.toBeVisible();
+  });
 });
