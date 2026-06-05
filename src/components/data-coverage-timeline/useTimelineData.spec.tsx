@@ -115,7 +115,7 @@ describe('useTimelineData', () => {
         periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_2022_12.parquet',
+        filePath: 'gs://bucket/dataset/data_p2022_12.parquet',
         from: new Date('2022-12-01T12:00:00Z'),
         until: new Date('2022-12-31T12:00:00Z'),
         periodType: PeriodFormat.YEAR_MONTH,
