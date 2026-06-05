@@ -39,13 +39,13 @@ describe('DataCoverageTimeline', () => {
   it('renders monthly timeline with present and missing segments', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_2024_01.parquet',
+        filePath: 'gs://bucket/dataset/data_p2024_01.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-01-31'),
         periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_2024_03.parquet',
+        filePath: 'gs://bucket/dataset/data_p2024_03.parquet',
         from: new Date('2024-03-01'),
         until: new Date('2024-03-31'),
         periodType: PeriodFormat.YEAR_MONTH,
@@ -75,13 +75,13 @@ describe('DataCoverageTimeline', () => {
   it('returns null for mixed period types', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/month_2024_01.parquet',
+        filePath: 'gs://bucket/dataset/month_p2024_01.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-01-31'),
         periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
-        filePath: 'gs://bucket/dataset/q2_2024.parquet',
+        filePath: 'gs://bucket/dataset/q2_p2024.parquet',
         from: new Date('2024-04-01'),
         until: new Date('2024-06-30'),
         periodType: PeriodFormat.QUARTER,
@@ -98,13 +98,13 @@ describe('DataCoverageTimeline', () => {
   it('renders the full year range including years without files', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_2022_01.parquet',
+        filePath: 'gs://bucket/dataset/data_p2022_01.parquet',
         from: new Date('2022-01-01'),
         until: new Date('2022-01-31'),
         periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_2024_01.parquet',
+        filePath: 'gs://bucket/dataset/data_p2024_01.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-01-31'),
         periodType: PeriodFormat.YEAR_MONTH,

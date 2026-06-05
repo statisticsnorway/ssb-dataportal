@@ -52,13 +52,13 @@ describe('useTimelineData', () => {
   it('returns empty state for mixed period types', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/month_2024_01.parquet',
+        filePath: 'gs://bucket/dataset/month_p2024_01.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-01-31'),
         periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
-        filePath: 'gs://bucket/dataset/q2_2024.parquet',
+        filePath: 'gs://bucket/dataset/q2_p2024.parquet',
         from: new Date('2024-04-01'),
         until: new Date('2024-06-30'),
         periodType: PeriodFormat.QUARTER,
@@ -73,13 +73,13 @@ describe('useTimelineData', () => {
   it('returns empty state for overlapping periods', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_2024_01.parquet',
+        filePath: 'gs://bucket/dataset/data_p2024_01.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-01-31'),
         periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_2024_01_15.parquet',
+        filePath: 'gs://bucket/dataset/data_p2024_01_15.parquet',
         from: new Date('2024-01-15'),
         until: new Date('2024-02-15'),
         periodType: PeriodFormat.YEAR_MONTH,
@@ -94,7 +94,7 @@ describe('useTimelineData', () => {
   it('returns empty state for unsupported period type', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/week_2024_w01.parquet',
+        filePath: 'gs://bucket/dataset/week_p2024_w01.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-01-07'),
         periodType: PeriodFormat.YEAR_WEEK,
@@ -109,7 +109,7 @@ describe('useTimelineData', () => {
   it('parses valid data, sorts items, and generates full year slot range', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_2024_03.parquet',
+        filePath: 'gs://bucket/dataset/data_p2024_03.parquet',
         from: new Date('2024-03-01'),
         until: new Date('2024-03-31'),
         periodType: PeriodFormat.YEAR_MONTH,
@@ -127,8 +127,8 @@ describe('useTimelineData', () => {
     expect(result.current.isValid).toBe(true);
     expect(result.current.periodType).toBe(PeriodFormat.YEAR_MONTH);
 
-    expect(result.current.items[0]?.filePath).toBe('gs://bucket/dataset/data_2022_12.parquet');
-    expect(result.current.items[1]?.filePath).toBe('gs://bucket/dataset/data_2024_03.parquet');
+    expect(result.current.items[0]?.filePath).toBe('gs://bucket/dataset/data_p2022_12.parquet');
+    expect(result.current.items[1]?.filePath).toBe('gs://bucket/dataset/data_p2024_03.parquet');
 
     expect(result.current.years).toEqual([2022, 2023, 2024]);
 
@@ -140,13 +140,13 @@ describe('useTimelineData', () => {
   it('normalizes timezone-aware Date boundaries to UTC day keys', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_2018_2019.parquet',
+        filePath: 'gs://bucket/dataset/data_p2018_p2019.parquet',
         from: new Date('2018-01-01T00:00:00Z'),
         until: new Date('2019-12-31T23:59:59Z'),
         periodType: PeriodFormat.YEAR,
       }),
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_2021.parquet',
+        filePath: 'gs://bucket/dataset/data_p2021.parquet',
         from: new Date('2021-01-01T00:00:00Z'),
         until: new Date('2021-12-31T23:59:59Z'),
         periodType: PeriodFormat.YEAR,
@@ -163,7 +163,7 @@ describe('useTimelineData', () => {
   it('keeps local calendar day for timezone-less Date values', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_2018_2019.parquet',
+        filePath: 'gs://bucket/dataset/data_p2018_p2019.parquet',
         from: new Date('2018-01-01T00:00:00'),
         until: new Date('2019-12-31T23:59:59'),
         periodType: PeriodFormat.YEAR,
@@ -180,7 +180,7 @@ describe('useTimelineData', () => {
   it('uses UTC day when Date local time is shifted into next day', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_2018_2019.parquet',
+        filePath: 'gs://bucket/dataset/data_p2018_p2019.parquet',
         from: new Date('2018-01-01T00:00:00Z'),
         until: new Date('2019-12-31T23:59:59Z'),
         periodType: PeriodFormat.YEAR,
