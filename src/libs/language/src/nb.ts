@@ -16,7 +16,7 @@ export const nb = {
     responsible: 'Ansvarlig team',
     id: 'ID',
     dataFiles: 'Datafiler',
-    dataCoverageTimeline: 'Tidslinje',
+    dataCoverageTimeline: 'Tilgjengelige perioder',
   },
   apiDocumentation: 'API-dokumentasjon',
   appTitle: 'SSB Dataportal',
@@ -69,7 +69,7 @@ export const nb = {
   dataCoverageTimeline: {
     filePathLabel: 'Filsti',
     labelBimesterPrefix: 'B',
-    labelFullYear: 'Hele året',
+    labelFullYear: 'Årlig',
     labelHalfYearPrefix: 'H',
     labelQuarterPrefix: 'K',
     labelTriannualPrefix: 'T',
