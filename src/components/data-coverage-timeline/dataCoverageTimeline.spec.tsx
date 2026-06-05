@@ -2,37 +2,52 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { type DaplaDataFileDTO, PeriodFormat } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language/src/localization';
-import DataCoverageTimeline from './dataCoverageTimeline';
+import DataCoverageTimeline, { slotOverlapsItem } from './dataCoverageTimeline';
+import { type Slot, type TimelineItem } from './types';
 
 type BuildDataFileInput = {
   filePath: string;
-  from: string;
-  until: string;
+  from: Date;
+  until: Date;
   periodType: PeriodFormat;
 };
 
 const buildDataFile = ({ filePath, from, until, periodType }: BuildDataFileInput): DaplaDataFileDTO => ({
   file_path: filePath,
   naming_standard_violations: [],
-  // API model is typed as Date, but timeline parsing intentionally supports YYYY-MM-DD strings too.
-  contains_data_from: from as unknown as Date,
-  contains_data_until: until as unknown as Date,
+  contains_data_from: from,
+  contains_data_until: until,
   period_type: periodType,
 });
 
 describe('DataCoverageTimeline', () => {
+  it('treats YEAR slot as covered when an item spans multiple years', () => {
+    const slot: Slot = {
+      start: '2019-01-01',
+      end: '2019-12-31',
+      label: localization.dataCoverageTimeline.labelFullYear,
+    };
+    const item: TimelineItem = {
+      filePath: 'gs://bucket/dataset/ufo-observasjoner_p2018_p2019_v1.parquet',
+      periodType: PeriodFormat.YEAR,
+      start: '2018-01-01',
+      end: '2019-12-31',
+    };
+    expect(slotOverlapsItem(slot, item)).toBe(true);
+  });
+
   it('renders monthly timeline with present and missing segments', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_2024_01.parquet',
-        from: '2024-01-01',
-        until: '2024-01-31',
+        filePath: 'gs://bucket/dataset/data_p2024_01.parquet',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-01-31'),
         periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_2024_03.parquet',
-        from: '2024-03-01',
-        until: '2024-03-31',
+        filePath: 'gs://bucket/dataset/data_p2024_03.parquet',
+        from: new Date('2024-03-01'),
+        until: new Date('2024-03-31'),
         periodType: PeriodFormat.YEAR_MONTH,
       }),
     ];
@@ -60,15 +75,15 @@ describe('DataCoverageTimeline', () => {
   it('returns null for mixed period types', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/month_2024_01.parquet',
-        from: '2024-01-01',
-        until: '2024-01-31',
+        filePath: 'gs://bucket/dataset/month_p2024_01.parquet',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-01-31'),
         periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
-        filePath: 'gs://bucket/dataset/q2_2024.parquet',
-        from: '2024-04-01',
-        until: '2024-06-30',
+        filePath: 'gs://bucket/dataset/q2_p2024.parquet',
+        from: new Date('2024-04-01'),
+        until: new Date('2024-06-30'),
         periodType: PeriodFormat.QUARTER,
       }),
     ];
@@ -83,15 +98,15 @@ describe('DataCoverageTimeline', () => {
   it('renders the full year range including years without files', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_2022_01.parquet',
-        from: '2022-01-01',
-        until: '2022-01-31',
+        filePath: 'gs://bucket/dataset/data_p2022_01.parquet',
+        from: new Date('2022-01-01'),
+        until: new Date('2022-01-31'),
         periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_2024_01.parquet',
-        from: '2024-01-01',
-        until: '2024-01-31',
+        filePath: 'gs://bucket/dataset/data_p2024_01.parquet',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-01-31'),
         periodType: PeriodFormat.YEAR_MONTH,
       }),
     ];

@@ -88,5 +88,23 @@
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
     "owner": "arbmark-register"
+  },
+  {
+    "id": "id8",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "arblonn",
+    "short_description": "Arblonn datasett 8",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "id": "id9",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "arblonn",
+    "short_description": "Arblonn datasett 9",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
   }
 ]

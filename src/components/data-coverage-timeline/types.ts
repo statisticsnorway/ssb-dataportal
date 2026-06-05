@@ -3,13 +3,13 @@ import { PeriodFormat } from '@/libs/data-access/datadoc';
 export type TimelineItem = {
   filePath: string;
   periodType: PeriodFormat;
-  start: Date;
-  end: Date;
+  start: string;
+  end: string;
 };
 
 export type Slot = {
-  start: Date;
-  end: Date;
+  start: string;
+  end: string;
   label: string;
 };
 
