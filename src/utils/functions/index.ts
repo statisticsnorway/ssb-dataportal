@@ -1,3 +1,4 @@
+import { Assessment, DatasetState } from '@/libs/data-access/datadoc/models';
 import { ClassificationResource, ClassificationResourceFromJSONTyped } from '@/libs/data-access/klass';
 import { KlassReference, VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
@@ -52,6 +53,36 @@ export const convertStatus = (status: VariableStatus) => {
       return localization.status.publishedExternal;
     default:
       status satisfies never;
+  }
+};
+
+export const convertDataSetState = (datasetState: DatasetState) => {
+  switch (datasetState) {
+    case DatasetState.PROCESSED_DATA:
+      return localization.products.datasetState.processedData;
+    case DatasetState.OUTPUT_DATA:
+      return localization.products.datasetState.outputData;
+    case DatasetState.INPUT_DATA:
+      return localization.products.datasetState.inputData;
+    case DatasetState.SOURCE_DATA:
+      return localization.products.datasetState.sourceData;
+    case DatasetState.STATISTICS:
+      return localization.products.datasetState.statistics;
+    default:
+      datasetState satisfies never;
+  }
+};
+
+export const convertAssessment = (assessment: Assessment) => {
+  switch (assessment) {
+    case Assessment.PROTECTED:
+      return localization.products.assessment.protected;
+    case Assessment.OPEN:
+      return localization.products.assessment.open;
+    case Assessment.SENSITIVE:
+      return localization.products.assessment.sensitive;
+    default:
+      assessment satisfies never;
   }
 };
 

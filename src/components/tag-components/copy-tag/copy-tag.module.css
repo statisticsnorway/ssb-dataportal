@@ -2,6 +2,8 @@
   font-family: var(--font-family-monospace);
   --dsc-tag-padding: 0;
   align-items: stretch !important;
+  width: fit-content;
+  max-width: 100%;
 }
 
 .copyWrapper {

@@ -66,6 +66,19 @@ export const nb = {
     shortName: 'Kopier kortnavn',
   },
 
+  dataCoverageTimeline: {
+    filePathLabel: 'Filsti',
+    labelBimesterPrefix: 'B',
+    labelFullYear: 'Årlig',
+    labelHalfYearPrefix: 'H',
+    labelQuarterPrefix: 'K',
+    labelTriannualPrefix: 'T',
+    monthsShort: ['jan.', 'feb.', 'mars', 'apr.', 'mai', 'juni', 'juli', 'aug.', 'sep.', 'okt.', 'nov.', 'des.'],
+    statusDataPresent: 'Data finnes',
+    statusMissingTargetSegment: 'Ingen fil med data for perioden',
+    tooltipStatusDataPresent: 'Fil med data finnes',
+    tooltipStatusMissingTargetSegment: 'Ingen fil med data for perioden',
+  },
   documentation: 'Dokumentasjon',
 
   editing: {
@@ -173,6 +186,27 @@ export const nb = {
   },
 
   previous: 'Forrige',
+  products: {
+    assessment: {
+      filterLabel: 'Verdivurdering',
+      open: 'Åpen',
+      protected: 'Beskyttet',
+      sensitive: 'Sensitiv',
+      unknown: 'Ukjent verdivurdering',
+    },
+    datasetState: {
+      processedData: 'Klargjorte data',
+      outputData: 'Utdata',
+      inputData: 'Inndata',
+      statistics: 'Statistikk',
+      sourceData: 'Kildedata',
+      unknown: 'Ukjent datasettstatus',
+    },
+    other: 'Annen dataprodukt',
+    statistic: 'Statistikkprodukt',
+    typeFilterLabel: 'Dataprodukttype',
+    unknown: 'Ukjent produkttype',
+  },
   references: 'Referanser',
 
   search: {
@@ -204,21 +238,6 @@ export const nb = {
       titleAlphabeticalDesc: 'Tittel Å-A',
     },
   },
-
-  products: {
-    assessment: {
-      filterLabel: 'Verdivurdering',
-      open: 'Åpen',
-      protected: 'Beskyttet',
-      sensitive: 'Sensitiv',
-      unknown: 'Ukjent verdivurdering',
-    },
-    other: 'Annen dataprodukt',
-    statistic: 'Statistikkprodukt',
-    typeFilterLabel: 'Dataprodukttype',
-    unknown: 'Ukjent produkttype',
-  },
-
   ssbDataportal: 'SSB Dataportal',
   statisticsNorway: 'Statistisk sentralbyrå',
 
@@ -272,19 +291,5 @@ export const nb = {
     validTo: 'Gyldig til',
     viewExternalReference: 'Se ekstern referanse',
     viewRelevant: 'Se relevant variabeldefinisjon',
-  },
-
-  dataCoverageTimeline: {
-    filePathLabel: 'Filsti',
-    labelBimesterPrefix: 'B',
-    labelFullYear: 'Årlig',
-    labelHalfYearPrefix: 'H',
-    labelQuarterPrefix: 'K',
-    labelTriannualPrefix: 'T',
-    monthsShort: ['jan.', 'feb.', 'mars', 'apr.', 'mai', 'juni', 'juli', 'aug.', 'sep.', 'okt.', 'nov.', 'des.'],
-    statusDataPresent: 'Data finnes',
-    statusMissingTargetSegment: 'Ingen fil med data for perioden',
-    tooltipStatusDataPresent: 'Fil med data finnes',
-    tooltipStatusMissingTargetSegment: 'Ingen fil med data for perioden',
   },
 };
