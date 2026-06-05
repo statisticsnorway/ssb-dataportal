@@ -43,7 +43,7 @@ export default function DatasetDetail({
         currentText={dataset.short_description ?? ''}
       />
       <main className={styles.mainContent}>
-        <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='2xl' level={1}>
+        <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='xl' level={1}>
           {dataset.short_description}
         </Heading>
         <DetailsTable
