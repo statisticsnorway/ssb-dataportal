@@ -43,11 +43,9 @@
 
 .mainSection {
   width: 100%;
-}
-
-.mainSection {
   flex: 1 1 0;
 }
+
 @media (min-width: 768px) {
   .searchHitsContainerWrapper {
     display: flex;
