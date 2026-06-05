@@ -23,7 +23,7 @@ export default function DataProductDetail({
       />
 
       <main className={styles.mainContent}>
-        <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='2xl' level={1}>
+        <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='xl' level={1}>
           {dataProduct.title ?? dataProduct.product_short_name}
         </Heading>
 
