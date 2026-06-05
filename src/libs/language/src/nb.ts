@@ -79,6 +79,10 @@ export const nb = {
     tooltipStatusDataPresent: 'Fil med data finnes',
     tooltipStatusMissingTargetSegment: 'Ingen fil med data for perioden',
   },
+  dataProductDetail: {
+    dataProductFilters: 'Dataproduktfiltre',
+    dataset: 'Datasett',
+  },
   documentation: 'Dokumentasjon',
 
   editing: {

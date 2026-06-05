@@ -31,3 +31,36 @@
   overflow-wrap: break-word;
   word-break: break-word;
 }
+
+.filterSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--medium-gap);
+  width: 100%;
+  margin-top: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.mainSection {
+  width: 100%;
+  flex: 1 1 0;
+}
+
+@media (min-width: 768px) {
+  .searchHitsContainerWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: var(--medium-gap);
+    transition: height 0.2s ease;
+  }
+  .filterSection {
+    flex: 3 3 auto;
+    gap: var(--small-gap);
+    max-width: 300px;
+  }
+  .mainSection {
+    flex: 6 6 auto;
+    min-width: 0;
+  }
+}

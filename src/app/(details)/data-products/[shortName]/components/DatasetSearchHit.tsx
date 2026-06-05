@@ -2,7 +2,7 @@ import { Card, Heading, Link, Tag } from '@digdir/designsystemet-react';
 import { type ReactNode } from 'react';
 import { tabsData } from '@/app/(services)/tabs';
 import { DatasetDTO } from '@/libs/data-access/datadoc/models';
-import { convertDataSetState } from '@/utils/functions';
+import { convertAssessment, convertDataSetState } from '@/utils/functions';
 import styles from './datasetSearchHit.module.css';
 
 interface HeadingLinkProps {
@@ -32,6 +32,7 @@ export const DatasetSearchHit = ({ dataset }: DatasetSearchHitProps) => {
       </Heading>
       <div className={styles.tagsList}>
         {dataset.dataset_state && <Tag data-color='success'>{convertDataSetState(dataset.dataset_state)}</Tag>}
+        {dataset.assessment && <Tag data-color='warning'>{convertAssessment(dataset.assessment)}</Tag>}
         {dataset.owner && <Tag> {dataset.owner}</Tag>}
       </div>
     </Card>
