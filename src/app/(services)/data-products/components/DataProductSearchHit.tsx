@@ -45,7 +45,7 @@ export const DataProductSearchHit = ({ dataProduct }: DataProductSearchHitProps)
           <span className='primaryHeading'>{dataProduct.title ?? dataProduct.product_short_name}</span>
         </HeadingLink>
       </Heading>
-      {dataProduct.product_type && <Tag> {localizeDataProductType(dataProduct.product_type)}</Tag>}
+      {dataProduct.product_type && <Tag>{localizeDataProductType(dataProduct.product_type)}</Tag>}
     </Card>
   );
 };
