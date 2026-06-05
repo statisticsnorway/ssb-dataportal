@@ -164,8 +164,8 @@ describe('useTimelineData', () => {
     const data = [
       buildDataFile({
         filePath: 'gs://bucket/dataset/data_2018_2019.parquet',
-        from: new Date(2018, 0, 1, 0, 0, 0),
-        until: new Date(2019, 11, 31, 23, 59, 59),
+        from: new Date('2018-01-01T00:00:00'),
+        until: new Date('2019-12-31T23:59:59'),
         periodType: PeriodFormat.YEAR,
       }),
     ];
