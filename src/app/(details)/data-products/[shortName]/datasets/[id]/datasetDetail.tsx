@@ -1,6 +1,6 @@
 'use client';
 
-import { Badge, Card, Divider, Heading, Tag, Tooltip } from '@digdir/designsystemet-react';
+import { Badge, Card, Divider, Heading, Popover, Tag } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import DataCoverageTimeline from '@/components/data-coverage-timeline/dataCoverageTimeline';
@@ -126,15 +126,28 @@ export default function DatasetDetail({
                   <div className={styles.fileValue}>
                     <span className={styles.filePath}>{dataFile.file_path}</span>
                     {dataFile.naming_standard_violations.length > 0 ? (
-                      <Tooltip content={dataFile.naming_standard_violations.join(', ')}>
-                        <Badge
-                          count={dataFile.naming_standard_violations.length}
-                          data-color='warning'
-                          data-size='sm'
-                          className={styles.violationBadge}
+                      <Popover.TriggerContext>
+                        <Popover.Trigger
+                          inline
+                          className={styles.violationPopoverTrigger}
                           aria-label={`${dataFile.naming_standard_violations.length} ${localization.datasetDetail.namingStandardViolations}`}
-                        />
-                      </Tooltip>
+                        >
+                          <Badge
+                            count={dataFile.naming_standard_violations.length}
+                            data-color='warning'
+                            data-size='sm'
+                            className={styles.violationBadge}
+                            aria-hidden
+                          />
+                        </Popover.Trigger>
+                        <Popover placement='top' id={`violations-${index}`}>
+                          <ul className={styles.violationsList}>
+                            {dataFile.naming_standard_violations.map((violation) => (
+                              <li key={violation}>{violation}</li>
+                            ))}
+                          </ul>
+                        </Popover>
+                      </Popover.TriggerContext>
                     ) : null}
                   </div>
                 </dd>

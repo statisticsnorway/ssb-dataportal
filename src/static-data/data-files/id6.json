@@ -59,6 +59,6 @@
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
     "owner": "arbmark-register",
-    "naming_standard_violations": ["invalid", "invalid"]
+    "naming_standard_violations": ["invalid", "status incorrect"]
   }
 ]

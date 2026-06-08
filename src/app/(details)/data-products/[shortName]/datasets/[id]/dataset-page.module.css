@@ -75,6 +75,18 @@
   font-weight: 600;
 }
 
+.violationPopoverTrigger {
+  --dsc-button-background: transparent;
+  --dsc-button-border-width: 0;
+  --dsc-button-padding: 0;
+  --dsc-button-size: auto;
+}
+
+.violationsList {
+  margin: 0;
+  padding-left: 1rem;
+}
+
 @media (min-width: 768px) {
   .row {
     gap: 0;
