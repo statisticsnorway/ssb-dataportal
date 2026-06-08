@@ -27,6 +27,6 @@ test.describe('authenticated', () => {
     const violationBadge = page.getByRole('button', { name: '1 navnestandardavvik' });
     await expect(violationBadge).toBeVisible();
     await violationBadge.hover();
-    await expect(page.getByText('invalid')).toBeVisible();
+    await expect(page.getByRole('listitem', { name: 'invalid' })).toBeVisible();
   });
 });
