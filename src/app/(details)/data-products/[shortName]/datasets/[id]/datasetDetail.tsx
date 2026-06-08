@@ -81,18 +81,22 @@ export default function DatasetDetail({
                 />
               ),
             },
-            {
-              label: localization.datasetDetail.namingStandardViolations,
-              value: (
-                <Badge
-                  count={totalNamingStandardViolations}
-                  data-color='warning'
-                  data-size='sm'
-                  className={styles.violationBadge}
-                  aria-label={`${totalNamingStandardViolations}`}
-                />
-              ),
-            },
+            ...(totalNamingStandardViolations > 0
+              ? [
+                  {
+                    label: localization.datasetDetail.namingStandardViolations,
+                    value: (
+                      <Badge
+                        count={totalNamingStandardViolations}
+                        data-color='warning'
+                        data-size='sm'
+                        className={styles.violationBadge}
+                        aria-label={`${totalNamingStandardViolations} ${localization.datasetDetail.namingStandardViolations}`}
+                      />
+                    ),
+                  },
+                ]
+              : []),
             { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
           ]}
         />
