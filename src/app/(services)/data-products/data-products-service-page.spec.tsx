@@ -5,6 +5,16 @@ import { type DataProductDTO, DataProductType } from '@/libs/data-access/datadoc
 import { localization } from '@/libs/language';
 import { DataProductsServicePage } from './data-products-service-page';
 
+vi.mock('server-only', () => ({}));
+vi.mock('@/app/authContext', () => ({
+  useAuthContext: () => ({
+    isAuthenticated: true,
+    login: vi.fn(),
+    logout: vi.fn(),
+    user: null,
+  }),
+}));
+
 vi.mock('@/components/search-page-wrapper/search-page', () => {
   const SearchPage = ({
     header,
