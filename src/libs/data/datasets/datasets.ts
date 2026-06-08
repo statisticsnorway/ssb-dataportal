@@ -212,7 +212,9 @@ export async function listDataFilesByDatasetId(datasetId: string): Promise<Array
 export async function doesDatasetHaveAnyValidFiles(datasetId: string): Promise<Boolean> {
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'doesDatasetHaveAnyValidFiles', id: datasetId });
   let dataFiles = await listDataFilesByDatasetId(datasetId);
-  let validFiles = dataFiles.filter((df) => df.naming_standard_violations.length === 0);
+  let validFiles = dataFiles.filter(
+    (df) => df.naming_standard_violations === undefined || df.naming_standard_violations.length === 0,
+  );
   let anyValidFiles = validFiles.length > 0;
   if (!anyValidFiles) {
     logger.debug('Dataset does not have any valid files');

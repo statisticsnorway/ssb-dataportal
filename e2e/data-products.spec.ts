@@ -58,6 +58,7 @@ test.describe('unauthenticated', () => {
     await expect(page).toHaveURL(/\/data-products\/ameld$/);
     page.pause();
     await expect(page.getByRole('heading', { level: 1, name: 'ameld' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'valid-dataset' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'invalid-dataset' })).not.toBeVisible();
   });
 });
