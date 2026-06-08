@@ -42,7 +42,8 @@
     "storage_category": "PRODUCT",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
-    "owner": "arbmark-register"
+    "owner": "arbmark-register",
+    "naming_standard_violations": ["invalid"]
   },
   {
     "file_path": "gs://.../arblonn_p2018-H1.parquet",
@@ -57,6 +58,7 @@
     "storage_category": "PRODUCT",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
-    "owner": "arbmark-register"
+    "owner": "arbmark-register",
+    "naming_standard_violations": ["invalid", "invalid"]
   }
 ]

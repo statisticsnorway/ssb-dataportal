@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Divider, Heading, Tag } from '@digdir/designsystemet-react';
+import { Badge, Card, Divider, Heading, Tag, Tooltip } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import DataCoverageTimeline from '@/components/data-coverage-timeline/dataCoverageTimeline';
@@ -24,10 +24,21 @@ export default function DatasetDetail({
   dataFiles: Array<DaplaDataFileDTO>;
 }>) {
   const { isAuthenticated } = useAuthContext();
+  const normalizedDataFiles = dataFiles.map((dataFile) => ({
+    ...dataFile,
+    naming_standard_violations: dataFile.naming_standard_violations ?? [],
+  }));
 
   if (!isAuthenticated) {
-    dataFiles = dataFiles.filter((df) => df.naming_standard_violations.length === 0);
+    dataFiles = normalizedDataFiles.filter((df) => df.naming_standard_violations.length === 0);
+  } else {
+    dataFiles = normalizedDataFiles;
   }
+
+  const totalNamingStandardViolations = dataFiles.reduce(
+    (total, dataFile) => total + dataFile.naming_standard_violations.length,
+    0,
+  );
 
   return (
     <div className={`${styles.detailsPage} container`}>
@@ -70,6 +81,18 @@ export default function DatasetDetail({
                 />
               ),
             },
+            {
+              label: localization.datasetDetail.namingStandardViolations,
+              value: (
+                <Badge
+                  count={totalNamingStandardViolations}
+                  data-color='warning'
+                  data-size='sm'
+                  className={styles.violationBadge}
+                  aria-label={`${totalNamingStandardViolations}`}
+                />
+              ),
+            },
             { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
           ]}
         />
@@ -95,7 +118,22 @@ export default function DatasetDetail({
             .map((dataFile, index) => (
               <dl key={index} className={styles.row}>
                 <dt className={styles.key}>{dataFile.contains_data_from?.toLocaleDateString()}</dt>
-                <dd className={styles.value}>{dataFile.file_path}</dd>
+                <dd className={styles.value}>
+                  <div className={styles.fileValue}>
+                    <span className={styles.filePath}>{dataFile.file_path}</span>
+                    {dataFile.naming_standard_violations.length > 0 ? (
+                      <Tooltip content={dataFile.naming_standard_violations.join(', ')}>
+                        <Badge
+                          count={dataFile.naming_standard_violations.length}
+                          data-color='warning'
+                          data-size='sm'
+                          className={styles.violationBadge}
+                          aria-label={`${dataFile.naming_standard_violations.length} ${localization.datasetDetail.namingStandardViolations}`}
+                        />
+                      </Tooltip>
+                    ) : null}
+                  </div>
+                </dd>
                 <Divider />
               </dl>
             ))}
