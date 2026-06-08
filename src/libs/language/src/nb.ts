@@ -19,6 +19,7 @@ export const nb = {
     dataFiles: 'Datafiler',
     dataCoverageTimeline: 'Tilgjengelige perioder',
     namingStandardViolationCountLabel: 'navnestandardavvik',
+    namingStandardViolatidonsCountLabel: 'navnestandardavvik',
   },
   apiDocumentation: 'API-dokumentasjon',
   appTitle: 'SSB Dataportal',
