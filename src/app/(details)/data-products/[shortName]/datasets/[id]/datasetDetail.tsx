@@ -87,7 +87,7 @@ export default function DatasetDetail({
                         data-color='warning'
                         data-size='sm'
                         className={styles.violationBadge}
-                        aria-label={`${totalNamingStandardViolations} ${localization.datasetDetail.namingStandardViolations}`}
+                        aria-label={`${totalNamingStandardViolations} total ${localization.datasetDetail.namingStandardViolations}`}
                       />
                     ),
                   },
