@@ -1,6 +1,7 @@
 import variableDefinitions from '@/static-data/variable-definitions.json';
 import AxeBuilder from '@axe-core/playwright';
-import test, { expect, TestInfo } from '@playwright/test';
+import { test, expect } from '@bgotink/playwright-coverage';
+import { TestInfo } from '@playwright/test';
 import { stabilize } from './utils/commonUtils';
 import { tabsData } from '@/app/(services)/tabs';
 

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '@bgotink/playwright-coverage';
 import { tabsData } from '@/app/(services)/tabs';
 
 const route = tabsData.VariableDefinitions.route;

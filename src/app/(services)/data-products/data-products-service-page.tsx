@@ -1,10 +1,12 @@
 'use client';
 
 import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useAuthContext } from '@/app/authContext';
 import { CheckboxFilter, FiltersPanel } from '@/components/filters';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
-import { type DataProductDTO, DataProductType, type DatasetDTO } from '@/libs/data-access/datadoc/models';
+import { doesDatasetHaveAnyValidFiles, listDatasetsByProductShortName } from '@/libs/data/datasets/datasets';
+import { type DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
 import { localization } from '@/libs/language';
 import type { FilterItem } from '@/types/filters';
 import { tabsData } from '../tabs';
@@ -13,11 +15,9 @@ import styles from './page.module.css';
 
 interface DataProductsServicePageProps {
   readonly dataProducts: DataProductDTO[];
-  readonly datasets?: DatasetDTO[];
 }
 
 const UNKNOWN_PRODUCT_TYPE = 'UNKNOWN_PRODUCT_TYPE';
-const EMPTY_DATASETS: DatasetDTO[] = [];
 
 type ProductTypeFilterValue = DataProductType | typeof UNKNOWN_PRODUCT_TYPE;
 
@@ -44,10 +44,46 @@ const getProductTypeLabel = (productType: ProductTypeFilterValue) => {
   return localizeDataProductType(productType);
 };
 
-export const DataProductsServicePage = ({ dataProducts, datasets = EMPTY_DATASETS }: DataProductsServicePageProps) => {
+export const DataProductsServicePage = ({ dataProducts }: DataProductsServicePageProps) => {
   const [selectedProductTypeFilters, setSelectedProductTypeFilters] = useState<FilterItem[]>([]);
+
+  const { isAuthenticated } = useAuthContext();
+  const [visibleDataProducts, setVisibleDataProducts] = useState<DataProductDTO[]>(() => []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (isAuthenticated) {
+      setVisibleDataProducts(dataProducts);
+      return;
+    }
+
+    const filterDataProducts = async () => {
+      const hasValidDatasets = await Promise.all(
+        dataProducts.map(async (dataProduct) => {
+          if (!dataProduct.product_short_name) return false;
+          const datasets = await listDatasetsByProductShortName(dataProduct.product_short_name);
+          const hasAnyValidFiles = await Promise.all(
+            datasets.map(async (dataset) => (dataset.id ? doesDatasetHaveAnyValidFiles(dataset.id) : false)),
+          );
+          return hasAnyValidFiles.some(Boolean);
+        }),
+      );
+
+      if (!cancelled) {
+        setVisibleDataProducts(dataProducts.filter((_, index) => hasValidDatasets[index]));
+      }
+    };
+
+    void filterDataProducts();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [dataProducts, isAuthenticated]);
+
   const productTypeFilters = useMemo<FilterItem[]>(() => {
-    const counts = countByProductType(dataProducts);
+    const counts = countByProductType(visibleDataProducts);
     return dataProductTypeOrder
       .filter((productType) => counts[productType] != null)
       .map((productType) => ({
@@ -55,16 +91,16 @@ export const DataProductsServicePage = ({ dataProducts, datasets = EMPTY_DATASET
         value: productType,
         count: counts[productType],
       }));
-  }, [dataProducts]);
+  }, [visibleDataProducts]);
 
   const filteredDataProducts = useMemo(() => {
     const selectedProductTypes = new Set(selectedProductTypeFilters.map((filter) => filter.value));
-    return dataProducts.filter((dataProduct) => {
+    return visibleDataProducts.filter((dataProduct) => {
       const matchesProductType =
         selectedProductTypes.size === 0 || selectedProductTypes.has(getProductTypeFilterValue(dataProduct));
       return matchesProductType;
     });
-  }, [dataProducts, datasets, selectedProductTypeFilters]);
+  }, [visibleDataProducts, selectedProductTypeFilters]);
 
   const handleProductTypeFilterChange = (filter: FilterItem) => {
     setSelectedProductTypeFilters((selectedFilters) => {

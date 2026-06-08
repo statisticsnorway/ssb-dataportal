@@ -3,6 +3,16 @@ import { describe, expect, it, vi } from 'vitest';
 import type { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
 import DataProductDetail from './dataProductDetail';
 
+vi.mock('server-only', () => ({}));
+vi.mock('@/app/authContext', () => ({
+  useAuthContext: () => ({
+    isAuthenticated: true,
+    login: vi.fn(),
+    logout: vi.fn(),
+    user: null,
+  }),
+}));
+
 vi.mock('@/libs/language', () => ({
   localization: {
     tabs: { dataProducts: 'Data products' },

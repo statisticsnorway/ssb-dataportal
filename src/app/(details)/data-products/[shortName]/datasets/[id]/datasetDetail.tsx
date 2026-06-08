@@ -33,6 +33,9 @@ export default function DatasetDetail({
     dataFiles = normalizedDataFiles.filter((df) => df.naming_standard_violations.length === 0);
   } else {
     dataFiles = normalizedDataFiles;
+    dataFiles = dataFiles.filter(
+      (df) => df.naming_standard_violations === undefined || df.naming_standard_violations.length === 0,
+    );
   }
 
   const totalNamingStandardViolations = dataFiles.reduce(

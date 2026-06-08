@@ -1,4 +1,5 @@
-import { expect, test, TestInfo } from '@playwright/test';
+import { test, expect } from '@bgotink/playwright-coverage';
+import { TestInfo } from '@playwright/test';
 import { localization } from '@/libs/language';
 import { stabilize } from './utils/commonUtils';
 

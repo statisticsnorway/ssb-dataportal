@@ -1,0 +1,62 @@
+[
+  {
+    "file_path": "gs://.../ameld_p2016-H1.parquet",
+    "contains_data_from": "2016-01-01T00:00:00",
+    "contains_data_until": "2016-06-30T23:59:59",
+    "period_type": "HALF_YEAR",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "file_type": "PARQUET",
+    "short_description": "ameld",
+    "product_type": "STATISTIC_PRODUCT",
+    "product_short_name": "ameld",
+    "storage_category": "PRODUCT",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "file_path": "gs://.../ameld_p2017-H1.parquet",
+    "contains_data_from": "2017-01-01T00:00:00",
+    "contains_data_until": "2017-06-30T23:59:59",
+    "period_type": "HALF_YEAR",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "file_type": "PARQUET",
+    "short_description": "ameld",
+    "product_type": "STATISTIC_PRODUCT",
+    "product_short_name": "ameld",
+    "storage_category": "PRODUCT",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "file_path": "gs://.../ameld_p2017-H2.parquet",
+    "contains_data_from": "2017-07-01T00:00:00",
+    "contains_data_until": "2017-12-31T23:59:59",
+    "period_type": "HALF_YEAR",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "file_type": "PARQUET",
+    "short_description": "ameld",
+    "product_type": "STATISTIC_PRODUCT",
+    "product_short_name": "ameld",
+    "storage_category": "PRODUCT",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "file_path": "gs://.../ameld_p2018-H1.parquet",
+    "contains_data_from": "2018-01-01T00:00:00",
+    "contains_data_until": "2018-06-30T23:59:59",
+    "period_type": "HALF_YEAR",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "file_type": "PARQUET",
+    "short_description": "ameld",
+    "product_type": "STATISTIC_PRODUCT",
+    "product_short_name": "ameld",
+    "storage_category": "PRODUCT",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  }
+]
