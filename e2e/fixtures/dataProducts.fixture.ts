@@ -1,4 +1,5 @@
-import { test as base, expect, Page, TestInfo } from '@playwright/test';
+import { test as base, expect } from '@bgotink/playwright-coverage';
+import { Page, TestInfo } from '@playwright/test';
 import { tabsData } from '@/app/(services)/tabs';
 import { stabilize } from '../utils/commonUtils';
 

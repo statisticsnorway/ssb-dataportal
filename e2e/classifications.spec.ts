@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '@bgotink/playwright-coverage';
 import { tabsData } from '@/app/(services)/tabs';
 
 test.skip('Classifications page', async ({ page }) => {

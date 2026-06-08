@@ -1,5 +1,5 @@
 import { localization } from '@/libs/language';
-import test, { expect } from '@playwright/test';
+import { test, expect } from '@bgotink/playwright-coverage';
 import { stabilize } from './utils/commonUtils';
 
 test('Data product datasets can be filtered by assessment', async ({ page }) => {
