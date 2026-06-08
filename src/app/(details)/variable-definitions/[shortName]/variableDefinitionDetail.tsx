@@ -39,7 +39,7 @@ export default function VariableDefinitionDetail({
         currentText={variableDefinition.short_name}
       />
       <main className={styles.mainContent}>
-        <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='2xl' level={1}>
+        <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='xl' level={1}>
           {variableDefinition.name}
         </Heading>
         <CopyTag text={variableDefinition.short_name} />

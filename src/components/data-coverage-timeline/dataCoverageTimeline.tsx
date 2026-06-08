@@ -19,16 +19,8 @@ const TOOLTIP_TEMPLATE = '{status}: {slotLabel} {year}';
 export const formatTemplate = (template: string, values: Record<string, string | number>): string =>
   Object.entries(values).reduce((result, [key, value]) => result.replaceAll(`{${key}}`, String(value)), template);
 
-/**
- * Convert a Date to a UTC year-month key string used for slot matching.
- *
- * Comparing on UTC year+month (rather than exact timestamps) makes matching
- * robust against sub-day timezone differences.
- *
- * @param d - Date to convert.
- * @returns A `"${year}-${monthIndex}"` string where `monthIndex` is 0-based.
- */
-const toYearMonth = (d: Date): string => `${d.getUTCFullYear()}-${d.getUTCMonth()}`;
+export const slotOverlapsItem = (slot: Slot, item: TimelineItem): boolean =>
+  item.start <= slot.end && item.end >= slot.start;
 
 interface CellProps {
   slot: Slot;
@@ -89,7 +81,10 @@ interface TimelineProps {
 const DataCoverageTimeline: React.FC<TimelineProps> = ({ data }) => {
   const { isValid, items, years, slots } = useTimelineData(data);
 
-  const itemsByYearMonth = useMemo(() => new Map(items.map((item) => [toYearMonth(item.start), item])), [items]);
+  const findMatchingItemForSlot = useMemo(
+    () => (slot: Slot) => items.find((item) => slotOverlapsItem(slot, item)),
+    [items],
+  );
 
   if (!isValid) return null;
 
@@ -116,7 +111,7 @@ const DataCoverageTimeline: React.FC<TimelineProps> = ({ data }) => {
                       idx={idx}
                       totalSlots={yearSlots.length}
                       year={year}
-                      matchedItem={itemsByYearMonth.get(toYearMonth(slot.start))}
+                      matchedItem={findMatchingItemForSlot(slot)}
                     />
                   ))}
                 </div>

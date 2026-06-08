@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 import { type DaplaDataFileDTO, PeriodFormat } from '@/libs/data-access/datadoc';
 import { clientLogger } from '@/libs/logger/client-logger';
-import { generateYearSlots } from './periodDefs';
+import { generateYearSlots } from './periodDefinitions';
 import { type Slot, type TimelineItem } from './types';
+import { pad2 } from './utils';
 
 const empty = {
   isValid: false as const,
@@ -13,29 +14,30 @@ const empty = {
 };
 
 /**
- * Parses a backend date string or pre-parsed Date into a UTC midnight Date object.
+ * Parses a backend date value into a date-only string (`YYYY-MM-DD`).
  *
- * We strip the time component entirely because we only care about which year/month/day
- * a period falls on, never the time within that day.
+ * We strip the time component entirely because we only care about day-level
+ * semantics in the timeline, never the time within that day.
  *
- * If a pre-parsed `Date` object arrives (already shifted), we recover the correct calendar
- * date using local getters (`getFullYear`/`getMonth`/`getDate`), which still reflect the
- * intended date even though the UTC timestamp is wrong.
+ * The API currently sends timezone-less datetimes, so Date objects represent
+ * floating calendar days rather than absolute UTC instants. We therefore read
+ * the local calendar day, not the UTC day.
  *
- * @param value - A date string in `YYYY-MM-DD` (or `YYYY-MM-DDTHH:mm:ss`) format, a `Date`
- *   object, or a nullish value.
- * @returns A UTC midnight `Date` for the given calendar date, or `new Date(NaN)` if the
- *   input is missing or unparseable.
+ * @param value - A `Date` object, or null or undefined.
+ * @returns A date-only key string (`YYYY-MM-DD`), or `null` if the input is missing or invalid.
  */
-const parseDate = (value: string | Date | undefined | null): Date => {
-  if (!value) return new Date(Number.NaN);
+const parseDay = (value: Date | undefined | null): string | null => {
+  if (!value) return null;
+  if (Number.isNaN(value.getTime())) return null;
 
-  const [y, m, d] =
-    value instanceof Date
-      ? [value.getFullYear(), value.getMonth() + 1, value.getDate()]
-      : (/^(\d{4})-(\d{2})-(\d{2})/.exec(value)?.slice(1) ?? []);
+  // Dates parsed from timezone-less strings (e.g. "2024-03-15T00:00:00") are
+  // treated as local midnight. In positive-offset zones, UTC conversion shifts
+  // them to the previous day — return the local calendar date instead.
+  if (value.getHours() === 0 && value.getMinutes() === 0 && value.getSeconds() === 0 && value.getMilliseconds() === 0) {
+    return `${value.getFullYear()}-${pad2(value.getMonth() + 1)}-${pad2(value.getDate())}`;
+  }
 
-  return y ? new Date(Date.UTC(+y, +m - 1, +d)) : new Date(Number.NaN);
+  return value.toISOString().slice(0, 10);
 };
 
 /**
@@ -50,12 +52,12 @@ const parseDate = (value: string | Date | undefined | null): Date => {
 const parseItems = (data: DaplaDataFileDTO[]): TimelineItem[] =>
   data
     .flatMap(({ file_path, contains_data_from, contains_data_until, period_type }) => {
-      const start = parseDate(contains_data_from);
-      const end = parseDate(contains_data_until);
-      if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime()) || !period_type) return [];
+      const start = parseDay(contains_data_from);
+      const end = parseDay(contains_data_until);
+      if (!start || !end || !period_type) return [];
       return [{ filePath: file_path, periodType: period_type, start, end }];
     })
-    .sort((a, b) => a.start.getTime() - b.start.getTime());
+    .sort((a, b) => a.start.localeCompare(b.start));
 
 /**
  * Returns `true` if the items span more than one distinct `periodType`.
@@ -68,12 +70,12 @@ const parseItems = (data: DaplaDataFileDTO[]): TimelineItem[] =>
 const hasMixedPeriodTypes = (items: TimelineItem[]): boolean => new Set(items.map((d) => d.periodType)).size !== 1;
 
 /**
- * Returns `true` if any item's start date is on or before the previous item's end date.
+ * Returns `true` if any item's start date is strictly before the previous item's end date.
  *
  * @param items - Parsed and sorted timeline items.
  */
 const hasOverlappingPeriods = (items: TimelineItem[]): boolean =>
-  items.some((item, i) => i > 0 && item.start <= items[i - 1]!.end);
+  items.some((item, i) => i > 0 && item.start < items[i - 1]!.end);
 
 const hasSupportedPeriodType = (periodType: PeriodFormat): boolean => generateYearSlots(2000, periodType).length > 0;
 
@@ -98,8 +100,8 @@ const buildYearSlots = (
   items: TimelineItem[],
   periodType: PeriodFormat,
 ): { years: number[]; slots: Record<number, Slot[]> } => {
-  const minYear = items.at(0)!.start.getUTCFullYear();
-  const maxYear = items.at(-1)!.start.getUTCFullYear();
+  const minYear = Number(items.at(0)!.start.slice(0, 4));
+  const maxYear = Number(items.at(-1)!.end.slice(0, 4));
   const years = Array.from({ length: maxYear - minYear + 1 }, (_, i) => minYear + i);
   const slots = Object.fromEntries(years.map((year) => [year, generateYearSlots(year, periodType)]));
   return { years, slots };
