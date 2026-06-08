@@ -26,7 +26,9 @@ export default function DatasetDetail({
   const { isAuthenticated } = useAuthContext();
 
   if (!isAuthenticated) {
-    dataFiles = dataFiles.filter((df) => df.naming_standard_violations.length === 0);
+    dataFiles = dataFiles.filter(
+      (df) => df.naming_standard_violations === undefined || df.naming_standard_violations.length === 0,
+    );
   }
 
   return (

@@ -14,18 +14,14 @@ export default defineConfig({
       defineCoverageReporterConfig({
         /* Path to the root files should be resolved from, most likely your repository root */
         sourceRoot: __dirname,
-        /* Files to ignore in coverage, useful
-            - if you're testing the demo app of a component library and want to exclude the demo sources
-            - or part of the code is generated
-            - or if you're running into any of the other many reasons people have for excluding files */
-        exclude: ['path/to/ignored/code/**'],
         /* Directory in which to write coverage reports */
         resultDir: path.join(__dirname, 'results/e2e-coverage'),
+        rewritePath: ({ absolutePath, relativePath }) => {
+          return absolutePath.replace(/turbopack:\/\[project\]\//, '');
+        },
         /* Configure the reports to generate.
            The value is an array of istanbul reports, with optional configuration attached. */
         reports: [
-          /* Create an HTML view at <resultDir>/index.html */
-          ['html'],
           /* Create <resultDir>/coverage.lcov for consumption by tooling */
           [
             'lcovonly',

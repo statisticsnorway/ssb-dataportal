@@ -1,4 +1,5 @@
-import { expect, test, TestInfo } from '@playwright/test';
+import { expect, test } from '@bgotink/playwright-coverage';
+import { TestInfo } from '@playwright/test';
 
 test.describe('app state routes', () => {
   test.beforeEach(({}, testInfo: TestInfo) => {

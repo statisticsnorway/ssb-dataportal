@@ -1,4 +1,4 @@
-import { test as base, expect } from '@playwright/test';
+import { test as base, expect } from '@bgotink/playwright-coverage';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import { parseClassification } from '@/utils/functions';

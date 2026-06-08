@@ -1,6 +1,7 @@
 import { tabsData } from '@/app/(services)/tabs';
 import variableDefinitionsJson from '@/static-data/variable-definitions.json';
-import test, { expect, Page } from '@playwright/test';
+import { test, expect } from '@bgotink/playwright-coverage';
+import { Page } from '@playwright/test';
 import { DETAIL_URL, KNOWN_SHORT_NAME } from './utils/variables';
 import { localization } from '@/libs/language';
 import { RenderedViewFromJSON } from '@/libs/data-access/variable-definitions/internal';

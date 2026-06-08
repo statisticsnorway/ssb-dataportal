@@ -1,10 +1,12 @@
 'use client';
 
 import { Heading } from '@digdir/designsystemet-react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { tabsData } from '@/app/(services)/tabs';
+import { useAuthContext } from '@/app/authContext';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { CheckboxFilter, FiltersPanel } from '@/components/filters';
+import { doesDatasetHaveAnyValidFiles } from '@/libs/data/datasets/datasets';
 import { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
 import { localization } from '@/libs/language';
 import { FilterItem } from '@/types/filters';
@@ -25,6 +27,33 @@ export default function DataProductDetail({
   dataProduct: DataProductDTO;
   datasets: DatasetDTO[];
 }) {
+  const { isAuthenticated } = useAuthContext();
+  const [visibleDatasets, setVisibleDatasets] = useState<DatasetDTO[]>(() => (isAuthenticated ? datasets : []));
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (isAuthenticated) {
+      setVisibleDatasets(datasets);
+      return;
+    }
+
+    const filterDatasets = async () => {
+      const hasValidFiles = await Promise.all(
+        datasets.map(async (dataset) => (dataset.id ? doesDatasetHaveAnyValidFiles(dataset.id) : false)),
+      );
+
+      if (!cancelled) {
+        setVisibleDatasets(datasets.filter((_, index) => hasValidFiles[index]));
+      }
+    };
+
+    void filterDatasets();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [datasets, isAuthenticated]);
   const assessmentFilters = useMemo<FilterItem[]>(
     () =>
       Object.keys(assessmentLabelByValue).map((value) => ({
@@ -44,14 +73,14 @@ export default function DataProductDetail({
   };
 
   const filteredDatasets = useMemo(() => {
-    if (selectedAssessments.length === 0) return datasets;
+    if (selectedAssessments.length === 0) return visibleDatasets;
 
     const selectedValues = new Set(selectedAssessments.map((f) => f.value));
-    return datasets.filter((dataset) => {
+    return visibleDatasets.filter((dataset) => {
       const assessment = dataset.assessment;
       return typeof assessment === 'string' && selectedValues.has(assessment);
     });
-  }, [datasets, selectedAssessments]);
+  }, [visibleDatasets, selectedAssessments]);
 
   return (
     <div className={`${styles.detailsPage} container`}>
