@@ -2,11 +2,13 @@
 
 import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { useMemo, useState } from 'react';
-import { CheckboxFilter, FiltersPanel } from '@/components/filters';
+import { CheckboxFilter, FiltersPanel, SelectFilter } from '@/components/filters';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { Assessment, type DataProductDTO, DataProductType, type DatasetDTO } from '@/libs/data-access/datadoc/models';
+import type { CodeItem } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import type { FilterItem } from '@/types/filters';
+import { getParentCode } from '@/utils/functions';
 import { tabsData } from '../tabs';
 import { DataProductSearchHit, localizeDataProductType } from './components/DataProductSearchHit';
 import styles from './page.module.css';
@@ -14,11 +16,14 @@ import styles from './page.module.css';
 interface DataProductsServicePageProps {
   readonly dataProducts: DataProductDTO[];
   readonly datasets?: DatasetDTO[];
+  readonly subjectFields?: CodeItem[];
 }
 
 const UNKNOWN_PRODUCT_TYPE = 'UNKNOWN_PRODUCT_TYPE';
 const UNKNOWN_ASSESSMENT = 'UNKNOWN_ASSESSMENT';
+const ALL_SUBJECT_FIELDS = '';
 const EMPTY_DATASETS: DatasetDTO[] = [];
+const EMPTY_SUBJECT_FIELDS: CodeItem[] = [];
 
 type ProductTypeFilterValue = DataProductType | typeof UNKNOWN_PRODUCT_TYPE;
 type AssessmentFilterValue = Assessment | typeof UNKNOWN_ASSESSMENT | (string & {});
@@ -37,6 +42,11 @@ const getProductTypeFilterValue = (dataProduct: DataProductDTO): ProductTypeFilt
 
 const getAssessmentFilterValue = (dataset: DatasetDTO): AssessmentFilterValue => {
   return dataset.assessment ?? UNKNOWN_ASSESSMENT;
+};
+
+const getSubjectFieldCodes = (dataProduct: DataProductDTO) => {
+  const subjectCode = dataProduct.subject_code?.trim();
+  return subjectCode ? [getParentCode(subjectCode)] : [];
 };
 
 const countByProductType = (dataProducts: DataProductDTO[]) => {
@@ -58,6 +68,17 @@ const countProductsByAssessment = (dataProducts: DataProductDTO[], datasets: Dat
     if (!dataset.product_short_name || !productShortNames.has(dataset.product_short_name)) return counts;
     const assessment = getAssessmentFilterValue(dataset);
     counts[assessment] = (counts[assessment] ?? new Set()).add(dataset.product_short_name);
+    return counts;
+  }, {});
+};
+
+const countProductsBySubjectField = (dataProducts: DataProductDTO[]) => {
+  return dataProducts.reduce<Record<string, Set<string>>>((counts, dataProduct, index) => {
+    const productKey = dataProduct.product_short_name ?? String(index);
+    const subjectFieldCodes = new Set(getSubjectFieldCodes(dataProduct));
+    subjectFieldCodes.forEach((code) => {
+      counts[code] = (counts[code] ?? new Set()).add(productKey);
+    });
     return counts;
   }, {});
 };
@@ -90,9 +111,14 @@ const getAssessmentFilterOrder = (counts: Record<string, Set<string>>) => {
   return [...knownValues, ...additionalValues, UNKNOWN_ASSESSMENT];
 };
 
-export const DataProductsServicePage = ({ dataProducts, datasets = EMPTY_DATASETS }: DataProductsServicePageProps) => {
+export const DataProductsServicePage = ({
+  dataProducts,
+  datasets = EMPTY_DATASETS,
+  subjectFields = EMPTY_SUBJECT_FIELDS,
+}: DataProductsServicePageProps) => {
   const [selectedProductTypeFilters, setSelectedProductTypeFilters] = useState<FilterItem[]>([]);
   const [selectedAssessmentFilters, setSelectedAssessmentFilters] = useState<FilterItem[]>([]);
+  const [selectedSubjectFieldFilter, setSelectedSubjectFieldFilter] = useState(ALL_SUBJECT_FIELDS);
   const productTypeFilters = useMemo<FilterItem[]>(() => {
     const counts = countByProductType(dataProducts);
     return dataProductTypeOrder
@@ -113,6 +139,19 @@ export const DataProductsServicePage = ({ dataProducts, datasets = EMPTY_DATASET
     }));
   }, [dataProducts, datasets]);
 
+  const subjectFieldFilters = useMemo<FilterItem[]>(() => {
+    const counts = countProductsBySubjectField(dataProducts);
+    return subjectFields
+      .filter((subjectField) => !subjectField.parentCode)
+      .map((subjectField) => ({
+        label: String(subjectField.name),
+        value: String(subjectField.code),
+        count: counts[String(subjectField.code)]?.size ?? 0,
+      }))
+      .filter((subjectField) => subjectField.count > 0)
+      .sort((a, b) => a.label.localeCompare(b.label, 'nb'));
+  }, [dataProducts, subjectFields]);
+
   const filteredDataProducts = useMemo(() => {
     const selectedProductTypes = new Set(selectedProductTypeFilters.map((filter) => filter.value));
     const selectedAssessments = new Set(selectedAssessmentFilters.map((filter) => filter.value));
@@ -126,9 +165,12 @@ export const DataProductsServicePage = ({ dataProducts, datasets = EMPTY_DATASET
             dataset.product_short_name === dataProduct.product_short_name &&
             selectedAssessments.has(getAssessmentFilterValue(dataset)),
         );
-      return matchesProductType && matchesAssessment;
+      const matchesSubjectField =
+        selectedSubjectFieldFilter === ALL_SUBJECT_FIELDS ||
+        getSubjectFieldCodes(dataProduct).includes(selectedSubjectFieldFilter);
+      return matchesProductType && matchesAssessment && matchesSubjectField;
     });
-  }, [dataProducts, datasets, selectedAssessmentFilters, selectedProductTypeFilters]);
+  }, [dataProducts, datasets, selectedAssessmentFilters, selectedProductTypeFilters, selectedSubjectFieldFilter]);
 
   const handleProductTypeFilterChange = (filter: FilterItem) => {
     setSelectedProductTypeFilters((selectedFilters) => {
@@ -176,6 +218,15 @@ export const DataProductsServicePage = ({ dataProducts, datasets = EMPTY_DATASET
             filters={assessmentFilters}
             selectedItems={selectedAssessmentFilters}
             onFilterChange={handleAssessmentFilterChange}
+          />
+          <SelectFilter
+            id='data-product-subject-field-filter'
+            filterHeading={localization.subjectArea}
+            filters={subjectFieldFilters}
+            selectedValue={selectedSubjectFieldFilter}
+            defaultOptionLabel='Alle statistikkområder'
+            defaultOptionValue={ALL_SUBJECT_FIELDS}
+            onFilterChange={setSelectedSubjectFieldFilter}
           />
         </FiltersPanel>
       }

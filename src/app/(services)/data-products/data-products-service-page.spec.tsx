@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { Assessment, type DataProductDTO, DataProductType, type DatasetDTO } from '@/libs/data-access/datadoc/models';
+import type { CodeItem } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import { DataProductsServicePage } from './data-products-service-page';
 
@@ -35,12 +36,20 @@ const dataProducts: DataProductDTO[] = [
     product_type: DataProductType.STATISTIC_PRODUCT,
     product_short_name: 'arbstatus',
     title: 'Tilknytning til arbeid, utdanning og velferdsordninger',
+    subject_code: 'al05',
   },
   {
     product_type: DataProductType.OTHER_DATA_PRODUCT,
     product_short_name: 'ameld',
     title: 'Ameldingen',
+    subject_code: 'bf',
   },
+];
+
+const subjectFields: CodeItem[] = [
+  { code: 'al', name: 'Arbeid og lønn' },
+  { code: 'bf', name: 'Bank og finansmarked' },
+  { code: 'he', name: 'Helse' },
 ];
 
 const datasets: DatasetDTO[] = [
@@ -147,6 +156,57 @@ describe('DataProductsServicePage', () => {
     expect(protectedAssessmentFilter).not.toBeChecked();
   });
 
+  it('renders subject field dropdown options with counts', () => {
+    render(<DataProductsServicePage dataProducts={dataProducts} datasets={datasets} subjectFields={subjectFields} />);
+    const subjectFieldFilter = screen.getByRole('combobox', { name: localization.subjectArea });
+    expect(screen.getByRole('group', { name: new RegExp(localization.subjectArea) })).toBeInTheDocument();
+    expect(subjectFieldFilter).toHaveValue('');
+    expect(screen.getByRole('option', { name: 'Alle statistikkområder' })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: 'Arbeid og lønn (1)' })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: 'Bank og finansmarked (1)' })).toBeInTheDocument();
+    expect(screen.queryByRole('option', { name: 'Helse (0)' })).not.toBeInTheDocument();
+  });
+
+  it('filters data products by selected subject field', () => {
+    render(<DataProductsServicePage dataProducts={dataProducts} datasets={datasets} subjectFields={subjectFields} />);
+    const main = screen.getByRole('main');
+    const subjectFieldFilter = screen.getByRole('combobox', { name: localization.subjectArea });
+    fireEvent.change(subjectFieldFilter, { target: { value: 'al' } });
+    expect(main).toHaveTextContent('1 treff');
+    expect(main).toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
+    expect(main).not.toHaveTextContent('Ameldingen');
+    fireEvent.change(subjectFieldFilter, { target: { value: 'bf' } });
+    expect(main).toHaveTextContent('1 treff');
+    expect(main).toHaveTextContent('Ameldingen');
+    expect(main).not.toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
+    fireEvent.change(subjectFieldFilter, { target: { value: '' } });
+    expect(main).toHaveTextContent('2 treff');
+    expect(main).toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
+    expect(main).toHaveTextContent('Ameldingen');
+  });
+
+  it('normalizes child subject field codes to parent subject areas', () => {
+    render(
+      <DataProductsServicePage
+        dataProducts={[
+          {
+            product_type: DataProductType.STATISTIC_PRODUCT,
+            product_short_name: 'health-product',
+            title: 'Helseprodukt',
+            subject_code: 'hel2',
+          },
+        ]}
+        datasets={[]}
+        subjectFields={subjectFields}
+      />,
+    );
+    const main = screen.getByRole('main');
+    const subjectFieldFilter = screen.getByRole('combobox', { name: localization.subjectArea });
+    fireEvent.change(subjectFieldFilter, { target: { value: 'he' } });
+    expect(main).toHaveTextContent('1 treff');
+    expect(main).toHaveTextContent('Helseprodukt');
+  });
+
   it('filters data products by selected dataset assessments', () => {
     render(<DataProductsServicePage dataProducts={dataProducts} datasets={datasets} />);
     const main = screen.getByRole('main');
@@ -229,6 +289,21 @@ describe('DataProductsServicePage', () => {
     const protectedAssessmentFilter = screen.getByRole('checkbox', { name: 'Beskyttet (1)' });
     fireEvent.click(otherProductFilter);
     fireEvent.click(protectedAssessmentFilter);
+    expect(main).toHaveTextContent('0 treff');
+    expect(main).toHaveTextContent(localization.search.noHits);
+    expect(main).not.toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
+    expect(main).not.toHaveTextContent('Ameldingen');
+  });
+
+  it('combines subject field filters with product type and assessment filters', () => {
+    render(<DataProductsServicePage dataProducts={dataProducts} datasets={datasets} subjectFields={subjectFields} />);
+    const main = screen.getByRole('main');
+    const otherProductFilter = screen.getByRole('checkbox', { name: 'Annen dataprodukt (1)' });
+    const openAssessmentFilter = screen.getByRole('checkbox', { name: 'Åpen (2)' });
+    const subjectFieldFilter = screen.getByRole('combobox', { name: localization.subjectArea });
+    fireEvent.click(otherProductFilter);
+    fireEvent.click(openAssessmentFilter);
+    fireEvent.change(subjectFieldFilter, { target: { value: 'al' } });
     expect(main).toHaveTextContent('0 treff');
     expect(main).toHaveTextContent(localization.search.noHits);
     expect(main).not.toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');

@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { listDataProducts, listDatasets } from '@/libs/data/datasets/datasets';
 import { type DataProductDTO, type DatasetDTO } from '@/libs/data-access/datadoc/models';
+import type { CodeItem } from '@/libs/data-access/klass/models';
 import DataProductsPage from './page';
 
 vi.mock('@/libs/data/datasets/datasets', () => ({
@@ -14,9 +15,17 @@ vi.mock('@/libs/logger/server-logger', () => ({
 }));
 
 vi.mock('./data-products-service-page', () => ({
-  DataProductsServicePage: ({ dataProducts, datasets }: { dataProducts: DataProductDTO[]; datasets: DatasetDTO[] }) => (
+  DataProductsServicePage: ({
+    dataProducts,
+    datasets,
+    subjectFields,
+  }: {
+    dataProducts: DataProductDTO[];
+    datasets: DatasetDTO[];
+    subjectFields: CodeItem[];
+  }) => (
     <div>
-      {dataProducts.length} data products and {datasets.length} datasets
+      {dataProducts.length} data products, {datasets.length} datasets and {subjectFields.length} subject fields
     </div>
   ),
 }));
@@ -32,13 +41,13 @@ describe('DataProductsPage', () => {
     vi.mocked(listDataProducts).mockResolvedValue([{ product_short_name: 'arbstatus' }]);
     vi.mocked(listDatasets).mockResolvedValue([{ id: 'ds-1', product_short_name: 'arbstatus' }]);
     render(await DataProductsPage({ searchParams }));
-    expect(screen.getByText('1 data products and 1 datasets')).toBeInTheDocument();
+    expect(screen.getByText(/1 data products, 1 datasets and \d+ subject fields/)).toBeInTheDocument();
   });
 
   it('renders data products without assessment filters when dataset loading fails', async () => {
     vi.mocked(listDataProducts).mockResolvedValue([{ product_short_name: 'arbstatus' }]);
     vi.mocked(listDatasets).mockRejectedValue(new Error('Could not load datasets'));
     render(await DataProductsPage({ searchParams }));
-    expect(screen.getByText('1 data products and 0 datasets')).toBeInTheDocument();
+    expect(screen.getByText(/1 data products, 0 datasets and \d+ subject fields/)).toBeInTheDocument();
   });
 });

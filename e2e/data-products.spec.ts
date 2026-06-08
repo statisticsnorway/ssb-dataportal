@@ -38,3 +38,23 @@ test('Data products can be filtered by product type', async ({ dataProductsPage 
   await expect(main).toContainText('Ameldingen');
   await expect(main).not.toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
 });
+
+test('Data products can be filtered by subject area', async ({ dataProductsPage }) => {
+  const main = dataProductsPage.getByRole('main');
+  const subjectAreaFilter = main.getByRole('combobox', { name: localization.subjectArea });
+
+  await subjectAreaFilter.selectOption('al');
+  await expect(main).toContainText('1 treff');
+  await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
+  await expect(main).not.toContainText('Ameldingen');
+
+  await subjectAreaFilter.selectOption('bf');
+  await expect(main).toContainText('1 treff');
+  await expect(main).toContainText('Ameldingen');
+  await expect(main).not.toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
+
+  await subjectAreaFilter.selectOption('');
+  await expect(main).toContainText('2 treff');
+  await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
+  await expect(main).toContainText('Ameldingen');
+});

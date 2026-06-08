@@ -45,6 +45,12 @@ export interface DataProductDTO {
      * @memberof DataProductDTO
      */
     title?: string | null;
+    /**
+     * The subject area this product is categorized within. Defined by codes in Level 2 of https://www.ssb.no/klass/klassifikasjoner/618
+     * @type {string}
+     * @memberof DataProductDTO
+     */
+    subject_code?: string | null;
 }
 
 
@@ -65,10 +71,10 @@ export function DataProductDTOFromJSONTyped(json: any, ignoreDiscriminator: bool
         return json;
     }
     return {
-        
         'product_type': json['product_type'] == null ? undefined : DataProductTypeFromJSON(json['product_type']),
         'product_short_name': json['product_short_name'] == null ? undefined : json['product_short_name'],
         'title': json['title'] == null ? undefined : json['title'],
+        'subject_code': json['subject_code'] == null ? undefined : json['subject_code'],
     };
 }
 
@@ -86,6 +92,7 @@ export function DataProductDTOToJSONTyped(value?: DataProductDTO | null, ignoreD
         'product_type': DataProductTypeToJSON(value['product_type']),
         'product_short_name': value['product_short_name'],
         'title': value['title'],
+        'subject_code': value['subject_code'],
     };
 }
 

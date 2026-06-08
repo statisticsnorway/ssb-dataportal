@@ -10,6 +10,7 @@ Name | Type
 `product_type` | [DataProductType](DataProductType.md)
 `product_short_name` | string
 `title` | string
+`subject_code` | string
 
 ## Example
 
@@ -21,6 +22,7 @@ const example = {
   "product_type": null,
   "product_short_name": null,
   "title": null,
+  "subject_code": null,
 } satisfies DataProductDTO
 
 console.log(example)
