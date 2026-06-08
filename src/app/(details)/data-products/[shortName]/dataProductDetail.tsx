@@ -1,15 +1,18 @@
+'use client';
+
 import { Heading } from '@digdir/designsystemet-react';
+import { useEffect, useState } from 'react';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
-import { listDataFilesByDatasetId } from '@/libs/data/datasets/datasets';
+import { doesDatasetHaveAnyValidFiles } from '@/libs/data/datasets/datasets';
 import { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { DatasetSearchHit } from './components/DatasetSearchHit';
 import styles from './page.module.css';
 
-export default async function DataProductDetail({
+export default function DataProductDetail({
   dataProduct,
   datasets,
 }: {
@@ -17,6 +20,33 @@ export default async function DataProductDetail({
   datasets: DatasetDTO[];
 }) {
   const { isAuthenticated } = useAuthContext();
+  const [visibleDatasets, setVisibleDatasets] = useState<DatasetDTO[]>(() => (isAuthenticated ? datasets : []));
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (isAuthenticated) {
+      setVisibleDatasets(datasets);
+      return;
+    }
+
+    const filterDatasets = async () => {
+      const hasValidFiles = await Promise.all(
+        datasets.map(async (dataset) => (dataset.id ? doesDatasetHaveAnyValidFiles(dataset.id) : false)),
+      );
+
+      if (!cancelled) {
+        setVisibleDatasets(datasets.filter((_, index) => hasValidFiles[index]));
+      }
+    };
+
+    void filterDatasets();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [datasets, isAuthenticated]);
+
   return (
     <div className={`${styles.detailsPage} container`}>
       <DataportalBreadcrumbs
@@ -35,11 +65,9 @@ export default async function DataProductDetail({
             Datasett
           </Heading>
           <div className={styles.datasetList}>
-            {datasets
-              .filter((d) => d.id && !isAuthenticated && listDataFilesByDatasetId(d.id))
-              .map((d) => (
-                <DatasetSearchHit key={d.id ?? `${d.product_short_name}-${d.short_description}`} dataset={d} />
-              ))}
+            {visibleDatasets.map((d) => (
+              <DatasetSearchHit key={d.id ?? `${d.product_short_name}-${d.short_description}`} dataset={d} />
+            ))}
           </div>
         </section>
       </main>
