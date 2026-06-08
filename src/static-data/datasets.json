@@ -27,12 +27,120 @@
     "storage_location_name": "bucket-a"
   },
   {
-    "id": "ds-2",
+    "id": "id1",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "arblonn",
+    "short_description": "Arblonn datasett 1",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "id": "id2",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "arblonn",
+    "short_description": "Arblonn datasett 2",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "id": "id3",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "arblonn",
+    "short_description": "Arblonn datasett 3",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "id": "id4",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "arblonn",
+    "short_description": "Arblonn datasett 4",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "id": "id5",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "arblonn",
+    "short_description": "Arblonn datasett 5",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "id": "id6",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "arblonn",
+    "short_description": "Arblonn datasett 6",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "id": "id7",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "arblonn",
+    "short_description": "Arblonn datasett 7",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "id": "id8",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "arblonn",
+    "short_description": "Arblonn datasett 8",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "id": "id9",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "arblonn",
+    "short_description": "Arblonn datasett 9",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "id": "id7-0456gfjgafhjg7vgigyig23434769698",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "arblonn",
+    "short_description": "Arblonn datasett 10",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "id": "id10",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
     "product_short_name": "ameld",
-    "short_description": "Ameldingen dataset",
-    "assessment": "OPEN",
-    "dataset_state": "OUTPUT_DATA",
-    "owner": "team-b",
-    "storage_location_name": "bucket-b"
+    "short_description": "invalid-dataset",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "id": "id11",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "ameld",
+    "short_description": "valid-dataset",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
+  },
+  {
+    "id": "id10",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "invalid",
+    "short_description": "invalid-dataset",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
   }
 ]

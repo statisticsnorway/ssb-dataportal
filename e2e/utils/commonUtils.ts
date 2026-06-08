@@ -1,4 +1,5 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { expect } from '@bgotink/playwright-coverage';
+import { Locator, Page } from '@playwright/test';
 
 export async function checkCheckbox(checkboxLocator: Locator) {
   await expect(checkboxLocator).toBeVisible();

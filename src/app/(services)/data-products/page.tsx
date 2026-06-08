@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: localization.pageTitle.dataProducts,
 };
 
-export default async function Datasets({
+export default async function DataProducts({
   searchParams,
 }: Readonly<{
   searchParams: Promise<Record<string, string | string[] | undefined>>;

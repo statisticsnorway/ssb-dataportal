@@ -1,0 +1,17 @@
+[
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arbstatus/maned/klargjorte-data/arbstatus_p2016-01.parquet",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "file_type": "PARQUET",
+    "short_description": "Arbeidsstatus datasett 1",
+    "product_type": "STATISTIC_PRODUCT",
+    "product_short_name": "arblonn",
+    "storage_category": "PRODUCT",
+    "assessment": "OPEN",
+    "dataset_state": "PROCESSED_DATA",
+    "contains_data_from": "2016-01-01T00:00:00",
+    "contains_data_until": "2016-01-31T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "owner": "arbmark-register"
+  }
+]

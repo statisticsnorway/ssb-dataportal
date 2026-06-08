@@ -1,4 +1,5 @@
-import { test as base, expect, TestInfo } from '@playwright/test';
+import { TestInfo } from '@playwright/test';
+import { test as base, expect } from '@bgotink/playwright-coverage';
 import assert from 'assert';
 import { tabsData } from '@/app/(services)/tabs';
 import { RenderedView, RenderedViewFromJSON } from '@/libs/data-access/variable-definitions/internal';

@@ -12,7 +12,7 @@ export const FeedbackCallout = () => {
   return (
     <>
       {isAuthenticated ? (
-        <Card role='complementary' className={`${styles.infoSection} container`}>
+        <Card role='complementary' className={`${styles.infoSection} containerBox`}>
           <Heading level={3} className='infoHeadingSecondary'>
             {localization.info.feedbackTitle}
           </Heading>

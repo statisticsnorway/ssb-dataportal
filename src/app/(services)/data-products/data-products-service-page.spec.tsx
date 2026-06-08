@@ -6,6 +6,16 @@ import type { CodeItem } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import { DataProductsServicePage } from './data-products-service-page';
 
+vi.mock('server-only', () => ({}));
+vi.mock('@/app/authContext', () => ({
+  useAuthContext: () => ({
+    isAuthenticated: true,
+    login: vi.fn(),
+    logout: vi.fn(),
+    user: null,
+  }),
+}));
+
 vi.mock('@/components/search-page-wrapper/search-page', () => {
   const SearchPage = ({
     header,
@@ -56,26 +66,26 @@ const datasets: DatasetDTO[] = [
   {
     id: 'ds-1',
     product_short_name: 'arbstatus',
-    short_description: 'Arbeidsstatus datasett 1',
+    short_description: 'Arbeidsstatus åpen',
     assessment: Assessment.OPEN,
   },
   {
     id: 'ds-2',
     product_short_name: 'arbstatus',
-    short_description: 'Arbeidsstatus datasett 2',
+    short_description: 'Arbeidsstatus beskyttet',
     assessment: Assessment.PROTECTED,
   },
   {
     id: 'ds-3',
     product_short_name: 'ameld',
-    short_description: 'Ameldingen dataset',
+    short_description: 'Amelding åpen',
     assessment: Assessment.OPEN,
   },
 ];
 
 describe('DataProductsServicePage', () => {
   it('renders product type checkboxes with counts', () => {
-    render(<DataProductsServicePage dataProducts={dataProducts} datasets={datasets} />);
+    render(<DataProductsServicePage dataProducts={dataProducts} />);
     const statisticProductFilter = screen.getByRole('checkbox', { name: 'Statistikkprodukt (1)' });
     const otherProductFilter = screen.getByRole('checkbox', { name: 'Annen dataprodukt (1)' });
     expect(screen.getByRole('group', { name: new RegExp(localization.products.typeFilterLabel) })).toBeInTheDocument();
@@ -109,7 +119,7 @@ describe('DataProductsServicePage', () => {
   });
 
   it('filters data products by selected product types', () => {
-    render(<DataProductsServicePage dataProducts={dataProducts} datasets={datasets} />);
+    render(<DataProductsServicePage dataProducts={dataProducts} />);
     const main = screen.getByRole('main');
     const statisticProductFilter = screen.getByRole('checkbox', { name: 'Statistikkprodukt (1)' });
     const otherProductFilter = screen.getByRole('checkbox', { name: 'Annen dataprodukt (1)' });
@@ -127,7 +137,7 @@ describe('DataProductsServicePage', () => {
     expect(main).not.toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
   });
 
-  it('renders title or short name for each data product without datasets', () => {
+  it('renders title or short name for each data product', () => {
     render(
       <DataProductsServicePage
         dataProducts={[

@@ -1,9 +1,11 @@
 'use client';
 
 import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useAuthContext } from '@/app/authContext';
 import { CheckboxFilter, FiltersPanel, SelectFilter } from '@/components/filters';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
+import { doesDatasetHaveAnyValidFiles, listDatasetsByProductShortName } from '@/libs/data/datasets/datasets';
 import { Assessment, type DataProductDTO, DataProductType, type DatasetDTO } from '@/libs/data-access/datadoc/models';
 import type { CodeItem } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
@@ -26,7 +28,7 @@ const EMPTY_DATASETS: DatasetDTO[] = [];
 const EMPTY_SUBJECT_FIELDS: CodeItem[] = [];
 
 type ProductTypeFilterValue = DataProductType | typeof UNKNOWN_PRODUCT_TYPE;
-type AssessmentFilterValue = Assessment | typeof UNKNOWN_ASSESSMENT | (string & {});
+type AssessmentFilterValue = string;
 
 const dataProductTypeOrder: ProductTypeFilterValue[] = [
   DataProductType.STATISTIC_PRODUCT,
@@ -117,10 +119,46 @@ export const DataProductsServicePage = ({
   subjectFields = EMPTY_SUBJECT_FIELDS,
 }: DataProductsServicePageProps) => {
   const [selectedProductTypeFilters, setSelectedProductTypeFilters] = useState<FilterItem[]>([]);
+
+  const { isAuthenticated } = useAuthContext();
+  const [visibleDataProducts, setVisibleDataProducts] = useState<DataProductDTO[]>(() => []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (isAuthenticated) {
+      setVisibleDataProducts(dataProducts);
+      return;
+    }
+
+    const filterDataProducts = async () => {
+      const hasValidDatasets = await Promise.all(
+        dataProducts.map(async (dataProduct) => {
+          if (!dataProduct.product_short_name) return false;
+          const datasets = await listDatasetsByProductShortName(dataProduct.product_short_name);
+          const hasAnyValidFiles = await Promise.all(
+            datasets.map(async (dataset) => (dataset.id ? doesDatasetHaveAnyValidFiles(dataset.id) : false)),
+          );
+          return hasAnyValidFiles.some(Boolean);
+        }),
+      );
+
+      if (!cancelled) {
+        setVisibleDataProducts(dataProducts.filter((_, index) => hasValidDatasets[index]));
+      }
+    };
+
+    void filterDataProducts();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [dataProducts, isAuthenticated]);
+
   const [selectedAssessmentFilters, setSelectedAssessmentFilters] = useState<FilterItem[]>([]);
   const [selectedSubjectFieldFilter, setSelectedSubjectFieldFilter] = useState(ALL_SUBJECT_FIELDS);
   const productTypeFilters = useMemo<FilterItem[]>(() => {
-    const counts = countByProductType(dataProducts);
+    const counts = countByProductType(visibleDataProducts);
     return dataProductTypeOrder
       .filter((productType) => counts[productType] != null)
       .map((productType) => ({
@@ -128,19 +166,10 @@ export const DataProductsServicePage = ({
         value: productType,
         count: counts[productType],
       }));
-  }, [dataProducts]);
-
-  const assessmentFilters = useMemo<FilterItem[]>(() => {
-    const counts = countProductsByAssessment(dataProducts, datasets);
-    return getAssessmentFilterOrder(counts).map((assessment) => ({
-      label: getAssessmentLabel(assessment),
-      value: assessment,
-      count: counts[assessment]?.size,
-    }));
-  }, [dataProducts, datasets]);
+  }, [visibleDataProducts]);
 
   const subjectFieldFilters = useMemo<FilterItem[]>(() => {
-    const counts = countProductsBySubjectField(dataProducts);
+    const counts = countProductsBySubjectField(visibleDataProducts);
     return subjectFields
       .filter((subjectField) => !subjectField.parentCode)
       .map((subjectField) => ({
@@ -150,12 +179,21 @@ export const DataProductsServicePage = ({
       }))
       .filter((subjectField) => subjectField.count > 0)
       .sort((a, b) => a.label.localeCompare(b.label, 'nb'));
-  }, [dataProducts, subjectFields]);
+  }, [visibleDataProducts, subjectFields]);
+
+  const assessmentFilters = useMemo<FilterItem[]>(() => {
+    const counts = countProductsByAssessment(visibleDataProducts, datasets);
+    return getAssessmentFilterOrder(counts).map((assessment) => ({
+      label: getAssessmentLabel(assessment),
+      value: assessment,
+      count: counts[assessment]?.size ?? 0,
+    }));
+  }, [visibleDataProducts, datasets]);
 
   const filteredDataProducts = useMemo(() => {
     const selectedProductTypes = new Set(selectedProductTypeFilters.map((filter) => filter.value));
     const selectedAssessments = new Set(selectedAssessmentFilters.map((filter) => filter.value));
-    return dataProducts.filter((dataProduct) => {
+    return visibleDataProducts.filter((dataProduct) => {
       const matchesProductType =
         selectedProductTypes.size === 0 || selectedProductTypes.has(getProductTypeFilterValue(dataProduct));
       const matchesAssessment =
@@ -170,7 +208,13 @@ export const DataProductsServicePage = ({
         getSubjectFieldCodes(dataProduct).includes(selectedSubjectFieldFilter);
       return matchesProductType && matchesAssessment && matchesSubjectField;
     });
-  }, [dataProducts, datasets, selectedAssessmentFilters, selectedProductTypeFilters, selectedSubjectFieldFilter]);
+  }, [
+    visibleDataProducts,
+    selectedProductTypeFilters,
+    selectedAssessmentFilters,
+    datasets,
+    selectedSubjectFieldFilter,
+  ]);
 
   const handleProductTypeFilterChange = (filter: FilterItem) => {
     setSelectedProductTypeFilters((selectedFilters) => {

@@ -2,6 +2,8 @@
 
 import { Card, Divider, Heading, Tag } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
+import { useAuthContext } from '@/app/authContext';
+import DataCoverageTimeline from '@/components/data-coverage-timeline/dataCoverageTimeline';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { DetailsTable } from '@/components/details-list';
 import { ExternalLink } from '@/components/link-components/externalLink';
@@ -10,6 +12,7 @@ import { DaplaDataFileDTO, DatasetDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { getDaplaCtrlUrl } from '@/utils/config';
+import { convertAssessment, convertDataSetState } from '@/utils/functions';
 import { sortDateStringsDescending } from '@/utils/sort';
 import styles from './dataset-page.module.css';
 
@@ -20,6 +23,14 @@ export default function DatasetDetail({
   dataset: DatasetDTO;
   dataFiles: Array<DaplaDataFileDTO>;
 }>) {
+  const { isAuthenticated } = useAuthContext();
+
+  if (!isAuthenticated) {
+    dataFiles = dataFiles.filter(
+      (df) => df.naming_standard_violations === undefined || df.naming_standard_violations.length === 0,
+    );
+  }
+
   return (
     <div className={`${styles.detailsPage} container`}>
       <DataportalBreadcrumbs
@@ -34,7 +45,7 @@ export default function DatasetDetail({
         currentText={dataset.short_description ?? ''}
       />
       <main className={styles.mainContent}>
-        <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='2xl' level={1}>
+        <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='xl' level={1}>
           {dataset.short_description}
         </Heading>
         <DetailsTable
@@ -44,11 +55,13 @@ export default function DatasetDetail({
             { label: localization.datasetDetail.bucket, value: dataset.storage_location_name },
             {
               label: localization.datasetDetail.datasetState,
-              value: <Tag data-color='success'> {dataset.dataset_state}</Tag>,
+              value: dataset.dataset_state && (
+                <Tag data-color='success'>{convertDataSetState(dataset.dataset_state)}</Tag>
+              ),
             },
             {
               label: localization.datasetDetail.assessment,
-              value: <Tag data-color='warning'> {dataset.assessment}</Tag>,
+              value: dataset.assessment && <Tag data-color='warning'> {convertAssessment(dataset.assessment)}</Tag>,
             },
             {
               label: localization.datasetDetail.responsible,
@@ -62,6 +75,9 @@ export default function DatasetDetail({
             { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
           ]}
         />
+
+        <DataCoverageTimeline data={dataFiles}></DataCoverageTimeline>
+
         <Card className={styles.tableContainer}>
           <Heading
             level={2}

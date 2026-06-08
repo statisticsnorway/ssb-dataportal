@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { listDataProducts, listDatasets } from '@/libs/data/datasets/datasets';
-import { type DataProductDTO, type DatasetDTO } from '@/libs/data-access/datadoc/models';
+import type { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
 import type { CodeItem } from '@/libs/data-access/klass/models';
 import DataProductsPage from './page';
 
