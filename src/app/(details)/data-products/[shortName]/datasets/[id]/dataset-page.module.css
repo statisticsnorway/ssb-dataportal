@@ -82,6 +82,10 @@
   --dsc-button-size: auto;
 }
 
+.violationPopover {
+  --dsc-popover-border-color: rgba(255, 211, 116);
+}
+
 .violationsList {
   margin: 0;
   padding-left: 1rem;

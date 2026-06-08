@@ -136,7 +136,7 @@ export default function DatasetDetail({
                             aria-hidden
                           />
                         </Popover.Trigger>
-                        <Popover placement='top' id={`violations-${index}`}>
+                        <Popover placement='top' id={`violations-${index}`} className={styles.violationPopover}>
                           <ul className={styles.violationsList}>
                             {dataFile.naming_standard_violations.map((violation) => (
                               <li key={violation}>{violation}</li>
