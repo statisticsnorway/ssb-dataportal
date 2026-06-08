@@ -133,5 +133,14 @@
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
     "owner": "arbmark-register"
+  },
+  {
+    "id": "id10",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "invalid",
+    "short_description": "invalid-dataset",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register"
   }
 ]

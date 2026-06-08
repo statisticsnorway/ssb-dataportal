@@ -10,8 +10,9 @@ test('Data products page displays data products', async ({ dataProductsPage }) =
 
   await expect(main.getByRole('heading', { name: localization.tabs.dataProducts })).toBeVisible();
   await expect(main).toContainText('3 treff');
-  await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
+  await expect(main).toContainText('Arblonn');
   await expect(main).toContainText('Ameldingen');
+  await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
 });
 
 test('Clicking a data product navigates to details page', async ({ dataProductsPage }) => {
