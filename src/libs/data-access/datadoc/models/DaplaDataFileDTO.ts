@@ -203,7 +203,7 @@ export function DaplaDataFileDTOFromJSONTyped(json: any, ignoreDiscriminator: bo
         'contains_data_until': json['contains_data_until'] == null ? undefined : (new Date(json['contains_data_until'])),
         'period_type': json['period_type'] == null ? undefined : PeriodFormatFromJSON(json['period_type']),
         'owner': json['owner'] == null ? undefined : json['owner'],
-        'naming_standard_violations': json['naming_standard_violations'] ?? [],
+        'naming_standard_violations': json['naming_standard_violations'],
     };
 }
 
