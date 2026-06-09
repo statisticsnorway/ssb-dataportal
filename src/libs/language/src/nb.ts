@@ -136,9 +136,9 @@ export const nb = {
     classificationsPrototypeIntro: 'Under utvikling',
     classificationsPrototypeInfo:
       'En ny og forbedret visning av Klass lanseres ila 2026. Frem til lansering må du bruke dagens løsning på',
-    datasetPrototypeIntro: 'Planlagt utvidelse',
+    datasetPrototypeIntro: 'Under utvikling',
     datasetProtoypeInfo:
-      'Denne siden vil i fremtiden inneholde vår nye løsning for beskrivelser av datasett. Utviklingen starter for fullt i 2026.',
+      'Denne siden beskriver et utvalg av data i SSB. Utvikling fortsetter med flere typer data og mer detaljerte beskrivelser.',
     feedbackTitle: 'Del dine erfaringer!',
     feedbackBody: 'Vi jobber kontinuerlig med å forbedre dataportalen og du kan hjelpe oss ved å fylle ut',
     feedBackForm: 'tilbakemeldingsskjema for SSB Dataportal',
