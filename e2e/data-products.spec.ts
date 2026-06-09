@@ -7,7 +7,7 @@ test('Data products page displays data products', async ({ dataProductsPage }) =
   const main = dataProductsPage.getByRole('main');
 
   await expect(main.getByRole('heading', { name: localization.tabs.dataProducts })).toBeVisible();
-  await expect(main).toContainText('3 treff');
+  await expect(main).toContainText('4 treff');
   await expect(main).toContainText('Arblonn');
   await expect(main).toContainText('Ameldingen');
   await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
@@ -23,8 +23,8 @@ test('Clicking a data product navigates to details page', async ({ dataProductsP
 
 test('Data products can be filtered by product type', async ({ dataProductsPage }) => {
   const main = dataProductsPage.getByRole('main');
-  const statisticProductFilter = main.getByRole('checkbox', { name: 'Statistikkprodukt (1)' });
-  const otherProductFilter = main.getByRole('checkbox', { name: 'Annen dataprodukt (2)' });
+  const statisticProductFilter = main.getByRole('checkbox', { name: 'Statistikkprodukt' });
+  const otherProductFilter = main.getByRole('checkbox', { name: 'Annen dataprodukt' });
 
   await statisticProductFilter.check();
   await expect(main).toContainText('1 treff');
@@ -32,12 +32,12 @@ test('Data products can be filtered by product type', async ({ dataProductsPage 
   await expect(main).not.toContainText('Ameldingen');
 
   await otherProductFilter.check();
-  await expect(main).toContainText('3 treff');
+  await expect(main).toContainText('4 treff');
   await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
   await expect(main).toContainText('Ameldingen');
 
   await statisticProductFilter.uncheck();
-  await expect(main).toContainText('2 treff');
+  await expect(main).toContainText('3 treff');
   await expect(main).toContainText('Ameldingen');
   await expect(main).not.toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
 });
@@ -77,7 +77,7 @@ test('Data products can be filtered by subject area', async ({ dataProductsPage 
   await expect(main).not.toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
 
   await subjectAreaFilter.selectOption('');
-  await expect(main).toContainText('3 treff');
+  await expect(main).toContainText('4 treff');
   await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
   await expect(main).toContainText('Ameldingen');
   await expect(main).toContainText('Arblonn');
