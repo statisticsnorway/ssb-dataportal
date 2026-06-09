@@ -28,6 +28,7 @@ test.describe('authenticated', () => {
 
     await expect(page.getByRole('button', { name: 'Navnestandardavvik' })).toBeVisible();
     await page.getByRole('button', { name: 'Navnestandardavvik' }).click();
-    await expect(page.getByText('invalid')).toBeVisible();
+    await page.locator('#violations-0').click();
+    await expect(page.getByText('invalid', { exact: true })).toBeVisible();
   });
 });
