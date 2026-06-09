@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { listDataProducts } from '@/libs/data/datasets/datasets';
 import { localization } from '@/libs/language';
 import { createLogger } from '@/libs/logger/server-logger';
+import { fetchStaticSubjectFields } from '@/utils/mock-data';
 import { DataProductsServicePage } from './data-products-service-page';
 
 export const metadata: Metadata = {
@@ -17,5 +18,6 @@ export default async function DataProducts({
   const logger = createLogger('data-products-discover-page');
   logger.info({ params }, 'Data products page access');
   const dataProducts = await listDataProducts();
-  return <DataProductsServicePage dataProducts={dataProducts} />;
+  const subjectFields = await fetchStaticSubjectFields();
+  return <DataProductsServicePage dataProducts={dataProducts} subjectFields={subjectFields} />;
 }

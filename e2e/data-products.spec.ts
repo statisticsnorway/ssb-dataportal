@@ -1,9 +1,7 @@
 import { expect, test } from './fixtures/dataProducts.fixture';
 import { localization } from '@/libs/language';
 import { stabilize } from './utils/commonUtils';
-import { use } from 'react';
 import { tabsData } from '@/app/(services)/tabs';
-import { wait } from '@testing-library/user-event/dist/cjs/utils/index.js';
 
 test('Data products page displays data products', async ({ dataProductsPage }) => {
   const main = dataProductsPage.getByRole('main');
@@ -57,9 +55,30 @@ test.describe('unauthenticated', () => {
 
     await main.getByRole('link', { name: 'ameld' }).click();
     await expect(page).toHaveURL(/\/data-products\/ameld$/);
-    page.pause();
     await expect(page.getByRole('heading', { level: 1, name: 'ameld' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'valid-dataset' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'invalid-dataset' })).not.toBeVisible();
   });
+});
+
+test('Data products can be filtered by subject area', async ({ dataProductsPage }) => {
+  const main = dataProductsPage.getByRole('main');
+  const subjectAreaFilter = main.getByRole('combobox', { name: localization.subjectArea });
+
+  await subjectAreaFilter.selectOption('al');
+  await expect(main).toContainText('2 treff');
+  await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
+  await expect(main).toContainText('Arblonn');
+  await expect(main).not.toContainText('Ameldingen');
+
+  await subjectAreaFilter.selectOption('bf');
+  await expect(main).toContainText('1 treff');
+  await expect(main).toContainText('Ameldingen');
+  await expect(main).not.toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
+
+  await subjectAreaFilter.selectOption('');
+  await expect(main).toContainText('3 treff');
+  await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
+  await expect(main).toContainText('Ameldingen');
+  await expect(main).toContainText('Arblonn');
 });

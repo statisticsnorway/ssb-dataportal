@@ -2,17 +2,20 @@
   {
     "product_type": "STATISTIC_PRODUCT",
     "product_short_name": "arbstatus",
-    "title": "Tilknytning til arbeid, utdanning og velferdsordninger"
+    "title": "Tilknytning til arbeid, utdanning og velferdsordninger",
+    "subject_code": "al05"
   },
   {
     "product_type": "OTHER_DATA_PRODUCT",
     "product_short_name": "ameld",
-    "title": "Ameldingen"
+    "title": "Ameldingen",
+    "subject_code": "bf"
   },
   {
     "product_type": "OTHER_DATA_PRODUCT",
     "product_short_name": "arblonn",
-    "title": "Arblonn"
+    "title": "Arblonn",
+    "subject_code": "al05"
   },
   {
     "product_type": "OTHER_DATA_PRODUCT",
