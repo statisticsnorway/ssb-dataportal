@@ -32,7 +32,7 @@ export default function DatasetDetail({
   }
 
   const totalNamingStandardViolations = dataFiles.reduce(
-    (total, dataFile) => total + dataFile.naming_standard_violations.length,
+    (total, dataFile) => total + (dataFile.naming_standard_violations?.length ?? 0),
     0,
   );
 
@@ -121,15 +121,15 @@ export default function DatasetDetail({
                 <dd className={styles.value}>
                   <div className={styles.fileValue}>
                     <span className={styles.filePath}>{dataFile.file_path}</span>
-                    {dataFile.naming_standard_violations.length > 0 ? (
+                    {(dataFile.naming_standard_violations?.length ?? 0) > 0 ? (
                       <Popover.TriggerContext>
                         <Popover.Trigger
                           inline
                           className={styles.violationPopoverTrigger}
-                          aria-label={`${dataFile.naming_standard_violations.length} ${localization.datasetDetail.namingStandardViolations}`}
+                          aria-label={`${dataFile.naming_standard_violations?.length ?? 0} ${localization.datasetDetail.namingStandardViolations}`}
                         >
                           <Badge
-                            count={dataFile.naming_standard_violations.length}
+                            count={dataFile.naming_standard_violations?.length ?? 0}
                             data-color='warning'
                             data-size='sm'
                             className={styles.violationBadge}
@@ -138,7 +138,7 @@ export default function DatasetDetail({
                         </Popover.Trigger>
                         <Popover placement='top' id={`violations-${index}`} className={styles.violationPopover}>
                           <ul className={styles.violationsList}>
-                            {dataFile.naming_standard_violations.map((violation) => (
+                            {(dataFile.naming_standard_violations ?? []).map((violation) => (
                               <li key={violation}>{violation}</li>
                             ))}
                           </ul>
