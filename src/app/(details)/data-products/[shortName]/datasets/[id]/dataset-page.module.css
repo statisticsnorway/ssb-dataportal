@@ -45,6 +45,52 @@
   margin: 0;
 }
 
+.fileValue {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  max-width: 100%;
+}
+
+.filePath {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.violationBadge {
+  flex-shrink: 0;
+  background: transparent;
+  border: 0;
+  --dsc-badge-size: 1.5rem;
+  --dsc-badge-padding: 0.125rem 0.45rem;
+  --dsc-badge-background: rgba(255, 211, 116, 0.35);
+  --dsc-badge-color: #5c3b00;
+}
+
+.violationBadge::before {
+  border: 1px solid #8a5a00;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.violationPopoverTrigger {
+  --dsc-button-background: transparent;
+  --dsc-button-border-width: 0;
+  --dsc-button-padding: 0;
+  --dsc-button-size: auto;
+}
+
+.violationPopover {
+  --dsc-popover-border-color: rgba(255, 211, 116);
+}
+
+.violationsList {
+  margin: 0;
+  padding-left: 1rem;
+}
+
 @media (min-width: 768px) {
   .row {
     gap: 0;
