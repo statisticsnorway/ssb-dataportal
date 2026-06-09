@@ -26,9 +26,8 @@ test.describe('authenticated', () => {
     const invalidFileRow = page.locator('dl', { hasText: DATA_FILE_NAME_VIOLATES_NAMING_STANDARD });
     await expect(invalidFileRow).toBeVisible();
 
-    const violationBadge = invalidFileRow.getByRole('button', { name: 'navnestandardavvik', exact: false });
-    await expect(violationBadge).toBeVisible();
-    await violationBadge.click();
-    await expect(page.getByRole('listitem', { name: 'invalid' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Navnestandardavvik' })).toBeVisible();
+    await page.getByRole('button', { name: 'Navnestandardavvik' }).click();
+    await expect(page.getByText('invalid')).toBeVisible();
   });
 });
