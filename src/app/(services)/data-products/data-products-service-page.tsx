@@ -1,11 +1,9 @@
 'use client';
 
 import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
-import { useEffect, useMemo, useState } from 'react';
-import { useAuthContext } from '@/app/authContext';
+import { useMemo, useState } from 'react';
 import { CheckboxFilter, FiltersPanel, SelectFilter } from '@/components/filters';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
-import { doesDatasetHaveAnyValidFiles, listDatasetsByProductShortName } from '@/libs/data/datasets/datasets';
 import { type DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
 import type { CodeItem } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
@@ -71,44 +69,9 @@ export const DataProductsServicePage = ({
 }: DataProductsServicePageProps) => {
   const [selectedProductTypeFilters, setSelectedProductTypeFilters] = useState<FilterItem[]>([]);
 
-  const { isAuthenticated } = useAuthContext();
-  const [visibleDataProducts, setVisibleDataProducts] = useState<DataProductDTO[]>(() => []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    if (isAuthenticated) {
-      setVisibleDataProducts(dataProducts);
-      return;
-    }
-
-    const filterDataProducts = async () => {
-      const hasValidDatasets = await Promise.all(
-        dataProducts.map(async (dataProduct) => {
-          if (!dataProduct.product_short_name) return false;
-          const datasets = await listDatasetsByProductShortName(dataProduct.product_short_name);
-          const hasAnyValidFiles = await Promise.all(
-            datasets.map(async (dataset) => (dataset.id ? doesDatasetHaveAnyValidFiles(dataset.id) : false)),
-          );
-          return hasAnyValidFiles.some(Boolean);
-        }),
-      );
-
-      if (!cancelled) {
-        setVisibleDataProducts(dataProducts.filter((_, index) => hasValidDatasets[index]));
-      }
-    };
-
-    void filterDataProducts();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [dataProducts, isAuthenticated]);
-
   const [selectedSubjectFieldFilter, setSelectedSubjectFieldFilter] = useState(ALL_SUBJECT_FIELDS);
   const productTypeFilters = useMemo<FilterItem[]>(() => {
-    const counts = countByProductType(visibleDataProducts);
+    const counts = countByProductType(dataProducts);
     return dataProductTypeOrder
       .filter((productType) => counts[productType] != null)
       .map((productType) => ({
@@ -116,10 +79,10 @@ export const DataProductsServicePage = ({
         value: productType,
         count: counts[productType],
       }));
-  }, [visibleDataProducts]);
+  }, [dataProducts]);
 
   const subjectFieldFilters = useMemo<FilterItem[]>(() => {
-    const counts = countProductsBySubjectField(visibleDataProducts);
+    const counts = countProductsBySubjectField(dataProducts);
     return subjectFields
       .filter((subjectField) => !subjectField.parentCode)
       .map((subjectField) => ({
@@ -129,11 +92,11 @@ export const DataProductsServicePage = ({
       }))
       .filter((subjectField) => subjectField.count > 0)
       .sort((a, b) => a.label.localeCompare(b.label, 'nb'));
-  }, [visibleDataProducts, subjectFields]);
+  }, [dataProducts, subjectFields]);
 
   const filteredDataProducts = useMemo(() => {
     const selectedProductTypes = new Set(selectedProductTypeFilters.map((filter) => filter.value));
-    return visibleDataProducts.filter((dataProduct) => {
+    return dataProducts.filter((dataProduct) => {
       const matchesProductType =
         selectedProductTypes.size === 0 || selectedProductTypes.has(getProductTypeFilterValue(dataProduct));
       const matchesSubjectField =
@@ -141,7 +104,7 @@ export const DataProductsServicePage = ({
         getSubjectFieldCodes(dataProduct).includes(selectedSubjectFieldFilter);
       return matchesProductType && matchesSubjectField;
     });
-  }, [visibleDataProducts, selectedProductTypeFilters, selectedSubjectFieldFilter]);
+  }, [dataProducts, selectedProductTypeFilters, selectedSubjectFieldFilter]);
 
   const handleProductTypeFilterChange = (filter: FilterItem) => {
     setSelectedProductTypeFilters((selectedFilters) => {
