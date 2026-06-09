@@ -8,6 +8,7 @@ import { pad2 } from './utils';
 const empty = {
   isValid: false as const,
   periodType: '' as PeriodFormat | '',
+  allItems: [] as TimelineItem[],
   items: [] as TimelineItem[],
   years: [] as number[],
   slots: {} as Record<number, Slot[]>,
@@ -58,6 +59,44 @@ const parseItems = (data: DaplaDataFileDTO[]): TimelineItem[] =>
       return [{ filePath: file_path, periodType: period_type, start, end }];
     })
     .sort((a, b) => a.start.localeCompare(b.start));
+
+/**
+ * Extracts the version number from the file path (e.g. `_v2`, `-v12`).
+ * Returns `0` when no version marker is present.
+ */
+const getVersionFromFilePath = (filePath: string): number => {
+  const match = filePath.match(/(?:^|[_-])v(\d+)(?=\.|[_-]|$)/i);
+  return match ? Number(match[1]) : 0;
+};
+
+/**
+ * Keeps only the newest file version for identical period ranges.
+ *
+ * This allows datasets to contain historical versions (v1, v2, ...) of the same
+ * period without hiding the whole timeline because of a false overlap.
+ */
+const keepNewestVersionPerPeriod = (items: TimelineItem[]): TimelineItem[] => {
+  const latestByPeriod = new Map<string, TimelineItem>();
+
+  for (const item of items) {
+    const key = `${item.periodType}|${item.start}|${item.end}`;
+    const existing = latestByPeriod.get(key);
+
+    if (!existing) {
+      latestByPeriod.set(key, item);
+      continue;
+    }
+
+    const itemVersion = getVersionFromFilePath(item.filePath);
+    const existingVersion = getVersionFromFilePath(existing.filePath);
+
+    if (itemVersion > existingVersion || (itemVersion === existingVersion && item.filePath > existing.filePath)) {
+      latestByPeriod.set(key, item);
+    }
+  }
+
+  return Array.from(latestByPeriod.values()).sort((a, b) => a.start.localeCompare(b.start));
+};
 
 /**
  * Returns `true` if the items span more than one distinct `periodType`.
@@ -113,6 +152,7 @@ const buildYearSlots = (
  *
  * Returns `isValid: false` (with empty collections) when:
  * - `data` is empty or all entries fail to parse
+ * - duplicate period ranges are reduced to newest file version by `file_path`
  * - items have mixed `period_type` values (the slot grid would be ambiguous)
  * - any two items have overlapping date ranges
  * - `period_type` has no supported slot definition
@@ -128,6 +168,7 @@ export const useTimelineData = (
 ): {
   isValid: boolean;
   periodType: PeriodFormat | '';
+  allItems: TimelineItem[];
   items: TimelineItem[];
   years: number[];
   slots: Record<number, Slot[]>;
@@ -137,7 +178,8 @@ export const useTimelineData = (
       clientLogger.warn('Timeline hidden reason: no data');
       return empty;
     }
-    const items = parseItems(data);
+    const allItems = parseItems(data);
+    const items = keepNewestVersionPerPeriod(allItems);
     if (items.length === 0) {
       clientLogger.warn('Timeline hidden reason: no valid timeline items');
       return empty;
@@ -156,6 +198,6 @@ export const useTimelineData = (
       return empty;
     }
     const { years, slots } = buildYearSlots(items, periodType);
-    return { isValid: true as const, periodType, items, years, slots };
+    return { isValid: true as const, periodType, allItems, items, years, slots };
   }, [data]);
 };

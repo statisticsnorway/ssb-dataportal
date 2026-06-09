@@ -1,4 +1,4 @@
-import { Card, Heading, Tooltip } from '@digdir/designsystemet-react';
+import { Card, Heading, Popover } from '@digdir/designsystemet-react';
 import React, { useMemo } from 'react';
 import { type DaplaDataFileDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language/src/localization';
@@ -7,6 +7,7 @@ import { type Slot, type TimelineItem } from './types';
 import { useTimelineData } from './useTimelineData';
 
 const TOOLTIP_TEMPLATE = '{status}: {slotLabel} {year}';
+const DATA_PRESENT_TEMPLATE = '{slotLabel} {year}';
 
 /**
  * Replace `{key}` placeholders in `template` with the corresponding values.
@@ -22,43 +23,89 @@ export const formatTemplate = (template: string, values: Record<string, string |
 export const slotOverlapsItem = (slot: Slot, item: TimelineItem): boolean =>
   item.start <= slot.end && item.end >= slot.start;
 
+export const getFileNameFromPath = (filePath: string): string => {
+  const normalized = filePath.replace(/\/+$/, '');
+  const lastSlash = normalized.lastIndexOf('/');
+  return lastSlash >= 0 ? normalized.slice(lastSlash + 1) : normalized;
+};
+
+export const formatAvailableDatasets = (filePaths: string[]): string[] =>
+  Array.from(new Set(filePaths.map(getFileNameFromPath).filter(Boolean)));
+
 interface CellProps {
   slot: Slot;
   idx: number;
   totalSlots: number;
   year: number;
-  matchedItem: TimelineItem | undefined;
+  matchedItems: TimelineItem[];
 }
 
 /**
  * Renders a single slot cell within a year's timeline row.
  *
- * Shows a filled or empty visual state and attaches a Tooltip with the slot label and file path when present.
+ * Shows a filled or empty visual state and attaches a Popover with details when present.
  *
  * @param slot        - Slot definition to render.
  * @param idx         - Zero-based index of the slot within the year.
  * @param totalSlots  - Total slots in the year, used to compute percentage width.
  * @param year        - The year this slot belongs to.
- * @param matchedItem - Matched `TimelineItem` when data exists for this slot.
+ * @param matchedItems - Matched `TimelineItem` values when data exists for this slot.
  */
-const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matchedItem }) => {
+const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matchedItems }) => {
   const slotWidth = 100 / totalSlots;
   const text = localization.dataCoverageTimeline;
   const baseValues = { slotLabel: slot.label, year };
+  const hasData = matchedItems.length > 0;
+  const isFirst = idx === 0;
+  const isLast = idx === totalSlots - 1;
+  const datasetNames = formatAvailableDatasets(matchedItems.map((item) => item.filePath));
+  const dataPresentTitle = formatTemplate(DATA_PRESENT_TEMPLATE, baseValues);
 
-  const tooltipContent = formatTemplate(TOOLTIP_TEMPLATE, {
+  const baseTooltip = formatTemplate(TOOLTIP_TEMPLATE, {
     ...baseValues,
-    status: matchedItem ? text.tooltipStatusDataPresent : text.tooltipStatusMissingTargetSegment,
+    status: text.tooltipStatusMissingTargetSegment,
   });
 
+  const triggerLabel =
+    hasData && datasetNames.length > 0
+      ? `${dataPresentTitle}. ${text.availableDatasetsLabel}: ${datasetNames.join(', ')}`
+      : baseTooltip;
+
   return (
-    <Tooltip content={tooltipContent} placement='top'>
+    <Popover.TriggerContext>
       <div
         aria-hidden='true'
-        className={`${styles.cell} ${matchedItem ? styles.cellFilled : styles.cellEmpty}`}
+        className={`${styles.cell} ${hasData ? styles.cellFilled : styles.cellEmpty} ${isFirst ? styles.cellFirst : ''} ${isLast ? styles.cellLast : ''}`}
         style={{ left: `${idx * slotWidth}%`, width: `${slotWidth}%` }}
       />
-    </Tooltip>
+      <Popover.Trigger
+        aria-label={triggerLabel}
+        className={styles.cellTrigger}
+        style={{ left: `${idx * slotWidth}%`, width: `${slotWidth}%` }}
+      />
+      <Popover
+        placement='top'
+        data-autoplacement='true'
+        id={`timeline-cell-${year}-${idx}`}
+        className={`${styles.timelinePopover} ${hasData ? styles.timelinePopoverFilled : styles.timelinePopoverEmpty}`}
+      >
+        {hasData && datasetNames.length > 0 ? (
+          <div className={styles.popoverContent}>
+            <div className={styles.popoverTitle}>{dataPresentTitle}</div>
+            <div>{text.availableDatasetsLabel}:</div>
+            <ul className={styles.popoverList}>
+              {datasetNames.map((name) => (
+                <li key={name} className={styles.popoverListItem}>
+                  {name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          baseTooltip
+        )}
+      </Popover>
+    </Popover.TriggerContext>
   );
 };
 
@@ -79,17 +126,19 @@ interface TimelineProps {
  * @param data - Array of file DTOs from the dataset API response.
  */
 const DataCoverageTimeline: React.FC<TimelineProps> = ({ data }) => {
-  const { isValid, items, years, slots } = useTimelineData(data);
+  const { isValid, allItems, years, slots } = useTimelineData(data);
 
-  const findMatchingItemForSlot = useMemo(
-    () => (slot: Slot) => items.find((item) => slotOverlapsItem(slot, item)),
-    [items],
+  const findMatchingItemsForSlot = useMemo(
+    () => (slot: Slot) => allItems.filter((item) => slotOverlapsItem(slot, item)),
+    [allItems],
   );
 
   if (!isValid) return null;
 
+  const displayYears = [...years].reverse();
+
   // Safe: `isValid` guarantees `years` is non-empty.
-  const firstYear = years[0]!;
+  const firstYear = displayYears[0]!;
 
   return (
     <Card>
@@ -98,7 +147,7 @@ const DataCoverageTimeline: React.FC<TimelineProps> = ({ data }) => {
       </Heading>
       <div className={styles.container}>
         <div className={styles.timelineBody}>
-          {years.map((year) => {
+          {displayYears.map((year) => {
             const yearSlots = slots[year] ?? [];
             return (
               <div key={year} className={styles.rowWrapper}>
@@ -111,7 +160,7 @@ const DataCoverageTimeline: React.FC<TimelineProps> = ({ data }) => {
                       idx={idx}
                       totalSlots={yearSlots.length}
                       year={year}
-                      matchedItem={findMatchingItemForSlot(slot)}
+                      matchedItems={findMatchingItemsForSlot(slot)}
                     />
                   ))}
                 </div>

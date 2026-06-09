@@ -1,0 +1,21 @@
+[
+  {
+    "file_path": "gs://ssb-reiseliv-korttid-data-delt-nr-prod/reise/klargjorte-data/reiser_p2013-Q1_p2025-Q3_v1.csv",
+    "storage_location_name": "ssb-reiseliv-korttid-data-delt-nr-prod",
+    "file_type": "CSV",
+    "data_last_modified_at": null,
+    "checksum": null,
+    "short_description": "reiser",
+    "product_type": "STATISTIC_PRODUCT",
+    "product_short_name": "reise",
+    "storage_category": "SHARED",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "data_file_version": 1,
+    "contains_data_from": "2013-01-01T00:00:00",
+    "contains_data_until": "2025-09-30T23:59:59",
+    "period_type": "QUARTER",
+    "owner": "reiseliv-korttid",
+    "naming_standard_violations": []
+  }
+]

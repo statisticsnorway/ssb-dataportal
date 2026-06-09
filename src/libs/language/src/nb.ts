@@ -69,6 +69,7 @@ export const nb = {
   },
 
   dataCoverageTimeline: {
+    availableDatasetsLabel: 'Tilgjengelige datasett',
     filePathLabel: 'Filsti',
     labelBimesterPrefix: 'B',
     labelFullYear: 'Årlig',

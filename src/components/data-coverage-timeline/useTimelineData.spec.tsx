@@ -91,6 +91,63 @@ describe('useTimelineData', () => {
     expect(result.current.isValid).toBe(false);
   });
 
+  it('keeps newest version for identical period ranges before overlap checks', () => {
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p2024_01_v1.parquet',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-01-31'),
+        periodType: PeriodFormat.YEAR_MONTH,
+      }),
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p2024_01_v2.parquet',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-01-31'),
+        periodType: PeriodFormat.YEAR_MONTH,
+      }),
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p2024_02_v1.parquet',
+        from: new Date('2024-02-01'),
+        until: new Date('2024-02-29'),
+        periodType: PeriodFormat.YEAR_MONTH,
+      }),
+    ];
+
+    const { result } = renderHook(() => useTimelineData(data));
+
+    expect(result.current.isValid).toBe(true);
+    expect(result.current.allItems).toHaveLength(3);
+    expect(result.current.items).toHaveLength(2);
+    expect(result.current.allItems.map((item) => item.filePath)).toContain(
+      'gs://bucket/dataset/data_p2024_01_v1.parquet',
+    );
+    expect(result.current.allItems.map((item) => item.filePath)).toContain(
+      'gs://bucket/dataset/data_p2024_01_v2.parquet',
+    );
+    expect(result.current.items[0]?.filePath).toBe('gs://bucket/dataset/data_p2024_01_v2.parquet');
+  });
+
+  it('still returns empty state for overlaps across different period ranges', () => {
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p2024_01_v2.parquet',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-01-31'),
+        periodType: PeriodFormat.YEAR_MONTH,
+      }),
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p2024_01_15_v1.parquet',
+        from: new Date('2024-01-15'),
+        until: new Date('2024-02-15'),
+        periodType: PeriodFormat.YEAR_MONTH,
+      }),
+    ];
+
+    const { result } = renderHook(() => useTimelineData(data));
+
+    expect(result.current.isValid).toBe(false);
+  });
+
   it('returns empty state for unsupported period type', () => {
     const data = [
       buildDataFile({

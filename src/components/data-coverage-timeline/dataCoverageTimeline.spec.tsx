@@ -2,7 +2,11 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { type DaplaDataFileDTO, PeriodFormat } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language/src/localization';
-import DataCoverageTimeline, { slotOverlapsItem } from './dataCoverageTimeline';
+import DataCoverageTimeline, {
+  formatAvailableDatasets,
+  getFileNameFromPath,
+  slotOverlapsItem,
+} from './dataCoverageTimeline';
 import { type Slot, type TimelineItem } from './types';
 
 type BuildDataFileInput = {
@@ -34,6 +38,21 @@ describe('DataCoverageTimeline', () => {
       end: '2019-12-31',
     };
     expect(slotOverlapsItem(slot, item)).toBe(true);
+  });
+
+  it('extracts only the dataset file name from file paths', () => {
+    expect(getFileNameFromPath('gs://bucket/path/to/data_p2024_01_v2.parquet')).toBe('data_p2024_01_v2.parquet');
+    expect(getFileNameFromPath('data_p2024_01_v2.parquet')).toBe('data_p2024_01_v2.parquet');
+  });
+
+  it('formats available datasets as unique file names', () => {
+    const datasets = formatAvailableDatasets([
+      'gs://bucket/a/data_p2024_01_v2.parquet',
+      'gs://bucket/b/data_p2024_01_v2.parquet',
+      'gs://bucket/a/data_p2024_02_v1.parquet',
+    ]);
+
+    expect(datasets).toEqual(['data_p2024_01_v2.parquet', 'data_p2024_02_v1.parquet']);
   });
 
   it('renders monthly timeline with present and missing segments', () => {
@@ -116,5 +135,27 @@ describe('DataCoverageTimeline', () => {
     expect(screen.getByText('2022')).toBeInTheDocument();
     expect(screen.getByText('2023')).toBeInTheDocument();
     expect(screen.getByText('2024')).toBeInTheDocument();
+  });
+
+  it('renders years with latest year at the top', () => {
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p2022_01.parquet',
+        from: new Date('2022-01-01'),
+        until: new Date('2022-01-31'),
+        periodType: PeriodFormat.YEAR_MONTH,
+      }),
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p2024_01.parquet',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-01-31'),
+        periodType: PeriodFormat.YEAR_MONTH,
+      }),
+    ];
+
+    render(<DataCoverageTimeline data={data} />);
+
+    const renderedYears = screen.getAllByText(/^\d{4}$/).map((node) => node.textContent);
+    expect(renderedYears.slice(0, 3)).toEqual(['2024', '2023', '2022']);
   });
 });
