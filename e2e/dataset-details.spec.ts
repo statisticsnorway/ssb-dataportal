@@ -26,7 +26,7 @@ test.describe('authenticated', () => {
     await expect(page.getByText(DATA_FILE_NAME_VIOLATES_NAMING_STANDARD)).toBeVisible();
     const violationBadge = page.getByRole('button', { name: '1 navnestandardavvik' });
     await expect(violationBadge).toBeVisible();
-    await violationBadge.hover();
+    await violationBadge.click();
     await expect(page.getByRole('listitem', { name: 'invalid' })).toBeVisible();
   });
 });
