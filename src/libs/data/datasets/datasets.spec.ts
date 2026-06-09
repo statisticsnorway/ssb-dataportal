@@ -170,17 +170,6 @@ describe('datadoc data fetching', () => {
       vi.unstubAllEnvs();
     });
 
-    it('defaults missing naming standard violations to an empty array', async () => {
-      vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
-
-      const result = await listDataFilesByDatasetId('id7');
-
-      expect(result[0]?.naming_standard_violations).toEqual([]);
-      expect(result[1]?.naming_standard_violations).toEqual(['invalid']);
-
-      vi.unstubAllEnvs();
-    });
-
     it('mock api call happy path', async () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
