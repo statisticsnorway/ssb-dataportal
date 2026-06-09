@@ -1,13 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { listDataProducts, listDatasets } from '@/libs/data/datasets/datasets';
-import type { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
+import { listDataProducts } from '@/libs/data/datasets/datasets';
+import type { DataProductDTO } from '@/libs/data-access/datadoc/models';
 import type { CodeItem } from '@/libs/data-access/klass/models';
 import DataProductsPage from './page';
 
 vi.mock('@/libs/data/datasets/datasets', () => ({
   listDataProducts: vi.fn(),
-  listDatasets: vi.fn(),
 }));
 
 vi.mock('@/libs/logger/server-logger', () => ({
@@ -17,15 +16,13 @@ vi.mock('@/libs/logger/server-logger', () => ({
 vi.mock('./data-products-service-page', () => ({
   DataProductsServicePage: ({
     dataProducts,
-    datasets,
     subjectFields,
   }: {
     dataProducts: DataProductDTO[];
-    datasets: DatasetDTO[];
     subjectFields: CodeItem[];
   }) => (
     <div>
-      {dataProducts.length} data products, {datasets.length} datasets and {subjectFields.length} subject fields
+      {dataProducts.length} data products and {subjectFields.length} subject fields
     </div>
   ),
 }));
@@ -37,17 +34,9 @@ describe('DataProductsPage', () => {
     vi.clearAllMocks();
   });
 
-  it('passes data products and datasets to the service page', async () => {
+  it('passes data products and subject fields to the service page', async () => {
     vi.mocked(listDataProducts).mockResolvedValue([{ product_short_name: 'arbstatus' }]);
-    vi.mocked(listDatasets).mockResolvedValue([{ id: 'ds-1', product_short_name: 'arbstatus' }]);
     render(await DataProductsPage({ searchParams }));
-    expect(screen.getByText(/1 data products, 1 datasets and \d+ subject fields/)).toBeInTheDocument();
-  });
-
-  it('renders data products without assessment filters when dataset loading fails', async () => {
-    vi.mocked(listDataProducts).mockResolvedValue([{ product_short_name: 'arbstatus' }]);
-    vi.mocked(listDatasets).mockRejectedValue(new Error('Could not load datasets'));
-    render(await DataProductsPage({ searchParams }));
-    expect(screen.getByText(/1 data products, 0 datasets and \d+ subject fields/)).toBeInTheDocument();
+    expect(screen.getByText(/1 data products and \d+ subject fields/)).toBeInTheDocument();
   });
 });

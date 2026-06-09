@@ -6,7 +6,7 @@ import { useAuthContext } from '@/app/authContext';
 import { CheckboxFilter, FiltersPanel, SelectFilter } from '@/components/filters';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { doesDatasetHaveAnyValidFiles, listDatasetsByProductShortName } from '@/libs/data/datasets/datasets';
-import { Assessment, type DataProductDTO, DataProductType, type DatasetDTO } from '@/libs/data-access/datadoc/models';
+import { type DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
 import type { CodeItem } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import type { FilterItem } from '@/types/filters';
@@ -17,18 +17,14 @@ import styles from './page.module.css';
 
 interface DataProductsServicePageProps {
   readonly dataProducts: DataProductDTO[];
-  readonly datasets?: DatasetDTO[];
   readonly subjectFields?: CodeItem[];
 }
 
 const UNKNOWN_PRODUCT_TYPE = 'UNKNOWN_PRODUCT_TYPE';
-const UNKNOWN_ASSESSMENT = 'UNKNOWN_ASSESSMENT';
 const ALL_SUBJECT_FIELDS = '';
-const EMPTY_DATASETS: DatasetDTO[] = [];
 const EMPTY_SUBJECT_FIELDS: CodeItem[] = [];
 
 type ProductTypeFilterValue = DataProductType | typeof UNKNOWN_PRODUCT_TYPE;
-type AssessmentFilterValue = string;
 
 const dataProductTypeOrder: ProductTypeFilterValue[] = [
   DataProductType.STATISTIC_PRODUCT,
@@ -36,14 +32,8 @@ const dataProductTypeOrder: ProductTypeFilterValue[] = [
   UNKNOWN_PRODUCT_TYPE,
 ];
 
-const knownAssessmentOrder: AssessmentFilterValue[] = [Assessment.OPEN, Assessment.PROTECTED, Assessment.SENSITIVE];
-
 const getProductTypeFilterValue = (dataProduct: DataProductDTO): ProductTypeFilterValue => {
   return dataProduct.product_type ?? UNKNOWN_PRODUCT_TYPE;
-};
-
-const getAssessmentFilterValue = (dataset: DatasetDTO): AssessmentFilterValue => {
-  return dataset.assessment ?? UNKNOWN_ASSESSMENT;
 };
 
 const getSubjectFieldCodes = (dataProduct: DataProductDTO) => {
@@ -64,16 +54,6 @@ const getProductTypeLabel = (productType: ProductTypeFilterValue) => {
   return localizeDataProductType(productType);
 };
 
-const countProductsByAssessment = (dataProducts: DataProductDTO[], datasets: DatasetDTO[]) => {
-  const productShortNames = new Set(dataProducts.map((dataProduct) => dataProduct.product_short_name).filter(Boolean));
-  return datasets.reduce<Record<string, Set<string>>>((counts, dataset) => {
-    if (!dataset.product_short_name || !productShortNames.has(dataset.product_short_name)) return counts;
-    const assessment = getAssessmentFilterValue(dataset);
-    counts[assessment] = (counts[assessment] ?? new Set()).add(dataset.product_short_name);
-    return counts;
-  }, {});
-};
-
 const countProductsBySubjectField = (dataProducts: DataProductDTO[]) => {
   return dataProducts.reduce<Record<string, Set<string>>>((counts, dataProduct, index) => {
     const productKey = dataProduct.product_short_name ?? String(index);
@@ -85,37 +65,8 @@ const countProductsBySubjectField = (dataProducts: DataProductDTO[]) => {
   }, {});
 };
 
-const getAssessmentLabel = (assessment: AssessmentFilterValue) => {
-  switch (assessment) {
-    case Assessment.OPEN:
-      return localization.products.assessment.open;
-    case Assessment.PROTECTED:
-      return localization.products.assessment.protected;
-    case Assessment.SENSITIVE:
-      return localization.products.assessment.sensitive;
-    case UNKNOWN_ASSESSMENT:
-      return localization.products.assessment.unknown;
-    default:
-      return assessment
-        .toLowerCase()
-        .replaceAll('_', ' ')
-        .replace(/^./, (firstCharacter) => firstCharacter.toUpperCase());
-  }
-};
-
-const getAssessmentFilterOrder = (counts: Record<string, Set<string>>) => {
-  const knownAssessmentValues = new Set(knownAssessmentOrder);
-  const knownValues = knownAssessmentOrder.filter((assessment) => counts[assessment] != null);
-  const additionalValues = Object.keys(counts)
-    .filter((assessment) => !knownAssessmentValues.has(assessment) && assessment !== UNKNOWN_ASSESSMENT)
-    .sort((a, b) => getAssessmentLabel(a).localeCompare(getAssessmentLabel(b), 'nb'));
-  if (counts[UNKNOWN_ASSESSMENT] == null) return [...knownValues, ...additionalValues];
-  return [...knownValues, ...additionalValues, UNKNOWN_ASSESSMENT];
-};
-
 export const DataProductsServicePage = ({
   dataProducts,
-  datasets = EMPTY_DATASETS,
   subjectFields = EMPTY_SUBJECT_FIELDS,
 }: DataProductsServicePageProps) => {
   const [selectedProductTypeFilters, setSelectedProductTypeFilters] = useState<FilterItem[]>([]);
@@ -155,7 +106,6 @@ export const DataProductsServicePage = ({
     };
   }, [dataProducts, isAuthenticated]);
 
-  const [selectedAssessmentFilters, setSelectedAssessmentFilters] = useState<FilterItem[]>([]);
   const [selectedSubjectFieldFilter, setSelectedSubjectFieldFilter] = useState(ALL_SUBJECT_FIELDS);
   const productTypeFilters = useMemo<FilterItem[]>(() => {
     const counts = countByProductType(visibleDataProducts);
@@ -181,52 +131,20 @@ export const DataProductsServicePage = ({
       .sort((a, b) => a.label.localeCompare(b.label, 'nb'));
   }, [visibleDataProducts, subjectFields]);
 
-  const assessmentFilters = useMemo<FilterItem[]>(() => {
-    const counts = countProductsByAssessment(visibleDataProducts, datasets);
-    return getAssessmentFilterOrder(counts).map((assessment) => ({
-      label: getAssessmentLabel(assessment),
-      value: assessment,
-      count: counts[assessment]?.size ?? 0,
-    }));
-  }, [visibleDataProducts, datasets]);
-
   const filteredDataProducts = useMemo(() => {
     const selectedProductTypes = new Set(selectedProductTypeFilters.map((filter) => filter.value));
-    const selectedAssessments = new Set(selectedAssessmentFilters.map((filter) => filter.value));
     return visibleDataProducts.filter((dataProduct) => {
       const matchesProductType =
         selectedProductTypes.size === 0 || selectedProductTypes.has(getProductTypeFilterValue(dataProduct));
-      const matchesAssessment =
-        selectedAssessments.size === 0 ||
-        datasets.some(
-          (dataset) =>
-            dataset.product_short_name === dataProduct.product_short_name &&
-            selectedAssessments.has(getAssessmentFilterValue(dataset)),
-        );
       const matchesSubjectField =
         selectedSubjectFieldFilter === ALL_SUBJECT_FIELDS ||
         getSubjectFieldCodes(dataProduct).includes(selectedSubjectFieldFilter);
-      return matchesProductType && matchesAssessment && matchesSubjectField;
+      return matchesProductType && matchesSubjectField;
     });
-  }, [
-    visibleDataProducts,
-    selectedProductTypeFilters,
-    selectedAssessmentFilters,
-    datasets,
-    selectedSubjectFieldFilter,
-  ]);
+  }, [visibleDataProducts, selectedProductTypeFilters, selectedSubjectFieldFilter]);
 
   const handleProductTypeFilterChange = (filter: FilterItem) => {
     setSelectedProductTypeFilters((selectedFilters) => {
-      if (selectedFilters.some((selectedFilter) => selectedFilter.value === filter.value)) {
-        return selectedFilters.filter((selectedFilter) => selectedFilter.value !== filter.value);
-      }
-      return [...selectedFilters, filter];
-    });
-  };
-
-  const handleAssessmentFilterChange = (filter: FilterItem) => {
-    setSelectedAssessmentFilters((selectedFilters) => {
       if (selectedFilters.some((selectedFilter) => selectedFilter.value === filter.value)) {
         return selectedFilters.filter((selectedFilter) => selectedFilter.value !== filter.value);
       }
@@ -256,12 +174,6 @@ export const DataProductsServicePage = ({
             filters={productTypeFilters}
             selectedItems={selectedProductTypeFilters}
             onFilterChange={handleProductTypeFilterChange}
-          />
-          <CheckboxFilter
-            filterHeading={localization.products.assessment.filterLabel}
-            filters={assessmentFilters}
-            selectedItems={selectedAssessmentFilters}
-            onFilterChange={handleAssessmentFilterChange}
           />
           <SelectFilter
             id='data-product-subject-field-filter'
