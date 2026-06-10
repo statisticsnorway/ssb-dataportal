@@ -29,6 +29,7 @@ describe('DataCoverageTimeline', () => {
     };
     const item: TimelineItem = {
       filePath: 'gs://bucket/dataset/ufo-observasjoner_p2018_p2019_v1.parquet',
+      version: 1,
       periodType: PeriodFormat.YEAR,
       start: '2018-01-01',
       end: '2019-12-31',

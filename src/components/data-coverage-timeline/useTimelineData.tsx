@@ -52,11 +52,11 @@ const parseDay = (value: Date | undefined | null): string | null => {
  */
 const parseItems = (data: DaplaDataFileDTO[]): TimelineItem[] =>
   data
-    .flatMap(({ file_path, contains_data_from, contains_data_until, period_type }) => {
+    .flatMap(({ file_path, data_file_version, contains_data_from, contains_data_until, period_type }) => {
       const start = parseDay(contains_data_from);
       const end = parseDay(contains_data_until);
       if (!start || !end || !period_type) return [];
-      return [{ filePath: file_path, periodType: period_type, start, end }];
+      return [{ filePath: file_path, version: data_file_version ?? 0, periodType: period_type, start, end }];
     })
     .sort((a, b) => a.start.localeCompare(b.start));
 
@@ -65,31 +65,20 @@ const parseItems = (data: DaplaDataFileDTO[]): TimelineItem[] =>
  *
  * This allows datasets to contain versions (v1, v2, ...) of the same
  * period without hiding the whole timeline because of a false overlap.
+ * Version is taken directly from the API (`data_file_version`).
  */
 const keepNewestVersionPerPeriod = (items: TimelineItem[]): TimelineItem[] => {
-  const versionOf = (filePath: string): number => {
-    const match = filePath.match(/(?:^|[_-])v(\d+)(?=\.|[_-]|$)/i);
-    return match ? Number(match[1]) : 0;
-  };
-
   const latestByPeriod = new Map<string, TimelineItem>();
 
   for (const item of items) {
     const key = `${item.periodType}|${item.start}|${item.end}`;
     const existing = latestByPeriod.get(key);
-    if (!existing) {
-      latestByPeriod.set(key, item);
-      continue;
-    }
-    if (
-      versionOf(item.filePath) > versionOf(existing.filePath) ||
-      (versionOf(item.filePath) === versionOf(existing.filePath) && item.filePath > existing.filePath)
-    ) {
+    if (!existing || item.version > existing.version || item.filePath > existing.filePath) {
       latestByPeriod.set(key, item);
     }
   }
 
-  return Array.from(latestByPeriod.values()).sort((a, b) => a.start.localeCompare(b.start));
+  return [...latestByPeriod.values()].sort((a, b) => a.start.localeCompare(b.start));
 };
 
 /**
@@ -146,7 +135,7 @@ const buildYearSlots = (
  *
  * Returns `isValid: false` (with empty collections) when:
  * - `data` is empty or all entries fail to parse
- * - duplicate period ranges are reduced to newest file version by `file_path`
+ * - duplicate period ranges are reduced to newest API `data_file_version`
  * - items have mixed `period_type` values (the slot grid would be ambiguous)
  * - any two items have overlapping date ranges
  * - `period_type` has no supported slot definition

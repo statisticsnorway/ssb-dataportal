@@ -2,6 +2,7 @@ import { PeriodFormat } from '@/libs/data-access/datadoc';
 
 export type TimelineItem = {
   filePath: string;
+  version: number;
   periodType: PeriodFormat;
   start: string;
   end: string;
