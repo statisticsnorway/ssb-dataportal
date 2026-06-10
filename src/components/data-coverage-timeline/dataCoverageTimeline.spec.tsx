@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { type DaplaDataFileDTO, PeriodFormat } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language/src/localization';
-import DataCoverageTimeline, { slotOverlapsItem } from './dataCoverageTimeline';
+import DataCoverageTimeline, { formatAvailableDatasets, slotOverlapsItem } from './dataCoverageTimeline';
 import { type Slot, type TimelineItem } from './types';
 
 type BuildDataFileInput = {
@@ -29,11 +29,22 @@ describe('DataCoverageTimeline', () => {
     };
     const item: TimelineItem = {
       filePath: 'gs://bucket/dataset/ufo-observasjoner_p2018_p2019_v1.parquet',
+      version: 1,
       periodType: PeriodFormat.YEAR,
       start: '2018-01-01',
       end: '2019-12-31',
     };
     expect(slotOverlapsItem(slot, item)).toBe(true);
+  });
+
+  it('formats available datasets as unique file names', () => {
+    const datasets = formatAvailableDatasets([
+      'gs://bucket/a/data_p2024-01_v2.parquet',
+      'gs://bucket/b/data_p2024-01_v2.parquet',
+      'gs://bucket/a/data_p2024-02_v1.parquet',
+    ]);
+
+    expect(datasets).toEqual(['data_p2024-01_v2.parquet', 'data_p2024-02_v1.parquet']);
   });
 
   it('renders monthly timeline with present and missing segments', () => {

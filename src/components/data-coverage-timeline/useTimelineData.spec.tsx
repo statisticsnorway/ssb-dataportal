@@ -5,13 +5,15 @@ import { useTimelineData } from './useTimelineData';
 
 type BuildDataFileInput = {
   filePath: string;
+  version?: number | null;
   from?: Date | null;
   until?: Date | null;
   periodType?: PeriodFormat | null;
 };
 
-const buildDataFile = ({ filePath, from, until, periodType }: BuildDataFileInput): DaplaDataFileDTO => ({
+const buildDataFile = ({ filePath, version, from, until, periodType }: BuildDataFileInput): DaplaDataFileDTO => ({
   file_path: filePath,
+  data_file_version: version ?? null,
   naming_standard_violations: [],
   contains_data_from: from ?? null,
   contains_data_until: until ?? null,
@@ -52,7 +54,7 @@ describe('useTimelineData', () => {
   it('returns empty state for mixed period types', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/month_p2024_01.parquet',
+        filePath: 'gs://bucket/dataset/month_p2024-01.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-01-31'),
         periodType: PeriodFormat.YEAR_MONTH,
@@ -73,13 +75,74 @@ describe('useTimelineData', () => {
   it('returns empty state for overlapping periods', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_p2024_01.parquet',
+        filePath: 'gs://bucket/dataset/data_p2024-01.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-01-31'),
         periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_p2024_01_15.parquet',
+        filePath: 'gs://bucket/dataset/data_p2024-01-15_p2024-02-15.parquet',
+        from: new Date('2024-01-15'),
+        until: new Date('2024-02-15'),
+        periodType: PeriodFormat.YEAR_MONTH,
+      }),
+    ];
+
+    const { result } = renderHook(() => useTimelineData(data));
+
+    expect(result.current.isValid).toBe(false);
+  });
+
+  it('keeps newest version for identical period ranges before overlap checks', () => {
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p2024-01_v1.parquet',
+        version: 1,
+        from: new Date('2024-01-01'),
+        until: new Date('2024-01-31'),
+        periodType: PeriodFormat.YEAR_MONTH,
+      }),
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p2024-01_v2.parquet',
+        version: 2,
+        from: new Date('2024-01-01'),
+        until: new Date('2024-01-31'),
+        periodType: PeriodFormat.YEAR_MONTH,
+      }),
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p2024-02_v1.parquet',
+        version: 1,
+        from: new Date('2024-02-01'),
+        until: new Date('2024-02-29'),
+        periodType: PeriodFormat.YEAR_MONTH,
+      }),
+    ];
+
+    const { result } = renderHook(() => useTimelineData(data));
+
+    expect(result.current.isValid).toBe(true);
+    expect(result.current.allItems).toHaveLength(3);
+    expect(result.current.items).toHaveLength(2);
+    expect(result.current.allItems.map((item) => item.filePath)).toContain(
+      'gs://bucket/dataset/data_p2024-01_v1.parquet',
+    );
+    expect(result.current.allItems.map((item) => item.filePath)).toContain(
+      'gs://bucket/dataset/data_p2024-01_v2.parquet',
+    );
+    expect(result.current.items[0]?.filePath).toBe('gs://bucket/dataset/data_p2024-01_v2.parquet');
+    expect(result.current.items[0]?.version).toBe(2);
+  });
+
+  it('returns empty state for overlaps across different period ranges', () => {
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p2024_p2026_v1.parquet',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-01-31'),
+        periodType: PeriodFormat.YEAR_MONTH,
+      }),
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p2024_p2025_v1.parquet',
         from: new Date('2024-01-15'),
         until: new Date('2024-02-15'),
         periodType: PeriodFormat.YEAR_MONTH,
@@ -94,7 +157,7 @@ describe('useTimelineData', () => {
   it('returns empty state for unsupported period type', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/week_p2024_w01.parquet',
+        filePath: 'gs://bucket/dataset/week_p2024-W01.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-01-07'),
         periodType: PeriodFormat.YEAR_WEEK,
@@ -109,13 +172,13 @@ describe('useTimelineData', () => {
   it('parses valid data, sorts items, and generates full year slot range', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_p2024_03.parquet',
+        filePath: 'gs://bucket/dataset/data_p2024-03.parquet',
         from: new Date('2024-03-01'),
         until: new Date('2024-03-31'),
         periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_p2022_12.parquet',
+        filePath: 'gs://bucket/dataset/data_p2022-12.parquet',
         from: new Date('2022-12-01T12:00:00Z'),
         until: new Date('2022-12-31T12:00:00Z'),
         periodType: PeriodFormat.YEAR_MONTH,
@@ -127,8 +190,8 @@ describe('useTimelineData', () => {
     expect(result.current.isValid).toBe(true);
     expect(result.current.periodType).toBe(PeriodFormat.YEAR_MONTH);
 
-    expect(result.current.items[0]?.filePath).toBe('gs://bucket/dataset/data_p2022_12.parquet');
-    expect(result.current.items[1]?.filePath).toBe('gs://bucket/dataset/data_p2024_03.parquet');
+    expect(result.current.items[0]?.filePath).toBe('gs://bucket/dataset/data_p2022-12.parquet');
+    expect(result.current.items[1]?.filePath).toBe('gs://bucket/dataset/data_p2024-03.parquet');
 
     expect(result.current.years).toEqual([2022, 2023, 2024]);
 

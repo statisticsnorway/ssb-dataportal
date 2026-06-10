@@ -8,6 +8,7 @@ import { pad2 } from './utils';
 const empty = {
   isValid: false as const,
   periodType: '' as PeriodFormat | '',
+  allItems: [] as TimelineItem[],
   items: [] as TimelineItem[],
   years: [] as number[],
   slots: {} as Record<number, Slot[]>,
@@ -51,13 +52,34 @@ const parseDay = (value: Date | undefined | null): string | null => {
  */
 const parseItems = (data: DaplaDataFileDTO[]): TimelineItem[] =>
   data
-    .flatMap(({ file_path, contains_data_from, contains_data_until, period_type }) => {
+    .flatMap(({ file_path, data_file_version, contains_data_from, contains_data_until, period_type }) => {
       const start = parseDay(contains_data_from);
       const end = parseDay(contains_data_until);
       if (!start || !end || !period_type) return [];
-      return [{ filePath: file_path, periodType: period_type, start, end }];
+      return [{ filePath: file_path, version: data_file_version ?? 0, periodType: period_type, start, end }];
     })
     .sort((a, b) => a.start.localeCompare(b.start));
+
+/**
+ * Keeps only the newest file version for identical period ranges.
+ *
+ * This allows datasets to contain versions (v1, v2, ...) of the same
+ * period without hiding the whole timeline because of a false overlap.
+ * Version is taken directly from the API (`data_file_version`).
+ */
+const keepNewestVersionPerPeriod = (items: TimelineItem[]): TimelineItem[] => {
+  const latestByPeriod = new Map<string, TimelineItem>();
+
+  for (const item of items) {
+    const key = `${item.periodType}|${item.start}|${item.end}`;
+    const existing = latestByPeriod.get(key);
+    if (!existing || item.version > existing.version || item.filePath > existing.filePath) {
+      latestByPeriod.set(key, item);
+    }
+  }
+
+  return [...latestByPeriod.values()].sort((a, b) => a.start.localeCompare(b.start));
+};
 
 /**
  * Returns `true` if the items span more than one distinct `periodType`.
@@ -113,6 +135,7 @@ const buildYearSlots = (
  *
  * Returns `isValid: false` (with empty collections) when:
  * - `data` is empty or all entries fail to parse
+ * - duplicate period ranges are reduced to newest API `data_file_version`
  * - items have mixed `period_type` values (the slot grid would be ambiguous)
  * - any two items have overlapping date ranges
  * - `period_type` has no supported slot definition
@@ -128,6 +151,7 @@ export const useTimelineData = (
 ): {
   isValid: boolean;
   periodType: PeriodFormat | '';
+  allItems: TimelineItem[];
   items: TimelineItem[];
   years: number[];
   slots: Record<number, Slot[]>;
@@ -137,7 +161,8 @@ export const useTimelineData = (
       clientLogger.warn('Timeline hidden reason: no data');
       return empty;
     }
-    const items = parseItems(data);
+    const allItems = parseItems(data);
+    const items = keepNewestVersionPerPeriod(allItems);
     if (items.length === 0) {
       clientLogger.warn('Timeline hidden reason: no valid timeline items');
       return empty;
@@ -156,6 +181,6 @@ export const useTimelineData = (
       return empty;
     }
     const { years, slots } = buildYearSlots(items, periodType);
-    return { isValid: true as const, periodType, items, years, slots };
+    return { isValid: true as const, periodType, allItems, items, years, slots };
   }, [data]);
 };
