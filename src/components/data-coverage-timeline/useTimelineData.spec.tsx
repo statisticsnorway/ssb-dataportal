@@ -96,21 +96,21 @@ describe('useTimelineData', () => {
   it('keeps newest version for identical period ranges before overlap checks', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_p2024-01_anyname.parquet',
+        filePath: 'gs://bucket/dataset/data_p2024-01_v1.parquet',
         version: 1,
         from: new Date('2024-01-01'),
         until: new Date('2024-01-31'),
         periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_p2024-01_othername.parquet',
+        filePath: 'gs://bucket/dataset/data_p2024-01_v2.parquet',
         version: 2,
         from: new Date('2024-01-01'),
         until: new Date('2024-01-31'),
         periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_p2024-02_name.parquet',
+        filePath: 'gs://bucket/dataset/data_p2024-02_v1.parquet',
         version: 1,
         from: new Date('2024-02-01'),
         until: new Date('2024-02-29'),
@@ -129,7 +129,7 @@ describe('useTimelineData', () => {
     expect(result.current.allItems.map((item) => item.filePath)).toContain(
       'gs://bucket/dataset/data_p2024-01_v2.parquet',
     );
-    expect(result.current.items[0]?.filePath).toBe('gs://bucket/dataset/data_p2024-01_othername.parquet');
+    expect(result.current.items[0]?.filePath).toBe('gs://bucket/dataset/data_p2024-01_v2.parquet');
     expect(result.current.items[0]?.version).toBe(2);
   });
 
