@@ -79,7 +79,7 @@ describe('useTimelineData', () => {
         periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
-        filePath: 'gs://bucket/dataset/data_p2024-01_15.parquet',
+        filePath: 'gs://bucket/dataset/data_p2024-01-15_p2024-02-15.parquet',
         from: new Date('2024-01-15'),
         until: new Date('2024-02-15'),
         periodType: PeriodFormat.YEAR_MONTH,
