@@ -15,7 +15,7 @@ export const nb = {
     assessment: 'Vurdering',
     responsible: 'Ansvarlig team',
     id: 'ID',
-    namingStandardViolations: 'Navnestandardavvik',
+    namingStandardViolations: 'Antall navnestandardavvik',
     dataFiles: 'Datafiler',
     dataCoverageTimeline: 'Tilgjengelige perioder',
     namingStandardViolationCountLabel: 'navnestandardavvik',

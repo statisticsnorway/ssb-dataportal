@@ -61,36 +61,30 @@ const parseItems = (data: DaplaDataFileDTO[]): TimelineItem[] =>
     .sort((a, b) => a.start.localeCompare(b.start));
 
 /**
- * Extracts the version number from the file path (e.g. `_v2`, `-v12`).
- * Returns `0` when no version marker is present.
- */
-const getVersionFromFilePath = (filePath: string): number => {
-  const match = filePath.match(/(?:^|[_-])v(\d+)(?=\.|[_-]|$)/i);
-  return match ? Number(match[1]) : 0;
-};
-
-/**
  * Keeps only the newest file version for identical period ranges.
  *
- * This allows datasets to contain historical versions (v1, v2, ...) of the same
+ * This allows datasets to contain versions (v1, v2, ...) of the same
  * period without hiding the whole timeline because of a false overlap.
  */
 const keepNewestVersionPerPeriod = (items: TimelineItem[]): TimelineItem[] => {
+  const versionOf = (filePath: string): number => {
+    const match = filePath.match(/(?:^|[_-])v(\d+)(?=\.|[_-]|$)/i);
+    return match ? Number(match[1]) : 0;
+  };
+
   const latestByPeriod = new Map<string, TimelineItem>();
 
   for (const item of items) {
     const key = `${item.periodType}|${item.start}|${item.end}`;
     const existing = latestByPeriod.get(key);
-
     if (!existing) {
       latestByPeriod.set(key, item);
       continue;
     }
-
-    const itemVersion = getVersionFromFilePath(item.filePath);
-    const existingVersion = getVersionFromFilePath(existing.filePath);
-
-    if (itemVersion > existingVersion || (itemVersion === existingVersion && item.filePath > existing.filePath)) {
+    if (
+      versionOf(item.filePath) > versionOf(existing.filePath) ||
+      (versionOf(item.filePath) === versionOf(existing.filePath) && item.filePath > existing.filePath)
+    ) {
       latestByPeriod.set(key, item);
     }
   }
