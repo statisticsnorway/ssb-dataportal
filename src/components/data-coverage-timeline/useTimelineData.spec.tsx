@@ -124,10 +124,10 @@ describe('useTimelineData', () => {
     expect(result.current.allItems).toHaveLength(3);
     expect(result.current.items).toHaveLength(2);
     expect(result.current.allItems.map((item) => item.filePath)).toContain(
-      'gs://bucket/dataset/data_p2024-01_anyname.parquet',
+      'gs://bucket/dataset/data_p2024-01_v1.parquet',
     );
     expect(result.current.allItems.map((item) => item.filePath)).toContain(
-      'gs://bucket/dataset/data_p2024-01_othername.parquet',
+      'gs://bucket/dataset/data_p2024-01_v2.parquet',
     );
     expect(result.current.items[0]?.filePath).toBe('gs://bucket/dataset/data_p2024-01_othername.parquet');
     expect(result.current.items[0]?.version).toBe(2);
