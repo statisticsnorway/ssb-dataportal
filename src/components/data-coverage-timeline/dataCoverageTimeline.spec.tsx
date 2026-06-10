@@ -38,9 +38,9 @@ describe('DataCoverageTimeline', () => {
 
   it('formats available datasets as unique file names', () => {
     const datasets = formatAvailableDatasets([
-      'gs://bucket/a/data_p2024_01_v2.parquet',
-      'gs://bucket/b/data_p2024_01_v2.parquet',
-      'gs://bucket/a/data_p2024_02_v1.parquet',
+      'gs://bucket/a/data_p2024-01_v2.parquet',
+      'gs://bucket/b/data_p2024-01_v2.parquet',
+      'gs://bucket/a/data_p2024-02_v1.parquet',
     ]);
 
     expect(datasets).toEqual(['data_p2024_01_v2.parquet', 'data_p2024_02_v1.parquet']);
