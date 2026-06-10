@@ -61,20 +61,16 @@
   height: 100%;
   z-index: 1;
   appearance: none;
-  border: none;
-  display: block;
-  background: transparent;
+  border: 0;
   margin: 0;
   padding: 0;
-  line-height: 0;
-  min-height: 0;
+  background: transparent;
   cursor: pointer;
   --dsc-button-background: transparent;
   --dsc-button-border-width: 0;
   --dsc-button-padding: 0;
   --dsc-button-size: auto;
 }
-
 .cellTrigger:focus-visible {
   outline: 0.12rem solid black;
   outline-offset: 0.125rem;
