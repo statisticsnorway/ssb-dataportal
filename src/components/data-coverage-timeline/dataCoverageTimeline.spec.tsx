@@ -43,7 +43,7 @@ describe('DataCoverageTimeline', () => {
       'gs://bucket/a/data_p2024-02_v1.parquet',
     ]);
 
-    expect(datasets).toEqual(['data_p2024_01_v2.parquet', 'data_p2024_02_v1.parquet']);
+    expect(datasets).toEqual(['data_p2024-01_v2.parquet', 'data_p2024-02_v1.parquet']);
   });
 
   it('renders monthly timeline with present and missing segments', () => {
