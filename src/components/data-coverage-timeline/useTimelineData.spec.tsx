@@ -124,7 +124,7 @@ describe('useTimelineData', () => {
     expect(result.current.allItems.map((item) => item.filePath)).toContain(
       'gs://bucket/dataset/data_p2024-01_v2.parquet',
     );
-    expect(result.current.items[0]?.filePath).toBe('gs://bucket/dataset/data_p2024_01_v2.parquet');
+    expect(result.current.items[0]?.filePath).toBe('gs://bucket/dataset/data_p2024-01_v2.parquet');
   });
 
   it('returns empty state for overlaps across different period ranges', () => {
