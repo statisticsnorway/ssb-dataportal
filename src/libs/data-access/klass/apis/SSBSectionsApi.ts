@@ -16,13 +16,13 @@
 import * as runtime from '../runtime';
 import type {
   CollectionModelSsbSectionResource,
-  Versions404Response,
+  ProblemDetail,
 } from '../models/index';
 import {
     CollectionModelSsbSectionResourceFromJSON,
     CollectionModelSsbSectionResourceToJSON,
-    Versions404ResponseFromJSON,
-    Versions404ResponseToJSON,
+    ProblemDetailFromJSON,
+    ProblemDetailToJSON,
 } from '../models/index';
 
 /**
@@ -59,7 +59,7 @@ export class SSBSectionsApi extends runtime.BaseAPI implements SSBSectionsApiInt
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/v1/ssbsections`;
+        let urlPath = `/api/klass/v1/ssbsections`;
 
         const response = await this.request({
             path: urlPath,

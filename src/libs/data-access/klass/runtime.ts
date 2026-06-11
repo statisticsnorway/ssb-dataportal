@@ -13,7 +13,7 @@
  */
 
 
-export const BASE_PATH = "https://data.ssb.no/api/klass".replace(/\/+$/, "");
+export const BASE_PATH = "https://data.ssb.no".replace(/\/+$/, "");
 
 export interface ConfigurationParameters {
     basePath?: string; // override base path

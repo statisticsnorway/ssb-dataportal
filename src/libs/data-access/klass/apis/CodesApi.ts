@@ -17,15 +17,15 @@ import * as runtime from '../runtime';
 import type {
   CodeChangeList,
   CodeList,
-  Versions404Response,
+  ProblemDetail,
 } from '../models/index';
 import {
     CodeChangeListFromJSON,
     CodeChangeListToJSON,
     CodeListFromJSON,
     CodeListToJSON,
-    Versions404ResponseFromJSON,
-    Versions404ResponseToJSON,
+    ProblemDetailFromJSON,
+    ProblemDetailToJSON,
 } from '../models/index';
 
 export interface ChangesRequest {
@@ -185,7 +185,7 @@ export class CodesApi extends runtime.BaseAPI implements CodesApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/v1/classifications/{id}/changes`;
+        let urlPath = `/api/klass/v1/classifications/{id}/changes`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
 
         const response = await this.request({
@@ -263,7 +263,7 @@ export class CodesApi extends runtime.BaseAPI implements CodesApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/v1/classifications/{id}/codes`;
+        let urlPath = `/api/klass/v1/classifications/{id}/codes`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
 
         const response = await this.request({
@@ -337,7 +337,7 @@ export class CodesApi extends runtime.BaseAPI implements CodesApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/v1/classifications/{id}/codesAt`;
+        let urlPath = `/api/klass/v1/classifications/{id}/codesAt`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
 
         const response = await this.request({

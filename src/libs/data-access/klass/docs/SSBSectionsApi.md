@@ -1,10 +1,10 @@
 # SSBSectionsApi
 
-All URIs are relative to *https://data.ssb.no/api/klass*
+All URIs are relative to *https://data.ssb.no*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**ssbsections**](SSBSectionsApi.md#ssbsections) | **GET** /v1/ssbsections |  |
+| [**ssbsections**](SSBSectionsApi.md#ssbsections) | **GET** /api/klass/v1/ssbsections |  |
 
 
 
@@ -54,7 +54,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/problem+json`, `application/json`, `text/xml`, `application/xml`
+- **Accept**: `application/problem+json`, `*/*`, `application/json`, `text/xml`, `application/xml`
 
 
 ### HTTP response details

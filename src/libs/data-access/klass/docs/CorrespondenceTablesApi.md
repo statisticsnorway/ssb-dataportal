@@ -1,12 +1,12 @@
 # CorrespondenceTablesApi
 
-All URIs are relative to *https://data.ssb.no/api/klass*
+All URIs are relative to *https://data.ssb.no*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**correspondenceTables**](CorrespondenceTablesApi.md#correspondencetables) | **GET** /v1/correspondencetables/{id} |  |
-| [**corresponds**](CorrespondenceTablesApi.md#corresponds) | **GET** /v1/classifications/{id}/corresponds |  |
-| [**correspondsAt**](CorrespondenceTablesApi.md#correspondsat) | **GET** /v1/classifications/{id}/correspondsAt |  |
+| [**correspondenceTables**](CorrespondenceTablesApi.md#correspondencetables) | **GET** /api/klass/v1/correspondencetables/{id} |  |
+| [**corresponds**](CorrespondenceTablesApi.md#corresponds) | **GET** /api/klass/v1/classifications/{id}/corresponds |  |
+| [**correspondsAt**](CorrespondenceTablesApi.md#correspondsat) | **GET** /api/klass/v1/classifications/{id}/correspondsAt |  |
 
 
 
@@ -67,7 +67,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/problem+json`, `application/json`, `application/xml`, `text/xml`, `text/csv`
+- **Accept**: `application/problem+json`, `*/*`, `application/json`, `application/xml`, `text/xml`, `text/csv`
 
 
 ### HTTP response details
@@ -156,7 +156,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/problem+json`, `application/json`, `application/xml`, `text/xml`, `text/csv`
+- **Accept**: `application/problem+json`, `*/*`, `application/json`, `application/xml`, `text/xml`, `text/csv`
 
 
 ### HTTP response details
@@ -194,7 +194,7 @@ async function example() {
     id: 789,
     // number
     targetClassificationId: 789,
-    // Date (optional)
+    // Date
     date: 2013-10-20,
     // string (optional)
     csvSeparator: csvSeparator_example,
@@ -227,7 +227,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **id** | `number` |  | [Defaults to `undefined`] |
 | **targetClassificationId** | `number` |  | [Defaults to `undefined`] |
-| **date** | `Date` |  | [Optional] [Defaults to `undefined`] |
+| **date** | `Date` |  | [Defaults to `undefined`] |
 | **csvSeparator** | `string` |  | [Optional] [Defaults to `&#39;,&#39;`] |
 | **csvFields** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
 | **language** | `NB`, `NN`, `EN` |  | [Optional] [Defaults to `&#39;nb&#39;`] [Enum: NB, NN, EN] |
@@ -245,7 +245,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/problem+json`, `application/json`, `application/xml`, `text/xml`, `text/csv`
+- **Accept**: `application/problem+json`, `*/*`, `application/json`, `application/xml`, `text/xml`, `text/csv`
 
 
 ### HTTP response details

@@ -36,4 +36,3 @@ export * from './ProblemDetail';
 export * from './RepresentationModelObject';
 export * from './SearchResultResource';
 export * from './SsbSectionResource';
-export * from './Versions404Response';

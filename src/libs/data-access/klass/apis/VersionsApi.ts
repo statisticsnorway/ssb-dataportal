@@ -16,13 +16,13 @@
 import * as runtime from '../runtime';
 import type {
   ClassificationVersionResource,
-  Versions404Response,
+  ProblemDetail,
 } from '../models/index';
 import {
     ClassificationVersionResourceFromJSON,
     ClassificationVersionResourceToJSON,
-    Versions404ResponseFromJSON,
-    Versions404ResponseToJSON,
+    ProblemDetailFromJSON,
+    ProblemDetailToJSON,
 } from '../models/index';
 
 export interface VersionsRequest {
@@ -83,7 +83,7 @@ export class VersionsApi extends runtime.BaseAPI implements VersionsApiInterface
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/v1/versions/{id}`;
+        let urlPath = `/api/klass/v1/versions/{id}`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
 
         const response = await this.request({

@@ -17,15 +17,15 @@ import * as runtime from '../runtime';
 import type {
   ClassificationResource,
   KlassPagedResourcesClassificationSummaryResource,
-  Versions404Response,
+  ProblemDetail,
 } from '../models/index';
 import {
     ClassificationResourceFromJSON,
     ClassificationResourceToJSON,
     KlassPagedResourcesClassificationSummaryResourceFromJSON,
     KlassPagedResourcesClassificationSummaryResourceToJSON,
-    Versions404ResponseFromJSON,
-    Versions404ResponseToJSON,
+    ProblemDetailFromJSON,
+    ProblemDetailToJSON,
 } from '../models/index';
 
 export interface ClassificationRequest {
@@ -37,6 +37,7 @@ export interface ClassificationRequest {
 export interface ClassificationsRequest {
     includeCodelists?: boolean;
     changedSince?: Date;
+    language?: ClassificationsLanguageEnum;
 }
 
 /**
@@ -65,6 +66,7 @@ export interface ClassificationsApiInterface {
      * 
      * @param {boolean} [includeCodelists] 
      * @param {Date} [changedSince] 
+     * @param {'NB' | 'NN' | 'EN'} [language] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ClassificationsApiInterface
@@ -105,7 +107,7 @@ export class ClassificationsApi extends runtime.BaseAPI implements Classificatio
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/v1/classifications/{id}`;
+        let urlPath = `/api/klass/v1/classifications/{id}`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
 
         const response = await this.request({
@@ -138,10 +140,14 @@ export class ClassificationsApi extends runtime.BaseAPI implements Classificatio
             queryParameters['changedSince'] = requestParameters['changedSince'];
         }
 
+        if (requestParameters['language'] != null) {
+            queryParameters['language'] = requestParameters['language'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/v1/classifications`;
+        let urlPath = `/api/klass/v1/classifications`;
 
         const response = await this.request({
             path: urlPath,
@@ -171,3 +177,12 @@ export const ClassificationLanguageEnum = {
     EN: 'EN'
 } as const;
 export type ClassificationLanguageEnum = typeof ClassificationLanguageEnum[keyof typeof ClassificationLanguageEnum];
+/**
+ * @export
+ */
+export const ClassificationsLanguageEnum = {
+    NB: 'NB',
+    NN: 'NN',
+    EN: 'EN'
+} as const;
+export type ClassificationsLanguageEnum = typeof ClassificationsLanguageEnum[keyof typeof ClassificationsLanguageEnum];

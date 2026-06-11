@@ -9,6 +9,7 @@ Name | Type
 `name` | string
 `id` | number
 `classificationType` | string
+`classificationFamilyId` | number
 `lastModified` | Date
 `links` | [{ [key: string]: Link; }](Link.md)
 `embedded` | [ClassificationVariantSummaryResourceEmbedded](ClassificationVariantSummaryResourceEmbedded.md)
@@ -24,6 +25,7 @@ const example = {
   "name": null,
   "id": null,
   "classificationType": null,
+  "classificationFamilyId": null,
   "lastModified": null,
   "links": null,
   "embedded": null,

@@ -1,11 +1,11 @@
 # ClassificationsApi
 
-All URIs are relative to *https://data.ssb.no/api/klass*
+All URIs are relative to *https://data.ssb.no*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**classification**](ClassificationsApi.md#classification) | **GET** /v1/classifications/{id} |  |
-| [**classifications**](ClassificationsApi.md#classifications) | **GET** /v1/classifications |  |
+| [**classification**](ClassificationsApi.md#classification) | **GET** /api/klass/v1/classifications/{id} |  |
+| [**classifications**](ClassificationsApi.md#classifications) | **GET** /api/klass/v1/classifications |  |
 
 
 
@@ -69,7 +69,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/problem+json`, `application/json`, `text/xml`, `application/xml`
+- **Accept**: `application/problem+json`, `*/*`, `application/json`, `text/xml`, `application/xml`
 
 
 ### HTTP response details
@@ -85,7 +85,7 @@ No authorization required
 
 ## classifications
 
-> KlassPagedResourcesClassificationSummaryResource classifications(includeCodelists, changedSince)
+> KlassPagedResourcesClassificationSummaryResource classifications(includeCodelists, changedSince, language)
 
 
 
@@ -107,6 +107,8 @@ async function example() {
     includeCodelists: true,
     // Date (optional)
     changedSince: 2013-10-20T19:20:30+01:00,
+    // 'NB' | 'NN' | 'EN' (optional)
+    language: language_example,
   } satisfies ClassificationsRequest;
 
   try {
@@ -128,6 +130,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **includeCodelists** | `boolean` |  | [Optional] [Defaults to `false`] |
 | **changedSince** | `Date` |  | [Optional] [Defaults to `undefined`] |
+| **language** | `NB`, `NN`, `EN` |  | [Optional] [Defaults to `undefined`] [Enum: NB, NN, EN] |
 
 ### Return type
 
@@ -140,7 +143,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/problem+json`, `application/json`, `text/xml`, `application/xml`
+- **Accept**: `application/problem+json`, `*/*`, `application/json`, `text/xml`, `application/xml`
 
 
 ### HTTP response details

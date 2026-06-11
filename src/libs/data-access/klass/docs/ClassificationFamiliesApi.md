@@ -1,11 +1,11 @@
 # ClassificationFamiliesApi
 
-All URIs are relative to *https://data.ssb.no/api/klass*
+All URIs are relative to *https://data.ssb.no*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**classificationFamilies**](ClassificationFamiliesApi.md#classificationfamilies) | **GET** /v1/classificationfamilies |  |
-| [**classificationFamily**](ClassificationFamiliesApi.md#classificationfamily) | **GET** /v1/classificationfamilies/{id} |  |
+| [**classificationFamilies**](ClassificationFamiliesApi.md#classificationfamilies) | **GET** /api/klass/v1/classificationfamilies |  |
+| [**classificationFamily**](ClassificationFamiliesApi.md#classificationfamily) | **GET** /api/klass/v1/classificationfamilies/{id} |  |
 
 
 
@@ -69,7 +69,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/problem+json`, `application/json`, `text/xml`, `application/xml`
+- **Accept**: `application/problem+json`, `*/*`, `application/json`, `text/xml`, `application/xml`
 
 
 ### HTTP response details
@@ -146,7 +146,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/problem+json`, `application/json`, `text/xml`, `application/xml`
+- **Accept**: `application/problem+json`, `*/*`, `application/json`, `text/xml`, `application/xml`
 
 
 ### HTTP response details

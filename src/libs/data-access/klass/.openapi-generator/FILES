@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 apis/ClassificationFamiliesApi.ts
 apis/ClassificationsApi.ts
 apis/CodesApi.ts
@@ -51,7 +50,6 @@ docs/SearchApi.md
 docs/SearchResultResource.md
 docs/SsbSectionResource.md
 docs/VariantsApi.md
-docs/Versions404Response.md
 docs/VersionsApi.md
 index.ts
 models/ChangelogResource.ts
@@ -90,6 +88,5 @@ models/ProblemDetail.ts
 models/RepresentationModelObject.ts
 models/SearchResultResource.ts
 models/SsbSectionResource.ts
-models/Versions404Response.ts
 models/index.ts
 runtime.ts

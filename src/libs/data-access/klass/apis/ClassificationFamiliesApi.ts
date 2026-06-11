@@ -17,15 +17,15 @@ import * as runtime from '../runtime';
 import type {
   ClassificationFamilyResource,
   CollectionModelClassificationFamilySummaryResource,
-  Versions404Response,
+  ProblemDetail,
 } from '../models/index';
 import {
     ClassificationFamilyResourceFromJSON,
     ClassificationFamilyResourceToJSON,
     CollectionModelClassificationFamilySummaryResourceFromJSON,
     CollectionModelClassificationFamilySummaryResourceToJSON,
-    Versions404ResponseFromJSON,
-    Versions404ResponseToJSON,
+    ProblemDetailFromJSON,
+    ProblemDetailToJSON,
 } from '../models/index';
 
 export interface ClassificationFamiliesRequest {
@@ -106,7 +106,7 @@ export class ClassificationFamiliesApi extends runtime.BaseAPI implements Classi
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/v1/classificationfamilies`;
+        let urlPath = `/api/klass/v1/classificationfamilies`;
 
         const response = await this.request({
             path: urlPath,
@@ -152,7 +152,7 @@ export class ClassificationFamiliesApi extends runtime.BaseAPI implements Classi
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/v1/classificationfamilies/{id}`;
+        let urlPath = `/api/klass/v1/classificationfamilies/{id}`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
 
         const response = await this.request({

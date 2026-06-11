@@ -17,15 +17,15 @@ import * as runtime from '../runtime';
 import type {
   CorrespondenceItemList,
   CorrespondenceTableResource,
-  Versions404Response,
+  ProblemDetail,
 } from '../models/index';
 import {
     CorrespondenceItemListFromJSON,
     CorrespondenceItemListToJSON,
     CorrespondenceTableResourceFromJSON,
     CorrespondenceTableResourceToJSON,
-    Versions404ResponseFromJSON,
-    Versions404ResponseToJSON,
+    ProblemDetailFromJSON,
+    ProblemDetailToJSON,
 } from '../models/index';
 
 export interface CorrespondenceTablesRequest {
@@ -47,7 +47,7 @@ export interface CorrespondsRequest {
 export interface CorrespondsAtRequest {
     id: number;
     targetClassificationId: number;
-    date?: Date;
+    date: Date;
     csvSeparator?: string;
     csvFields?: string;
     language?: CorrespondsAtLanguageEnum;
@@ -100,7 +100,7 @@ export interface CorrespondenceTablesApiInterface {
      * 
      * @param {number} id 
      * @param {number} targetClassificationId 
-     * @param {Date} [date] 
+     * @param {Date} date 
      * @param {string} [csvSeparator] 
      * @param {string} [csvFields] 
      * @param {'NB' | 'NN' | 'EN'} [language] 
@@ -142,7 +142,7 @@ export class CorrespondenceTablesApi extends runtime.BaseAPI implements Correspo
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/v1/correspondencetables/{id}`;
+        let urlPath = `/api/klass/v1/correspondencetables/{id}`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
 
         const response = await this.request({
@@ -219,7 +219,7 @@ export class CorrespondenceTablesApi extends runtime.BaseAPI implements Correspo
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/v1/classifications/{id}/corresponds`;
+        let urlPath = `/api/klass/v1/classifications/{id}/corresponds`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
 
         const response = await this.request({
@@ -256,6 +256,13 @@ export class CorrespondenceTablesApi extends runtime.BaseAPI implements Correspo
             );
         }
 
+        if (requestParameters['date'] == null) {
+            throw new runtime.RequiredError(
+                'date',
+                'Required parameter "date" was null or undefined when calling correspondsAt().'
+            );
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters['targetClassificationId'] != null) {
@@ -289,7 +296,7 @@ export class CorrespondenceTablesApi extends runtime.BaseAPI implements Correspo
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/v1/classifications/{id}/correspondsAt`;
+        let urlPath = `/api/klass/v1/classifications/{id}/correspondsAt`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
 
         const response = await this.request({
