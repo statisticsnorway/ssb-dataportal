@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { NuqsTestingAdapter, type UrlUpdateEvent } from 'nuqs/adapters/testing';
 import type { ReactNode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { type DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
@@ -62,9 +63,21 @@ const subjectFields: CodeItem[] = [
   { code: 'he', name: 'Helse' },
 ];
 
+const renderPage = (
+  props: Partial<Parameters<typeof DataProductsServicePage>[0]> = {},
+  searchParams = '',
+  onUrlUpdate: (event: UrlUpdateEvent) => void = vi.fn(),
+) => {
+  return render(
+    <NuqsTestingAdapter searchParams={searchParams} onUrlUpdate={onUrlUpdate}>
+      <DataProductsServicePage dataProducts={dataProducts} {...props} />
+    </NuqsTestingAdapter>,
+  );
+};
+
 describe('DataProductsServicePage', () => {
   it('renders product type checkboxes with counts', () => {
-    render(<DataProductsServicePage dataProducts={dataProducts} />);
+    renderPage();
     const statisticProductFilter = screen.getByRole('checkbox', { name: 'Statistikkprodukt (1)' });
     const otherProductFilter = screen.getByRole('checkbox', { name: 'Annen dataprodukt (1)' });
     expect(screen.getByRole('group', { name: new RegExp(localization.products.typeFilterLabel) })).toBeInTheDocument();
@@ -73,18 +86,15 @@ describe('DataProductsServicePage', () => {
   });
 
   it('renders title or short name for each data product', () => {
-    render(
-      <DataProductsServicePage
-        dataProducts={[
-          ...dataProducts,
-          {
-            product_type: DataProductType.OTHER_DATA_PRODUCT,
-            product_short_name: 'kortnavn',
-          },
-        ]}
-      />,
-    );
-
+    renderPage({
+      dataProducts: [
+        ...dataProducts,
+        {
+          product_type: DataProductType.OTHER_DATA_PRODUCT,
+          product_short_name: 'kortnavn',
+        },
+      ],
+    });
     expect(
       screen.getByRole('link', {
         name: 'Tilknytning til arbeid, utdanning og velferdsordninger',
@@ -98,7 +108,7 @@ describe('DataProductsServicePage', () => {
   });
 
   it('filters data products by selected product types', () => {
-    render(<DataProductsServicePage dataProducts={dataProducts} />);
+    renderPage();
     const main = screen.getByRole('main');
     const statisticProductFilter = screen.getByRole('checkbox', { name: 'Statistikkprodukt (1)' });
     const otherProductFilter = screen.getByRole('checkbox', { name: 'Annen dataprodukt (1)' });
@@ -117,17 +127,15 @@ describe('DataProductsServicePage', () => {
   });
 
   it('renders title or short name for each data product', () => {
-    render(
-      <DataProductsServicePage
-        dataProducts={[
-          ...dataProducts,
-          {
-            product_type: DataProductType.OTHER_DATA_PRODUCT,
-            product_short_name: 'produkt-uten-tittel',
-          },
-        ]}
-      />,
-    );
+    renderPage({
+      dataProducts: [
+        ...dataProducts,
+        {
+          product_type: DataProductType.OTHER_DATA_PRODUCT,
+          product_short_name: 'produkt-uten-tittel',
+        },
+      ],
+    });
     const main = screen.getByRole('main');
     expect(main).toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
     expect(main).toHaveTextContent('Ameldingen');
@@ -135,7 +143,7 @@ describe('DataProductsServicePage', () => {
   });
 
   it('renders subject field dropdown options with counts', () => {
-    render(<DataProductsServicePage dataProducts={dataProducts} subjectFields={subjectFields} />);
+    renderPage({ subjectFields });
     const subjectFieldFilter = screen.getByRole('combobox', { name: localization.subjectArea });
     expect(screen.getByRole('group', { name: new RegExp(localization.subjectArea) })).toBeInTheDocument();
     expect(subjectFieldFilter).toHaveValue('');
@@ -146,7 +154,7 @@ describe('DataProductsServicePage', () => {
   });
 
   it('filters data products by selected subject field', () => {
-    render(<DataProductsServicePage dataProducts={dataProducts} subjectFields={subjectFields} />);
+    renderPage({ subjectFields });
     const main = screen.getByRole('main');
     const subjectFieldFilter = screen.getByRole('combobox', { name: localization.subjectArea });
     fireEvent.change(subjectFieldFilter, { target: { value: 'al' } });
@@ -164,19 +172,17 @@ describe('DataProductsServicePage', () => {
   });
 
   it('normalizes child subject field codes to parent subject areas', () => {
-    render(
-      <DataProductsServicePage
-        dataProducts={[
-          {
-            product_type: DataProductType.STATISTIC_PRODUCT,
-            product_short_name: 'health-product',
-            title: 'Helseprodukt',
-            subject_code: 'hel2',
-          },
-        ]}
-        subjectFields={subjectFields}
-      />,
-    );
+    renderPage({
+      dataProducts: [
+        {
+          product_type: DataProductType.STATISTIC_PRODUCT,
+          product_short_name: 'health-product',
+          title: 'Helseprodukt',
+          subject_code: 'hel2',
+        },
+      ],
+      subjectFields,
+    });
     const main = screen.getByRole('main');
     const subjectFieldFilter = screen.getByRole('combobox', { name: localization.subjectArea });
     fireEvent.change(subjectFieldFilter, { target: { value: 'he' } });
@@ -185,7 +191,7 @@ describe('DataProductsServicePage', () => {
   });
 
   it('combines subject field filters with product type filters', () => {
-    render(<DataProductsServicePage dataProducts={dataProducts} subjectFields={subjectFields} />);
+    renderPage({ subjectFields });
     const main = screen.getByRole('main');
     const otherProductFilter = screen.getByRole('checkbox', { name: 'Annen dataprodukt (1)' });
     const subjectFieldFilter = screen.getByRole('combobox', { name: localization.subjectArea });
@@ -195,5 +201,63 @@ describe('DataProductsServicePage', () => {
     expect(main).toHaveTextContent(localization.search.noHits);
     expect(main).not.toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
     expect(main).not.toHaveTextContent('Ameldingen');
+  });
+});
+describe('URL state', () => {
+  it('hydrates selected product type filters from productTypes parameters', () => {
+    renderPage({}, '?productTypes=STATISTIC_PRODUCT,OTHER_DATA_PRODUCT');
+    expect(screen.getByRole('checkbox', { name: 'Statistikkprodukt (1)' })).toBeChecked();
+    expect(screen.getByRole('checkbox', { name: 'Annen dataprodukt (1)' })).toBeChecked();
+  });
+
+  it('updates productTypes parameters when product type filters change', async () => {
+    const onUrlUpdate = vi.fn<(event: UrlUpdateEvent) => void>();
+    renderPage({}, '', onUrlUpdate);
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Statistikkprodukt (1)' }));
+    await waitFor(() => {
+      expect(onUrlUpdate).toHaveBeenCalled();
+    });
+    expect(onUrlUpdate.mock.calls.at(-1)?.[0].searchParams.getAll('productTypes')).toEqual(['STATISTIC_PRODUCT']);
+  });
+
+  it('clears productTypes parameter when the last selected product type is unchecked', async () => {
+    const onUrlUpdate = vi.fn<(event: UrlUpdateEvent) => void>();
+    renderPage({}, '?productTypes=STATISTIC_PRODUCT', onUrlUpdate);
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Statistikkprodukt (1)' }));
+    await waitFor(() => {
+      expect(onUrlUpdate).toHaveBeenCalled();
+    });
+    expect(onUrlUpdate.mock.calls.at(-1)?.[0].searchParams.get('productTypes')).toBeNull();
+  });
+
+  it('hydrates selected subject area from subject parameter', () => {
+    renderPage({ subjectFields }, '?subject=al');
+    expect(screen.getByRole('combobox', { name: localization.subjectArea })).toHaveValue('al');
+    expect(screen.getByRole('main')).toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
+    expect(screen.getByRole('main')).not.toHaveTextContent('Ameldingen');
+  });
+
+  it('updates subjectArea parameter when subject area filter changes', async () => {
+    const onUrlUpdate = vi.fn<(event: UrlUpdateEvent) => void>();
+    renderPage({ subjectFields }, '', onUrlUpdate);
+    fireEvent.change(screen.getByRole('combobox', { name: localization.subjectArea }), {
+      target: { value: 'bf' },
+    });
+    await waitFor(() => {
+      expect(onUrlUpdate).toHaveBeenCalled();
+    });
+    expect(onUrlUpdate.mock.calls.at(-1)?.[0].searchParams.get('subject')).toBe('bf');
+  });
+
+  it('clears subjectArea parameter when all subject areas are selected', async () => {
+    const onUrlUpdate = vi.fn<(event: UrlUpdateEvent) => void>();
+    renderPage({ subjectFields }, '?subject=al', onUrlUpdate);
+    fireEvent.change(screen.getByRole('combobox', { name: localization.subjectArea }), {
+      target: { value: '' },
+    });
+    await waitFor(() => {
+      expect(onUrlUpdate).toHaveBeenCalled();
+    });
+    expect(onUrlUpdate.mock.calls.at(-1)?.[0].searchParams.get('subject')).toBeNull();
   });
 });
