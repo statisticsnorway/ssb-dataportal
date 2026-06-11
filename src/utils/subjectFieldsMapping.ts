@@ -1,4 +1,7 @@
-export const SUBJECT_FIELD_BY_CODE: Record<string, number[]> = {
+type SubjectFieldCode = string;
+type ClassificationFamilyId = number;
+
+export const SUBJECT_FIELD_BY_CODE: Record<SubjectFieldCode, ClassificationFamilyId[]> = {
   al: [1],
   bf: [2],
   be: [3, 8],

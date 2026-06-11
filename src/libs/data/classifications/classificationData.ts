@@ -16,6 +16,8 @@ import { parseClassification } from '@/utils/functions';
 import { getClassification } from '@/utils/mock-data';
 import { getUserAgent } from '@/utils/userAgent';
 
+const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
+
 export interface ClassificationResponse {
   classifications: ClassificationResource[];
   pageInfo: number;
@@ -56,14 +58,16 @@ export async function fetchAllClassifications(): Promise<ClassificationResource[
 
   try {
     const startTime = Date.now();
-    let data = await api.classifications(params, { cache: 'no-store' } as RequestInit);
+    let data = await api.classifications(params, {
+      cache: 'force-cache',
+      next: { revalidate: ttlSeconds },
+    } as RequestInit);
     const allClassifications = [...(data.embedded?.classifications ?? [])];
 
     while (data.links?.['next']?.href) {
       const nextUrl = data.links['next'].href;
       const res = await fetch(nextUrl, {
         headers: { 'User-Agent': getUserAgent() },
-        cache: 'no-store',
       });
       if (!res.ok) {
         logger.error({ statusCode: res.status, url: res.url }, 'Classification fetch failed on pagination');
@@ -101,7 +105,8 @@ export async function fetchClassificationById(id: number): Promise<Classificatio
 
     try {
       classification = await api.classification(params, {
-        cache: 'no-store',
+        cache: 'force-cache',
+        next: { revalidate: ttlSeconds },
       } as RequestInit);
     } catch (error: unknown) {
       if (error instanceof ResponseError) {
