@@ -63,6 +63,24 @@ describe('classification data fetching', () => {
         },
       ]);
     });
+
+    it('throws when pagination fetch fails', async () => {
+      process.env.KLASS_USE_STATIC_DATA = 'false';
+      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
+
+      vi.spyOn(ClassificationsApi.prototype, 'classifications').mockResolvedValue({
+        embedded: {
+          classifications: [{ id: 1, name: 'A', classificationType: ClassificationType.Klassifikasjon }],
+        },
+        links: {
+          next: { href: 'https://example.com/next-page' },
+        },
+      });
+
+      vi.spyOn(global, 'fetch').mockResolvedValue(new Response(null, { status: 500 }));
+
+      await expect(fetchAllClassifications()).rejects.toThrow('Failed to fetch classifications page');
+    });
   });
 
   describe('fetchClassificationById', () => {
@@ -105,6 +123,15 @@ describe('classification data fetching', () => {
         name: 'A',
         classificationType: ClassificationType.Klassifikasjon,
       });
+    });
+
+    it('throws unexpected non-response errors when fetching by id', async () => {
+      process.env.KLASS_USE_STATIC_DATA = 'false';
+      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
+
+      vi.spyOn(ClassificationsApi.prototype, 'classification').mockRejectedValue(new Error('Unexpected failure'));
+
+      await expect(fetchClassificationById(1)).rejects.toThrow('Unexpected failure');
     });
   });
 });
