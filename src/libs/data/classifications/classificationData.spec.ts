@@ -34,14 +34,8 @@ describe('classification data fetching', () => {
       vi.unstubAllEnvs();
     });
 
-    it('no token available', async () => {
-      process.env.KLASS_USE_STATIC_DATA = 'false';
-      await expect(fetchAllClassifications()).rejects.toThrow('Could not retrieve access token!');
-    });
-
     it('mock api call happy path', async () => {
       process.env.KLASS_USE_STATIC_DATA = 'false';
-      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
 
       vi.spyOn(ClassificationsApi.prototype, 'classifications').mockResolvedValue({
         embedded: {
@@ -66,7 +60,6 @@ describe('classification data fetching', () => {
 
     it('throws when pagination fetch fails', async () => {
       process.env.KLASS_USE_STATIC_DATA = 'false';
-      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
 
       vi.spyOn(ClassificationsApi.prototype, 'classifications').mockResolvedValue({
         embedded: {
@@ -99,7 +92,6 @@ describe('classification data fetching', () => {
 
     it('throws error when no classification is found', async () => {
       process.env.KLASS_USE_STATIC_DATA = 'false';
-      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
 
       vi.spyOn(ClassificationsApi.prototype, 'classification').mockRejectedValue(
         new ResponseError(new Response(null, { status: 404 }), 'Not found'),
@@ -110,7 +102,6 @@ describe('classification data fetching', () => {
 
     it('throws ResponseError for non-404 status codes', async () => {
       process.env.KLASS_USE_STATIC_DATA = 'false';
-      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
 
       vi.spyOn(ClassificationsApi.prototype, 'classification').mockRejectedValue(
         new ResponseError(new Response(null, { status: 500 }), 'Internal Server Error'),
@@ -121,7 +112,6 @@ describe('classification data fetching', () => {
 
     it('mock api call happy path', async () => {
       process.env.KLASS_USE_STATIC_DATA = 'false';
-      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
 
       vi.spyOn(ClassificationsApi.prototype, 'classification').mockResolvedValue({
         id: 1,
@@ -138,7 +128,6 @@ describe('classification data fetching', () => {
 
     it('throws unexpected non-response errors when fetching by id', async () => {
       process.env.KLASS_USE_STATIC_DATA = 'false';
-      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
 
       vi.spyOn(ClassificationsApi.prototype, 'classification').mockRejectedValue(new Error('Unexpected failure'));
 
