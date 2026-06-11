@@ -6,7 +6,6 @@ import { CheckboxFilter, FiltersPanel } from '@/components/filters';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { useSearchStateKlass } from '@/hooks/useSearchStateKlass';
-import { getClassificationFamily } from '@/libs/data/classifications/classificationFamilyData';
 import { ClassificationFamilyResource, ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import { ClassificationType } from '@/types/classification';
@@ -84,22 +83,8 @@ const ClassificationsServicePage = ({
       setError(null);
       try {
         let data: ClassificationResource[] = [];
+        data = [...rawClassifications];
 
-        if (selectedFamilies.length > 0) {
-          for (const family of selectedFamilies) {
-            const familyData = await getClassificationFamily(
-              family.value,
-              selectedClassificationTypes.some((ct) => ct.value === ClassificationType.Kodeliste),
-            );
-            const familyClassifications: ClassificationResource[] = familyData.classifications ?? [];
-
-            data.push(...(familyClassifications ?? []));
-          }
-        }
-        // Refetch data to refill all deselected to select
-        else {
-          data = [...rawClassifications];
-        }
         // apply filters
         setClassifications(
           data.filter(

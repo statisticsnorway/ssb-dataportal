@@ -1,10 +1,10 @@
 # SearchApi
 
-All URIs are relative to *https://data.ssb.no/api/klass*
+All URIs are relative to *https://data.ssb.no*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**search**](SearchApi.md#search) | **GET** /v1/classifications/search |  |
+| [**search**](SearchApi.md#search) | **GET** /api/klass/v1/classifications/search |  |
 
 
 
@@ -68,7 +68,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/problem+json`, `application/json`, `text/xml`, `application/xml`
+- **Accept**: `application/problem+json`, `*/*`, `application/json`, `text/xml`, `application/xml`
 
 
 ### HTTP response details

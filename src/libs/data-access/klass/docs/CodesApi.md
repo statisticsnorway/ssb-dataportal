@@ -1,12 +1,12 @@
 # CodesApi
 
-All URIs are relative to *https://data.ssb.no/api/klass*
+All URIs are relative to *https://data.ssb.no*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**changes**](CodesApi.md#changes) | **GET** /v1/classifications/{id}/changes |  |
-| [**codes**](CodesApi.md#codes) | **GET** /v1/classifications/{id}/codes |  |
-| [**codesAt**](CodesApi.md#codesat) | **GET** /v1/classifications/{id}/codesAt |  |
+| [**changes**](CodesApi.md#changes) | **GET** /api/klass/v1/classifications/{id}/changes |  |
+| [**codes**](CodesApi.md#codes) | **GET** /api/klass/v1/classifications/{id}/codes |  |
+| [**codesAt**](CodesApi.md#codesat) | **GET** /api/klass/v1/classifications/{id}/codesAt |  |
 
 
 
@@ -82,7 +82,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/problem+json`, `application/json`, `application/xml`, `text/xml`, `text/csv`
+- **Accept**: `application/problem+json`, `*/*`, `application/json`, `application/xml`, `text/xml`, `text/csv`
 
 
 ### HTTP response details
@@ -177,7 +177,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/problem+json`, `application/json`, `application/xml`, `text/xml`, `text/csv`
+- **Accept**: `application/problem+json`, `*/*`, `application/json`, `application/xml`, `text/xml`, `text/csv`
 
 
 ### HTTP response details
@@ -269,7 +269,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/problem+json`, `application/json`, `application/xml`, `text/xml`, `text/csv`
+- **Accept**: `application/problem+json`, `*/*`, `application/json`, `application/xml`, `text/xml`, `text/csv`
 
 
 ### HTTP response details

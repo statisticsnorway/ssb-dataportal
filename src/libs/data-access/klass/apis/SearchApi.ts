@@ -16,13 +16,13 @@
 import * as runtime from '../runtime';
 import type {
   KlassPagedResourcesSearchResultResource,
-  Versions404Response,
+  ProblemDetail,
 } from '../models/index';
 import {
     KlassPagedResourcesSearchResultResourceFromJSON,
     KlassPagedResourcesSearchResultResourceToJSON,
-    Versions404ResponseFromJSON,
-    Versions404ResponseToJSON,
+    ProblemDetailFromJSON,
+    ProblemDetailToJSON,
 } from '../models/index';
 
 export interface SearchRequest {
@@ -87,7 +87,7 @@ export class SearchApi extends runtime.BaseAPI implements SearchApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/v1/classifications/search`;
+        let urlPath = `/api/klass/v1/classifications/search`;
 
         const response = await this.request({
             path: urlPath,

@@ -61,6 +61,12 @@ export interface ClassificationSummaryResource {
     classificationType?: string;
     /**
      * 
+     * @type {number}
+     * @memberof ClassificationSummaryResource
+     */
+    classificationFamilyId?: number;
+    /**
+     * 
      * @type {Date}
      * @memberof ClassificationSummaryResource
      */
@@ -105,6 +111,7 @@ export function ClassificationSummaryResourceFromJSONTyped(json: any, ignoreDisc
         'name': json['name'] == null ? undefined : json['name'],
         'id': json['id'] == null ? undefined : json['id'],
         'classificationType': json['classificationType'] == null ? undefined : json['classificationType'],
+        'classificationFamilyId': json['classificationFamilyId'] == null ? undefined : json['classificationFamilyId'],
         'lastModified': json['lastModified'] == null ? undefined : (new Date(json['lastModified'])),
         'links': json['_links'] == null ? undefined : (mapValues(json['_links'], LinkFromJSON)),
         'embedded': json['_embedded'] == null ? undefined : ClassificationVariantSummaryResourceEmbeddedFromJSON(json['_embedded']),
@@ -126,6 +133,7 @@ export function ClassificationSummaryResourceToJSONTyped(value?: ClassificationS
         'name': value['name'],
         'id': value['id'],
         'classificationType': value['classificationType'],
+        'classificationFamilyId': value['classificationFamilyId'],
         'lastModified': value['lastModified'] == null ? value['lastModified'] : value['lastModified'].toISOString(),
         '_links': value['links'] == null ? undefined : (mapValues(value['links'], LinkToJSON)),
         '_embedded': ClassificationVariantSummaryResourceEmbeddedToJSON(value['embedded']),

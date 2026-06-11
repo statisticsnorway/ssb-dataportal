@@ -20,6 +20,7 @@ Name | Type
 `statisticalUnits` | Array&lt;string&gt;
 `versions` | [Array&lt;ClassificationVersionSummaryResource&gt;](ClassificationVersionSummaryResource.md)
 `links` | [{ [key: string]: Link; }](Link.md)
+`classificationFamilyId` | number
 `embedded` | [ClassificationVariantSummaryResourceEmbedded](ClassificationVariantSummaryResourceEmbedded.md)
 `page` | [PageMetadata](PageMetadata.md)
 
@@ -44,6 +45,7 @@ const example = {
   "statisticalUnits": null,
   "versions": null,
   "links": null,
+  "classificationFamilyId": null,
   "embedded": null,
   "page": null,
 } satisfies ClassificationResource

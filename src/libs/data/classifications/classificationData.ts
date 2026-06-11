@@ -1,15 +1,21 @@
 'use server';
 
-import { ClassificationResource } from '@/libs/data-access/klass';
+import { getEncodedJwt } from '@/libs/auth/jwt';
+import {
+  ClassificationRequest,
+  ClassificationsApi,
+  ClassificationsRequest,
+} from '@/libs/data-access/klass/apis/ClassificationsApi';
+import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
+import { KlassPagedResourcesClassificationSummaryResourceFromJSON } from '@/libs/data-access/klass/models/KlassPagedResourcesClassificationSummaryResource';
+import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
+import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import classificationsMock from '@/static-data/classifications.json';
 import { linkObj } from '@/types/classification';
+import { parseClassification } from '@/utils/functions';
 import { getClassification } from '@/utils/mock-data';
 import { getUserAgent } from '@/utils/userAgent';
-
-const CLASSIFICATIONS_URL_PATH_PART = 'classifications';
-
-const useStaticData = process.env.KLASS_USE_STATIC_DATA === 'true';
 
 export interface ClassificationResponse {
   classifications: ClassificationResource[];
@@ -17,66 +23,115 @@ export interface ClassificationResponse {
   links: linkObj[];
 }
 
-export async function fetchAllClassifications(pageSize = 20): Promise<ClassificationResource[]> {
-  let allClassifications = [];
-  let currentPage = 0;
-  let totalPages = 1;
+export async function getKlassClassificationsClient(): Promise<ClassificationsApi> {
   const logger = createLogger('classification-data');
-
-  if (useStaticData) {
-    logger.warn('Using static mock data for classifications');
-    allClassifications = classificationsMock.classifications;
+  let token = process.env.SSB_DATAPORTAL_JWT_TOKEN;
+  if (token) {
+    logger.warn('Using hardcoded access token from environment! (SSB_DATAPORTAL_JWT_TOKEN)');
   } else {
-    logger.debug({ basePath: process.env.KLASS_BASE_PATH }, 'Klass API base path configured');
-    while (currentPage < totalPages) {
-      const res = await fetch(
-        `${process.env.KLASS_BASE_PATH}/${CLASSIFICATIONS_URL_PATH_PART}?includeCodelists=true&page=${currentPage}&size=${pageSize}`,
-        {
-          headers: {
-            'User-Agent': getUserAgent(),
-          },
-          cache: 'no-store',
-        },
-      );
-      if (!res.ok) {
-        logger.error({ statusCode: res.status, url: res.url }, 'Classification fetch failed');
-        throw new Error('Failed to fetch classifications');
-      }
-
-      const data = await res.json();
-
-      allClassifications.push(...data._embedded.classifications);
-
-      totalPages = data.page?.totalPages ?? totalPages;
-      currentPage++;
+    token = await getEncodedJwt().catch((reason) => {
+      logger.error({ error: sanitizeError(reason) }, 'JWT retrieval unexpectedly failed');
+      return undefined;
+    });
+    if (!token) {
+      logger.debug('No JWT token found in request headers');
+      return Promise.reject('Could not retrieve access token!');
     }
+    logger.debug('Successfully retrieved JWT from authorization header');
   }
 
-  return allClassifications;
+  let configParams = {
+    accessToken: token,
+    headers: {
+      'User-Agent': getUserAgent(),
+    },
+  } as ConfigurationParameters;
+
+  const klassBasePath = process.env.KLASS_BASE_PATH;
+  if (klassBasePath) {
+    const basePath = new URL(klassBasePath).origin;
+    logger.debug({ basePath }, 'Klass API base path configured');
+    configParams.basePath = basePath;
+  }
+
+  return new ClassificationsApi(new Configuration(configParams));
+}
+
+export async function fetchAllClassifications(): Promise<ClassificationResource[]> {
+  const logger = createLogger('classification-data');
+
+  if (process.env.KLASS_USE_STATIC_DATA === 'true') {
+    logger.warn('Using static mock data for classifications');
+    return classificationsMock.classifications.map((classification) => parseClassification(classification));
+  }
+
+  const api = await getKlassClassificationsClient();
+
+  const params = {
+    includeCodelists: true,
+  } satisfies ClassificationsRequest;
+
+  try {
+    const startTime = Date.now();
+    let data = await api.classifications(params, { cache: 'no-store' } as RequestInit);
+    const allClassifications = [...(data.embedded?.classifications ?? [])];
+
+    while (data.links?.['next']?.href) {
+      const nextUrl = data.links['next'].href;
+      const res = await fetch(nextUrl, {
+        headers: { 'User-Agent': getUserAgent() },
+        cache: 'no-store',
+      });
+      if (!res.ok) {
+        logger.error({ statusCode: res.status, url: res.url }, 'Classification fetch failed on pagination');
+        throw new Error('Failed to fetch classifications page');
+      }
+      data = KlassPagedResourcesClassificationSummaryResourceFromJSON(await res.json());
+      allClassifications.push(...(data.embedded?.classifications ?? []));
+    }
+
+    const durationMs = Date.now() - startTime;
+    logger.info({ count: allClassifications.length, durationMs }, 'Fetched classifications from API');
+    return allClassifications as ClassificationResource[];
+  } catch (error: unknown) {
+    if (error instanceof ResponseError) {
+      logger.error({ statusCode: error.response.status, url: error.response.url }, 'Classification fetch failed');
+    } else {
+      logger.error({ error: sanitizeError(error) }, 'Unexpected error during fetch');
+    }
+    throw error;
+  }
 }
 
 export async function fetchClassificationById(id: number): Promise<ClassificationResource | undefined> {
   let classification: ClassificationResource | undefined;
   const logger = createLogger('classification-data');
 
-  if (useStaticData) {
+  if (process.env.KLASS_USE_STATIC_DATA === 'true') {
     logger.warn('Using static mock data for classifications');
     classification = getClassification(id);
   } else {
-    const res = await fetch(
-      `${process.env.KLASS_BASE_PATH}/${CLASSIFICATIONS_URL_PATH_PART}/${id}?includeCodelists=true`,
-      {
+    const api = await getKlassClassificationsClient();
+    const params = {
+      id,
+    } satisfies ClassificationRequest;
+
+    try {
+      classification = await api.classification(params, {
         cache: 'no-store',
-      },
-    );
-
-    if (!res.ok) {
-      logger.error({ statusCode: res.status, url: res.url }, 'Classification fetch by ID failed');
-      if (res.status === 404) return undefined; // not found
-      throw new Error('Failed to fetch classification');
+      } as RequestInit);
+    } catch (error: unknown) {
+      if (error instanceof ResponseError) {
+        logger.error(
+          { statusCode: error.response.status, url: error.response.url },
+          'Classification fetch by ID failed',
+        );
+        if (error.response.status === 404) return undefined;
+      } else {
+        logger.error({ error: sanitizeError(error) }, 'Unexpected error during fetch');
+      }
+      throw error;
     }
-
-    classification = await res.json();
   }
   return classification;
 }

@@ -1,12 +1,12 @@
 # VariantsApi
 
-All URIs are relative to *https://data.ssb.no/api/klass*
+All URIs are relative to *https://data.ssb.no*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**variant**](VariantsApi.md#variant) | **GET** /v1/classifications/{id}/variant |  |
-| [**variantAt**](VariantsApi.md#variantat) | **GET** /v1/classifications/{id}/variantAt |  |
-| [**variants**](VariantsApi.md#variants) | **GET** /v1/variants/{id} |  |
+| [**variant**](VariantsApi.md#variant) | **GET** /api/klass/v1/classifications/{id}/variant |  |
+| [**variantAt**](VariantsApi.md#variantat) | **GET** /api/klass/v1/classifications/{id}/variantAt |  |
+| [**variants**](VariantsApi.md#variants) | **GET** /api/klass/v1/variants/{id} |  |
 
 
 
@@ -94,7 +94,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/problem+json`, `application/json`, `application/xml`, `text/xml`, `text/csv`
+- **Accept**: `application/problem+json`, `*/*`, `application/json`, `application/xml`, `text/xml`, `text/csv`
 
 
 ### HTTP response details
@@ -189,7 +189,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/problem+json`, `application/json`, `application/xml`, `text/xml`, `text/csv`
+- **Accept**: `application/problem+json`, `*/*`, `application/json`, `application/xml`, `text/xml`, `text/csv`
 
 
 ### HTTP response details
@@ -260,7 +260,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/problem+json`, `application/json`, `application/xml`, `text/xml`, `text/csv`
+- **Accept**: `application/problem+json`, `*/*`, `application/json`, `application/xml`, `text/xml`, `text/csv`
 
 
 ### HTTP response details

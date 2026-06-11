@@ -1,0 +1,110 @@
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { ClassificationsApi } from '@/libs/data-access/klass/apis/ClassificationsApi';
+import { ResponseError } from '@/libs/data-access/klass/runtime';
+import classificationsMock from '@/static-data/classifications.json';
+import { ClassificationType } from '@/types/classification';
+import { getClassification as getStaticClassification } from '@/utils/mock-data';
+import { fetchAllClassifications, fetchClassificationById } from './classificationData';
+
+vi.mock('server-only', () => ({}));
+
+const ORIGINAL_ENV = process.env;
+beforeEach(() => {
+  vi.restoreAllMocks();
+  vi.resetModules();
+  process.env = { ...ORIGINAL_ENV };
+});
+afterAll(() => {
+  process.env = ORIGINAL_ENV;
+});
+
+describe('classification data fetching', () => {
+  describe('fetchAllClassifications', () => {
+    it('static data', async () => {
+      vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
+      const result = await fetchAllClassifications();
+      expect(result).toHaveLength(classificationsMock.classifications.length);
+
+      const firstStaticId = classificationsMock.classifications[0]?.id;
+      expect(firstStaticId).toBeDefined();
+      const firstStaticClassification = getStaticClassification(Number(firstStaticId));
+      expect(firstStaticClassification).toBeDefined();
+      expect(result).toContainEqual(firstStaticClassification);
+
+      vi.unstubAllEnvs();
+    });
+
+    it('no token available', async () => {
+      process.env.KLASS_USE_STATIC_DATA = 'false';
+      await expect(fetchAllClassifications()).rejects.toThrow('Could not retrieve access token!');
+    });
+
+    it('mock api call happy path', async () => {
+      process.env.KLASS_USE_STATIC_DATA = 'false';
+      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
+
+      vi.spyOn(ClassificationsApi.prototype, 'classifications').mockResolvedValue({
+        embedded: {
+          classifications: [
+            {
+              id: 1,
+              name: 'A',
+              classificationType: ClassificationType.Klassifikasjon,
+            },
+          ],
+        },
+      });
+
+      await expect(fetchAllClassifications()).resolves.toEqual([
+        {
+          id: 1,
+          name: 'A',
+          classificationType: ClassificationType.Klassifikasjon,
+        },
+      ]);
+    });
+  });
+
+  describe('fetchClassificationById', () => {
+    it('static data', async () => {
+      vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
+
+      const staticId = classificationsMock.classifications[0]?.id;
+      expect(staticId).toBeDefined();
+
+      const expectedStaticClassification = getStaticClassification(Number(staticId));
+      expect(expectedStaticClassification).toBeDefined();
+      await expect(fetchClassificationById(Number(staticId))).resolves.toEqual(expectedStaticClassification);
+
+      vi.unstubAllEnvs();
+    });
+
+    it('returns undefined for 404', async () => {
+      process.env.KLASS_USE_STATIC_DATA = 'false';
+      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
+
+      vi.spyOn(ClassificationsApi.prototype, 'classification').mockRejectedValue(
+        new ResponseError(new Response(null, { status: 404 }), 'Not found'),
+      );
+
+      await expect(fetchClassificationById(999)).resolves.toBeUndefined();
+    });
+
+    it('mock api call happy path', async () => {
+      process.env.KLASS_USE_STATIC_DATA = 'false';
+      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
+
+      vi.spyOn(ClassificationsApi.prototype, 'classification').mockResolvedValue({
+        id: 1,
+        name: 'A',
+        classificationType: ClassificationType.Klassifikasjon,
+      });
+
+      await expect(fetchClassificationById(1)).resolves.toEqual({
+        id: 1,
+        name: 'A',
+        classificationType: ClassificationType.Klassifikasjon,
+      });
+    });
+  });
+});

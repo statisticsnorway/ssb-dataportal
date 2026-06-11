@@ -141,6 +141,12 @@ export interface ClassificationResource {
     links?: { [key: string]: Link; };
     /**
      * 
+     * @type {number}
+     * @memberof ClassificationResource
+     */
+    classificationFamilyId?: number;
+    /**
+     * 
      * @type {ClassificationVariantSummaryResourceEmbedded}
      * @memberof ClassificationResource
      */
@@ -184,6 +190,7 @@ export function ClassificationResourceFromJSONTyped(json: any, ignoreDiscriminat
         'statisticalUnits': json['statisticalUnits'] == null ? undefined : json['statisticalUnits'],
         'versions': json['versions'] == null ? undefined : ((json['versions'] as Array<any>).map(ClassificationVersionSummaryResourceFromJSON)),
         'links': json['_links'] == null ? undefined : (mapValues(json['_links'], LinkFromJSON)),
+        'classificationFamilyId': json['classificationFamilyId'] == null ? undefined : json['classificationFamilyId'],
         'embedded': json['_embedded'] == null ? undefined : ClassificationVariantSummaryResourceEmbeddedFromJSON(json['_embedded']),
         'page': json['page'] == null ? undefined : PageMetadataFromJSON(json['page']),
     };
@@ -214,6 +221,7 @@ export function ClassificationResourceToJSONTyped(value?: ClassificationResource
         'statisticalUnits': value['statisticalUnits'],
         'versions': value['versions'] == null ? undefined : ((value['versions'] as Array<any>).map(ClassificationVersionSummaryResourceToJSON)),
         '_links': value['links'] == null ? undefined : (mapValues(value['links'], LinkToJSON)),
+        'classificationFamilyId': value['classificationFamilyId'],
         '_embedded': ClassificationVariantSummaryResourceEmbeddedToJSON(value['embedded']),
         'page': PageMetadataToJSON(value['page']),
     };

@@ -1,10 +1,10 @@
 # VersionsApi
 
-All URIs are relative to *https://data.ssb.no/api/klass*
+All URIs are relative to *https://data.ssb.no*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**versions**](VersionsApi.md#versions) | **GET** /v1/versions/{id} |  |
+| [**versions**](VersionsApi.md#versions) | **GET** /api/klass/v1/versions/{id} |  |
 
 
 
@@ -68,7 +68,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/problem+json`, `application/json`, `application/xml`, `text/xml`, `text/csv`
+- **Accept**: `application/problem+json`, `*/*`, `application/json`, `application/xml`, `text/xml`, `text/csv`
 
 
 ### HTTP response details

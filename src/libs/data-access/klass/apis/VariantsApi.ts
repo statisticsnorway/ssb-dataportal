@@ -17,15 +17,15 @@ import * as runtime from '../runtime';
 import type {
   ClassificationVariantResource,
   CodeList,
-  Versions404Response,
+  ProblemDetail,
 } from '../models/index';
 import {
     ClassificationVariantResourceFromJSON,
     ClassificationVariantResourceToJSON,
     CodeListFromJSON,
     CodeListToJSON,
-    Versions404ResponseFromJSON,
-    Versions404ResponseToJSON,
+    ProblemDetailFromJSON,
+    ProblemDetailToJSON,
 } from '../models/index';
 
 export interface VariantRequest {
@@ -202,7 +202,7 @@ export class VariantsApi extends runtime.BaseAPI implements VariantsApiInterface
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/v1/classifications/{id}/variant`;
+        let urlPath = `/api/klass/v1/classifications/{id}/variant`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
 
         const response = await this.request({
@@ -280,7 +280,7 @@ export class VariantsApi extends runtime.BaseAPI implements VariantsApiInterface
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/v1/classifications/{id}/variantAt`;
+        let urlPath = `/api/klass/v1/classifications/{id}/variantAt`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
 
         const response = await this.request({
@@ -319,7 +319,7 @@ export class VariantsApi extends runtime.BaseAPI implements VariantsApiInterface
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/v1/variants/{id}`;
+        let urlPath = `/api/klass/v1/variants/{id}`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
 
         const response = await this.request({
