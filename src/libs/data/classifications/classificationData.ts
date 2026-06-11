@@ -1,6 +1,5 @@
 'use server';
 
-import { getEncodedJwt } from '@/libs/auth/jwt';
 import {
   ClassificationRequest,
   ClassificationsApi,
@@ -25,23 +24,7 @@ export interface ClassificationResponse {
 
 export async function getKlassClassificationsClient(): Promise<ClassificationsApi> {
   const logger = createLogger('classification-data');
-  let token = process.env.SSB_DATAPORTAL_JWT_TOKEN;
-  if (token) {
-    logger.warn('Using hardcoded access token from environment! (SSB_DATAPORTAL_JWT_TOKEN)');
-  } else {
-    token = await getEncodedJwt().catch((reason) => {
-      logger.error({ error: sanitizeError(reason) }, 'JWT retrieval unexpectedly failed');
-      return undefined;
-    });
-    if (!token) {
-      logger.debug('No JWT token found in request headers');
-      return Promise.reject('Could not retrieve access token!');
-    }
-    logger.debug('Successfully retrieved JWT from authorization header');
-  }
-
   let configParams = {
-    accessToken: token,
     headers: {
       'User-Agent': getUserAgent(),
     },
