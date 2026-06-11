@@ -97,7 +97,7 @@ describe('classification data fetching', () => {
       vi.unstubAllEnvs();
     });
 
-    it('returns undefined for 404', async () => {
+    it('throws error when no classification is found', async () => {
       process.env.KLASS_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
 
@@ -105,7 +105,7 @@ describe('classification data fetching', () => {
         new ResponseError(new Response(null, { status: 404 }), 'Not found'),
       );
 
-      await expect(fetchClassificationById(999)).resolves.toBeUndefined();
+      await expect(fetchClassificationById(999)).rejects.toThrow('Not found');
     });
 
     it('mock api call happy path', async () => {
