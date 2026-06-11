@@ -1,7 +1,11 @@
-type SubjectFieldCode = string;
-type ClassificationFamilyId = number;
-
-export const SUBJECT_FIELD_BY_CODE: Record<SubjectFieldCode, ClassificationFamilyId[]> = {
+/**
+ * Maps a subject field code (`string`) to the classification family IDs
+ * (`number[]`) associated with that subject field.
+ *
+ * Used when filtering data by subject field, where a subject field code
+ * is translated into one or more classification family IDs.
+ */
+export const SUBJECT_FIELD_BY_CODE: Record<string, number[]> = {
   al: [1],
   bf: [2],
   be: [3, 8],
