@@ -24,7 +24,7 @@ jobs:
       - name: Check outdated dependencies
         run: pnpm outdated || true
 
-  build:
+  grype-scan:
     runs-on: ubuntu-latest
     # Permissions key is required for CodeQL SARIF Upload, per the docs:
     # https://docs.github.com/en/code-security/code-scanning/integrating-with-code-scanning/uploading-a-sarif-file-to-github

@@ -4,7 +4,7 @@
 
 FROM node:lts-alpine3.23@sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14 AS base
 
-RUN npm install -g pnpm@11.3.0
+RUN npm install -g pnpm@11.5.0
 
 # Install dependencies only when needed
 FROM base AS deps
