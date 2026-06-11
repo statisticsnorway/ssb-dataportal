@@ -108,6 +108,17 @@ describe('classification data fetching', () => {
       await expect(fetchClassificationById(999)).rejects.toThrow('Not found');
     });
 
+    it('throws ResponseError for non-404 status codes', async () => {
+      process.env.KLASS_USE_STATIC_DATA = 'false';
+      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
+
+      vi.spyOn(ClassificationsApi.prototype, 'classification').mockRejectedValue(
+        new ResponseError(new Response(null, { status: 500 }), 'Internal Server Error'),
+      );
+
+      await expect(fetchClassificationById(1)).rejects.toThrow('Internal Server Error');
+    });
+
     it('mock api call happy path', async () => {
       process.env.KLASS_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
