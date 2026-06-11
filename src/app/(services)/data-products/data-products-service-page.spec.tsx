@@ -85,7 +85,7 @@ describe('DataProductsServicePage', () => {
     expect(otherProductFilter).not.toBeChecked();
   });
 
-  it('renders title or short name for each data product', () => {
+  it('renders title or short name as data product link text', () => {
     renderPage({
       dataProducts: [
         ...dataProducts,
@@ -126,7 +126,7 @@ describe('DataProductsServicePage', () => {
     expect(main).not.toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
   });
 
-  it('renders title or short name for each data product', () => {
+  it('renders title or short name in the search results', () => {
     renderPage({
       dataProducts: [
         ...dataProducts,
