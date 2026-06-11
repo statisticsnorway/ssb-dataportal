@@ -20,7 +20,7 @@ export function getVariableDefinitionByShortName(shortName: string | number): Re
   return getVariableDefinitions().find((v) => String(v.short_name) === String(shortName));
 }
 
-export function getClassification(id: number): ClassificationResource | undefined {
+export function getClassification(id: number): ClassificationResource {
   const classifications = classificationsMock.classifications;
   const classification = classifications.find((v) => v.id === id);
   return parseClassification(classification);

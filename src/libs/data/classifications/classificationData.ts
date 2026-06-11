@@ -103,8 +103,8 @@ export async function fetchAllClassifications(): Promise<ClassificationResource[
   }
 }
 
-export async function fetchClassificationById(id: number): Promise<ClassificationResource | undefined> {
-  let classification: ClassificationResource | undefined;
+export async function fetchClassificationById(id: number): Promise<ClassificationResource> {
+  let classification: ClassificationResource;
   const logger = createLogger('classification-data');
 
   if (process.env.KLASS_USE_STATIC_DATA === 'true') {
@@ -126,7 +126,6 @@ export async function fetchClassificationById(id: number): Promise<Classificatio
           { statusCode: error.response.status, url: error.response.url },
           'Classification fetch by ID failed',
         );
-        if (error.response.status === 404) return undefined;
       } else {
         logger.error({ error: sanitizeError(error) }, 'Unexpected error during fetch');
       }
