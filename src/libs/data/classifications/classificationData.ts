@@ -79,7 +79,7 @@ export async function fetchAllClassifications(): Promise<ClassificationResource[
 
     const durationMs = Date.now() - startTime;
     logger.info({ count: allClassifications.length, durationMs }, 'Fetched classifications from API');
-    return allClassifications as ClassificationResource[];
+    return allClassifications;
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
       logger.error({ statusCode: error.response.status, url: error.response.url }, 'Classification fetch failed');
