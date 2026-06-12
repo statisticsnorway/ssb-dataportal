@@ -1,7 +1,8 @@
 'use client';
 
 import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
-import { useMemo, useState } from 'react';
+import { parseAsArrayOf, parseAsString, useQueryStates } from 'nuqs';
+import { useMemo } from 'react';
 import { CheckboxFilter, FiltersPanel, SelectFilter } from '@/components/filters';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { type DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
@@ -67,9 +68,11 @@ export const DataProductsServicePage = ({
   dataProducts,
   subjectFields = EMPTY_SUBJECT_FIELDS,
 }: DataProductsServicePageProps) => {
-  const [selectedProductTypeFilters, setSelectedProductTypeFilters] = useState<FilterItem[]>([]);
+  const [{ productTypes, subject }, setQueryState] = useQueryStates({
+    productTypes: parseAsArrayOf(parseAsString).withDefault([]),
+    subject: parseAsString.withDefault(ALL_SUBJECT_FIELDS),
+  });
 
-  const [selectedSubjectFieldFilter, setSelectedSubjectFieldFilter] = useState(ALL_SUBJECT_FIELDS);
   const productTypeFilters = useMemo<FilterItem[]>(() => {
     const counts = countByProductType(dataProducts);
     return dataProductTypeOrder
@@ -94,25 +97,33 @@ export const DataProductsServicePage = ({
       .sort((a, b) => a.label.localeCompare(b.label, 'nb'));
   }, [dataProducts, subjectFields]);
 
+  const selectedProductTypeFilters = useMemo<FilterItem[]>(
+    () =>
+      productTypes.map((value) => {
+        const filter = productTypeFilters.find((item) => item.value === value);
+        return {
+          label: filter?.label ?? value,
+          value,
+        };
+      }),
+    [productTypeFilters, productTypes],
+  );
+
   const filteredDataProducts = useMemo(() => {
-    const selectedProductTypes = new Set(selectedProductTypeFilters.map((filter) => filter.value));
+    const selectedProductTypes = new Set(productTypes);
     return dataProducts.filter((dataProduct) => {
       const matchesProductType =
         selectedProductTypes.size === 0 || selectedProductTypes.has(getProductTypeFilterValue(dataProduct));
-      const matchesSubjectField =
-        selectedSubjectFieldFilter === ALL_SUBJECT_FIELDS ||
-        getSubjectFieldCodes(dataProduct).includes(selectedSubjectFieldFilter);
+      const matchesSubjectField = subject === ALL_SUBJECT_FIELDS || getSubjectFieldCodes(dataProduct).includes(subject);
       return matchesProductType && matchesSubjectField;
     });
-  }, [dataProducts, selectedProductTypeFilters, selectedSubjectFieldFilter]);
+  }, [dataProducts, productTypes, subject]);
 
   const handleProductTypeFilterChange = (filter: FilterItem) => {
-    setSelectedProductTypeFilters((selectedFilters) => {
-      if (selectedFilters.some((selectedFilter) => selectedFilter.value === filter.value)) {
-        return selectedFilters.filter((selectedFilter) => selectedFilter.value !== filter.value);
-      }
-      return [...selectedFilters, filter];
-    });
+    const nextProductTypes = productTypes.includes(filter.value)
+      ? productTypes.filter((value) => value !== filter.value)
+      : [...productTypes, filter.value];
+    void setQueryState({ productTypes: nextProductTypes.length > 0 ? nextProductTypes : null });
   };
 
   const pageInfo = (
@@ -142,10 +153,10 @@ export const DataProductsServicePage = ({
             id='data-product-subject-field-filter'
             filterHeading={localization.subjectArea}
             filters={subjectFieldFilters}
-            selectedValue={selectedSubjectFieldFilter}
+            selectedValue={subject}
             defaultOptionLabel='Alle statistikkområder'
             defaultOptionValue={ALL_SUBJECT_FIELDS}
-            onFilterChange={setSelectedSubjectFieldFilter}
+            onFilterChange={(value) => void setQueryState({ subject: value || null })}
           />
         </FiltersPanel>
       }
