@@ -18,9 +18,9 @@ const noVariables = variableDefinitions.length === 0;
 const test = base.extend<{
   goToVariable: VariablePageFixture;
 }>({
-  goToVariable: async ({ page }, use, testInfo: TestInfo) => {
+  goToVariable: async ({ page }, useVariablePage, testInfo: TestInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
-    await use(async (variable: RenderedView) => {
+    await useVariablePage(async (variable: RenderedView) => {
       if (!variable.name || !variable.short_name) {
         throw new Error('Variable is missing required fields');
       }

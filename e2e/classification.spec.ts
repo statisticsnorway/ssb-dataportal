@@ -9,7 +9,7 @@ const classifications = classificationMock.classifications;
 const test = base.extend<{
   goToClassification: ClassificationPageFixture;
 }>({
-  goToClassification: async ({ page }, use) => {
+  goToClassification: async ({ page }, useClassificationPage) => {
     const goToClassification = async (classification: ClassificationResource) => {
       await page.goto('/classifications');
 
@@ -19,7 +19,7 @@ const test = base.extend<{
 
       await Promise.all([page.waitForURL(new RegExp(`/classifications/${classification.id}`)), link.click()]);
     };
-    await use(goToClassification);
+    await useClassificationPage(goToClassification);
   },
 });
 
