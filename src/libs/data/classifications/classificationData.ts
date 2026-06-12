@@ -5,8 +5,11 @@ import {
   ClassificationsApi,
   ClassificationsRequest,
 } from '@/libs/data-access/klass/apis/ClassificationsApi';
+import { SearchApi, SearchRequest } from '@/libs/data-access/klass/apis/SearchApi';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { KlassPagedResourcesClassificationSummaryResourceFromJSON } from '@/libs/data-access/klass/models/KlassPagedResourcesClassificationSummaryResource';
+import { KlassPagedResourcesSearchResultResource } from '@/libs/data-access/klass/models/KlassPagedResourcesSearchResultResource';
+import { SearchResultResource } from '@/libs/data-access/klass/models/SearchResultResource';
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
@@ -40,6 +43,28 @@ export async function getKlassClassificationsClient(): Promise<ClassificationsAp
   }
 
   return new ClassificationsApi(new Configuration(configParams));
+}
+
+/**
+ *
+ * @returns
+ */
+export async function getKlassSearchClient(): Promise<SearchApi> {
+  const logger = createLogger('klass-search');
+  let configParams = {
+    headers: {
+      'User-Agent': getUserAgent(),
+    },
+  } as ConfigurationParameters;
+
+  const klassBasePath = process.env.KLASS_BASE_PATH;
+  if (klassBasePath) {
+    const basePath = new URL(klassBasePath).origin;
+    logger.debug({ basePath }, 'Klass API base path configured');
+    configParams.basePath = basePath;
+  }
+
+  return new SearchApi(new Configuration(configParams));
 }
 
 export async function fetchAllClassifications(): Promise<ClassificationResource[]> {
@@ -121,4 +146,28 @@ export async function fetchClassificationById(id: number): Promise<Classificatio
     }
   }
   return classification;
+}
+
+export async function fetchSearchResult(
+  searchTerm: SearchRequest,
+  includeCodelists: boolean = false,
+  ssbSection?: string,
+): Promise<SearchResultResource[]> {
+  let searchResult: KlassPagedResourcesSearchResultResource;
+  const logger = createLogger('klass-search');
+  const api = await getKlassSearchClient();
+  try {
+    searchResult = await api.search(searchTerm, {
+      cache: 'force-cache',
+      next: { revalidate: ttlSeconds },
+    } as RequestInit);
+  } catch (error: unknown) {
+    if (error instanceof ResponseError) {
+      logger.error({ statusCode: error.response.status, url: error.response.url }, 'Search fetch failed');
+    } else {
+      logger.error({ error: sanitizeError(error) }, 'Unexpected error during fetch');
+    }
+    throw error;
+  }
+  return !searchResult?.embedded?.searchResults ? [] : searchResult.embedded.searchResults;
 }
