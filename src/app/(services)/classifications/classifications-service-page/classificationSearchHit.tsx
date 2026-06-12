@@ -1,25 +1,36 @@
-import { Card, Heading, Link, Paragraph } from '@digdir/designsystemet-react';
+import { Card, Heading, Paragraph } from '@digdir/designsystemet-react';
+import Link from 'next/dist/client/link';
+import { ReactNode } from 'react';
 import { ClassificationResource } from '@/libs/data-access/klass';
-import { localization } from '@/libs/language';
+import styles from '../../variable-definitions/components/vardef.module.css';
 
 interface SearchHitProps {
   classification?: ClassificationResource;
 }
 
+interface HeadingLinkProps {
+  href: string;
+  children: ReactNode;
+}
+
+const HeadingLink = ({ href, children }: HeadingLinkProps) => (
+  <Link href={href} className={styles.vardefHeadingLink}>
+    {children}
+  </Link>
+);
+
 const ClassificationSearchHit = ({ classification }: SearchHitProps) => {
   return (
-    <Card>
-      <Heading className='secondaryHeading' level={2} data-size='sm'>
-        <Link href={`/classifications/${classification?.id}`}>{classification?.name}</Link>
+    <Card data-testid='klass-search-card'>
+      <Heading data-size='md' className={styles.vardefHeadingLink} level={2}>
+        <HeadingLink href={''}>
+          <span className='secondaryHeading'>{classification?.name}</span>
+        </HeadingLink>
       </Heading>
-      <section>
-        <Paragraph>
-          <span>{localization.id}</span> -<span>{classification?.id}</span>
-        </Paragraph>
-        <Paragraph>
-          <span>{classification?.lastModified ? classification.lastModified.toLocaleString() : '-'}</span>
-        </Paragraph>
-      </section>
+
+      <Paragraph className={`${styles.truncateTo3Lines} ingress`}>{String(classification?.description)}</Paragraph>
+
+      <div className={styles.tagsList}>Tags</div>
     </Card>
   );
 };
