@@ -61,7 +61,7 @@ export async function getKlassClassificationsClient(): Promise<ClassificationsAp
  */
 export async function getKlassSearchClient(): Promise<SearchApi> {
   const logger = createLogger('klass-search');
-  let configParams = {
+  const configParams = {
     headers: {
       'User-Agent': getUserAgent(),
     },
@@ -181,7 +181,7 @@ export async function fetchSearchResult(searchRequest: SearchRequest): Promise<S
       .filter((r) => !q || r.name?.toLowerCase().includes(q))
       .filter((r) => {
         if (includeCodelists) return true;
-        const meta = r.id != null ? byId.get(r.id) : undefined;
+        const meta = r.id ? byId.get(r.id) : undefined;
         // fall back to name prefix if id isn't in the classifications mock
         const isCodelist = meta?.classificationType === 'Kodeliste' || r.name?.startsWith('Kodeliste');
         return !isCodelist;

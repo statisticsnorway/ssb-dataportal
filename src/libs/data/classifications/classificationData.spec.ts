@@ -1,4 +1,4 @@
-import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ClassificationsApi } from '@/libs/data-access/klass/apis/ClassificationsApi';
 import { SearchApi } from '@/libs/data-access/klass/apis/SearchApi';
 import { ResponseError } from '@/libs/data-access/klass/runtime';
@@ -20,6 +20,9 @@ beforeEach(() => {
   vi.restoreAllMocks();
   vi.resetModules();
   process.env = { ...ORIGINAL_ENV };
+});
+afterEach(() => {
+  vi.unstubAllEnvs();
 });
 afterAll(() => {
   process.env = ORIGINAL_ENV;
@@ -186,7 +189,7 @@ describe('fetchSearchResult', () => {
   });
 
   it('returns api results on happy path', async () => {
-    process.env.KLASS_SEARCH_USE_STATIC_DATA = 'false';
+    vi.stubEnv('KLASS_SEARCH_USE_STATIC_DATA', 'false');
 
     vi.spyOn(SearchApi.prototype, 'search').mockResolvedValue({
       embedded: {
@@ -198,7 +201,7 @@ describe('fetchSearchResult', () => {
   });
 
   it('returns an empty array when the api returns no embedded results', async () => {
-    process.env.KLASS_SEARCH_USE_STATIC_DATA = 'false';
+    vi.stubEnv('KLASS_SEARCH_USE_STATIC_DATA', 'false');
 
     vi.spyOn(SearchApi.prototype, 'search').mockResolvedValue({});
 
@@ -206,7 +209,7 @@ describe('fetchSearchResult', () => {
   });
 
   it('throws when the api call fails', async () => {
-    process.env.KLASS_SEARCH_USE_STATIC_DATA = 'false';
+    vi.stubEnv('KLASS_SEARCH_USE_STATIC_DATA', 'false');
 
     vi.spyOn(SearchApi.prototype, 'search').mockRejectedValue(
       new ResponseError(new Response(null, { status: 500 }), 'Search failed'),
@@ -215,7 +218,7 @@ describe('fetchSearchResult', () => {
     await expect(fetchSearchResult({ query: 'x' })).rejects.toThrow('Search failed');
   });
   it('logs and rethrows unexpected non-response errors from search', async () => {
-    process.env.KLASS_SEARCH_USE_STATIC_DATA = 'false';
+    vi.stubEnv('KLASS_SEARCH_USE_STATIC_DATA', 'false');
 
     vi.spyOn(SearchApi.prototype, 'search').mockRejectedValue(new Error('Boom'));
 
