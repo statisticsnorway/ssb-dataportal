@@ -1,4 +1,4 @@
-.vardefHeadingLink {
+.headingLink {
   /* No underline on the link*/
   text-decoration: none;
 }
@@ -24,12 +24,4 @@
 
 .shortName {
   font-family: var(--font-family-monospace);
-}
-
-@media (max-width: 460px) {
-  .vardefShortName {
-    display: block;
-    margin-left: 0;
-    margin-top: 0.25rem;
-  }
 }
