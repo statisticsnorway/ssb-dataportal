@@ -9,11 +9,15 @@ import { SearchApi, SearchRequest } from '@/libs/data-access/klass/apis/SearchAp
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { KlassPagedResourcesClassificationSummaryResourceFromJSON } from '@/libs/data-access/klass/models/KlassPagedResourcesClassificationSummaryResource';
 import { KlassPagedResourcesSearchResultResource } from '@/libs/data-access/klass/models/KlassPagedResourcesSearchResultResource';
-import { SearchResultResource } from '@/libs/data-access/klass/models/SearchResultResource';
+import {
+  SearchResultResource,
+  SearchResultResourceFromJSON,
+} from '@/libs/data-access/klass/models/SearchResultResource';
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import classificationsMock from '@/static-data/classifications.json';
+import searchResultsMock from '@/static-data/klass-search-results.json';
 import { linkObj } from '@/types/classification';
 import { parseClassification } from '@/utils/functions';
 import { getClassification } from '@/utils/mock-data';
@@ -46,8 +50,14 @@ export async function getKlassClassificationsClient(): Promise<ClassificationsAp
 }
 
 /**
+ * Creates a configured Klass `SearchApi` client.
  *
- * @returns
+ * The client is initialized with the application's `User-Agent` header and, when
+ * the `KLASS_BASE_PATH` environment variable is set, overrides the default base
+ * path with that origin. This allows pointing the client at different Klass
+ * environments without code changes.
+ *
+ * @returns A promise that resolves to a configured `SearchApi` instance.
  */
 export async function getKlassSearchClient(): Promise<SearchApi> {
   const logger = createLogger('klass-search');
@@ -148,9 +158,36 @@ export async function fetchClassificationById(id: number): Promise<Classificatio
   return classification;
 }
 
+/**
+ * Fetches search results for classifications based on the provided search request.
+ * @param searchRequest The search request containing query parameters: query, ssbSection, includeCodelists
+ * @returns A promise that resolves to an array of search result resources.
+ */
 export async function fetchSearchResult(searchRequest: SearchRequest): Promise<SearchResultResource[]> {
-  let searchResult: KlassPagedResourcesSearchResultResource;
   const logger = createLogger('klass-search');
+
+  // Ignoring ssb section for now
+  if (process.env.KLASS_SEARCH_USE_STATIC_DATA === 'true') {
+    logger.warn('Using static mock data for klass search');
+
+    const { query, includeCodelists } = searchRequest;
+    const q = query?.toLowerCase() ?? '';
+
+    // index classifications by id so we can read classificationType
+    const byId = new Map(classificationsMock.classifications.map((c) => [c.id, c]));
+
+    return searchResultsMock
+      .map((r) => SearchResultResourceFromJSON(r))
+      .filter((r) => !q || r.name?.toLowerCase().includes(q))
+      .filter((r) => {
+        if (includeCodelists) return true;
+        const meta = r.id != null ? byId.get(r.id) : undefined;
+        // fall back to name prefix if id isn't in the classifications mock
+        const isCodelist = meta?.classificationType === 'Kodeliste' || r.name?.startsWith('Kodeliste');
+        return !isCodelist;
+      });
+  }
+  let searchResult: KlassPagedResourcesSearchResultResource;
   const api = await getKlassSearchClient();
   try {
     searchResult = await api.search(searchRequest, {
@@ -159,11 +196,14 @@ export async function fetchSearchResult(searchRequest: SearchRequest): Promise<S
     } as RequestInit);
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
-      logger.error({ statusCode: error.response.status, url: error.response.url }, 'Search fetch failed');
+      logger.error(
+        { statusCode: error.response.status, url: error.response.url },
+        'Search fetch from Klass api failed',
+      );
     } else {
       logger.error({ error: sanitizeError(error) }, 'Unexpected error during fetch');
     }
     throw error;
   }
-  return !searchResult?.embedded?.searchResults ? [] : searchResult.embedded.searchResults;
+  return searchResult.embedded?.searchResults ?? [];
 }

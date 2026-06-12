@@ -6,7 +6,12 @@ import classificationsMock from '@/static-data/classifications.json';
 import searchResultsMock from '@/static-data/klass-search-results.json';
 import { ClassificationType } from '@/types/classification';
 import { getClassification as getStaticClassification } from '@/utils/mock-data';
-import { fetchAllClassifications, fetchClassificationById, fetchSearchResult } from './classificationData';
+import {
+  fetchAllClassifications,
+  fetchClassificationById,
+  fetchSearchResult,
+  getKlassSearchClient,
+} from './classificationData';
 
 vi.mock('server-only', () => ({}));
 
@@ -139,6 +144,15 @@ describe('classification data fetching', () => {
 });
 
 describe('fetchSearchResult', () => {
+  it('configures basePath from KLASS_BASE_PATH', async () => {
+    vi.stubEnv('KLASS_BASE_PATH', 'https://klass.example.com/api/klass/v1');
+    const client = await getKlassSearchClient();
+    expect((client as unknown as { configuration: { basePath: string } }).configuration.basePath).toBe(
+      'https://klass.example.com',
+    );
+    vi.unstubAllEnvs();
+  });
+
   it('returns filtered static data when KLASS_SEARCH_USE_STATIC_DATA is true', async () => {
     vi.stubEnv('KLASS_SEARCH_USE_STATIC_DATA', 'true');
 
@@ -199,5 +213,12 @@ describe('fetchSearchResult', () => {
     );
 
     await expect(fetchSearchResult({ query: 'x' })).rejects.toThrow('Search failed');
+  });
+  it('logs and rethrows unexpected non-response errors from search', async () => {
+    process.env.KLASS_SEARCH_USE_STATIC_DATA = 'false';
+
+    vi.spyOn(SearchApi.prototype, 'search').mockRejectedValue(new Error('Boom'));
+
+    await expect(fetchSearchResult({ query: 'x' })).rejects.toThrow('Boom');
   });
 });
