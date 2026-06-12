@@ -148,16 +148,12 @@ export async function fetchClassificationById(id: number): Promise<Classificatio
   return classification;
 }
 
-export async function fetchSearchResult(
-  searchTerm: SearchRequest,
-  includeCodelists: boolean = false,
-  ssbSection?: string,
-): Promise<SearchResultResource[]> {
+export async function fetchSearchResult(searchRequest: SearchRequest): Promise<SearchResultResource[]> {
   let searchResult: KlassPagedResourcesSearchResultResource;
   const logger = createLogger('klass-search');
   const api = await getKlassSearchClient();
   try {
-    searchResult = await api.search(searchTerm, {
+    searchResult = await api.search(searchRequest, {
       cache: 'force-cache',
       next: { revalidate: ttlSeconds },
     } as RequestInit);
