@@ -26,7 +26,6 @@ export default async function Classifications() {
     <SearchPage
       tabsId={tabsData.Classifications.id}
       header={localization.tabs.classifications}
-      searchLabel={localization.search.searchForClassifications}
       searchResult={pageInfo}
     ></SearchPage>
   );

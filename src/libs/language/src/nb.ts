@@ -220,10 +220,6 @@ export const nb = {
     hits: 'treff',
     label: 'Søk',
     noHits: 'Ditt søk ga ingen treff',
-    searchDataportal: 'Søk i SSB Dataportal',
-    searchForClassifications: 'Søk i kodeverk',
-    searchForDataProducts: 'Søk i dataprodukter',
-    searchForVariableDefinitions: 'Søk i variabeldefinisjoner',
 
     textFilter: {
       search: 'Søk',
