@@ -6,12 +6,12 @@ import { stabilize } from '../utils/commonUtils';
 export const test = base.extend<{
   variableDefinitionsPage: Page;
 }>({
-  variableDefinitionsPage: async ({ page }, useVariableDefinitionsPage, testInfo: TestInfo) => {
+  variableDefinitionsPage: async ({ page }, use, testInfo: TestInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
     await page.goto(tabsData.VariableDefinitions.route);
     await expect(page).toHaveURL(/\/variable-definitions$/);
     await stabilize();
-    await useVariableDefinitionsPage(page);
+    await use(page);
   },
 });
 export { expect };
