@@ -6,12 +6,12 @@ import { stabilize } from '../utils/commonUtils';
 export const test = base.extend<{
   dataProductsPage: Page;
 }>({
-  dataProductsPage: async ({ page }, useDataProductsPage, testInfo: TestInfo) => {
+  dataProductsPage: async ({ page }, use, testInfo: TestInfo) => {
     test.skip(testInfo.project.name !== 'chrome-unauth');
     await page.goto(tabsData.DataProducts.route);
     await expect(page).toHaveURL(/\/data-products$/);
     await stabilize();
-    await useDataProductsPage(page);
+    await use(page);
   },
 });
 export { expect };

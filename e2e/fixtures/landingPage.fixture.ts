@@ -5,11 +5,11 @@ import { stabilize } from '../utils/commonUtils';
 export const test = base.extend<{
   landingPage: Page;
 }>({
-  landingPage: async ({ page }, useLandingPage, testInfo: TestInfo) => {
+  landingPage: async ({ page }, use, testInfo: TestInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
     await page.goto('/');
     await stabilize();
-    await useLandingPage(page);
+    await use(page);
   },
 });
 export { expect };

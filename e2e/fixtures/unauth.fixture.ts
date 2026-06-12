@@ -4,9 +4,9 @@ import { Page, TestInfo } from '@playwright/test';
 export const test = base.extend<{
   unauthPage: Page;
 }>({
-  unauthPage: async ({ page }, useUnauthPage, testInfo: TestInfo) => {
+  unauthPage: async ({ page }, use, testInfo: TestInfo) => {
     test.skip(testInfo.project.name !== 'chrome-unauth');
-    await useUnauthPage(page);
+    await use(page);
   },
 });
 export { expect };
