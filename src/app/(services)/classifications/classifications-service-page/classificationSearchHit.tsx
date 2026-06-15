@@ -1,41 +1,38 @@
-import { Card, Heading, Link, Paragraph } from '@digdir/designsystemet-react';
+import { Tag } from '@digdir/designsystemet-react';
+import { use } from 'react';
+import { tabsData } from '@/app/(services)/tabs';
+import { SearchHit } from '@/components/search-hit';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
+import { SUBJECT_FIELD_BY_CODE } from '@/utils/subjectFieldsMapping';
+import { useClassificationContext } from './components/classificationContext';
 
 interface SearchHitProps {
   classification?: ClassificationResource;
 }
 
-const formatLastModified = (date?: Date) => {
-  if (!date) return '-';
+const getSubjectCodeByFamilyId = (familyId?: number) => {
+  if (familyId == null) return undefined;
 
-  return new Intl.DateTimeFormat('nb-NO', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false,
-    timeZone: 'UTC',
-  }).format(date);
+  return Object.entries(SUBJECT_FIELD_BY_CODE).find(([, familyIds]) => familyIds.includes(familyId))?.[0];
 };
 
 const ClassificationSearchHit = ({ classification }: SearchHitProps) => {
+  const { subjectFieldsPromise } = useClassificationContext();
+  const { data: subjectFields } = use(subjectFieldsPromise);
+
+  const classificationRoute = `${tabsData.Classifications.route}/${classification?.id}`;
+  const subjectCode = getSubjectCodeByFamilyId(classification?.classificationFamilyId);
+  const subjectField = subjectFields.find((field) => String(field.code) === subjectCode);
+  const subjectLabel = subjectField?.name ? String(subjectField.name) : undefined;
+
   return (
-    <Card>
-      <Heading className='secondaryHeading' level={2} data-size='sm'>
-        <Link href={`/classifications/${classification?.id}`}>{classification?.name}</Link>
-      </Heading>
-      <section>
-        <Paragraph>
-          <span>{localization.id}</span> -<span>{classification?.id}</span>
-        </Paragraph>
-        <Paragraph>
-          <span>{formatLastModified(classification?.lastModified)}</span>
-        </Paragraph>
-      </section>
-    </Card>
+    <SearchHit
+      href={classificationRoute}
+      title={classification?.name ?? ''}
+      description={`${localization.id}: ${classification?.id ?? '-'}`}
+      tagsList={subjectLabel ? <Tag>{subjectLabel}</Tag> : undefined}
+    />
   );
 };
 
