@@ -3,6 +3,11 @@
   overflow-y: auto;
 }
 
+/* Tone down visibility until pages are ready for use*/
+#classificationsTab {
+  filter: opacity(60%);
+}
+
 @media (min-width: 768px) {
   #menu {
     max-height: none;

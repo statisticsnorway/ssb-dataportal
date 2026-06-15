@@ -13,7 +13,6 @@ interface SearchHitProps {
 
 const getSubjectCodeByFamilyId = (familyId?: number) => {
   if (familyId == null) return undefined;
-
   return Object.entries(SUBJECT_FIELD_BY_CODE).find(([, familyIds]) => familyIds.includes(familyId))?.[0];
 };
 
