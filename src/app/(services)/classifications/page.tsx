@@ -27,6 +27,6 @@ export default async function Classifications() {
       tabsId={tabsData.Classifications.id}
       header={localization.tabs.classifications}
       searchResult={pageInfo}
-    ></SearchPage>
+    />
   );
 }
