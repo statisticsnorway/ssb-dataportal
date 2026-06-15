@@ -1,173 +1,122 @@
 'use client';
 
-import { Alert, Spinner } from '@digdir/designsystemet-react';
-import { useEffect, useMemo, useState } from 'react';
-import { CheckboxFilter, FiltersPanel } from '@/components/filters';
-import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
+import { Spinner } from '@digdir/designsystemet-react';
+import { parseAsArrayOf, parseAsInteger, parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs';
+import { Suspense } from 'react';
+import { FiltersPanel } from '@/components/filters';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
-import { useSearchStateKlass } from '@/hooks/useSearchStateKlass';
-import { ClassificationFamilyResource, ClassificationResource } from '@/libs/data-access/klass';
+import { SortFields } from '@/components/sort-fields';
+import { ClassificationResource } from '@/libs/data-access/klass';
+import { CodeItem } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
-import { ClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
-import { SortTypes } from '@/types/sort';
+import { SortTypes, sortTypes } from '@/types/sort';
 import { tabsData } from '../../tabs';
-import { ClassificationSearchHit } from './classificationSearchHit';
+import { ClassificationProvider } from './components/classificationContext';
+import { FilterTagsSection } from './components/FilterTagsSection';
+import { ResultsCount } from './components/ResultsCount';
+import { ResultsSection } from './components/ResultsSection';
+import { SubjectFiltersSection, SubjectFiltersSectionFallback } from './components/SubjectFiltersSection';
 
 interface ClassificationServicePageProps {
-  rawClassifications: ClassificationResource[];
-  rawClassificationFamilies: ClassificationFamilyResource[];
+  classificationsPromise: Promise<{ data: ClassificationResource[]; error: Error | null }>;
+  subjectFieldsPromise: Promise<{ data: CodeItem[]; error: Error | null }>;
 }
 
 // Declare outside so not rerendered
 const PAGE_SIZE = 20;
 
 const ClassificationsServicePage = ({
-  rawClassifications,
-  rawClassificationFamilies,
+  classificationsPromise,
+  subjectFieldsPromise,
 }: ClassificationServicePageProps) => {
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setLoading] = useState(true);
+  const [queryState, setQueryState] = useQueryStates({
+    subjects: parseAsArrayOf(parseAsString).withDefault([]),
+    sort: parseAsStringLiteral(sortTypes).withDefault('titleAsc'),
+    page: parseAsInteger.withDefault(1).withOptions({ clearOnDefault: true }),
+  });
 
-  const [classifications, setClassifications] = useState<ClassificationResource[]>([]);
-  const memoizedHits = useMemo(() => (isLoading ? [] : classifications), [isLoading, classifications]);
-  const { hits, sortKey, setSortKey, sortTypes } = useSearchStateKlass(memoizedHits);
+  const { page, sort, subjects } = queryState;
 
-  const [selectedFamilies, setSelectedFamilies] = useState<FilterItem[]>([]);
-
-  //TODO: Very temporary solution to get it to work with the new checkbox component
-  const classificationTypes = [
-    { label: ClassificationType.Klassifikasjon, value: ClassificationType.Klassifikasjon },
-    { label: ClassificationType.Kodeliste, value: ClassificationType.Kodeliste },
-  ];
-
-  const classificationFamilyTypes = rawClassificationFamilies.map((f: ClassificationFamilyResource) => ({
-    label: f.name,
-    value: String(f.id),
-  }));
-
-  // Default are all classificationtypes selected
-  const [selectedClassificationTypes, setSelectedClassificationTypes] = useState<FilterItem[]>(classificationTypes);
-
-  const totalPages = Math.ceil(classifications.length / PAGE_SIZE);
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const toggleClassificationType = (filter: FilterItem) =>
-    setSelectedClassificationTypes((prev) =>
-      prev.some((item) => item.value === filter.value)
-        ? prev.filter((c) => c.value !== filter.value)
-        : [...prev, filter],
-    );
-
-  const toggleFamily = (filter: FilterItem) =>
-    setSelectedFamilies((prev) =>
-      prev.some((item) => item.value === filter.value)
-        ? prev.filter((c) => c.value !== filter.value)
-        : [...prev, filter],
-    );
-
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage - 1);
+  const handlePageChange = (nextPage: number) => {
+    void setQueryState({ page: nextPage });
+    const element: HTMLElement | null = document.getElementsByClassName('ds-card')[0] as HTMLElement | null;
+    element?.focus({ preventScroll: true });
+    element?.scrollIntoView({ behavior: 'instant', block: 'start' });
   };
 
-  useEffect(() => {
-    setCurrentPage(0);
-  }, [selectedFamilies, selectedClassificationTypes]);
+  const toggleSubject = (filter: FilterItem) => {
+    const nextSubjects = subjects.includes(filter.value)
+      ? subjects.filter((value) => value !== filter.value)
+      : [...subjects, filter.value];
 
-  /**
-   * The pipeline for filtering page content.
-   */
-  useEffect(() => {
-    async function loadClassifications() {
-      setLoading(true);
-      setError(null);
-      try {
-        let data: ClassificationResource[] = [];
-        data = [...rawClassifications];
+    void setQueryState({
+      subjects: nextSubjects.length > 0 ? nextSubjects : null,
+      page: 1,
+    });
+  };
 
-        // apply filters
-        setClassifications(
-          data.filter(
-            (c) => c.classificationType && selectedClassificationTypes.some((ct) => ct.value === c.classificationType),
-          ),
-        );
-        // biome-ignore lint/suspicious/noExplicitAny: <ignoring for now>
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadClassifications();
-  }, [selectedFamilies, selectedClassificationTypes, rawClassifications]);
+  const removeFilter = (filter: FilterItem) => {
+    void setQueryState({
+      subjects: subjects.filter((value) => value !== filter.value),
+      page: 1,
+    });
+  };
 
-  if (!rawClassifications) {
-    return <Spinner aria-label='Laster klassifikasjoner' />;
-  }
-
-  if (error) {
-    return <div>Error loading data: {error}</div>;
-  }
-
-  // Slice search hits for paginated pages
-  const startIndex = currentPage * PAGE_SIZE;
-  const pagedHits = hits.slice(startIndex, startIndex + PAGE_SIZE);
+  const clearAll = () => {
+    void setQueryState({
+      subjects: null,
+      sort: null,
+      page: null,
+    });
+  };
 
   return (
-    <SearchPage
-      tabsId={tabsData.Classifications.id}
-      asideContent={
-        <FiltersPanel>
-          <CheckboxFilter
-            filterHeading='Område'
-            filters={classificationTypes}
-            selectedItems={selectedClassificationTypes}
-            onFilterChange={toggleClassificationType}
+    <ClassificationProvider
+      classificationsPromise={classificationsPromise}
+      subjectFieldsPromise={subjectFieldsPromise}
+      selectedSubjectCodes={subjects}
+      sortOption={sort}
+    >
+      <SearchPage
+        tabsId={tabsData.Classifications.id}
+        header={localization.tabs.classifications}
+        asideContent={
+          <FiltersPanel>
+            <Suspense fallback={<SubjectFiltersSectionFallback />}>
+              <SubjectFiltersSection onFilterChange={toggleSubject} />
+            </Suspense>
+          </FiltersPanel>
+        }
+        totalHits={
+          <Suspense fallback={null}>
+            <ResultsCount />
+          </Suspense>
+        }
+        infoContent={
+          <Suspense fallback={null}>
+            <FilterTagsSection onClose={removeFilter} onClearAll={clearAll} />
+          </Suspense>
+        }
+        controlsContent={
+          <SortFields
+            sortOptions={sortTypes}
+            sortValue={sort}
+            onSortChange={(value: SortTypes) =>
+              void setQueryState({
+                sort: value,
+                page: 1,
+              })
+            }
           />
-          <CheckboxFilter
-            filterHeading='Familie'
-            filters={classificationFamilyTypes}
-            selectedItems={selectedFamilies}
-            onFilterChange={toggleFamily}
-          />
-        </FiltersPanel>
-      }
-      searchLabel='Søk i klassifikasjoner'
-      infoContent={
-        <Alert data-color={'warning'} className='infoAlert' data-size={'md'} style={{ marginBottom: '1rem' }}>
-          Klassifikasjoner er ikke klar for testing.
-        </Alert>
-      }
-      sortOptions={sortTypes}
-      sortValue={sortKey}
-      onSortChange={(key: string) => setSortKey(key as SortTypes)}
-      totalHits={hits.length}
-      searchResult={
-        <>
-          {isLoading ? (
-            <Spinner aria-label='Laster klassifikasjoner' />
-          ) : hits.length === 0 ? (
-            <div>{localization.search.noHits}</div>
-          ) : (
-            <SearchHitContainer
-              searchHits={pagedHits}
-              renderHit={(hit) => (
-                <ClassificationSearchHit
-                  key={(hit as ClassificationResource).id}
-                  classification={hit as ClassificationResource}
-                />
-              )}
-              noSearchHits={hits.length === 0}
-              onPageChange={handlePageChange}
-              paginationInfo={{
-                currentPage: currentPage + 1,
-                totalPages,
-              }}
-            />
-          )}
-        </>
-      }
-    />
+        }
+        searchResult={
+          <Suspense fallback={<Spinner aria-label={localization.loading.results} />}>
+            <ResultsSection currentPage={page} pageSize={PAGE_SIZE} onPageChange={handlePageChange} />
+          </Suspense>
+        }
+      />
+    </ClassificationProvider>
   );
 };
 

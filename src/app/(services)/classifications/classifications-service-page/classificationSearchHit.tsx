@@ -6,6 +6,21 @@ interface SearchHitProps {
   classification?: ClassificationResource;
 }
 
+const formatLastModified = (date?: Date) => {
+  if (!date) return '-';
+
+  return new Intl.DateTimeFormat('nb-NO', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+    timeZone: 'UTC',
+  }).format(date);
+};
+
 const ClassificationSearchHit = ({ classification }: SearchHitProps) => {
   return (
     <Card>
@@ -17,7 +32,7 @@ const ClassificationSearchHit = ({ classification }: SearchHitProps) => {
           <span>{localization.id}</span> -<span>{classification?.id}</span>
         </Paragraph>
         <Paragraph>
-          <span>{classification?.lastModified ? classification.lastModified.toLocaleString() : '-'}</span>
+          <span>{formatLastModified(classification?.lastModified)}</span>
         </Paragraph>
       </section>
     </Card>
