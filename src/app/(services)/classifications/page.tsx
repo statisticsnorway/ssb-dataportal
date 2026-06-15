@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: localization.pageTitle.classifications,
 };
 
-const showInfoOnly = process.env.CLASSIFICATIONS_SHOW_INFO_ONLY === 'true';
+const showInfoOnly = process.env.HIDE_CLASSIFICATIONS === 'true';
 
 const renderInfoOnlyPage = () => {
   return (

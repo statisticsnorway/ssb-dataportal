@@ -103,7 +103,9 @@ export async function fetchAllClassifications(): Promise<ClassificationResource[
       const nextUrl = data.links['next'].href;
       const res = await fetch(nextUrl, {
         headers: { 'User-Agent': getUserAgent() },
-      });
+        cache: 'force-cache',
+        next: { revalidate: ttlSeconds },
+      } as RequestInit);
       if (!res.ok) {
         logger.error({ statusCode: res.status, url: res.url }, 'Classification fetch failed on pagination');
         throw new Error('Failed to fetch classifications page');

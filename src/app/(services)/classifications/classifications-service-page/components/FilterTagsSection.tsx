@@ -14,24 +14,20 @@ interface FilterTagsSectionProps {
 export const FilterTagsSection = ({ onClose, onClearAll }: FilterTagsSectionProps) => {
   const { selectedSubjectCodes, subjectFieldsPromise } = useClassificationContext();
   const { data: subjectFields } = use(subjectFieldsPromise);
-
   const subjectFilters = useMemo(
     () => mapSelectedSubjectFilters(selectedSubjectCodes, subjectFields),
     [selectedSubjectCodes, subjectFields],
   );
 
-  if (subjectFilters.length === 0) {
-    return null;
-  }
+  if (subjectFilters.length === 0) return null;
 
   return (
     <ul className={styles.tagsList}>
-      {subjectFilters.length > 1 ? (
+      {subjectFilters.length > 1 && (
         <li>
           <Chip.Button onClick={onClearAll}>{localization.button.removeFilter}</Chip.Button>
         </li>
-      ) : null}
-
+      )}
       {subjectFilters.map((filter) => (
         <li key={filter.value}>
           <Chip.Removable onClick={() => onClose(filter)}>{filter.label}</Chip.Removable>
