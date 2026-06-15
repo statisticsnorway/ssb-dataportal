@@ -46,6 +46,8 @@ spec:
       value: http://klass
     - name: KLASS_USE_STATIC_DATA
       value: "false"
+    - name: HIDE_CLASSIFICATIONS
+      value: "false"
     - name: DEV_ENVIRONMENT_NAME
       value: "{{ git-ref }}"
     - name: VARDEF_API_DOCS_URL
