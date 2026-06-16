@@ -7,7 +7,7 @@ import { FiltersPanel } from '@/components/filters';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortFields } from '@/components/sort-fields';
 import { ClassificationResource } from '@/libs/data-access/klass';
-import { CodeItem } from '@/libs/data-access/klass/models';
+import { CodeItem, SearchResultResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
 import { FilterItem } from '@/types/filters';
@@ -23,6 +23,7 @@ import { SubjectFiltersSection, SubjectFiltersSectionFallback } from './componen
 interface ClassificationServicePageProps {
   classificationsPromise: Promise<{ data: ClassificationResource[]; error: Error | null }>;
   subjectFieldsPromise: Promise<{ data: CodeItem[]; error: Error | null }>;
+  searchResultPromise: Promise<{ data: SearchResultResource[]; error: Error | null }>;
 }
 
 const PAGE_SIZE = 20;
@@ -30,6 +31,7 @@ const PAGE_SIZE = 20;
 const ClassificationsServicePage = ({
   classificationsPromise,
   subjectFieldsPromise,
+  searchResultPromise,
 }: ClassificationServicePageProps) => {
   const [queryState, setQueryState] = useQueryStates({
     subjects: parseAsArrayOf(parseAsString).withDefault([]),
@@ -80,6 +82,7 @@ const ClassificationsServicePage = ({
     <ClassificationProvider
       classificationsPromise={classificationsPromise}
       subjectFieldsPromise={subjectFieldsPromise}
+      searchResultPromise={searchResultPromise}
       selectedSubjectCodes={subjects}
       selectedClassificationTypes={types}
       sortOption={sort}

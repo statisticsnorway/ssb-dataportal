@@ -2,7 +2,7 @@ import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { Metadata } from 'next';
 import { ExternalLink } from '@/components/link-components/externalLink';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
-import { fetchAllClassifications } from '@/libs/data/classifications/classificationData';
+import { fetchAllClassifications, fetchSearchResult } from '@/libs/data/classifications/classificationData';
 import { localization } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
@@ -64,10 +64,21 @@ export default async function Classifications({
       return { data: [], error };
     });
 
+  const searchResultPromise = fetchSearchResult({ query: params.query?.toString() ?? '', includeCodelists: true })
+
+    .then((data) => ({ data, error: null }))
+
+    .catch((error) => {
+      logger.error({ error: sanitizeError(error) }, 'Failed to load search results');
+
+      return { data: [], error };
+    });
+
   return (
     <ClassificationsServicePage
       classificationsPromise={classificationsPromise}
       subjectFieldsPromise={subjectFieldsPromise}
+      searchResultPromise={searchResultPromise}
     />
   );
 }

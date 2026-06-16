@@ -1,11 +1,12 @@
 import { createContext, ReactNode, useContext } from 'react';
 import { ClassificationResource } from '@/libs/data-access/klass';
-import { CodeItem } from '@/libs/data-access/klass/models';
+import { CodeItem, SearchResultResource } from '@/libs/data-access/klass/models';
 import { SortTypes } from '@/types/sort';
 
 interface ClassificationContextValue {
   classificationsPromise: Promise<{ data: ClassificationResource[]; error: Error | null }>;
   subjectFieldsPromise: Promise<{ data: CodeItem[]; error: Error | null }>;
+  searchResultPromise: Promise<{ data: SearchResultResource[]; error: Error | null }>;
   selectedSubjectCodes: string[];
   selectedClassificationTypes: string[];
   sortOption: SortTypes;
