@@ -4,6 +4,7 @@
       "name": "Economy",
       "id": 2003,
       "classificationType": "Klassifikasjon",
+      "classificationFamilyId": 1,
       "lastModified": "2025-12-04T12:30:00Z",
       "_links": { "self": { "href": "/classifications/2" } }
     },
@@ -11,6 +12,7 @@
       "name": "Standard for delområde- og grunnkretsinndeling",
       "id": 1,
       "classificationType": "Klassifikasjon",
+      "classificationFamilyId": 4,
       "lastModified": "2025-12-03T10:05:55.000+0000",
       "_links": {
         "self": {
@@ -22,6 +24,7 @@
       "name": "Standard for kjønn",
       "id": 2,
       "classificationType": "Klassifikasjon",
+      "classificationFamilyId": 3,
       "lastModified": "2018-12-07T14:02:33.000+0000",
       "_links": {
         "self": {
@@ -33,6 +36,7 @@
       "name": "Standard for gruppering av hjelpe- og omsorgstiltak i barnevernet",
       "id": 3,
       "classificationType": "Klassifikasjon",
+      "classificationFamilyId": 16,
       "lastModified": "2024-08-28T07:15:51.000+0000",
       "_links": {
         "self": {
@@ -44,6 +48,7 @@
       "name": "Standard for regionale spesialkoder",
       "id": 4,
       "classificationType": "Klassifikasjon",
+      "classificationFamilyId": 4,
       "lastModified": "2020-10-13T10:07:50.000+0000",
       "_links": {
         "self": {
@@ -55,6 +60,7 @@
       "name": "Population",
       "id": 1003,
       "classificationType": "Klassifikasjon",
+      "classificationFamilyId": 2,
       "lastModified": "2025-12-05T10:00:00Z",
       "_links": { "self": { "href": "/classifications/1" } }
     },
@@ -62,6 +68,7 @@
       "name": "Kodeliste for måleenheter for næringene innenfor næringshovedområdet C (industri)",
       "id": 910,
       "classificationType": "Kodeliste",
+      "classificationFamilyId": 5,
       "lastModified": "2026-04-07T10:00:00Z",
       "_links": { "self": { "href": "/classifications/910" } }
     },
@@ -69,6 +76,7 @@
       "name": "Standard for næringstilknytning",
       "id": 107,
       "classificationType": "Klassifikasjon",
+      "classificationFamilyId": 24,
       "lastModified": "2026-04-07T10:25:00Z",
       "_links": { "self": { "href": "/classifications/107" } }
     },
@@ -76,6 +84,7 @@
       "name": "Kodeliste for Næringer knyttet til lærerutdannede",
       "id": 597,
       "classificationType": "Kodeliste",
+      "classificationFamilyId": 20,
       "lastModified": "2026-04-07T10:25:00Z",
       "_links": { "self": { "href": "/classifications/597" } }
     }

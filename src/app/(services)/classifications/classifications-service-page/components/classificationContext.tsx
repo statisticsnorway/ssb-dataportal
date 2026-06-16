@@ -1,0 +1,29 @@
+import { createContext, ReactNode, useContext } from 'react';
+import { ClassificationResource } from '@/libs/data-access/klass';
+import { CodeItem } from '@/libs/data-access/klass/models';
+import { SortTypes } from '@/types/sort';
+
+interface ClassificationContextValue {
+  classificationsPromise: Promise<{ data: ClassificationResource[]; error: Error | null }>;
+  subjectFieldsPromise: Promise<{ data: CodeItem[]; error: Error | null }>;
+  selectedSubjectCodes: string[];
+  sortOption: SortTypes;
+}
+
+const ClassificationContext = createContext<ClassificationContextValue | null>(null);
+
+export const useClassificationContext = () => {
+  const context = useContext(ClassificationContext);
+  if (!context) {
+    throw new Error('useClassificationContext must be used within ClassificationProvider');
+  }
+  return context;
+};
+
+interface ClassificationProviderProps extends ClassificationContextValue {
+  children: ReactNode;
+}
+
+export const ClassificationProvider = ({ children, ...contextValue }: ClassificationProviderProps) => {
+  return <ClassificationContext.Provider value={contextValue}>{children}</ClassificationContext.Provider>;
+};
