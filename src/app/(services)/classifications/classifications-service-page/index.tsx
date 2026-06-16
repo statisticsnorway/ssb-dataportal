@@ -13,6 +13,7 @@ import { clientLogger } from '@/libs/logger/client-logger';
 import { FilterItem } from '@/types/filters';
 import { SortTypes, sortTypes } from '@/types/sort';
 import { tabsData } from '../../tabs';
+import { ClassificationTypeFiltersSection } from './components/ClassificationTypeFiltersSection';
 import { ClassificationProvider } from './components/classificationContext';
 import { FilterTagsSection } from './components/FilterTagsSection';
 import { ResultsCount } from './components/ResultsCount';
@@ -32,11 +33,12 @@ const ClassificationsServicePage = ({
 }: ClassificationServicePageProps) => {
   const [queryState, setQueryState] = useQueryStates({
     subjects: parseAsArrayOf(parseAsString).withDefault([]),
+    types: parseAsArrayOf(parseAsString).withDefault([]),
     sort: parseAsStringLiteral(sortTypes).withDefault('titleAsc'),
     page: parseAsInteger.withDefault(1).withOptions({ clearOnDefault: true }),
   });
 
-  const { page, sort, subjects } = queryState;
+  const { page, sort, subjects, types } = queryState;
 
   const updateQuery = (update: Parameters<typeof setQueryState>[0]) =>
     setQueryState(update).catch((error) => {
@@ -58,16 +60,26 @@ const ClassificationsServicePage = ({
     updateQuery({ subjects: nextSubjects.length > 0 ? nextSubjects : null, page: 1 });
   };
 
-  const removeFilter = (filter: FilterItem) =>
+  const toggleClassificationType = (filter: FilterItem) => {
+    const nextTypes = types.includes(filter.value) ? types.filter((v) => v !== filter.value) : [...types, filter.value];
+
+    updateQuery({ types: nextTypes.length > 0 ? nextTypes : null, page: 1 });
+  };
+
+  const removeSubject = (filter: FilterItem) =>
     updateQuery({ subjects: subjects.filter((v) => v !== filter.value), page: 1 });
 
-  const clearAll = () => updateQuery({ subjects: null, sort: null, page: null });
+  const removeClassificationType = (filter: FilterItem) =>
+    updateQuery({ types: types.filter((v) => v !== filter.value), page: 1 });
+
+  const clearAll = () => updateQuery({ subjects: null, types: null, sort: null, page: null });
 
   return (
     <ClassificationProvider
       classificationsPromise={classificationsPromise}
       subjectFieldsPromise={subjectFieldsPromise}
       selectedSubjectCodes={subjects}
+      selectedClassificationTypes={types}
       sortOption={sort}
     >
       <SearchPage
@@ -75,6 +87,9 @@ const ClassificationsServicePage = ({
         header={localization.tabs.classifications}
         asideContent={
           <FiltersPanel>
+            <Suspense fallback={null}>
+              <ClassificationTypeFiltersSection onFilterChange={toggleClassificationType} />
+            </Suspense>
             <Suspense fallback={<SubjectFiltersSectionFallback />}>
               <SubjectFiltersSection onFilterChange={toggleSubject} />
             </Suspense>
@@ -87,7 +102,11 @@ const ClassificationsServicePage = ({
         }
         infoContent={
           <Suspense fallback={null}>
-            <FilterTagsSection onClose={removeFilter} onClearAll={clearAll} />
+            <FilterTagsSection
+              onCloseSubject={removeSubject}
+              onCloseClassificationType={removeClassificationType}
+              onClearAll={clearAll}
+            />
           </Suspense>
         }
         controlsContent={

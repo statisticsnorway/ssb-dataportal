@@ -10,6 +10,7 @@ export function mapSelectedSubjectFilters(subjectCodes: string[], subjectFields:
     return {
       value,
       label: subject?.name ? String(subject.name) : value,
+      category: 'subject',
     };
   });
 }
@@ -54,20 +55,55 @@ export function countClassificationsBySubjectFilters(
   }, {});
 }
 
+export function createClassificationTypeFilterItems(classifications: ClassificationResource[]): FilterItem[] {
+  const typeCounts: Record<string, number> = {};
+
+  for (const c of classifications) {
+    if (c.classificationType) {
+      typeCounts[c.classificationType] = (typeCounts[c.classificationType] || 0) + 1;
+    }
+  }
+
+  return Object.entries(typeCounts)
+    .map(([value, count]) => ({
+      label: value,
+      value,
+      count,
+      category: 'classificationType',
+    }))
+    .sort((a, b) => String(a.label).localeCompare(String(b.label), 'nb'));
+}
+
+export function mapSelectedClassificationTypeFilters(selectedTypes: string[]): FilterItem[] {
+  return selectedTypes.map((value) => ({
+    value,
+    label: value,
+    category: 'classificationType',
+  }));
+}
+
 export function filterAndSortClassifications(
   classifications: ClassificationResource[],
   subjectCodes: string[],
   sortOption: SortTypes,
+  classificationTypes: string[] = [],
 ): ClassificationResource[] {
   const familyIds = new Set(subjectCodes.flatMap((subjectCode) => SUBJECT_FIELD_BY_CODE[subjectCode] ?? []));
 
-  const filtered =
+  let filtered =
     subjectCodes.length === 0
       ? classifications
       : classifications.filter((classification) => {
           if (classification.classificationFamilyId == null) return false;
           return familyIds.has(classification.classificationFamilyId);
         });
+
+  if (classificationTypes.length > 0) {
+    filtered = filtered.filter(
+      (classification) =>
+        classification.classificationType != null && classificationTypes.includes(classification.classificationType),
+    );
+  }
 
   return [...filtered].sort((a, b) => {
     if (sortOption === 'titleAsc') {

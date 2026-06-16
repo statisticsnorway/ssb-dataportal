@@ -7,6 +7,7 @@ interface ClassificationContextValue {
   classificationsPromise: Promise<{ data: ClassificationResource[]; error: Error | null }>;
   subjectFieldsPromise: Promise<{ data: CodeItem[]; error: Error | null }>;
   selectedSubjectCodes: string[];
+  selectedClassificationTypes: string[];
   sortOption: SortTypes;
 }
 

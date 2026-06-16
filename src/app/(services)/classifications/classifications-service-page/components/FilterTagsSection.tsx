@@ -3,34 +3,49 @@ import { use, useMemo } from 'react';
 import styles from '@/components/tag-components/filter-tags/filter-tags.module.css';
 import { localization } from '@/libs/language';
 import { FilterItem } from '@/types/filters';
-import { mapSelectedSubjectFilters } from '@/utils/filterAndSortClassifications';
+import { mapSelectedClassificationTypeFilters, mapSelectedSubjectFilters } from '@/utils/filterAndSortClassifications';
 import { useClassificationContext } from './classificationContext';
 
 interface FilterTagsSectionProps {
-  onClose: (filter: FilterItem) => void;
+  onCloseSubject: (filter: FilterItem) => void;
+  onCloseClassificationType: (filter: FilterItem) => void;
   onClearAll: () => void;
 }
 
-export const FilterTagsSection = ({ onClose, onClearAll }: FilterTagsSectionProps) => {
-  const { selectedSubjectCodes, subjectFieldsPromise } = useClassificationContext();
+export const FilterTagsSection = ({
+  onCloseSubject,
+  onCloseClassificationType,
+  onClearAll,
+}: FilterTagsSectionProps) => {
+  const { selectedSubjectCodes, selectedClassificationTypes, subjectFieldsPromise } = useClassificationContext();
   const { data: subjectFields } = use(subjectFieldsPromise);
   const subjectFilters = useMemo(
     () => mapSelectedSubjectFilters(selectedSubjectCodes, subjectFields),
     [selectedSubjectCodes, subjectFields],
   );
+  const classificationTypeFilters = useMemo(
+    () => mapSelectedClassificationTypeFilters(selectedClassificationTypes),
+    [selectedClassificationTypes],
+  );
+  const allFilters = [...subjectFilters, ...classificationTypeFilters];
 
-  if (subjectFilters.length === 0) return null;
+  if (allFilters.length === 0) return null;
 
   return (
     <ul className={styles.tagsList}>
-      {subjectFilters.length > 1 && (
+      {allFilters.length > 1 && (
         <li>
           <Chip.Button onClick={onClearAll}>{localization.button.removeFilter}</Chip.Button>
         </li>
       )}
       {subjectFilters.map((filter) => (
         <li key={filter.value}>
-          <Chip.Removable onClick={() => onClose(filter)}>{filter.label}</Chip.Removable>
+          <Chip.Removable onClick={() => onCloseSubject(filter)}>{filter.label}</Chip.Removable>
+        </li>
+      ))}
+      {classificationTypeFilters.map((filter) => (
+        <li key={filter.value}>
+          <Chip.Removable onClick={() => onCloseClassificationType(filter)}>{filter.label}</Chip.Removable>
         </li>
       ))}
     </ul>
