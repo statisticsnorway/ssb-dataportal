@@ -60,32 +60,26 @@ export function filterAndSortClassifications(
   sortOption: SortTypes,
   classificationTypes: string[] = [],
 ): ClassificationResource[] {
-  const familyIds = new Set(subjectCodes.flatMap((subjectCode) => SUBJECT_FIELD_BY_CODE[subjectCode] ?? []));
-
-  let filtered =
+  const bySubject =
     subjectCodes.length === 0
       ? classifications
-      : classifications.filter((classification) => {
-          if (classification.classificationFamilyId == null) return false;
-          return familyIds.has(classification.classificationFamilyId);
-        });
+      : (() => {
+          const familyIds = new Set(subjectCodes.flatMap((code) => SUBJECT_FIELD_BY_CODE[code] ?? []));
+          return classifications.filter(
+            (c) => c.classificationFamilyId != null && familyIds.has(c.classificationFamilyId),
+          );
+        })();
 
-  if (classificationTypes.length > 0) {
-    filtered = filtered.filter(
-      (classification) =>
-        classification.classificationType != null && classificationTypes.includes(classification.classificationType),
-    );
-  }
+  const byType =
+    classificationTypes.length === 0
+      ? bySubject
+      : bySubject.filter((c) => c.classificationType != null && classificationTypes.includes(c.classificationType));
 
-  return [...filtered].sort((a, b) => {
-    if (sortOption === 'titleAsc') {
-      return sortAscending(a.name, b.name);
-    }
+  const comparators: Record<SortTypes, (a: ClassificationResource, b: ClassificationResource) => number> = {
+    titleAsc: (a, b) => sortAscending(a.name, b.name),
+    titleDesc: (a, b) => sortDescending(a.name, b.name),
+    lastChanged: (a, b) => sortDatesDescendingSafe(a.lastModified, b.lastModified),
+  };
 
-    if (sortOption === 'titleDesc') {
-      return sortDescending(a.name, b.name);
-    }
-
-    return sortDatesDescendingSafe(a.lastModified, b.lastModified);
-  });
+  return [...byType].sort(comparators[sortOption]);
 }
