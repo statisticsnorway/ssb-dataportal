@@ -35,7 +35,11 @@ export const Footer = () => {
               linkText={localization.info.footerPrivacyStatement}
               className={styles.negativeLink}
             />
-
+            <ExternalLink
+              href='https://uustatus.no/nb/erklaringer/publisert/b2897950-c57a-4dee-9c34-4668f92b7d8f'
+              linkText={localization.info.footerAccessibilityStatement}
+              className={styles.negativeLink}
+            />
             <p className={styles.negativeLink}>{localization.info.footerAccessibilityStatement}</p>
 
             <ApiDocLink href={apiDocsUrl} className={styles.negativeLink} />

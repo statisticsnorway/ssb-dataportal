@@ -147,7 +147,7 @@ export const nb = {
     feedBackForm: 'tilbakemeldingsskjema for SSB Dataportal',
     footerAboutPage: 'Om nettstedet',
     footerContact: 'Kom i kontakt',
-    footerAccessibilityStatement: 'Tilgjengelighetserklæring (kommer)',
+    footerAccessibilityStatement: 'Tilgjengelighetserklæring',
     footerPrivacyStatement: 'Personvernerklæring',
     landingPageInfoGoal:
       'Målet er å gjøre det enklere å finne, forstå og bruke SSBs data på en korrekt og effektiv måte.',
