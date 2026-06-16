@@ -1,8 +1,10 @@
 'use server';
 
 import {
+  ClassificationLanguageEnum,
   ClassificationRequest,
   ClassificationsApi,
+  ClassificationsLanguageEnum,
   ClassificationsRequest,
 } from '@/libs/data-access/klass/apis/ClassificationsApi';
 import { SearchApi, SearchRequest } from '@/libs/data-access/klass/apis/SearchApi';
@@ -89,6 +91,7 @@ export async function fetchAllClassifications(): Promise<ClassificationResource[
 
   const params = {
     includeCodelists: true,
+    language: ClassificationsLanguageEnum.NB,
   } satisfies ClassificationsRequest;
 
   try {
@@ -138,6 +141,7 @@ export async function fetchClassificationById(id: number): Promise<Classificatio
     const api = await getKlassClassificationsClient();
     const params = {
       id,
+      language: ClassificationLanguageEnum.NB,
     } satisfies ClassificationRequest;
 
     try {
