@@ -4,6 +4,9 @@ import { CodeItem } from '@/libs/data-access/klass/models/CodeItem';
  * Maps a subject field code (`string`) to the classification family IDs
  * (`number[]`) associated with that subject field.
  *
+ * Includes a synthetic mapping for the "Region" family (`'15' -> [15]`),
+ * which is not part of the regular statistical subject hierarchy.
+ *
  * Used when filtering data by subject field, where a subject field code
  * is translated into one or more classification family IDs.
  */
@@ -19,6 +22,7 @@ export const SUBJECT_FIELD_BY_CODE: Record<string, number[]> = {
   nm: [12],
   os: [13],
   pp: [14],
+  '15': [15],
   sk: [16],
   ti: [18],
   tr: [19],
@@ -31,7 +35,10 @@ export const SUBJECT_FIELD_BY_CODE: Record<string, number[]> = {
 };
 
 /**
- * Single code item for classification family not mapable to statistical subject
+ * Synthetic subject field representing classification family 15 ("Region").
+ *
+ * Added to subject field lists so Region can be shown and filtered
+ * like other subject fields.
  */
 export const regionFamily: CodeItem = {
   code: '15',
