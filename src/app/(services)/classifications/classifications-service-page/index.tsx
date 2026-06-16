@@ -66,11 +66,13 @@ const ClassificationsServicePage = ({
     updateQuery({ types: nextTypes.length > 0 ? nextTypes : null, page: 1 });
   };
 
-  const removeSubject = (filter: FilterItem) =>
-    updateQuery({ subjects: subjects.filter((v) => v !== filter.value), page: 1 });
-
-  const removeClassificationType = (filter: FilterItem) =>
-    updateQuery({ types: types.filter((v) => v !== filter.value), page: 1 });
+  const removeFilter = (filter: FilterItem) => {
+    updateQuery({
+      types: types.filter((v) => v !== filter.value),
+      subjects: subjects.filter((v) => v !== filter.value),
+      page: 1,
+    });
+  };
 
   const clearAll = () => updateQuery({ subjects: null, types: null, sort: null, page: null });
 
@@ -102,11 +104,7 @@ const ClassificationsServicePage = ({
         }
         infoContent={
           <Suspense fallback={null}>
-            <FilterTagsSection
-              onCloseSubject={removeSubject}
-              onCloseClassificationType={removeClassificationType}
-              onClearAll={clearAll}
-            />
+            <FilterTagsSection onClose={removeFilter} onClearAll={clearAll} />
           </Suspense>
         }
         controlsContent={

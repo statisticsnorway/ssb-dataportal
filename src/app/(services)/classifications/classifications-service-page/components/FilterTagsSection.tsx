@@ -7,16 +7,11 @@ import { mapSelectedClassificationTypeFilters, mapSelectedSubjectFilters } from 
 import { useClassificationContext } from './classificationContext';
 
 interface FilterTagsSectionProps {
-  onCloseSubject: (filter: FilterItem) => void;
-  onCloseClassificationType: (filter: FilterItem) => void;
+  onClose: (filter: FilterItem) => void;
   onClearAll: () => void;
 }
 
-export const FilterTagsSection = ({
-  onCloseSubject,
-  onCloseClassificationType,
-  onClearAll,
-}: FilterTagsSectionProps) => {
+export const FilterTagsSection = ({ onClose, onClearAll }: FilterTagsSectionProps) => {
   const { selectedSubjectCodes, selectedClassificationTypes, subjectFieldsPromise } = useClassificationContext();
   const { data: subjectFields } = use(subjectFieldsPromise);
   const subjectFilters = useMemo(
@@ -38,14 +33,9 @@ export const FilterTagsSection = ({
           <Chip.Button onClick={onClearAll}>{localization.button.removeFilter}</Chip.Button>
         </li>
       )}
-      {subjectFilters.map((filter) => (
+      {allFilters.map((filter) => (
         <li key={filter.value}>
-          <Chip.Removable onClick={() => onCloseSubject(filter)}>{filter.label}</Chip.Removable>
-        </li>
-      ))}
-      {classificationTypeFilters.map((filter) => (
-        <li key={filter.value}>
-          <Chip.Removable onClick={() => onCloseClassificationType(filter)}>{filter.label}</Chip.Removable>
+          <Chip.Removable onClick={() => onClose(filter)}>{filter.label}</Chip.Removable>
         </li>
       ))}
     </ul>
