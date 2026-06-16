@@ -1,4 +1,5 @@
 import { Divider, Heading } from '@digdir/designsystemet-react';
+import { ACCESSIBILITY_STATEMENT_URL, PRIVACY_STATEMENT_URL } from '@/config/constants';
 import { localization } from '@/libs/language';
 import { getVardefApiDocsUrl } from '@/utils/config';
 import { getContactEmailAddress } from '@/utils/userAgent';
@@ -31,12 +32,12 @@ export const Footer = () => {
               {localization.info.footerAboutPage}
             </Heading>
             <ExternalLink
-              href='https://www.ssb.no/omssb/personvern/personvernerklaering'
+              href={PRIVACY_STATEMENT_URL}
               linkText={localization.info.footerPrivacyStatement}
               className={styles.negativeLink}
             />
             <ExternalLink
-              href='https://uustatus.no/nb/erklaringer/publisert/b2897950-c57a-4dee-9c34-4668f92b7d8f'
+              href={ACCESSIBILITY_STATEMENT_URL}
               linkText={localization.info.footerAccessibilityStatement}
               className={styles.negativeLink}
             />
