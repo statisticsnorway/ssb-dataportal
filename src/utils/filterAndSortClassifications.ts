@@ -1,4 +1,5 @@
 import { ClassificationResource, CodeItem } from '@/libs/data-access/klass';
+import { CLASSIFICATION_TYPE_CATEGORY, ClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
 import { sortAscending, sortDatesDescendingSafe, sortDescending } from '@/utils/sort';
@@ -36,6 +37,25 @@ export function createSubjectFieldFilterItems(
       };
     })
     .sort((a, b) => String(a.label).localeCompare(String(b.label), 'nb'));
+}
+
+/**
+ * getTypeFilterItems builds the filter items for the classification type filter.
+ *
+ * It maps over the known classification types (Klassifikasjon and Kodeliste)
+ * and produces a FilterItem for each, including a count of how many
+ * classifications in the provided list match that type.
+ *
+ * @param classifications - The current list of classifications to count against.
+ * @returns A FilterItem array with one entry per classification type.
+ */
+export function createTypeFilterItems(classifications: ClassificationResource[]): FilterItem[] {
+  return [ClassificationType.Klassifikasjon, ClassificationType.Kodeliste].map((value) => ({
+    label: value,
+    value,
+    count: classifications.filter((c) => c.classificationType === value).length,
+    category: CLASSIFICATION_TYPE_CATEGORY,
+  }));
 }
 
 export function countClassificationsBySubjectFilters(
