@@ -80,12 +80,56 @@
   {
     "name": "Region",
     "id": 15,
-    "numberOfClassifications": 36,
+    "numberOfClassifications": 1,
     "_links": {
       "self": {
         "href": "/classificationfamilies/15"
       }
-    }
+    },
+    "classifications": [
+      {
+        "name": "Standard for landkoder (SSB-3)",
+        "id": 91,
+        "classificationType": "Klassifikasjon",
+        "classificationFamilyId": 15,
+        "lastModified": "2026-03-17T10:25:54.000+0000",
+        "_links": {
+          "self": {
+            "href": "/classifications/91"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "Internt SSB",
+    "id": 25,
+    "classifications": [
+      {
+        "name": "Standard for seksjonsinndeling",
+        "id": 83,
+        "classificationType": "Klassifikasjon",
+        "classificationFamilyId": 25,
+        "lastModified": "2026-06-07T19:05:46.000+0000",
+        "_links": {
+          "self": {
+            "href": "https://data.ssb.no/api/klass/v1/classifications/83"
+          }
+        }
+      },
+      {
+        "name": "Standard for måneder",
+        "id": 747,
+        "classificationType": "Klassifikasjon",
+        "classificationFamilyId": 25,
+        "lastModified": "2024-08-07T08:23:26.000+0000",
+        "_links": {
+          "self": {
+            "href": "https://data.ssb.no/api/klass/v1/classifications/747"
+          }
+        }
+      }
+    ]
   },
   {
     "name": "Economics",

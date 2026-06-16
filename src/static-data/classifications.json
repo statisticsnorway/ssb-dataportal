@@ -85,6 +85,30 @@
       "_links": { "self": { "href": "/classifications/910" } }
     },
     {
+      "name": "Standard for seksjonsinndeling",
+      "id": 83,
+      "classificationType": "Klassifikasjon",
+      "classificationFamilyId": 25,
+      "lastModified": "2026-06-07T19:05:46.000+0000",
+      "_links": {
+        "self": {
+          "href": "/classifications/83"
+        }
+      }
+    },
+    {
+      "name": "Standard for måneder",
+      "id": 747,
+      "classificationType": "Klassifikasjon",
+      "classificationFamilyId": 25,
+      "lastModified": "2024-08-07T08:23:26.000+0000",
+      "_links": {
+        "self": {
+          "href": "/classifications/747"
+        }
+      }
+    },
+    {
       "name": "Standard for næringstilknytning",
       "id": 107,
       "classificationType": "Klassifikasjon",
