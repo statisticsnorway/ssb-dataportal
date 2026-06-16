@@ -78,6 +78,16 @@
     }
   },
   {
+    "name": "Region",
+    "id": 15,
+    "numberOfClassifications": 36,
+    "_links": {
+      "self": {
+        "href": "/classificationfamilies/15"
+      }
+    }
+  },
+  {
     "name": "Economics",
     "id": 102,
     "numberOfClassifications": 1,
