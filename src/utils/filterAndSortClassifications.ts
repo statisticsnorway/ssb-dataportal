@@ -54,33 +54,6 @@ export function countClassificationsBySubjectFilters(
   }, {});
 }
 
-export function createClassificationTypeFilterItems(classifications: ClassificationResource[]): FilterItem[] {
-  const typeCounts: Record<string, number> = {};
-
-  for (const c of classifications) {
-    if (c.classificationType) {
-      typeCounts[c.classificationType] = (typeCounts[c.classificationType] || 0) + 1;
-    }
-  }
-
-  return Object.entries(typeCounts)
-    .map(([value, count]) => ({
-      label: value,
-      value,
-      count,
-      category: 'classificationType',
-    }))
-    .sort((a, b) => String(a.label).localeCompare(String(b.label), 'nb'));
-}
-
-export function mapSelectedClassificationTypeFilters(selectedTypes: string[]): FilterItem[] {
-  return selectedTypes.map((value) => ({
-    value,
-    label: value,
-    category: 'classificationType',
-  }));
-}
-
 export function filterAndSortClassifications(
   classifications: ClassificationResource[],
   subjectCodes: string[],

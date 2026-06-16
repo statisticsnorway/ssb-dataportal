@@ -2,8 +2,9 @@ import { Chip } from '@digdir/designsystemet-react';
 import { use, useMemo } from 'react';
 import styles from '@/components/tag-components/filter-tags/filter-tags.module.css';
 import { localization } from '@/libs/language';
+import { CLASSIFICATION_TYPE_CATEGORY } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
-import { mapSelectedClassificationTypeFilters, mapSelectedSubjectFilters } from '@/utils/filterAndSortClassifications';
+import { mapSelectedSubjectFilters } from '@/utils/filterAndSortClassifications';
 import { useClassificationContext } from './classificationContext';
 
 interface FilterTagsSectionProps {
@@ -19,7 +20,7 @@ export const FilterTagsSection = ({ onClose, onClearAll }: FilterTagsSectionProp
     [selectedSubjectCodes, subjectFields],
   );
   const classificationTypeFilters = useMemo(
-    () => mapSelectedClassificationTypeFilters(selectedClassificationTypes),
+    () => selectedClassificationTypes.map((value) => ({ value, label: value, category: CLASSIFICATION_TYPE_CATEGORY })),
     [selectedClassificationTypes],
   );
   const allFilters = [...subjectFilters, ...classificationTypeFilters];
