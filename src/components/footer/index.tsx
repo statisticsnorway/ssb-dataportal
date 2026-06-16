@@ -41,8 +41,6 @@ export const Footer = () => {
               linkText={localization.info.footerAccessibilityStatement}
               className={styles.negativeLink}
             />
-            <p className={styles.negativeLink}>{localization.info.footerAccessibilityStatement}</p>
-
             <ApiDocLink href={apiDocsUrl} className={styles.negativeLink} />
           </section>
           <section className={styles.footerLinkSection}>
