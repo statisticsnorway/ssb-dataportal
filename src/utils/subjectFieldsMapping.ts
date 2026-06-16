@@ -1,3 +1,5 @@
+import { CodeItem } from '@/libs/data-access/klass/models/CodeItem';
+
 /**
  * Maps a subject field code (`string`) to the classification family IDs
  * (`number[]`) associated with that subject field.
@@ -26,4 +28,12 @@ export const SUBJECT_FIELD_BY_CODE: Record<string, number[]> = {
   vt: [23],
   vf: [24],
   zm: [25],
+};
+
+/**
+ * Single code item for classification family not mapable to statistical subject
+ */
+export const regionFamily: CodeItem = {
+  code: '15',
+  name: 'Region',
 };
