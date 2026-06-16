@@ -43,6 +43,8 @@ export const nb = {
   classification: {
     label: 'Klassifikasjon',
     view: 'Se klassifikasjon',
+    type: 'Type',
+    codelist: 'Kodeliste',
   },
   codeSnippet: {
     codeExample: 'Kodeeksempel',

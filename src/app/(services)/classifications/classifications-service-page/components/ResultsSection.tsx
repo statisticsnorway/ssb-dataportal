@@ -12,13 +12,14 @@ interface ResultsSectionProps {
 }
 
 export const ResultsSection = ({ currentPage, pageSize, onPageChange }: ResultsSectionProps) => {
-  const { classificationsPromise, selectedSubjectCodes, sortOption } = useClassificationContext();
+  const { classificationsPromise, selectedSubjectCodes, selectedClassificationTypes, sortOption } =
+    useClassificationContext();
 
   const { data: classifications } = use(classificationsPromise);
 
   const sortedHits = useMemo(
-    () => filterAndSortClassifications(classifications, selectedSubjectCodes, sortOption),
-    [classifications, selectedSubjectCodes, sortOption],
+    () => filterAndSortClassifications(classifications, selectedSubjectCodes, sortOption, selectedClassificationTypes),
+    [classifications, selectedSubjectCodes, sortOption, selectedClassificationTypes],
   );
 
   const totalHits = sortedHits.length;
