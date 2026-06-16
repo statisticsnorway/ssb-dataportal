@@ -9,6 +9,7 @@ import { SortFields } from '@/components/sort-fields';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { CodeItem } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
+import { clientLogger } from '@/libs/logger/client-logger';
 import { FilterItem } from '@/types/filters';
 import { SortTypes, sortTypes } from '@/types/sort';
 import { tabsData } from '../../tabs';
@@ -23,7 +24,6 @@ interface ClassificationServicePageProps {
   subjectFieldsPromise: Promise<{ data: CodeItem[]; error: Error | null }>;
 }
 
-// Declare outside so not rerendered
 const PAGE_SIZE = 20;
 
 const ClassificationsServicePage = ({
@@ -38,38 +38,31 @@ const ClassificationsServicePage = ({
 
   const { page, sort, subjects } = queryState;
 
+  const updateQuery = (update: Parameters<typeof setQueryState>[0]) => {
+    void setQueryState(update).catch((error) => {
+      clientLogger.error('Failed to update query state', error);
+    });
+  };
+
   const handlePageChange = (nextPage: number) => {
-    void setQueryState({ page: nextPage });
-    const element: HTMLElement | null = document.getElementsByClassName('ds-card')[0] as HTMLElement | null;
+    updateQuery({ page: nextPage });
+    const element = document.querySelector<HTMLElement>('.ds-card');
     element?.focus({ preventScroll: true });
     element?.scrollIntoView({ behavior: 'instant', block: 'start' });
   };
 
   const toggleSubject = (filter: FilterItem) => {
     const nextSubjects = subjects.includes(filter.value)
-      ? subjects.filter((value) => value !== filter.value)
+      ? subjects.filter((v) => v !== filter.value)
       : [...subjects, filter.value];
 
-    void setQueryState({
-      subjects: nextSubjects.length > 0 ? nextSubjects : null,
-      page: 1,
-    });
+    updateQuery({ subjects: nextSubjects.length > 0 ? nextSubjects : null, page: 1 });
   };
 
-  const removeFilter = (filter: FilterItem) => {
-    void setQueryState({
-      subjects: subjects.filter((value) => value !== filter.value),
-      page: 1,
-    });
-  };
+  const removeFilter = (filter: FilterItem) =>
+    updateQuery({ subjects: subjects.filter((v) => v !== filter.value), page: 1 });
 
-  const clearAll = () => {
-    void setQueryState({
-      subjects: null,
-      sort: null,
-      page: null,
-    });
-  };
+  const clearAll = () => updateQuery({ subjects: null, sort: null, page: null });
 
   return (
     <ClassificationProvider
@@ -102,12 +95,7 @@ const ClassificationsServicePage = ({
           <SortFields
             sortOptions={sortTypes}
             sortValue={sort}
-            onSortChange={(value: SortTypes) =>
-              void setQueryState({
-                sort: value,
-                page: 1,
-              })
-            }
+            onSortChange={(value: SortTypes) => updateQuery({ sort: value, page: 1 })}
           />
         }
         searchResult={
