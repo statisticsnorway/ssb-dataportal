@@ -44,3 +44,12 @@ export const regionFamily: CodeItem = {
   code: '15',
   name: 'Region',
 };
+
+/**
+ * Returns the subject field code for a given classification family ID,
+ * or `undefined` if no match is found.
+ */
+export const getSubjectCodeByFamilyId = (familyId?: number) => {
+  if (familyId == null) return undefined;
+  return Object.entries(SUBJECT_FIELD_BY_CODE).find(([, familyIds]) => familyIds.includes(familyId))?.[0];
+};

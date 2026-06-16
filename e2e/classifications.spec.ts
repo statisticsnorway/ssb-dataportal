@@ -11,7 +11,6 @@ test('Classifications page renders hits and sort control', async ({ classificati
 });
 
 test('Filter by subject field displays tag (listitem) with close button', async ({ classificationsPage }) => {
-  const main = classificationsPage.getByRole('main');
   const checkbox = classificationsPage.getByRole('checkbox', { name: arbeidOgLonn });
   await checkCheckbox(checkbox);
 
@@ -23,6 +22,14 @@ test('Filter by subject field displays tag (listitem) with close button', async 
   await removeButton.click();
 
   await expect(classificationsPage).not.toHaveURL('subjects=');
+});
+
+test('Classification family "Region" is filterable', async ({ classificationsPage }) => {
+  const checkbox = classificationsPage.getByRole('checkbox', { name: 'Region' });
+  await checkCheckbox(checkbox);
+
+  const filterTag = classificationsPage.getByRole('listitem').filter({ hasText: 'Region' });
+  await expect(filterTag).toBeVisible();
 });
 
 test('Select more than one filter displays a "remove all" tag', async ({ classificationsPage }) => {
