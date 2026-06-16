@@ -3,6 +3,7 @@
 import { Alert, Spinner } from '@digdir/designsystemet-react';
 import { useEffect, useMemo, useState } from 'react';
 import { CheckboxFilter, FiltersPanel } from '@/components/filters';
+import { SearchHit } from '@/components/search-hit';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { useSearchStateKlass } from '@/hooks/useSearchStateKlass';
@@ -12,7 +13,6 @@ import { ClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
 import { tabsData } from '../../tabs';
-import { ClassificationSearchHit } from './classificationSearchHit';
 
 interface ClassificationServicePageProps {
   rawClassifications: ClassificationResource[];
@@ -132,7 +132,6 @@ const ClassificationsServicePage = ({
           />
         </FiltersPanel>
       }
-      searchLabel='Søk i klassifikasjoner'
       infoContent={
         <Alert data-color={'warning'} className='infoAlert' data-size={'md'} style={{ marginBottom: '1rem' }}>
           Klassifikasjoner er ikke klar for testing.
@@ -152,9 +151,10 @@ const ClassificationsServicePage = ({
             <SearchHitContainer
               searchHits={pagedHits}
               renderHit={(hit) => (
-                <ClassificationSearchHit
+                <SearchHit
                   key={(hit as ClassificationResource).id}
-                  classification={hit as ClassificationResource}
+                  title={(hit as ClassificationResource).name ?? ''}
+                  href={''}
                 />
               )}
               noSearchHits={hits.length === 0}

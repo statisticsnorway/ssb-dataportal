@@ -17,10 +17,6 @@
   margin: 0;
 }
 
-.searchLabel {
-  color: white;
-}
-
 @media (min-width: 768px) {
   .tab {
     font-size: 1.2rem;

@@ -12,7 +12,6 @@ interface SearchPageProps {
   searchResult?: ReactElement;
   controlsContent?: ReactNode;
   totalHits?: ReactNode;
-  searchLabel?: string;
   sortOptions?: ReadonlyArray<SortTypes>;
   sortValue?: SortTypes;
   onSortChange?: (key: SortTypes) => void;

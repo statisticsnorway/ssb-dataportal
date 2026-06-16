@@ -58,6 +58,12 @@ export interface SearchResultResource {
      * @type {string}
      * @memberof SearchResultResource
      */
+    language?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchResultResource
+     */
     snippet?: string;
     /**
      * 
@@ -104,6 +110,7 @@ export function SearchResultResourceFromJSONTyped(json: any, ignoreDiscriminator
         
         'name': json['name'] == null ? undefined : json['name'],
         'id': json['id'] == null ? undefined : json['id'],
+        'language': json['language'] == null ? undefined : json['language'],
         'snippet': json['snippet'] == null ? undefined : json['snippet'],
         'searchScore': json['searchScore'] == null ? undefined : json['searchScore'],
         'links': json['_links'] == null ? undefined : (mapValues(json['_links'], LinkFromJSON)),
@@ -125,6 +132,7 @@ export function SearchResultResourceToJSONTyped(value?: SearchResultResource | n
         
         'name': value['name'],
         'id': value['id'],
+        'language': value['language'],
         'snippet': value['snippet'],
         'searchScore': value['searchScore'],
         '_links': value['links'] == null ? undefined : (mapValues(value['links'], LinkToJSON)),

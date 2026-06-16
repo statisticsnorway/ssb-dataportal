@@ -1,12 +1,10 @@
-import { Card, Heading, Link, Tag } from '@digdir/designsystemet-react';
-import { type ReactNode } from 'react';
-
+import { Tag } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
+import { SearchHit } from '@/components/search-hit';
 import { DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
 import type { CodeItem } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import { getParentCode } from '@/utils/functions';
-import styles from './dataProduct.module.css';
 
 export const localizeDataProductType = (it: DataProductType | null | undefined) => {
   switch (it) {
@@ -21,17 +19,6 @@ export const localizeDataProductType = (it: DataProductType | null | undefined) 
       it satisfies never;
   }
 };
-
-interface HeadingLinkProps {
-  readonly href: string;
-  readonly children: ReactNode;
-}
-
-const HeadingLink = ({ href, children }: HeadingLinkProps) => (
-  <Link href={href} className={styles.dataProductHeadingLink}>
-    {children}
-  </Link>
-);
 
 interface DataProductSearchHitProps {
   readonly dataProduct: DataProductDTO;
@@ -52,17 +39,18 @@ export const DataProductSearchHit = ({ dataProduct, subjectFields }: DataProduct
   const dataProductRoute = `${tabsData.DataProducts.route}/${dataProduct.product_short_name}`;
   const subjectFieldLabel = getSubjectFieldLabel(dataProduct, subjectFields);
 
+  const tagsList = (
+    <>
+      {subjectFieldLabel && <Tag aria-label={localization.subjectArea}>{subjectFieldLabel}</Tag>}
+      {dataProduct.product_type && <Tag>{localizeDataProductType(dataProduct.product_type)}</Tag>}
+    </>
+  );
+
   return (
-    <Card data-testid='data-product-search-card'>
-      <Heading data-size='md' className={styles.dataProductHeadingLink}>
-        <HeadingLink href={dataProductRoute}>
-          <span className='primaryHeading'>{dataProduct.title ?? dataProduct.product_short_name}</span>
-        </HeadingLink>
-      </Heading>
-      <div className={styles.tagsList}>
-        {subjectFieldLabel && <Tag aria-label={localization.subjectArea}>{subjectFieldLabel}</Tag>}
-        {dataProduct.product_type && <Tag>{localizeDataProductType(dataProduct.product_type)}</Tag>}
-      </div>
-    </Card>
+    <SearchHit
+      href={dataProductRoute}
+      title={dataProduct.title ?? dataProduct.product_short_name ?? ''}
+      tagsList={tagsList}
+    />
   );
 };

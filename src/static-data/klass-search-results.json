@@ -1,0 +1,57 @@
+[
+  {
+    "id": 910,
+    "links": {
+      "self": {
+        "href": "https://data.ssb.no/api/klass/v1/classifications/910"
+      }
+    },
+    "name": "Kodeliste for måleenheter for næringene innenfor næringshovedområdet C (industri)",
+    "searchScore": 193.78598022460938,
+    "snippet": "Denne kodelisten inneholder alle næringene innenfor næringshovedområdet C (industri), og under hver næringer ligger alle aktuelle måleenheter for denne næringen. Næringene 7, 8, 38 og 39 er også inkludert, selv om de ikke ligger under næringshovedområdet C (industri). Denne kodelisten er laget for å brukes i skjemaet Vareundersøkelse for industrien (RA-1130)."
+  },
+  {
+    "id": 910,
+    "links": {
+      "self": {
+        "href": "https://data.ssb.no/api/klass/v1/classifications/910"
+      }
+    },
+    "name": "Kodeliste for måleeiningar for næringane innanfor næringshovudområdet C (industri)",
+    "searchScore": 193.78598022460938,
+    "snippet": "Denne kodelista inneheld alle næringane innanfor næringshovudområdet C (industri), og under kvar næring ligg alle aktuelle måleeiningar for denne næringa. Næringane 7, 8, 38 og 39 er òg inkluderte, sjølv om dei ikkje ligg under næringshovudområdet C (industri). Denne kodelista er laga for å brukast i skjemaet Vareundersøkelse for industrien (RA-1130)."
+  },
+  {
+    "id": 107,
+    "links": {
+      "self": {
+        "href": "https://data.ssb.no/api/klass/v1/classifications/107"
+      }
+    },
+    "name": "Standard for næringstilknytning",
+    "searchScore": 122.51265716552734,
+    "snippet": "Næringstilknytning tar utgangspunkt i yrkesbefolkningen som var bosatt i kommunen 3. november 1990 (Folke- og boligtellingen), og bestemmes gjennom yrkesbefolkningens relative fordeling på ulike næringer. Det undersøkes først om de vareproduserende næringer samlet sysselsetter flere enn de tjenesteytende næringer. Hvis dette er tilfelle, får kommunen sin næringskode bestemt ved forholdet mellom de fire vareproduserende enhetene. Der en av de vareproduserende enhetene sysselsetter mer enn 2/3 av alle sysselsatte innen vareproduksjon samlet, gis kommunen en kode med én bokstav. I alle andre tilfeller blir koden bestående av to bokstaver avhengig av størrelsesforholdet mellom enhetene. For de øvrige kommuner er de tjenesteytende næringene større enn de vareproduserende.\nNæringstilknytningen er et kriterium i Standard for kommuneklassifisering."
+  },
+  {
+    "id": 107,
+    "links": {
+      "self": {
+        "href": "https://data.ssb.no/api/klass/v1/classifications/107"
+      }
+    },
+    "name": "Standard for næringstilknytning",
+    "searchScore": 122.5126571655273,
+    "snippet": "Næringstilknyting tek utgangspunkt i yrkesfolket som var busett i kommunane 3. november 1990 (Folke- og bustadteljinga), og blir fastsett gjennom yrkesfolket sitt relative fordeling på ulike næringer. Fyrst blir det undersøkt om dei vareproduserande næringer samla sysselset fleire enn dei tenesteytande næringer. Dersom dette er tilfelle, får kommunen sin næringskode fastsett ved forholdet mellom dei fire vareproduserande einingene. Der ei av dei vareproduserande einingene sysselset meir enn 2/3 av alle sysselsatte innan vareproduksjon samla, blir kommunen gjeve ein kode med ein bokstav. I alle andre høve blir koden samansett av to bokstavar avhengig av storleiksforholdet mellom einingene. For dei andre kommunane er dei tenesteytande næringene større enn dei vareproduserande.\nNæringstilknytninga er eit kriterium i Standard for kommuneklassifisering."
+  },
+  {
+    "id": 597,
+    "links": {
+      "self": {
+        "href": "https://data.ssb.no/api/klass/v1/classifications/597"
+      }
+    },
+    "name": "Kodeliste for Næringer knyttet til lærerutdannede",
+    "snippet": "Næringskoder/inndelinger spesifikt til relevans for lærerutdannende",
+    "searchScore": 101.68602752685547
+  }
+]

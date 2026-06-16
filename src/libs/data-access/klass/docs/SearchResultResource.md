@@ -8,6 +8,7 @@ Name | Type
 ------------ | -------------
 `name` | string
 `id` | number
+`language` | string
 `snippet` | string
 `searchScore` | number
 `links` | [{ [key: string]: Link; }](Link.md)
@@ -23,6 +24,7 @@ import type { SearchResultResource } from ''
 const example = {
   "name": null,
   "id": null,
+  "language": null,
   "snippet": null,
   "searchScore": null,
   "links": null,
