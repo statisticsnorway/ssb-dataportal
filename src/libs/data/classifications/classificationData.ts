@@ -124,7 +124,7 @@ export async function fetchAllClassifications(): Promise<ClassificationResource[
     if (error instanceof ResponseError) {
       logger.error({ statusCode: error.response.status, url: error.response.url }, 'Classification fetch failed');
     } else {
-      logger.error({ error: sanitizeError(error) }, 'Unexpected error during fetch');
+      logger.error({ error: String(error) }, 'Unexpected error during fetch');
     }
     throw error;
   }
@@ -156,7 +156,7 @@ export async function fetchClassificationById(id: number): Promise<Classificatio
           'Classification fetch by ID failed',
         );
       } else {
-        logger.error({ error: sanitizeError(error) }, 'Unexpected error during fetch');
+        logger.error({ error: String(error) }, 'Unexpected error during fetch');
       }
       throw error;
     }

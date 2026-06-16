@@ -88,3 +88,49 @@ test.describe('Classifications URL state', () => {
     await expect(classificationsPage.getByRole('checkbox', { name: arbeidOgLonn })).toBeChecked();
   });
 });
+
+test.describe('Classifications - type filter', () => {
+  test('type filter checkboxes render with correct labels', async ({ classificationsPage }) => {
+    await expect(classificationsPage.getByRole('checkbox', { name: 'Klassifikasjon' })).toBeVisible();
+    await expect(classificationsPage.getByRole('checkbox', { name: 'Kodeliste' })).toBeVisible();
+  });
+
+  test('selecting Klassifikasjon filters results and updates URL', async ({ classificationsPage }) => {
+    await classificationsPage.getByRole('checkbox', { name: 'Klassifikasjon' }).check();
+
+    await expect(classificationsPage).toHaveURL('classifications?types=Klassifikasjon');
+    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(7);
+
+    const filterTag = classificationsPage.getByRole('listitem').filter({ hasText: 'Klassifikasjon' });
+    await expect(filterTag).toBeVisible();
+    await filterTag.getByRole('button').click();
+    await expect(classificationsPage).not.toHaveURL('types=');
+  });
+
+  test('selecting Kodeliste shows only code list results', async ({ classificationsPage }) => {
+    await classificationsPage.getByRole('checkbox', { name: 'Kodeliste' }).check();
+
+    await expect(classificationsPage).toHaveURL('classifications?types=Kodeliste');
+    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(2);
+  });
+
+  test('hydrates type filter from shared URL', async ({ classificationsPage }) => {
+    await classificationsPage.goto('/classifications?types=Kodeliste');
+    await expect(classificationsPage.getByRole('checkbox', { name: 'Kodeliste' })).toBeChecked();
+    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(2);
+  });
+
+  test('combined subject and type filter shows "remove all" button', async ({ classificationsPage }) => {
+    await checkCheckbox(classificationsPage.getByRole('checkbox', { name: 'Klassifikasjon' }));
+    await checkCheckbox(classificationsPage.getByRole('checkbox', { name: arbeidOgLonn }));
+
+    const removeAllButton = classificationsPage.getByRole('button', { name: localization.button.removeFilter });
+    await expect(removeAllButton).toBeVisible();
+    await removeAllButton.click();
+
+    await expect(classificationsPage).not.toHaveURL('types=');
+    await expect(classificationsPage).not.toHaveURL('subjects=');
+    await expect(classificationsPage.getByRole('checkbox', { name: 'Klassifikasjon' })).not.toBeChecked();
+    await expect(classificationsPage.getByRole('checkbox', { name: arbeidOgLonn })).not.toBeChecked();
+  });
+});

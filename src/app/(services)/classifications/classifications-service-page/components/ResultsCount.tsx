@@ -4,10 +4,16 @@ import { filterAndSortClassifications } from '@/utils/filterAndSortClassificatio
 import { useClassificationContext } from './classificationContext';
 
 export const ResultsCount = () => {
-  const { classificationsPromise, selectedSubjectCodes, sortOption } = useClassificationContext();
+  const { classificationsPromise, selectedSubjectCodes, selectedClassificationTypes, sortOption } =
+    useClassificationContext();
   const { data: classifications } = use(classificationsPromise);
 
-  const totalHits = filterAndSortClassifications(classifications, selectedSubjectCodes, sortOption).length;
+  const totalHits = filterAndSortClassifications(
+    classifications,
+    selectedSubjectCodes,
+    sortOption,
+    selectedClassificationTypes,
+  ).length;
   if (totalHits === 0) return localization.search.noHits;
 
   return `${totalHits} ${localization.search.hits}`;
