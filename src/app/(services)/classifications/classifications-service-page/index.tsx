@@ -38,11 +38,10 @@ const ClassificationsServicePage = ({
 
   const { page, sort, subjects } = queryState;
 
-  const updateQuery = (update: Parameters<typeof setQueryState>[0]) => {
-    void setQueryState(update).catch((error) => {
+  const updateQuery = (update: Parameters<typeof setQueryState>[0]) =>
+    setQueryState(update).catch((error) => {
       clientLogger.error('Failed to update query state', error);
     });
-  };
 
   const handlePageChange = (nextPage: number) => {
     updateQuery({ page: nextPage });
