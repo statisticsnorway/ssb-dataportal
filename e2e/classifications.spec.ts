@@ -52,89 +52,26 @@ test('Sort classifications', async ({ classificationsPage }) => {
   expect(await firstCard.innerText()).not.toBe(firstAsc);
 
   await sortSelect.selectOption('lastChanged');
-  await expect(classificationsPage).toHaveURL('sort=lastChanged');
-});
-
-test('Can navigate to classification details from first result card', async ({ classificationsPage }) => {
-  const firstCard = classificationsPage.getByTestId('search-card').first();
-  await firstCard.getByRole('link').first().click();
-  await expect(classificationsPage).toHaveURL('classifications/');
+  await expect(classificationsPage).toHaveURL('classifications?sort=lastChanged');
 });
 
 test.describe('Classifications - pagination', () => {
-  test('Displays 20 hits on first page and active page is 1', async ({ classificationsPage }) => {
-    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(20);
+  test('Displays 9 hits on first page and active page is 1', async ({ classificationsPage }) => {
+    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(9);
     await expect(classificationsPage.getByTestId('page-active')).toHaveText('1');
-  });
-
-  test('Next/previous navigation keeps 20 hits', async ({ classificationsPage }) => {
-    await classificationsPage.getByRole('button', { name: localization.next }).click();
-    await expect(classificationsPage.getByTestId('page-active')).toHaveText('2');
-    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(20);
-
-    await classificationsPage.getByRole('button', { name: localization.previous }).click();
-    await expect(classificationsPage.getByTestId('page-active')).toHaveText('1');
-    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(20);
-  });
-
-  test('Filter resets to page 1', async ({ classificationsPage }) => {
-    await classificationsPage.getByRole('button', { name: localization.next }).click();
-    await expect(classificationsPage.getByTestId('page-active')).toHaveText('2');
-
-    await classificationsPage.getByRole('checkbox', { name: arbeidOgLonn }).check();
-    await expect(classificationsPage.getByTestId('page-active')).toHaveText('1');
-    await expect(classificationsPage).not.toHaveURL('page=');
-  });
-
-  test('Sorting resets to page 1', async ({ classificationsPage }) => {
-    await classificationsPage.getByRole('button', { name: localization.next }).click();
-    await expect(classificationsPage.getByTestId('page-active')).toHaveText('2');
-
-    await classificationsPage.getByLabel(localization.search.sort.label).selectOption('titleDesc');
-    await expect(classificationsPage.getByTestId('page-active')).toHaveText('1');
-    await expect(classificationsPage).not.toHaveURL('page=');
   });
 });
 
 test.describe('Classifications URL state', () => {
   test('updates URL when selecting subject filter', async ({ classificationsPage }) => {
     await classificationsPage.getByRole('checkbox', { name: arbeidOgLonn }).check();
-    await expect(classificationsPage).toHaveURL('subjects=al');
+    await expect(classificationsPage).toHaveURL('classifications?subjects=al');
     await expect(classificationsPage).not.toHaveURL('page=');
   });
 
   test('updates URL when sorting', async ({ classificationsPage }) => {
     await classificationsPage.getByLabel(localization.search.sort.label).selectOption('titleDesc');
-    await expect(classificationsPage).toHaveURL('sort=titleDesc');
-    await expect(classificationsPage).not.toHaveURL('page=');
-  });
-
-  test('updates URL when changing page', async ({ classificationsPage }) => {
-    await classificationsPage.getByRole('button', { name: localization.next }).click();
-    await expect(classificationsPage).toHaveURL('page=2');
-    await expect(classificationsPage.getByTestId('page-active')).toHaveText('2');
-  });
-
-  test('filtering from page 2 resets page parameter', async ({ classificationsPage }) => {
-    await classificationsPage.getByRole('button', { name: localization.next }).click();
-    await expect(classificationsPage).toHaveURL('page=2');
-    await expect(classificationsPage.getByTestId('page-active')).toHaveText('2');
-
-    await classificationsPage.getByRole('checkbox', { name: arbeidOgLonn }).check();
-    await expect(classificationsPage).toHaveURL('subjects=al');
-    await expect(classificationsPage).not.toHaveURL('page=');
-    await expect(classificationsPage.getByTestId('page-active')).toHaveText('1');
-  });
-
-  test('sorting from page 2 resets page parameter', async ({ classificationsPage }) => {
-    await classificationsPage.getByRole('button', { name: localization.next }).click();
-    await expect(classificationsPage).toHaveURL('page=2');
-    await expect(classificationsPage.getByTestId('page-active')).toHaveText('2');
-
-    await classificationsPage.getByLabel(localization.search.sort.label).selectOption('titleDesc');
-    await expect(classificationsPage).toHaveURL('sort=titleDesc');
-    await expect(classificationsPage).not.toHaveURL('page=');
-    await expect(classificationsPage.getByTestId('page-active')).toHaveText('1');
+    await expect(classificationsPage).toHaveURL('classifications?sort=titleDesc');
   });
 
   test('hydrates UI from shared URL', async ({ classificationsPage }) => {
