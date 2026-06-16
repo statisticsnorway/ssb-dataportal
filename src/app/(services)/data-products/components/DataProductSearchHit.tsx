@@ -3,7 +3,9 @@ import { type ReactNode } from 'react';
 
 import { tabsData } from '@/app/(services)/tabs';
 import { DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
+import type { CodeItem } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
+import { getParentCode } from '@/utils/functions';
 import styles from './dataProduct.module.css';
 
 export const localizeDataProductType = (it: DataProductType | null | undefined) => {
@@ -33,10 +35,22 @@ const HeadingLink = ({ href, children }: HeadingLinkProps) => (
 
 interface DataProductSearchHitProps {
   readonly dataProduct: DataProductDTO;
+  readonly subjectFields?: CodeItem[];
 }
 
-export const DataProductSearchHit = ({ dataProduct }: DataProductSearchHitProps) => {
+const getSubjectFieldLabel = (dataProduct: DataProductDTO, subjectFields: CodeItem[] = []) => {
+  const subjectCode = dataProduct.subject_code?.trim();
+  if (!subjectCode) return null;
+
+  const parentCode = getParentCode(subjectCode);
+  return (
+    subjectFields.find((subjectField) => subjectField.code === parentCode && !subjectField.parentCode)?.name ?? null
+  );
+};
+
+export const DataProductSearchHit = ({ dataProduct, subjectFields }: DataProductSearchHitProps) => {
   const dataProductRoute = `${tabsData.DataProducts.route}/${dataProduct.product_short_name}`;
+  const subjectFieldLabel = getSubjectFieldLabel(dataProduct, subjectFields);
 
   return (
     <Card data-testid='data-product-search-card'>
@@ -45,7 +59,10 @@ export const DataProductSearchHit = ({ dataProduct }: DataProductSearchHitProps)
           <span className='primaryHeading'>{dataProduct.title ?? dataProduct.product_short_name}</span>
         </HeadingLink>
       </Heading>
-      {dataProduct.product_type && <Tag>{localizeDataProductType(dataProduct.product_type)}</Tag>}
+      <div className={styles.tagsList}>
+        {subjectFieldLabel && <Tag aria-label={localization.subjectArea}>{subjectFieldLabel}</Tag>}
+        {dataProduct.product_type && <Tag>{localizeDataProductType(dataProduct.product_type)}</Tag>}
+      </div>
     </Card>
   );
 };

@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { NuqsTestingAdapter, type UrlUpdateEvent } from 'nuqs/adapters/testing';
 import type { ReactNode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
@@ -140,6 +140,14 @@ describe('DataProductsServicePage', () => {
     expect(main).toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
     expect(main).toHaveTextContent('Ameldingen');
     expect(main).toHaveTextContent('produkt-uten-tittel');
+  });
+
+  it('renders subject area tags in the search results', () => {
+    renderPage({ subjectFields });
+    const cards = screen.getAllByTestId('data-product-search-card');
+    expect(cards).toHaveLength(2);
+    expect(within(cards[0]!).getByLabelText(localization.subjectArea)).toHaveTextContent('Arbeid og lønn');
+    expect(within(cards[1]!).getByLabelText(localization.subjectArea)).toHaveTextContent('Bank og finansmarked');
   });
 
   it('renders subject field dropdown options with counts', () => {
