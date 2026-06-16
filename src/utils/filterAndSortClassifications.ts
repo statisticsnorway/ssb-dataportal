@@ -35,7 +35,6 @@ export function createSubjectFieldFilterItems(
         count,
       };
     })
-    .filter((item) => item.count > 0)
     .sort((a, b) => String(a.label).localeCompare(String(b.label), 'nb'));
 }
 
