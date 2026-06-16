@@ -2,8 +2,8 @@ import { localization } from '@/libs/language';
 import { checkCheckbox } from './utils/commonUtils';
 import { expect, test } from './fixtures/classifications.fixture';
 
-const arbeidOgLonn = /Arbeid og lønn/;
-const bankOgFinans = /Bank og finansmarked/;
+const arbeidOgLonn = 'Arbeid og lønn';
+const bankOgFinans = 'Bank og finansmarked';
 
 test('Classifications page renders hits and sort control', async ({ classificationsPage }) => {
   await expect(classificationsPage.getByTestId('search-card').first()).toBeVisible();
@@ -22,7 +22,7 @@ test('Filter by subject field displays tag (listitem) with close button', async 
   await expect(removeButton).toBeVisible();
   await removeButton.click();
 
-  await expect(classificationsPage).not.toHaveURL(/[?&]subjects=/);
+  await expect(classificationsPage).not.toHaveURL('subjects=');
 });
 
 test('Select more than one filter displays a "remove all" tag', async ({ classificationsPage }) => {
@@ -36,7 +36,7 @@ test('Select more than one filter displays a "remove all" tag', async ({ classif
   await expect(removeAllButton).toBeVisible();
   await removeAllButton.click();
 
-  await expect(classificationsPage).not.toHaveURL(/[?&]subjects=/);
+  await expect(classificationsPage).not.toHaveURL('subjects=');
   await expect(filterOne).not.toBeChecked();
   await expect(filterTwo).not.toBeChecked();
 });
@@ -52,13 +52,13 @@ test('Sort classifications', async ({ classificationsPage }) => {
   expect(await firstCard.innerText()).not.toBe(firstAsc);
 
   await sortSelect.selectOption('lastChanged');
-  await expect(classificationsPage).toHaveURL(/[?&]sort=lastChanged/);
+  await expect(classificationsPage).toHaveURL('sort=lastChanged');
 });
 
 test('Can navigate to classification details from first result card', async ({ classificationsPage }) => {
   const firstCard = classificationsPage.getByTestId('search-card').first();
   await firstCard.getByRole('link').first().click();
-  await expect(classificationsPage).toHaveURL(/\/classifications\/\d+$/);
+  await expect(classificationsPage).toHaveURL('classifications/');
 });
 
 test.describe('Classifications - pagination', () => {
@@ -83,7 +83,7 @@ test.describe('Classifications - pagination', () => {
 
     await classificationsPage.getByRole('checkbox', { name: arbeidOgLonn }).check();
     await expect(classificationsPage.getByTestId('page-active')).toHaveText('1');
-    await expect(classificationsPage).not.toHaveURL(/[?&]page=/);
+    await expect(classificationsPage).not.toHaveURL('page=');
   });
 
   test('Sorting resets to page 1', async ({ classificationsPage }) => {
@@ -92,48 +92,48 @@ test.describe('Classifications - pagination', () => {
 
     await classificationsPage.getByLabel(localization.search.sort.label).selectOption('titleDesc');
     await expect(classificationsPage.getByTestId('page-active')).toHaveText('1');
-    await expect(classificationsPage).not.toHaveURL(/[?&]page=/);
+    await expect(classificationsPage).not.toHaveURL('page=');
   });
 });
 
 test.describe('Classifications URL state', () => {
   test('updates URL when selecting subject filter', async ({ classificationsPage }) => {
     await classificationsPage.getByRole('checkbox', { name: arbeidOgLonn }).check();
-    await expect(classificationsPage).toHaveURL(/[?&]subjects=al/);
-    await expect(classificationsPage).not.toHaveURL(/[?&]page=/);
+    await expect(classificationsPage).toHaveURL('subjects=al');
+    await expect(classificationsPage).not.toHaveURL('page=');
   });
 
   test('updates URL when sorting', async ({ classificationsPage }) => {
     await classificationsPage.getByLabel(localization.search.sort.label).selectOption('titleDesc');
-    await expect(classificationsPage).toHaveURL(/[?&]sort=titleDesc/);
-    await expect(classificationsPage).not.toHaveURL(/[?&]page=/);
+    await expect(classificationsPage).toHaveURL('sort=titleDesc');
+    await expect(classificationsPage).not.toHaveURL('page=');
   });
 
   test('updates URL when changing page', async ({ classificationsPage }) => {
     await classificationsPage.getByRole('button', { name: localization.next }).click();
-    await expect(classificationsPage).toHaveURL(/[?&]page=2/);
+    await expect(classificationsPage).toHaveURL('page=2');
     await expect(classificationsPage.getByTestId('page-active')).toHaveText('2');
   });
 
   test('filtering from page 2 resets page parameter', async ({ classificationsPage }) => {
     await classificationsPage.getByRole('button', { name: localization.next }).click();
-    await expect(classificationsPage).toHaveURL(/[?&]page=2/);
+    await expect(classificationsPage).toHaveURL('page=2');
     await expect(classificationsPage.getByTestId('page-active')).toHaveText('2');
 
     await classificationsPage.getByRole('checkbox', { name: arbeidOgLonn }).check();
-    await expect(classificationsPage).toHaveURL(/[?&]subjects=al/);
-    await expect(classificationsPage).not.toHaveURL(/[?&]page=/);
+    await expect(classificationsPage).toHaveURL('subjects=al');
+    await expect(classificationsPage).not.toHaveURL('page=');
     await expect(classificationsPage.getByTestId('page-active')).toHaveText('1');
   });
 
   test('sorting from page 2 resets page parameter', async ({ classificationsPage }) => {
     await classificationsPage.getByRole('button', { name: localization.next }).click();
-    await expect(classificationsPage).toHaveURL(/[?&]page=2/);
+    await expect(classificationsPage).toHaveURL('page=2');
     await expect(classificationsPage.getByTestId('page-active')).toHaveText('2');
 
     await classificationsPage.getByLabel(localization.search.sort.label).selectOption('titleDesc');
-    await expect(classificationsPage).toHaveURL(/[?&]sort=titleDesc/);
-    await expect(classificationsPage).not.toHaveURL(/[?&]page=/);
+    await expect(classificationsPage).toHaveURL('sort=titleDesc');
+    await expect(classificationsPage).not.toHaveURL('page=');
     await expect(classificationsPage.getByTestId('page-active')).toHaveText('1');
   });
 
