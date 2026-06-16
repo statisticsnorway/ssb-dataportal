@@ -43,7 +43,7 @@ spec:
     - name: KEYCLOAK_HOST
       value: https://auth.test.ssb.no
     - name: KLASS_BASE_PATH
-      value: http://klass
+      value: https://data.test.ssb.no/api
     - name: KLASS_USE_STATIC_DATA
       value: "false"
     - name: HIDE_CLASSIFICATIONS
