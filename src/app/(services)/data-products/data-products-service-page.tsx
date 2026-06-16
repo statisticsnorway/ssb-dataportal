@@ -166,7 +166,11 @@ export const DataProductsServicePage = ({
         ) : (
           <div className={styles.searchResultList}>
             {filteredDataProducts.map((dataProduct, index) => (
-              <DataProductSearchHit key={dataProduct.product_short_name || index} dataProduct={dataProduct} />
+              <DataProductSearchHit
+                key={dataProduct.product_short_name || index}
+                dataProduct={dataProduct}
+                subjectFields={subjectFields}
+              />
             ))}
           </div>
         )

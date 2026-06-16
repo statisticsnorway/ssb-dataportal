@@ -2,7 +2,9 @@ import { Tag } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
 import { SearchHit } from '@/components/search-hit';
 import { DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
+import type { CodeItem } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
+import { getParentCode } from '@/utils/functions';
 
 export const localizeDataProductType = (it: DataProductType | null | undefined) => {
   switch (it) {
@@ -20,16 +22,35 @@ export const localizeDataProductType = (it: DataProductType | null | undefined) 
 
 interface DataProductSearchHitProps {
   readonly dataProduct: DataProductDTO;
+  readonly subjectFields?: CodeItem[];
 }
 
-export const DataProductSearchHit = ({ dataProduct }: DataProductSearchHitProps) => {
+const getSubjectFieldLabel = (dataProduct: DataProductDTO, subjectFields: CodeItem[] = []) => {
+  const subjectCode = dataProduct.subject_code?.trim();
+  if (!subjectCode) return null;
+
+  const parentCode = getParentCode(subjectCode);
+  return (
+    subjectFields.find((subjectField) => subjectField.code === parentCode && !subjectField.parentCode)?.name ?? null
+  );
+};
+
+export const DataProductSearchHit = ({ dataProduct, subjectFields }: DataProductSearchHitProps) => {
   const dataProductRoute = `${tabsData.DataProducts.route}/${dataProduct.product_short_name}`;
+  const subjectFieldLabel = getSubjectFieldLabel(dataProduct, subjectFields);
+
+  const tagsList = (
+    <>
+      {subjectFieldLabel && <Tag aria-label={localization.subjectArea}>{subjectFieldLabel}</Tag>}
+      {dataProduct.product_type && <Tag>{localizeDataProductType(dataProduct.product_type)}</Tag>}
+    </>
+  );
 
   return (
     <SearchHit
       href={dataProductRoute}
       title={dataProduct.title ?? dataProduct.product_short_name ?? ''}
-      tagsList={dataProduct.product_type && <Tag>{localizeDataProductType(dataProduct.product_type)}</Tag>}
+      tagsList={tagsList}
     />
   );
 };
