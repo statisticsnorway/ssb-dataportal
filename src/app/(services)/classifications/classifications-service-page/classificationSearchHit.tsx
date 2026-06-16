@@ -22,7 +22,8 @@ const ClassificationSearchHit = ({ classification }: SearchHitProps) => {
 
   const classificationRoute = `${tabsData.Classifications.route}/${classification?.id}`;
   const subjectCode = getSubjectCodeByFamilyId(classification?.classificationFamilyId);
-  const subjectLabel = subjectFields.find((field) => String(field.code) === subjectCode)?.name;
+  const subjectField = subjectFields.find((field) => String(field.code) === subjectCode);
+  const subjectLabel = subjectField?.name ? String(subjectField.name) : undefined;
 
   return (
     <SearchHit
