@@ -25,4 +25,5 @@ export const SUBJECT_FIELD_BY_CODE: Record<string, number[]> = {
   va: [22],
   vt: [23],
   vf: [24],
+  zm: [25],
 };
