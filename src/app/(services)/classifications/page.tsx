@@ -80,6 +80,7 @@ export default async function Classifications({
       classificationsPromise={classificationsPromise}
       subjectFieldsPromise={subjectFieldsPromise}
       searchResultPromise={searchResultPromise}
+      isSearchActive={Boolean(params.q?.toString().trim())}
     />
   );
 }

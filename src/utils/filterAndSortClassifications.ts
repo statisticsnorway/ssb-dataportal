@@ -27,8 +27,8 @@ export function mapSearchResultsToClassifications(
     classifications.filter((c) => c.id != null).map((c) => [String(c.id), c] as const),
   );
   const getScore = (item: SearchResultResource): number => {
-    const score = (item as { searchScore?: number | null }).searchScore;
-    return typeof score === 'number' ? score : Number.NEGATIVE_INFINITY;
+    const score = item.searchScore;
+    return typeof score === 'number' && Number.isFinite(score) ? score : Number.POSITIVE_INFINITY;
   };
 
   const sortedSearchResults = [...searchResults]

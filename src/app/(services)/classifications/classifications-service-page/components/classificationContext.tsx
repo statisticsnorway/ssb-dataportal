@@ -11,6 +11,7 @@ interface ClassificationContextValue {
   selectedClassificationTypes: string[];
   sortOption: SortTypes;
   searchQuery: string;
+  isSearchActive: boolean;
 }
 
 const ClassificationContext = createContext<ClassificationContextValue | null>(null);

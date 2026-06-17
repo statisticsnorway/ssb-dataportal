@@ -16,26 +16,31 @@ export const ResultsSection = ({ currentPage, pageSize, onPageChange }: ResultsS
     searchResultPromise,
     classificationsPromise,
     selectedSubjectCodes,
+    subjectFieldsPromise,
     selectedClassificationTypes,
     sortOption,
-    searchQuery,
+    isSearchActive,
   } = useClassificationContext();
 
   const { data: classifications } = use(classificationsPromise);
   const { data: searchResults } = use(searchResultPromise);
+  const { data: subjectFields } = use(subjectFieldsPromise);
 
   /**
    * Maps search results to classifications, preserving the order of search results
    */
+
   const mappedClassifications = useMemo(() => {
-    if (!searchQuery?.trim()) return classifications ?? [];
+    if (!isSearchActive) return classifications ?? [];
 
     return mapSearchResultsToClassifications(classifications ?? [], searchResults ?? [], {
       classificationIdSelector: (item) => item.id,
       languageSelector: (item) => item.language,
       language: 'nb',
     });
-  }, [classifications, searchResults, searchQuery]);
+  }, [classifications, searchResults, isSearchActive]);
+
+  const keepInputOrder = isSearchActive && sortOption === 'titleAsc';
 
   const sortedHits = useMemo(
     () =>
@@ -44,9 +49,11 @@ export const ResultsSection = ({ currentPage, pageSize, onPageChange }: ResultsS
         selectedSubjectCodes,
         sortOption,
         selectedClassificationTypes,
+        keepInputOrder,
       ),
-    [mappedClassifications, selectedSubjectCodes, sortOption, selectedClassificationTypes],
+    [mappedClassifications, selectedSubjectCodes, sortOption, selectedClassificationTypes, keepInputOrder],
   );
+
   const totalHits = sortedHits.length;
   const totalPages = Math.max(1, Math.ceil(totalHits / pageSize));
 
@@ -63,8 +70,9 @@ export const ResultsSection = ({ currentPage, pageSize, onPageChange }: ResultsS
       paginationInfo={{ currentPage, totalPages }}
       renderHit={(hit) => (
         <ClassificationSearchHit
-          key={(hit as ClassificationResource).id ?? (hit as ClassificationResource).name}
+          key={String((hit as ClassificationResource).id)}
           classification={hit as ClassificationResource}
+          subjectFields={subjectFields}
         />
       )}
     />

@@ -25,12 +25,14 @@ interface ClassificationServicePageProps {
   classificationsPromise: Promise<{ data: ClassificationResource[]; error: Error | null }>;
   subjectFieldsPromise: Promise<{ data: CodeItem[]; error: Error | null }>;
   searchResultPromise: Promise<{ data: SearchResultResource[]; error: Error | null }>;
+  isSearchActive: boolean;
 }
 
 const ClassificationsServicePage = ({
   classificationsPromise,
   subjectFieldsPromise,
   searchResultPromise,
+  isSearchActive,
 }: ClassificationServicePageProps) => {
   const pageSize = 8;
   const [queryState, setQueryState] = useQueryStates(
@@ -92,6 +94,7 @@ const ClassificationsServicePage = ({
       selectedClassificationTypes={types}
       sortOption={sort}
       searchQuery={q}
+      isSearchActive={isSearchActive}
     >
       <SearchPage
         tabsId={tabsData.Classifications.id}
