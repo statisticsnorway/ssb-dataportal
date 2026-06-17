@@ -125,7 +125,8 @@ test('Filter by name remove all', async ({ variableDefinitionsPage }) => {
     })
     .fill('Baderom');
   await expect(main).toContainText('1 treff');
-  await variableDefinitionsPage.getByRole('button', { name: `Remove ${localization.button.removeFilter}` }).click();
+
+  await variableDefinitionsPage.getByRole('button', { name: `${localization.button.removeFilter}` }).click();
   await expect(main).toContainText(variables.totalHits);
 });
 
