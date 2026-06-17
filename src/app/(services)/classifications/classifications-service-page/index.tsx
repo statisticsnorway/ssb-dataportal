@@ -33,13 +33,16 @@ const ClassificationsServicePage = ({
   searchResultPromise,
 }: ClassificationServicePageProps) => {
   const pageSize = 8;
-  const [queryState, setQueryState] = useQueryStates({
-    q: parseAsString.withDefault(''),
-    subjects: parseAsArrayOf(parseAsString).withDefault([]),
-    types: parseAsArrayOf(parseAsString).withDefault([]),
-    sort: parseAsStringLiteral(sortTypes).withDefault('titleAsc'),
-    page: parseAsInteger.withDefault(1).withOptions({ clearOnDefault: true }),
-  });
+  const [queryState, setQueryState] = useQueryStates(
+    {
+      q: parseAsString.withDefault(''),
+      subjects: parseAsArrayOf(parseAsString).withDefault([]),
+      types: parseAsArrayOf(parseAsString).withDefault([]),
+      sort: parseAsStringLiteral(sortTypes).withDefault('titleAsc'),
+      page: parseAsInteger.withDefault(1).withOptions({ clearOnDefault: true }),
+    },
+    { shallow: false },
+  );
 
   const { q, page, sort, subjects, types } = queryState;
 
@@ -88,6 +91,7 @@ const ClassificationsServicePage = ({
       selectedSubjectCodes={subjects}
       selectedClassificationTypes={types}
       sortOption={sort}
+      searchQuery={q}
     >
       <SearchPage
         tabsId={tabsData.Classifications.id}

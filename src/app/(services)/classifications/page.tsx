@@ -68,7 +68,7 @@ export default async function Classifications({
       return { data: [], error };
     });
 
-  const searchResultPromise = fetchSearchResult({ query: params.query?.toString() ?? '', includeCodelists: true })
+  const searchResultPromise = fetchSearchResult({ query: params.q?.toString() ?? '', includeCodelists: true })
 
     .then((data) => ({ data, error: null }))
 

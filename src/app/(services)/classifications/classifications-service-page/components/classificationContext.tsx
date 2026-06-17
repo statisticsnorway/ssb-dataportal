@@ -10,6 +10,7 @@ interface ClassificationContextValue {
   selectedSubjectCodes: string[];
   selectedClassificationTypes: string[];
   sortOption: SortTypes;
+  searchQuery: string;
 }
 
 const ClassificationContext = createContext<ClassificationContextValue | null>(null);

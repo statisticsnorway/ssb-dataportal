@@ -12,29 +12,27 @@ interface ResultsSectionProps {
 }
 
 export const ResultsSection = ({ currentPage, pageSize, onPageChange }: ResultsSectionProps) => {
-  const { searchResultPromise, classificationsPromise, selectedSubjectCodes, selectedClassificationTypes, sortOption } =
-    useClassificationContext();
+  const {
+    searchResultPromise,
+    classificationsPromise,
+    selectedSubjectCodes,
+    selectedClassificationTypes,
+    sortOption,
+    searchQuery,
+  } = useClassificationContext();
 
   const { data: classifications } = use(classificationsPromise);
   const { data: searchResults } = use(searchResultPromise);
 
-  const mappedClassifications = useMemo(
-    () =>
-      mapSearchResultsToClassifications(classifications ?? [], searchResults ?? [], {
-        classificationIdSelector: (item) => {
-          const rec = item as unknown as Record<string, unknown>;
-          const id = rec.classificationId ?? rec.id;
-          return typeof id === 'string' || typeof id === 'number' ? id : null;
-        },
-        languageSelector: (item) => {
-          const rec = item as unknown as Record<string, unknown>;
-          const language = rec.language;
-          return typeof language === 'string' ? language : null;
-        },
-        language: 'nb',
-      }),
-    [classifications, searchResults],
-  );
+  const mappedClassifications = useMemo(() => {
+    if (!searchQuery?.trim()) return classifications ?? [];
+
+    return mapSearchResultsToClassifications(classifications ?? [], searchResults ?? [], {
+      classificationIdSelector: (item) => item.id,
+      languageSelector: (item) => item.language,
+      language: 'nb',
+    });
+  }, [classifications, searchResults, searchQuery]);
 
   const sortedHits = useMemo(
     () =>
@@ -46,7 +44,6 @@ export const ResultsSection = ({ currentPage, pageSize, onPageChange }: ResultsS
       ),
     [mappedClassifications, selectedSubjectCodes, sortOption, selectedClassificationTypes],
   );
-
   const totalHits = sortedHits.length;
   const totalPages = Math.max(1, Math.ceil(totalHits / pageSize));
 

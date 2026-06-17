@@ -23,6 +23,10 @@ export function mapSearchResultsToClassifications(
       .filter((id): id is string | number => id != null)
       .map(String),
   );
+  // biome-ignore lint/suspicious/noConsole: <explanation>
+  console.log(allowedIds);
+  // biome-ignore lint/suspicious/noConsole: <explanation>
+  console.log(searchResults);
 
   return classifications.filter((c) => c.id != null && allowedIds.has(String(c.id)));
 }
