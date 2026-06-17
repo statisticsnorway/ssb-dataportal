@@ -80,14 +80,14 @@ export function filterAndSortClassifications(
   sortOption: SortTypes,
   classificationTypes: string[] = [],
 ): ClassificationResource[] {
+  const withName = classifications.filter((c) => c.name);
+
   const bySubject =
     subjectCodes.length === 0
-      ? classifications
+      ? withName
       : (() => {
           const familyIds = new Set(subjectCodes.flatMap((code) => SUBJECT_FIELD_BY_CODE[code] ?? []));
-          return classifications.filter(
-            (c) => c.classificationFamilyId != null && familyIds.has(c.classificationFamilyId),
-          );
+          return withName.filter((c) => c.classificationFamilyId != null && familyIds.has(c.classificationFamilyId));
         })();
 
   const byType =
