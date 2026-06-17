@@ -4,6 +4,7 @@ import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { parseAsArrayOf, parseAsString, useQueryStates } from 'nuqs';
 import { useMemo } from 'react';
 import { CheckboxFilter, FiltersPanel, SelectFilter } from '@/components/filters';
+import { FilterTagsSection } from '@/components/filters/filter-tags-section';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { type DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
 import type { CodeItem } from '@/libs/data-access/klass/models';
@@ -109,6 +110,28 @@ export const DataProductsServicePage = ({
     [productTypeFilters, productTypes],
   );
 
+  const filterTags = useMemo<FilterItem[]>(() => {
+    const tags = [...selectedProductTypeFilters];
+    if (subject && subject !== ALL_SUBJECT_FIELDS) {
+      const field = subjectFields.find((f) => String(f.code) === subject);
+      tags.push({ value: subject, label: field ? String(field.name) : subject });
+    }
+    return tags;
+  }, [selectedProductTypeFilters, subject, subjectFields]);
+
+  const removeFilter = (tag: FilterItem) => {
+    const nextProductTypes = productTypes.filter((v) => v !== tag.value);
+    const nextSubject = tag.value === subject ? ALL_SUBJECT_FIELDS : subject;
+    void setQueryState({
+      productTypes: nextProductTypes.length > 0 ? nextProductTypes : null,
+      subject: nextSubject || null,
+    });
+  };
+
+  const clearAll = () => {
+    void setQueryState({ productTypes: null, subject: null });
+  };
+
   const filteredDataProducts = useMemo(() => {
     const selectedProductTypes = new Set(productTypes);
     return dataProducts.filter((dataProduct) => {
@@ -137,10 +160,11 @@ export const DataProductsServicePage = ({
 
   return (
     <SearchPage
+      banner={pageInfo}
       tabsId={tabsData.DataProducts.id}
       header={localization.tabs.dataProducts}
       totalHits={filteredDataProducts.length}
-      infoContent={pageInfo}
+      infoContent={<FilterTagsSection tags={filterTags} onRemoveTag={removeFilter} onClearAll={clearAll} />}
       asideContent={
         <FiltersPanel>
           <CheckboxFilter

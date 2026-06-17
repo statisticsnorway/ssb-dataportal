@@ -6,7 +6,7 @@ import { SortTypes } from '@/types/sort';
 import styles from './search-page.module.css';
 
 interface SearchPageProps {
-  banner?: boolean;
+  banner?: ReactNode;
   infoContent?: ReactNode;
   asideContent?: ReactNode;
   searchResult?: ReactElement;
@@ -61,7 +61,7 @@ const SearchPage: FC<SearchPageProps> = ({
       </header>
       <TabsPanel id={tabsId} value={String(tabsId)} aria-labelledby={tabsId}>
         <div className={`${styles.pageContainer} container`}>
-          {banner && (
+          {banner === true ? (
             <Alert data-color='info' style={{ marginBottom: '1rem' }}>
               <Heading
                 className='infoHeadingSecondary'
@@ -79,7 +79,9 @@ const SearchPage: FC<SearchPageProps> = ({
                 linkText={`${' '}${localization.migration.linkText}`}
               />
             </Alert>
-          )}
+          ) : banner ? (
+            <div style={{ marginBottom: '1rem' }}>{banner}</div>
+          ) : null}
           <div className={styles.searchHitsContainerWrapper}>
             {asideContent ? (
               <aside className={styles.filterSection} aria-label='Filters'>
