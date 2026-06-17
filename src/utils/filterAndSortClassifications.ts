@@ -1,4 +1,5 @@
 import { ClassificationResource, CodeItem } from '@/libs/data-access/klass';
+import { clientLogger } from '@/libs/logger/client-logger';
 import { CLASSIFICATION_TYPE_CATEGORY, ClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
@@ -80,6 +81,10 @@ export function filterAndSortClassifications(
   sortOption: SortTypes,
   classificationTypes: string[] = [],
 ): ClassificationResource[] {
+  const withoutName = classifications.filter((c) => !c.name);
+  for (const c of withoutName) {
+    clientLogger.info(`classification with id: ${c.id} hidden`);
+  }
   const withName = classifications.filter((c) => c.name);
 
   const familyIds = new Set(subjectCodes.flatMap((code) => SUBJECT_FIELD_BY_CODE[code] ?? []));
