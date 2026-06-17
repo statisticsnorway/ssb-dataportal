@@ -216,6 +216,7 @@ export const nb = {
     typeFilterLabel: 'Dataprodukttype',
     unknown: 'Ukjent produkttype',
   },
+  region: 'Region',
   references: 'Referanser',
 
   search: {

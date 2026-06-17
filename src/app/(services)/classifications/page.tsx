@@ -7,6 +7,7 @@ import { localization } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import { fetchStaticSubjectFields } from '@/utils/mock-data';
+import { regionFamily } from '@/utils/subjectFieldsMapping';
 import { tabsData } from '../tabs';
 import ClassificationsServicePage from './classifications-service-page';
 
@@ -51,10 +52,13 @@ export default async function Classifications({
   }
 
   const subjectFieldsPromise = fetchStaticSubjectFields()
-    .then((data) => ({ data, error: null }))
+    .then((data) => ({
+      data: data.some((field) => String(field.code) === regionFamily.code) ? data : [...data, regionFamily],
+      error: null,
+    }))
     .catch((error) => {
       logger.error({ error: sanitizeError(error) }, 'Failed to load subject fields');
-      return { data: [], error };
+      return { data: [regionFamily], error };
     });
 
   const classificationsPromise = fetchAllClassifications()
