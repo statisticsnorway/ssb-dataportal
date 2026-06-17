@@ -4,6 +4,20 @@ import { SortTypes } from '@/types/sort';
 import { getParentCode } from './functions';
 import { sortAscending, sortDateStringsDescending, sortDescending } from './sort';
 
+const getSearchableNames = (variable: RenderedView) => [
+  (variable.name ?? '').toLowerCase(),
+  (variable.short_name ?? '').toLowerCase(),
+];
+
+const getSearchPriority = (variable: RenderedView, trimmedSearch: string) => {
+  const names = getSearchableNames(variable);
+  if (names.includes(trimmedSearch)) return 0;
+  if (names.some((name) => name.startsWith(trimmedSearch))) return 1;
+  if (names.some((name) => name.includes(trimmedSearch))) return 2;
+
+  return Number.POSITIVE_INFINITY;
+};
+
 export function filterAndSortVariables(
   variables: RenderedView[] | undefined,
   searchTerm: string | undefined,
@@ -27,7 +41,23 @@ export function filterAndSortVariables(
 
   const matchesSearch = (v: RenderedView) => {
     if (!trimmedSearch) return true;
-    return (v.name ?? '').toLowerCase().includes(trimmedSearch);
+    return getSearchPriority(v, trimmedSearch) !== Number.POSITIVE_INFINITY;
+  };
+
+  const sortBySelectedOption = (a: RenderedView, b: RenderedView) => {
+    switch (sortOption) {
+      case 'titleAsc':
+        return sortAscending(a.name || '', b.name || '');
+      case 'titleDesc':
+        return sortDescending(a.name || '', b.name || '');
+      case 'lastChanged':
+        return sortDateStringsDescending(
+          a.last_updated_at.toISOString().split('T')[0],
+          b.last_updated_at.toISOString().split('T')[0],
+        );
+      default:
+        throw sortOption satisfies never;
+    }
   };
 
   return [...variables]
@@ -35,18 +65,7 @@ export function filterAndSortVariables(
     .filter(matchesStatus)
     .filter(matchesSearch)
     .sort((a, b) => {
-      switch (sortOption) {
-        case 'titleAsc':
-          return sortAscending(a.name || '', b.name || '');
-        case 'titleDesc':
-          return sortDescending(a.name || '', b.name || '');
-        case 'lastChanged':
-          return sortDateStringsDescending(
-            a.last_updated_at.toISOString().split('T')[0],
-            b.last_updated_at.toISOString().split('T')[0],
-          );
-        default:
-          throw sortOption satisfies never;
-      }
+      if (!trimmedSearch) return sortBySelectedOption(a, b);
+      return getSearchPriority(a, trimmedSearch) - getSearchPriority(b, trimmedSearch) || sortBySelectedOption(a, b);
     });
 }
