@@ -64,17 +64,14 @@ export default async function Classifications({
   const classificationsPromise = fetchAllClassifications()
     .then((data) => ({ data, error: null }))
     .catch((error) => {
-      logger.error({ error: error }, 'Failed to load classifications');
+      logger.error({ error: sanitizeError(error) }, 'Failed to load classifications');
       return { data: [], error };
     });
 
   const searchResultPromise = fetchSearchResult({ query: params.q?.toString() ?? '', includeCodelists: true })
-
     .then((data) => ({ data, error: null }))
-
     .catch((error) => {
       logger.error({ error: sanitizeError(error) }, 'Failed to load search results');
-
       return { data: [], error };
     });
 
