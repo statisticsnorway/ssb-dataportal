@@ -124,7 +124,7 @@ select#sortVariables.ds-input {
   padding: 0.5rem;
   border-radius: 5px;
   border-color: var(--ssb-dark-color-2);
-  width: 200px;
+  width: 160px;
   max-width: 100%;
 }
 
@@ -213,7 +213,7 @@ button {
 
 @media (min-width: 768px) {
   select#sortVariables.ds-input {
-    width: 300px;
+    width: 160px;
     max-width: 100%;
   }
 }

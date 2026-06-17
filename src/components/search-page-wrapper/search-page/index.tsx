@@ -59,7 +59,6 @@ const SearchPage: FC<SearchPageProps> = ({
           {header}
         </Heading>
       </header>
-
       <TabsPanel id={tabsId} value={String(tabsId)} aria-labelledby={tabsId}>
         <div className={`${styles.pageContainer} container`}>
           {banner && (
@@ -81,7 +80,6 @@ const SearchPage: FC<SearchPageProps> = ({
               />
             </Alert>
           )}
-          <section aria-label='Tags list'>{infoContent}</section>
           <div className={styles.searchHitsContainerWrapper}>
             {asideContent ? (
               <aside className={styles.filterSection} aria-label='Filters'>
@@ -90,8 +88,11 @@ const SearchPage: FC<SearchPageProps> = ({
             ) : null}
             <div className={styles.mainSection}>
               <div className={styles.hitsAndSort}>
-                <p className={styles.numHits}>{hitsLabel(totalHits)}</p>
-                {controlsContent}
+                <section aria-label='Tags list'>{infoContent}</section>
+                <div className={styles.hitsSortGroup}>
+                  <p className={styles.numHits}>{hitsLabel(totalHits)}</p>
+                  {controlsContent}
+                </div>
               </div>
               {searchResult}
             </div>

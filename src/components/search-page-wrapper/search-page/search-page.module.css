@@ -32,18 +32,29 @@
 .numHits {
   margin: 0;
   margin-left: 0.2rem;
+  font-weight: 600;
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .hitsAndSort {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
-  margin-top: 0.5rem; /* add space above the hits/sort row */
+  align-items: center;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  min-height: 2rem;
 }
 
-.hitsAndSort > p {
-  align-self: flex-end;
-  font-weight: 600;
+.hitsSortGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 0 0 auto;
+}
+
+.hitsSortGroup > * {
+  margin: 0;
 }
 
 .filterSection {
@@ -51,8 +62,12 @@
   flex-direction: column;
   gap: var(--medium-gap);
   width: 100%;
-  margin-top: 0.8rem;
+  padding-top: 19px;
   margin-bottom: 1rem;
+}
+
+.filterSection > :first-child {
+  margin-top: 0;
 }
 
 @media (min-width: 768px) {

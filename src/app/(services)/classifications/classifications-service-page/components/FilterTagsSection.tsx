@@ -1,11 +1,11 @@
 import { Chip } from '@digdir/designsystemet-react';
 import { use, useMemo } from 'react';
-import styles from '@/components/tag-components/filter-tags/filter-tags.module.css';
 import { localization } from '@/libs/language';
 import { CLASSIFICATION_TYPE_CATEGORY } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
 import { mapSelectedSubjectFilters } from '@/utils/filterAndSortClassifications';
 import { useClassificationContext } from './classificationContext';
+import styles from './filterTags.module.css';
 
 interface FilterTagsSectionProps {
   onClose: (filter: FilterItem) => void;
