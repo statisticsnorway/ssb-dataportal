@@ -4,17 +4,12 @@ import { tabsData } from '@/app/(services)/tabs';
 import { SearchHit } from '@/components/search-hit';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
-import { SUBJECT_FIELD_BY_CODE } from '@/utils/subjectFieldsMapping';
+import { getSubjectCodeByFamilyId } from '@/utils/subjectFieldsMapping';
 import { useClassificationContext } from './components/classificationContext';
 
 interface SearchHitProps {
   classification?: ClassificationResource;
 }
-
-const getSubjectCodeByFamilyId = (familyId?: number) => {
-  if (familyId == null) return undefined;
-  return Object.entries(SUBJECT_FIELD_BY_CODE).find(([, familyIds]) => familyIds.includes(familyId))?.[0];
-};
 
 const ClassificationSearchHit = ({ classification }: SearchHitProps) => {
   const { subjectFieldsPromise } = useClassificationContext();
