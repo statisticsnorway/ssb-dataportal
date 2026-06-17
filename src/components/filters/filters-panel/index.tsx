@@ -5,7 +5,7 @@ interface FiltersPanelProps {
   heading: string;
   children: ReactNode;
 }
-//        {localization.search.filter.label}
+
 /**
  * FiltersPanel component renders its children inside a panel.
  *

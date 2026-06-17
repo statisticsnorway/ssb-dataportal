@@ -6,11 +6,23 @@ import { sortAscending, sortDatesDescendingSafe, sortDescending } from '@/utils/
 import { SUBJECT_FIELD_BY_CODE } from '@/utils/subjectFieldsMapping';
 
 /**
- * Maps search results to classifications based on the provided options.
- * @param classifications
- * @param searchResults
- * @param options
- * @returns
+ * Maps search results to unique `ClassificationResource` entries.
+ *
+ * The function:
+ * - optionally filters search results by language,
+ * - sorts results by `searchScore` descending (highest first),
+ * - resolves each result to a classification via `classificationIdSelector`,
+ * - removes duplicates by classification id while preserving best-score order.
+ *
+ * Only classifications present in the `classifications` input are returned.
+ *
+ * @param classifications Available classifications to map to.
+ * @param searchResults Raw search results from search.
+ * @param options Mapping options.
+ * @param options.classificationIdSelector Extracts classification id from a search result.
+ * @param options.languageSelector Optional language extractor used for filtering.
+ * @param options.language Language to keep when `languageSelector` is provided. Defaults to `'nb'`.
+ * @returns Mapped and de-duplicated classifications ordered by descending relevance.
  */
 export function mapSearchResultsToClassifications(
   classifications: ClassificationResource[],
