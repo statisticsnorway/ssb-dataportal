@@ -5,6 +5,13 @@ import { SortTypes } from '@/types/sort';
 import { sortAscending, sortDatesDescendingSafe, sortDescending } from '@/utils/sort';
 import { SUBJECT_FIELD_BY_CODE } from '@/utils/subjectFieldsMapping';
 
+/**
+ * Maps search results to classifications based on the provided options.
+ * @param classifications
+ * @param searchResults
+ * @param options
+ * @returns
+ */
 export function mapSearchResultsToClassifications(
   classifications: ClassificationResource[],
   searchResults: SearchResultResource[],
@@ -16,19 +23,36 @@ export function mapSearchResultsToClassifications(
 ): ClassificationResource[] {
   const { classificationIdSelector, languageSelector, language = 'nb' } = options;
 
-  const allowedIds = new Set(
-    searchResults
-      .filter((item) => (languageSelector ? languageSelector(item) === language : true))
-      .map((item) => classificationIdSelector(item))
-      .filter((id): id is string | number => id != null)
-      .map(String),
+  const classificationsById = new Map(
+    classifications.filter((c) => c.id != null).map((c) => [String(c.id), c] as const),
   );
-  // biome-ignore lint/suspicious/noConsole: <explanation>
-  console.log(allowedIds);
-  // biome-ignore lint/suspicious/noConsole: <explanation>
-  console.log(searchResults);
+  const getScore = (item: SearchResultResource): number => {
+    const score = (item as { searchScore?: number | null }).searchScore;
+    return typeof score === 'number' ? score : Number.NEGATIVE_INFINITY;
+  };
 
-  return classifications.filter((c) => c.id != null && allowedIds.has(String(c.id)));
+  const sortedSearchResults = [...searchResults]
+    .filter((item) => (languageSelector ? languageSelector(item) === language : true))
+    .sort((a, b) => getScore(b) - getScore(a));
+
+  const seen = new Set<string>();
+  const mapped: ClassificationResource[] = [];
+
+  for (const result of sortedSearchResults) {
+    const rawId = classificationIdSelector(result);
+    if (rawId == null) continue;
+
+    const id = String(rawId);
+    if (seen.has(id)) continue;
+
+    const classification = classificationsById.get(id);
+    if (!classification) continue;
+
+    seen.add(id);
+    mapped.push(classification);
+  }
+
+  return mapped;
 }
 
 export function mapSelectedSubjectFilters(subjectCodes: string[], subjectFields: CodeItem[]): FilterItem[] {
@@ -105,6 +129,7 @@ export function filterAndSortClassifications(
   subjectCodes: string[],
   sortOption: SortTypes,
   classificationTypes: string[] = [],
+  keepInputOrder = false,
 ): ClassificationResource[] {
   const bySubject =
     subjectCodes.length === 0
@@ -121,6 +146,7 @@ export function filterAndSortClassifications(
       ? bySubject
       : bySubject.filter((c) => c.classificationType != null && classificationTypes.includes(c.classificationType));
 
+  if (keepInputOrder) return byType;
   const comparators: Record<SortTypes, (a: ClassificationResource, b: ClassificationResource) => number> = {
     titleAsc: (a, b) => sortAscending(a.name, b.name),
     titleDesc: (a, b) => sortDescending(a.name, b.name),
