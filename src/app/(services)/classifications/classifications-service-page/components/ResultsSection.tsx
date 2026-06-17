@@ -24,6 +24,9 @@ export const ResultsSection = ({ currentPage, pageSize, onPageChange }: ResultsS
   const { data: classifications } = use(classificationsPromise);
   const { data: searchResults } = use(searchResultPromise);
 
+  /**
+   * Maps search results to classifications, preserving the order of search results
+   */
   const mappedClassifications = useMemo(() => {
     if (!searchQuery?.trim()) return classifications ?? [];
 
