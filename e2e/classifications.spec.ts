@@ -11,7 +11,6 @@ test('Classifications page renders hits and sort control', async ({ classificati
 });
 
 test('Filter by subject field displays tag (listitem) with close button', async ({ classificationsPage }) => {
-  const main = classificationsPage.getByRole('main');
   const checkbox = classificationsPage.getByRole('checkbox', { name: arbeidOgLonn });
   await checkCheckbox(checkbox);
 
@@ -23,6 +22,14 @@ test('Filter by subject field displays tag (listitem) with close button', async 
   await removeButton.click();
 
   await expect(classificationsPage).not.toHaveURL('subjects=');
+});
+
+test('Classification family "Region" is filterable', async ({ classificationsPage }) => {
+  const checkbox = classificationsPage.getByRole('checkbox', { name: 'Region' });
+  await checkCheckbox(checkbox);
+
+  const filterTag = classificationsPage.getByRole('listitem').filter({ hasText: 'Region' });
+  await expect(filterTag).toBeVisible();
 });
 
 test('Select more than one filter displays a "remove all" tag', async ({ classificationsPage }) => {
@@ -56,8 +63,8 @@ test('Sort classifications', async ({ classificationsPage }) => {
 });
 
 test.describe('Classifications - pagination', () => {
-  test('Displays 9 hits on first page and active page is 1', async ({ classificationsPage }) => {
-    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(9);
+  test('Displays 12 hits on first page and active page is 1', async ({ classificationsPage }) => {
+    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(12);
     await expect(classificationsPage.getByTestId('page-active')).toHaveText('1');
   });
 });
@@ -99,7 +106,7 @@ test.describe('Classifications - type filter', () => {
     await classificationsPage.getByRole('checkbox', { name: 'Klassifikasjon' }).check();
 
     await expect(classificationsPage).toHaveURL('classifications?types=Klassifikasjon');
-    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(7);
+    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(10);
 
     const filterTag = classificationsPage.getByRole('listitem').filter({ hasText: 'Klassifikasjon' });
     await expect(filterTag).toBeVisible();

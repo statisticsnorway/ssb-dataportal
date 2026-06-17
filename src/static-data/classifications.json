@@ -21,6 +21,18 @@
       }
     },
     {
+      "name": "Standard for landkoder (SSB-3)",
+      "id": 91,
+      "classificationType": "Klassifikasjon",
+      "classificationFamilyId": 15,
+      "lastModified": "2026-03-17T10:25:54.000+0000",
+      "_links": {
+        "self": {
+          "href": "/classifications/91"
+        }
+      }
+    },
+    {
       "name": "Standard for kjønn",
       "id": 2,
       "classificationType": "Klassifikasjon",
@@ -71,6 +83,30 @@
       "classificationFamilyId": 5,
       "lastModified": "2026-04-07T10:00:00Z",
       "_links": { "self": { "href": "/classifications/910" } }
+    },
+    {
+      "name": "Standard for seksjonsinndeling",
+      "id": 83,
+      "classificationType": "Klassifikasjon",
+      "classificationFamilyId": 25,
+      "lastModified": "2026-06-07T19:05:46.000+0000",
+      "_links": {
+        "self": {
+          "href": "/classifications/83"
+        }
+      }
+    },
+    {
+      "name": "Standard for måneder",
+      "id": 747,
+      "classificationType": "Klassifikasjon",
+      "classificationFamilyId": 25,
+      "lastModified": "2024-08-07T08:23:26.000+0000",
+      "_links": {
+        "self": {
+          "href": "/classifications/747"
+        }
+      }
     },
     {
       "name": "Standard for næringstilknytning",
