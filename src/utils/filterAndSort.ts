@@ -11,7 +11,7 @@ const getSearchableNames = (variable: RenderedView) => [
 
 const getSearchPriority = (variable: RenderedView, trimmedSearch: string) => {
   const names = getSearchableNames(variable);
-  if (names.some((name) => name === trimmedSearch)) return 0;
+  if (names.includes(trimmedSearch)) return 0;
   if (names.some((name) => name.startsWith(trimmedSearch))) return 1;
   if (names.some((name) => name.includes(trimmedSearch))) return 2;
 
