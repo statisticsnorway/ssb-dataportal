@@ -27,13 +27,12 @@ interface ClassificationServicePageProps {
   searchResultPromise: Promise<{ data: SearchResultResource[]; error: Error | null }>;
 }
 
-const PAGE_SIZE = 20;
-
 const ClassificationsServicePage = ({
   classificationsPromise,
   subjectFieldsPromise,
   searchResultPromise,
 }: ClassificationServicePageProps) => {
+  const pageSize = 8;
   const [queryState, setQueryState] = useQueryStates({
     q: parseAsString.withDefault(''),
     subjects: parseAsArrayOf(parseAsString).withDefault([]),
@@ -129,7 +128,7 @@ const ClassificationsServicePage = ({
         }
         searchResult={
           <Suspense fallback={<Spinner aria-label={localization.loading.results} />}>
-            <ResultsSection currentPage={page} pageSize={PAGE_SIZE} onPageChange={handlePageChange} />
+            <ResultsSection currentPage={page} pageSize={pageSize} onPageChange={handlePageChange} />
           </Suspense>
         }
       />

@@ -1,9 +1,31 @@
-import { ClassificationResource, CodeItem } from '@/libs/data-access/klass';
+import { ClassificationResource, CodeItem, SearchResultResource } from '@/libs/data-access/klass';
 import { CLASSIFICATION_TYPE_CATEGORY, ClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
 import { sortAscending, sortDatesDescendingSafe, sortDescending } from '@/utils/sort';
 import { SUBJECT_FIELD_BY_CODE } from '@/utils/subjectFieldsMapping';
+
+export function mapSearchResultsToClassifications(
+  classifications: ClassificationResource[],
+  searchResults: SearchResultResource[],
+  options: {
+    classificationIdSelector: (item: SearchResultResource) => string | number | null | undefined;
+    languageSelector?: (item: SearchResultResource) => string | null | undefined;
+    language?: string;
+  },
+): ClassificationResource[] {
+  const { classificationIdSelector, languageSelector, language = 'nb' } = options;
+
+  const allowedIds = new Set(
+    searchResults
+      .filter((item) => (languageSelector ? languageSelector(item) === language : true))
+      .map((item) => classificationIdSelector(item))
+      .filter((id): id is string | number => id != null)
+      .map(String),
+  );
+
+  return classifications.filter((c) => c.id != null && allowedIds.has(String(c.id)));
+}
 
 export function mapSelectedSubjectFilters(subjectCodes: string[], subjectFields: CodeItem[]): FilterItem[] {
   return subjectCodes.map((value) => {
