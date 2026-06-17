@@ -4,6 +4,7 @@ import { Spinner } from '@digdir/designsystemet-react';
 import { parseAsArrayOf, parseAsInteger, parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs';
 import { Suspense, use, useMemo } from 'react';
 import { useAuthContext } from '@/app/authContext';
+import { FilterTagsSection } from '@/components/filters/filter-tags-section';
 import { FiltersPanel } from '@/components/filters/filters-panel';
 import { TextFilter } from '@/components/filters/text-filter';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
@@ -14,7 +15,6 @@ import { localization } from '@/libs/language/src/localization';
 import { FilterItem } from '@/types/filters';
 import { sortTypes } from '@/types/sort';
 import { tabsData } from '../../tabs';
-import { FilterTagsSection } from './components/FilterTagsSection';
 import { ResultsCount } from './components/ResultsCount';
 import { ResultsSection } from './components/ResultsSection';
 import { StatusFiltersSection } from './components/StatusFiltersSection';
@@ -71,6 +71,8 @@ const VariableDefinitionsServicePage = ({
     [subjects, subjectFields],
   );
 
+  const filterTags = useMemo(() => [...statusFilters, ...subjectFilters], [statusFilters, subjectFilters]);
+
   const toggleStatus = (filter: FilterItem) => {
     const nextStatus = status.includes(filter.value)
       ? status.filter((value) => value !== filter.value)
@@ -102,10 +104,10 @@ const VariableDefinitionsServicePage = ({
     element?.scrollIntoView({ behavior: 'instant', block: 'start' });
   };
 
-  const removeFilter = (filter: FilterItem) => {
+  const removeFilter = (tag: FilterItem) => {
     void setQueryState({
-      status: status.filter((value) => value !== filter.value),
-      subjects: subjects.filter((value) => value !== filter.value),
+      status: status.filter((value) => value !== tag.value),
+      subjects: subjects.filter((value) => value !== tag.value),
       page: 1,
     });
   };
@@ -161,8 +163,10 @@ const VariableDefinitionsServicePage = ({
         infoContent={
           <Suspense fallback={null}>
             <FilterTagsSection
-              onClose={removeFilter}
+              tags={filterTags}
+              onRemoveTag={removeFilter}
               onClearAll={clearAll}
+              searchTerm={q}
               onClearSearch={() =>
                 void setQueryState({
                   q: null,

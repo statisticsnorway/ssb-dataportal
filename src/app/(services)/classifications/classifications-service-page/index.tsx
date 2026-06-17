@@ -2,10 +2,12 @@
 
 import { Spinner } from '@digdir/designsystemet-react';
 import { parseAsArrayOf, parseAsInteger, parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs';
-import { Suspense } from 'react';
+import { Suspense, use, useMemo } from 'react';
 import { FiltersPanel } from '@/components/filters';
+import { FilterTagsSection } from '@/components/filters/filter-tags-section';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortFields } from '@/components/sort-fields';
+
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { CodeItem } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
@@ -15,7 +17,6 @@ import { SortTypes, sortTypes } from '@/types/sort';
 import { tabsData } from '../../tabs';
 import { ClassificationTypeFiltersSection } from './components/ClassificationTypeFiltersSection';
 import { ClassificationProvider } from './components/classificationContext';
-import { FilterTagsSection } from './components/FilterTagsSection';
 import { ResultsCount } from './components/ResultsCount';
 import { ResultsSection } from './components/ResultsSection';
 import { SubjectFiltersSection, SubjectFiltersSectionFallback } from './components/SubjectFiltersSection';
@@ -39,6 +40,19 @@ const ClassificationsServicePage = ({
   });
 
   const { page, sort, subjects, types } = queryState;
+
+  const { data: subjectFields } = use(subjectFieldsPromise);
+
+  const filterTags = useMemo<FilterItem[]>(
+    () => [
+      ...subjects.map((code) => {
+        const subject = subjectFields?.find((item) => String(item.code) === code);
+        return { value: code, label: subject ? String(subject.name) : code };
+      }),
+      ...types.map((code) => ({ value: code, label: code })),
+    ],
+    [subjects, subjectFields, types],
+  );
 
   const updateQuery = (update: Parameters<typeof setQueryState>[0]) =>
     setQueryState(update).catch((error) => {
@@ -66,10 +80,10 @@ const ClassificationsServicePage = ({
     updateQuery({ types: nextTypes.length > 0 ? nextTypes : null, page: 1 });
   };
 
-  const removeFilter = (filter: FilterItem) => {
+  const removeFilter = (tag: FilterItem) => {
     updateQuery({
-      types: types.filter((v) => v !== filter.value),
-      subjects: subjects.filter((v) => v !== filter.value),
+      types: types.filter((v) => v !== tag.value),
+      subjects: subjects.filter((v) => v !== tag.value),
       page: 1,
     });
   };
@@ -104,7 +118,7 @@ const ClassificationsServicePage = ({
         }
         infoContent={
           <Suspense fallback={null}>
-            <FilterTagsSection onClose={removeFilter} onClearAll={clearAll} />
+            <FilterTagsSection tags={filterTags} onRemoveTag={removeFilter} onClearAll={clearAll} />
           </Suspense>
         }
         controlsContent={
