@@ -1,20 +1,16 @@
 import { Tag } from '@digdir/designsystemet-react';
-import { use } from 'react';
 import { tabsData } from '@/app/(services)/tabs';
 import { SearchHit } from '@/components/search-hit';
-import { ClassificationResource } from '@/libs/data-access/klass';
+import { ClassificationResource, CodeItem } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import { getSubjectCodeByFamilyId } from '@/utils/subjectFieldsMapping';
-import { useClassificationContext } from './components/classificationContext';
 
 interface SearchHitProps {
   classification?: ClassificationResource;
+  subjectFields: CodeItem[];
 }
 
-const ClassificationSearchHit = ({ classification }: SearchHitProps) => {
-  const { subjectFieldsPromise } = useClassificationContext();
-  const { data: subjectFields } = use(subjectFieldsPromise);
-
+const ClassificationSearchHit = ({ classification, subjectFields }: SearchHitProps) => {
   const classificationRoute = `${tabsData.Classifications.route}/${classification?.id}`;
   const subjectCode = getSubjectCodeByFamilyId(classification?.classificationFamilyId);
   const subjectField = subjectFields.find((field) => String(field.code) === subjectCode);
