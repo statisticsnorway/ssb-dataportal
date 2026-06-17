@@ -16,6 +16,7 @@ import { tabsData } from '../../tabs';
 import { ClassificationTypeFiltersSection } from './components/ClassificationTypeFiltersSection';
 import { ClassificationProvider } from './components/classificationContext';
 import { FilterTagsSection } from './components/FilterTagsSection';
+import { KlassSearchSection } from './components/KlassSearchSection';
 import { ResultsCount } from './components/ResultsCount';
 import { ResultsSection } from './components/ResultsSection';
 import { SubjectFiltersSection, SubjectFiltersSectionFallback } from './components/SubjectFiltersSection';
@@ -34,13 +35,14 @@ const ClassificationsServicePage = ({
   searchResultPromise,
 }: ClassificationServicePageProps) => {
   const [queryState, setQueryState] = useQueryStates({
+    q: parseAsString.withDefault(''),
     subjects: parseAsArrayOf(parseAsString).withDefault([]),
     types: parseAsArrayOf(parseAsString).withDefault([]),
     sort: parseAsStringLiteral(sortTypes).withDefault('titleAsc'),
     page: parseAsInteger.withDefault(1).withOptions({ clearOnDefault: true }),
   });
 
-  const { page, sort, subjects, types } = queryState;
+  const { q, page, sort, subjects, types } = queryState;
 
   const updateQuery = (update: Parameters<typeof setQueryState>[0]) =>
     setQueryState(update).catch((error) => {
@@ -70,13 +72,14 @@ const ClassificationsServicePage = ({
 
   const removeFilter = (filter: FilterItem) => {
     updateQuery({
+      q: q === filter.value ? null : q,
       types: types.filter((v) => v !== filter.value),
       subjects: subjects.filter((v) => v !== filter.value),
       page: 1,
     });
   };
 
-  const clearAll = () => updateQuery({ subjects: null, types: null, sort: null, page: null });
+  const clearAll = () => updateQuery({ q: null, subjects: null, types: null, sort: null, page: null });
 
   return (
     <ClassificationProvider
@@ -91,14 +94,21 @@ const ClassificationsServicePage = ({
         tabsId={tabsData.Classifications.id}
         header={localization.tabs.classifications}
         asideContent={
-          <FiltersPanel>
-            <Suspense fallback={null}>
-              <ClassificationTypeFiltersSection onFilterChange={toggleClassificationType} />
-            </Suspense>
-            <Suspense fallback={<SubjectFiltersSectionFallback />}>
-              <SubjectFiltersSection onFilterChange={toggleSubject} />
-            </Suspense>
-          </FiltersPanel>
+          <>
+            <FiltersPanel heading={localization.search.filter.label}>
+              <Suspense fallback={null}>
+                <KlassSearchSection query={q} onQueryChange={(value) => updateQuery({ q: value, page: 1 })} />
+              </Suspense>
+            </FiltersPanel>
+            <FiltersPanel heading={localization.search.filter.label}>
+              <Suspense fallback={null}>
+                <ClassificationTypeFiltersSection onFilterChange={toggleClassificationType} />
+              </Suspense>
+              <Suspense fallback={<SubjectFiltersSectionFallback />}>
+                <SubjectFiltersSection onFilterChange={toggleSubject} />
+              </Suspense>
+            </FiltersPanel>
+          </>
         }
         totalHits={
           <Suspense fallback={null}>

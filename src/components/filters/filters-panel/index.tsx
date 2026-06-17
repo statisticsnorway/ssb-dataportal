@@ -1,21 +1,21 @@
 import { Heading } from '@digdir/designsystemet-react';
 import { ReactNode } from 'react';
-import { localization } from '@/libs/language/src/localization';
 
 interface FiltersPanelProps {
+  heading: string;
   children: ReactNode;
 }
-
+//        {localization.search.filter.label}
 /**
  * FiltersPanel component renders its children inside a panel.
  *
  * @param children - React nodes to display inside the panel.
  */
-const FiltersPanel = ({ children }: FiltersPanelProps) => {
+const FiltersPanel = ({ heading, children }: FiltersPanelProps) => {
   return (
     <>
       <Heading className='secondaryHeading' level={2} data-size='sm'>
-        {localization.search.filter.label}
+        {heading}
       </Heading>
       {children}
     </>
