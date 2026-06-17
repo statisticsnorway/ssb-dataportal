@@ -4,7 +4,7 @@ import { localization } from '@/libs/language';
 export const statuses = {
   draft: {
     label: `${localization.status.draft} (73)`,
-    removeLabel: 'Remove Utkast',
+    removeLabel: 'Fjern Utkast',
     totalHits: '3 treff',
   },
   internal: {
@@ -22,8 +22,11 @@ export const statuses = {
   },
 };
 
+const socialConditionsAndCrimeLabel = 'Sosiale forhold og kriminalitet';
+
 export const variables = {
-  socialConditionsAndCrime: 'Sosiale forhold og kriminalitet (2)',
+  socialConditionsAndCrime: `${socialConditionsAndCrimeLabel} (2)`,
+  socialConditionsAndCrimeLabel,
   workAndPay: 'Arbeid og lønn (7)',
   health: {
     label: 'Helse (2)',

@@ -3,22 +3,22 @@ import { expect, test } from './fixtures/variableDefinitions.fixture';
 import { checkCheckbox } from './utils/commonUtils';
 import { statuses, variables } from './utils/variables';
 
-test('Filter by subject field displays tags (listitem) with count and close button (x)', async ({
-  variableDefinitionsPage,
-}) => {
+test('Filter by subject field displays tags (listitem) and close button (x)', async ({ variableDefinitionsPage }) => {
   const main = variableDefinitionsPage.getByRole('main');
   await expect(main).toContainText(variables.totalHits);
+
   const checkbox = variableDefinitionsPage.getByRole('checkbox', { name: variables.socialConditionsAndCrime });
   await checkCheckbox(checkbox);
-
   await expect(main).toContainText('2 treff');
-  const filterTag = variableDefinitionsPage.getByRole('listitem').filter({
-    hasText: variables.socialConditionsAndCrime,
+
+  const removeButton = variableDefinitionsPage.getByRole('button', {
+    name: `${localization.filterTag.remove} ${variables.socialConditionsAndCrimeLabel}`,
   });
+
+  const filterTag = variableDefinitionsPage.getByRole('listitem').filter({ has: removeButton });
   await expect(filterTag).toBeVisible();
-  await variableDefinitionsPage
-    .getByRole('button', { name: `${localization.filterTag.remove} ${variables.socialConditionsAndCrime}` })
-    .click();
+
+  await removeButton.click();
   await expect(main).toContainText(variables.totalHits);
 });
 
@@ -42,16 +42,17 @@ test('Select more than one filter display a "remove all" tag', async ({ variable
 test('Subject area level 2 filters on level 1', async ({ variableDefinitionsPage }) => {
   const main = variableDefinitionsPage.getByRole('main');
   await expect(main).toContainText(variables.totalHits);
-  const checkbox = variableDefinitionsPage.getByRole('checkbox', { name: variables.health.label });
 
+  const checkbox = variableDefinitionsPage.getByRole('checkbox', { name: variables.health.label });
   await checkCheckbox(checkbox);
 
   const levelTwoTag = variableDefinitionsPage.getByRole('list').filter({ hasText: variables.health.tagLevelTwo });
   await expect(levelTwoTag).toBeVisible();
   await expect(levelTwoTag).toContainText(variables.health.tagLevelTwo);
 
-  const levelOneTag = variableDefinitionsPage
-    .getByRole('list')
+  const filterTagsList = variableDefinitionsPage.getByRole('list', { name: localization.filterTag.listLabel });
+  const levelOneTag = filterTagsList
+    .getByRole('listitem')
     .filter({ hasText: new RegExp(`^${variables.health.tagLevelOne}$`) });
   await expect(levelOneTag).toBeVisible();
   await expect(levelOneTag).toContainText(new RegExp(variables.health.tagLevelOne));
@@ -127,9 +128,7 @@ test('Filter by name remove all', async ({ variableDefinitionsPage }) => {
     })
     .fill('Baderom');
   await expect(main).toContainText('1 treff');
-  await variableDefinitionsPage
-    .getByRole('button', { name: `${localization.filterTag.remove} ${localization.button.removeFilter}` })
-    .click();
+  await variableDefinitionsPage.getByRole('button', { name: `${localization.button.removeFilter}` }).click();
   await expect(main).toContainText(variables.totalHits);
 });
 
@@ -164,9 +163,7 @@ test('Filter by status published', async ({ variableDefinitionsPage }) => {
 
   await expect(main).toContainText(statuses.internalPlusExternal.totalHits);
 
-  await variableDefinitionsPage
-    .getByRole('button', { name: `${localization.filterTag.remove} ${localization.button.removeFilter}` })
-    .click();
+  await variableDefinitionsPage.getByRole('button', { name: `${localization.button.removeFilter}` }).click();
   await expect(main).toContainText(variables.totalHits);
 });
 

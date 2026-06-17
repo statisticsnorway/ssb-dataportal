@@ -28,7 +28,7 @@ export const FilterTagsSection = ({
   const totalItems = tags.length + (hasSearch ? 1 : 0);
 
   return (
-    <ul className={styles.tagsList}>
+    <ul className={styles.tagsList} aria-label={localization.filterTag.listLabel}>
       {totalItems > 1 && (
         <li>
           <Chip.Button onClick={onClearAll}>{localization.button.removeFilter}</Chip.Button>

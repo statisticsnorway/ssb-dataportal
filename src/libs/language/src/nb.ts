@@ -247,6 +247,7 @@ export const nb = {
 
   filterTag: {
     remove: 'Fjern',
+    listLabel: 'Liste over valgte filter',
   },
 
   ssbDataportal: 'SSB Dataportal',
