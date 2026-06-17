@@ -21,7 +21,9 @@ export const FilterTagsSection = ({
   const trimmedSearch = searchTerm?.trim() ?? '';
   const hasSearch = trimmedSearch.length > 0;
 
-  if (!hasSearch && tags.length === 0) return null;
+  if (!hasSearch && tags.length === 0) {
+    return null;
+  }
 
   const totalItems = tags.length + (hasSearch ? 1 : 0);
 
@@ -32,18 +34,29 @@ export const FilterTagsSection = ({
           <Chip.Button onClick={onClearAll}>{localization.button.removeFilter}</Chip.Button>
         </li>
       )}
+
       {hasSearch && onClearSearch && (
         <li>
-          <Chip.Removable onClick={onClearSearch}>
+          <Chip.Removable
+            aria-label={`${localization.filterTag.remove} ${localization.search.textFilter.tagLabel} ${trimmedSearch}`}
+            onClick={onClearSearch}
+          >
             {localization.search.textFilter.tagLabel} {trimmedSearch}
           </Chip.Removable>
         </li>
       )}
-      {tags.map((tag) => (
-        <li key={tag.value}>
-          <Chip.Removable onClick={() => onRemoveTag(tag)}>{tag.label ?? tag.value}</Chip.Removable>
-        </li>
-      ))}
+
+      {tags.map((tag) => {
+        const label = tag.label ?? tag.value;
+
+        return (
+          <li key={tag.value}>
+            <Chip.Removable aria-label={`${localization.filterTag.remove} ${label}`} onClick={() => onRemoveTag(tag)}>
+              {label}
+            </Chip.Removable>
+          </li>
+        );
+      })}
     </ul>
   );
 };

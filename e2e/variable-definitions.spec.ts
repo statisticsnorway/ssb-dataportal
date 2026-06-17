@@ -16,7 +16,9 @@ test('Filter by subject field displays tags (listitem) with count and close butt
     hasText: variables.socialConditionsAndCrime,
   });
   await expect(filterTag).toBeVisible();
-  await variableDefinitionsPage.getByRole('button', { name: `Remove ${variables.socialConditionsAndCrime}` }).click();
+  await variableDefinitionsPage
+    .getByRole('button', { name: `${localization.filterTag.remove} ${variables.socialConditionsAndCrime}` })
+    .click();
   await expect(main).toContainText(variables.totalHits);
 });
 
@@ -105,7 +107,7 @@ test('Filter by name', async ({ variableDefinitionsPage }) => {
     })
     .fill('Baderom');
   await expect(main).toContainText('1 treff');
-  await variableDefinitionsPage.getByRole('button', { name: 'Remove Navn: Baderom' }).click();
+  await variableDefinitionsPage.getByRole('button', { name: 'Fjern Navn: Baderom' }).click();
   await expect(main).toContainText('25 treff');
 });
 
@@ -125,8 +127,9 @@ test('Filter by name remove all', async ({ variableDefinitionsPage }) => {
     })
     .fill('Baderom');
   await expect(main).toContainText('1 treff');
-
-  await variableDefinitionsPage.getByRole('button', { name: `${localization.button.removeFilter}` }).click();
+  await variableDefinitionsPage
+    .getByRole('button', { name: `${localization.filterTag.remove} ${localization.button.removeFilter}` })
+    .click();
   await expect(main).toContainText(variables.totalHits);
 });
 
@@ -161,7 +164,9 @@ test('Filter by status published', async ({ variableDefinitionsPage }) => {
 
   await expect(main).toContainText(statuses.internalPlusExternal.totalHits);
 
-  await variableDefinitionsPage.getByRole('button', { name: `Remove ${localization.button.removeFilter}` }).click();
+  await variableDefinitionsPage
+    .getByRole('button', { name: `${localization.filterTag.remove} ${localization.button.removeFilter}` })
+    .click();
   await expect(main).toContainText(variables.totalHits);
 });
 

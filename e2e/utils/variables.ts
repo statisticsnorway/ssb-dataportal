@@ -4,17 +4,17 @@ import { localization } from '@/libs/language';
 export const statuses = {
   draft: {
     label: `${localization.status.draft} (73)`,
-    removeLabel: 'Remove Utkast (73)',
+    removeLabel: 'Remove Utkast',
     totalHits: '3 treff',
   },
   internal: {
     label: `${localization.status.publishedInternal} (3)`,
-    removeLabel: `${localization.status.publishedInternal} (3)`,
+    removeLabel: `${localization.status.publishedInternal}`,
     totalHits: '3 treff',
   },
   external: {
     label: `${localization.status.publishedExternal} (2)`,
-    removeLabel: `${localization.status.publishedExternal} (2)`,
+    removeLabel: `${localization.status.publishedExternal}`,
     totalHits: '2 treff',
   },
   internalPlusExternal: {
