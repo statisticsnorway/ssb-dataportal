@@ -98,12 +98,10 @@ const ClassificationsServicePage = ({
         header={localization.tabs.classifications}
         asideContent={
           <>
-            <FiltersPanel heading={localization.search.filter.label}>
+            <FiltersPanel heading={localization.search.filter.filterAndSearch}>
               <Suspense fallback={null}>
                 <KlassSearchSection query={q} onQueryChange={(value) => updateQuery({ q: value, page: 1 })} />
               </Suspense>
-            </FiltersPanel>
-            <FiltersPanel heading={localization.search.filter.label}>
               <Suspense fallback={null}>
                 <ClassificationTypeFiltersSection onFilterChange={toggleClassificationType} />
               </Suspense>
