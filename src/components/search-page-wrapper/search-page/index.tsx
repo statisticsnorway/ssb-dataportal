@@ -52,6 +52,24 @@ const SearchPage: FC<SearchPageProps> = ({
     return totalHits;
   };
 
+  const renderBanner = () => {
+    if (!banner) return null;
+    if (banner !== true) return <div style={{ marginBottom: '1rem' }}>{banner}</div>;
+
+    return (
+      <Alert data-color='info' style={{ marginBottom: '1rem' }}>
+        <Heading className='infoHeadingSecondary' level={2} data-size='sm' style={{ marginBottom: 'var(--ds-size-2)' }}>
+          {localization.migration.header}
+        </Heading>
+        <Paragraph>{localization.migration.info}</Paragraph>
+        <ExternalLink
+          href='https://www.ssb.no/a/metadata/definisjoner/variabler/main.html'
+          linkText={`${' '}${localization.migration.linkText}`}
+        />
+      </Alert>
+    );
+  };
+
   return (
     <main id='variableDefinitionsPage'>
       <header>
@@ -61,27 +79,7 @@ const SearchPage: FC<SearchPageProps> = ({
       </header>
       <TabsPanel id={tabsId} value={String(tabsId)} aria-labelledby={tabsId}>
         <div className={`${styles.pageContainer} container`}>
-          {banner === true ? (
-            <Alert data-color='info' style={{ marginBottom: '1rem' }}>
-              <Heading
-                className='infoHeadingSecondary'
-                level={2}
-                data-size='sm'
-                style={{
-                  marginBottom: 'var(--ds-size-2)',
-                }}
-              >
-                {localization.migration.header}
-              </Heading>
-              <Paragraph>{localization.migration.info}</Paragraph>
-              <ExternalLink
-                href='https://www.ssb.no/a/metadata/definisjoner/variabler/main.html'
-                linkText={`${' '}${localization.migration.linkText}`}
-              />
-            </Alert>
-          ) : banner ? (
-            <div style={{ marginBottom: '1rem' }}>{banner}</div>
-          ) : null}
+          {renderBanner()}
           <div className={styles.searchHitsContainerWrapper}>
             {asideContent ? (
               <aside className={styles.filterSection} aria-label='Filters'>
