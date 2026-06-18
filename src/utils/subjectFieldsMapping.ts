@@ -1,4 +1,5 @@
 import { CodeItem } from '@/libs/data-access/klass/models/CodeItem';
+import { clientLogger } from '@/libs/logger/client-logger';
 
 /**
  * Maps a subject field code (`string`) to the classification family IDs
@@ -51,5 +52,9 @@ export const regionFamily: CodeItem = {
  */
 export const getSubjectCodeByFamilyId = (familyId?: number) => {
   if (familyId == null) return undefined;
-  return Object.entries(SUBJECT_FIELD_BY_CODE).find(([, familyIds]) => familyIds.includes(familyId))?.[0];
+  const result = Object.entries(SUBJECT_FIELD_BY_CODE).find(([, familyIds]) => familyIds.includes(familyId))?.[0];
+  if (result == null) {
+    clientLogger.info({ familyId }, 'No subject field mapping found for classification family ID');
+  }
+  return result;
 };
