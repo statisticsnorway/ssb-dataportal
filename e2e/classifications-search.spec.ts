@@ -1,6 +1,7 @@
 import { localization } from '@/libs/language';
 import { expect, test } from './fixtures/classifications.fixture';
 import searchResultsMock from '@/static-data/klass-search-results.json';
+import { SearchResultResource } from '@/libs/data-access/klass';
 
 const searchTerm = 'Næring';
 const searchTermVariantOne = 'Næringsgrupp';
@@ -12,11 +13,6 @@ test('Search box is visible', async ({ classificationsPage }) => {
   await expect(searchBox).toBeVisible();
 });
 
-// Næringsgrupp
-// student
-// jordbær
-// næringsgruppering
-
 test('Search term returns results', async ({ classificationsPage }) => {
   const main = classificationsPage.getByRole('main');
   const searchBox = classificationsPage.getByRole('searchbox', { name: `${localization.search.label}` });
@@ -25,7 +21,6 @@ test('Search term returns results', async ({ classificationsPage }) => {
   const firstSearchResult = classificationsPage.getByTestId('search-card').first();
   await expect(firstSearchResult).toBeVisible();
   await expect(firstSearchResult).toContainText(searchResults[0]!.name);
-  // substring
   //await expect(firstSearchResult.getByRole('heading', { name: searchResults[0]!.name })).toContainText(searchTerm);
 });
 
@@ -47,7 +42,17 @@ test('Remove search by tag', async ({ classificationsPage }) => {
   await expect(resultTag).not.toBeInViewport();
 });
 
-test('Search result is sorted by search score', async ({ classificationsPage }) => {});
+test('Search result is sorted by search score', async ({ classificationsPage }) => {
+  const searchBox = classificationsPage.getByRole('searchbox', { name: `${localization.search.label}` });
+  await searchBox.fill(searchTerm);
+  const firstSearchResult = classificationsPage.getByTestId('search-card').first();
+  const highestSearchScore: SearchResultResource[] = searchResults.filter(
+    (searchResult) => searchResult.searchScore === Math.max(...searchResults.map((r) => r.searchScore)),
+  );
+  await expect(firstSearchResult.getByRole('heading', { name: searchResults[0]!.name })).toContainText(
+    highestSearchScore[0]!.name!,
+  );
+});
 
 test('Search result can be sorted by different criteria', async ({ classificationsPage }) => {});
 
@@ -57,3 +62,4 @@ test('Search result can be filtered by subject', async ({ classificationsPage })
 
 // language ?
 // maps ?
+// resets to classifications
