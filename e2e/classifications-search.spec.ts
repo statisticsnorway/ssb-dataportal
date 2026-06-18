@@ -13,12 +13,16 @@ const companiesEnterprises = 'Bedrifter, foretak og regnskap';
 
 const TOTAL_RESULTS_TEXT = '12 treff';
 const FILTERED_RESULTS_TEXT = '3 treff';
+const ONE_RESULT_TEXT = '1 treff';
+const TWO_RESULTS_TEXT = '2 treff';
 
 const getLocators = (page: Page) => ({
   searchBox: page.getByRole('searchbox', { name: localization.search.label }),
   main: page.getByRole('main'),
   searchCards: page.getByTestId('search-card'),
   searchTag: (term: string) => page.getByRole('button', { name: `"${term}"` }),
+  typeCheckbox: (name: string) => page.getByRole('checkbox', { name }),
+  subjectCheckbox: (name: string) => page.getByRole('checkbox', { name }),
 });
 
 test('Search box is visible', async ({ classificationsPage }) => {
@@ -81,6 +85,34 @@ test.describe('When searching with a term', () => {
       await expect(searchCards.nth(i)).not.toContainText(excludedNnText);
     }
   });
+  test('Search result can be filtered by type', async ({ classificationsPage }) => {
+    const { main, typeCheckbox } = getLocators(classificationsPage);
+    await checkCheckbox(typeCheckbox('Klassifikasjon'));
+    await expect(main).toContainText(ONE_RESULT_TEXT);
+
+    await typeCheckbox('Klassifikasjon').uncheck();
+    await checkCheckbox(typeCheckbox('Kodeliste'));
+    await expect(main).toContainText(TWO_RESULTS_TEXT);
+  });
+
+  test('Search result can be filtered by subject', async ({ classificationsPage }) => {
+    const { main, subjectCheckbox } = getLocators(classificationsPage);
+
+    await checkCheckbox(subjectCheckbox(companiesEnterprises));
+    await expect(main).toContainText(ONE_RESULT_TEXT);
+  });
+  test('Search result can be sorted by different criteria after initial search', async ({ classificationsPage }) => {
+    const { searchCards } = getLocators(classificationsPage);
+    const sortSelect = classificationsPage.getByLabel(localization.search.sort.label);
+
+    // Default sort is by search score - capture the first result
+    const firstBySearchScore = await searchCards.first().innerText();
+
+    // Sort by title descending - should differ from initial sort based on test data
+    await sortSelect.selectOption('titleDesc');
+    const firstByTitleDesc = await searchCards.first().innerText();
+    expect(firstByTitleDesc).not.toBe(firstBySearchScore);
+  });
 });
 
 test('search term variant returns same results', async ({ classificationsPage }) => {
@@ -88,19 +120,4 @@ test('search term variant returns same results', async ({ classificationsPage })
   await searchBox.fill(searchTermVariant);
   const { main } = getLocators(classificationsPage);
   await expect(main).toContainText(FILTERED_RESULTS_TEXT);
-});
-
-test('Search result can be sorted by different criteria', async ({ classificationsPage }) => {
-  // After initial sort by search score the result can be sorted by asc/desc
-});
-
-test('Search result can be filtered by type', async ({ classificationsPage }) => {
-  // search result can be filtered by type
-  //
-  await checkCheckbox(classificationsPage.getByRole('checkbox', { name: 'Klassifikasjon' }));
-  await checkCheckbox(classificationsPage.getByRole('checkbox', { name: 'Kodeliste' }));
-});
-
-test('Search result can be filtered by subject', async ({ classificationsPage }) => {
-  await checkCheckbox(classificationsPage.getByRole('checkbox', { name: companiesEnterprises }));
 });
