@@ -79,12 +79,10 @@ test.describe('When searching with a term', () => {
   test('only contains nb language results', async ({ classificationsPage }) => {
     const { searchCards } = getLocators(classificationsPage);
     const excludedNnText = 'Kodeliste for måleeiningar';
-
-    const count = await searchCards.count();
-    for (let i = 0; i < count; i++) {
-      await expect(searchCards.nth(i)).not.toContainText(excludedNnText);
-    }
+    const allCardsText = await searchCards.allInnerTexts();
+    expect(allCardsText.join(' ')).not.toContain(excludedNnText);
   });
+
   test('Search result can be filtered by type', async ({ classificationsPage }) => {
     const { main, typeCheckbox } = getLocators(classificationsPage);
     await checkCheckbox(typeCheckbox('Klassifikasjon'));
