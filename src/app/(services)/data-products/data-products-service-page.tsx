@@ -119,17 +119,21 @@ export const DataProductsServicePage = ({
     return tags;
   }, [selectedProductTypeFilters, subject, subjectFields]);
 
-  const removeFilter = (tag: FilterItem) => {
+  const removeFilter = async (tag: FilterItem) => {
     const nextProductTypes = productTypes.filter((v) => v !== tag.value);
     const nextSubject = tag.value === subject ? ALL_SUBJECT_FIELDS : subject;
-    void setQueryState({
+
+    await setQueryState({
       productTypes: nextProductTypes.length > 0 ? nextProductTypes : null,
       subject: nextSubject || null,
     });
   };
 
-  const clearAll = () => {
-    void setQueryState({ productTypes: null, subject: null });
+  const clearAll = async () => {
+    await setQueryState({
+      productTypes: null,
+      subject: null,
+    });
   };
 
   const filteredDataProducts = useMemo(() => {
