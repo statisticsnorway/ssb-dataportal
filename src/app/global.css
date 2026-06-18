@@ -120,14 +120,6 @@ body {
   box-sizing: border-box;
 }
 
-select#sortVariables.ds-input {
-  padding: 0.5rem;
-  border-radius: 5px;
-  border-color: var(--ssb-dark-color-2);
-  width: 160px;
-  max-width: 100%;
-}
-
 div.ds-card {
   border-color: var(--ssb-dark-color-2);
 }
@@ -209,11 +201,4 @@ button {
   font-family: var(--font-open-sans);
   font-weight: var(--font-weight-medium);
   color: var(--ssb-dark-color-6);
-}
-
-@media (min-width: 768px) {
-  select#sortVariables.ds-input {
-    width: 160px;
-    max-width: 100%;
-  }
 }
