@@ -80,10 +80,10 @@ const ClassificationsServicePage = ({
     updateQuery({ types: nextTypes.length > 0 ? nextTypes : null, page: 1 });
   };
 
-  const removeFilter = (tag: FilterItem) => {
+  const removeFilter = (filter: FilterItem) => {
     updateQuery({
-      types: types.filter((v) => v !== tag.value),
-      subjects: subjects.filter((v) => v !== tag.value),
+      types: types.filter((v) => v !== filter.value),
+      subjects: subjects.filter((v) => v !== filter.value),
       page: 1,
     });
   };
