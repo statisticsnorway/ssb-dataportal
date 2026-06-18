@@ -104,10 +104,10 @@ const VariableDefinitionsServicePage = ({
     element?.scrollIntoView({ behavior: 'instant', block: 'start' });
   };
 
-  const removeFilter = (tag: FilterItem) => {
+  const removeFilter = (filter: FilterItem) => {
     void setQueryState({
-      status: status.filter((value) => value !== tag.value),
-      subjects: subjects.filter((value) => value !== tag.value),
+      status: status.filter((value) => value !== filter.value),
+      subjects: subjects.filter((value) => value !== filter.value),
       page: 1,
     });
   };
