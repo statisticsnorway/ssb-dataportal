@@ -40,7 +40,7 @@ const renderInfoOnlyPage = () => {
 export default async function Classifications({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  readonly searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const params = await searchParams;
   const logger = createLogger('classifications-discover-page');
