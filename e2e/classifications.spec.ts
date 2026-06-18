@@ -63,8 +63,8 @@ test('Sort classifications', async ({ classificationsPage }) => {
 });
 
 test.describe('Classifications - pagination', () => {
-  test('Displays 12 hits on first page and active page is 1', async ({ classificationsPage }) => {
-    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(12);
+  test('Displays 8 hits on first page and active page is 1', async ({ classificationsPage }) => {
+    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(8);
     await expect(classificationsPage.getByTestId('page-active')).toHaveText('1');
   });
 });
@@ -106,7 +106,7 @@ test.describe('Classifications - type filter', () => {
     await classificationsPage.getByRole('checkbox', { name: 'Klassifikasjon' }).check();
 
     await expect(classificationsPage).toHaveURL('classifications?types=Klassifikasjon');
-    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(10);
+    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(8);
 
     const filterTag = classificationsPage.getByRole('listitem').filter({ hasText: 'Klassifikasjon' });
     await expect(filterTag).toBeVisible();
