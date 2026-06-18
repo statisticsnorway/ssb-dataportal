@@ -100,19 +100,17 @@ const ClassificationsServicePage = ({
         tabsId={tabsData.Classifications.id}
         header={localization.tabs.classifications}
         asideContent={
-          <>
-            <FiltersPanel heading={localization.search.filter.filterAndSearch}>
-              <Suspense fallback={null}>
-                <KlassSearchSection query={q} onQueryChange={(value) => updateQuery({ q: value, page: 1 })} />
-              </Suspense>
-              <Suspense fallback={null}>
-                <ClassificationTypeFiltersSection onFilterChange={toggleClassificationType} />
-              </Suspense>
-              <Suspense fallback={<SubjectFiltersSectionFallback />}>
-                <SubjectFiltersSection onFilterChange={toggleSubject} />
-              </Suspense>
-            </FiltersPanel>
-          </>
+          <FiltersPanel heading={localization.search.filter.filterAndSearch}>
+            <Suspense fallback={null}>
+              <KlassSearchSection query={q} onQueryChange={(value) => updateQuery({ q: value, page: 1 })} />
+            </Suspense>
+            <Suspense fallback={null}>
+              <ClassificationTypeFiltersSection onFilterChange={toggleClassificationType} />
+            </Suspense>
+            <Suspense fallback={<SubjectFiltersSectionFallback />}>
+              <SubjectFiltersSection onFilterChange={toggleSubject} />
+            </Suspense>
+          </FiltersPanel>
         }
         totalHits={
           <Suspense fallback={null}>
