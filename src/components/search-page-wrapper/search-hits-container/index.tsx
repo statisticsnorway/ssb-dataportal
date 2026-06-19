@@ -4,6 +4,7 @@ import { localization } from '@/libs/language';
 import styles from './search-hit-container.module.css';
 
 type Props = {
+  ariaLabel: string;
   searchHits: unknown[];
   paginationInfo?: { currentPage: number; totalPages: number };
   onPageChange: (page: number) => void;
@@ -15,7 +16,14 @@ type Props = {
 /**
  * Display search hits paginated
  */
-const SearchHitContainer = ({ searchHits = [], renderHit, paginationInfo, onPageChange, noSearchHits }: Props) => {
+const SearchHitContainer = ({
+  ariaLabel,
+  searchHits = [],
+  renderHit,
+  paginationInfo,
+  onPageChange,
+  noSearchHits,
+}: Props) => {
   let pagedHits: unknown[] = searchHits;
 
   const hasPagination = !!paginationInfo && !noSearchHits;
@@ -33,7 +41,7 @@ const SearchHitContainer = ({ searchHits = [], renderHit, paginationInfo, onPage
 
   return (
     <div className={styles.searchHitsContainer}>
-      <div className={styles.hitsList} data-testid='hits-list'>
+      <div className={styles.hitsList} aria-label={ariaLabel}>
         {pagedHits.map((hit) => renderHit(hit))}
       </div>
       {hasPagination && (

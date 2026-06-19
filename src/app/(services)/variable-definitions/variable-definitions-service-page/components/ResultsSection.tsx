@@ -65,6 +65,7 @@ export const ResultsSection = ({ currentPage, pageSize, handlePageChange }: Resu
 
   return (
     <SearchHitContainer
+      ariaLabel={localization.search.variableDefinitions}
       searchHits={paginatedVariables}
       renderHit={(hit) => <VardefSearchHit key={(hit as RenderedView).id} variableDefinition={hit as RenderedView} />}
       noSearchHits={totalHits === 0}

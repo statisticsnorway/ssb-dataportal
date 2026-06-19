@@ -14,7 +14,7 @@ export type DataportalBreadcrumbsProps = {
 
 export const DataportalBreadcrumbs = ({ homeUrl, items, currentText }: DataportalBreadcrumbsProps) => {
   return (
-    <nav style={{ padding: '1rem 0' }} data-testid='dataportalBreadcrumbs'>
+    <nav style={{ padding: '1rem 0' }} aria-label={localization.breadcrumbsLabel}>
       <Breadcrumbs aria-label={localization.breadcrumbsLabel}>
         <BreadcrumbsList>
           <BreadcrumbsItem>
