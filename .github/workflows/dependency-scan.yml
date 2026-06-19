@@ -1,9 +1,12 @@
 name: Grype security scan and dependency version check
+
 on:
   push:
     branches:
       - main
       - chore/redirect-and-filter-result-security-scan
+  workflow_dispatch:
+
 jobs:
   dependency-version-check:
     permissions:
@@ -27,14 +30,12 @@ jobs:
 
   grype-scan:
     runs-on: ubuntu-latest
-    # Permissions key is required for CodeQL SARIF Upload, per the docs:
-    # https://docs.github.com/en/code-security/code-scanning/integrating-with-code-scanning/uploading-a-sarif-file-to-github
     permissions:
       security-events: write
-      contents: "read"
-      id-token: "write"
-      packages: "read"
-      actions: "read"
+      contents: read
+      id-token: write
+      packages: read
+      actions: read
     env:
       RISK_THRESHOLD: "0.1"
     steps:
@@ -42,69 +43,37 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
-      - name: Build the Container image
+
+      - name: Build the container image
         run: docker build . --file Dockerfile --tag ssb-dataportal:latest
+
       - name: Display scan result as table
         uses: anchore/scan-action@e1165082ffb1fe366ebaf02d8526e7c4989ea9d2 # v7.4.0
-        id: scan_table
         with:
           image: "ssb-dataportal:latest"
           output-format: table
           fail-build: false
           severity-cutoff: high
-      - name: Create sarif file
+
+      - name: Create SARIF file
         uses: anchore/scan-action@e1165082ffb1fe366ebaf02d8526e7c4989ea9d2 # v7.4.0
         id: scan
         with:
           image: "ssb-dataportal:latest"
           fail-build: false
           severity-cutoff: high
-      - name: upload Anchore scan SARIF report
+
+      - name: Upload Anchore scan SARIF report
         uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4.36.0
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
 
       - name: Install Grype CLI
         run: |
-          curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | \
-          sh -s -- -b /usr/local/bin
+          curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
 
       - name: Export Grype JSON report
         run: grype ssb-dataportal:latest -o json > grype-report.json
-
-      - name: Filter High/Critical with score > 0.1 and build markdown report
-        run: |
-          jq '
-            [
-              .matches[]
-              | {
-                  package: .artifact.name,
-                  installed: .artifact.version,
-                  vulnerability: .vulnerability.id,
-                  severity: .vulnerability.severity,
-                  score: (([.vulnerability.cvss[]?.metrics.baseScore] | max) // 0),
-                  fix: (.vulnerability.fix.versions[0] // "none")
-                }
-              | select((.severity == "High" or .severity == "Critical") and (.score > 0.1))
-            ]
-          ' grype-report.json > filtered-vulns.json
-
-          COUNT=$(jq 'length' filtered-vulns.json)
-          echo "VULN_COUNT=$COUNT" >> "$GITHUB_ENV"
-
-          {
-            echo "## Grype filtered vulnerabilities (High/Critical, score > $RISK_THRESHOLD)"
-            echo ""
-            echo "Count: **$COUNT**"
-            echo ""
-            if [ "$COUNT" -eq 0 ]; then
-              echo "_No matching vulnerabilities found._"
-            else
-              echo "| Package | Installed | Vulnerability | Severity | Score | Fix |"
-              echo "|---|---|---|---|---:|---|"
-              jq -r '.[] | "| \(.package) | \(.installed) | \(.vulnerability) | \(.severity) | \(.score) | \(.fix) |"' filtered-vulns.json
-            fi
-          } > grype-filtered-report.md
 
       - name: Filter findings (High/Critical + risk threshold)
         run: |
@@ -180,7 +149,7 @@ jobs:
             </table>
           </body>
           </html>"""
-          Path("report/grype-report.html").write_text(html_doc)
+          Path("report/index.html").write_text(html_doc)
           PY
 
       - name: Add visual summary in GitHub UI
@@ -191,14 +160,39 @@ jobs:
             echo "- Threshold: High/Critical and risk > ${RISK_THRESHOLD}"
             echo "- Findings: **${VULN_COUNT}**"
             echo ""
-            echo "Download **grype-visual-report** artifact to open \`grype-report.html\`."
+            echo "Artifact: **grype-visual-report** (contains JSON + HTML report)."
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload filtered report artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: grype-filtered-report
+          name: grype-visual-report
           path: |
-            report/grype-report.html
+            report/index.html
             grype-report.json
             filtered-vulns.json
+
+      - name: Configure GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: report
+
+  pages-deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: grype-scan
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
