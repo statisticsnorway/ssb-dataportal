@@ -29,7 +29,6 @@ export const ResultsSection = ({ currentPage, pageSize, onPageChange }: ResultsS
   /**
    * Maps search results to classifications, preserving the order of search results
    */
-
   const mappedClassifications = useMemo(() => {
     if (!isSearchActive) return classifications ?? [];
 

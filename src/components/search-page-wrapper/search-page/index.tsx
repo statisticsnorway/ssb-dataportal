@@ -1,12 +1,11 @@
-import { Alert, Heading, Paragraph, TabsPanel } from '@digdir/designsystemet-react';
+import { Heading, TabsPanel } from '@digdir/designsystemet-react';
 import { FC, ReactElement, ReactNode } from 'react';
-import { ExternalLink } from '@/components/link-components/externalLink';
 import { localization } from '@/libs/language';
 import { SortTypes } from '@/types/sort';
 import styles from './search-page.module.css';
 
 interface SearchPageProps {
-  banner?: boolean;
+  banner?: ReactNode;
   infoContent?: ReactNode;
   asideContent?: ReactNode;
   searchResult?: ReactElement;
@@ -59,29 +58,9 @@ const SearchPage: FC<SearchPageProps> = ({
           {header}
         </Heading>
       </header>
-
       <TabsPanel id={tabsId} value={String(tabsId)} aria-labelledby={tabsId}>
         <div className={`${styles.pageContainer} container`}>
-          {banner && (
-            <Alert data-color='info' style={{ marginBottom: '1rem' }}>
-              <Heading
-                className='infoHeadingSecondary'
-                level={2}
-                data-size='sm'
-                style={{
-                  marginBottom: 'var(--ds-size-2)',
-                }}
-              >
-                {localization.migration.header}
-              </Heading>
-              <Paragraph>{localization.migration.info}</Paragraph>
-              <ExternalLink
-                href='https://www.ssb.no/a/metadata/definisjoner/variabler/main.html'
-                linkText={`${' '}${localization.migration.linkText}`}
-              />
-            </Alert>
-          )}
-          <section aria-label='Tags list'>{infoContent}</section>
+          {banner}
           <div className={styles.searchHitsContainerWrapper}>
             {asideContent ? (
               <aside className={styles.filterSection} aria-label='Filters'>
@@ -90,8 +69,11 @@ const SearchPage: FC<SearchPageProps> = ({
             ) : null}
             <div className={styles.mainSection}>
               <div className={styles.hitsAndSort}>
-                <p className={styles.numHits}>{hitsLabel(totalHits)}</p>
-                {controlsContent}
+                <section aria-label='Tags list'>{infoContent}</section>
+                <div className={styles.hitsSortGroup}>
+                  <p className={styles.numHits}>{hitsLabel(totalHits)}</p>
+                  {controlsContent}
+                </div>
               </div>
               {searchResult}
             </div>
