@@ -33,6 +33,7 @@ RISK_THRESHOLD="$RISK_THRESHOLD" SEVERITIES="$SEVERITIES" python3 - << 'PY'
 import json, html, os
 from pathlib import Path
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 def vuln_url(vuln_id: str) -> str:
     v = (vuln_id or "").strip()
