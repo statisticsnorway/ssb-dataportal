@@ -58,9 +58,7 @@ A complete SARIF report is uploaded to GitHub Security & Quality.
 
 Since GitHub filters findings based on severity only, we also generate a filtered Grype report based on severity and risk score.
 
-The filtered report is published as a GitHub Pages report and uploaded as a GitHub Actions artifact.
-
-The filter values can be configured in .github/workflows/dependency-scan.yml under grype-scan:
+The filter values can be configured `.github/workflowsdependency-scan.yml`:
 
 SEVERITIES — included vulnerability severities
 RISK_THRESHOLD — minimum risk score
