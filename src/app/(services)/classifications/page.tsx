@@ -2,7 +2,7 @@ import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { Metadata } from 'next';
 import { ExternalLink } from '@/components/link-components/externalLink';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
-import { fetchAllClassifications } from '@/libs/data/classifications/classificationData';
+import { fetchAllClassifications, fetchSearchResult } from '@/libs/data/classifications/classificationData';
 import { localization } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
@@ -40,7 +40,7 @@ const renderInfoOnlyPage = () => {
 export default async function Classifications({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  readonly searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const params = await searchParams;
   const logger = createLogger('classifications-discover-page');
@@ -64,7 +64,14 @@ export default async function Classifications({
   const classificationsPromise = fetchAllClassifications()
     .then((data) => ({ data, error: null }))
     .catch((error) => {
-      logger.error({ error: error }, 'Failed to load classifications');
+      logger.error({ error: sanitizeError(error) }, 'Failed to load classifications');
+      return { data: [], error };
+    });
+
+  const searchResultPromise = fetchSearchResult({ query: params.q?.toString() ?? '', includeCodelists: true })
+    .then((data) => ({ data, error: null }))
+    .catch((error) => {
+      logger.error({ error: sanitizeError(error) }, 'Failed to load search results');
       return { data: [], error };
     });
 
@@ -72,6 +79,8 @@ export default async function Classifications({
     <ClassificationsServicePage
       classificationsPromise={classificationsPromise}
       subjectFieldsPromise={subjectFieldsPromise}
+      searchResultPromise={searchResultPromise}
+      isSearchActive={Boolean(params.q?.toString().trim())}
     />
   );
 }

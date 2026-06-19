@@ -1,6 +1,7 @@
 [
   {
     "id": 910,
+    "language": "nb",
     "links": {
       "self": {
         "href": "https://data.ssb.no/api/klass/v1/classifications/910"
@@ -12,6 +13,7 @@
   },
   {
     "id": 910,
+    "language": "nn",
     "links": {
       "self": {
         "href": "https://data.ssb.no/api/klass/v1/classifications/910"
@@ -23,6 +25,7 @@
   },
   {
     "id": 107,
+    "language": "nb",
     "links": {
       "self": {
         "href": "https://data.ssb.no/api/klass/v1/classifications/107"
@@ -34,6 +37,7 @@
   },
   {
     "id": 107,
+    "language": "nn",
     "links": {
       "self": {
         "href": "https://data.ssb.no/api/klass/v1/classifications/107"
@@ -45,11 +49,13 @@
   },
   {
     "id": 597,
+    "language": "nb",
     "links": {
       "self": {
         "href": "https://data.ssb.no/api/klass/v1/classifications/597"
       }
     },
+
     "name": "Kodeliste for Næringer knyttet til lærerutdannede",
     "snippet": "Næringskoder/inndelinger spesifikt til relevans for lærerutdannende",
     "searchScore": 101.68602752685547
