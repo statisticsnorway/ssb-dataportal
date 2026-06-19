@@ -64,4 +64,3 @@ grype-report.json
 filtered-vulns.json
 
 report/**
-scripts/**
