@@ -39,6 +39,7 @@ test('Select more than one filter display a "remove all" tag', async ({ variable
   await expect(main).toContainText(variables.totalHits);
 });
 
+// fix this test name etc
 test('debug article role', async ({ variableDefinitionsPage }) => {
   await expect(variableDefinitionsPage.getByRole('article')).toHaveCount(8);
   const articles = variableDefinitionsPage.getByRole('article');
