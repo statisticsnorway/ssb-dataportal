@@ -9,9 +9,10 @@ interface SearchHitProps {
   tagsList?: ReactNode;
 }
 
+// remove test id
 const SearchHit = ({ title, href, description, tagsList }: SearchHitProps) => {
   return (
-    <Card data-testid='search-card'>
+    <Card data-testid='search-card' aria-label={title} role='article'>
       <Heading data-size='md' className={styles.headingLink} level={2}>
         <Link href={href}>{title && <span className='primaryHeading'>{title}</span>}</Link>
       </Heading>
