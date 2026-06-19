@@ -139,7 +139,7 @@ const VariableDefinitionsServicePage = ({
         tabsId={tabsData.VariableDefinitions.id}
         header={localization.tabs.variableDefinitions}
         asideContent={
-          <FiltersPanel>
+          <FiltersPanel heading={localization.search.filter.label}>
             <TextFilter
               label={localization.search.textFilter.label}
               searchTerm={q}

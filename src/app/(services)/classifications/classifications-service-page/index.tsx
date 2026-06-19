@@ -9,7 +9,7 @@ import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortFields } from '@/components/sort-fields';
 
 import { ClassificationResource } from '@/libs/data-access/klass';
-import { CodeItem } from '@/libs/data-access/klass/models';
+import { CodeItem, SearchResultResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
 import { FilterItem } from '@/types/filters';
@@ -17,6 +17,7 @@ import { SortTypes, sortTypes } from '@/types/sort';
 import { tabsData } from '../../tabs';
 import { ClassificationTypeFiltersSection } from './components/ClassificationTypeFiltersSection';
 import { ClassificationProvider } from './components/classificationContext';
+import { KlassSearchSection } from './components/KlassSearchSection';
 import { ResultsCount } from './components/ResultsCount';
 import { ResultsSection } from './components/ResultsSection';
 import { SubjectFiltersSection, SubjectFiltersSectionFallback } from './components/SubjectFiltersSection';
@@ -24,22 +25,29 @@ import { SubjectFiltersSection, SubjectFiltersSectionFallback } from './componen
 interface ClassificationServicePageProps {
   classificationsPromise: Promise<{ data: ClassificationResource[]; error: Error | null }>;
   subjectFieldsPromise: Promise<{ data: CodeItem[]; error: Error | null }>;
+  searchResultPromise: Promise<{ data: SearchResultResource[]; error: Error | null }>;
+  isSearchActive: boolean;
 }
-
-const PAGE_SIZE = 20;
 
 const ClassificationsServicePage = ({
   classificationsPromise,
   subjectFieldsPromise,
+  searchResultPromise,
+  isSearchActive,
 }: ClassificationServicePageProps) => {
-  const [queryState, setQueryState] = useQueryStates({
-    subjects: parseAsArrayOf(parseAsString).withDefault([]),
-    types: parseAsArrayOf(parseAsString).withDefault([]),
-    sort: parseAsStringLiteral(sortTypes).withDefault('titleAsc'),
-    page: parseAsInteger.withDefault(1).withOptions({ clearOnDefault: true }),
-  });
+  const pageSize = 8;
+  const [queryState, setQueryState] = useQueryStates(
+    {
+      q: parseAsString.withDefault(''),
+      subjects: parseAsArrayOf(parseAsString).withDefault([]),
+      types: parseAsArrayOf(parseAsString).withDefault([]),
+      sort: parseAsStringLiteral(sortTypes).withDefault('titleAsc'),
+      page: parseAsInteger.withDefault(1).withOptions({ clearOnDefault: true }),
+    },
+    { shallow: false },
+  );
 
-  const { page, sort, subjects, types } = queryState;
+  const { q, page, sort, subjects, types } = queryState;
 
   const { data: subjectFields } = use(subjectFieldsPromise);
 
@@ -82,27 +90,34 @@ const ClassificationsServicePage = ({
 
   const removeFilter = (filter: FilterItem) => {
     updateQuery({
+      q: q === filter.value ? null : q,
       types: types.filter((v) => v !== filter.value),
       subjects: subjects.filter((v) => v !== filter.value),
       page: 1,
     });
   };
 
-  const clearAll = () => updateQuery({ subjects: null, types: null, sort: null, page: null });
+  const clearAll = () => updateQuery({ q: null, subjects: null, types: null, sort: null, page: null });
 
   return (
     <ClassificationProvider
       classificationsPromise={classificationsPromise}
       subjectFieldsPromise={subjectFieldsPromise}
+      searchResultPromise={searchResultPromise}
       selectedSubjectCodes={subjects}
       selectedClassificationTypes={types}
       sortOption={sort}
+      searchQuery={q}
+      isSearchActive={isSearchActive}
     >
       <SearchPage
         tabsId={tabsData.Classifications.id}
         header={localization.tabs.classifications}
         asideContent={
-          <FiltersPanel>
+          <FiltersPanel heading={localization.search.filter.filterAndSearch}>
+            <Suspense fallback={null}>
+              <KlassSearchSection query={q} onQueryChange={(value) => updateQuery({ q: value, page: 1 })} />
+            </Suspense>
             <Suspense fallback={null}>
               <ClassificationTypeFiltersSection onFilterChange={toggleClassificationType} />
             </Suspense>
@@ -118,7 +133,13 @@ const ClassificationsServicePage = ({
         }
         infoContent={
           <Suspense fallback={null}>
-            <FilterTagsSection tags={filterTags} onRemoveTag={removeFilter} onClearAll={clearAll} />
+            <FilterTagsSection
+              tags={filterTags}
+              onRemoveTag={removeFilter}
+              onClearAll={clearAll}
+              searchTerm={q}
+              onClearSearch={() => updateQuery({ q: null, page: 1 })}
+            />
           </Suspense>
         }
         controlsContent={
@@ -130,7 +151,7 @@ const ClassificationsServicePage = ({
         }
         searchResult={
           <Suspense fallback={<Spinner aria-label={localization.loading.results} />}>
-            <ResultsSection currentPage={page} pageSize={PAGE_SIZE} onPageChange={handlePageChange} />
+            <ResultsSection currentPage={page} pageSize={pageSize} onPageChange={handlePageChange} />
           </Suspense>
         }
       />

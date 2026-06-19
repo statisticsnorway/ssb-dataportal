@@ -234,6 +234,7 @@ export const nb = {
     filter: {
       close: 'Lukk filter',
       label: 'Filter',
+      filterAndSearch: 'Filter og søk',
       open: 'Åpne filter',
     },
 

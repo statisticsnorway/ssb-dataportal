@@ -1,10 +1,72 @@
-import { ClassificationResource, CodeItem } from '@/libs/data-access/klass';
+import { ClassificationResource, CodeItem, SearchResultResource } from '@/libs/data-access/klass';
 import { clientLogger } from '@/libs/logger/client-logger';
 import { CLASSIFICATION_TYPE_CATEGORY, ClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
 import { sortAscending, sortDatesDescendingSafe, sortDescending } from '@/utils/sort';
 import { SUBJECT_FIELD_BY_CODE } from '@/utils/subjectFieldsMapping';
+
+/**
+ * Maps search results to unique `ClassificationResource` entries.
+ *
+ * The function:
+ * - optionally filters search results by language,
+ * - sorts results by `searchScore` descending (highest first),
+ * - resolves each result to a classification via `classificationIdSelector`,
+ * - removes duplicates by classification id while preserving best-score order.
+ *
+ * Only classifications present in the `classifications` input are returned.
+ *
+ * @param classifications Available classifications to map to.
+ * @param searchResults Raw search results from search.
+ * @param options Mapping options.
+ * @param options.classificationIdSelector Extracts classification id from a search result.
+ * @param options.languageSelector Optional language extractor used for filtering.
+ * @param options.language Language to keep when `languageSelector` is provided. Defaults to `'nb'`.
+ * @returns Mapped and de-duplicated classifications ordered by descending relevance.
+ */
+export function mapSearchResultsToClassifications(
+  classifications: ClassificationResource[],
+  searchResults: SearchResultResource[],
+  options: {
+    classificationIdSelector: (item: SearchResultResource) => string | number | null | undefined;
+    languageSelector?: (item: SearchResultResource) => string | null | undefined;
+    language?: string;
+  },
+): ClassificationResource[] {
+  const { classificationIdSelector, languageSelector, language = 'nb' } = options;
+
+  const classificationsById = new Map(
+    classifications.filter((c) => c.id != null).map((c) => [String(c.id), c] as const),
+  );
+  const getScore = (item: SearchResultResource): number => {
+    const score = item.searchScore;
+    return typeof score === 'number' && Number.isFinite(score) ? score : Number.POSITIVE_INFINITY;
+  };
+
+  const sortedSearchResults = [...searchResults]
+    .filter((item) => (languageSelector ? languageSelector(item) === language : true))
+    .sort((a, b) => getScore(b) - getScore(a));
+
+  const seen = new Set<string>();
+  const mapped: ClassificationResource[] = [];
+
+  for (const result of sortedSearchResults) {
+    const rawId = classificationIdSelector(result);
+    if (rawId == null) continue;
+
+    const id = String(rawId);
+    if (seen.has(id)) continue;
+
+    const classification = classificationsById.get(id);
+    if (!classification) continue;
+
+    seen.add(id);
+    mapped.push(classification);
+  }
+
+  return mapped;
+}
 
 export function mapSelectedSubjectFilters(subjectCodes: string[], subjectFields: CodeItem[]): FilterItem[] {
   return subjectCodes.map((value) => {
@@ -80,6 +142,7 @@ export function filterAndSortClassifications(
   subjectCodes: string[],
   sortOption: SortTypes,
   classificationTypes: string[] = [],
+  keepInputOrder = false,
 ): ClassificationResource[] {
   const withoutName = classifications.filter((c) => !c.name);
   for (const c of withoutName) {
@@ -98,6 +161,7 @@ export function filterAndSortClassifications(
       ? bySubject
       : bySubject.filter((c) => c.classificationType != null && classificationTypes.includes(c.classificationType));
 
+  if (keepInputOrder) return byType;
   const comparators: Record<SortTypes, (a: ClassificationResource, b: ClassificationResource) => number> = {
     titleAsc: (a, b) => sortAscending(a.name, b.name),
     titleDesc: (a, b) => sortDescending(a.name, b.name),

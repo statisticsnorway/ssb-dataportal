@@ -96,7 +96,7 @@ export default function DataProductDetail({
         </Heading>
         <div className={styles.searchHitsContainerWrapper}>
           <aside className={styles.filterSection} aria-label={localization.dataProductDetail.dataProductFilters}>
-            <FiltersPanel>
+            <FiltersPanel heading={localization.search.filter.label}>
               <CheckboxFilter
                 filterHeading={localization.products.assessment.filterLabel}
                 filters={assessmentFilters}

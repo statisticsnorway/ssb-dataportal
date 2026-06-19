@@ -170,7 +170,7 @@ export const DataProductsServicePage = ({
       totalHits={filteredDataProducts.length}
       infoContent={<FilterTagsSection tags={filterTags} onRemoveTag={removeFilter} onClearAll={clearAll} />}
       asideContent={
-        <FiltersPanel>
+        <FiltersPanel heading={localization.search.filter.label}>
           <CheckboxFilter
             filterHeading={localization.products.typeFilterLabel}
             filters={productTypeFilters}
