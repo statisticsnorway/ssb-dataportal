@@ -133,6 +133,7 @@ const VariableDefinitionsServicePage = ({
       subjectFilters={subjectFilters}
       statusFilters={statusFilters}
       sortOption={sort}
+      subjectFields={subjectFields}
     >
       <SearchPage
         banner={pageInfo}

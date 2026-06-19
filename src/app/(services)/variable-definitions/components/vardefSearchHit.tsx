@@ -14,13 +14,17 @@ interface VardefSearchHitProps {
 }
 
 const VardefSearchHit = ({ variableDefinition }: VardefSearchHitProps) => {
-  const { subjectFilters } = useVariableDefinitionsContext();
+  const { subjectFields } = useVariableDefinitionsContext();
   const { isAuthenticated } = useAuthContext();
 
+  const subjectFieldOptions = subjectFields.map((item) => ({
+    value: String(item.code),
+    label: String(item.name),
+  }));
   const subjectFieldTags = new Map(
     variableDefinition.subject_fields
       .filter((ref) => areFieldsDefinedAndNonNull(ref, ['code', 'title']))
-      .map((field) => [field.code, getLabelWithParent(field, subjectFilters)]),
+      .map((field) => [field.code, getLabelWithParent(field, subjectFieldOptions)]),
   );
 
   const vardefRoute = `${tabsData.VariableDefinitions.route}/${variableDefinition.short_name}`;
