@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - chore/redirect-and-filter-result-security-scan
 jobs:
   dependency-version-check:
     permissions:
@@ -60,3 +61,57 @@ jobs:
         uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4.36.0
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
+
+      - name: Install Grype CLI
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | \
+          sh -s -- -b /usr/local/bin
+
+      - name: Export Grype JSON report
+        run: grype ssb-dataportal:latest -o json > grype-report.json
+
+      - name: Filter High/Critical with score > 0.1 and build markdown report
+        run: |
+          jq '
+            [
+              .matches[]
+              | {
+                  package: .artifact.name,
+                  installed: .artifact.version,
+                  vulnerability: .vulnerability.id,
+                  severity: .vulnerability.severity,
+                  score: (([.vulnerability.cvss[]?.metrics.baseScore] | max) // 0),
+                  fix: (.vulnerability.fix.versions[0] // "none")
+                }
+              | select((.severity == "High" or .severity == "Critical") and (.score > 0.1))
+            ]
+          ' grype-report.json > filtered-vulns.json
+
+          COUNT=$(jq 'length' filtered-vulns.json)
+          echo "VULN_COUNT=$COUNT" >> "$GITHUB_ENV"
+
+          {
+            echo "## Grype filtered vulnerabilities (High/Critical, score > 1)"
+            echo ""
+            echo "Count: **$COUNT**"
+            echo ""
+            if [ "$COUNT" -eq 0 ]; then
+              echo "_No matching vulnerabilities found._"
+            else
+              echo "| Package | Installed | Vulnerability | Severity | Score | Fix |"
+              echo "|---|---|---|---|---:|---|"
+              jq -r '.[] | "| \(.package) | \(.installed) | \(.vulnerability) | \(.severity) | \(.score) | \(.fix) |"' filtered-vulns.json
+            fi
+          } > grype-filtered-report.md
+
+      - name: Add report to GitHub job summary
+        run: cat grype-filtered-report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload filtered report artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: grype-filtered-report
+          path: |
+            grype-report.json
+            filtered-vulns.json
+            grype-filtered-report.md
