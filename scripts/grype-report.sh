@@ -43,7 +43,7 @@ def vuln_url(vuln_id: str) -> str:
     return ""
 threshold = os.getenv("RISK_THRESHOLD", "0.1")
 severities = os.getenv("SEVERITIES", "High,Critical")
-generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+generated_at = datetime.now(ZoneInfo("Europe/Oslo")).strftime("%Y-%m-%d %H:%M:%S %Z (%z)")
 data = json.loads(Path("filtered-vulns.json").read_text())
 rows = []
 for d in data:
