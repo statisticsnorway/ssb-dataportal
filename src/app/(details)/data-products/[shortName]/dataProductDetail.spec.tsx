@@ -16,6 +16,11 @@ vi.mock('@/app/authContext', () => ({
 vi.mock('@/libs/language', () => ({
   localization: {
     tabs: { dataProducts: 'Data products' },
+    search: {
+      filter: {
+        label: 'Filters',
+      },
+    },
     products: {
       assessment: {
         filterLabel: 'Assessment',

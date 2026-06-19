@@ -12,8 +12,11 @@ interface FilterTagsSectionProps {
   onClearAll: () => void;
 }
 
+const SEARCH_QUERY_CATEGORY = 'searchQuery';
+
 export const FilterTagsSection = ({ onClose, onClearAll }: FilterTagsSectionProps) => {
-  const { selectedSubjectCodes, selectedClassificationTypes, subjectFieldsPromise } = useClassificationContext();
+  const { selectedSubjectCodes, selectedClassificationTypes, subjectFieldsPromise, searchQuery } =
+    useClassificationContext();
   const { data: subjectFields } = use(subjectFieldsPromise);
   const subjectFilters = useMemo(
     () => mapSelectedSubjectFilters(selectedSubjectCodes, subjectFields),
@@ -23,7 +26,11 @@ export const FilterTagsSection = ({ onClose, onClearAll }: FilterTagsSectionProp
     () => selectedClassificationTypes.map((value) => ({ value, label: value, category: CLASSIFICATION_TYPE_CATEGORY })),
     [selectedClassificationTypes],
   );
-  const allFilters = [...subjectFilters, ...classificationTypeFilters];
+
+  const searchQueryFilter: FilterItem[] = searchQuery?.trim()
+    ? [{ value: searchQuery, label: `"${searchQuery}"`, category: SEARCH_QUERY_CATEGORY }]
+    : [];
+  const allFilters = [...searchQueryFilter, ...subjectFilters, ...classificationTypeFilters];
 
   if (allFilters.length === 0) return null;
 

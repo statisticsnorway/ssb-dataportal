@@ -197,8 +197,7 @@ export async function fetchSearchResult(searchRequest: SearchRequest): Promise<S
   const api = await getKlassSearchClient();
   try {
     searchResult = await api.search(searchRequest, {
-      cache: 'force-cache',
-      next: { revalidate: ttlSeconds },
+      cache: 'no-store',
     } as RequestInit);
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
