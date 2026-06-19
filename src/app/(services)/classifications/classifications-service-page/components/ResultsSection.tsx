@@ -1,6 +1,7 @@
 import { use, useMemo } from 'react';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { ClassificationResource } from '@/libs/data-access/klass';
+import { clientLogger } from '@/libs/logger/client-logger';
 import { filterAndSortClassifications, mapSearchResultsToClassifications } from '@/utils/filterAndSortClassifications';
 import { ClassificationSearchHit } from '../classificationSearchHit';
 import { useClassificationContext } from './classificationContext';
@@ -40,6 +41,8 @@ export const ResultsSection = ({ currentPage, pageSize, onPageChange }: ResultsS
   }, [classifications, searchResults, isSearchActive]);
 
   const keepInputOrder = isSearchActive && sortOption === 'titleAsc';
+
+  console.log({ isSearchActive, sortOption, keepInputOrder }, 'ResultsSection sort state');
 
   const sortedHits = useMemo(
     () =>

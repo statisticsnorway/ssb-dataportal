@@ -48,6 +48,11 @@ export function mapSearchResultsToClassifications(
     .filter((item) => (languageSelector ? languageSelector(item) === language : true))
     .sort((a, b) => getScore(b) - getScore(a));
 
+  console.log(
+    { searchScores: [...sortedSearchResults].map((r) => ({ id: r.id, name: r.name, score: r.searchScore })) },
+    'Sorted search results',
+  );
+
   const seen = new Set<string>();
   const mapped: ClassificationResource[] = [];
 
