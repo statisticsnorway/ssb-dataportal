@@ -6,11 +6,6 @@ on:
       - main
       - chore/redirect-and-filter-result-security-scan
   workflow_dispatch:
-    inputs:
-      publish_pages:
-        description: "Publish to GitHub Pages"
-        type: boolean
-        default: false
 jobs:
   dependency-version-check:
     permissions:
@@ -103,17 +98,17 @@ jobs:
             filtered-vulns.json
 
       - name: Configure GitHub Pages
-        if: github.ref == 'refs/heads/main' || (github.ref == 'refs/heads/chore/redirect-and-filter-result-security-scan' && github.event_name == 'workflow_dispatch' && inputs.publish_pages)
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/chore/redirect-and-filter-result-security-scan'
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
 
       - name: Upload Pages artifact
-        if: github.ref == 'refs/heads/main' || (github.ref == 'refs/heads/chore/redirect-and-filter-result-security-scan' && github.event_name == 'workflow_dispatch' && inputs.publish_pages)
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/chore/redirect-and-filter-result-security-scan'
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         with:
           path: report
 
   pages-deploy:
-    if: github.ref == 'refs/heads/main' || (github.ref == 'refs/heads/chore/redirect-and-filter-result-security-scan' && github.event_name == 'workflow_dispatch' && inputs.publish_pages)
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/chore/redirect-and-filter-result-security-scan'
     needs: grype-scan
     runs-on: ubuntu-latest
     permissions:
