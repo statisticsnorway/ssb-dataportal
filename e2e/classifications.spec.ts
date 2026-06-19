@@ -6,7 +6,7 @@ const arbeidOgLonn = 'Arbeid og lønn';
 const bankOgFinans = 'Bank og finansmarked';
 
 test('Classifications page renders hits and sort control', async ({ classificationsPage }) => {
-  await expect(classificationsPage.getByTestId('search-card').first()).toBeVisible();
+  await expect(classificationsPage.getByRole('article').first()).toBeVisible();
   await expect(classificationsPage.getByLabel(localization.search.sort.label)).toBeVisible();
 });
 
@@ -50,7 +50,7 @@ test('Select more than one filter displays a "remove all" tag', async ({ classif
 
 test('Sort classifications', async ({ classificationsPage }) => {
   const sortSelect = classificationsPage.getByLabel(localization.search.sort.label);
-  const firstCard = classificationsPage.getByTestId('search-card').first();
+  const firstCard = classificationsPage.getByRole('article').first();
 
   await sortSelect.selectOption('titleAsc');
   const firstAsc = await firstCard.innerText();
@@ -64,7 +64,7 @@ test('Sort classifications', async ({ classificationsPage }) => {
 
 test.describe('Classifications - pagination', () => {
   test('Displays 8 hits on first page and active page is 1', async ({ classificationsPage }) => {
-    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(8);
+    await expect(classificationsPage.getByRole('article')).toHaveCount(8);
     await expect(classificationsPage.getByTestId('page-active')).toHaveText('1');
   });
 });
@@ -106,7 +106,7 @@ test.describe('Classifications - type filter', () => {
     await classificationsPage.getByRole('checkbox', { name: 'Klassifikasjon' }).check();
 
     await expect(classificationsPage).toHaveURL('classifications?types=Klassifikasjon');
-    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(8);
+    await expect(classificationsPage.getByRole('article')).toHaveCount(8);
 
     const filterTag = classificationsPage.getByRole('listitem').filter({ hasText: 'Klassifikasjon' });
     await expect(filterTag).toBeVisible();
@@ -118,13 +118,13 @@ test.describe('Classifications - type filter', () => {
     await classificationsPage.getByRole('checkbox', { name: 'Kodeliste' }).check();
 
     await expect(classificationsPage).toHaveURL('classifications?types=Kodeliste');
-    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(2);
+    await expect(classificationsPage.getByRole('article')).toHaveCount(2);
   });
 
   test('hydrates type filter from shared URL', async ({ classificationsPage }) => {
     await classificationsPage.goto('/classifications?types=Kodeliste');
     await expect(classificationsPage.getByRole('checkbox', { name: 'Kodeliste' })).toBeChecked();
-    await expect(classificationsPage.getByTestId('search-card')).toHaveCount(2);
+    await expect(classificationsPage.getByRole('article')).toHaveCount(2);
   });
 
   test('combined subject and type filter shows "remove all" button', async ({ classificationsPage }) => {

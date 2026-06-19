@@ -19,7 +19,7 @@ const TWO_RESULTS_TEXT = '2 treff';
 const getLocators = (page: Page) => ({
   searchBox: page.getByRole('searchbox', { name: localization.search.label }),
   main: page.getByRole('main'),
-  searchCards: page.getByTestId('search-card'),
+  searchCards: page.getByRole('article'),
   searchTag: (term: string) => page.getByRole('button', { name: `"${term}"` }),
   typeCheckbox: (name: string) => page.getByRole('checkbox', { name }),
   subjectCheckbox: (name: string) => page.getByRole('checkbox', { name }),
