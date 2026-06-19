@@ -39,8 +39,8 @@
 
 .hitsAndSort {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 0.5rem;
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
   min-height: 2rem;
@@ -51,6 +51,7 @@
   align-items: center;
   gap: 0.5rem;
   flex: 0 0 auto;
+  flex-wrap: wrap;
 }
 
 .hitsSortGroup > * {
@@ -71,6 +72,12 @@
 }
 
 @media (min-width: 768px) {
+  .hitsAndSort {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .searchHitsContainerWrapper {
     display: flex;
     flex-direction: row;
