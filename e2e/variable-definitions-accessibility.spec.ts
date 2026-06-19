@@ -3,27 +3,20 @@ import { expect, test } from './fixtures/variableDefinitions.fixture';
 import { statuses, variables } from './utils/variables';
 import { checkCheckbox } from './utils/commonUtils';
 
-// Exclude search until we implement logic
 test.describe('Variable definitions – accessibility', () => {
   test('Filters are accessible', async ({ variableDefinitionsPage }) => {
     const checkbox = variableDefinitionsPage.getByRole('checkbox', { name: statuses.draft.label });
     await checkCheckbox(checkbox);
-
-    const results = await new AxeBuilder({ page: variableDefinitionsPage })
-      .exclude('.ds-alert.infoAlert')
-      .exclude('[data-axe-ignore]')
-      .analyze();
+    const results = await new AxeBuilder({ page: variableDefinitionsPage }).exclude('.ds-alert.infoAlert').analyze();
     expect(results.violations).toEqual([]);
   });
 
   test('Color contrasts are accessible', async ({ variableDefinitionsPage }) => {
     const checkbox = variableDefinitionsPage.getByRole('checkbox', { name: variables.workAndPay });
     await checkCheckbox(checkbox);
-
     const results = await new AxeBuilder({ page: variableDefinitionsPage })
       .withRules(['color-contrast'])
       .exclude('.ds-alert.infoAlert')
-      .exclude('[data-axe-ignore]')
       .analyze();
     expect(results.violations).toEqual([]);
   });
@@ -34,7 +27,6 @@ test.describe('Variable definitions – accessibility', () => {
     const results = await new AxeBuilder({ page: variableDefinitionsPage })
       .withRules(['landmark-no-duplicate-banner'])
       .exclude('.ds-alert.infoAlert')
-      .exclude('[data-axe-ignore]')
       .analyze();
     expect(results.violations).toEqual([]);
   });
