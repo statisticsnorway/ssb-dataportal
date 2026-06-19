@@ -53,13 +53,14 @@ const ClassificationsServicePage = ({
 
   const filterTags = useMemo<FilterItem[]>(
     () => [
+      ...(q.trim() ? [{ value: q, label: `"${q}"` }] : []),
       ...subjects.map((code) => {
         const subject = subjectFields?.find((item) => String(item.code) === code);
         return { value: code, label: subject ? String(subject.name) : code };
       }),
       ...types.map((code) => ({ value: code, label: code })),
     ],
-    [subjects, subjectFields, types],
+    [q, subjects, subjectFields, types],
   );
 
   const updateQuery = (update: Parameters<typeof setQueryState>[0]) =>
@@ -133,13 +134,7 @@ const ClassificationsServicePage = ({
         }
         infoContent={
           <Suspense fallback={null}>
-            <FilterTagsSection
-              tags={filterTags}
-              onRemoveTag={removeFilter}
-              onClearAll={clearAll}
-              searchTerm={q}
-              onClearSearch={() => updateQuery({ q: null, page: 1 })}
-            />
+            <FilterTagsSection tags={filterTags} onRemoveTag={removeFilter} onClearAll={clearAll} />
           </Suspense>
         }
         controlsContent={
