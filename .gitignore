@@ -60,3 +60,8 @@ results/**
 
 /results
 scan_results.json
+grype-report.json
+filtered-vulns.json
+
+report/**
+scripts/**
