@@ -2,10 +2,12 @@
 
 import { Spinner } from '@digdir/designsystemet-react';
 import { parseAsArrayOf, parseAsInteger, parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs';
-import { Suspense } from 'react';
+import { Suspense, use, useMemo } from 'react';
 import { FiltersPanel } from '@/components/filters';
+import { FilterTagsSection } from '@/components/filters/filter-tags-section';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortFields } from '@/components/sort-fields';
+
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { CodeItem, SearchResultResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
@@ -15,7 +17,6 @@ import { SortTypes, sortTypes } from '@/types/sort';
 import { tabsData } from '../../tabs';
 import { ClassificationTypeFiltersSection } from './components/ClassificationTypeFiltersSection';
 import { ClassificationProvider } from './components/classificationContext';
-import { FilterTagsSection } from './components/FilterTagsSection';
 import { KlassSearchSection } from './components/KlassSearchSection';
 import { ResultsCount } from './components/ResultsCount';
 import { ResultsSection } from './components/ResultsSection';
@@ -47,6 +48,20 @@ const ClassificationsServicePage = ({
   );
 
   const { q, page, sort, subjects, types } = queryState;
+
+  const { data: subjectFields } = use(subjectFieldsPromise);
+
+  const filterTags = useMemo<FilterItem[]>(
+    () => [
+      ...(q.trim() ? [{ value: q, label: `"${q}"` }] : []),
+      ...subjects.map((code) => {
+        const subject = subjectFields?.find((item) => String(item.code) === code);
+        return { value: code, label: subject ? String(subject.name) : code };
+      }),
+      ...types.map((code) => ({ value: code, label: code })),
+    ],
+    [q, subjects, subjectFields, types],
+  );
 
   const updateQuery = (update: Parameters<typeof setQueryState>[0]) =>
     setQueryState(update).catch((error) => {
@@ -119,7 +134,7 @@ const ClassificationsServicePage = ({
         }
         infoContent={
           <Suspense fallback={null}>
-            <FilterTagsSection onClose={removeFilter} onClearAll={clearAll} />
+            <FilterTagsSection tags={filterTags} onRemoveTag={removeFilter} onClearAll={clearAll} />
           </Suspense>
         }
         controlsContent={

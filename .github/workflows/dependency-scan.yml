@@ -5,6 +5,8 @@ on:
     branches:
       - main
       - chore/redirect-and-filter-result-security-scan
+  schedule:
+    - cron: '0 0 * * *' # Runs every day at midnight
   workflow_dispatch:
 jobs:
   dependency-version-check:

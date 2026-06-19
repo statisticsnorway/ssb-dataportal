@@ -245,6 +245,12 @@ export const nb = {
       titleAlphabeticalDesc: 'Tittel Å-A',
     },
   },
+
+  filterTag: {
+    remove: 'Fjern',
+    listLabel: 'Liste over valgte filter',
+  },
+
   ssbDataportal: 'SSB Dataportal',
   statisticsNorway: 'Statistisk sentralbyrå',
 
