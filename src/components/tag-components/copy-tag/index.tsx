@@ -2,6 +2,7 @@ import { Button, Tag, Tooltip } from '@digdir/designsystemet-react';
 import { FilesIcon } from '@navikt/aksel-icons';
 import { useClipboard } from '@/hooks/useClipboard';
 import { localization } from '@/libs/language/src/localization';
+import { assertUnreachable } from '@/utils/functions';
 import styles from './copy-tag.module.css';
 
 interface CopyTagProps {
@@ -9,11 +10,24 @@ interface CopyTagProps {
   copyType?: CopyType;
 }
 
-export type CopyType = 'short_name' | 'id';
+export type CopyType = 'short_name' | 'id' | 'file_path';
+
+export const localizeCopyTypeLabel = (it: CopyType): string => {
+  switch (it) {
+    case 'short_name':
+      return localization.copy.shortName;
+    case 'id':
+      return localization.copy.id;
+    case 'file_path':
+      return localization.copy.filePath;
+    default:
+      return assertUnreachable(it);
+  }
+};
 
 const CopyTag = ({ text, copyType = 'short_name' }: CopyTagProps) => {
   const { copied, copyToClipboard } = useClipboard();
-  const copyLabel = copyType === 'short_name' ? localization.copy.shortName : localization.copy.id;
+  const copyLabel = localizeCopyTypeLabel(copyType);
   return (
     <Tag
       data-size='md'
@@ -24,7 +38,7 @@ const CopyTag = ({ text, copyType = 'short_name' }: CopyTagProps) => {
       }
     >
       <div className={styles.copyWrapper}>
-        <span className={styles.copyLabel}>{text}</span>
+        <span className={styles.copyLabel}>{copyType === 'file_path' ? copyLabel : text}</span>
         <Tooltip content={copied ? localization.copy.copied : copyLabel}>
           <Button
             aria-label={copied ? localization.copy.copied : copyLabel}

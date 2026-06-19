@@ -186,3 +186,7 @@ export const getLabelWithParent = (klassReference: KlassReference, filterList: F
   const parentLabel = getLabelByCode(getParentCode(String(klassReference?.code)), filterList);
   return parentLabel ? `${parentLabel} → ${String(klassReference?.title)}` : String(klassReference?.title);
 };
+
+export function assertUnreachable(x: never): never {
+  throw new Error('The impossible has happened.');
+}

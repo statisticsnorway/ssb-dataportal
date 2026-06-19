@@ -123,14 +123,14 @@ describe('useTimelineData', () => {
     expect(result.current.isValid).toBe(true);
     expect(result.current.allItems).toHaveLength(3);
     expect(result.current.items).toHaveLength(2);
-    expect(result.current.allItems.map((item) => item.filePath)).toContain(
+    expect(result.current.allItems.map((item) => item.file_path)).toContain(
       'gs://bucket/dataset/data_p2024-01_v1.parquet',
     );
-    expect(result.current.allItems.map((item) => item.filePath)).toContain(
+    expect(result.current.allItems.map((item) => item.file_path)).toContain(
       'gs://bucket/dataset/data_p2024-01_v2.parquet',
     );
-    expect(result.current.items[0]?.filePath).toBe('gs://bucket/dataset/data_p2024-01_v2.parquet');
-    expect(result.current.items[0]?.version).toBe(2);
+    expect(result.current.items[0]?.file_path).toBe('gs://bucket/dataset/data_p2024-01_v2.parquet');
+    expect(result.current.items[0]?.data_file_version).toBe(2);
   });
 
   it('returns empty state for overlaps across different period ranges', () => {
@@ -190,8 +190,8 @@ describe('useTimelineData', () => {
     expect(result.current.isValid).toBe(true);
     expect(result.current.periodType).toBe(PeriodFormat.YEAR_MONTH);
 
-    expect(result.current.items[0]?.filePath).toBe('gs://bucket/dataset/data_p2022-12.parquet');
-    expect(result.current.items[1]?.filePath).toBe('gs://bucket/dataset/data_p2024-03.parquet');
+    expect(result.current.items[0]?.file_path).toBe('gs://bucket/dataset/data_p2022-12.parquet');
+    expect(result.current.items[1]?.file_path).toBe('gs://bucket/dataset/data_p2024-03.parquet');
 
     expect(result.current.years).toEqual([2022, 2023, 2024]);
 

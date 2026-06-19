@@ -1,8 +1,9 @@
 'use client';
 
-import { Badge, Card, Divider, Heading, Popover, Tag } from '@digdir/designsystemet-react';
+import { Badge, Card, Heading, Tag } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
+import { useTimelineData } from '@/components/data-coverage-timeline';
 import DataCoverageTimeline from '@/components/data-coverage-timeline/dataCoverageTimeline';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { DetailsTable } from '@/components/details-list';
@@ -14,6 +15,7 @@ import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { getDaplaCtrlUrl } from '@/utils/config';
 import { convertAssessment, convertDataSetState } from '@/utils/functions';
 import { sortDateStringsDescending } from '@/utils/sort';
+import { DataFileSearchHit } from '../../components/DataFileSearchHit';
 import styles from './dataset-page.module.css';
 
 export default function DatasetDetail({
@@ -35,6 +37,7 @@ export default function DatasetDetail({
     (total, dataFile) => total + (dataFile.naming_standard_violations?.length ?? 0),
     0,
   );
+  const { isValid, periodType, allItems, items, years, slots } = useTimelineData(dataFiles);
 
   return (
     <div className={`${styles.detailsPage} container`}>
@@ -96,61 +99,40 @@ export default function DatasetDetail({
             { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
           ]}
         />
-
-        <DataCoverageTimeline data={dataFiles}></DataCoverageTimeline>
-
-        <Card className={styles.tableContainer}>
-          <Heading
-            level={2}
-            className={`${styles.detailsHeading} secondaryHeading`}
-            data-size='md'
-            id={`tableHeading-dataFiles`}
-          >
-            {localization.datasetDetail.dataFiles}
-          </Heading>
-          {dataFiles
-            .sort((a, b) =>
-              sortDateStringsDescending(
-                a.contains_data_from?.toISOString().split('T')[0],
-                b.contains_data_from?.toISOString().split('T')[0],
-              ),
-            )
-            .map((dataFile, index) => (
-              <dl key={index} className={styles.row}>
-                <dt className={styles.key}>{dataFile.contains_data_from?.toLocaleDateString()}</dt>
-                <dd className={styles.value}>
-                  <div className={styles.fileValue}>
-                    <span className={styles.filePath}>{dataFile.file_path}</span>
-                    {(dataFile.naming_standard_violations?.length ?? 0) > 0 ? (
-                      <Popover.TriggerContext>
-                        <Popover.Trigger
-                          inline
-                          className={styles.violationPopoverTrigger}
-                          aria-label={`${dataFile.naming_standard_violations?.length ?? 0} ${localization.datasetDetail.namingStandardViolations}`}
-                        >
-                          <Badge
-                            count={dataFile.naming_standard_violations?.length ?? 0}
-                            data-color='warning'
-                            data-size='sm'
-                            className={styles.violationBadge}
-                            aria-hidden
-                          />
-                        </Popover.Trigger>
-                        <Popover placement='top' id={`violations-${index}`} className={styles.violationPopover}>
-                          <ul className={styles.violationsList}>
-                            {(dataFile.naming_standard_violations ?? []).map((violation) => (
-                              <li key={violation}>{violation}</li>
-                            ))}
-                          </ul>
-                        </Popover>
-                      </Popover.TriggerContext>
-                    ) : null}
-                  </div>
-                </dd>
-                <Divider />
-              </dl>
-            ))}
-        </Card>
+        {isValid ? (
+          <DataCoverageTimeline
+            isValid={isValid}
+            periodType={periodType}
+            allItems={allItems}
+            items={items}
+            years={years}
+            slots={slots}
+          ></DataCoverageTimeline>
+        ) : (
+          // Fallback when calendar can't be rendered: List data files
+          <Card className={styles.tableContainer}>
+            <Heading
+              level={2}
+              className={`${styles.detailsHeading} secondaryHeading`}
+              data-size='md'
+              id={`tableHeading-dataFiles`}
+            >
+              {localization.datasetDetail.dataFiles}
+            </Heading>
+            <div>
+              {dataFiles
+                .sort((a, b) =>
+                  sortDateStringsDescending(
+                    a.contains_data_from?.toISOString().split('T')[0],
+                    b.contains_data_from?.toISOString().split('T')[0],
+                  ),
+                )
+                .map((dataFile, index) => (
+                  <DataFileSearchHit dataFile={dataFile} key={index} />
+                ))}
+            </div>
+          </Card>
+        )}
       </main>
     </div>
   );
