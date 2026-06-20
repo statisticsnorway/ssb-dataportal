@@ -3,7 +3,6 @@ name: Grype security scan and dependency version check
 on:
   push:
     branches:
-      - main
       - chore/redirect-and-filter-result-security-scan
   schedule:
     - cron: '0 0 * * *' # Runs every day at midnight
