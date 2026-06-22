@@ -127,8 +127,8 @@ export default function DatasetDetail({
                     b.contains_data_from?.toISOString().split('T')[0],
                   ),
                 )
-                .map((dataFile, index) => (
-                  <DataFileSearchHit dataFile={dataFile} key={index} />
+                .map((dataFile) => (
+                  <DataFileSearchHit dataFile={dataFile} key={dataFile.file_path} />
                 ))}
             </div>
           </Card>
