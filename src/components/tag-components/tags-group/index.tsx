@@ -1,4 +1,4 @@
-import { Tag } from '@digdir/designsystemet-react';
+import { Tag } from '@statisticsnorway/design-react';
 import { useMemo } from 'react';
 import styles from './tags-group.module.css';
 

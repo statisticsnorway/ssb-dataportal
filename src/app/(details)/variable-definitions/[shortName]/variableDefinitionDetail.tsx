@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Details, DetailsContent, DetailsSummary, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Card, Details, DetailsContent, DetailsSummary, Heading, Paragraph } from '@statisticsnorway/design-react';
 import { notFound } from 'next/navigation';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';

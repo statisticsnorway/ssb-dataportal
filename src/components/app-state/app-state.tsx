@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Button, Heading, Paragraph } from '@statisticsnorway/design-react';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 import styles from './app-state.module.css';

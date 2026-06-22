@@ -1,6 +1,6 @@
 'use client';
 
-import { Paragraph } from '@digdir/designsystemet-react';
+import { Paragraph } from '@statisticsnorway/design-react';
 import Link from 'next/link';
 import { localization } from '@/libs/language';
 import { AppState, AppStateAction } from './app-state';

@@ -1,4 +1,4 @@
-import { Card, Heading, Popover } from '@digdir/designsystemet-react';
+import { Card, Heading, Popover } from '@statisticsnorway/design-react';
 import React, { useMemo } from 'react';
 import { DataFileSearchHit } from '@/app/(details)/data-products/[shortName]/components/DataFileSearchHit';
 import { localization } from '@/libs/language/src/localization';

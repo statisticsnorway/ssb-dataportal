@@ -1,4 +1,4 @@
-import { Select } from '@digdir/designsystemet-react';
+import { Select } from '@statisticsnorway/design-react';
 import React from 'react';
 import { localization } from '@/libs/language';
 import { SortTypes } from '@/types/sort';

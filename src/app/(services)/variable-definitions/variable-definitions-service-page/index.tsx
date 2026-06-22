@@ -1,6 +1,6 @@
 'use client';
 
-import { Alert, Heading, Paragraph, Spinner } from '@digdir/designsystemet-react';
+import { Alert, Heading, Paragraph, Spinner } from '@statisticsnorway/design-react';
 import { parseAsArrayOf, parseAsInteger, parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs';
 import { Suspense, use, useMemo } from 'react';
 import { useAuthContext } from '@/app/authContext';

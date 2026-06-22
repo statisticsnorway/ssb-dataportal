@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Dialog, Heading } from '@digdir/designsystemet-react';
+import { Button, Dialog, Heading } from '@statisticsnorway/design-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuthContext } from '@/app/authContext';
 import { getLoginUrl, getLogoutUrl } from '@/libs/auth/urls';

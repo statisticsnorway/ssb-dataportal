@@ -1,4 +1,4 @@
-import { Heading, TabsPanel } from '@digdir/designsystemet-react';
+import { Heading, TabsPanel } from '@statisticsnorway/design-react';
 import { FC, ReactElement, ReactNode } from 'react';
 import { localization } from '@/libs/language';
 import { SortTypes } from '@/types/sort';

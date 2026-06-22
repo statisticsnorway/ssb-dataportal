@@ -1,6 +1,6 @@
 'use client';
 
-import { Spinner } from '@digdir/designsystemet-react';
+import { Spinner } from '@statisticsnorway/design-react';
 import { parseAsArrayOf, parseAsInteger, parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs';
 import { Suspense, use, useMemo } from 'react';
 import { FiltersPanel } from '@/components/filters';

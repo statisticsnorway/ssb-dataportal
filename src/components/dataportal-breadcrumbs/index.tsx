@@ -1,4 +1,4 @@
-import { Breadcrumbs, BreadcrumbsItem, BreadcrumbsLink, BreadcrumbsList } from '@digdir/designsystemet-react';
+import { Breadcrumbs, BreadcrumbsItem, BreadcrumbsLink, BreadcrumbsList } from '@statisticsnorway/design-react';
 import { localization } from '@/libs/language';
 
 export type BreadcrumbItem = {

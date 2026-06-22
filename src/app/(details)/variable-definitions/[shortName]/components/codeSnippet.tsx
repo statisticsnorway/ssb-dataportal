@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, Card, Divider, Heading, Paragraph, Tooltip } from '@digdir/designsystemet-react';
 import { FilesIcon } from '@navikt/aksel-icons';
+import { Button, Card, Divider, Heading, Paragraph, Tooltip } from '@statisticsnorway/design-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { coldarkCold } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { ExternalLink } from '@/components/link-components/externalLink';

@@ -1,4 +1,4 @@
-import { Search } from '@digdir/designsystemet-react';
+import { Search } from '@statisticsnorway/design-react';
 import { CollapsibleCard } from '@/components/filters/collapsible-card/';
 import { localization } from '@/libs/language';
 import styles from './text-filter.module.css';

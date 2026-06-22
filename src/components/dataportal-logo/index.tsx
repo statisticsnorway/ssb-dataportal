@@ -1,4 +1,4 @@
-import { Link } from '@digdir/designsystemet-react';
+import { Link } from '@statisticsnorway/design-react';
 import Image from 'next/image';
 import { localization } from '@/libs/language';
 import styles from './logo.module.css';

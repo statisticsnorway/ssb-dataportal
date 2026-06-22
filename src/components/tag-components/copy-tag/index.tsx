@@ -1,5 +1,5 @@
-import { Button, Tag, Tooltip } from '@digdir/designsystemet-react';
 import { FilesIcon } from '@navikt/aksel-icons';
+import { Button, Tag, Tooltip } from '@statisticsnorway/design-react';
 import { useClipboard } from '@/hooks/useClipboard';
 import { localization } from '@/libs/language/src/localization';
 import { assertUnreachable } from '@/utils/functions';

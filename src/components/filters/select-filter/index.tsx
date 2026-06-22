@@ -1,4 +1,4 @@
-import { Select } from '@digdir/designsystemet-react';
+import { Select } from '@statisticsnorway/design-react';
 import type { FilterItem } from '@/types/filters';
 import { CollapsibleCard } from '../collapsible-card';
 import styles from './select-filter.module.css';

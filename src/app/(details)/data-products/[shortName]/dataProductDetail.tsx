@@ -1,6 +1,6 @@
 'use client';
 
-import { Heading } from '@digdir/designsystemet-react';
+import { Heading } from '@statisticsnorway/design-react';
 import { useEffect, useMemo, useState } from 'react';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';

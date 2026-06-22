@@ -1,4 +1,4 @@
-import { Tag } from '@digdir/designsystemet-react';
+import { Tag } from '@statisticsnorway/design-react';
 import { tabsData } from '@/app/(services)/tabs';
 import { SearchHit } from '@/components/search-hit';
 import { DatasetDTO } from '@/libs/data-access/datadoc/models';

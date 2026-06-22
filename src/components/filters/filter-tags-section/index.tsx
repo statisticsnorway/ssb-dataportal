@@ -1,4 +1,4 @@
-import { Chip } from '@digdir/designsystemet-react';
+import { Chip } from '@statisticsnorway/design-react';
 import { localization } from '@/libs/language';
 import type { FilterItem } from '@/types/filters';
 import styles from './filter-tags-section.module.css';

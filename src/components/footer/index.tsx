@@ -1,4 +1,4 @@
-import { Divider, Heading } from '@digdir/designsystemet-react';
+import { Divider, Heading } from '@statisticsnorway/design-react';
 import { ACCESSIBILITY_STATEMENT_URL, PRIVACY_STATEMENT_URL } from '@/config/constants';
 import { localization } from '@/libs/language';
 import { getVardefApiDocsUrl } from '@/utils/config';

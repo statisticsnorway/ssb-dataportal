@@ -1,6 +1,6 @@
 'use client';
 
-import { Tabs } from '@digdir/designsystemet-react';
+import { Tabs } from '@statisticsnorway/design-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
 import { localization } from '@/libs/language';

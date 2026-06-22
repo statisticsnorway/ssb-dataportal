@@ -1,4 +1,4 @@
-import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Alert, Heading, Paragraph } from '@statisticsnorway/design-react';
 import { Metadata } from 'next';
 import { ExternalLink } from '@/components/link-components/externalLink';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';

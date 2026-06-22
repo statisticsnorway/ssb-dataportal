@@ -1,4 +1,4 @@
-import { Tag } from '@digdir/designsystemet-react';
+import { Tag } from '@statisticsnorway/design-react';
 import classNames from 'classnames';
 import { VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language/src/localization';

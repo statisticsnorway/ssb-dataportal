@@ -1,4 +1,4 @@
-import { Card, Heading, Link } from '@digdir/designsystemet-react';
+import { Card, Heading, Link } from '@statisticsnorway/design-react';
 import { ReactNode } from 'react';
 import styles from './navigationCard.module.css';
 

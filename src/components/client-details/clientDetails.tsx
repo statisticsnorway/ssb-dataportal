@@ -1,6 +1,6 @@
 'use client';
 
-import { Details, DetailsContent, DetailsSummary } from '@digdir/designsystemet-react';
+import { Details, DetailsContent, DetailsSummary } from '@statisticsnorway/design-react';
 import { useEffect, useState } from 'react';
 
 import styles from './clientDetails.module.css';

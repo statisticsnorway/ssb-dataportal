@@ -1,4 +1,4 @@
-import { Paragraph } from '@digdir/designsystemet-react';
+import { Paragraph } from '@statisticsnorway/design-react';
 import { ApiDocLink } from '@/components/link-components/apiDocLink';
 import { EmailLink } from '@/components/link-components/emailLink';
 import { ExternalLink } from '@/components/link-components/externalLink';

@@ -1,4 +1,4 @@
-import { Pagination, usePagination } from '@digdir/designsystemet-react';
+import { Pagination, usePagination } from '@statisticsnorway/design-react';
 import { JSX, ReactNode } from 'react';
 import { localization } from '@/libs/language';
 import styles from './search-hit-container.module.css';

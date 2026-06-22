@@ -1,4 +1,4 @@
-import { Alert, Heading } from '@digdir/designsystemet-react';
+import { Alert, Heading } from '@statisticsnorway/design-react';
 import { BreadcrumbItem, DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';

@@ -1,6 +1,6 @@
 'use client';
 
-import { Badge, Card, Heading, Tag } from '@digdir/designsystemet-react';
+import { Badge, Card, Heading, Tag } from '@statisticsnorway/design-react';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { useTimelineData } from '@/components/data-coverage-timeline';

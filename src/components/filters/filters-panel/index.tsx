@@ -1,4 +1,4 @@
-import { Heading } from '@digdir/designsystemet-react';
+import { Heading } from '@statisticsnorway/design-react';
 import { ReactNode } from 'react';
 
 interface FiltersPanelProps {

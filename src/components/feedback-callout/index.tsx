@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Card, Heading, Paragraph } from '@statisticsnorway/design-react';
 import { useAuthContext } from '@/app/authContext';
 import { localization } from '@/libs/language';
 import { ExternalLink } from '../link-components/externalLink';

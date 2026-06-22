@@ -1,4 +1,4 @@
-import { Badge, Popover, Tag } from '@digdir/designsystemet-react';
+import { Badge, Popover, Tag } from '@statisticsnorway/design-react';
 import { SearchHit } from '@/components/search-hit';
 import { CopyTag } from '@/components/tag-components/copy-tag';
 import { localization } from '@/libs/language';

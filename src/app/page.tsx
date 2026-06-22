@@ -1,4 +1,4 @@
-import { Card, Heading } from '@digdir/designsystemet-react';
+import { Card, Heading } from '@statisticsnorway/design-react';
 import { ReactNode } from 'react';
 import { NavigationCard } from '@/components/navigation-card';
 import AlphabetIcon from '@/icons/alphabet.svg';

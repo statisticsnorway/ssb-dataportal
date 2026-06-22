@@ -1,4 +1,4 @@
-import { Spinner } from '@digdir/designsystemet-react';
+import { Spinner } from '@statisticsnorway/design-react';
 import { use, useMemo } from 'react';
 import { CheckboxFilter } from '@/components/filters';
 import { localization } from '@/libs/language';

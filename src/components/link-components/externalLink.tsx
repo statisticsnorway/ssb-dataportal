@@ -1,4 +1,4 @@
-import { Link } from '@digdir/designsystemet-react';
+import { Link } from '@statisticsnorway/design-react';
 import { localization } from '@/libs/language';
 
 interface ExternalLinkProps {

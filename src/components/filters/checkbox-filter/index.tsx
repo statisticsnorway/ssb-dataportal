@@ -1,4 +1,4 @@
-import { Checkbox } from '@digdir/designsystemet-react';
+import { Checkbox } from '@statisticsnorway/design-react';
 import { FilterItem } from '@/types/filters';
 import { CollapsibleCard } from '../collapsible-card';
 import styles from './checkbox.module.css';

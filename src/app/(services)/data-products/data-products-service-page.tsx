@@ -1,6 +1,6 @@
 'use client';
 
-import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Alert, Heading, Paragraph } from '@statisticsnorway/design-react';
 import { parseAsArrayOf, parseAsString, useQueryStates } from 'nuqs';
 import { useMemo } from 'react';
 import { CheckboxFilter, FiltersPanel, SelectFilter } from '@/components/filters';
