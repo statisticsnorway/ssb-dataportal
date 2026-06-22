@@ -69,7 +69,9 @@ const SearchPage: FC<SearchPageProps> = ({
             ) : null}
             <div className={styles.mainSection}>
               <div className={styles.hitsAndSort}>
-                <section aria-label='Tags list'>{infoContent}</section>
+                <section id='filter-tags-section' aria-label='Tags list' style={{ scrollMarginTop: '2rem' }}>
+                  {infoContent}
+                </section>
                 <div className={styles.hitsSortGroup}>
                   <p className={styles.numHits}>{hitsLabel(totalHits)}</p>
                   {controlsContent}
