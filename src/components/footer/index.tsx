@@ -1,7 +1,7 @@
 import { Divider, Heading } from '@digdir/designsystemet-react';
 import { ACCESSIBILITY_STATEMENT_URL, PRIVACY_STATEMENT_URL } from '@/config/constants';
 import { localization } from '@/libs/language';
-import { getKlassApiDocsUrl, getVardefApiDocsUrl } from '@/utils/config';
+import { getKlassApiDocsUrl, getKlassApiGuideUrl, getVardefApiDocsUrl } from '@/utils/config';
 import { getContactEmailAddress } from '@/utils/userAgent';
 import { DataportalLogo } from '../dataportal-logo';
 import { ApiDocLink } from '../link-components/apiDocLink';
@@ -11,6 +11,7 @@ import styles from './footer.module.css';
 export const Footer = () => {
   const vardefApiDocsUrl = getVardefApiDocsUrl();
   const klassApiDocsUrl = getKlassApiDocsUrl();
+  const klassApiGuideUrl = getKlassApiGuideUrl();
 
   return (
     <div className={styles.footerWrapper}>
@@ -49,7 +50,7 @@ export const Footer = () => {
             </Heading>
             <ExternalLink href={klassApiDocsUrl} linkText={localization.apiDocKlass} className={styles.negativeLink} />
             <ExternalLink
-              href='https://data.ssb.no/api/klass/v1/api-guide.html'
+              href={klassApiGuideUrl}
               linkText={localization.apiDocKlassGuide}
               className={styles.negativeLink}
             />

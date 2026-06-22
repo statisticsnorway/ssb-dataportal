@@ -53,6 +53,8 @@ spec:
       value: "https://metadata.test.ssb.no/docs/swagger/variable-definitions"
     - name: KLASS_API_DOCS_URL
       value: "https://data.test.ssb.no/api/klass/swagger-ui/index.html"
+    - name: KLASS_API_GUIDE_URL
+      value: "https://data.test.ssb.no/api/klass/v1/api-guide.html"
     - name: DAPLA_LAB_VARDEF_URL
       value: "https://lab.dapla-test.ssb.no/launcher/dapla-lab-standard/vardef-forvaltning"
     - name: LOG_LEVEL
