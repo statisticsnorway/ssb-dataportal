@@ -1,4 +1,4 @@
-import { Card, Heading, Link, Paragraph } from '@digdir/designsystemet-react';
+import { Card, Heading, Link, Paragraph } from '@statisticsnorway/design-react';
 import { ReactNode } from 'react';
 import styles from './search-hit.module.css';
 

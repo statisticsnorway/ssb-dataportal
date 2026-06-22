@@ -222,6 +222,12 @@ importers:
       '@next/env':
         specifier: 16.2.7
         version: 16.2.7
+      '@statisticsnorway/design-css':
+        specifier: ^0.0.7
+        version: 0.0.7
+      '@statisticsnorway/design-react':
+        specifier: ^0.0.1
+        version: 0.0.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@svgr/webpack':
         specifier: 8.1.0
         version: 8.1.0(typescript@6.0.3)
@@ -1619,6 +1625,15 @@ packages:
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
+
+  '@statisticsnorway/design-css@0.0.7':
+    resolution: {integrity: sha512-5vfv+6hqHCTvIK8R66V/GuOqxpBC3mDuh0qS2bSvau1lr9vj+T2u5Zj5MU3zH5qeLdqllAQSJSnXJ1ENHqG5Pg==}
+
+  '@statisticsnorway/design-react@0.0.1':
+    resolution: {integrity: sha512-f+3Oof80GAv7mGEzaHGz93q0V27LlrL5V39HcGqu4VOqKIMLbhlg9niWwfoiv55r9uz0akhv1P90DQKc6mJjlQ==}
+    peerDependencies:
+      react: '>=18.3.1 || ^19.0.0'
+      react-dom: '>=18.3.1 || ^19.0.0'
 
   '@svgr/babel-plugin-add-jsx-attribute@8.0.0':
     resolution: {integrity: sha512-b9MIk7yhdS1pMCZM8VeNfUlSKVRhsHZNMl5O9SfaX0l0t5wjdgu4IDzGB8bpnGBBOjGST3rRFVsaaEtI4W6f7g==}
@@ -4997,6 +5012,19 @@ snapshots:
   '@standard-schema/spec@1.0.0': {}
 
   '@standard-schema/spec@1.1.0': {}
+
+  '@statisticsnorway/design-css@0.0.7':
+    dependencies:
+      '@digdir/designsystemet-css': 1.15.0
+
+  '@statisticsnorway/design-react@0.0.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+    dependencies:
+      '@digdir/designsystemet-react': 1.15.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@digdir/designsystemet-types': 1.15.0
+      react: 19.2.7
+      react-dom: 19.2.7(react@19.2.7)
+    transitivePeerDependencies:
+      - '@types/react'
 
   '@svgr/babel-plugin-add-jsx-attribute@8.0.0(@babel/core@7.29.0)':
     dependencies:
