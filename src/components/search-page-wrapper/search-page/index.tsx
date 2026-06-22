@@ -69,7 +69,12 @@ const SearchPage: FC<SearchPageProps> = ({
             ) : null}
             <div className={styles.mainSection}>
               <div className={styles.hitsAndSort}>
-                <section id='filter-tags-section' aria-label='Tags list' style={{ scrollMarginTop: '2rem' }}>
+                <section
+                  id='filter-tags-section'
+                  role='region'
+                  aria-label={localization.filterTag.sectionLabel}
+                  style={{ scrollMarginTop: '2rem' }}
+                >
                   {infoContent}
                 </section>
                 <div className={styles.hitsSortGroup}>
