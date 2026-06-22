@@ -3,20 +3,22 @@ import { expect, test } from './fixtures/variableDefinitions.fixture';
 import { checkCheckbox } from './utils/commonUtils';
 import { statuses, variables } from './utils/variables';
 
-test('Filter by subject field displays tags (listitem) with count and close button (x)', async ({
-  variableDefinitionsPage,
-}) => {
+test('Filter by subject field displays tags (listitem) and close button (x)', async ({ variableDefinitionsPage }) => {
   const main = variableDefinitionsPage.getByRole('main');
   await expect(main).toContainText(variables.totalHits);
+
   const checkbox = variableDefinitionsPage.getByRole('checkbox', { name: variables.socialConditionsAndCrime });
   await checkCheckbox(checkbox);
-
   await expect(main).toContainText('2 treff');
-  const filterTag = variableDefinitionsPage.getByRole('listitem').filter({
-    hasText: variables.socialConditionsAndCrime,
+
+  const removeButton = variableDefinitionsPage.getByRole('button', {
+    name: `${localization.filterTag.remove} ${variables.socialConditionsAndCrimeLabel}`,
   });
+
+  const filterTag = variableDefinitionsPage.getByRole('listitem').filter({ has: removeButton });
   await expect(filterTag).toBeVisible();
-  await variableDefinitionsPage.getByRole('button', { name: `Remove ${variables.socialConditionsAndCrime}` }).click();
+
+  await removeButton.click();
   await expect(main).toContainText(variables.totalHits);
 });
 
@@ -37,19 +39,28 @@ test('Select more than one filter display a "remove all" tag', async ({ variable
   await expect(main).toContainText(variables.totalHits);
 });
 
-test('Subject area level 2 filters on level 1', async ({ variableDefinitionsPage }) => {
-  const main = variableDefinitionsPage.getByRole('main');
-  await expect(main).toContainText(variables.totalHits);
-  const checkbox = variableDefinitionsPage.getByRole('checkbox', { name: variables.health.label });
+test('Variable definition display subject area tag level 1 and level 2', async ({ variableDefinitionsPage }) => {
+  // Search result is on page 6
+  await variableDefinitionsPage.goto('/variable-definitions?page=6');
+  const card = variableDefinitionsPage.getByRole('article', { name: variables.healthRegion });
+  await expect(card).toBeVisible();
+  await expect(card).toContainText(variables.health.tagLevelOne);
+  await expect(card).toContainText(variables.health.tagLevelTwo);
+});
 
+test('Variable definition display subject area tag level 1 and level 2 when filtered by health', async ({
+  variableDefinitionsPage,
+}) => {
+  const checkbox = variableDefinitionsPage.getByRole('checkbox', { name: variables.health.label });
   await checkCheckbox(checkbox);
 
   const levelTwoTag = variableDefinitionsPage.getByRole('list').filter({ hasText: variables.health.tagLevelTwo });
   await expect(levelTwoTag).toBeVisible();
   await expect(levelTwoTag).toContainText(variables.health.tagLevelTwo);
 
-  const levelOneTag = variableDefinitionsPage
-    .getByRole('list')
+  const filterTagsList = variableDefinitionsPage.getByRole('list', { name: localization.filterTag.listLabel });
+  const levelOneTag = filterTagsList
+    .getByRole('listitem')
     .filter({ hasText: new RegExp(`^${variables.health.tagLevelOne}$`) });
   await expect(levelOneTag).toBeVisible();
   await expect(levelOneTag).toContainText(new RegExp(variables.health.tagLevelOne));
@@ -105,7 +116,7 @@ test('Filter by name', async ({ variableDefinitionsPage }) => {
     })
     .fill('Baderom');
   await expect(main).toContainText('1 treff');
-  await variableDefinitionsPage.getByRole('button', { name: 'Remove Navn: Baderom' }).click();
+  await variableDefinitionsPage.getByRole('button', { name: 'Fjern Navn: Baderom' }).click();
   await expect(main).toContainText('25 treff');
 });
 
@@ -125,7 +136,7 @@ test('Filter by name remove all', async ({ variableDefinitionsPage }) => {
     })
     .fill('Baderom');
   await expect(main).toContainText('1 treff');
-  await variableDefinitionsPage.getByRole('button', { name: `Remove ${localization.button.removeFilter}` }).click();
+  await variableDefinitionsPage.getByRole('button', { name: `${localization.button.removeFilter}` }).click();
   await expect(main).toContainText(variables.totalHits);
 });
 
@@ -160,23 +171,23 @@ test('Filter by status published', async ({ variableDefinitionsPage }) => {
 
   await expect(main).toContainText(statuses.internalPlusExternal.totalHits);
 
-  await variableDefinitionsPage.getByRole('button', { name: `Remove ${localization.button.removeFilter}` }).click();
+  await variableDefinitionsPage.getByRole('button', { name: `${localization.button.removeFilter}` }).click();
   await expect(main).toContainText(variables.totalHits);
 });
 
 test.describe('Variable definitions - pagination', () => {
   test('Display 8 hits on first page and active page is 1', async ({ variableDefinitionsPage }) => {
-    const hits = variableDefinitionsPage.getByTestId('search-card');
+    const hits = variableDefinitionsPage.getByRole('article');
     await expect(hits).toHaveCount(8);
     await expect(variableDefinitionsPage.getByTestId('page-active')).toHaveText('1');
   });
   test('Next/previous navigation keeps 8 hits', async ({ variableDefinitionsPage }) => {
     await variableDefinitionsPage.getByRole('button', { name: localization.next }).click();
     await expect(variableDefinitionsPage.getByTestId('page-active')).toHaveText('2');
-    await expect(variableDefinitionsPage.getByTestId('search-card')).toHaveCount(8);
+    await expect(variableDefinitionsPage.getByRole('article')).toHaveCount(8);
     await variableDefinitionsPage.getByRole('button', { name: localization.previous }).click();
     await expect(variableDefinitionsPage.getByTestId('page-active')).toHaveText('1');
-    await expect(variableDefinitionsPage.getByTestId('search-card')).toHaveCount(8);
+    await expect(variableDefinitionsPage.getByRole('article')).toHaveCount(8);
   });
   test('Filter resets to page 1', async ({ variableDefinitionsPage }) => {
     await variableDefinitionsPage.getByRole('button', { name: localization.next }).click();
@@ -309,6 +320,6 @@ test.describe('Variable definitions URL state', () => {
     await variableDefinitionsPage.goto('/variable-definitions?page=2');
     await expect(variableDefinitionsPage.getByTestId('page-active')).toHaveText('2');
     await expect(variableDefinitionsPage).toHaveURL(/[?&]page=2/);
-    await expect(variableDefinitionsPage.getByTestId('search-card')).toHaveCount(8);
+    await expect(variableDefinitionsPage.getByRole('article')).toHaveCount(8);
   });
 });

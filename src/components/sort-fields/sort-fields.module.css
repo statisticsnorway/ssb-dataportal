@@ -1,0 +1,14 @@
+.wrapper select {
+  padding: 0.5rem;
+  border-radius: 5px;
+  border-color: var(--ssb-dark-color-2);
+  width: 160px;
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+  .wrapper select {
+    width: 160px;
+    max-width: 100%;
+  }
+}

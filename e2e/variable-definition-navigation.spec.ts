@@ -52,7 +52,7 @@ test.describe('Variable definitions breadcrumbs', () => {
     const variable = variableDefinitions[0];
     assert(variable);
     await goToVariable(variable);
-    const nav = page.getByTestId('dataportalBreadcrumbs');
+    const nav = page.getByRole('navigation', { name: localization.breadcrumbsLabel });
     await expect(nav).toBeVisible();
     const items = nav.locator('ol > li');
     await expect(items).toHaveCount(3);

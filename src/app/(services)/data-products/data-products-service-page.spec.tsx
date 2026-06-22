@@ -144,8 +144,7 @@ describe('DataProductsServicePage', () => {
 
   it('renders subject area tags in the search results', () => {
     renderPage({ subjectFields });
-    // The SearchHit component renders cards with data-testid="search-card"
-    const cards = screen.getAllByTestId('search-card');
+    const cards = screen.getAllByRole('article');
     expect(cards).toHaveLength(2);
     expect(within(cards[0]!).getByLabelText(localization.subjectArea)).toHaveTextContent('Arbeid og lønn');
     expect(within(cards[1]!).getByLabelText(localization.subjectArea)).toHaveTextContent('Bank og finansmarked');

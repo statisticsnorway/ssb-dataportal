@@ -2,6 +2,7 @@ import { Select } from '@digdir/designsystemet-react';
 import React from 'react';
 import { localization } from '@/libs/language';
 import { SortTypes } from '@/types/sort';
+import styles from './sort-fields.module.css';
 
 interface SortFieldsProps {
   sortOptions: ReadonlyArray<SortTypes>;
@@ -20,7 +21,7 @@ const SortFields = ({ sortOptions, sortValue, onSortChange }: SortFieldsProps) =
     onSortChange(e.target.value as SortTypes);
   };
   return (
-    <section>
+    <section className={styles.wrapper}>
       <Select
         id='sortVariables'
         data-size='sm'

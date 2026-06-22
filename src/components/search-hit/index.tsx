@@ -11,7 +11,7 @@ interface SearchHitProps {
 
 const SearchHit = ({ title, href, description, tagsList }: SearchHitProps) => {
   return (
-    <Card data-testid='search-card'>
+    <Card aria-label={title} role='article'>
       {href && title ? (
         <Heading data-size='md' className={styles.headingLink} level={2}>
           <Link href={href}>{title && <span className='primaryHeading'>{title}</span>}</Link>
