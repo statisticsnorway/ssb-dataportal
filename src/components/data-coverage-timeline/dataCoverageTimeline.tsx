@@ -96,11 +96,11 @@ const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matche
               {`${datasetNames.length} ${datasetNames.length === 1 ? text.availableDataFileLabel : text.availableDataFileLabelPlural}`}
               :
             </div>
-            <ul className={styles.popoverList}>
+            <div className={styles.popoverList}>
               {matchedItems.map((dataFile: TimelineItem) => (
                 <DataFileSearchHit dataFile={dataFile} key={dataFile.file_path} />
               ))}
-            </ul>
+            </div>
           </div>
         ) : (
           baseTooltip
