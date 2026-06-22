@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { localization } from '@/libs/language';
-import { getContactEmailAddress } from '@/utils/userAgent';
+import { getBrokenLinkEmailAddress } from '@/utils/userAgent';
 import { AppState, AppStateAction } from './app-state';
 
 type AppNotFoundStateProps = Readonly<{
@@ -30,7 +30,7 @@ export function AppNotFoundState({
   const path = usePathname();
   const body = encodeURIComponent(localization.error.brokenLinkMailBody(path));
   const subject = encodeURIComponent(localization.error.brokenLinkMailSubject);
-  const mailto = `mailto:${getContactEmailAddress()}?subject=${subject}&body=${body}`;
+  const mailto = `mailto:${getBrokenLinkEmailAddress()}?subject=${subject}&body=${body}`;
   const resolvedTitle = title ?? errorText.notFoundTitle;
   const resolvedMessage = message ?? errorText.notFoundMessage;
 

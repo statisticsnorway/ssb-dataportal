@@ -13,3 +13,7 @@ export function getAppVersion(): string | undefined {
 export function getContactEmailAddress(): string | undefined {
   return process.env.CONTACT_EMAIL_ADDRESS;
 }
+
+export function getBrokenLinkEmailAddress(): string | undefined {
+  return process.env.BROKEN_LINK_EMAIL_ADDRESS;
+}
