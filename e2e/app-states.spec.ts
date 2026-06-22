@@ -17,7 +17,11 @@ test.describe('app state routes', () => {
     await page.goto('/variable-definitions/does-not-exist');
     await expect(page.getByRole('heading', { name: 'Variabeldefinisjon ikke funnet' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Gå til forsiden' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Variabeldefinisjoner' })).toBeVisible();
+    await expect(
+      page
+        .locator('section[aria-labelledby="app-not-found-title"]')
+        .getByRole('link', { name: 'Variabeldefinisjoner' }),
+    ).toBeVisible();
     await expect(page.getByRole('link', { name: 'Meld fra om ødelagt lenke' })).toHaveCount(0);
   });
 
