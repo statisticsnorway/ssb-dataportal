@@ -39,39 +39,18 @@ test('Select more than one filter display a "remove all" tag', async ({ variable
   await expect(main).toContainText(variables.totalHits);
 });
 
-// fix this test name etc
-test('debug article role', async ({ variableDefinitionsPage }) => {
-  await expect(variableDefinitionsPage.getByRole('article')).toHaveCount(8);
-  const articles = variableDefinitionsPage.getByRole('article');
-  const count = await articles.count();
-
-  for (let i = 0; i < count; i++) {
-    const label = await articles.nth(i).getAttribute('aria-label');
-    console.log(i, label);
-  }
-
-  await variableDefinitionsPage.goto('/variable-definitions?page=6');
-  const card = variableDefinitionsPage.getByRole('article', { name: /Helseregion/i });
-  await expect(card).toBeVisible();
-});
-/*
 test('Variable definition display subject area tag level 1 and level 2', async ({ variableDefinitionsPage }) => {
-  const main = variableDefinitionsPage.getByRole('main');
-  await expect(main).toContainText(variables.totalHits);
-  const card = variableDefinitionsPage.getByRole('article', { name: 'Helseregion' });
+  // Search result is on page 6
+  await variableDefinitionsPage.goto('/variable-definitions?page=6');
+  const card = variableDefinitionsPage.getByRole('article', { name: variables.healthRegion });
   await expect(card).toBeVisible();
-*/
-/*
+  await expect(card).toContainText(variables.health.tagLevelOne);
   await expect(card).toContainText(variables.health.tagLevelTwo);
-  const levelTwoTag = variableDefinitionsPage.getByRole('list').filter({ hasText: variables.health.tagLevelTwo });
-  await expect(levelTwoTag).toBeVisible();
-  await expect(levelTwoTag).toContainText(variables.health.tagLevelTwo);*/
-//});
+});
 
-test('Subject area level 2 filters on level 1', async ({ variableDefinitionsPage }) => {
-  const main = variableDefinitionsPage.getByRole('main');
-  await expect(main).toContainText(variables.totalHits);
-
+test('Variable definition display subject area tag level 1 and level 2 when filtered by health', async ({
+  variableDefinitionsPage,
+}) => {
   const checkbox = variableDefinitionsPage.getByRole('checkbox', { name: variables.health.label });
   await checkCheckbox(checkbox);
 
