@@ -2,6 +2,7 @@
 
 @import url("@digdir/designsystemet-css");
 @import url("@digdir/designsystemet-css/theme");
+@import url("@statisticsnorway/design-css");
 
 @layer reset, ds;
 
