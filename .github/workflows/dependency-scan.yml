@@ -37,6 +37,7 @@ jobs:
       id-token: write
       packages: read
       actions: read
+      pages: write
     env:
       RISK_THRESHOLD: "0.1"
       SEVERITIES: "High,Critical"
@@ -71,8 +72,10 @@ jobs:
           sarif_file: ${{ steps.scan.outputs.sarif }}
 
       - name: Install Grype + jq
+        env:
+          GRYPE_VERSION: v0.114.0
         run: |
-          curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+          curl -sSfL "https://raw.githubusercontent.com/anchore/grype/${GRYPE_VERSION}/install.sh" | sh -s -- -b /usr/local/bin "${GRYPE_VERSION}"
           sudo apt-get update
           sudo apt-get install -y jq
 
@@ -81,14 +84,6 @@ jobs:
 
       - name: Set finding count
         run: echo "VULN_COUNT=$(jq 'length' filtered-vulns.json)" >> "$GITHUB_ENV"
-
-      - name: Add visual summary in GitHub UI
-        run: |
-          {
-            echo "## Grype filtered report"
-            echo "- Threshold: ${SEVERITIES}, risk > ${RISK_THRESHOLD}"
-            echo "- Findings: **${VULN_COUNT}**"
-          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload filtered report artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
