@@ -11,6 +11,7 @@ import type { CodeItem } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import type { FilterItem } from '@/types/filters';
 import { getParentCode } from '@/utils/functions';
+import { scrollToFilterTags } from '@/utils/scrollToFilterTags';
 import { tabsData } from '../tabs';
 import { DataProductSearchHit, localizeDataProductType } from './components/DataProductSearchHit';
 import styles from './page.module.css';
@@ -127,6 +128,7 @@ export const DataProductsServicePage = ({
       productTypes: nextProductTypes.length > 0 ? nextProductTypes : null,
       subject: nextSubject || null,
     });
+    scrollToFilterTags();
   };
 
   const clearAll = async () => {
@@ -134,6 +136,7 @@ export const DataProductsServicePage = ({
       productTypes: null,
       subject: null,
     });
+    scrollToFilterTags();
   };
 
   const filteredDataProducts = useMemo(() => {
@@ -151,6 +154,7 @@ export const DataProductsServicePage = ({
       ? productTypes.filter((value) => value !== filter.value)
       : [...productTypes, filter.value];
     void setQueryState({ productTypes: nextProductTypes.length > 0 ? nextProductTypes : null });
+    scrollToFilterTags();
   };
 
   const pageInfo = (
@@ -184,7 +188,10 @@ export const DataProductsServicePage = ({
             selectedValue={subject}
             defaultOptionLabel='Alle statistikkområder'
             defaultOptionValue={ALL_SUBJECT_FIELDS}
-            onFilterChange={(value) => void setQueryState({ subject: value || null })}
+            onFilterChange={(value) => {
+              setQueryState({ subject: value || null });
+              scrollToFilterTags();
+            }}
           />
         </FiltersPanel>
       }
