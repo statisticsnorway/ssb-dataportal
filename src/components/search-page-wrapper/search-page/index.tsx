@@ -71,7 +71,6 @@ const SearchPage: FC<SearchPageProps> = ({
               <div className={styles.hitsAndSort}>
                 <section
                   id='filter-tags-section'
-                  role='region'
                   aria-label={localization.filterTag.sectionLabel}
                   style={{ scrollMarginTop: '2rem' }}
                 >
