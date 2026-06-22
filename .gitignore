@@ -57,10 +57,3 @@ results/**
 
 # vscode
 .vscode/extensions.json
-
-/results
-scan_results.json
-grype-report.json
-filtered-vulns.json
-
-report/**
