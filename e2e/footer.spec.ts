@@ -29,7 +29,8 @@ test.describe('footer', () => {
     page,
   }, testInfo: TestInfo) => {
     test.skip(testInfo.project.name !== 'chrome-unauth');
-    const link = page.getByRole('link', { name: localization.apiDocVardef });
+    const footer = page.getByRole('contentinfo');
+    const link = footer.getByRole('link', { name: localization.apiDocVardef });
     await expect(link).toHaveAttribute('href', 'https://metadata.test.ssb.no/docs/swagger/variable-definitions');
   });
 
@@ -37,19 +38,22 @@ test.describe('footer', () => {
     page,
   }, testInfo: TestInfo) => {
     test.skip(testInfo.project.name !== 'chrome-unauth');
-    const link = page.getByRole('link', { name: localization.apiDocKlass });
+    const footer = page.getByRole('contentinfo');
+    const link = footer.getByRole('link', { name: localization.apiDocKlass });
     await expect(link).toHaveAttribute('href', 'https://data.test.ssb.no/api/klass/swagger-ui/index.html');
   });
 
   test('Accessibility statement link points to the correct URL', async ({ page }, testInfo: TestInfo) => {
     test.skip(testInfo.project.name !== 'chrome-unauth');
-    const link = page.getByRole('link', { name: localization.info.footerAccessibilityStatement });
+    const footer = page.getByRole('contentinfo');
+    const link = footer.getByRole('link', { name: localization.info.footerAccessibilityStatement });
     await expect(link).toHaveAttribute('href', ACCESSIBILITY_STATEMENT_URL);
   });
 
   test('Privacy statement link points to the correct URL', async ({ page }, testInfo: TestInfo) => {
     test.skip(testInfo.project.name !== 'chrome-unauth');
-    const link = page.getByRole('link', { name: localization.info.footerPrivacyStatement });
+    const footer = page.getByRole('contentinfo');
+    const link = footer.getByRole('link', { name: localization.info.footerPrivacyStatement });
     await expect(link).toHaveAttribute('href', PRIVACY_STATEMENT_URL);
   });
 
@@ -57,7 +61,8 @@ test.describe('footer', () => {
     page,
   }, testInfo: TestInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
-    const link = page.getByRole('link', { name: localization.apiDocVardef });
+    const footer = page.getByRole('contentinfo');
+    const link = footer.getByRole('link', { name: localization.apiDocVardef });
     await expect(link).toHaveAttribute(
       'href',
       'https://metadata.test.ssb.no/docs/swagger/variable-definitions?urls.primaryName=internal',
