@@ -33,6 +33,7 @@ export const variables = {
     tagLevelOne: 'Helse',
     tagLevelTwo: 'Helsetjenester',
   },
+  healthRegion: 'Helseregion',
   population: 'Befolkning (25)',
   workAndPayPlusPopulationHits: '32 treff',
   bankingAndFinancialMarket: 'Bank og finansmarked (1)',
