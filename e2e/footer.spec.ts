@@ -68,7 +68,8 @@ test.describe('footer', () => {
     page,
   }, testInfo: TestInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
-    const link = page.getByRole('link', { name: localization.apiDocKlass });
+    const footer = page.getByRole('contentinfo');
+    const link = footer.getByRole('link', { name: localization.apiDocKlass });
     await expect(link).toHaveAttribute('href', 'https://data.test.ssb.no/api/klass/swagger-ui/index.html');
   });
 });
