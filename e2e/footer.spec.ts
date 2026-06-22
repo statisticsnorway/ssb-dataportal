@@ -10,9 +10,14 @@ test.describe('footer', () => {
     await stabilize();
   });
 
-  test('API documentation link is visible in the footer', async ({ page }) => {
+  test('Klassifikasjoner API documentation link is visible in the footer', async ({ page }) => {
     const footer = page.getByRole('contentinfo');
-    await expect(footer.getByRole('link', { name: localization.apiDocumentation })).toBeVisible();
+    await expect(footer.getByRole('link', { name: localization.apiDocKlass })).toBeVisible();
+  });
+
+  test('Vardef API documentation link is visible in the footer', async ({ page }) => {
+    const footer = page.getByRole('contentinfo');
+    await expect(footer.getByRole('link', { name: localization.apiDocVardef })).toBeVisible();
   });
 
   test('Accessibility statement link is visible in the footer', async ({ page }) => {
@@ -20,12 +25,20 @@ test.describe('footer', () => {
     await expect(footer.getByRole('link', { name: localization.info.footerAccessibilityStatement })).toBeVisible();
   });
 
-  test('API documentation link points to the test docs URL when not authenticated', async ({
+  test('Vardef API documentation link points to the test docs URL when not authenticated', async ({
     page,
   }, testInfo: TestInfo) => {
     test.skip(testInfo.project.name !== 'chrome-unauth');
-    const link = page.getByRole('link', { name: localization.apiDocumentation });
+    const link = page.getByRole('link', { name: localization.apiDocVardef });
     await expect(link).toHaveAttribute('href', 'https://metadata.test.ssb.no/docs/swagger/variable-definitions');
+  });
+
+  test('Klassifikasjoner API documentation link points to the test docs URL when not authenticated', async ({
+    page,
+  }, testInfo: TestInfo) => {
+    test.skip(testInfo.project.name !== 'chrome-unauth');
+    const link = page.getByRole('link', { name: localization.apiDocKlass });
+    await expect(link).toHaveAttribute('href', 'https://metadata.test.ssb.no/docs/swagger/classifications');
   });
 
   test('Accessibility statement link points to the correct URL', async ({ page }, testInfo: TestInfo) => {
@@ -40,14 +53,25 @@ test.describe('footer', () => {
     await expect(link).toHaveAttribute('href', PRIVACY_STATEMENT_URL);
   });
 
-  test('API documentation link points to the internal test docs URL when authenticated', async ({
+  test('Vardef API documentation link points to the internal test docs URL when authenticated', async ({
     page,
   }, testInfo: TestInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
-    const link = page.getByRole('link', { name: localization.apiDocumentation });
+    const link = page.getByRole('link', { name: localization.apiDocVardef });
     await expect(link).toHaveAttribute(
       'href',
       'https://metadata.test.ssb.no/docs/swagger/variable-definitions?urls.primaryName=internal',
+    );
+  });
+
+  test('Klassifikasjoner API documentation link points to the internal test docs URL when authenticated', async ({
+    page,
+  }, testInfo: TestInfo) => {
+    test.skip(testInfo.project.name === 'chrome-unauth');
+    const link = page.getByRole('link', { name: localization.apiDocKlass });
+    await expect(link).toHaveAttribute(
+      'href',
+      'https://metadata.test.ssb.no/docs/swagger/classifications?urls.primaryName=internal',
     );
   });
 });
