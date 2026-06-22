@@ -68,13 +68,15 @@ export const nb = {
     copied: 'Kopiert',
     id: 'Kopier ID',
     shortName: 'Kopier kortnavn',
+    filePath: 'Kopier gs:// sti',
   },
 
   dataCoverageTimeline: {
-    availableDatasetsLabel: 'Tilgjengelige datasett',
+    availableDataFileLabel: 'tilhørende data fil',
+    availableDataFileLabelPlural: 'tilhørende data filer',
     filePathLabel: 'Filsti',
     labelBimesterPrefix: 'B',
-    labelFullYear: 'Årlig',
+    labelFullYear: 'Hele',
     labelHalfYearPrefix: 'H',
     labelQuarterPrefix: 'K',
     labelTriannualPrefix: 'T',

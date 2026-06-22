@@ -4,7 +4,7 @@ import styles from './search-hit.module.css';
 
 interface SearchHitProps {
   title?: string;
-  href: string;
+  href?: string;
   description?: string;
   tagsList?: ReactNode;
 }
@@ -12,9 +12,11 @@ interface SearchHitProps {
 const SearchHit = ({ title, href, description, tagsList }: SearchHitProps) => {
   return (
     <Card aria-label={title} role='article'>
-      <Heading data-size='md' className={styles.headingLink} level={2}>
-        <Link href={href}>{title && <span className='primaryHeading'>{title}</span>}</Link>
-      </Heading>
+      {href && title ? (
+        <Heading data-size='md' className={styles.headingLink} level={2}>
+          <Link href={href}>{title && <span className='primaryHeading'>{title}</span>}</Link>
+        </Heading>
+      ) : undefined}
 
       {description && <Paragraph className={`${styles.truncateTo3Lines} ingress`}>{description}</Paragraph>}
 

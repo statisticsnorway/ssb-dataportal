@@ -1,8 +1,9 @@
 import { PeriodFormat } from '@/libs/data-access/datadoc';
+import { type DataFileSearchHitData } from '@/types/dataFileSearchHit';
 
-export type TimelineItem = {
-  filePath: string;
-  version: number;
+export type TimelineItem = Omit<DataFileSearchHitData, 'file_path' | 'data_file_version' | 'start' | 'end'> & {
+  file_path: string;
+  data_file_version: number;
   periodType: PeriodFormat;
   start: string;
   end: string;

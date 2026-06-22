@@ -52,11 +52,21 @@ const parseDay = (value: Date | undefined | null): string | null => {
  */
 const parseItems = (data: DaplaDataFileDTO[]): TimelineItem[] =>
   data
-    .flatMap(({ file_path, data_file_version, contains_data_from, contains_data_until, period_type }) => {
-      const start = parseDay(contains_data_from);
-      const end = parseDay(contains_data_until);
-      if (!start || !end || !period_type) return [];
-      return [{ filePath: file_path, version: data_file_version ?? 0, periodType: period_type, start, end }];
+    .flatMap((dataFile) => {
+      const start = parseDay(dataFile.contains_data_from);
+      const end = parseDay(dataFile.contains_data_until);
+      if (!start || !end || !dataFile.period_type) return [];
+      return [
+        {
+          ...dataFile,
+          file_path: dataFile.file_path,
+          data_file_version: dataFile.data_file_version ?? 0,
+          periodType: dataFile.period_type,
+          start,
+          end,
+          naming_standard_violations: dataFile.naming_standard_violations ?? [],
+        },
+      ];
     })
     .sort((a, b) => a.start.localeCompare(b.start));
 
@@ -73,7 +83,7 @@ const keepNewestVersionPerPeriod = (items: TimelineItem[]): TimelineItem[] => {
   for (const item of items) {
     const key = `${item.periodType}|${item.start}|${item.end}`;
     const existing = latestByPeriod.get(key);
-    if (!existing || item.version > existing.version || item.filePath > existing.filePath) {
+    if (!existing || item.data_file_version > existing.data_file_version || item.file_path > existing.file_path) {
       latestByPeriod.set(key, item);
     }
   }
@@ -129,6 +139,15 @@ const buildYearSlots = (
   return { years, slots };
 };
 
+export interface TimelineData {
+  isValid: boolean;
+  periodType: PeriodFormat | '';
+  allItems: TimelineItem[];
+  items: TimelineItem[];
+  years: number[];
+  slots: Record<number, Slot[]>;
+}
+
 /**
  * Transforms a raw array of API file DTOs into everything the timeline component needs
  * to render: parsed items, a year range, pre-generated slot grids, and the shared period type.
@@ -146,16 +165,7 @@ const buildYearSlots = (
  * @param data - Raw file DTOs from the dataset API response.
  * @returns `{ isValid, periodType, items, years, slots }`
  */
-export const useTimelineData = (
-  data: DaplaDataFileDTO[],
-): {
-  isValid: boolean;
-  periodType: PeriodFormat | '';
-  allItems: TimelineItem[];
-  items: TimelineItem[];
-  years: number[];
-  slots: Record<number, Slot[]>;
-} => {
+export const useTimelineData = (data: DaplaDataFileDTO[]): TimelineData => {
   return useMemo(() => {
     if (data.length === 0) {
       clientLogger.warn('Timeline hidden reason: no data');

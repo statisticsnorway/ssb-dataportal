@@ -1,10 +1,10 @@
 import { Card, Heading, Popover } from '@digdir/designsystemet-react';
 import React, { useMemo } from 'react';
-import { type DaplaDataFileDTO } from '@/libs/data-access/datadoc';
+import { DataFileSearchHit } from '@/app/(details)/data-products/[shortName]/components/DataFileSearchHit';
 import { localization } from '@/libs/language/src/localization';
 import styles from './dataCoverageTimeline.module.css';
 import { type Slot, type TimelineItem } from './types';
-import { useTimelineData } from './useTimelineData';
+import { TimelineData } from './useTimelineData';
 
 const TOOLTIP_TEMPLATE = '{status}: {slotLabel} {year}';
 const DATA_PRESENT_TEMPLATE = '{slotLabel} {year}';
@@ -58,7 +58,7 @@ const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matche
   const hasData = matchedItems.length > 0;
   const isFirst = idx === 0;
   const isLast = idx === totalSlots - 1;
-  const datasetNames = formatAvailableDatasets(matchedItems.map((item) => item.filePath));
+  const datasetNames = formatAvailableDatasets(matchedItems.map((item: TimelineItem) => item.file_path));
   const dataPresentTitle = formatTemplate(DATA_PRESENT_TEMPLATE, baseValues);
 
   const baseTooltip = formatTemplate(TOOLTIP_TEMPLATE, {
@@ -68,7 +68,7 @@ const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matche
 
   const triggerLabel =
     hasData && datasetNames.length > 0
-      ? `${dataPresentTitle}. ${text.availableDatasetsLabel}: ${datasetNames.join(', ')}`
+      ? `${dataPresentTitle}. ${text.availableDataFileLabel}: ${datasetNames.join(', ')}`
       : baseTooltip;
 
   return (
@@ -92,14 +92,15 @@ const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matche
         {hasData && datasetNames.length > 0 ? (
           <div className={styles.popoverContent}>
             <div className={styles.popoverTitle}>{dataPresentTitle}</div>
-            <div>{text.availableDatasetsLabel}:</div>
-            <ul className={styles.popoverList}>
-              {datasetNames.map((name) => (
-                <li key={name} className={styles.popoverListItem}>
-                  {name}
-                </li>
+            <div>
+              {`${datasetNames.length} ${datasetNames.length === 1 ? text.availableDataFileLabel : text.availableDataFileLabelPlural}`}
+              :
+            </div>
+            <div className={styles.popoverList}>
+              {matchedItems.map((dataFile: TimelineItem) => (
+                <DataFileSearchHit dataFile={dataFile} key={dataFile.file_path} />
               ))}
-            </ul>
+            </div>
           </div>
         ) : (
           baseTooltip
@@ -108,10 +109,6 @@ const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matche
     </Popover.TriggerContext>
   );
 };
-
-interface TimelineProps {
-  data: DaplaDataFileDTO[];
-}
 
 /**
  * Renders the full data coverage timeline.
@@ -125,9 +122,7 @@ interface TimelineProps {
  *
  * @param data - Array of file DTOs from the dataset API response.
  */
-const DataCoverageTimeline: React.FC<TimelineProps> = ({ data }) => {
-  const { isValid, allItems, years, slots } = useTimelineData(data);
-
+const DataCoverageTimeline = ({ isValid, allItems, years, slots }: TimelineData) => {
   const findMatchingItemsForSlot = useMemo(
     () => (slot: Slot) => allItems.filter((item) => slotOverlapsItem(slot, item)),
     [allItems],

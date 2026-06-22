@@ -23,12 +23,9 @@ test.describe('authenticated', () => {
 
   test('includes files which violate the naming standard', async ({ page }) => {
     await page.goto(EXAMPLE_DATASET);
-    const invalidFileRow = page.locator('dl', { hasText: DATA_FILE_NAME_VIOLATES_NAMING_STANDARD });
-    await expect(invalidFileRow).toBeVisible();
-
+    await page.getByRole('button', { name: 'H1 2017' }).click();
     await expect(page.getByRole('button', { name: 'Navnestandardavvik' })).toBeVisible();
     await page.getByRole('button', { name: 'Navnestandardavvik' }).click();
-    await page.locator('#violations-0').click();
     await expect(page.getByText('invalid', { exact: true })).toBeVisible();
   });
 });

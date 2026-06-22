@@ -1,9 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { render, renderHook, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { type DaplaDataFileDTO, PeriodFormat } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language/src/localization';
 import DataCoverageTimeline, { formatAvailableDatasets, slotOverlapsItem } from './dataCoverageTimeline';
 import { type Slot, type TimelineItem } from './types';
+import { useTimelineData } from './useTimelineData';
 
 type BuildDataFileInput = {
   filePath: string;
@@ -20,6 +21,8 @@ const buildDataFile = ({ filePath, from, until, periodType }: BuildDataFileInput
   period_type: periodType,
 });
 
+const buildTimelineData = (data: DaplaDataFileDTO[]) => renderHook(() => useTimelineData(data)).result.current;
+
 describe('DataCoverageTimeline', () => {
   it('treats YEAR slot as covered when an item spans multiple years', () => {
     const slot: Slot = {
@@ -28,11 +31,12 @@ describe('DataCoverageTimeline', () => {
       label: localization.dataCoverageTimeline.labelFullYear,
     };
     const item: TimelineItem = {
-      filePath: 'gs://bucket/dataset/ufo-observasjoner_p2018_p2019_v1.parquet',
-      version: 1,
+      file_path: 'gs://bucket/dataset/ufo-observasjoner_p2018_p2019_v1.parquet',
+      data_file_version: 1,
       periodType: PeriodFormat.YEAR,
       start: '2018-01-01',
       end: '2019-12-31',
+      naming_standard_violations: [],
     };
     expect(slotOverlapsItem(slot, item)).toBe(true);
   });
@@ -63,7 +67,7 @@ describe('DataCoverageTimeline', () => {
       }),
     ];
 
-    render(<DataCoverageTimeline data={data} />);
+    render(<DataCoverageTimeline {...buildTimelineData(data)} />);
 
     const text = localization.dataCoverageTimeline;
     const janLabel = text.monthsShort[0]!;
@@ -76,7 +80,7 @@ describe('DataCoverageTimeline', () => {
   });
 
   it('returns null for empty data', () => {
-    render(<DataCoverageTimeline data={[]} />);
+    render(<DataCoverageTimeline {...buildTimelineData([])} />);
 
     expect(
       screen.queryByRole('heading', { name: localization.datasetDetail.dataCoverageTimeline }),
@@ -99,7 +103,7 @@ describe('DataCoverageTimeline', () => {
       }),
     ];
 
-    render(<DataCoverageTimeline data={data} />);
+    render(<DataCoverageTimeline {...buildTimelineData(data)} />);
 
     expect(
       screen.queryByRole('heading', { name: localization.datasetDetail.dataCoverageTimeline }),
@@ -122,7 +126,7 @@ describe('DataCoverageTimeline', () => {
       }),
     ];
 
-    render(<DataCoverageTimeline data={data} />);
+    render(<DataCoverageTimeline {...buildTimelineData(data)} />);
 
     expect(screen.getByText('2022')).toBeInTheDocument();
     expect(screen.getByText('2023')).toBeInTheDocument();
