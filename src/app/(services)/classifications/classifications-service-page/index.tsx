@@ -14,6 +14,7 @@ import { localization } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
 import { FilterItem } from '@/types/filters';
 import { SortTypes, sortTypes } from '@/types/sort';
+import { scrollToFilterTags } from '@/utils/scrollToFilterTags';
 import { tabsData } from '../../tabs';
 import { ClassificationTypeFiltersSection } from './components/ClassificationTypeFiltersSection';
 import { ClassificationProvider } from './components/classificationContext';
@@ -70,9 +71,7 @@ const ClassificationsServicePage = ({
 
   const handlePageChange = (nextPage: number) => {
     updateQuery({ page: nextPage });
-    const element = document.querySelector<HTMLElement>('.ds-card');
-    element?.focus({ preventScroll: true });
-    element?.scrollIntoView({ behavior: 'instant', block: 'start' });
+    scrollToFilterTags();
   };
 
   const toggleSubject = (filter: FilterItem) => {
@@ -81,12 +80,14 @@ const ClassificationsServicePage = ({
       : [...subjects, filter.value];
 
     updateQuery({ subjects: nextSubjects.length > 0 ? nextSubjects : null, page: 1 });
+    scrollToFilterTags();
   };
 
   const toggleClassificationType = (filter: FilterItem) => {
     const nextTypes = types.includes(filter.value) ? types.filter((v) => v !== filter.value) : [...types, filter.value];
 
     updateQuery({ types: nextTypes.length > 0 ? nextTypes : null, page: 1 });
+    scrollToFilterTags();
   };
 
   const removeFilter = (filter: FilterItem) => {
@@ -96,9 +97,13 @@ const ClassificationsServicePage = ({
       subjects: subjects.filter((v) => v !== filter.value),
       page: 1,
     });
+    scrollToFilterTags();
   };
 
-  const clearAll = () => updateQuery({ q: null, subjects: null, types: null, sort: null, page: null });
+  const clearAll = () => {
+    updateQuery({ q: null, subjects: null, types: null, sort: null, page: null });
+    scrollToFilterTags();
+  };
 
   return (
     <ClassificationProvider
@@ -117,7 +122,13 @@ const ClassificationsServicePage = ({
         asideContent={
           <FiltersPanel heading={localization.search.filter.filterAndSearch}>
             <Suspense fallback={null}>
-              <KlassSearchSection query={q} onQueryChange={(value) => updateQuery({ q: value, page: 1 })} />
+              <KlassSearchSection
+                query={q}
+                onQueryChange={(value) => {
+                  updateQuery({ q: value, page: 1 });
+                  scrollToFilterTags();
+                }}
+              />
             </Suspense>
             <Suspense fallback={null}>
               <ClassificationTypeFiltersSection onFilterChange={toggleClassificationType} />
@@ -141,7 +152,10 @@ const ClassificationsServicePage = ({
           <SortFields
             sortOptions={sortTypes}
             sortValue={sort}
-            onSortChange={(value: SortTypes) => updateQuery({ sort: value, page: 1 })}
+            onSortChange={(value: SortTypes) => {
+              updateQuery({ sort: value, page: 1 });
+              scrollToFilterTags();
+            }}
           />
         }
         searchResult={
