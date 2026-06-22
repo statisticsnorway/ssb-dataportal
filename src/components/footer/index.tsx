@@ -48,6 +48,11 @@ export const Footer = () => {
               {localization.apiDocumentation}
             </Heading>
             <ExternalLink href={klassApiDocsUrl} linkText={localization.apiDocKlass} className={styles.negativeLink} />
+            <ExternalLink
+              href='https://data.ssb.no/api/klass/v1/api-guide.html'
+              linkText={localization.apiDocKlassGuide}
+              className={styles.negativeLink}
+            />
             <ApiDocLink href={vardefApiDocsUrl} className={styles.negativeLink} linkText={localization.apiDocVardef} />
           </section>
           <section className={styles.footerLinkSection}>

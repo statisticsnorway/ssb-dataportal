@@ -23,6 +23,7 @@ export const nb = {
   apiDocumentation: 'API-dokumentasjon',
   apiDocVardef: 'Variabeldefinisjoner',
   apiDocKlass: 'Klassifikasjoner',
+  apiDocKlassGuide: 'Klass API-guide',
   appTitle: 'SSB Dataportal',
 
   authentication: {
