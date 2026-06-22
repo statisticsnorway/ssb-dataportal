@@ -47,7 +47,7 @@ export const Footer = () => {
             <Heading level={3} className={`negative-text secondaryHeading`}>
               {localization.apiDocumentation}
             </Heading>
-            <ApiDocLink href={klassApiDocsUrl} className={styles.negativeLink} linkText={localization.apiDocKlass} />
+            <ExternalLink href={klassApiDocsUrl} linkText={localization.apiDocKlass} className={styles.negativeLink} />
             <ApiDocLink href={vardefApiDocsUrl} className={styles.negativeLink} linkText={localization.apiDocVardef} />
           </section>
           <section className={styles.footerLinkSection}>

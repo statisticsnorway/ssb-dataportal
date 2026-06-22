@@ -38,7 +38,7 @@ test.describe('footer', () => {
   }, testInfo: TestInfo) => {
     test.skip(testInfo.project.name !== 'chrome-unauth');
     const link = page.getByRole('link', { name: localization.apiDocKlass });
-    await expect(link).toHaveAttribute('href', 'https://metadata.test.ssb.no/docs/swagger/classifications');
+    await expect(link).toHaveAttribute('href', 'https://data.test.ssb.no/api/klass/swagger-ui/index.html');
   });
 
   test('Accessibility statement link points to the correct URL', async ({ page }, testInfo: TestInfo) => {
@@ -64,14 +64,11 @@ test.describe('footer', () => {
     );
   });
 
-  test('Klassifikasjoner API documentation link points to the internal test docs URL when authenticated', async ({
+  test('Klassifikasjoner API documentation link points to the correct URL when authenticated', async ({
     page,
   }, testInfo: TestInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
     const link = page.getByRole('link', { name: localization.apiDocKlass });
-    await expect(link).toHaveAttribute(
-      'href',
-      'https://metadata.test.ssb.no/docs/swagger/classifications?urls.primaryName=internal',
-    );
+    await expect(link).toHaveAttribute('href', 'https://data.test.ssb.no/api/klass/swagger-ui/index.html');
   });
 });
