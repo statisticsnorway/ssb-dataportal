@@ -45,6 +45,8 @@
     "@digdir/designsystemet-react": "1.15.0",
     "@navikt/aksel-icons": "8.12.0",
     "@next/env": "16.2.7",
+    "@statisticsnorway/design-css": "^0.0.7",
+    "@statisticsnorway/design-react": "^0.0.1",
     "@svgr/webpack": "8.1.0",
     "@types/lodash": "4.17.24",
     "@types/node": "25.9.2",
