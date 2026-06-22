@@ -189,7 +189,7 @@ export const DataProductsServicePage = ({
             defaultOptionLabel='Alle statistikkområder'
             defaultOptionValue={ALL_SUBJECT_FIELDS}
             onFilterChange={(value) => {
-              void setQueryState({ subject: value || null });
+              setQueryState({ subject: value || null });
               scrollToFilterTags();
             }}
           />
