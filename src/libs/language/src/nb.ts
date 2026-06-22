@@ -21,6 +21,8 @@ export const nb = {
     namingStandardViolationCountLabel: 'navnestandardavvik',
   },
   apiDocumentation: 'API-dokumentasjon',
+  apiDocVardef: 'Variabeldefinisjoner',
+  apiDocKlass: 'Klassifikasjoner',
   appTitle: 'SSB Dataportal',
 
   authentication: {
