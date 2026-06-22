@@ -1,6 +1,7 @@
 import { use, useMemo } from 'react';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { ClassificationResource } from '@/libs/data-access/klass';
+import { localization } from '@/libs/language/src/localization';
 import { filterAndSortClassifications, mapSearchResultsToClassifications } from '@/utils/filterAndSortClassifications';
 import { ClassificationSearchHit } from '../classificationSearchHit';
 import { useClassificationContext } from './classificationContext';
@@ -63,6 +64,7 @@ export const ResultsSection = ({ currentPage, pageSize, onPageChange }: ResultsS
 
   return (
     <SearchHitContainer
+      ariaLabel={localization.search.classifications}
       searchHits={paginatedHits}
       noSearchHits={totalHits === 0}
       onPageChange={onPageChange}

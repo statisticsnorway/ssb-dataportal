@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext } from 'react';
+import { CodeItem } from '@/libs/data-access/klass/models/CodeItem';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
@@ -9,6 +10,7 @@ interface VariableDefinitionsContextValue {
   subjectFilters: FilterItem[];
   statusFilters: FilterItem[];
   sortOption: SortTypes;
+  subjectFields: CodeItem[];
 }
 
 const VariableDefinitionsContext = createContext<VariableDefinitionsContextValue | null>(null);

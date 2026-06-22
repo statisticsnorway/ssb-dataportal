@@ -223,6 +223,10 @@ export const nb = {
     hits: 'treff',
     label: 'Søk',
     noHits: 'Ditt søk ga ingen treff',
+    variableDefinitions: 'Søketreff variabeldefinisjoner',
+    classifications: 'Søketreff klassifikasjoner',
+    dataProducts: 'Søketreff dataprodukter',
+    datasets: 'Søketreff datasett',
 
     textFilter: {
       search: 'Søk',
