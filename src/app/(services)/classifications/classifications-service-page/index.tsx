@@ -71,9 +71,7 @@ const ClassificationsServicePage = ({
 
   const handlePageChange = (nextPage: number) => {
     updateQuery({ page: nextPage });
-    const element = document.querySelector<HTMLElement>('.ds-card');
-    element?.focus({ preventScroll: true });
-    element?.scrollIntoView({ behavior: 'instant', block: 'start' });
+    scrollToFilterTags();
   };
 
   const toggleSubject = (filter: FilterItem) => {

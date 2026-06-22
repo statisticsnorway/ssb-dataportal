@@ -104,9 +104,7 @@ const VariableDefinitionsServicePage = ({
 
   const handlePageChange = (nextPage: number) => {
     void setQueryState({ page: nextPage });
-    const element: HTMLElement | null = document.getElementsByClassName('ds-card')[0] as HTMLElement | null;
-    element?.focus({ preventScroll: true });
-    element?.scrollIntoView({ behavior: 'instant', block: 'start' });
+    scrollToFilterTags();
   };
 
   const removeFilter = (filter: FilterItem) => {
