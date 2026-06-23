@@ -6,6 +6,7 @@ import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
 import { sortAscending, sortDatesDescendingSafe, sortDescending } from '@/utils/sort';
 import { SUBJECT_FIELD_BY_CODE } from '@/utils/subjectFieldsMapping';
+import { stripTitlePrefix } from './functions';
 
 /**
  * Maps search results to unique `ClassificationResource` entries.
@@ -181,8 +182,8 @@ export function filterAndSortClassifications(
 
   if (keepInputOrder) return byType;
   const comparators: Record<SortTypes, (a: ClassificationResource, b: ClassificationResource) => number> = {
-    titleAsc: (a, b) => sortAscending(a.name, b.name),
-    titleDesc: (a, b) => sortDescending(a.name, b.name),
+    titleAsc: (a, b) => sortAscending(stripTitlePrefix(a.name), stripTitlePrefix(b.name)),
+    titleDesc: (a, b) => sortDescending(stripTitlePrefix(a.name), stripTitlePrefix(b.name)),
     lastChanged: (a, b) => sortDatesDescendingSafe(a.lastModified, b.lastModified),
   };
 
