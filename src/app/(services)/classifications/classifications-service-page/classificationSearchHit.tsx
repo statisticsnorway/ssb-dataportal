@@ -3,6 +3,7 @@ import { tabsData } from '@/app/(services)/tabs';
 import { SearchHit } from '@/components/search-hit';
 import { CopyTag } from '@/components/tag-components/copy-tag';
 import { ClassificationResource, CodeItem } from '@/libs/data-access/klass';
+import { localization } from '@/libs/language/src/localization';
 import { standardLabel } from '@/utils/filterAndSortClassifications';
 import { getSubjectCodeByFamilyId } from '@/utils/subjectFieldsMapping';
 
@@ -11,7 +12,16 @@ interface SearchHitProps {
   subjectFields: CodeItem[];
 }
 
-const stripTitlePrefix = (name?: string) => (name ?? '').replace(/^(Kodeliste for|Standard for)\s*/i, '').trim();
+const stripTitlePrefix = (name?: string) =>
+  (name ?? '')
+    .replace(
+      new RegExp(
+        `^(${localization.classification.codeListPrefix}|${localization.classification.standardPrefix})\\s*`,
+        'i',
+      ),
+      '',
+    )
+    .trim();
 
 const ClassificationSearchHit = ({ classification, subjectFields }: SearchHitProps) => {
   const classificationRoute = `${tabsData.Classifications.route}/${classification?.id}`;

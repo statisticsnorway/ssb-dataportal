@@ -48,6 +48,8 @@ export const nb = {
     type: 'Type',
     codelist: 'Kodeliste',
     standard: 'Standard',
+    codeListPrefix: 'Kodeliste for',
+    standardPrefix: 'Standard for',
   },
   codeSnippet: {
     codeExample: 'Kodeeksempel',
