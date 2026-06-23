@@ -7,6 +7,8 @@ import { parseClassification, stripTitlePrefix } from '@/utils/functions';
 const arbeidOgLonn = 'Arbeid og lønn';
 const bankOgFinans = 'Bank og finansmarked';
 const classifications = classificationsMock.classifications;
+const codeListPrefix = 'Kodeliste for';
+const standardPrefix = 'Standard for';
 
 test('Classifications page renders hits and sort control', async ({ classificationsPage }) => {
   await expect(classificationsPage.getByRole('article').first()).toBeVisible();
@@ -172,9 +174,25 @@ test.describe('Classifications - search card', () => {
   });
 
   test('displays title', async ({ classificationsPage }) => {
-    const classification = parseClassification(classifications[7]);
-    await expect(classificationsPage.getByRole('article').first()).toContainText(
-      stripTitlePrefix(classification.name!),
+    const classification = parseClassification(classifications[1]);
+    await expect(
+      classificationsPage
+        .getByRole('article', { name: stripTitlePrefix(classification.name!) })
+        .getByRole('heading', { name: stripTitlePrefix(classification.name!) }),
+    ).toContainText(stripTitlePrefix(classification.name!));
+    await expect(
+      classificationsPage
+        .getByRole('article', { name: stripTitlePrefix(classification.name!) })
+        .getByRole('heading', { name: stripTitlePrefix(classification.name!) }),
+    ).not.toContainText(standardPrefix);
+    const codeList = parseClassification(classifications[7]);
+    await expect(classificationsPage.getByRole('article', { name: stripTitlePrefix(codeList.name!) })).toContainText(
+      stripTitlePrefix(codeList.name!),
     );
+    await expect(
+      classificationsPage
+        .getByRole('article', { name: stripTitlePrefix(codeList.name!) })
+        .getByRole('heading', { name: stripTitlePrefix(codeList.name!) }),
+    ).not.toContainText(codeListPrefix);
   });
 });
