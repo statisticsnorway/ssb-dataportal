@@ -2,7 +2,6 @@ import { Tag } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
 import { SearchHit } from '@/components/search-hit';
 import { ClassificationResource, CodeItem } from '@/libs/data-access/klass';
-import { localization } from '@/libs/language';
 import { getSubjectCodeByFamilyId } from '@/utils/subjectFieldsMapping';
 
 interface SearchHitProps {
@@ -20,7 +19,7 @@ const ClassificationSearchHit = ({ classification, subjectFields }: SearchHitPro
     <SearchHit
       href={classificationRoute}
       title={classification?.name ?? ''}
-      description={`${localization.id}: ${classification?.id ?? '-'}`}
+      description={classification?.description ?? ''}
       tagsList={subjectLabel ? <Tag>{subjectLabel}</Tag> : undefined}
     />
   );
