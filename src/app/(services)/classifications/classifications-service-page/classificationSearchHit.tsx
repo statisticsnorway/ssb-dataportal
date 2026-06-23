@@ -11,11 +11,16 @@ interface SearchHitProps {
   subjectFields: CodeItem[];
 }
 
+const stripTitlePrefix = (name?: string) => (name ?? '').replace(/^(Kodeliste for|Standard for)\s*/i, '').trim();
+
 const ClassificationSearchHit = ({ classification, subjectFields }: SearchHitProps) => {
   const classificationRoute = `${tabsData.Classifications.route}/${classification?.id}`;
   const subjectCode = getSubjectCodeByFamilyId(classification?.classificationFamilyId);
   const subjectField = subjectFields.find((field) => String(field.code) === subjectCode);
   const subjectLabel = subjectField?.name ? String(subjectField.name) : undefined;
+
+  const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+  const title = capitalize(stripTitlePrefix(classification?.name));
 
   const tagsList = (
     <>
@@ -23,13 +28,13 @@ const ClassificationSearchHit = ({ classification, subjectFields }: SearchHitPro
       {classification?.classificationType && (
         <Tag data-color='warning'>{standardLabel(classification.classificationType)}</Tag>
       )}
-      <CopyTag text={String(classification?.id) ?? ''} />
+      <CopyTag copyType='id' text={String(classification?.id) ?? ''} />
     </>
   );
   return (
     <SearchHit
       href={classificationRoute}
-      title={classification?.name ?? ''}
+      title={title}
       description={classification?.description ?? ''}
       tagsList={tagsList}
     />
