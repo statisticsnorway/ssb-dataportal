@@ -36,7 +36,7 @@ export default function VariableDefinitionDetail({
       <DataportalBreadcrumbs
         homeUrl={getHomeBreadcrumb()}
         items={[{ text: localization.variableDefinition.labelPlural, href: tabsData.VariableDefinitions.route }]}
-        currentText={variableDefinition.short_name}
+        currentText={variableDefinition.name ?? variableDefinition.short_name}
       />
       <main className={styles.mainContent}>
         <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='xl' level={1}>
