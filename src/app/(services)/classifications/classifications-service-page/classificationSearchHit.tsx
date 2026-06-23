@@ -26,7 +26,7 @@ const ClassificationSearchHit = ({ classification, subjectFields }: SearchHitPro
       {classification?.classificationType && (
         <Tag data-color='warning'>{standardLabel(classification.classificationType)}</Tag>
       )}
-      <CopyTag copyType='id' text={String(classification?.id) ?? ''} />
+      <CopyTag copyType='id' text={String(classification?.id)} />
     </>
   );
   return (
