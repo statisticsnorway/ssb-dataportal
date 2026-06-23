@@ -101,37 +101,45 @@ test.describe('Classifications URL state', () => {
 
 test.describe('Classifications - type filter', () => {
   test('type filter checkboxes render with correct labels', async ({ classificationsPage }) => {
-    await expect(classificationsPage.getByRole('checkbox', { name: 'Klassifikasjon' })).toBeVisible();
-    await expect(classificationsPage.getByRole('checkbox', { name: 'Kodeliste' })).toBeVisible();
+    await expect(
+      classificationsPage.getByRole('checkbox', { name: localization.classification.standard }),
+    ).toBeVisible();
+    await expect(
+      classificationsPage.getByRole('checkbox', { name: localization.classification.codelist }),
+    ).toBeVisible();
   });
 
   test('selecting Klassifikasjon filters results and updates URL', async ({ classificationsPage }) => {
-    await classificationsPage.getByRole('checkbox', { name: 'Klassifikasjon' }).check();
+    await classificationsPage.getByRole('checkbox', { name: localization.classification.standard }).check();
 
-    await expect(classificationsPage).toHaveURL('classifications?types=Klassifikasjon');
+    await expect(classificationsPage).toHaveURL(`classifications?types=${localization.classification.standard}`);
     await expect(classificationsPage.getByRole('article')).toHaveCount(8);
 
-    const filterTag = classificationsPage.getByRole('listitem').filter({ hasText: 'Klassifikasjon' });
+    const filterTag = classificationsPage
+      .getByRole('listitem')
+      .filter({ hasText: localization.classification.standard });
     await expect(filterTag).toBeVisible();
     await filterTag.getByRole('button').click();
     await expect(classificationsPage).not.toHaveURL('types=');
   });
 
   test('selecting Kodeliste shows only code list results', async ({ classificationsPage }) => {
-    await classificationsPage.getByRole('checkbox', { name: 'Kodeliste' }).check();
+    await classificationsPage.getByRole('checkbox', { name: localization.classification.codelist }).check();
 
-    await expect(classificationsPage).toHaveURL('classifications?types=Kodeliste');
+    await expect(classificationsPage).toHaveURL(`classifications?types=${localization.classification.codelist}`);
     await expect(classificationsPage.getByRole('article')).toHaveCount(2);
   });
 
   test('hydrates type filter from shared URL', async ({ classificationsPage }) => {
     await classificationsPage.goto('/classifications?types=Kodeliste');
-    await expect(classificationsPage.getByRole('checkbox', { name: 'Kodeliste' })).toBeChecked();
+    await expect(
+      classificationsPage.getByRole('checkbox', { name: localization.classification.codelist }),
+    ).toBeChecked();
     await expect(classificationsPage.getByRole('article')).toHaveCount(2);
   });
 
   test('combined subject and type filter shows "remove all" button', async ({ classificationsPage }) => {
-    await checkCheckbox(classificationsPage.getByRole('checkbox', { name: 'Klassifikasjon' }));
+    await checkCheckbox(classificationsPage.getByRole('checkbox', { name: localization.classification.standard }));
     await checkCheckbox(classificationsPage.getByRole('checkbox', { name: arbeidOgLonn }));
 
     const removeAllButton = classificationsPage.getByRole('button', { name: localization.button.removeFilter });
@@ -140,7 +148,9 @@ test.describe('Classifications - type filter', () => {
 
     await expect(classificationsPage).not.toHaveURL('types=');
     await expect(classificationsPage).not.toHaveURL('subjects=');
-    await expect(classificationsPage.getByRole('checkbox', { name: 'Klassifikasjon' })).not.toBeChecked();
+    await expect(
+      classificationsPage.getByRole('checkbox', { name: localization.classification.standard }),
+    ).not.toBeChecked();
     await expect(classificationsPage.getByRole('checkbox', { name: arbeidOgLonn })).not.toBeChecked();
   });
 });
@@ -157,5 +167,14 @@ test.describe('Classifications - search card', () => {
     expect(withoutDescription.description).toBeUndefined();
     const card = classificationsPage.getByRole('article').filter({ hasText: withoutDescription!.name }).first();
     await expect(card).toBeVisible();
+  });
+
+  test('displays title', async ({ classificationsPage }) => {
+    const firstWithTitle = classifications.find(
+      (item): item is (typeof classifications)[number] & { title: string } =>
+        typeof item?.name === 'string' && item.name.length > 0,
+    );
+    expect(firstWithTitle).toBeDefined();
+    await expect(classificationsPage.getByRole('article').first()).toContainText(firstWithTitle!.name);
   });
 });

@@ -103,6 +103,10 @@ export function createSubjectFieldFilterItems(
     .sort((a, b) => String(a.label).localeCompare(String(b.label), 'nb'));
 }
 
+const toQueryTypeValue = (value: string) => (value === ClassificationType.Klassifikasjon ? 'Standard' : value);
+
+const fromQueryTypeValue = (value: string) => (value === 'Standard' ? ClassificationType.Klassifikasjon : value);
+
 /**
  * Map [Klassifikasjon] to a standard label.
  * @param value - The classification type value.
@@ -128,7 +132,7 @@ export const standardLabel = (value: string) => {
 export function createTypeFilterItems(classifications: ClassificationResource[]): FilterItem[] {
   return [ClassificationType.Klassifikasjon, ClassificationType.Kodeliste].map((value) => ({
     label: standardLabel(value),
-    value,
+    value: toQueryTypeValue(value),
     count: classifications.filter((c) => c.classificationType === value).length,
     category: CLASSIFICATION_TYPE_CATEGORY,
   }));
@@ -169,10 +173,11 @@ export function filterAndSortClassifications(
       ? withName
       : withName.filter((c) => c.classificationFamilyId != null && familyIds.has(c.classificationFamilyId));
 
+  const domainTypes = classificationTypes.map(fromQueryTypeValue);
   const byType =
-    classificationTypes.length === 0
+    domainTypes.length === 0
       ? bySubject
-      : bySubject.filter((c) => c.classificationType != null && classificationTypes.includes(c.classificationType));
+      : bySubject.filter((c) => c.classificationType != null && domainTypes.includes(c.classificationType));
 
   if (keepInputOrder) return byType;
   const comparators: Record<SortTypes, (a: ClassificationResource, b: ClassificationResource) => number> = {
