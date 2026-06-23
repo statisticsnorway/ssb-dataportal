@@ -205,13 +205,12 @@ export function assertUnreachable(x: never): never {
  * Removes known classification prefixes from a title and capitalizes first letter.
  */
 export const stripTitlePrefix = (name?: string) => {
-  const value = name ?? '';
   const prefixes = [localization.classification.codeListPrefix, localization.classification.standardPrefix].filter(
     Boolean,
   ) as string[];
 
-  const matchedPrefix = prefixes.find((prefix) => value.toLocaleLowerCase().startsWith(prefix.toLocaleLowerCase()));
-  const stripped = (matchedPrefix ? value.slice(matchedPrefix.length) : value).trim();
+  const matchedPrefix = prefixes.find((prefix) => name?.toLocaleLowerCase().startsWith(prefix.toLocaleLowerCase()));
+  const stripped = (matchedPrefix ? name?.slice(matchedPrefix.length) : name)?.trim() ?? '';
 
   return stripped.charAt(0).toUpperCase() + stripped.slice(1);
 };
