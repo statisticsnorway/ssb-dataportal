@@ -155,6 +155,20 @@ test.describe('Classifications - search card', () => {
     await expect(classificationsPage.getByRole('article').first()).toContainText(firstWithDescription!.description);
   });
 
+  test('displays card without description if null', async ({ classificationsPage }) => {
+    const withoutDescription = classifications.find(
+      (item): item is (typeof classifications)[number] & { name: string } =>
+        typeof item?.name === 'string' &&
+        item.name.length > 0 &&
+        (item.description === null || item.description === ''),
+    );
+
+    expect(withoutDescription).toBeDefined();
+
+    const card = classificationsPage.getByRole('article').filter({ hasText: withoutDescription!.name }).first();
+    await expect(card).toBeVisible();
+  });
+
   test('displays title', async ({ classificationsPage }) => {
     const firstWithTitle = classifications.find(
       (item): item is (typeof classifications)[number] & { title: string } =>
