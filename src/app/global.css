@@ -1,7 +1,6 @@
 /* This is a global stylesheet */
 
-@import url("@digdir/designsystemet-css");
-@import url("@digdir/designsystemet-css/theme");
+@import url("@statisticsnorway/design-css/theme");
 @import url("@statisticsnorway/design-css");
 
 @layer reset, ds;
