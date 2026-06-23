@@ -47,6 +47,7 @@ export const nb = {
     view: 'Se klassifikasjon',
     type: 'Type',
     codelist: 'Kodeliste',
+    standard: 'Standard',
   },
   codeSnippet: {
     codeExample: 'Kodeeksempel',

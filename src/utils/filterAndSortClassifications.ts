@@ -1,4 +1,5 @@
 import { ClassificationResource, CodeItem, SearchResultResource } from '@/libs/data-access/klass';
+import { localization } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
 import { CLASSIFICATION_TYPE_CATEGORY, ClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
@@ -103,6 +104,18 @@ export function createSubjectFieldFilterItems(
 }
 
 /**
+ * Map [Klassifikasjon] to a standard label.
+ * @param value - The classification type value.
+ * @returns The standardized label for the classification type.
+ */
+export const standardLabel = (value: string) => {
+  if (value === ClassificationType.Klassifikasjon) {
+    return localization.classification.standard;
+  }
+  return value;
+};
+
+/**
  * getTypeFilterItems builds the filter items for the classification type filter.
  *
  * It maps over the known classification types (Klassifikasjon and Kodeliste)
@@ -114,7 +127,7 @@ export function createSubjectFieldFilterItems(
  */
 export function createTypeFilterItems(classifications: ClassificationResource[]): FilterItem[] {
   return [ClassificationType.Klassifikasjon, ClassificationType.Kodeliste].map((value) => ({
-    label: value,
+    label: standardLabel(value),
     value,
     count: classifications.filter((c) => c.classificationType === value).length,
     category: CLASSIFICATION_TYPE_CATEGORY,
