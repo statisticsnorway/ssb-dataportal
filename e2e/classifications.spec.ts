@@ -2,7 +2,7 @@ import { localization } from '@/libs/language';
 import { checkCheckbox } from './utils/commonUtils';
 import { expect, test } from './fixtures/classifications.fixture';
 import classificationsMock from '@/static-data/classifications.json';
-import { parseClassification } from '@/utils/functions';
+import { parseClassification, stripTitlePrefix } from '@/utils/functions';
 
 const arbeidOgLonn = 'Arbeid og lønn';
 const bankOgFinans = 'Bank og finansmarked';
@@ -157,24 +157,24 @@ test.describe('Classifications - type filter', () => {
 
 test.describe('Classifications - search card', () => {
   test('displays description', async ({ classificationsPage }) => {
-    const firstWithDescription = parseClassification(classifications[0]);
-    expect(firstWithDescription).toBeDefined();
-    await expect(classificationsPage.getByRole('article').first()).toContainText(firstWithDescription.description!);
+    const classification = parseClassification(classifications[0]);
+    expect(classification).toBeDefined();
+    await expect(
+      classificationsPage.getByRole('article', { name: stripTitlePrefix(classification.name!) }),
+    ).toContainText(classification.description!);
   });
 
   test('displays card without description if null', async ({ classificationsPage }) => {
-    const withoutDescription = parseClassification(classifications[4]);
-    expect(withoutDescription.description).toBeUndefined();
-    const card = classificationsPage.getByRole('article').filter({ hasText: withoutDescription!.name }).first();
+    const classification = parseClassification(classifications[4]);
+    expect(classification.description).toBeUndefined();
+    const card = classificationsPage.getByRole('article', { name: stripTitlePrefix(classification.name) });
     await expect(card).toBeVisible();
   });
 
   test('displays title', async ({ classificationsPage }) => {
-    const firstWithTitle = classifications.find(
-      (item): item is (typeof classifications)[number] & { title: string } =>
-        typeof item?.name === 'string' && item.name.length > 0,
+    const classification = parseClassification(classifications[7]);
+    await expect(classificationsPage.getByRole('article').first()).toContainText(
+      stripTitlePrefix(classification.name!),
     );
-    expect(firstWithTitle).toBeDefined();
-    await expect(classificationsPage.getByRole('article').first()).toContainText(firstWithTitle!.name);
   });
 });
