@@ -190,3 +190,28 @@ export const getLabelWithParent = (klassReference: KlassReference, filterList: F
 export function assertUnreachable(x: never): never {
   throw new Error('The impossible has happened.');
 }
+
+/**
+ * Removes classifications prefixes from a classification name.
+ *
+ * Matches either `classification.codeListPrefix` or `classification.standardPrefix`
+ * (case-insensitive) when it appears at the start of the string, then trims
+ * surrounding whitespace.
+ *
+ * @param name - The raw classification title.
+ * @returns The title without a known prefix, trimmed. Returns an empty string when `name` is undefined.
+ */
+/**
+ * Removes known classification prefixes from a title and capitalizes first letter.
+ */
+export const stripTitlePrefix = (name?: string) => {
+  const value = name ?? '';
+  const prefixes = [localization.classification.codeListPrefix, localization.classification.standardPrefix].filter(
+    Boolean,
+  ) as string[];
+
+  const matchedPrefix = prefixes.find((prefix) => value.toLocaleLowerCase().startsWith(prefix.toLocaleLowerCase()));
+  const stripped = (matchedPrefix ? value.slice(matchedPrefix.length) : value).trim();
+
+  return stripped.charAt(0).toUpperCase() + stripped.slice(1);
+};
