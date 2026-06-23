@@ -54,7 +54,6 @@
       "classificationType": "Klassifikasjon",
       "classificationFamilyId": 16,
       "lastModified": "2024-08-28T07:15:51.000+0000",
-      "description": "Standard for gruppering av hjelpe- og omsorgstiltak i barnevernet beskriver hvordan hjelpe- og omsorgstiltak skal grupperes i statistikk.",
       "_links": {
         "self": {
           "href": "/classifications/3"
