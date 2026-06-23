@@ -12,16 +12,16 @@ interface SearchHitProps {
   subjectFields: CodeItem[];
 }
 
-const stripTitlePrefix = (name?: string) =>
-  (name ?? '')
-    .replace(
-      new RegExp(
-        `^(${localization.classification.codeListPrefix}|${localization.classification.standardPrefix})\\s*`,
-        'i',
-      ),
-      '',
-    )
-    .trim();
+const stripTitlePrefix = (name?: string) => {
+  const value = name ?? '';
+  const prefixes = [localization.classification.codeListPrefix, localization.classification.standardPrefix].filter(
+    Boolean,
+  ) as string[];
+
+  const matchedPrefix = prefixes.find((prefix) => value.toLocaleLowerCase().startsWith(prefix.toLocaleLowerCase()));
+
+  return (matchedPrefix ? value.slice(matchedPrefix.length) : value).trim();
+};
 
 const ClassificationSearchHit = ({ classification, subjectFields }: SearchHitProps) => {
   const classificationRoute = `${tabsData.Classifications.route}/${classification?.id}`;
