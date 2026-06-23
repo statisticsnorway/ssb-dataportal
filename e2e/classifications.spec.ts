@@ -1,9 +1,11 @@
 import { localization } from '@/libs/language';
 import { checkCheckbox } from './utils/commonUtils';
 import { expect, test } from './fixtures/classifications.fixture';
+import classificationsMock from '@/static-data/classifications.json';
 
 const arbeidOgLonn = 'Arbeid og lønn';
 const bankOgFinans = 'Bank og finansmarked';
+const classifications = classificationsMock.classifications;
 
 test('Classifications page renders hits and sort control', async ({ classificationsPage }) => {
   await expect(classificationsPage.getByRole('article').first()).toBeVisible();
@@ -139,5 +141,26 @@ test.describe('Classifications - type filter', () => {
     await expect(classificationsPage).not.toHaveURL('subjects=');
     await expect(classificationsPage.getByRole('checkbox', { name: 'Klassifikasjon' })).not.toBeChecked();
     await expect(classificationsPage.getByRole('checkbox', { name: arbeidOgLonn })).not.toBeChecked();
+  });
+});
+
+test.describe('Classifications - search card', () => {
+  test('displays description', async ({ classificationsPage }) => {
+    const firstWithDescription = classifications.find(
+      (item): item is (typeof classifications)[number] & { description: string } =>
+        typeof item?.description === 'string' && item.description.length > 0,
+    );
+
+    expect(firstWithDescription).toBeDefined();
+    await expect(classificationsPage.getByRole('article').first()).toContainText(firstWithDescription!.description);
+  });
+
+  test('displays title', async ({ classificationsPage }) => {
+    const firstWithTitle = classifications.find(
+      (item): item is (typeof classifications)[number] & { title: string } =>
+        typeof item?.name === 'string' && item.name.length > 0,
+    );
+    expect(firstWithTitle).toBeDefined();
+    await expect(classificationsPage.getByRole('article').first()).toContainText(firstWithTitle!.name);
   });
 });
