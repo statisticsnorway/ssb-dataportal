@@ -4,6 +4,8 @@ import searchResultsMock from '@/static-data/klass-search-results.json';
 import { SearchResultResource } from '@/libs/data-access/klass';
 import { Page } from '@playwright/test';
 import { checkCheckbox } from './utils/commonUtils';
+import { stripTitlePrefix } from '@/utils/functions';
+import { CODELIST, STANDARD } from './utils/variables';
 
 const searchTerm = 'Næring';
 const searchTermVariant = 'næri';
@@ -47,8 +49,10 @@ test.describe('When searching with a term', () => {
 
     const firstSearchResult = searchCards.first();
     await expect(firstSearchResult).toBeVisible();
-    await expect(firstSearchResult).toContainText(searchResults[0]!.name);
-    await expect(firstSearchResult.getByRole('heading', { name: searchResults[0]!.name })).toContainText(searchTerm, {
+    await expect(firstSearchResult).toContainText(stripTitlePrefix(searchResults[0]!.name));
+    await expect(
+      firstSearchResult.getByRole('heading', { name: stripTitlePrefix(searchResults[0]!.name) }),
+    ).toContainText(searchTerm, {
       ignoreCase: true,
     });
   });
@@ -73,7 +77,9 @@ test.describe('When searching with a term', () => {
     const maxScore = Math.max(...searchResults.map((r) => r.searchScore));
     const highestScoreResult: SearchResultResource = searchResults.find((r) => r.searchScore === maxScore)!;
 
-    await expect(searchCards.first().getByRole('heading', { name: highestScoreResult.name })).toBeVisible();
+    await expect(
+      searchCards.first().getByRole('heading', { name: stripTitlePrefix(highestScoreResult.name) }),
+    ).toBeVisible();
   });
 
   test('only contains nb language results', async ({ classificationsPage }) => {
@@ -85,11 +91,11 @@ test.describe('When searching with a term', () => {
 
   test('Search result can be filtered by type', async ({ classificationsPage }) => {
     const { main, typeCheckbox } = getLocators(classificationsPage);
-    await checkCheckbox(typeCheckbox('Klassifikasjon'));
+    await checkCheckbox(typeCheckbox(STANDARD));
     await expect(main).toContainText(ONE_RESULT_TEXT);
 
-    await typeCheckbox('Klassifikasjon').uncheck();
-    await checkCheckbox(typeCheckbox('Kodeliste'));
+    await typeCheckbox(STANDARD).uncheck();
+    await checkCheckbox(typeCheckbox(CODELIST));
     await expect(main).toContainText(TWO_RESULTS_TEXT);
   });
 

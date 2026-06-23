@@ -44,3 +44,5 @@ export const variables = {
 export const spousesCountryBackgroundShortName = 'innv_ektef_landbak';
 export const KNOWN_SHORT_NAME = 'org_form';
 export const DETAIL_URL = `${tabsData.VariableDefinitions.route}/${KNOWN_SHORT_NAME}`;
+export const CODELIST = 'Kodeliste';
+export const STANDARD = 'Standard';
