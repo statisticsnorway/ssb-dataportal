@@ -91,6 +91,7 @@ export async function fetchAllClassifications(): Promise<ClassificationResource[
 
   const params = {
     includeCodelists: true,
+    includeDescription: true,
     language: ClassificationsLanguageEnum.NB,
   } satisfies ClassificationsRequest;
 
