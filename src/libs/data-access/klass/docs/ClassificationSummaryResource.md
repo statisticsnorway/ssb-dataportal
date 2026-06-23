@@ -11,6 +11,7 @@ Name | Type
 `classificationType` | string
 `classificationFamilyId` | number
 `lastModified` | Date
+`description` | string
 `links` | [{ [key: string]: Link; }](Link.md)
 `embedded` | [ClassificationVariantSummaryResourceEmbedded](ClassificationVariantSummaryResourceEmbedded.md)
 `page` | [PageMetadata](PageMetadata.md)
@@ -27,6 +28,7 @@ const example = {
   "classificationType": null,
   "classificationFamilyId": null,
   "lastModified": null,
+  "description": null,
   "links": null,
   "embedded": null,
   "page": null,

@@ -85,7 +85,7 @@ No authorization required
 
 ## classifications
 
-> KlassPagedResourcesClassificationSummaryResource classifications(includeCodelists, changedSince, language)
+> KlassPagedResourcesClassificationSummaryResource classifications(includeCodelists, includeDescription, changedSince, language)
 
 
 
@@ -105,6 +105,8 @@ async function example() {
   const body = {
     // boolean (optional)
     includeCodelists: true,
+    // boolean (optional)
+    includeDescription: true,
     // Date (optional)
     changedSince: 2013-10-20T19:20:30+01:00,
     // 'NB' | 'NN' | 'EN' (optional)
@@ -129,6 +131,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **includeCodelists** | `boolean` |  | [Optional] [Defaults to `false`] |
+| **includeDescription** | `boolean` |  | [Optional] [Defaults to `false`] |
 | **changedSince** | `Date` |  | [Optional] [Defaults to `undefined`] |
 | **language** | `NB`, `NN`, `EN` |  | [Optional] [Defaults to `undefined`] [Enum: NB, NN, EN] |
 
