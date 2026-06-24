@@ -50,11 +50,14 @@ export const regionFamily: CodeItem = {
  * Returns the subject field code for a given classification family ID,
  * or `undefined` if no match is found.
  */
-export const getSubjectCodeByFamilyId = (familyId?: number) => {
-  if (familyId == null) return undefined;
+export const getSubjectCodeByFamilyId = (familyId?: number, classificationId?: number) => {
+  if (familyId == null) {
+    clientLogger.info({ classificationId }, 'No family ID provided for classification');
+    return undefined;
+  }
   const result = Object.entries(SUBJECT_FIELD_BY_CODE).find(([, familyIds]) => familyIds.includes(familyId))?.[0];
   if (result == null) {
-    clientLogger.info({ familyId }, 'No subject field mapping found for classification family ID');
+    clientLogger.info({ familyId, classificationId }, 'No subject field mapping found for classification family ID');
   }
   return result;
 };
