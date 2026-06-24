@@ -1,12 +1,16 @@
 import { ClassificationResource, CodeItem, SearchResultResource } from '@/libs/data-access/klass';
-import { localization } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
 import { CLASSIFICATION_TYPE_CATEGORY, ClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
 import { sortAscending, sortDatesDescendingSafe, sortDescending } from '@/utils/sort';
 import { SUBJECT_FIELD_BY_CODE } from '@/utils/subjectFieldsMapping';
-import { stripTitlePrefix } from './classificationHelpers';
+import {
+  fromQueryTypeValue,
+  getLabelForClassificationType,
+  stripTitlePrefix,
+  toQueryTypeValue,
+} from './classificationHelpers';
 
 /**
  * Maps search results to unique `ClassificationResource` entries.
@@ -104,22 +108,6 @@ export function createSubjectFieldFilterItems(
     .sort((a, b) => String(a.label).localeCompare(String(b.label), 'nb'));
 }
 
-const toQueryTypeValue = (value: string) => (value === ClassificationType.Klassifikasjon ? 'Standard' : value);
-
-const fromQueryTypeValue = (value: string) => (value === 'Standard' ? ClassificationType.Klassifikasjon : value);
-
-/**
- * Map [Klassifikasjon] to a standard label.
- * @param value - The classification type value.
- * @returns The standardized label for the classification type.
- */
-export const standardLabel = (value: string) => {
-  if (value === ClassificationType.Klassifikasjon) {
-    return localization.classification.standard;
-  }
-  return value;
-};
-
 /**
  * getTypeFilterItems builds the filter items for the classification type filter.
  *
@@ -132,7 +120,7 @@ export const standardLabel = (value: string) => {
  */
 export function createTypeFilterItems(classifications: ClassificationResource[]): FilterItem[] {
   return [ClassificationType.Klassifikasjon, ClassificationType.Kodeliste].map((value) => ({
-    label: standardLabel(value),
+    label: getLabelForClassificationType({ classificationType: value } as ClassificationResource),
     value: toQueryTypeValue(value),
     count: classifications.filter((c) => c.classificationType === value).length,
     category: CLASSIFICATION_TYPE_CATEGORY,

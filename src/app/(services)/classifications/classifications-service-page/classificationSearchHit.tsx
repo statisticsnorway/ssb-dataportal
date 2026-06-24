@@ -3,8 +3,7 @@ import { tabsData } from '@/app/(services)/tabs';
 import { SearchHit } from '@/components/search-hit';
 import { CopyTag } from '@/components/tag-components/copy-tag';
 import { ClassificationResource, CodeItem } from '@/libs/data-access/klass';
-import { stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
-import { standardLabel } from '@/utils/classifications/filterAndSortClassifications';
+import { getLabelForClassificationType, stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
 import { getSubjectCodeByFamilyId } from '@/utils/subjectFieldsMapping';
 
 interface SearchHitProps {
@@ -24,7 +23,7 @@ const ClassificationSearchHit = ({ classification, subjectFields }: SearchHitPro
     <>
       {subjectLabel ? <Tag>{subjectLabel}</Tag> : undefined}
       {classification?.classificationType && (
-        <Tag data-color='warning'>{standardLabel(classification.classificationType)}</Tag>
+        <Tag data-color='warning'>{getLabelForClassificationType(classification)}</Tag>
       )}
       <CopyTag copyType='id' text={String(classification?.id)} />
     </>
