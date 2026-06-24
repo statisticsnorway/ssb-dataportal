@@ -1,5 +1,4 @@
 import { Assessment, DatasetState } from '@/libs/data-access/datadoc/models';
-import { ClassificationResource, ClassificationResourceFromJSONTyped } from '@/libs/data-access/klass';
 import { KlassReference, VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import { FilterItem } from '@/types/filters';
@@ -85,37 +84,6 @@ export const convertAssessment = (assessment: Assessment) => {
       assessment satisfies never;
   }
 };
-
-/**
- * Check if an object is compatible with type 'ClassificationResource'
- *
- * @param value - object to check
- * @returns true if object is a valid 'ClassificationResource'
- */
-export function instanceOfClassification(value: object): value is ClassificationResource {
-  if (!('id' in value) || value['id'] === undefined) return false;
-  if (!('name' in value) || value['name'] === undefined) return false;
-  if (!('classificationType' in value) || value['classificationType'] === undefined) return false;
-  if (!('lastModified' in value) || value['lastModified'] === undefined) return false;
-  if (!('_links' in value)) return false;
-  return true;
-}
-
-/**
- * Parse json to valid 'ClassificationResource'
- *
- * @param json
- * @returns ClassificationResource
- */
-export function parseClassification(json?: object | null): ClassificationResource {
-  if (json == null) {
-    throw new Error(`Object is null: ${json}`);
-  }
-  if (!instanceOfClassification(json)) {
-    throw new Error(`Invalid classification: ${json}`);
-  }
-  return ClassificationResourceFromJSONTyped(json, true);
-}
 
 export function getDevEnvironmentName(): string | undefined {
   return process.env.DEV_ENVIRONMENT_NAME;

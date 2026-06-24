@@ -11,7 +11,7 @@ import subjectFieldsMock from '@/static-data/subject-fields.json';
 import variableDefinitionsJson from '@/static-data/variable-definitions.json';
 import { RawClassificationFamily } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
-import { parseClassification } from './functions';
+import { parseClassification } from './classifications/classificationHelpers';
 
 export function getVariableDefinitions(): Array<RenderedView> {
   return variableDefinitionsJson.map(RenderedViewFromJSON);

@@ -14,6 +14,7 @@ import { localization } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
 import { FilterItem } from '@/types/filters';
 import { SortTypes, sortTypes } from '@/types/sort';
+import { getLabelForClassificationType } from '@/utils/classifications/classificationHelpers';
 import { scrollToFilterTags } from '@/utils/scrollToFilterTags';
 import { tabsData } from '../../tabs';
 import { ClassificationTypeFiltersSection } from './components/ClassificationTypeFiltersSection';
@@ -59,7 +60,10 @@ const ClassificationsServicePage = ({
         const subject = subjectFields?.find((item) => String(item.code) === code);
         return { value: code, label: subject ? String(subject.name) : code };
       }),
-      ...types.map((code) => ({ value: code, label: code })),
+      ...types.map((code) => ({
+        value: code,
+        label: getLabelForClassificationType({ classificationType: code } as ClassificationResource),
+      })),
     ],
     [q, subjects, subjectFields, types],
   );

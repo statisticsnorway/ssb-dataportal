@@ -5,6 +5,12 @@ import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
 import { sortAscending, sortDatesDescendingSafe, sortDescending } from '@/utils/sort';
 import { SUBJECT_FIELD_BY_CODE } from '@/utils/subjectFieldsMapping';
+import {
+  fromQueryTypeValue,
+  getLabelForClassificationType,
+  stripTitlePrefix,
+  toQueryTypeValue,
+} from './classificationHelpers';
 
 /**
  * Maps search results to unique `ClassificationResource` entries.
@@ -114,8 +120,8 @@ export function createSubjectFieldFilterItems(
  */
 export function createTypeFilterItems(classifications: ClassificationResource[]): FilterItem[] {
   return [ClassificationType.Klassifikasjon, ClassificationType.Kodeliste].map((value) => ({
-    label: value,
-    value,
+    label: getLabelForClassificationType({ classificationType: value } as ClassificationResource),
+    value: toQueryTypeValue(value),
     count: classifications.filter((c) => c.classificationType === value).length,
     category: CLASSIFICATION_TYPE_CATEGORY,
   }));
@@ -156,15 +162,16 @@ export function filterAndSortClassifications(
       ? withName
       : withName.filter((c) => c.classificationFamilyId != null && familyIds.has(c.classificationFamilyId));
 
+  const domainTypes = classificationTypes.map(fromQueryTypeValue);
   const byType =
-    classificationTypes.length === 0
+    domainTypes.length === 0
       ? bySubject
-      : bySubject.filter((c) => c.classificationType != null && classificationTypes.includes(c.classificationType));
+      : bySubject.filter((c) => c.classificationType != null && domainTypes.includes(c.classificationType));
 
   if (keepInputOrder) return byType;
   const comparators: Record<SortTypes, (a: ClassificationResource, b: ClassificationResource) => number> = {
-    titleAsc: (a, b) => sortAscending(a.name, b.name),
-    titleDesc: (a, b) => sortDescending(a.name, b.name),
+    titleAsc: (a, b) => sortAscending(stripTitlePrefix(a.name), stripTitlePrefix(b.name)),
+    titleDesc: (a, b) => sortDescending(stripTitlePrefix(a.name), stripTitlePrefix(b.name)),
     lastChanged: (a, b) => sortDatesDescendingSafe(a.lastModified, b.lastModified),
   };
 

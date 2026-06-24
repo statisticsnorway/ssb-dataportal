@@ -1,8 +1,8 @@
 import { test as base, expect } from '@bgotink/playwright-coverage';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
-import { parseClassification } from '@/utils/functions';
 import classificationMock from '@/static-data/classifications.json';
+import { parseClassification } from '@/utils/classifications/classificationHelpers';
 
 type ClassificationPageFixture = (classification: ClassificationResource) => Promise<void>;
 const classifications = classificationMock.classifications;

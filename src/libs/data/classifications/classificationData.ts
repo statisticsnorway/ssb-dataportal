@@ -21,7 +21,7 @@ import { createLogger } from '@/libs/logger/server-logger';
 import classificationsMock from '@/static-data/classifications.json';
 import searchResultsMock from '@/static-data/klass-search-results.json';
 import { linkObj } from '@/types/classification';
-import { parseClassification } from '@/utils/functions';
+import { parseClassification } from '@/utils/classifications/classificationHelpers';
 import { getClassification } from '@/utils/mock-data';
 import { getUserAgent } from '@/utils/userAgent';
 

@@ -3,7 +3,10 @@ import type { ClassificationResource, SearchResultResource } from '@/libs/data-a
 import classificationsMock from '@/static-data/classifications.json';
 import searchResultsMock from '@/static-data/klass-search-results.json';
 import { ClassificationType } from '@/types/classification';
-import { filterAndSortClassifications, mapSearchResultsToClassifications } from '@/utils/filterAndSortClassifications';
+import {
+  filterAndSortClassifications,
+  mapSearchResultsToClassifications,
+} from '@/utils/classifications/filterAndSortClassifications';
 
 const classifications: ClassificationResource[] = classificationsMock.classifications.map((c) => ({
   ...c,

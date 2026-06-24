@@ -3,7 +3,10 @@ import { use, useMemo } from 'react';
 import { CheckboxFilter } from '@/components/filters';
 import { localization } from '@/libs/language';
 import { FilterItem } from '@/types/filters';
-import { createSubjectFieldFilterItems, mapSelectedSubjectFilters } from '@/utils/filterAndSortClassifications';
+import {
+  createSubjectFieldFilterItems,
+  mapSelectedSubjectFilters,
+} from '@/utils/classifications/filterAndSortClassifications';
 import { useClassificationContext } from './classificationContext';
 
 interface SubjectFiltersSectionProps {
