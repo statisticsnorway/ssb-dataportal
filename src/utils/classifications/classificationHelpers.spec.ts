@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { ClassificationType } from '@/types/classification';
-import { parseClassification } from './classificationHelpers';
+import { parseClassification, stripTitlePrefix } from './classificationHelpers';
 
 describe('parseClassification', () => {
   const validJson = {
@@ -49,6 +49,22 @@ describe('parseClassification', () => {
   });
 });
 
-describe('strip classification name', () => {
-  it('throws an error when the classification object is missing required fields', () => {});
+describe('Normalize classification name', () => {
+  it('strips standard prefix from classification name', () => {
+    expect(stripTitlePrefix('Standard for delområde- og grunnkretsinndeling')).toBe(
+      'Delområde- og grunnkretsinndeling',
+    );
+  });
+
+  it('strips code list prefix from classification name', () => {
+    expect(stripTitlePrefix('Kodeliste for delområde- og grunnkretsinndeling')).toBe(
+      'Delområde- og grunnkretsinndeling',
+    );
+  });
+  it('returns the original classification name when no known prefix is present', () => {
+    expect(stripTitlePrefix('Delområde- og grunnkretsinndeling')).toBe('Delområde- og grunnkretsinndeling');
+  });
+  it('classification name is undefined', () => {
+    expect(stripTitlePrefix(undefined)).toBe('');
+  });
 });

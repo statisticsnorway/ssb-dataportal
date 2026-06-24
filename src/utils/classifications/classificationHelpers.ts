@@ -5,17 +5,6 @@ import {
 import { localization } from '@/libs/language/src/localization';
 
 /**
- * Removes classifications prefixes from a classification name.
- *
- * Matches either `classification.codeListPrefix` or `classification.standardPrefix`
- * (case-insensitive) when it appears at the start of the string, then trims
- * surrounding whitespace.
- *
- * @param name - The raw classification title.
- * @returns The title without a known prefix, trimmed. Returns an empty string when `name` is undefined.
- */
-
-/**
  * Removes known classification prefixes from a title and capitalizes first letter.
  */
 export const stripTitlePrefix = (name?: string) => {
