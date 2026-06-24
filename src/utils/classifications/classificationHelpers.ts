@@ -9,10 +9,6 @@ import { ClassificationType } from '@/types/classification';
  * Removes known classification prefixes from a title and capitalizes first letter.
  */
 export const stripTitlePrefix = (name?: string) => {
-  //const prefixes = [localization.classification.codeListPrefix, localization.classification.standardPrefix].filter(
-  //  Boolean,
-  // ) as string[];
-
   const matchedPrefix = [localization.classification.codeListPrefix, localization.classification.standardPrefix].find(
     (prefix) => name?.toLocaleLowerCase().startsWith(prefix.toLocaleLowerCase()),
   );
