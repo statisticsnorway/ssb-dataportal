@@ -3,8 +3,8 @@ import { tabsData } from '@/app/(services)/tabs';
 import { SearchHit } from '@/components/search-hit';
 import { CopyTag } from '@/components/tag-components/copy-tag';
 import { ClassificationResource, CodeItem } from '@/libs/data-access/klass';
+import { stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
 import { standardLabel } from '@/utils/classifications/filterAndSortClassifications';
-import { stripTitlePrefix } from '@/utils/functions';
 import { getSubjectCodeByFamilyId } from '@/utils/subjectFieldsMapping';
 
 interface SearchHitProps {
