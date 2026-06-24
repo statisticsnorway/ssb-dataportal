@@ -10,6 +10,8 @@ describe('getSubjectCodeByFamilyId', () => {
     expect(getSubjectCodeByFamilyId(1)).toBe('al');
     expect(getSubjectCodeByFamilyId(2)).toBe('bf');
     expect(getSubjectCodeByFamilyId(25)).toBe('zm');
+    expect(getSubjectCodeByFamilyId(7)).toBe('if');
+    expect(getSubjectCodeByFamilyId(10)).toBe('kf');
   });
 
   it('returns the correct code for a family id mapped to multiple codes', () => {

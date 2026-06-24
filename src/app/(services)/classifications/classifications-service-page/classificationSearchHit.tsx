@@ -13,7 +13,7 @@ interface SearchHitProps {
 
 const ClassificationSearchHit = ({ classification, subjectFields }: SearchHitProps) => {
   const classificationRoute = `${tabsData.Classifications.route}/${classification?.id}`;
-  const subjectCode = getSubjectCodeByFamilyId(classification?.classificationFamilyId);
+  const subjectCode = getSubjectCodeByFamilyId(classification?.classificationFamilyId, classification?.id);
   const subjectField = subjectFields.find((field) => String(field.code) === subjectCode);
   const subjectLabel = subjectField?.name ? String(subjectField.name) : undefined;
 
