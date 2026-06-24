@@ -4,8 +4,8 @@ import searchResultsMock from '@/static-data/klass-search-results.json';
 import { SearchResultResource } from '@/libs/data-access/klass';
 import { Page } from '@playwright/test';
 import { checkCheckbox } from './utils/commonUtils';
-import { stripTitlePrefix } from '@/utils/functions';
 import { CODELIST, STANDARD } from './utils/variables';
+import { stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
 
 const searchTerm = 'Næring';
 const searchTermVariant = 'næri';
