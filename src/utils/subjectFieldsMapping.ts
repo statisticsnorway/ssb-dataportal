@@ -10,29 +10,33 @@ import { clientLogger } from '@/libs/logger/client-logger';
  *
  * Used when filtering data by subject field, where a subject field code
  * is translated into one or more classification family IDs.
+ *
+ * Ref: https://data.ssb.no/api/klass/v1/classifications/618
  */
 export const SUBJECT_FIELD_BY_CODE: Record<string, number[]> = {
   al: [1],
-  bf: [2],
-  be: [3, 8],
   bb: [4],
+  be: [3, 8],
+  bf: [2],
   ei: [5],
   he: [6],
+  if: [7],
   js: [9],
+  kf: [10],
   nk: [11],
   nm: [12],
   os: [13],
   pp: [14],
-  '15': [15],
   sk: [16],
   ti: [18],
   tr: [19],
   ud: [20],
   ut: [21],
   va: [22],
-  vt: [23],
   vf: [24],
+  vt: [23],
   zm: [25],
+  '15': [15],
 };
 
 /**
