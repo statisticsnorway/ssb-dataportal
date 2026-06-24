@@ -1,5 +1,4 @@
 import { Assessment, DatasetState } from '@/libs/data-access/datadoc/models';
-import { ClassificationResource, ClassificationResourceFromJSONTyped } from '@/libs/data-access/klass';
 import { KlassReference, VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import { FilterItem } from '@/types/filters';
@@ -92,14 +91,14 @@ export const convertAssessment = (assessment: Assessment) => {
  * @param value - object to check
  * @returns true if object is a valid 'ClassificationResource'
  */
-export function instanceOfClassification(value: object): value is ClassificationResource {
+/*export function instanceOfClassification(value: object): value is ClassificationResource {
   if (!('id' in value) || value['id'] === undefined) return false;
   if (!('name' in value) || value['name'] === undefined) return false;
   if (!('classificationType' in value) || value['classificationType'] === undefined) return false;
   if (!('lastModified' in value) || value['lastModified'] === undefined) return false;
   if (!('_links' in value)) return false;
   return true;
-}
+}*/
 
 /**
  * Parse json to valid 'ClassificationResource'
@@ -107,7 +106,7 @@ export function instanceOfClassification(value: object): value is Classification
  * @param json
  * @returns ClassificationResource
  */
-export function parseClassification(json?: object | null): ClassificationResource {
+/*export function parseClassification(json?: object | null): ClassificationResource {
   if (json == null) {
     throw new Error(`Object is null: ${json}`);
   }
@@ -115,7 +114,7 @@ export function parseClassification(json?: object | null): ClassificationResourc
     throw new Error(`Invalid classification: ${json}`);
   }
   return ClassificationResourceFromJSONTyped(json, true);
-}
+}*/
 
 export function getDevEnvironmentName(): string | undefined {
   return process.env.DEV_ENVIRONMENT_NAME;
@@ -204,7 +203,7 @@ export function assertUnreachable(x: never): never {
 /**
  * Removes known classification prefixes from a title and capitalizes first letter.
  */
-export const stripTitlePrefix = (name?: string) => {
+/*export const stripTitlePrefix = (name?: string) => {
   const prefixes = [localization.classification.codeListPrefix, localization.classification.standardPrefix].filter(
     Boolean,
   ) as string[];
@@ -213,4 +212,4 @@ export const stripTitlePrefix = (name?: string) => {
   const stripped = (matchedPrefix ? name?.slice(matchedPrefix.length) : name)?.trim() ?? '';
 
   return stripped.charAt(0).toUpperCase() + stripped.slice(1);
-};
+};*/

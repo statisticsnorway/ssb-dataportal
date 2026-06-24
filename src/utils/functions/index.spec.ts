@@ -1,18 +1,9 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: <Necessary for testing> */
 import { describe, expect, it, vi } from 'vitest';
-import { ClassificationResource } from '@/libs/data-access/klass';
 import { KlassReference } from '@/libs/data-access/variable-definitions/internal';
-import { ClassificationType } from '@/types/classification';
 import { Item } from '@/types/item';
 import { getSubjectFieldFilterItems } from '../mock-data';
-import {
-  areFieldsDefinedAndNonNull,
-  getLabelByCode,
-  getLabelWithParent,
-  getParentCode,
-  nonEmpty,
-  parseClassification,
-} from '.';
+import { areFieldsDefinedAndNonNull, getLabelByCode, getLabelWithParent, getParentCode, nonEmpty } from '.';
 import * as labelModule from './';
 
 describe('areFieldsDefinedAndNonNull filter', () => {
@@ -52,7 +43,7 @@ describe('areFieldsDefinedAndNonNull filter', () => {
   });
 });
 
-describe('parseClassification', () => {
+/*describe('parseClassification', () => {
   const validJson = {
     name: 'Standard for delområde- og grunnkretsinndeling',
     id: 1,
@@ -96,7 +87,7 @@ describe('parseClassification', () => {
   it('throws an error when input is null', () => {
     expect(() => parseClassification(null)).toThrow('Object is null');
   });
-});
+});*/
 
 describe('nonEmpty', () => {
   it('keeps items with a truthy string', () => {

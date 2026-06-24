@@ -1,0 +1,65 @@
+import {
+  ClassificationResource,
+  ClassificationResourceFromJSONTyped,
+} from '@/libs/data-access/klass/models/ClassificationResource';
+import { localization } from '@/libs/language/src/localization';
+
+/**
+ * Removes classifications prefixes from a classification name.
+ *
+ * Matches either `classification.codeListPrefix` or `classification.standardPrefix`
+ * (case-insensitive) when it appears at the start of the string, then trims
+ * surrounding whitespace.
+ *
+ * @param name - The raw classification title.
+ * @returns The title without a known prefix, trimmed. Returns an empty string when `name` is undefined.
+ */
+
+/**
+ * Removes known classification prefixes from a title and capitalizes first letter.
+ */
+export const stripTitlePrefix = (name?: string) => {
+  const prefixes = [localization.classification.codeListPrefix, localization.classification.standardPrefix].filter(
+    Boolean,
+  ) as string[];
+
+  const matchedPrefix = prefixes.find((prefix) => name?.toLocaleLowerCase().startsWith(prefix.toLocaleLowerCase()));
+  const stripped = (matchedPrefix ? name?.slice(matchedPrefix.length) : name)?.trim() ?? '';
+
+  return stripped.charAt(0).toUpperCase() + stripped.slice(1);
+};
+
+/**
+ * Check if an object is compatible with type 'ClassificationResource'
+ *
+ * @param value - object to check
+ * @returns true if object is a valid 'ClassificationResource'
+ */
+export function instanceOfClassification(value: object): value is ClassificationResource {
+  if (!('id' in value) || value['id'] === undefined) return false;
+  if (!('name' in value) || value['name'] === undefined) return false;
+  if (!('classificationType' in value) || value['classificationType'] === undefined) return false;
+  if (!('lastModified' in value) || value['lastModified'] === undefined) return false;
+  if (!('_links' in value)) return false;
+  return true;
+}
+
+/**
+ * Parse json to valid 'ClassificationResource'
+ *
+ * @param json
+ * @returns ClassificationResource
+ */
+export function parseClassification(json?: object | null): ClassificationResource {
+  if (json == null) {
+    throw new Error(`Object is null: ${json}`);
+  }
+  if (!instanceOfClassification(json)) {
+    throw new Error(`Invalid classification: ${json}`);
+  }
+  return ClassificationResourceFromJSONTyped(json, true);
+}
+
+export function getDevEnvironmentName(): string | undefined {
+  return process.env.DEV_ENVIRONMENT_NAME;
+}

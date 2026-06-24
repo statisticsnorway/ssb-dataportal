@@ -6,7 +6,7 @@ import { FilterItem } from '@/types/filters';
 import { SortTypes } from '@/types/sort';
 import { sortAscending, sortDatesDescendingSafe, sortDescending } from '@/utils/sort';
 import { SUBJECT_FIELD_BY_CODE } from '@/utils/subjectFieldsMapping';
-import { stripTitlePrefix } from './functions';
+import { stripTitlePrefix } from './classificationHelpers';
 
 /**
  * Maps search results to unique `ClassificationResource` entries.

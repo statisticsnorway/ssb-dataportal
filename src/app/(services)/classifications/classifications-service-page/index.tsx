@@ -14,7 +14,7 @@ import { localization } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
 import { FilterItem } from '@/types/filters';
 import { SortTypes, sortTypes } from '@/types/sort';
-import { standardLabel } from '@/utils/filterAndSortClassifications';
+import { standardLabel } from '@/utils/classifications/filterAndSortClassifications';
 import { scrollToFilterTags } from '@/utils/scrollToFilterTags';
 import { tabsData } from '../../tabs';
 import { ClassificationTypeFiltersSection } from './components/ClassificationTypeFiltersSection';

@@ -2,7 +2,7 @@ import { localization } from '@/libs/language';
 import { checkCheckbox } from './utils/commonUtils';
 import { expect, test } from './fixtures/classifications.fixture';
 import classificationsMock from '@/static-data/classifications.json';
-import { parseClassification, stripTitlePrefix } from '@/utils/functions';
+import { parseClassification, stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
 
 const arbeidOgLonn = 'Arbeid og lønn';
 const bankOgFinans = 'Bank og finansmarked';

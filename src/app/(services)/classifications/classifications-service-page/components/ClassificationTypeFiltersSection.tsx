@@ -5,7 +5,7 @@ import { CheckboxFilter } from '@/components/filters';
 import { localization } from '@/libs/language';
 import { CLASSIFICATION_TYPE_CATEGORY } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
-import { createTypeFilterItems, standardLabel } from '@/utils/filterAndSortClassifications';
+import { createTypeFilterItems, standardLabel } from '@/utils/classifications/filterAndSortClassifications';
 import { useClassificationContext } from './classificationContext';
 
 interface ClassificationTypeFiltersSectionProps {
