@@ -2,11 +2,13 @@ import { localization } from '@/libs/language';
 import { checkCheckbox } from './utils/commonUtils';
 import { expect, test } from './fixtures/classifications.fixture';
 import classificationsMock from '@/static-data/classifications.json';
-import { parseClassification } from '@/utils/functions';
+import { parseClassification, stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
 
 const arbeidOgLonn = 'Arbeid og lønn';
 const bankOgFinans = 'Bank og finansmarked';
 const classifications = classificationsMock.classifications;
+const codeListPrefix = 'Kodeliste for';
+const standardPrefix = 'Standard for';
 
 test('Classifications page renders hits and sort control', async ({ classificationsPage }) => {
   await expect(classificationsPage.getByRole('article').first()).toBeVisible();
@@ -101,37 +103,45 @@ test.describe('Classifications URL state', () => {
 
 test.describe('Classifications - type filter', () => {
   test('type filter checkboxes render with correct labels', async ({ classificationsPage }) => {
-    await expect(classificationsPage.getByRole('checkbox', { name: 'Klassifikasjon' })).toBeVisible();
-    await expect(classificationsPage.getByRole('checkbox', { name: 'Kodeliste' })).toBeVisible();
+    await expect(
+      classificationsPage.getByRole('checkbox', { name: localization.classification.standard }),
+    ).toBeVisible();
+    await expect(
+      classificationsPage.getByRole('checkbox', { name: localization.classification.codelist }),
+    ).toBeVisible();
   });
 
   test('selecting Klassifikasjon filters results and updates URL', async ({ classificationsPage }) => {
-    await classificationsPage.getByRole('checkbox', { name: 'Klassifikasjon' }).check();
+    await classificationsPage.getByRole('checkbox', { name: localization.classification.standard }).check();
 
-    await expect(classificationsPage).toHaveURL('classifications?types=Klassifikasjon');
+    await expect(classificationsPage).toHaveURL(`classifications?types=${localization.classification.standard}`);
     await expect(classificationsPage.getByRole('article')).toHaveCount(8);
 
-    const filterTag = classificationsPage.getByRole('listitem').filter({ hasText: 'Klassifikasjon' });
+    const filterTag = classificationsPage
+      .getByRole('listitem')
+      .filter({ hasText: localization.classification.standard });
     await expect(filterTag).toBeVisible();
     await filterTag.getByRole('button').click();
     await expect(classificationsPage).not.toHaveURL('types=');
   });
 
   test('selecting Kodeliste shows only code list results', async ({ classificationsPage }) => {
-    await classificationsPage.getByRole('checkbox', { name: 'Kodeliste' }).check();
+    await classificationsPage.getByRole('checkbox', { name: localization.classification.codelist }).check();
 
-    await expect(classificationsPage).toHaveURL('classifications?types=Kodeliste');
+    await expect(classificationsPage).toHaveURL(`classifications?types=${localization.classification.codelist}`);
     await expect(classificationsPage.getByRole('article')).toHaveCount(2);
   });
 
   test('hydrates type filter from shared URL', async ({ classificationsPage }) => {
     await classificationsPage.goto('/classifications?types=Kodeliste');
-    await expect(classificationsPage.getByRole('checkbox', { name: 'Kodeliste' })).toBeChecked();
+    await expect(
+      classificationsPage.getByRole('checkbox', { name: localization.classification.codelist }),
+    ).toBeChecked();
     await expect(classificationsPage.getByRole('article')).toHaveCount(2);
   });
 
   test('combined subject and type filter shows "remove all" button', async ({ classificationsPage }) => {
-    await checkCheckbox(classificationsPage.getByRole('checkbox', { name: 'Klassifikasjon' }));
+    await checkCheckbox(classificationsPage.getByRole('checkbox', { name: localization.classification.standard }));
     await checkCheckbox(classificationsPage.getByRole('checkbox', { name: arbeidOgLonn }));
 
     const removeAllButton = classificationsPage.getByRole('button', { name: localization.button.removeFilter });
@@ -140,22 +150,49 @@ test.describe('Classifications - type filter', () => {
 
     await expect(classificationsPage).not.toHaveURL('types=');
     await expect(classificationsPage).not.toHaveURL('subjects=');
-    await expect(classificationsPage.getByRole('checkbox', { name: 'Klassifikasjon' })).not.toBeChecked();
+    await expect(
+      classificationsPage.getByRole('checkbox', { name: localization.classification.standard }),
+    ).not.toBeChecked();
     await expect(classificationsPage.getByRole('checkbox', { name: arbeidOgLonn })).not.toBeChecked();
   });
 });
 
 test.describe('Classifications - search card', () => {
   test('displays description', async ({ classificationsPage }) => {
-    const firstWithDescription = parseClassification(classifications[0]);
-    expect(firstWithDescription).toBeDefined();
-    await expect(classificationsPage.getByRole('article').first()).toContainText(firstWithDescription.description!);
+    const classification = parseClassification(classifications[0]);
+    expect(classification).toBeDefined();
+    await expect(
+      classificationsPage.getByRole('article', { name: stripTitlePrefix(classification.name!) }),
+    ).toContainText(classification.description!);
   });
 
   test('displays card without description if null', async ({ classificationsPage }) => {
-    const withoutDescription = parseClassification(classifications[4]);
-    expect(withoutDescription.description).toBeUndefined();
-    const card = classificationsPage.getByRole('article').filter({ hasText: withoutDescription!.name }).first();
+    const classification = parseClassification(classifications[4]);
+    expect(classification.description).toBeUndefined();
+    const card = classificationsPage.getByRole('article', { name: stripTitlePrefix(classification.name) });
     await expect(card).toBeVisible();
+  });
+
+  test('displays title', async ({ classificationsPage }) => {
+    const classification = parseClassification(classifications[1]);
+    await expect(
+      classificationsPage
+        .getByRole('article', { name: stripTitlePrefix(classification.name!) })
+        .getByRole('heading', { name: stripTitlePrefix(classification.name!) }),
+    ).toContainText(stripTitlePrefix(classification.name!));
+    await expect(
+      classificationsPage
+        .getByRole('article', { name: stripTitlePrefix(classification.name!) })
+        .getByRole('heading', { name: stripTitlePrefix(classification.name!) }),
+    ).not.toContainText(standardPrefix);
+    const codeList = parseClassification(classifications[7]);
+    await expect(classificationsPage.getByRole('article', { name: stripTitlePrefix(codeList.name!) })).toContainText(
+      stripTitlePrefix(codeList.name!),
+    );
+    await expect(
+      classificationsPage
+        .getByRole('article', { name: stripTitlePrefix(codeList.name!) })
+        .getByRole('heading', { name: stripTitlePrefix(codeList.name!) }),
+    ).not.toContainText(codeListPrefix);
   });
 });
