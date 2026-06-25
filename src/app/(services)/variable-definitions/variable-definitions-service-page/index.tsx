@@ -106,8 +106,9 @@ const VariableDefinitionsServicePage = ({
   };
 
   const handlePageChange = (nextPage: number) => {
-    void setQueryState({ page: nextPage });
-    scrollToFilterTags();
+    setQueryState({ page: nextPage }).then(() => {
+      scrollToFilterTags();
+    });
   };
 
   const removeFilter = (filter: FilterItem) => {
