@@ -94,14 +94,15 @@ const VariableDefinitionsServicePage = ({
   };
 
   const clearAll = () => {
-    void setQueryState({
+    setQueryState({
       q: null,
       status: null,
       subjects: null,
       sort: null,
       page: null,
+    }).then(() => {
+      scrollToFilterTags();
     });
-    scrollToFilterTags();
   };
 
   const handlePageChange = (nextPage: number) => {
