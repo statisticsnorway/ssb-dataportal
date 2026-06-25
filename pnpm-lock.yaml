@@ -216,6 +216,9 @@ importers:
       '@digdir/designsystemet-react':
         specifier: 1.15.0
         version: 1.15.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@digdir/designsystemet-web':
+        specifier: 1.15.0
+        version: 1.15.0
       '@navikt/aksel-icons':
         specifier: 8.12.0
         version: 8.12.0

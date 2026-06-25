@@ -42,6 +42,7 @@
   "dependencies": {
     "@biomejs/biome": "2.4.16",
     "@digdir/designsystemet-css": "1.15.0",
+    "@digdir/designsystemet-web": "1.15.0",
     "@digdir/designsystemet-react": "1.15.0",
     "@navikt/aksel-icons": "8.12.0",
     "@next/env": "16.2.7",
