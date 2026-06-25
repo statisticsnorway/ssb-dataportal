@@ -3,11 +3,16 @@
 import { getM2mToken } from '@/libs/auth/m2m';
 import { localization } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
-import { createLogger } from '@/libs/logger/server-logger';
-import { getVariableDefinitionByShortName, getVariableDefinitions } from '@/utils/mock-data';
+import { createLoggerWithBindings } from '@/libs/logger/server-logger';
+import {
+  getStaticVariableDefinitionById,
+  getStaticVariableDefinitionByShortName,
+  getStaticVariableDefinitions,
+} from '@/utils/mock-data';
 import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
 import {
+  GetVariableDefinitionByIdRequest,
   ListVariableDefinitionsRequest,
   VariableDefinitionsApi,
 } from '../../data-access/variable-definitions/internal/apis';
@@ -25,7 +30,7 @@ import {
 const ttlSeconds = Number(process.env.VARDEF_CACHE_TTL_SECONDS);
 
 export async function getVardefClient(): Promise<VariableDefinitionsApi> {
-  const logger = createLogger('variable-definitions');
+  const logger = createLoggerWithBindings({ module: 'variable-definitions', fn: 'getVardefClient' });
   let token = process.env.SSB_DATAPORTAL_JWT_TOKEN;
   if (token) {
     logger.warn('Using hardcoded access token from environment! (SSB_DATAPORTAL_JWT_TOKEN)');
@@ -58,10 +63,10 @@ export async function getVardefClient(): Promise<VariableDefinitionsApi> {
 }
 
 export async function listRenderedVariableDefinitions(): Promise<Array<RenderedView>> {
-  const logger = createLogger('variable-definitions');
+  const logger = createLoggerWithBindings({ module: 'variable-definitions', fn: 'listRenderedVariableDefinitions' });
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
-    logger.warn({ fn: 'listRenderedVariableDefinitions' }, 'Using static mock data for vardef');
-    return getVariableDefinitions();
+    logger.warn('Using static mock data for vardef');
+    return getStaticVariableDefinitions();
   }
 
   const api = await getVardefClient();
@@ -93,11 +98,11 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
   return data;
 }
 
-export async function getRenderedVariableDefinition(shortName: string): Promise<RenderedView> {
-  const logger = createLogger('variable-definitions');
+export async function getVariableDefinitionByShortName(shortName: string): Promise<RenderedView> {
+  const logger = createLoggerWithBindings({ module: 'variable-definitions', fn: 'getVariableDefinitionByShortName' });
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
-    logger.warn({ fn: 'getRenderedVariableDefinition' }, 'Using static mock data for vardef');
-    const variable = getVariableDefinitionByShortName(shortName);
+    logger.warn('Using static mock data for vardef');
+    const variable = getStaticVariableDefinitionByShortName(shortName);
     if (!variable) return Promise.reject('Not found');
     return variable;
   }
@@ -128,6 +133,42 @@ export async function getRenderedVariableDefinition(shortName: string): Promise<
     return data;
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
+      logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
+    } else {
+      logger.error({ error: sanitizeError(error) }, 'Unexpected error during fetch');
+    }
+    throw error;
+  }
+}
+export async function getRenderedVariableDefinitionById(id: string): Promise<RenderedView | undefined> {
+  const logger = createLoggerWithBindings({ module: 'variable-definitions', fn: 'getRenderedVariableDefinitionById' });
+  if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
+    logger.warn('Using static mock data for vardef');
+    return getStaticVariableDefinitionById(id);
+  }
+
+  const api = await getVardefClient();
+  if (!api) return Promise.reject('Could not access Vardef API!');
+
+  const params = {
+    variableDefinitionId: id,
+    acceptLanguage: localization.getLanguage() as SupportedLanguages,
+    render: true,
+  } satisfies GetVariableDefinitionByIdRequest;
+
+  try {
+    const data = await api.getVariableDefinitionById(params);
+    if (data !== undefined && !instanceOfRenderedView(data)) {
+      logger.error({ id: id, data: data }, 'Response could not be decoded to RenderedView');
+      throw new Error('Could not decode data');
+    }
+    logger.info({ id: data.id, shortName: data.short_name }, 'Fetched variable definition');
+    return data;
+  } catch (error: unknown) {
+    if (error instanceof ResponseError) {
+      if (error.response.status === 404) {
+        return undefined;
+      }
       logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
     } else {
       logger.error({ error: sanitizeError(error) }, 'Unexpected error during fetch');

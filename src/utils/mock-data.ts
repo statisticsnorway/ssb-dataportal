@@ -13,11 +13,14 @@ import { RawClassificationFamily } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
 import { parseClassification } from './classifications/classificationHelpers';
 
-export function getVariableDefinitions(): Array<RenderedView> {
+export function getStaticVariableDefinitions(): Array<RenderedView> {
   return variableDefinitionsJson.map(RenderedViewFromJSON);
 }
-export function getVariableDefinitionByShortName(shortName: string | number): RenderedView | undefined {
-  return getVariableDefinitions().find((v) => String(v.short_name) === String(shortName));
+export function getStaticVariableDefinitionByShortName(shortName: string): RenderedView | undefined {
+  return getStaticVariableDefinitions().find((v) => String(v.short_name) === shortName);
+}
+export function getStaticVariableDefinitionById(id: string): RenderedView | undefined {
+  return getStaticVariableDefinitions().find((v) => String(v.id) === id);
 }
 
 export function getClassification(id: number): ClassificationResource {

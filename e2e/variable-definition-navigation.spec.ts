@@ -87,4 +87,27 @@ test.describe('Variable definitions breadcrumbs', () => {
     nav.getByRole('link', { name: localization.variableDefinition.labelPlural }).click();
     await expect(page).toHaveURL(tabsData.VariableDefinitions.route);
   });
+
+  test('can access variable definition by either short name or ID', async ({ page, goToVariable }) => {
+    test.skip(noVariables, 'No variable definitions available to test');
+    const variable = variableDefinitions[0];
+    assert(variable);
+    await page.goto(`${tabsData.VariableDefinitions.route}/${variable.short_name}`);
+    await expect(
+      page.getByRole('heading', {
+        level: 1,
+        name: `${variable.name}`,
+      }),
+    ).toBeVisible();
+    await expect(page).toHaveURL(`${tabsData.VariableDefinitions.route}/${variable.short_name}`);
+
+    await page.goto(`${tabsData.VariableDefinitions.route}/${variable.id}`);
+    await expect(
+      page.getByRole('heading', {
+        level: 1,
+        name: `${variable.name}`,
+      }),
+    ).toBeVisible();
+    await expect(page).toHaveURL(`${tabsData.VariableDefinitions.route}/${variable.id}`);
+  });
 });
