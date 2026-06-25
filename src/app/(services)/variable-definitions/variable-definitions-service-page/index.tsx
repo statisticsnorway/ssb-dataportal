@@ -112,12 +112,13 @@ const VariableDefinitionsServicePage = ({
   };
 
   const removeFilter = (filter: FilterItem) => {
-    void setQueryState({
+    setQueryState({
       status: status.filter((value) => value !== filter.value),
       subjects: subjects.filter((value) => value !== filter.value),
       page: 1,
+    }).then(() => {
+      scrollToFilterTags();
     });
-    scrollToFilterTags();
   };
 
   const pageInfo = (
