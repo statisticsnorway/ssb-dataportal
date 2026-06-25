@@ -208,11 +208,12 @@ const VariableDefinitionsServicePage = ({
             sortOptions={sortTypes}
             sortValue={sort}
             onSortChange={(value) => {
-              void setQueryState({
+              setQueryState({
                 sort: value,
                 page: 1,
+              }).then(() => {
+                scrollToFilterTags();
               });
-              scrollToFilterTags();
             }}
           />
         }
