@@ -31,6 +31,10 @@ interface ClassificationServicePageProps {
   isSearchActive: boolean;
 }
 
+const toggleValue = (values: string[], nextValue: string): string[] => {
+  return values.includes(nextValue) ? values.filter((value) => value !== nextValue) : [...values, nextValue];
+};
+
 const ClassificationsServicePage = ({
   classificationsPromise,
   subjectFieldsPromise,
@@ -79,16 +83,14 @@ const ClassificationsServicePage = ({
   };
 
   const toggleSubject = (filter: FilterItem) => {
-    const nextSubjects = subjects.includes(filter.value)
-      ? subjects.filter((v) => v !== filter.value)
-      : [...subjects, filter.value];
+    const nextSubjects = toggleValue(subjects, filter.value);
 
     updateQuery({ subjects: nextSubjects.length > 0 ? nextSubjects : null, page: 1 });
     scrollToFilterTags();
   };
 
   const toggleClassificationType = (filter: FilterItem) => {
-    const nextTypes = types.includes(filter.value) ? types.filter((v) => v !== filter.value) : [...types, filter.value];
+    const nextTypes = toggleValue(types, filter.value);
 
     updateQuery({ types: nextTypes.length > 0 ? nextTypes : null, page: 1 });
     scrollToFilterTags();
