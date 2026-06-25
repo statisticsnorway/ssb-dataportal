@@ -6,12 +6,12 @@ import { stabilize } from '../utils/commonUtils';
 export const test = base.extend<{
   variableDefinitionsPage: Page;
 }>({
-  variableDefinitionsPage: async ({ page }, use, testInfo: TestInfo) => {
+  variableDefinitionsPage: async ({ page }, applyFixture, testInfo: TestInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
     await page.goto(tabsData.VariableDefinitions.route);
     await expect(page).toHaveURL(/\/variable-definitions$/);
     await stabilize();
-    await use(page);
+    await applyFixture(page);
   },
 });
 export { expect } from '@bgotink/playwright-coverage';
