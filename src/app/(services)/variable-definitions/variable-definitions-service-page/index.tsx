@@ -193,11 +193,12 @@ const VariableDefinitionsServicePage = ({
               onClearAll={clearAll}
               searchTerm={q}
               onClearSearch={() => {
-                void setQueryState({
+                setQueryState({
                   q: null,
                   page: 1,
+                }).then(() => {
+                  scrollToFilterTags();
                 });
-                scrollToFilterTags();
               }}
             />
           </Suspense>
