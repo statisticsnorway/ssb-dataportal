@@ -42,7 +42,6 @@
   "dependencies": {
     "@biomejs/biome": "2.4.16",
     "@digdir/designsystemet-css": "1.15.0",
-    "@digdir/designsystemet-web": "1.15.0",
     "@digdir/designsystemet-react": "1.15.0",
     "@navikt/aksel-icons": "8.12.0",
     "@next/env": "16.2.7",
@@ -67,6 +66,7 @@
   "devDependencies": {
     "@axe-core/playwright": "4.11.3",
     "@bgotink/playwright-coverage": "0.3.2",
+    "@digdir/designsystemet-web": "1.15.0",
     "@openapitools/openapi-generator-cli": "2.35.0",
     "@playwright/test": "1.60.0",
     "@testing-library/dom": "10.4.1",

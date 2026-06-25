@@ -20,18 +20,11 @@ import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import classificationsMock from '@/static-data/classifications.json';
 import searchResultsMock from '@/static-data/klass-search-results.json';
-import { linkObj } from '@/types/classification';
 import { parseClassification } from '@/utils/classifications/classificationHelpers';
 import { getClassification } from '@/utils/mock-data';
 import { getUserAgent } from '@/utils/userAgent';
 
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
-
-export interface ClassificationResponse {
-  classifications: ClassificationResource[];
-  pageInfo: number;
-  links: linkObj[];
-}
 
 async function getKlassClassificationsClient(): Promise<ClassificationsApi> {
   const logger = createLogger('classification-data');

@@ -216,9 +216,6 @@ importers:
       '@digdir/designsystemet-react':
         specifier: 1.15.0
         version: 1.15.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@digdir/designsystemet-web':
-        specifier: 1.15.0
-        version: 1.15.0
       '@navikt/aksel-icons':
         specifier: 8.12.0
         version: 8.12.0
@@ -283,6 +280,9 @@ importers:
       '@bgotink/playwright-coverage':
         specifier: 0.3.2
         version: 0.3.2(@playwright/test@1.60.0)
+      '@digdir/designsystemet-web':
+        specifier: 1.15.0
+        version: 1.15.0
       '@openapitools/openapi-generator-cli':
         specifier: 2.35.0
         version: 2.35.0

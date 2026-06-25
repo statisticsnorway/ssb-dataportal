@@ -16,33 +16,8 @@
   word-break: break-word;
   margin-bottom: 2rem;
 }
-
-.popoverBlock {
-  display: inline-flex;
-}
-
-.labelWithPopover {
-  display: flex;
-}
 .tableContainer {
   padding: 2rem;
-}
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding-left: 1rem;
-  font-family: var(--font-open-sans);
-  color: var(--text-color-primary);
-}
-
-.key {
-  font-weight: var(--font-weight-heavy);
-}
-
-.value {
-  flex: 1 1 100%;
-  margin: 0;
 }
 
 .fileValue {
