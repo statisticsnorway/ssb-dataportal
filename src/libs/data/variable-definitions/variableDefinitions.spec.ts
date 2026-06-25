@@ -27,7 +27,7 @@ describe('vardef data fetching', () => {
   describe('getVardefClient', () => {
     it('no token available', async () => {
       // noinspection ES6RedundantAwait
-      await expect(getVardefClient()).rejects.toEqual('Could not retrieve access token!');
+      await expect(getVardefClient()).rejects.toThrow('Could not retrieve access token!');
     });
     it('hardcoded token', () => {
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
@@ -56,7 +56,7 @@ describe('vardef data fetching', () => {
     it('no token available', async () => {
       process.env.VARDEF_USE_STATIC_DATA = 'false';
       // noinspection ES6RedundantAwait
-      await expect(listRenderedVariableDefinitions()).rejects.toEqual('Could not retrieve access token!');
+      await expect(listRenderedVariableDefinitions()).rejects.toThrow('Could not retrieve access token!');
     });
     it('mock api call happy path', () => {
       process.env.VARDEF_USE_STATIC_DATA = 'false';
@@ -79,7 +79,7 @@ describe('vardef data fetching', () => {
     it('no token available', async () => {
       process.env.VARDEF_USE_STATIC_DATA = 'false';
       // noinspection ES6RedundantAwait
-      await expect(getVariableDefinitionByShortName('antall')).rejects.toEqual('Could not retrieve access token!');
+      await expect(getVariableDefinitionByShortName('antall')).rejects.toThrow('Could not retrieve access token!');
     });
     it('mock api call happy path', () => {
       process.env.VARDEF_USE_STATIC_DATA = 'false';
