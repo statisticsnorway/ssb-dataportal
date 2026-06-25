@@ -20,8 +20,10 @@ const goToClassification = async (page: import('@playwright/test').Page, classif
 const test = base.extend<{
   goToClassification: ClassificationPageFixture;
 }>({
-  goToClassification: async ({ page }, applyFixture) => {
-    await applyFixture((classification: ClassificationResource) => goToClassification(page, classification));
+  goToClassification: async ({ page }, applyClassificationFixture) => {
+    await applyClassificationFixture((classification: ClassificationResource) =>
+      goToClassification(page, classification),
+    );
   },
 });
 
