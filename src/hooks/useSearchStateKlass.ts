@@ -22,7 +22,7 @@ export const useSearchStateKlass = (initialHits: ClassificationResource[] = []) 
           sortDatesDescendingSafe(a.lastModified, b.lastModified);
       }
       default:
-        throw key satisfies never;
+        throw new Error(`Unsupported sort key: ${String(key)}`);
     }
   };
 
