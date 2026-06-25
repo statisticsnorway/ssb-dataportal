@@ -33,7 +33,7 @@ export interface ClassificationResponse {
   links: linkObj[];
 }
 
-export async function getKlassClassificationsClient(): Promise<ClassificationsApi> {
+async function getKlassClassificationsClient(): Promise<ClassificationsApi> {
   const logger = createLogger('classification-data');
   let configParams = {
     headers: {
