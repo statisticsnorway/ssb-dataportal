@@ -6,20 +6,22 @@ import { parseClassification } from '@/utils/classifications/classificationHelpe
 
 type ClassificationPageFixture = (classification: ClassificationResource) => Promise<void>;
 const classifications = classificationMock.classifications;
+
+const goToClassification = async (page: import('@playwright/test').Page, classification: ClassificationResource) => {
+  await page.goto('/classifications');
+
+  // Wait for the classification link to be visible before clicking
+  const link = page.getByRole('link', { name: classification.name });
+  await expect(link).toBeVisible({ timeout: 5000 });
+
+  await Promise.all([page.waitForURL(new RegExp(`/classifications/${classification.id}`)), link.click()]);
+};
+
 const test = base.extend<{
   goToClassification: ClassificationPageFixture;
 }>({
-  goToClassification: async ({ page }, use) => {
-    const goToClassification = async (classification: ClassificationResource) => {
-      await page.goto('/classifications');
-
-      // Wait for the classification link to be visible before clicking
-      const link = page.getByRole('link', { name: classification.name });
-      await expect(link).toBeVisible({ timeout: 5000 });
-
-      await Promise.all([page.waitForURL(new RegExp(`/classifications/${classification.id}`)), link.click()]);
-    };
-    await use(goToClassification);
+  goToClassification: async ({ page }, applyFixture) => {
+    await applyFixture((classification: ClassificationResource) => goToClassification(page, classification));
   },
 });
 
