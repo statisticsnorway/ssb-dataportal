@@ -1,5 +1,5 @@
 import { beforeEach, expect, it, vi } from 'vitest';
-import { getRenderedVariableDefinition } from '@/libs/data/variable-definitions/variableDefinitions';
+import { getVariableDefinitionByShortName } from '@/libs/data/variable-definitions/variableDefinitions';
 import VariableDefinition from './page';
 
 vi.mock('server-only', () => ({}));
@@ -29,6 +29,6 @@ beforeEach(() => {
 });
 
 it('calls notFound when variable definition fetch fails', async () => {
-  vi.mocked(getRenderedVariableDefinition).mockRejectedValue(new Error('Not found'));
+  vi.mocked(getVariableDefinitionByShortName).mockRejectedValue(new Error('Not found'));
   await expect(VariableDefinition({ params })).rejects.toThrow('NOT_FOUND');
 });
