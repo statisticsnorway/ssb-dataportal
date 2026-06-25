@@ -79,8 +79,9 @@ const VariableDefinitionsServicePage = ({
     const nextStatus = status.includes(filter.value)
       ? status.filter((value) => value !== filter.value)
       : [...status, filter.value];
-    void setQueryState({ status: nextStatus, page: 1 });
-    scrollToFilterTags();
+    setQueryState({ status: nextStatus, page: 1 }).then(() => {
+      scrollToFilterTags();
+    });
   };
 
   const toggleSubject = (filter: FilterItem) => {
