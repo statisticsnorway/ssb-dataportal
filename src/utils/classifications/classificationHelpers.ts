@@ -23,7 +23,7 @@ export const stripTitlePrefix = (name?: string) => {
  * @param value - object to check
  * @returns true if object is a valid 'ClassificationResource'
  */
-export function instanceOfClassification(value: object): value is ClassificationResource {
+function instanceOfClassification(value: object): value is ClassificationResource {
   if (!('id' in value) || value['id'] === undefined) return false;
   if (!('name' in value) || value['name'] === undefined) return false;
   if (!('classificationType' in value) || value['classificationType'] === undefined) return false;
@@ -47,11 +47,6 @@ export function parseClassification(json?: object | null): ClassificationResourc
   }
   return ClassificationResourceFromJSONTyped(json, true);
 }
-
-export function getDevEnvironmentName(): string | undefined {
-  return process.env.DEV_ENVIRONMENT_NAME;
-}
-
 export const toQueryTypeValue = (value: string) => (value === ClassificationType.Klassifikasjon ? 'Standard' : value);
 
 export const fromQueryTypeValue = (value: string) => (value === 'Standard' ? ClassificationType.Klassifikasjon : value);

@@ -1,6 +1,6 @@
 import { localization } from '@/libs/language';
 
-export enum Tabs {
+enum Tabs {
   VariableDefinitions,
   Classifications,
   DataProducts,
@@ -28,8 +28,4 @@ export const tabsData: Record<keyof typeof Tabs, TabData> = {
 
 export function getTabForRoute(pathname: string): TabData | undefined {
   return Object.values(tabsData).find((tabData: TabData) => pathname.includes(tabData.route));
-}
-
-export function getTabForId(id: string): TabData | undefined {
-  return Object.values(tabsData).find((tabData: TabData) => tabData.id == id);
 }
