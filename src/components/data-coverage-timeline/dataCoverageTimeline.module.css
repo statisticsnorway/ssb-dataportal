@@ -164,14 +164,6 @@
   max-height: min(40vh, 16rem);
   overflow: auto;
 }
-
-.popoverListItem {
-  overflow-wrap: anywhere;
-  word-break: normal;
-  hyphens: auto;
-  white-space: normal;
-}
-
 @media (max-width: 768px) {
   .timelinePopover {
     --dsc-popover-max-width: calc(100dvw - 0.75rem);

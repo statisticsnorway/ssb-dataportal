@@ -10,7 +10,7 @@ interface CopyTagProps {
   copyType?: CopyType;
 }
 
-export type CopyType = 'short_name' | 'id' | 'file_path';
+type CopyType = 'short_name' | 'id' | 'file_path';
 
 const localizeCopyTypeLabel = (it: CopyType): string => {
   switch (it) {
