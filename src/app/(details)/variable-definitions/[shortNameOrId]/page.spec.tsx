@@ -19,10 +19,10 @@ vi.mock('next/navigation', () => ({
   }),
 }));
 
-vi.mock('@/libs/data/variable-definitions/variableDefinitions', () => ({ getRenderedVariableDefinition: vi.fn() }));
+vi.mock('@/libs/data/variable-definitions/variableDefinitions', () => ({ getVariableDefinitionByShortName: vi.fn() }));
 vi.mock('./variableDefinitionDetail', () => ({ default: () => <div>VariableDefinitionDetail</div> }));
 
-const params = Promise.resolve({ shortName: 'test' });
+const params = Promise.resolve({ shortNameOrId: 'test' });
 
 beforeEach(() => {
   vi.clearAllMocks();
