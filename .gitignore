@@ -57,3 +57,4 @@ results/**
 
 # vscode
 .vscode/extensions.json
+.fallow/

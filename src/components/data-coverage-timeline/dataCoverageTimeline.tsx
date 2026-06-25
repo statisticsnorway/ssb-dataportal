@@ -17,7 +17,7 @@ const DATA_PRESENT_TEMPLATE = '{slotLabel} {year}';
  * @param values   - Map of placeholder keys to replacement values.
  * @returns The template with all placeholders replaced.
  */
-export const formatTemplate = (template: string, values: Record<string, string | number>): string =>
+const formatTemplate = (template: string, values: Record<string, string | number>): string =>
   Object.entries(values).reduce((result, [key, value]) => result.replaceAll(`{${key}}`, String(value)), template);
 
 export const slotOverlapsItem = (slot: Slot, item: TimelineItem): boolean =>
