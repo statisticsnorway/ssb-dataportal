@@ -22,7 +22,6 @@
     "lint:check": "biome check .",
     "lint:fix": "biome check --write  .",
     "lint:dead-code": "fallow dead-code",
-    "lint:dead-code:ci": "fallow dead-code",
     "format:check": "biome format  .",
     "format:fix": "biome format --write . ",
     "setup:dev": "pnpm install && which pre-commit && pre-commit install",
