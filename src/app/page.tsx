@@ -11,6 +11,10 @@ import './home.css';
 import { ClientDetails } from '@/components/client-details/clientDetails';
 
 export default function Home() {
+  const getDetailKey = (summary: string, index: number) => {
+    return summary || String(index);
+  };
+
   const detailsList = [
     {
       summary: localization.info.landingPageInfoIntroTitle,
@@ -60,7 +64,7 @@ export default function Home() {
             </Heading>
             <div className={styles.infoDetails}>
               {detailsList.map((detail, index) => (
-                <Card key={index} className={styles.infoCard}>
+                <Card key={getDetailKey(detail.summary, index)} className={styles.infoCard}>
                   <ClientDetails summary={detail.summary} content={detail.content} />
                 </Card>
               ))}

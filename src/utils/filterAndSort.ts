@@ -56,7 +56,7 @@ export function filterAndSortVariables(
           b.last_updated_at.toISOString().split('T')[0],
         );
       default:
-        throw sortOption satisfies never;
+        throw new Error(`Unsupported sort option: ${String(sortOption)}`);
     }
   };
 

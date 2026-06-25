@@ -30,7 +30,7 @@ export const CheckboxFilter = ({ filterHeading, filters, selectedItems, onFilter
           <Checkbox
             id={`checkbox-${filter.value.replace(/\s+/g, '-').toLowerCase()}-${index}`}
             key={filter.value}
-            label={`${filter.label}${filter.count != null ? ` (${filter.count})` : ''}`}
+            label={filter.count != null ? `${filter.label} (${filter.count})` : filter.label}
             className={styles.checkbox}
             checked={selectedItems.some((item) => item.value === filter.value)}
             onChange={() => onFilterChange(filter)}
