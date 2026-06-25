@@ -121,7 +121,7 @@ export default function DatasetDetail({
             </Heading>
             <div>
               {dataFiles
-                .sort((a, b) =>
+                .toSorted((a, b) =>
                   sortDateStringsDescending(
                     a.contains_data_from?.toISOString().split('T')[0],
                     b.contains_data_from?.toISOString().split('T')[0],
