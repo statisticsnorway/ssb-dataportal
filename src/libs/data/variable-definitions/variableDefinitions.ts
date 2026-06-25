@@ -44,7 +44,7 @@ export async function getVardefClient(): Promise<VariableDefinitionsApi> {
     });
     if (!token) {
       logger.debug('No JWT token found in request headers');
-      return Promise.reject('Could not retrieve access token!');
+      throw new Error('Could not retrieve access token!');
     }
     logger.debug('Successfully retrieved JWT from authorization header');
   }
@@ -70,13 +70,13 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
   }
 
   const api = await getVardefClient();
-  if (!api) return Promise.reject('Could not access Vardef API!');
+  if (!api) throw new Error('Could not access Vardef API!');
 
   const params = {
     acceptLanguage: localization.getLanguage() as SupportedLanguages,
     render: true,
   } satisfies ListVariableDefinitionsRequest;
-  var data: RenderedView[] = [];
+  let data: RenderedView[] = [];
 
   try {
     const startTime = Date.now();
@@ -103,12 +103,12 @@ export async function getVariableDefinitionByShortName(shortName: string): Promi
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
     logger.warn('Using static mock data for vardef');
     const variable = getStaticVariableDefinitionByShortName(shortName);
-    if (!variable) return Promise.reject('Not found');
+    if (!variable) throw new Error('Not found');
     return variable;
   }
 
   const api = await getVardefClient();
-  if (!api) return Promise.reject('Could not access Vardef API!');
+  if (!api) throw new Error('Could not access Vardef API!');
 
   const params = {
     shortName,
@@ -148,7 +148,7 @@ export async function getRenderedVariableDefinitionById(id: string): Promise<Ren
   }
 
   const api = await getVardefClient();
-  if (!api) return Promise.reject('Could not access Vardef API!');
+  if (!api) throw new Error('Could not access Vardef API!');
 
   const params = {
     variableDefinitionId: id,

@@ -13,7 +13,7 @@ import { Item } from '@/types/item';
  */
 export const hashCode = (s: string) => {
   let i, h;
-  for (i = 0, h = 0; i < s.length; i++) h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;
+  for (i = 0, h = 0; i < s.length; i++) h = Math.trunc(Math.imul(31, h) + s.charCodeAt(i));
   return h;
 };
 

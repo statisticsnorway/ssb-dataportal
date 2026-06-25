@@ -79,41 +79,46 @@ const VariableDefinitionsServicePage = ({
     const nextStatus = status.includes(filter.value)
       ? status.filter((value) => value !== filter.value)
       : [...status, filter.value];
-    void setQueryState({ status: nextStatus, page: 1 });
-    scrollToFilterTags();
+    setQueryState({ status: nextStatus, page: 1 }).then(() => {
+      scrollToFilterTags();
+    });
   };
 
   const toggleSubject = (filter: FilterItem) => {
     const nextSubjects = subjects.includes(filter.value)
       ? subjects.filter((value) => value !== filter.value)
       : [...subjects, filter.value];
-    void setQueryState({ subjects: nextSubjects, page: 1 });
-    scrollToFilterTags();
+    setQueryState({ subjects: nextSubjects, page: 1 }).then(() => {
+      scrollToFilterTags();
+    });
   };
 
   const clearAll = () => {
-    void setQueryState({
+    setQueryState({
       q: null,
       status: null,
       subjects: null,
       sort: null,
       page: null,
+    }).then(() => {
+      scrollToFilterTags();
     });
-    scrollToFilterTags();
   };
 
   const handlePageChange = (nextPage: number) => {
-    void setQueryState({ page: nextPage });
-    scrollToFilterTags();
+    setQueryState({ page: nextPage }).then(() => {
+      scrollToFilterTags();
+    });
   };
 
   const removeFilter = (filter: FilterItem) => {
-    void setQueryState({
+    setQueryState({
       status: status.filter((value) => value !== filter.value),
       subjects: subjects.filter((value) => value !== filter.value),
       page: 1,
+    }).then(() => {
+      scrollToFilterTags();
     });
-    scrollToFilterTags();
   };
 
   const pageInfo = (
@@ -148,11 +153,12 @@ const VariableDefinitionsServicePage = ({
               label={localization.search.textFilter.label}
               searchTerm={q}
               setSearchTerm={(value) => {
-                void setQueryState({
+                setQueryState({
                   q: value || null,
                   page: 1,
+                }).then(() => {
+                  scrollToFilterTags();
                 });
-                scrollToFilterTags();
               }}
             />
             {isAuthenticated ? (
@@ -187,11 +193,12 @@ const VariableDefinitionsServicePage = ({
               onClearAll={clearAll}
               searchTerm={q}
               onClearSearch={() => {
-                void setQueryState({
+                setQueryState({
                   q: null,
                   page: 1,
+                }).then(() => {
+                  scrollToFilterTags();
                 });
-                scrollToFilterTags();
               }}
             />
           </Suspense>
@@ -201,11 +208,12 @@ const VariableDefinitionsServicePage = ({
             sortOptions={sortTypes}
             sortValue={sort}
             onSortChange={(value) => {
-              void setQueryState({
+              setQueryState({
                 sort: value,
                 page: 1,
+              }).then(() => {
+                scrollToFilterTags();
               });
-              scrollToFilterTags();
             }}
           />
         }
