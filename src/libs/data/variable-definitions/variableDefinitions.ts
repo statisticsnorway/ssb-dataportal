@@ -76,7 +76,7 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
     acceptLanguage: localization.getLanguage() as SupportedLanguages,
     render: true,
   } satisfies ListVariableDefinitionsRequest;
-  var data: RenderedView[] = [];
+  let data: RenderedView[] = [];
 
   try {
     const startTime = Date.now();
