@@ -206,7 +206,7 @@ export const nb = {
     assessment: {
       filterLabel: 'Verdivurdering',
       open: 'Åpen',
-      protected: 'Beskyttet',
+      protected: 'Skjermet',
       sensitive: 'Sensitiv',
       unknown: 'Ukjent verdivurdering',
     },
