@@ -14,4 +14,4 @@ export const test = base.extend<{
     await use(page);
   },
 });
-export { expect };
+export { expect } from '@bgotink/playwright-coverage';
