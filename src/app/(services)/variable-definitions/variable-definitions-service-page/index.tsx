@@ -153,11 +153,12 @@ const VariableDefinitionsServicePage = ({
               label={localization.search.textFilter.label}
               searchTerm={q}
               setSearchTerm={(value) => {
-                void setQueryState({
+                setQueryState({
                   q: value || null,
                   page: 1,
+                }).then(() => {
+                  scrollToFilterTags();
                 });
-                scrollToFilterTags();
               }}
             />
             {isAuthenticated ? (
