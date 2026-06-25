@@ -10,6 +10,10 @@ interface DetailsListProps {
 }
 
 const DetailsList = ({ title, content, popoverContent }: DetailsListProps) => {
+  const getRowKey = (row: Item, index: number) => {
+    return typeof row.label === 'string' && row.label.length > 0 ? row.label : String(index);
+  };
+
   return (
     <Card className={styles.tableContainer}>
       <Heading
@@ -21,7 +25,7 @@ const DetailsList = ({ title, content, popoverContent }: DetailsListProps) => {
         {title}
       </Heading>
       {content.map((row, index) => (
-        <dl key={index} className={styles.row}>
+        <dl key={getRowKey(row, index)} className={styles.row}>
           {row.popover ? (
             <>
               <dt className={styles.popoverKey}>
