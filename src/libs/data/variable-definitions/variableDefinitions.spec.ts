@@ -1,4 +1,4 @@
-import assert from 'assert';
+import assert from 'node:assert';
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { VariableDefinitionsApi } from '@/libs/data-access/variable-definitions/internal/apis/VariableDefinitionsApi';
 import { getStaticVariableDefinitions as getStaticVariableDefinitions } from '@/utils/mock-data';
