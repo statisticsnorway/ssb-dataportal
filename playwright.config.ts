@@ -1,6 +1,6 @@
 import { defineCoverageReporterConfig } from '@bgotink/playwright-coverage';
 import { defineConfig, devices } from '@playwright/test';
-import path from 'path';
+import path from 'node:path';
 
 /**
  * See https://playwright.dev/docs/test-configuration.
