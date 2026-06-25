@@ -35,6 +35,10 @@ const toggleValue = (values: string[], nextValue: string): string[] => {
   return values.includes(nextValue) ? values.filter((value) => value !== nextValue) : [...values, nextValue];
 };
 
+const isDifferentFilterValue = (currentValue: string) => {
+  return (filterValue: string) => filterValue !== currentValue;
+};
+
 const ClassificationsServicePage = ({
   classificationsPromise,
   subjectFieldsPromise,
@@ -97,10 +101,13 @@ const ClassificationsServicePage = ({
   };
 
   const removeFilter = (filter: FilterItem) => {
+    const isDifferent = isDifferentFilterValue(filter.value);
+    const nextQ = q === filter.value ? null : q;
+
     updateQuery({
-      q: q === filter.value ? null : q,
-      types: types.filter((v) => v !== filter.value),
-      subjects: subjects.filter((v) => v !== filter.value),
+      q: nextQ,
+      types: types.filter(isDifferent),
+      subjects: subjects.filter(isDifferent),
       page: 1,
     });
     scrollToFilterTags();
