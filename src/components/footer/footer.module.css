@@ -33,11 +33,6 @@
   align-items: flex-start;
   gap: 0.5rem;
 }
-.footerLinkItem {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
 .negativeLink {
   color: var(--ssb-green-2);
 }
@@ -45,11 +40,6 @@
   margin: 0;
   width: unset;
 }
-
-.icon {
-  width: 60px;
-}
-
 @media (min-width: 768px) {
   :is(.footerTopRow, .footerMiddleRow) {
     flex-direction: row;

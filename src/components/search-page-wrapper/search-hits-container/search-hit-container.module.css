@@ -11,8 +11,3 @@
   flex-direction: column;
   gap: var(--medium-gap);
 }
-.noHits {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--large-gap);
-}

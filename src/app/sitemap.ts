@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 
+// fallow-ignore-next-line unused-export
 export const dynamic = 'force-dynamic';
 
 export default function sitemap(): MetadataRoute.Sitemap {

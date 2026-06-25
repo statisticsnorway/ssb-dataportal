@@ -32,9 +32,3 @@
   min-width: unset;
   height: auto;
 }
-
-.copyButton svg {
-  width: 1em;
-  height: 1em;
-  display: block;
-}

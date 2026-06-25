@@ -2,11 +2,11 @@ export function getUserAgent(): string {
   return `${getAppName()}/${getAppVersion()} (${getContactEmailAddress()})`;
 }
 
-export function getAppName(): string | undefined {
+function getAppName(): string | undefined {
   return process.env.appName;
 }
 
-export function getAppVersion(): string | undefined {
+function getAppVersion(): string | undefined {
   return process.env.appVersion;
 }
 

@@ -127,22 +127,6 @@ export function createTypeFilterItems(classifications: ClassificationResource[])
   }));
 }
 
-export function countClassificationsBySubjectFilters(
-  classifications: ClassificationResource[],
-  subjectFilters: FilterItem[],
-): Record<string, number> {
-  return subjectFilters.reduce<Record<string, number>>((counts, filter) => {
-    const familyIds = new Set(SUBJECT_FIELD_BY_CODE[filter.value] ?? []);
-
-    counts[filter.value] = classifications.filter((classification) => {
-      if (classification.classificationFamilyId == null) return false;
-      return familyIds.has(classification.classificationFamilyId);
-    }).length;
-
-    return counts;
-  }, {});
-}
-
 export function filterAndSortClassifications(
   classifications: ClassificationResource[],
   subjectCodes: string[],

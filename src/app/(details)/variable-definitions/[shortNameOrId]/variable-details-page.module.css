@@ -39,11 +39,3 @@
 .ownerValue {
   margin-left: 0.5rem;
 }
-
-.popoverBlock {
-  display: inline-flex;
-}
-
-.labelWithPopover {
-  display: flex;
-}

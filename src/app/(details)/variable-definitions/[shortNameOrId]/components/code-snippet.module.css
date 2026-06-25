@@ -15,11 +15,6 @@
   padding: 1rem;
   gap: 1rem;
 }
-
-.codeWrapper {
-  position: relative;
-}
-
 .copyCodeButton {
   position: absolute;
   top: 1.5rem;

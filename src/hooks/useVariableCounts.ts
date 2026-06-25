@@ -5,7 +5,7 @@ import { FilterItem } from '@/types/filters';
 import { convertStatus, getParentCode } from '@/utils/functions';
 import { useAuthorizedVariables } from './useAuthorizedVariables';
 
-export const STATUSES: FilterItem[] = [
+const STATUSES: FilterItem[] = [
   { value: VariableStatus.Draft, label: convertStatus(VariableStatus.Draft) },
   { value: VariableStatus.PublishedInternal, label: convertStatus(VariableStatus.PublishedInternal) },
   { value: VariableStatus.PublishedExternal, label: convertStatus(VariableStatus.PublishedExternal) },
