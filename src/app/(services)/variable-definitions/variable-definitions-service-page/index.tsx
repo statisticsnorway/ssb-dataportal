@@ -88,8 +88,9 @@ const VariableDefinitionsServicePage = ({
     const nextSubjects = subjects.includes(filter.value)
       ? subjects.filter((value) => value !== filter.value)
       : [...subjects, filter.value];
-    void setQueryState({ subjects: nextSubjects, page: 1 });
-    scrollToFilterTags();
+    setQueryState({ subjects: nextSubjects, page: 1 }).then(() => {
+      scrollToFilterTags();
+    });
   };
 
   const clearAll = () => {
