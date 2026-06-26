@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ shortName
   return { title: dataProduct?.title ?? shortName };
 }
 
-export default async function DataProduct({ params }: { params: Promise<{ shortName: string }> }) {
+export default async function DataProduct({ params }: Readonly<{ params: Promise<{ shortName: string }> }>) {
   const logger = createLogger('data-product-detail-page');
 
   const { shortName } = await params;
