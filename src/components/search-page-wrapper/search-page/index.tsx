@@ -1,7 +1,6 @@
 import { Heading, TabsPanel } from '@digdir/designsystemet-react';
 import { FC, ReactElement, ReactNode } from 'react';
 import { localization } from '@/libs/language';
-import { SortTypes } from '@/types/sort';
 import styles from './search-page.module.css';
 
 interface SearchPageProps {
@@ -11,9 +10,6 @@ interface SearchPageProps {
   searchResult?: ReactElement;
   controlsContent?: ReactNode;
   totalHits?: ReactNode;
-  sortOptions?: ReadonlyArray<SortTypes>;
-  sortValue?: SortTypes;
-  onSortChange?: (key: SortTypes) => void;
   header?: string;
   tabsId: string;
 }
