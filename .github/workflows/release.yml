@@ -52,7 +52,6 @@ jobs:
           git push origin tag ${{ steps.check-version.outputs.tag }}
 
       - name: Publish release notes
-        if: steps.check-version.outputs.tag
         uses: release-drafter/release-drafter@b1476f6e6eb133afa41ed8589daba6dc69b4d3f5 # v6.1.0
         with:
           publish: ${{ steps.check-version.outputs.tag != '' }}
