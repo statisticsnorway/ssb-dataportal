@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<{ shortName
   return { title: variableDefinition?.name ?? shortNameOrId };
 }
 
-export default async function VariableDefinition({ params }: { params: Promise<{ shortNameOrId: string }> }) {
+export default async function VariableDefinition({ params }: Readonly<{ params: Promise<{ shortNameOrId: string }> }>) {
   const logger = createLogger('variable-definition-detail-page');
   const { shortNameOrId: shortNameOrId } = await params;
   logger.info({ shortNameOrId: shortNameOrId }, 'Variable definition detail page access');
