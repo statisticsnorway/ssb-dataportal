@@ -216,7 +216,7 @@ export async function doesDatasetHaveAnyValidFiles(datasetId: string): Promise<b
     (df) => df.naming_standard_violations === undefined || df.naming_standard_violations.length === 0,
   );
   let anyValidFiles = validFiles.length > 0;
-  if (!anyValidFiles) {
+  if (anyValidFiles === false) {
     logger.debug('Dataset does not have any valid files');
   } else {
     logger.debug(`Dataset has ${validFiles.length} valid files`);
