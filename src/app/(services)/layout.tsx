@@ -7,7 +7,7 @@ import { localization } from '@/libs/language';
 import styles from './search-layout.module.css';
 import { getTabForRoute, tabsData } from './tabs';
 
-export default function SearchLayout({ children }: { children: ReactNode }) {
+export default function SearchLayout({ children }: Readonly<{ children: ReactNode }>) {
   const pathname = usePathname();
   const router = useRouter();
 
