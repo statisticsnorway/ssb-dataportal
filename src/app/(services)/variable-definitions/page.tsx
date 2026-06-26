@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 
 export default async function VariableDefinitions({
   searchParams,
-}: {
+}: Readonly<{
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
+}>) {
   const params = await searchParams;
   const logger = createLogger('variable-definitions-discover-page');
   logger.info({ params }, 'Variable definitions page access');
