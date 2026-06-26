@@ -16,18 +16,18 @@ const getPageData = cache(async (id: string) => {
 });
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
-  const { id: id } = await params;
-  const { dataset: dataset } = await getPageData(id).catch(() => ({ dataset: null }));
+  const { id } = await params;
+  const { dataset } = await getPageData(id).catch(() => ({ dataset: null }));
   return { title: dataset?.short_description ?? id };
 }
 
-export default async function Dataset({ params }: { params: Promise<{ id: string }> }) {
+export default async function Dataset({ params }: Readonly<{ params: Promise<{ id: string }> }>) {
   const logger = createLogger('dataset-detail-page');
-  const { id: id } = await params;
-  logger.info({ id: id }, 'Dataset detail page access');
+  const { id } = await params;
+  logger.info({ id }, 'Dataset detail page access');
 
-  const { dataset: dataset, dataFiles: dataFiles } = await getPageData(id).catch((error) => {
-    logger.error({ id: id, error: sanitizeError(error) }, 'Failed to load dataset');
+  const { dataset, dataFiles } = await getPageData(id).catch((error) => {
+    logger.error({ id, error: sanitizeError(error) }, 'Failed to load dataset');
     return notFound();
   });
 
