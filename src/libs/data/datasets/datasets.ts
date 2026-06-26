@@ -209,7 +209,7 @@ export async function listDataFilesByDatasetId(datasetId: string): Promise<Array
   }
 }
 
-export async function doesDatasetHaveAnyValidFiles(datasetId: string): Promise<Boolean> {
+export async function doesDatasetHaveAnyValidFiles(datasetId: string): Promise<boolean> {
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'doesDatasetHaveAnyValidFiles', id: datasetId });
   let dataFiles = await listDataFilesByDatasetId(datasetId);
   let validFiles = dataFiles.filter(
