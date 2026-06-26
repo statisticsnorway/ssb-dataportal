@@ -21,8 +21,10 @@ export type TagData = Map<string, string>;
 const TagsGroup = ({ maxTags, tagData, ariaLabel }: TagsGroupProps) => {
   const tagsArray = useMemo(() => {
     const entries = Array.from(tagData.entries());
-
-    return maxTags !== undefined ? entries.slice(0, maxTags) : entries;
+    if (maxTags === undefined) {
+      return entries;
+    }
+    return entries.slice(0, maxTags);
   }, [tagData, maxTags]);
 
   // Only render the list if there are tags to avoid whitespace
