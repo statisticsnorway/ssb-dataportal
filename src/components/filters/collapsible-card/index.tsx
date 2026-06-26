@@ -34,7 +34,7 @@ export function CollapsibleCard({
   defaultOpen = true,
   cardClassName = '',
   contentClassName = '',
-}: CollapsibleCardProps) {
+}: Readonly<CollapsibleCardProps>) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   const toggleOpen = () => setIsOpen((prev) => !prev);
