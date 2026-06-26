@@ -32,7 +32,7 @@ const getPageData = cache(async (shortNameOrId: string) => {
 });
 
 export async function generateMetadata({ params }: { params: Promise<{ shortNameOrId: string }> }): Promise<Metadata> {
-  const { shortNameOrId: shortNameOrId } = await params;
+  const { shortNameOrId } = await params;
   const { variableDefinition } = await getPageData(shortNameOrId).catch(() => ({ variableDefinition: null }));
   return { title: variableDefinition?.name ?? shortNameOrId };
 }
