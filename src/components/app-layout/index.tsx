@@ -7,7 +7,6 @@ import { FeedbackCallout } from '../feedback-callout';
 interface AppLayoutProps {
   children: ReactNode;
   catalogTitle?: string;
-  className?: string;
 }
 
 export const AppLayout = ({ children, catalogTitle }: AppLayoutProps) => {

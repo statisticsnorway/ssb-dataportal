@@ -34,15 +34,16 @@ export function CollapsibleCard({
   defaultOpen = true,
   cardClassName = '',
   contentClassName = '',
-}: CollapsibleCardProps) {
+}: Readonly<CollapsibleCardProps>) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   const toggleOpen = () => setIsOpen((prev) => !prev);
   const headingId = `collapsible-${sanitizeId(heading)}-heading`;
   const panelId = `collapsible-${sanitizeId(heading)}-panel`;
+  const hiddenClassName = isOpen ? '' : styles.hidden;
 
   return (
-    <Card className={`${styles.filterCard} ${cardClassName} ${!isOpen ? styles.hidden : ''}`}>
+    <Card className={`${styles.filterCard} ${cardClassName} ${hiddenClassName}`}>
       <Fieldset aria-labelledby={headingId}>
         <FieldsetLegend className={styles.filterHeader} id={headingId}>
           <Button className={styles.toggleFilter} onClick={toggleOpen} aria-expanded={isOpen} aria-controls={panelId}>

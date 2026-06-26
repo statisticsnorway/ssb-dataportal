@@ -32,21 +32,18 @@ const getPageData = cache(async (shortNameOrId: string) => {
 });
 
 export async function generateMetadata({ params }: { params: Promise<{ shortNameOrId: string }> }): Promise<Metadata> {
-  const { shortNameOrId: shortNameOrId } = await params;
+  const { shortNameOrId } = await params;
   const { variableDefinition } = await getPageData(shortNameOrId).catch(() => ({ variableDefinition: null }));
   return { title: variableDefinition?.name ?? shortNameOrId };
 }
 
-export default async function VariableDefinition({ params }: { params: Promise<{ shortNameOrId: string }> }) {
+export default async function VariableDefinition({ params }: Readonly<{ params: Promise<{ shortNameOrId: string }> }>) {
   const logger = createLogger('variable-definition-detail-page');
-  const { shortNameOrId: shortNameOrId } = await params;
-  logger.info({ shortNameOrId: shortNameOrId }, 'Variable definition detail page access');
+  const { shortNameOrId } = await params;
+  logger.info({ shortNameOrId }, 'Variable definition detail page access');
 
   const { variableDefinition } = await getPageData(shortNameOrId).catch((error) => {
-    logger.error(
-      { shortNameOrId: shortNameOrId, error: sanitizeError(error) },
-      'Failed to load variable definition details',
-    );
+    logger.error({ shortNameOrId, error: sanitizeError(error) }, 'Failed to load variable definition details');
     return notFound();
   });
 
