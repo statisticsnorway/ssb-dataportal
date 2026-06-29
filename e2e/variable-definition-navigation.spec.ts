@@ -1,6 +1,6 @@
 import { TestInfo } from '@playwright/test';
 import { test as base, expect } from '@bgotink/playwright-coverage';
-import assert from 'assert';
+import assert from 'node:assert';
 import { tabsData } from '@/app/(services)/tabs';
 import { RenderedView, RenderedViewFromJSON } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
@@ -65,7 +65,7 @@ test.describe('Variable definitions breadcrumbs', () => {
     await currentElement.click({ trial: true });
     await currentElement.click();
     await expect(page).toHaveURL(before);
-    await expect(current).toContainText(variable.short_name);
+    await expect(current).toContainText(variable.name);
   });
 
   test('click on "Home" navigates to /', async ({ page, goToVariable }) => {
@@ -86,5 +86,28 @@ test.describe('Variable definitions breadcrumbs', () => {
     const nav = page.getByRole('navigation', { name: localization.breadcrumbsLabel });
     nav.getByRole('link', { name: localization.variableDefinition.labelPlural }).click();
     await expect(page).toHaveURL(tabsData.VariableDefinitions.route);
+  });
+
+  test('can access variable definition by either short name or ID', async ({ page, goToVariable }) => {
+    test.skip(noVariables, 'No variable definitions available to test');
+    const variable = variableDefinitions[0];
+    assert(variable);
+    await page.goto(`${tabsData.VariableDefinitions.route}/${variable.short_name}`);
+    await expect(
+      page.getByRole('heading', {
+        level: 1,
+        name: `${variable.name}`,
+      }),
+    ).toBeVisible();
+    await expect(page).toHaveURL(`${tabsData.VariableDefinitions.route}/${variable.short_name}`);
+
+    await page.goto(`${tabsData.VariableDefinitions.route}/${variable.id}`);
+    await expect(
+      page.getByRole('heading', {
+        level: 1,
+        name: `${variable.name}`,
+      }),
+    ).toBeVisible();
+    await expect(page).toHaveURL(`${tabsData.VariableDefinitions.route}/${variable.id}`);
   });
 });

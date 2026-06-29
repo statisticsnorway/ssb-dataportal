@@ -36,6 +36,7 @@ export interface ClassificationRequest {
 
 export interface ClassificationsRequest {
     includeCodelists?: boolean;
+    includeDescription?: boolean;
     changedSince?: Date;
     language?: ClassificationsLanguageEnum;
 }
@@ -65,6 +66,7 @@ export interface ClassificationsApiInterface {
     /**
      * 
      * @param {boolean} [includeCodelists] 
+     * @param {boolean} [includeDescription] 
      * @param {Date} [changedSince] 
      * @param {'NB' | 'NN' | 'EN'} [language] 
      * @param {*} [options] Override http request option.
@@ -134,6 +136,10 @@ export class ClassificationsApi extends runtime.BaseAPI implements Classificatio
 
         if (requestParameters['includeCodelists'] != null) {
             queryParameters['includeCodelists'] = requestParameters['includeCodelists'];
+        }
+
+        if (requestParameters['includeDescription'] != null) {
+            queryParameters['includeDescription'] = requestParameters['includeDescription'];
         }
 
         if (requestParameters['changedSince'] != null) {

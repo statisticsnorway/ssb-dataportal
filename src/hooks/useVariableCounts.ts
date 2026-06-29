@@ -5,7 +5,7 @@ import { FilterItem } from '@/types/filters';
 import { convertStatus, getParentCode } from '@/utils/functions';
 import { useAuthorizedVariables } from './useAuthorizedVariables';
 
-export const STATUSES: FilterItem[] = [
+const STATUSES: FilterItem[] = [
   { value: VariableStatus.Draft, label: convertStatus(VariableStatus.Draft) },
   { value: VariableStatus.PublishedInternal, label: convertStatus(VariableStatus.PublishedInternal) },
   { value: VariableStatus.PublishedExternal, label: convertStatus(VariableStatus.PublishedExternal) },
@@ -34,9 +34,7 @@ export function useStatusCounts(
     variables.forEach((variable: RenderedView) => {
       const status = String(variable.variable_status);
       if (Object.hasOwn(statusCounts, status)) {
-        if (statusCounts[status] == undefined) {
-          statusCounts[status] = 0;
-        }
+        statusCounts[status] ??= 0;
         statusCounts[status] += 1;
       }
     });
@@ -82,9 +80,7 @@ export function useSubjectFieldCounts({ variablesPromise, allSubjectFilters }: U
       variable.subject_fields?.forEach((sf) => {
         const code = getParentCode(String(sf.code));
         if (Object.hasOwn(subjectCounts, code)) {
-          if (subjectCounts[code] == undefined) {
-            subjectCounts[code] = 0;
-          }
+          subjectCounts[code] ??= 0;
           subjectCounts[code] += 1;
         }
       });

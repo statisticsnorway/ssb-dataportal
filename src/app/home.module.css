@@ -12,9 +12,6 @@
   flex-direction: column;
   min-height: 0;
 }
-.pageContainer {
-  padding-top: 1rem;
-}
 .headerCard {
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -22,11 +19,6 @@
   max-width: 768px;
   width: 100%;
 }
-
-.pageHeader {
-  padding: 1rem 0.5rem;
-}
-
 .pageTitle {
   margin-bottom: 0.5rem;
   background-color: var(--ssb-dark-color-2);
@@ -82,12 +74,6 @@
   .headerCard {
     max-width: 930px;
     width: 100%;
-  }
-  .pageHeader {
-    padding: 1rem;
-  }
-  .pageContainer {
-    padding-top: 3rem;
   }
   .mainContainer {
     padding-top: 2rem;

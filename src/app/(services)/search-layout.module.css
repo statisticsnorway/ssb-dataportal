@@ -6,12 +6,6 @@
   margin-bottom: 1rem;
 }
 
-.tabsNavigation {
-  display: flex;
-  flex-direction: row;
-  overflow-x: hidden;
-}
-
 .tab {
   font-size: 1rem;
   margin: 0;
@@ -21,19 +15,8 @@
   .tab {
     font-size: 1.2rem;
   }
-  .tabsNavigation {
-    flex-direction: row;
-  }
   .tabsNavigationContainer {
     padding-left: 1rem;
     padding-right: 1rem;
-  }
-
-  #searchValue.ds-input {
-    margin: 0;
-    min-width: 80%;
-  }
-  .searchFieldContent {
-    margin-top: var(--large-gap);
   }
 }

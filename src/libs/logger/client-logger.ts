@@ -20,10 +20,10 @@ function noop() {}
 function makeLogFn(consoleFn: (...args: unknown[]) => void): LogFn {
   if (!isDev) return noop;
   return (objOrMsg, msg) => {
-    if (msg !== undefined) {
-      consoleFn(msg, objOrMsg);
-    } else {
+    if (msg === undefined) {
       consoleFn(objOrMsg);
+    } else {
+      consoleFn(msg, objOrMsg);
     }
   };
 }

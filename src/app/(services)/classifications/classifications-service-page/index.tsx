@@ -14,6 +14,7 @@ import { localization } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
 import { FilterItem } from '@/types/filters';
 import { SortTypes, sortTypes } from '@/types/sort';
+import { getLabelForClassificationType } from '@/utils/classifications/classificationHelpers';
 import { scrollToFilterTags } from '@/utils/scrollToFilterTags';
 import { tabsData } from '../../tabs';
 import { ClassificationTypeFiltersSection } from './components/ClassificationTypeFiltersSection';
@@ -29,6 +30,14 @@ interface ClassificationServicePageProps {
   searchResultPromise: Promise<{ data: SearchResultResource[]; error: Error | null }>;
   isSearchActive: boolean;
 }
+
+const toggleValue = (values: string[], nextValue: string): string[] => {
+  return values.includes(nextValue) ? values.filter((value) => value !== nextValue) : [...values, nextValue];
+};
+
+const isDifferentFilterValue = (currentValue: string) => {
+  return (filterValue: string) => filterValue !== currentValue;
+};
 
 const ClassificationsServicePage = ({
   classificationsPromise,
@@ -59,7 +68,10 @@ const ClassificationsServicePage = ({
         const subject = subjectFields?.find((item) => String(item.code) === code);
         return { value: code, label: subject ? String(subject.name) : code };
       }),
-      ...types.map((code) => ({ value: code, label: code })),
+      ...types.map((code) => ({
+        value: code,
+        label: getLabelForClassificationType({ classificationType: code } as ClassificationResource),
+      })),
     ],
     [q, subjects, subjectFields, types],
   );
@@ -75,26 +87,27 @@ const ClassificationsServicePage = ({
   };
 
   const toggleSubject = (filter: FilterItem) => {
-    const nextSubjects = subjects.includes(filter.value)
-      ? subjects.filter((v) => v !== filter.value)
-      : [...subjects, filter.value];
+    const nextSubjects = toggleValue(subjects, filter.value);
 
     updateQuery({ subjects: nextSubjects.length > 0 ? nextSubjects : null, page: 1 });
     scrollToFilterTags();
   };
 
   const toggleClassificationType = (filter: FilterItem) => {
-    const nextTypes = types.includes(filter.value) ? types.filter((v) => v !== filter.value) : [...types, filter.value];
+    const nextTypes = toggleValue(types, filter.value);
 
     updateQuery({ types: nextTypes.length > 0 ? nextTypes : null, page: 1 });
     scrollToFilterTags();
   };
 
   const removeFilter = (filter: FilterItem) => {
+    const isDifferent = isDifferentFilterValue(filter.value);
+    const nextQ = q === filter.value ? null : q;
+
     updateQuery({
-      q: q === filter.value ? null : q,
-      types: types.filter((v) => v !== filter.value),
-      subjects: subjects.filter((v) => v !== filter.value),
+      q: nextQ,
+      types: types.filter(isDifferent),
+      subjects: subjects.filter(isDifferent),
       page: 1,
     });
     scrollToFilterTags();

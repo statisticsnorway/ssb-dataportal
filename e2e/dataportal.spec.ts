@@ -36,7 +36,10 @@ test.describe('Landing page', () => {
 
   test('Navigate from landingpage to variable definitions', async ({ landingPage }) => {
     await expect(landingPage.getByRole('heading', { level: 1 })).toContainText(localization.info.landingPageTitle);
-    await landingPage.getByRole('link', { name: localization.tabs.variableDefinitions }).click();
+    await landingPage
+      .getByRole('navigation')
+      .getByRole('link', { name: localization.tabs.variableDefinitions })
+      .click();
     await expect(landingPage.getByRole('tab', { name: localization.tabs.variableDefinitions })).toBeVisible();
     await expect(landingPage.getByRole('tab', { name: localization.tabs.variableDefinitions })).toContainText(
       localization.tabs.variableDefinitions,

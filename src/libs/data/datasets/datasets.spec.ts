@@ -1,4 +1,4 @@
-import assert from 'assert';
+import assert from 'node:assert';
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getEncodedJwt } from '@/libs/auth/jwt';
 import { getM2mToken } from '@/libs/auth/m2m';

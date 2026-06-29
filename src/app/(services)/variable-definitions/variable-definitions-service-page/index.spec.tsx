@@ -5,13 +5,13 @@ import { AuthProvider } from '@/app/authContext';
 import { CodeItem } from '@/libs/data-access/klass';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
-import { fetchStaticSubjectFields, getVariableDefinitions } from '@/utils/mock-data';
+import { fetchStaticSubjectFields, getStaticVariableDefinitions } from '@/utils/mock-data';
 import VariableDefinitionsServicePage from '.';
 
 async function renderPage(
   isAuthenticated = true,
   variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }> = Promise.resolve({
-    data: getVariableDefinitions(),
+    data: getStaticVariableDefinitions(),
     error: null,
   }),
   subjectFieldsPromise?: Promise<{ data: CodeItem[]; error: Error | null }>,

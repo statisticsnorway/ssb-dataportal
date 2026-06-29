@@ -1,6 +1,9 @@
 import { use, useMemo } from 'react';
 import { localization } from '@/libs/language';
-import { filterAndSortClassifications, mapSearchResultsToClassifications } from '@/utils/filterAndSortClassifications';
+import {
+  filterAndSortClassifications,
+  mapSearchResultsToClassifications,
+} from '@/utils/classifications/filterAndSortClassifications';
 import { useClassificationContext } from './classificationContext';
 
 export const ResultsCount = () => {

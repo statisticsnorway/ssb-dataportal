@@ -21,6 +21,8 @@ export const nb = {
     namingStandardViolationCountLabel: 'navnestandardavvik',
   },
   apiDocumentation: 'API-dokumentasjon',
+  apiDocVardef: 'Variabeldefinisjoner',
+  apiDocKlass: 'Klassifikasjoner',
   appTitle: 'SSB Dataportal',
 
   authentication: {
@@ -45,6 +47,9 @@ export const nb = {
     view: 'Se klassifikasjon',
     type: 'Type',
     codelist: 'Kodeliste',
+    standard: 'Standard',
+    codeListPrefix: 'Kodeliste for',
+    standardPrefix: 'Standard for',
   },
   codeSnippet: {
     codeExample: 'Kodeeksempel',
@@ -201,7 +206,7 @@ export const nb = {
     assessment: {
       filterLabel: 'Verdivurdering',
       open: 'Åpen',
-      protected: 'Beskyttet',
+      protected: 'Skjermet',
       sensitive: 'Sensitiv',
       unknown: 'Ukjent verdivurdering',
     },

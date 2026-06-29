@@ -17,14 +17,14 @@ const DATA_PRESENT_TEMPLATE = '{slotLabel} {year}';
  * @param values   - Map of placeholder keys to replacement values.
  * @returns The template with all placeholders replaced.
  */
-export const formatTemplate = (template: string, values: Record<string, string | number>): string =>
+const formatTemplate = (template: string, values: Record<string, string | number>): string =>
   Object.entries(values).reduce((result, [key, value]) => result.replaceAll(`{${key}}`, String(value)), template);
 
 export const slotOverlapsItem = (slot: Slot, item: TimelineItem): boolean =>
   item.start <= slot.end && item.end >= slot.start;
 
 export const getFileNameFromPath = (filePath: string): string => {
-  const normalized = filePath.endsWith('/') ? filePath.slice(0, filePath.length - 1) : filePath;
+  const normalized = filePath.endsWith('/') ? filePath.slice(0, -1) : filePath;
   const lastSlash = normalized.lastIndexOf('/');
   return lastSlash >= 0 ? normalized.slice(lastSlash + 1) : normalized;
 };

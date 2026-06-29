@@ -1,8 +1,9 @@
 import { Tag } from '@statisticsnorway/design-react';
 import { tabsData } from '@/app/(services)/tabs';
 import { SearchHit } from '@/components/search-hit';
+import { CopyTag } from '@/components/tag-components/copy-tag';
 import { ClassificationResource, CodeItem } from '@/libs/data-access/klass';
-import { localization } from '@/libs/language';
+import { getLabelForClassificationType, stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
 import { getSubjectCodeByFamilyId } from '@/utils/subjectFieldsMapping';
 
 interface SearchHitProps {
@@ -12,16 +13,27 @@ interface SearchHitProps {
 
 const ClassificationSearchHit = ({ classification, subjectFields }: SearchHitProps) => {
   const classificationRoute = `${tabsData.Classifications.route}/${classification?.id}`;
-  const subjectCode = getSubjectCodeByFamilyId(classification?.classificationFamilyId);
+  const subjectCode = getSubjectCodeByFamilyId(classification?.classificationFamilyId, classification?.id);
   const subjectField = subjectFields.find((field) => String(field.code) === subjectCode);
   const subjectLabel = subjectField?.name ? String(subjectField.name) : undefined;
 
+  const title = stripTitlePrefix(classification?.name);
+
+  const tagsList = (
+    <>
+      {subjectLabel ? <Tag>{subjectLabel}</Tag> : undefined}
+      {classification?.classificationType && (
+        <Tag data-color='warning'>{getLabelForClassificationType(classification)}</Tag>
+      )}
+      <CopyTag copyType='id' text={String(classification?.id)} />
+    </>
+  );
   return (
     <SearchHit
       href={classificationRoute}
-      title={classification?.name ?? ''}
-      description={`${localization.id}: ${classification?.id ?? '-'}`}
-      tagsList={subjectLabel ? <Tag>{subjectLabel}</Tag> : undefined}
+      title={title}
+      description={classification?.description ?? ''}
+      tagsList={tagsList}
     />
   );
 };

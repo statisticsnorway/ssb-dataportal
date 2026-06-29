@@ -1,5 +1,5 @@
 import { beforeEach, expect, it, vi } from 'vitest';
-import { getRenderedVariableDefinition } from '@/libs/data/variable-definitions/variableDefinitions';
+import { getVariableDefinitionByShortName } from '@/libs/data/variable-definitions/variableDefinitions';
 import VariableDefinition from './page';
 
 vi.mock('server-only', () => ({}));
@@ -19,16 +19,16 @@ vi.mock('next/navigation', () => ({
   }),
 }));
 
-vi.mock('@/libs/data/variable-definitions/variableDefinitions', () => ({ getRenderedVariableDefinition: vi.fn() }));
+vi.mock('@/libs/data/variable-definitions/variableDefinitions', () => ({ getVariableDefinitionByShortName: vi.fn() }));
 vi.mock('./variableDefinitionDetail', () => ({ default: () => <div>VariableDefinitionDetail</div> }));
 
-const params = Promise.resolve({ shortName: 'test' });
+const params = Promise.resolve({ shortNameOrId: 'test' });
 
 beforeEach(() => {
   vi.clearAllMocks();
 });
 
 it('calls notFound when variable definition fetch fails', async () => {
-  vi.mocked(getRenderedVariableDefinition).mockRejectedValue(new Error('Not found'));
+  vi.mocked(getVariableDefinitionByShortName).mockRejectedValue(new Error('Not found'));
   await expect(VariableDefinition({ params })).rejects.toThrow('NOT_FOUND');
 });

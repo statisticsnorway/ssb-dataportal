@@ -1,18 +1,9 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: <Necessary for testing> */
 import { describe, expect, it, vi } from 'vitest';
-import { ClassificationResource } from '@/libs/data-access/klass';
 import { KlassReference } from '@/libs/data-access/variable-definitions/internal';
-import { ClassificationType } from '@/types/classification';
 import { Item } from '@/types/item';
 import { getSubjectFieldFilterItems } from '../mock-data';
-import {
-  areFieldsDefinedAndNonNull,
-  getLabelByCode,
-  getLabelWithParent,
-  getParentCode,
-  nonEmpty,
-  parseClassification,
-} from '.';
+import { areFieldsDefinedAndNonNull, getLabelByCode, getLabelWithParent, getParentCode, nonEmpty } from '.';
 import * as labelModule from './';
 
 describe('areFieldsDefinedAndNonNull filter', () => {
@@ -49,52 +40,6 @@ describe('areFieldsDefinedAndNonNull filter', () => {
     expect(
       [{ key1: 'key1' }, { key1: undefined }].filter((obj) => areFieldsDefinedAndNonNull(obj, ['key1'])),
     ).toStrictEqual([{ key1: 'key1' }]);
-  });
-});
-
-describe('parseClassification', () => {
-  const validJson = {
-    name: 'Standard for delområde- og grunnkretsinndeling',
-    id: 1,
-    classificationType: 'Klassifikasjon',
-    lastModified: '2025-12-03T10:05:55.000+0000',
-    _links: {
-      self: {
-        href: 'https://data.ssb.no/api/klass/v1/classifications/1',
-      },
-    },
-  };
-
-  const invalidJson = {
-    name: 'Standard for delområde- og grunnkretsinndeling',
-    classificationType: 'Klassifikasjon',
-    lastModified: '2025-12-03T10:05:55.000+0000',
-    _links: {
-      self: {
-        href: 'https://data.ssb.no/api/klass/v1/classifications/1',
-      },
-    },
-  };
-  it('returns a parsed classification when given valid input', () => {
-    const result = parseClassification(validJson);
-
-    const expected: ClassificationResource = {
-      id: validJson.id,
-      name: validJson.name,
-      classificationType: ClassificationType[validJson.classificationType as keyof typeof ClassificationType],
-      lastModified: new Date(validJson.lastModified),
-      links: validJson._links,
-    };
-
-    expect(result).toEqual(expected);
-  });
-
-  it('throws an error when the classification object is missing required fields', () => {
-    expect(() => parseClassification(invalidJson)).toThrow('Invalid classification');
-  });
-
-  it('throws an error when input is null', () => {
-    expect(() => parseClassification(null)).toThrow('Object is null');
   });
 });
 

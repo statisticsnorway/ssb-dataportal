@@ -10,12 +10,6 @@
   gap: 1.5rem;
   flex-direction: column;
 }
-
-.tag {
-  margin-bottom: 0.5rem;
-  font-family: var(--font-family-monospace);
-}
-
 .sectionHeading {
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
@@ -29,7 +23,6 @@
 
 .detailsHeading {
   overflow-wrap: break-word;
-  word-break: break-word;
 }
 
 .filterSection {

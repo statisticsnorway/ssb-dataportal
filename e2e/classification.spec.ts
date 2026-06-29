@@ -1,25 +1,29 @@
 import { test as base, expect } from '@bgotink/playwright-coverage';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
-import { parseClassification } from '@/utils/functions';
 import classificationMock from '@/static-data/classifications.json';
+import { parseClassification } from '@/utils/classifications/classificationHelpers';
 
 type ClassificationPageFixture = (classification: ClassificationResource) => Promise<void>;
 const classifications = classificationMock.classifications;
+
+const goToClassification = async (page: import('@playwright/test').Page, classification: ClassificationResource) => {
+  await page.goto('/classifications');
+
+  // Wait for the classification link to be visible before clicking
+  const link = page.getByRole('link', { name: classification.name });
+  await expect(link).toBeVisible({ timeout: 5000 });
+
+  await Promise.all([page.waitForURL(new RegExp(`/classifications/${classification.id}`)), link.click()]);
+};
+
 const test = base.extend<{
   goToClassification: ClassificationPageFixture;
 }>({
-  goToClassification: async ({ page }, use) => {
-    const goToClassification = async (classification: ClassificationResource) => {
-      await page.goto('/classifications');
-
-      // Wait for the classification link to be visible before clicking
-      const link = page.getByRole('link', { name: classification.name });
-      await expect(link).toBeVisible({ timeout: 5000 });
-
-      await Promise.all([page.waitForURL(new RegExp(`/classifications/${classification.id}`)), link.click()]);
-    };
-    await use(goToClassification);
+  goToClassification: async ({ page }, applyClassificationFixture) => {
+    await applyClassificationFixture((classification: ClassificationResource) =>
+      goToClassification(page, classification),
+    );
   },
 });
 

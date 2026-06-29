@@ -83,11 +83,7 @@ const buildItemMaps = (items: KlassReference[]): TagData => {
 export const mapAboutVariableItems = (v: RenderedView, isAuthenticated: boolean, apiDocsUrl: string): Item[] => [
   {
     label: localization.unitTypes,
-    value: (
-      <>
-        <TagsGroup tagData={buildItemMaps(v.unit_types)} />
-      </>
-    ),
+    value: <TagsGroup tagData={buildItemMaps(v.unit_types)} />,
     popover: true,
   },
   {

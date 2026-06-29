@@ -1,7 +1,7 @@
 import { Divider, Heading } from '@statisticsnorway/design-react';
 import { ACCESSIBILITY_STATEMENT_URL, PRIVACY_STATEMENT_URL } from '@/config/constants';
 import { localization } from '@/libs/language';
-import { getVardefApiDocsUrl } from '@/utils/config';
+import { getKlassApiDocsUrl, getVardefApiDocsUrl } from '@/utils/config';
 import { getContactEmailAddress } from '@/utils/userAgent';
 import { DataportalLogo } from '../dataportal-logo';
 import { ApiDocLink } from '../link-components/apiDocLink';
@@ -9,7 +9,8 @@ import { ExternalLink } from '../link-components/externalLink';
 import styles from './footer.module.css';
 
 export const Footer = () => {
-  const apiDocsUrl = getVardefApiDocsUrl();
+  const vardefApiDocsUrl = getVardefApiDocsUrl();
+  const klassApiDocsUrl = getKlassApiDocsUrl();
 
   return (
     <div className={styles.footerWrapper}>
@@ -41,7 +42,13 @@ export const Footer = () => {
               linkText={localization.info.footerAccessibilityStatement}
               className={styles.negativeLink}
             />
-            <ApiDocLink href={apiDocsUrl} className={styles.negativeLink} />
+          </section>
+          <section className={styles.footerLinkSection}>
+            <Heading level={3} className={`negative-text secondaryHeading`}>
+              {localization.apiDocumentation}
+            </Heading>
+            <ExternalLink href={klassApiDocsUrl} linkText={localization.apiDocKlass} className={styles.negativeLink} />
+            <ApiDocLink href={vardefApiDocsUrl} className={styles.negativeLink} linkText={localization.apiDocVardef} />
           </section>
           <section className={styles.footerLinkSection}>
             <Heading level={3} className={`negative-text secondaryHeading`}>

@@ -2,7 +2,7 @@ import { render, screen, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { AppNotFoundState } from '@/components/app-state/app-not-found-state';
 import { localization } from '@/libs/language';
-import { getContactEmailAddress } from '@/utils/userAgent';
+import { getBrokenLinkEmailAddress } from '@/utils/userAgent';
 
 const { usePathnameMock } = vi.hoisted(() => {
   return {
@@ -18,7 +18,7 @@ describe('AppNotFoundState', () => {
   const { notFoundTitle, notFoundMessage, goHome, reportBrokenLink, brokenLinkMailSubject } = localization.error;
 
   beforeEach(() => {
-    process.env.CONTACT_EMAIL_ADDRESS = 'metadata@ssb.no';
+    process.env.BROKEN_LINK_EMAIL_ADDRESS = 'metadata@ssb.no';
     usePathnameMock.mockReturnValue('/variable-definitions/does-not-exist');
   });
 
@@ -58,7 +58,7 @@ describe('AppNotFoundState', () => {
     const href = link.getAttribute('href');
     const url = new URL(href!);
     expect(url.protocol).toBe('mailto:');
-    expect(url.pathname).toBe(getContactEmailAddress());
+    expect(url.pathname).toBe(getBrokenLinkEmailAddress());
     const params = new URLSearchParams(url.search);
     expect(params.get('subject')).toBe(brokenLinkMailSubject);
     expect(params.get('body')).toContain('/variable-definitions/does-not-exist');

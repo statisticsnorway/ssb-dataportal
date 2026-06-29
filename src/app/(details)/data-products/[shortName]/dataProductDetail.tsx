@@ -23,10 +23,10 @@ const assessmentLabelByValue: Record<string, string> = {
 export default function DataProductDetail({
   dataProduct,
   datasets,
-}: {
+}: Readonly<{
   dataProduct: DataProductDTO;
   datasets: DatasetDTO[];
-}) {
+}>) {
   const { isAuthenticated } = useAuthContext();
   const [visibleDatasets, setVisibleDatasets] = useState<DatasetDTO[]>(() => (isAuthenticated ? datasets : []));
 

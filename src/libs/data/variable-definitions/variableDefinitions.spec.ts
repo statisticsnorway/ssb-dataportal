@@ -1,8 +1,12 @@
-import assert from 'assert';
+import assert from 'node:assert';
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { VariableDefinitionsApi } from '@/libs/data-access/variable-definitions/internal/apis/VariableDefinitionsApi';
-import { getVariableDefinitions as getStaticVariableDefinitions } from '@/utils/mock-data';
-import { getRenderedVariableDefinition, getVardefClient, listRenderedVariableDefinitions } from './variableDefinitions';
+import { getStaticVariableDefinitions as getStaticVariableDefinitions } from '@/utils/mock-data';
+import {
+  getVardefClient,
+  getVariableDefinitionByShortName,
+  listRenderedVariableDefinitions,
+} from './variableDefinitions';
 
 const staticDefs = getStaticVariableDefinitions();
 
@@ -23,7 +27,7 @@ describe('vardef data fetching', () => {
   describe('getVardefClient', () => {
     it('no token available', async () => {
       // noinspection ES6RedundantAwait
-      await expect(getVardefClient()).rejects.toEqual('Could not retrieve access token!');
+      await expect(getVardefClient()).rejects.toThrow('Could not retrieve access token!');
     });
     it('hardcoded token', () => {
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
@@ -52,7 +56,7 @@ describe('vardef data fetching', () => {
     it('no token available', async () => {
       process.env.VARDEF_USE_STATIC_DATA = 'false';
       // noinspection ES6RedundantAwait
-      await expect(listRenderedVariableDefinitions()).rejects.toEqual('Could not retrieve access token!');
+      await expect(listRenderedVariableDefinitions()).rejects.toThrow('Could not retrieve access token!');
     });
     it('mock api call happy path', () => {
       process.env.VARDEF_USE_STATIC_DATA = 'false';
@@ -69,13 +73,13 @@ describe('vardef data fetching', () => {
     it('static data', async () => {
       vi.stubEnv('VARDEF_USE_STATIC_DATA', 'true');
       // noinspection ES6RedundantAwait
-      await expect(getRenderedVariableDefinition('antall')).resolves.toEqual(staticDefs[5]);
+      await expect(getVariableDefinitionByShortName('antall')).resolves.toEqual(staticDefs[5]);
       vi.stubEnv('VARDEF_USE_STATIC_DATA', 'true');
     });
     it('no token available', async () => {
       process.env.VARDEF_USE_STATIC_DATA = 'false';
       // noinspection ES6RedundantAwait
-      await expect(getRenderedVariableDefinition('antall')).rejects.toEqual('Could not retrieve access token!');
+      await expect(getVariableDefinitionByShortName('antall')).rejects.toThrow('Could not retrieve access token!');
     });
     it('mock api call happy path', () => {
       process.env.VARDEF_USE_STATIC_DATA = 'false';
@@ -84,7 +88,7 @@ describe('vardef data fetching', () => {
       assert(variable);
       vi.spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions').mockResolvedValue([variable]);
 
-      getRenderedVariableDefinition('antall').then((result) => {
+      getVariableDefinitionByShortName('antall').then((result) => {
         expect(result).toEqual(staticDefs[5]);
       });
     });
@@ -97,7 +101,7 @@ describe('vardef data fetching', () => {
       assert(variable2);
       vi.spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions').mockResolvedValue([variable1, variable2]);
       // noinspection ES6RedundantAwait
-      await expect(getRenderedVariableDefinition('antall')).rejects.toThrow(
+      await expect(getVariableDefinitionByShortName('antall')).rejects.toThrow(
         'Multiple variable definitions found for shortName="antall"',
       );
     });
@@ -107,7 +111,7 @@ describe('vardef data fetching', () => {
 
       vi.spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions').mockResolvedValue([]);
       // noinspection ES6RedundantAwait
-      await expect(getRenderedVariableDefinition('antall')).rejects.toThrow(
+      await expect(getVariableDefinitionByShortName('antall')).rejects.toThrow(
         'No variable definition found for shortName="antall"',
       );
     });

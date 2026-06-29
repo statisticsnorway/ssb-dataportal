@@ -6,7 +6,7 @@ import { Footer } from '.';
 
 describe('Footer', () => {
   it('should render successfully', () => {
-    process.env.CONTACT_EMAIL_ADDRESS = 'metadata@ssb.no';
+    process.env.CONTACT_EMAIL_ADDRESS = 'informasjon@ssb.no';
     render(
       <AuthProvider isAuthenticated={false}>
         <Footer />

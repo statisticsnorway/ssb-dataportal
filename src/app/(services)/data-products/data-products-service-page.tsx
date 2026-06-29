@@ -153,8 +153,9 @@ export const DataProductsServicePage = ({
     const nextProductTypes = productTypes.includes(filter.value)
       ? productTypes.filter((value) => value !== filter.value)
       : [...productTypes, filter.value];
-    void setQueryState({ productTypes: nextProductTypes.length > 0 ? nextProductTypes : null });
-    scrollToFilterTags();
+    setQueryState({ productTypes: nextProductTypes.length > 0 ? nextProductTypes : null }).then(() => {
+      scrollToFilterTags();
+    });
   };
 
   const pageInfo = (

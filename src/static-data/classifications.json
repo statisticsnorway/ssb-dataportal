@@ -1,11 +1,12 @@
 {
   "classifications": [
     {
-      "name": "Economy",
+      "name": "Standard for economy",
       "id": 2003,
       "classificationType": "Klassifikasjon",
       "classificationFamilyId": 1,
       "lastModified": "2025-12-04T12:30:00Z",
+      "description": "Landet er delt inn i ca. 14 000 grunnkretser som igjen er gruppert sammen til ca. 1 550 delområder.Formålet med å dele kommunen inn i grunnkretser er å lage små, stabile og geografisk enheter som kan gi et fleksibelt grunnlag for arbeide med og presentere regionalstatistikk. Hensikten med dette er igjen å gi et mer effektivt statistisk grunnlag for kommunal og regional analyse, forvaltning og planlegging. I tillegg til at grunnkretser skal være stabil over en rimelig tidsperiode, skal de også bestå av et geografisk sammenhengende område. Et annet hovedkriterium er at grunnkretsene bør være mest mulig ensartet når det gjelder natur og næringsgrunnlag, kommunikasjonsforhold og bygningsmessig struktur. Delområde er et mellomnivå mellom kommune og grunnkrets.En slik delområdeinndeling er egnet for data som blir for detaljert på grunnkretsnivå, samtidig som den er egnet til regionale oversiktsanalyser. Ved utarbeidelse av delområder ble det lagt vekt på at området hørte naturlig sammen kommunikasjonsmessig, og helst burde området være en naturlig enhet.",
       "_links": { "self": { "href": "/classifications/2" } }
     },
     {
@@ -14,6 +15,7 @@
       "classificationType": "Klassifikasjon",
       "classificationFamilyId": 4,
       "lastModified": "2025-12-03T10:05:55.000+0000",
+      "description": "For barn som har mottatt barnvernstiltak i statistikkåret registreres hvilke tiltak dette er (hovedgruppe1-8) og om tiltakene er hjelpe- eller omsorgstiltak. Omsorgstiltak er gjeldende når barneverntjenesten har overtatt omsorgen for barnet via fylkesnemnda.",
       "_links": {
         "self": {
           "href": "/classifications/1"
@@ -26,6 +28,7 @@
       "classificationType": "Klassifikasjon",
       "classificationFamilyId": 15,
       "lastModified": "2026-03-17T10:25:54.000+0000",
+      "description": "Standard for landkoder (SSB-3) beskriver landkoder som brukes i statistikk og rapportering.",
       "_links": {
         "self": {
           "href": "/classifications/91"
@@ -38,6 +41,7 @@
       "classificationType": "Klassifikasjon",
       "classificationFamilyId": 3,
       "lastModified": "2018-12-07T14:02:33.000+0000",
+      "description": "Standard for kjønn beskriver hvordan kjønn skal registreres og rapporteres i statistikk.",
       "_links": {
         "self": {
           "href": "/classifications/2"
@@ -62,6 +66,7 @@
       "classificationType": "Klassifikasjon",
       "classificationFamilyId": 4,
       "lastModified": "2020-10-13T10:07:50.000+0000",
+      "description": "Standard for regionale spesialkoder beskriver hvordan regionale spesialkoder skal brukes i statistikk.",
       "_links": {
         "self": {
           "href": "/classifications/4"
@@ -69,11 +74,12 @@
       }
     },
     {
-      "name": "Population",
+      "name": "Standard for population",
       "id": 1003,
       "classificationType": "Klassifikasjon",
       "classificationFamilyId": 2,
       "lastModified": "2025-12-05T10:00:00Z",
+      "description": "Population beskriver befolkningen i ulike geografiske områder.",
       "_links": { "self": { "href": "/classifications/1" } }
     },
     {
@@ -82,6 +88,7 @@
       "classificationType": "Kodeliste",
       "classificationFamilyId": 5,
       "lastModified": "2026-04-07T10:00:00Z",
+      "description": "Kodeliste for måleenheter for næringene innenfor næringshovedområdet C (industri) beskriver hvilke måleenheter som skal brukes.",
       "_links": { "self": { "href": "/classifications/910" } }
     },
     {

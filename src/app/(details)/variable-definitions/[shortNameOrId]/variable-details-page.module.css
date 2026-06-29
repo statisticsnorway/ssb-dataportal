@@ -13,7 +13,6 @@
 
 .detailsHeading {
   overflow-wrap: break-word;
-  word-break: break-word;
 }
 
 .definition {
@@ -39,12 +38,4 @@
 
 .ownerValue {
   margin-left: 0.5rem;
-}
-
-.popoverBlock {
-  display: inline-flex;
-}
-
-.labelWithPopover {
-  display: flex;
 }

@@ -10,6 +10,10 @@ interface DetailsListProps {
 }
 
 const DetailsList = ({ title, content, popoverContent }: DetailsListProps) => {
+  const getRowKey = (row: Item, index: number) => {
+    return typeof row.label === 'string' && row.label.length > 0 ? row.label : String(index);
+  };
+
   return (
     <Card className={styles.tableContainer}>
       <Heading
@@ -21,21 +25,19 @@ const DetailsList = ({ title, content, popoverContent }: DetailsListProps) => {
         {title}
       </Heading>
       {content.map((row, index) => (
-        <dl key={index} className={styles.row}>
+        <dl key={getRowKey(row, index)} className={styles.row}>
           {row.popover ? (
-            <>
-              <dt className={styles.popoverKey}>
-                <span className={styles.popoverLabel}>{row.label}</span>
-                <Popover.TriggerContext>
-                  <Popover.Trigger aria-label={`${row.label} information`} inline className={styles.popoverButton}>
-                    <QuestionmarkCircleIcon title='Information' fontSize='2rem' aria-hidden focusable='false' />
-                  </Popover.Trigger>
-                  <Popover placement='top' id='info'>
-                    {popoverContent}
-                  </Popover>
-                </Popover.TriggerContext>
-              </dt>
-            </>
+            <dt className={styles.popoverKey}>
+              <span className={styles.popoverLabel}>{row.label}</span>
+              <Popover.TriggerContext>
+                <Popover.Trigger aria-label={`${row.label} information`} inline className={styles.popoverButton}>
+                  <QuestionmarkCircleIcon title='Information' fontSize='2rem' aria-hidden focusable='false' />
+                </Popover.Trigger>
+                <Popover placement='top' id='info'>
+                  {popoverContent}
+                </Popover>
+              </Popover.TriggerContext>
+            </dt>
           ) : (
             <dt className={styles.key}>{row.label}</dt>
           )}
