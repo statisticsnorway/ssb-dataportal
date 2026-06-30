@@ -8,7 +8,7 @@ test.describe('Tabs navigation', () => {
     await expect(klassTab).toBeEnabled();
 
     await Promise.all([variableDefinitionsPage.waitForURL('/classifications'), klassTab.click()]);
-    await expect(variableDefinitionsPage).toHaveURL('/classifications');
+    await expect(variableDefinitionsPage).toHaveURL('/classifications?types=Standard');
   });
 
   test('navigate to data products', async ({ variableDefinitionsPage }) => {

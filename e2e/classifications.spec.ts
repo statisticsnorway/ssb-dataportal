@@ -64,7 +64,7 @@ test('Sort classifications', async ({ classificationsPage }) => {
   expect(await firstCard.innerText()).not.toBe(firstAsc);
 
   await sortSelect.selectOption('lastChanged');
-  await expect(classificationsPage).toHaveURL('classifications?sort=lastChanged');
+  await expect(classificationsPage).toHaveURL('classifications?types=Standard&sort=lastChanged');
 });
 
 test.describe('Classifications - pagination', () => {
@@ -77,13 +77,13 @@ test.describe('Classifications - pagination', () => {
 test.describe('Classifications URL state', () => {
   test('updates URL when selecting subject filter', async ({ classificationsPage }) => {
     await classificationsPage.getByRole('checkbox', { name: arbeidOgLonn }).check();
-    await expect(classificationsPage).toHaveURL('classifications?subjects=al');
+    await expect(classificationsPage).toHaveURL('classifications?types=Standard&subjects=al');
     await expect(classificationsPage).not.toHaveURL('page=');
   });
 
   test('updates URL when sorting', async ({ classificationsPage }) => {
     await classificationsPage.getByLabel(localization.search.sort.label).selectOption('titleDesc');
-    await expect(classificationsPage).toHaveURL('classifications?sort=titleDesc');
+    await expect(classificationsPage).toHaveURL('classifications?types=Standard&sort=titleDesc');
   });
 
   test('hydrates UI from shared URL', async ({ classificationsPage }) => {
@@ -94,7 +94,7 @@ test.describe('Classifications URL state', () => {
   });
 
   test('keeps URL state after refresh', async ({ classificationsPage }) => {
-    await classificationsPage.goto('/classifications?sort=titleDesc&subjects=al');
+    await classificationsPage.goto('/classifications?types=Standard&sort=titleDesc&subjects=al');
     await classificationsPage.reload();
     await expect(classificationsPage.getByLabel(localization.search.sort.label)).toHaveValue('titleDesc');
     await expect(classificationsPage.getByRole('checkbox', { name: arbeidOgLonn })).toBeChecked();
