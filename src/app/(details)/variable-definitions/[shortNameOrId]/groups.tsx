@@ -16,7 +16,7 @@ import styles from './variable-details-page.module.css';
  * Audit / Created & Edited Items
  * ------------------------------
  */
-export const createdAndEditedItems = (v: RenderedView, isAuthenticated: boolean): Item[] => {
+const createdAndEditedItems = (v: RenderedView, isAuthenticated: boolean): Item[] => {
   const publicItems: Item[] = [
     { label: `${localization.editing.updated} ${localization.on}`, value: formatDate(v.last_updated_at) },
   ];
