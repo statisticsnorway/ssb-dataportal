@@ -23,7 +23,7 @@ const formatTemplate = (template: string, values: Record<string, string | number
 export const slotOverlapsItem = (slot: Slot, item: TimelineItem): boolean =>
   item.start <= slot.end && item.end >= slot.start;
 
-export const getFileNameFromPath = (filePath: string): string => {
+const getFileNameFromPath = (filePath: string): string => {
   const normalized = filePath.endsWith('/') ? filePath.slice(0, -1) : filePath;
   const lastSlash = normalized.lastIndexOf('/');
   return lastSlash >= 0 ? normalized.slice(lastSlash + 1) : normalized;
