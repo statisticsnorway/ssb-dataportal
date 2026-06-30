@@ -15,7 +15,7 @@ import { pad2 } from './utils';
  *
  * `monthsEach` (slots per year ÷ 12 months) is derived on-the-fly in `generateYearSlots`.
  */
-export const PERIOD_DEFS: Partial<Record<PeriodFormat, Omit<PeriodDef, 'monthsEach'>>> = {
+const PERIOD_DEFS: Partial<Record<PeriodFormat, Omit<PeriodDef, 'monthsEach'>>> = {
   [PeriodFormat.YEAR_MONTH]: {
     count: 12,
     label: (i) => localization.dataCoverageTimeline.monthsShort[i] ?? '',

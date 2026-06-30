@@ -98,7 +98,7 @@ export const getParentCode = (code: string): string => {
  * @param code - The code to check.
  * @returns True if the code is a child, false otherwise.
  */
-export const isChildCode = (code: string): boolean => {
+const isChildCode = (code: string): boolean => {
   return code?.length > 2;
 };
 

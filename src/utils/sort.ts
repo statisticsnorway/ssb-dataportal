@@ -20,7 +20,7 @@ export const sortDateStringsDescending = (a: string | null | undefined, b: strin
   return new Date(b).getTime() - new Date(a).getTime();
 };
 
-export const toTimestamp = (value?: Date | string) => {
+const toTimestamp = (value?: Date | string) => {
   if (!value) return 0; // missing value → fallback
   if (value instanceof Date) return value.getTime(); // Date → timestamp
   return new Date(value).getTime(); // string → parse to timestamp
