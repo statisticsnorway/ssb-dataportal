@@ -14,10 +14,7 @@ import { clientLogger } from '@/libs/logger/client-logger';
 import { ClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
 import { SortTypes, sortTypes } from '@/types/sort';
-import {
-  getLabelForClassificationType,
-  getLabelForClassificationType2,
-} from '@/utils/classifications/classificationHelpers';
+import { getLabelForClassificationType } from '@/utils/classifications/classificationHelpers';
 import { scrollToFilterTags } from '@/utils/scrollToFilterTags';
 import { tabsData } from '../../tabs';
 import { ClassificationTypeFiltersSection } from './components/ClassificationTypeFiltersSection';
@@ -73,7 +70,7 @@ const ClassificationsServicePage = ({
       }),
       ...types.map((code) => ({
         value: code,
-        label: getLabelForClassificationType({ classificationType: code } as ClassificationResource),
+        label: getLabelForClassificationType(code as ClassificationType),
       })),
     ],
     [q, subjects, subjectFields, types],
@@ -105,7 +102,7 @@ const ClassificationsServicePage = ({
 
   useEffect(() => {
     if (types.length === 0) {
-      updateQuery({ types: [getLabelForClassificationType2(ClassificationType.Klassifikasjon)] });
+      updateQuery({ types: [getLabelForClassificationType(ClassificationType.Klassifikasjon)] });
     }
   }, []);
 

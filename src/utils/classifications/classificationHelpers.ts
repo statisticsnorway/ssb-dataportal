@@ -53,20 +53,13 @@ export const fromQueryTypeValue = (value: string) => (value === 'Standard' ? Cla
 
 /**
  * Returns a display label for a classification type.
- * If the classification type is `Klassifikasjon`, a localized "standard" label is returned.
+ * If the classification type is `Klassifikasjon`, a localized "Standard" label is returned.
  * Otherwise, the original `classificationType` value is returned.
  *
- * @param value - The classification resource.
+ * @param value - The classification type.
  * @returns The label to display for the classification type.
  */
-export const getLabelForClassificationType = (value: string) => {
-  if (value === ClassificationType.Klassifikasjon) {
-    return localization.classification.standard;
-  }
-  return value;
-};
-
-export const getLabelForClassificationType2 = (value: ClassificationType) => {
+export const getLabelForClassificationType = (value: ClassificationType) => {
   if (value === ClassificationType.Klassifikasjon) {
     return localization.classification.standard;
   }
