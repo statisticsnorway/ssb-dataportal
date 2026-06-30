@@ -40,7 +40,7 @@ const createdAndEditedItems = (v: RenderedView, isAuthenticated: boolean): Item[
  * Owner details
  * ------------------------------
  */
-export const OwnerDetails = ({ variable }: { variable: RenderedView }) => {
+const OwnerDetails = ({ variable }: { variable: RenderedView }) => {
   const fields = [
     {
       label: localization.owner.daplaTeam.toUpperCase(),
