@@ -1,7 +1,6 @@
 import { Tag } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
 import { SearchHit } from '@/components/search-hit';
-import { CopyTag } from '@/components/tag-components/copy-tag';
 import { ClassificationResource, CodeItem } from '@/libs/data-access/klass';
 import { getLabelForClassificationType, stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
 import { getSubjectCodeByFamilyId } from '@/utils/subjectFieldsMapping';
@@ -25,7 +24,6 @@ const ClassificationSearchHit = ({ classification, subjectFields }: SearchHitPro
       {classification?.classificationType && (
         <Tag data-color='warning'>{getLabelForClassificationType(classification)}</Tag>
       )}
-      <CopyTag copyType='id' text={String(classification?.id)} />
     </>
   );
   return (
