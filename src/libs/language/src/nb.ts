@@ -7,19 +7,6 @@
  */
 
 export const nb = {
-  datasetDetail: {
-    aboutDataset: 'Om datasettet',
-    dataProduct: 'Dataprodukt',
-    bucket: 'Bøtte',
-    datasetState: 'Datatilstand',
-    assessment: 'Vurdering',
-    responsible: 'Ansvarlig team',
-    id: 'ID',
-    namingStandardViolations: 'Antall navnestandardavvik',
-    dataFiles: 'Datafiler',
-    dataCoverageTimeline: 'Tilgjengelige perioder',
-    namingStandardViolationCountLabel: 'navnestandardavvik',
-  },
   apiDocumentation: 'API-dokumentasjon',
   apiDocVardef: 'Variabeldefinisjoner',
   apiDocKlass: 'Klassifikasjoner',
@@ -52,6 +39,14 @@ export const nb = {
     standard: 'Standard',
     codeListPrefix: 'Kodeliste for',
     standardPrefix: 'Standard for',
+  },
+  classificationDetails: {
+    codes: 'Koder',
+    about: 'Om versjonen',
+    changes: 'Endringer',
+    allVersions: 'Alle versjoner',
+    correspondences: 'Korrespondanser',
+    variants: 'Varianter',
   },
   codeSnippet: {
     codeExample: 'Kodeeksempel',
@@ -97,6 +92,19 @@ export const nb = {
     dataProductFilters: 'Dataproduktfiltre',
     dataset: 'Datasett',
   },
+  datasetDetail: {
+    aboutDataset: 'Om datasettet',
+    dataProduct: 'Dataprodukt',
+    bucket: 'Bøtte',
+    datasetState: 'Datatilstand',
+    assessment: 'Vurdering',
+    responsible: 'Ansvarlig team',
+    id: 'ID',
+    namingStandardViolations: 'Antall navnestandardavvik',
+    dataFiles: 'Datafiler',
+    dataCoverageTimeline: 'Tilgjengelige perioder',
+    namingStandardViolationCountLabel: 'navnestandardavvik',
+  },
   documentation: 'Dokumentasjon',
 
   editing: {
@@ -105,6 +113,14 @@ export const nb = {
   },
 
   error: {
+    classificationDetailsTabs: {
+      notFoundCodes: 'Koder ikke funnet',
+      notFoundAboutClassification: 'Om klassifikasjonen ikke funnet',
+      notFoundChanges: 'Endringer ikke funnet',
+      notFoundAllVersions: 'Alle versjoner ikke funnet',
+      notFoundCorrespondences: 'Korrespondanser ikke funnet',
+      notFoundVariants: 'Varianter ikke funnet',
+    },
     somethingWentWrong: 'Beklager, noe gikk galt.',
     unauthorized: 'Beklager, du har ikke tilgang.',
     technicalProblemsTitle: 'Vi har tekniske problemer',
