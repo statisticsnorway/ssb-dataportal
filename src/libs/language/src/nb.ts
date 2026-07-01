@@ -39,6 +39,11 @@ export const nb = {
     standard: 'Standard',
     codeListPrefix: 'Kodeliste for',
     standardPrefix: 'Standard for',
+    subscribe: 'Abonner',
+    subscribeError: 'Det oppstod en feil under registering',
+    subscribeAlready: 'Du er allerede abonnert',
+    subscribeInfo: 'Abonner på oppdateringer for denne klassifikasjonen',
+    subscribeMessage: 'Du vil motta en mail. Følg instruksjonene i mailen for å starte ditt abonnement.',
   },
   classificationDetails: {
     codes: 'Koder',
