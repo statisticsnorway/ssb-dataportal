@@ -2,7 +2,7 @@
 
 import { Divider, Heading, Paragraph, Tabs, Tag } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { SubscribeButton } from '@/app/(details)/classifications/components/subscribe';
+import { SubscribeDialog } from '@/app/(details)/classifications/components/subscribe';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language';
@@ -35,8 +35,10 @@ export default function ClassificationDetail({
         <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='xl' level={1}>
           {classification.name}
         </Heading>
-        {classification.description && <Paragraph className={`${styles.description} ingress`}>{classification.description}</Paragraph>}
-        <SubscribeButton classificationId={classification.id} />
+        {classification.description && (
+          <Paragraph className={`${styles.description} ingress`}>{classification.description}</Paragraph>
+        )}
+        <SubscribeDialog classificationId={classification.id} />
         <Divider />
         <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='lg' level={2}>
           Versjonens navn

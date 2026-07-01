@@ -1,8 +1,8 @@
-/** biome-ignore-all lint/suspicious/noConsole: <explanation> */
 import { Button, Dialog, Field, Input, Label, ValidationMessage } from '@digdir/designsystemet-react';
 import { useEffect, useState } from 'react';
 import { postSubscriber, SubscribeResult } from '@/libs/data/classifications/classificationData';
 import { localization } from '@/libs/language/src/localization';
+import { createLogger } from '@/libs/logger/server-logger';
 import styles from './subscribe.module.css';
 
 export type Subscriber = {
@@ -10,7 +10,8 @@ export type Subscriber = {
   classificationId: number | undefined;
 };
 
-const SubscribeButton = ({ classificationId }: { classificationId: number | undefined }) => {
+const SubscribeDialog = ({ classificationId }: { classificationId: number | undefined }) => {
+  const logger = createLogger('SubscribeDialog');
   const [inputValue, setInputValue] = useState('');
   const [subscriber, setSubscriber] = useState<Subscriber | null>(null);
   const [subscribeResult, setSubscribeResult] = useState<SubscribeResult | null>(null);
@@ -25,7 +26,7 @@ const SubscribeButton = ({ classificationId }: { classificationId: number | unde
       postSubscriber(subscriber)
         .then((result) => setSubscribeResult(result))
         .catch((error) => {
-          console.error('Subscription failed', error);
+          logger.error('Subscription failed', error);
         });
     }
   }, [subscriber]);
@@ -63,4 +64,4 @@ const SubscribeButton = ({ classificationId }: { classificationId: number | unde
   );
 };
 
-export { SubscribeButton };
+export { SubscribeDialog };
