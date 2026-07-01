@@ -10,3 +10,9 @@ export type Subscriber = {
   email: string;
   classificationId: number | undefined;
 };
+
+export type SubscribeResult = {
+  code: 'STATUS_CREATED' | 'STATUS_EXISTS';
+  message: string;
+  dataColor: string;
+};

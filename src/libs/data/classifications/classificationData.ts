@@ -22,7 +22,7 @@ import { createLogger } from '@/libs/logger/server-logger';
 import classificationsMock from '@/static-data/classifications.json';
 import searchResultsMock from '@/static-data/klass-search-results.json';
 import subscribersMock from '@/static-data/subscribers.json';
-import { Subscriber } from '@/types/classification';
+import { SubscribeResult, Subscriber } from '@/types/classification';
 import { parseClassification } from '@/utils/classifications/classificationHelpers';
 import { getClassification } from '@/utils/mock-data';
 import { getUserAgent } from '@/utils/userAgent';
@@ -210,11 +210,18 @@ export async function fetchSearchResult(searchRequest: SearchRequest): Promise<S
   return searchResult.embedded?.searchResults ?? [];
 }
 
-export type SubscribeResult = {
-  code: 'STATUS_CREATED' | 'STATUS_EXISTS';
-  message: string;
-  dataColor: string;
-};
+async function klassPost(path: string, params: Record<string, string>): Promise<Response> {
+  const klassBasePath = process.env.KLASS_BASE_PATH;
+  if (!klassBasePath) throw new Error('KLASS_BASE_PATH is not configured');
+
+  const url = new URL(`${new URL(klassBasePath).origin}${path}`);
+  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+
+  return fetch(url.toString(), {
+    method: 'POST',
+    headers: { 'User-Agent': getUserAgent() },
+  });
+}
 
 export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeResult> {
   const logger = createLogger('subscriber');
@@ -235,15 +242,9 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
     throw new Error('KLASS_BASE_PATH is not configured');
   }
 
-  const url = new URL(`${klassBasePath}/classifications/${subscriber.classificationId}/trackChanges`);
-  url.searchParams.set('email', subscriber.email);
-
   try {
-    const res = await fetch(url.toString(), {
-      method: 'POST',
-      headers: {
-        'User-Agent': getUserAgent(),
-      },
+    const res = await klassPost(`/classifications/${subscriber.classificationId}/trackChanges`, {
+      email: subscriber.email,
     });
 
     const body: SubscribeResult = await res.json();
@@ -254,7 +255,7 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
     }
 
     if (!res.ok) {
-      logger.error({ statusCode: res.status, url: url.toString() }, 'Failed to subscribe to classification changes');
+      logger.error({ statusCode: res.status, url: res.url }, 'Failed to subscribe to classification changes');
       throw new Error(`Failed to subscribe: ${res.status}`);
     }
 

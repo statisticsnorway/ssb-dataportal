@@ -1,9 +1,9 @@
 import { Button, Dialog, Field, Input, Label, ValidationMessage } from '@digdir/designsystemet-react';
 import { useEffect, useState } from 'react';
-import { postSubscriber, SubscribeResult } from '@/libs/data/classifications/classificationData';
+import { postSubscriber } from '@/libs/data/classifications/classificationData';
 import { localization } from '@/libs/language/src/localization';
 import { clientLogger } from '@/libs/logger/client-logger';
-import { Subscriber } from '@/types/classification';
+import { SubscribeResult, Subscriber } from '@/types/classification';
 import styles from './subscribe.module.css';
 
 const SubscribeDialog = ({ classificationId }: { classificationId: number | undefined }) => {
