@@ -17,8 +17,6 @@ spec:
       external:
         - host: auth.test.ssb.no
         - host: data.test.ssb.no
-  login:
-    provider: openid
   ttl: 8h
   replicas:
     max: 1
