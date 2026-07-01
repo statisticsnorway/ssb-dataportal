@@ -225,7 +225,6 @@ async function klassPost(path: string, params: Record<string, string>): Promise<
 
 export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeResult> {
   const logger = createLogger('subscriber');
-  const klassBasePath = process.env.KLASS_BASE_PATH;
 
   if (process.env.KLASS_STATIC_SUBSCRIBER === 'true') {
     logger.warn('Using static mock data for subscriber');
@@ -238,29 +237,32 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
     return { code: 'STATUS_CREATED', message: localization.classification.subscribeMessage, dataColor: 'success' };
   }
 
-  if (!klassBasePath) {
-    throw new Error('KLASS_BASE_PATH is not configured');
-  }
-
   try {
     const res = await klassPost(`/classifications/${subscriber.classificationId}/trackChanges`, {
       email: subscriber.email,
     });
 
-    const body: SubscribeResult = await res.json();
+    const text = await res.text();
+    logger.debug({ text, status: res.status }, 'Raw response from trackChanges');
+    const body: Partial<SubscribeResult> = text ? JSON.parse(text) : {};
 
     if (res.status === 400 && body.code === 'STATUS_EXISTS') {
       logger.info({ classificationId: subscriber.classificationId }, 'Email already subscribed');
-      return body;
+      return { code: 'STATUS_EXISTS', message: localization.classification.subscribeAlready, dataColor: 'warning' };
+    }
+
+    if (res.status === 500) {
+      logger.error({ classificationId: subscriber.classificationId }, 'Email problem during subscription');
+      throw new Error('Email could not be sent');
     }
 
     if (!res.ok) {
-      logger.error({ statusCode: res.status, url: res.url }, 'Failed to subscribe to classification changes');
+      logger.error({ statusCode: res.status }, 'Failed to subscribe to classification changes');
       throw new Error(`Failed to subscribe: ${res.status}`);
     }
 
     logger.info({ classificationId: subscriber.classificationId }, 'Subscribed to classification changes');
-    return body;
+    return { code: 'STATUS_CREATED', message: localization.classification.subscribeMessage, dataColor: 'success' };
   } catch (error: unknown) {
     logger.error({ error: String(error) }, 'Unexpected error during subscription');
     throw error;
