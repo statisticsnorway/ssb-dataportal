@@ -52,8 +52,98 @@
       "name": "Standard for gruppering av hjelpe- og omsorgstiltak i barnevernet",
       "id": 3,
       "classificationType": "Klassifikasjon",
-      "classificationFamilyId": 16,
-      "lastModified": "2024-08-28T07:15:51.000+0000",
+      "lastModified": "2026-05-18T12:13:28.000+0000",
+      "description": "For barn som har mottatt barnvernstiltak i statistikkåret registrerer en hvilke tiltak dette er (hovedgruppe1-8) og om tiltakene er hjelpe- eller omsorgstiltak. Omsorgstiltak er gjeldende når barneverntjenesten har overtatt omsorgen for barnet via fylkesnemnda.",
+      "primaryLanguage": "nb",
+      "copyrighted": false,
+      "includeShortName": false,
+      "includeNotes": true,
+      "contactPerson": {
+        "name": "Dyrhaug, Tone",
+        "email": "Tone.Dyrhaug@ssb.no",
+        "phone": ""
+      },
+      "owningSection": "330 - Seksjon for helse-, omsorg- og sosialstatistikk",
+      "statisticalUnits": ["Person"],
+      "versions": [
+        {
+          "name": "Gruppering av hjelpe- og omsorgstiltak i barnevernet 2013",
+          "id": 15,
+          "validFrom": "2013-01-01",
+          "validTo": "2021-01-01",
+          "lastModified": "2021-08-24T09:00:18.000+0000",
+          "published": ["nb", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/15"
+            }
+          }
+        },
+        {
+          "name": "Gruppering av hjelpe- og omsorgstiltak i barnevernet 2007",
+          "id": 16,
+          "validFrom": "2007-01-01",
+          "validTo": "2013-01-01",
+          "lastModified": "2016-10-07T12:05:23.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/16"
+            }
+          }
+        },
+        {
+          "name": "Gruppering av hjelpe- og omsorgstiltak i barnevernet 2002",
+          "id": 17,
+          "validFrom": "2002-01-01",
+          "validTo": "2007-01-01",
+          "lastModified": "2016-10-07T12:05:23.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/17"
+            }
+          }
+        },
+        {
+          "name": "Gruppering av hjelpe- og omsorgstiltak i barnevernet 2021",
+          "id": 1596,
+          "validFrom": "2021-01-01",
+          "validTo": "2023-01-01",
+          "lastModified": "2024-08-28T07:15:36.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/1596"
+            }
+          }
+        },
+        {
+          "name": "Gruppering av hjelpe- og omsorgstiltak i barnevernet 2023",
+          "id": 2773,
+          "validFrom": "2023-01-01",
+          "validTo": "2026-01-01",
+          "lastModified": "2026-02-19T13:38:02.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/2773"
+            }
+          }
+        },
+        {
+          "name": "Gruppering av hjelpe- og omsorgstiltak i barnevernet 2026",
+          "id": 3371,
+          "validFrom": "2026-01-01",
+          "lastModified": "2026-05-18T12:10:14.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/3371"
+            }
+          }
+        }
+      ],
       "_links": {
         "self": {
           "href": "/classifications/3"
