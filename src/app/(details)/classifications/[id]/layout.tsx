@@ -2,19 +2,34 @@ import { Alert } from '@digdir/designsystemet-react';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { cache, ReactNode } from 'react';
+import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
 import { ClassificationResource } from '@/libs/data-access/klass';
+import { localization } from '@/libs/language/src/localization';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
+import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import ClassificationDetail from './classificationDetail';
 
 const showInfoOnly = process.env.HIDE_CLASSIFICATIONS === 'true';
 
 const renderInfoOnlyPage = () => {
   return (
-    <Alert data-color={'warning'} className='infoAlert'>
-      Detaljside for klassifikasjon er ikke klar for testing.
-    </Alert>
+    <div className='container'>
+      <DataportalBreadcrumbs
+        homeUrl={getHomeBreadcrumb()}
+        items={[
+          {
+            text: localization.classification.labelPlural,
+            href: `/classifications`,
+          },
+        ]}
+      />
+
+      <Alert data-color={'warning'} className='infoAlert'>
+        Detaljside for klassifikasjon er ikke klar for testing.
+      </Alert>
+    </div>
   );
 };
 
