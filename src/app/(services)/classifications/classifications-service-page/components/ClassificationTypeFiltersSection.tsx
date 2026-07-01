@@ -2,9 +2,8 @@
 
 import { use, useMemo } from 'react';
 import { CheckboxFilter } from '@/components/filters';
-import { ClassificationResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
-import { CLASSIFICATION_TYPE_CATEGORY } from '@/types/classification';
+import { CLASSIFICATION_TYPE_CATEGORY, ClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
 import { getLabelForClassificationType } from '@/utils/classifications/classificationHelpers';
 import { createTypeFilterItems } from '@/utils/classifications/filterAndSortClassifications';
@@ -23,7 +22,7 @@ export const ClassificationTypeFiltersSection = ({ onFilterChange }: Classificat
     () =>
       selectedClassificationTypes.map((value) => ({
         value,
-        label: getLabelForClassificationType({ classificationType: value } as ClassificationResource),
+        label: getLabelForClassificationType(value as ClassificationType),
         category: CLASSIFICATION_TYPE_CATEGORY,
       })),
     [selectedClassificationTypes],

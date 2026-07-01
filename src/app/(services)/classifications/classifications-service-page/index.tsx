@@ -2,16 +2,16 @@
 
 import { Spinner } from '@digdir/designsystemet-react';
 import { parseAsArrayOf, parseAsInteger, parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs';
-import { Suspense, use, useMemo } from 'react';
+import { Suspense, use, useEffect, useMemo } from 'react';
 import { FiltersPanel } from '@/components/filters';
 import { FilterTagsSection } from '@/components/filters/filter-tags-section';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortFields } from '@/components/sort-fields';
-
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { CodeItem, SearchResultResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
+import { ClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
 import { SortTypes, sortTypes } from '@/types/sort';
 import { getLabelForClassificationType } from '@/utils/classifications/classificationHelpers';
@@ -70,7 +70,7 @@ const ClassificationsServicePage = ({
       }),
       ...types.map((code) => ({
         value: code,
-        label: getLabelForClassificationType({ classificationType: code } as ClassificationResource),
+        label: getLabelForClassificationType(code as ClassificationType),
       })),
     ],
     [q, subjects, subjectFields, types],
@@ -99,6 +99,12 @@ const ClassificationsServicePage = ({
     updateQuery({ types: nextTypes.length > 0 ? nextTypes : null, page: 1 });
     scrollToFilterTags();
   };
+
+  useEffect(() => {
+    if (types.length === 0) {
+      updateQuery({ types: [getLabelForClassificationType(ClassificationType.Klassifikasjon)] });
+    }
+  }, []);
 
   const removeFilter = (filter: FilterItem) => {
     const isDifferent = isDifferentFilterValue(filter.value);

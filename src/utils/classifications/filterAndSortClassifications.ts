@@ -120,7 +120,7 @@ export function createSubjectFieldFilterItems(
  */
 export function createTypeFilterItems(classifications: ClassificationResource[]): FilterItem[] {
   return [ClassificationType.Klassifikasjon, ClassificationType.Kodeliste].map((value) => ({
-    label: getLabelForClassificationType({ classificationType: value } as ClassificationResource),
+    label: getLabelForClassificationType(value as ClassificationType),
     value: toQueryTypeValue(value),
     count: classifications.filter((c) => c.classificationType === value).length,
     category: CLASSIFICATION_TYPE_CATEGORY,
