@@ -214,7 +214,8 @@ async function klassPost(path: string, params: Record<string, string>): Promise<
   const klassBasePath = process.env.KLASS_BASE_PATH;
   if (!klassBasePath) throw new Error('KLASS_BASE_PATH is not configured');
 
-  const url = new URL(`${new URL(klassBasePath).origin}${path}`);
+  const origin = new URL(klassBasePath).origin;
+  const url = new URL(`${origin}${path}`);
   Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
 
   return fetch(url.toString(), {
@@ -238,7 +239,7 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
   }
 
   try {
-    const res = await klassPost(`/classifications/${subscriber.classificationId}/trackChanges`, {
+    const res = await klassPost(`/api/klass/v1/classifications/${subscriber.classificationId}/trackChanges`, {
       email: subscriber.email,
     });
 
