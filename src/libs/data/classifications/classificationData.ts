@@ -209,23 +209,18 @@ export async function fetchSearchResult(searchRequest: SearchRequest): Promise<S
   }
   return searchResult.embedded?.searchResults ?? [];
 }
+
 async function klassPost(path: string, params: Record<string, string>): Promise<Response> {
-  const klassBasePath = process.env.KLASS_BASE_PATH;
-  if (!klassBasePath) throw new Error('KLASS_BASE_PATH is not configured');
+  const basePath = process.env.KLASS_PUBLIC_BASE_PATH;
+  if (!basePath) throw new Error('KLASS_PUBLIC_BASE_PATH is not configured');
 
-  const origin = new URL(klassBasePath).origin;
-  const url = new URL(`${origin}${path}`);
+  const url = new URL(`${basePath}${path}`);
   Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
-
-  // Pass the public Klass host so WebMvcLinkBuilder builds correct URLs in emails
-  const publicKlassHost = new URL('https://data.ssb.no/api/klass/v1').host; // data.ssb.no
 
   return fetch(url.toString(), {
     method: 'POST',
     headers: {
       'User-Agent': getUserAgent(),
-      'X-Forwarded-Host': publicKlassHost,
-      'X-Forwarded-Proto': 'https',
     },
   });
 }
