@@ -162,6 +162,7 @@ test.describe('Classifications - type filter', () => {
 
 test.describe('Classifications - search card', () => {
   test.beforeEach(async ({ classificationsPage }) => {
+    // Remove default set filter
     await classificationsPage.getByRole('button', { name: removeStandard }).click();
   });
   test('displays description', async ({ classificationsPage }) => {
