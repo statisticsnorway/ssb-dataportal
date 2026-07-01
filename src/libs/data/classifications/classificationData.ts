@@ -211,11 +211,14 @@ export async function fetchSearchResult(searchRequest: SearchRequest): Promise<S
 }
 
 async function klassPost(path: string, params: Record<string, string>): Promise<Response> {
+  const logger = createLogger('klass-post');
   const basePath = process.env.KLASS_PUBLIC_BASE_PATH;
   if (!basePath) throw new Error('KLASS_PUBLIC_BASE_PATH is not configured');
 
   const url = new URL(`${basePath}${path}`);
   Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+
+  logger.info({ url: url.toString(), basePath }, 'klassPost sending request');
 
   return fetch(url.toString(), {
     method: 'POST',
@@ -243,6 +246,7 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
     const res = await klassPost(`/classifications/${subscriber.classificationId}/trackChanges`, {
       email: subscriber.email,
     });
+    logger.info({ status: res.status }, 'Response received from trackChanges');
 
     const text = await res.text();
     logger.info({ text, status: res.status }, 'Raw response from trackChanges');
