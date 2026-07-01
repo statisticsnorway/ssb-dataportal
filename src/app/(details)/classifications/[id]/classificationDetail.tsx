@@ -1,21 +1,15 @@
-import { Alert, Heading } from '@digdir/designsystemet-react';
+import { Alert } from '@digdir/designsystemet-react';
 import { BreadcrumbItem, DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
-import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import styles from './classification-page.module.css';
 
-export default function ClassificationDetail({ classification }: Readonly<{ classification: ClassificationResource }>) {
+export default function ClassificationDetail({ id }: Readonly<{ id: string }>) {
   const homeUrl = { text: localization.tabs.classifications, href: `/classifications` };
-  const breadcrumbList = classification.id ? ([{ text: classification.name, href: '' }] as BreadcrumbItem[]) : [];
+  const breadcrumbList = id ? ([{ text: id, href: '' }] as BreadcrumbItem[]) : [];
 
   return (
     <section className={`${styles.detailsPage} container`}>
       <DataportalBreadcrumbs items={breadcrumbList} homeUrl={homeUrl} />
-      <header>
-        <Heading className={`${styles.detailsPageHeader} primaryHeading`} level={1} data-size='lg'>
-          {classification.name}
-        </Heading>
-      </header>
       <main className={styles.detailsPage}>
         <Alert data-color={'warning'} className='infoAlert'>
           Detaljside for klassifikasjon er ikke klar for testing.
