@@ -1,6 +1,5 @@
 'use server';
 
-import { Subscriber } from '@/app/(details)/classifications/components/subscribe';
 import {
   ClassificationLanguageEnum,
   ClassificationRequest,
@@ -23,6 +22,7 @@ import { createLogger } from '@/libs/logger/server-logger';
 import classificationsMock from '@/static-data/classifications.json';
 import searchResultsMock from '@/static-data/klass-search-results.json';
 import subscribersMock from '@/static-data/subscribers.json';
+import { Subscriber } from '@/types/classification';
 import { parseClassification } from '@/utils/classifications/classificationHelpers';
 import { getClassification } from '@/utils/mock-data';
 import { getUserAgent } from '@/utils/userAgent';

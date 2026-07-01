@@ -5,3 +5,8 @@ export enum ClassificationType {
   Kodeverk = 'Kodeverk',
   Kodeliste = 'Kodeliste',
 }
+
+export type Subscriber = {
+  email: string;
+  classificationId: number | undefined;
+};

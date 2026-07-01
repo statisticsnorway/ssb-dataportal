@@ -3,12 +3,8 @@ import { useEffect, useState } from 'react';
 import { postSubscriber, SubscribeResult } from '@/libs/data/classifications/classificationData';
 import { localization } from '@/libs/language/src/localization';
 import { clientLogger } from '@/libs/logger/client-logger';
+import { Subscriber } from '@/types/classification';
 import styles from './subscribe.module.css';
-
-export type Subscriber = {
-  email: string;
-  classificationId: number | undefined;
-};
 
 const SubscribeDialog = ({ classificationId }: { classificationId: number | undefined }) => {
   const [inputValue, setInputValue] = useState('');

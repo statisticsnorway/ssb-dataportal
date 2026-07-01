@@ -226,4 +226,4 @@ describe('fetchSearchResult', () => {
   });
 });
 
-// post 
+// post
