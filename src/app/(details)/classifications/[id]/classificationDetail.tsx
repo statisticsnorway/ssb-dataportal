@@ -1,4 +1,4 @@
-import { Alert} from '@digdir/designsystemet-react';
+import { Alert } from '@digdir/designsystemet-react';
 import { BreadcrumbItem, DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { localization } from '@/libs/language';
 import styles from './classification-page.module.css';
