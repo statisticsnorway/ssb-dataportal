@@ -43,6 +43,8 @@ export const nb = {
   by: 'av',
 
   classification: {
+    labelPlural: 'Klassifikasjoner',
+    labelSingular: 'Klassifikasjon',
     label: 'Klassifikasjon',
     view: 'Se klassifikasjon',
     type: 'Type',
@@ -126,6 +128,14 @@ export const nb = {
         '',
         'Beskrivelse av hva som ikke fungerte:',
       ].join('\n'),
+    notFoundHelpListClassificationDetails: [
+      'sjekke at du har riktig klassifikasjon-id i lenken',
+      'gå til oversikten over klassifikasjoner',
+      'gå til forsiden',
+    ],
+    notFoundTitleClassificationDetails: 'Klassifikasjon ikke funnet',
+    notFoundMessageClassificationDetails:
+      'Er det skrivefeil i lenken? Eller har klassifikasjonen blitt slettet eller flyttet?',
     notFoundTitle: 'Siden finnes ikke',
     notFoundMessage: 'Siden kan være flyttet, slettet eller lenken kan være feil.',
     notFoundTitleVariableDetails: 'Variabeldefinisjon ikke funnet',
