@@ -5,7 +5,7 @@
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "11.5.0",
+      "version": "11.9.0",
       "onFail": "download"
     }
   },
@@ -42,8 +42,8 @@
   },
   "dependencies": {
     "@biomejs/biome": "2.5.0",
-    "@digdir/designsystemet-css": "1.15.0",
-    "@digdir/designsystemet-react": "1.15.0",
+    "@digdir/designsystemet-css": "1.16.1",
+    "@digdir/designsystemet-react": "1.16.1",
     "@navikt/aksel-icons": "8.13.0",
     "@next/env": "16.2.9",
     "@svgr/webpack": "8.1.0",
@@ -67,7 +67,7 @@
   "devDependencies": {
     "@axe-core/playwright": "4.11.3",
     "@bgotink/playwright-coverage": "0.3.2",
-    "@digdir/designsystemet-web": "1.15.0",
+    "@digdir/designsystemet-web": "1.16.1",
     "@openapitools/openapi-generator-cli": "2.39.0",
     "@playwright/test": "1.61.1",
     "@testing-library/dom": "10.4.1",

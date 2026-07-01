@@ -4,7 +4,7 @@
 
 FROM node@sha256:b46a10d964ad15136ebdf9012142131481caa0697d7a4d4eafe4bbabd818f876 AS base
 
-RUN npm install -g pnpm@11.5.0
+RUN npm install -g pnpm@11.9.0
 
 # Install dependencies only when needed
 FROM base AS deps
