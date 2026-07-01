@@ -2,7 +2,7 @@ import { Button, Dialog, Field, Input, Label, ValidationMessage } from '@digdir/
 import { useEffect, useState } from 'react';
 import { postSubscriber, SubscribeResult } from '@/libs/data/classifications/classificationData';
 import { localization } from '@/libs/language/src/localization';
-import { createLogger } from '@/libs/logger/server-logger';
+import { clientLogger } from '@/libs/logger/client-logger';
 import styles from './subscribe.module.css';
 
 export type Subscriber = {
@@ -11,7 +11,6 @@ export type Subscriber = {
 };
 
 const SubscribeDialog = ({ classificationId }: { classificationId: number | undefined }) => {
-  const logger = createLogger('SubscribeDialog');
   const [inputValue, setInputValue] = useState('');
   const [subscriber, setSubscriber] = useState<Subscriber | null>(null);
   const [subscribeResult, setSubscribeResult] = useState<SubscribeResult | null>(null);
@@ -26,7 +25,7 @@ const SubscribeDialog = ({ classificationId }: { classificationId: number | unde
       postSubscriber(subscriber)
         .then((result) => setSubscribeResult(result))
         .catch((error) => {
-          logger.error('Subscription failed', error);
+          clientLogger.error('Subscription failed', error);
         });
     }
   }, [subscriber]);
