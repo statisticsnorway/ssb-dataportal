@@ -3,14 +3,13 @@ import { checkCheckbox } from './utils/commonUtils';
 import { expect, test } from './fixtures/classifications.fixture';
 import classificationsMock from '@/static-data/classifications.json';
 import { parseClassification, stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
-import { CLASSIFICATIONS_URL } from './utils/variables';
+import { CLASSIFICATIONS_URL, REMOVE_STANDARD } from './utils/variables';
 
 const arbeidOgLonn = 'Arbeid og lønn';
 const bankOgFinans = 'Bank og finansmarked';
 const classifications = classificationsMock.classifications;
 const codeListPrefix = 'Kodeliste for';
 const standardPrefix = 'Standard for';
-const removeStandard = 'Fjern Standard';
 
 test('Classifications page renders hits and sort control', async ({ classificationsPage }) => {
   await expect(classificationsPage.getByRole('article').first()).toBeVisible();
@@ -129,7 +128,7 @@ test.describe('Classifications - type filter', () => {
 
   test('selecting Kodeliste shows only code list results', async ({ classificationsPage }) => {
     // Remove default set filter
-    await classificationsPage.getByRole('button', { name: removeStandard }).click();
+    await classificationsPage.getByRole('button', { name: REMOVE_STANDARD }).click();
     await classificationsPage.getByRole('checkbox', { name: localization.classification.codelist }).check();
     await expect(classificationsPage).toHaveURL(`classifications?types=${localization.classification.codelist}`);
     await expect(classificationsPage.getByRole('article')).toHaveCount(2);
@@ -163,7 +162,7 @@ test.describe('Classifications - type filter', () => {
 test.describe('Classifications - search card', () => {
   test.beforeEach(async ({ classificationsPage }) => {
     // Remove default set filter
-    await classificationsPage.getByRole('button', { name: removeStandard }).click();
+    await classificationsPage.getByRole('button', { name: REMOVE_STANDARD }).click();
   });
   test('displays description', async ({ classificationsPage }) => {
     const classification = parseClassification(classifications[0]);

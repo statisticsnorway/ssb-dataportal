@@ -48,3 +48,4 @@ export const CODELIST = 'Kodeliste';
 export const STANDARD = 'Standard';
 
 export const CLASSIFICATIONS_URL = 'classifications?types=Standard';
+export const REMOVE_STANDARD = 'Fjern Standard';

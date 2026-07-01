@@ -4,7 +4,7 @@ import searchResultsMock from '@/static-data/klass-search-results.json';
 import { SearchResultResource } from '@/libs/data-access/klass';
 import { Page } from '@playwright/test';
 import { checkCheckbox } from './utils/commonUtils';
-import { CODELIST, STANDARD } from './utils/variables';
+import { CODELIST, REMOVE_STANDARD, STANDARD } from './utils/variables';
 import { stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
 
 const searchTerm = 'Næring';
@@ -33,12 +33,14 @@ test('Search box is visible', async ({ classificationsPage }) => {
 });
 
 test('Initial page shows all results', async ({ classificationsPage }) => {
+  await classificationsPage.getByRole('button', { name: REMOVE_STANDARD }).click();
   const { main } = getLocators(classificationsPage);
   await expect(main).toContainText(TOTAL_RESULTS_TEXT);
 });
 
 test.describe('When searching with a term', () => {
   test.beforeEach(async ({ classificationsPage }) => {
+    await classificationsPage.getByRole('button', { name: REMOVE_STANDARD }).click();
     const { searchBox } = getLocators(classificationsPage);
     await searchBox.fill(searchTerm);
   });
@@ -120,6 +122,7 @@ test.describe('When searching with a term', () => {
 });
 
 test('search term variant returns same results', async ({ classificationsPage }) => {
+  await classificationsPage.getByRole('button', { name: REMOVE_STANDARD }).click();
   const { searchBox } = getLocators(classificationsPage);
   await searchBox.fill(searchTermVariant);
   const { main } = getLocators(classificationsPage);
