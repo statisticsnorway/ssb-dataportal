@@ -245,7 +245,7 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
     });
 
     const text = await res.text();
-    logger.debug({ text, status: res.status }, 'Raw response from trackChanges');
+    logger.info({ text, status: res.status }, 'Raw response from trackChanges');
     const body: Partial<SubscribeResult> = text ? JSON.parse(text) : {};
 
     if (res.status === 400 && body.code === 'STATUS_EXISTS') {
