@@ -3,11 +3,12 @@ import { ClassificationResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import classificationMock from '@/static-data/classifications.json';
 import { parseClassification } from '@/utils/classifications/classificationHelpers';
+import { Page } from '@playwright/test';
 
 type ClassificationPageFixture = (classification: ClassificationResource) => Promise<void>;
 const classifications = classificationMock.classifications;
 
-const goToClassification = async (page: import('@playwright/test').Page, classification: ClassificationResource) => {
+const goToClassification = async (page: Page, classification: ClassificationResource) => {
   await page.goto('/classifications');
 
   // Wait for the classification link to be visible before clicking
