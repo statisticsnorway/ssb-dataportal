@@ -1,4 +1,3 @@
-
 export default async function Codes() {
-  return <div>Koder</div>
+  return <div>Koder</div>;
 }
