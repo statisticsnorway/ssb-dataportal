@@ -240,7 +240,7 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
   }
 
   try {
-    const res = await klassPost(`/api/klass/v1/classifications/${subscriber.classificationId}/trackChanges`, {
+    const res = await klassPost(`/classifications/${subscriber.classificationId}/trackChanges`, {
       email: subscriber.email,
     });
 

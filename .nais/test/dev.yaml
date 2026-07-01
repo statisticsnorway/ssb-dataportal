@@ -45,7 +45,7 @@ spec:
     - name: KLASS_BASE_PATH
       value: http://klass
     - name: KLASS_PUBLIC_BASE_PATH
-      value: https://data.test.ssb.no
+      value: https://data.test.ssb.no/api/klass/v1
     - name: KLASS_USE_STATIC_DATA
       value: "false"
     - name: HIDE_CLASSIFICATIONS
