@@ -33,6 +33,7 @@ test('Search box is visible', async ({ classificationsPage }) => {
 });
 
 test('Initial page shows all results', async ({ classificationsPage }) => {
+  // Remove default set filter
   await classificationsPage.getByRole('button', { name: REMOVE_STANDARD }).click();
   const { main } = getLocators(classificationsPage);
   await expect(main).toContainText(TOTAL_RESULTS_TEXT);
@@ -40,6 +41,7 @@ test('Initial page shows all results', async ({ classificationsPage }) => {
 
 test.describe('When searching with a term', () => {
   test.beforeEach(async ({ classificationsPage }) => {
+    // Remove default set filter
     await classificationsPage.getByRole('button', { name: REMOVE_STANDARD }).click();
     const { searchBox } = getLocators(classificationsPage);
     await searchBox.fill(searchTerm);
@@ -122,6 +124,7 @@ test.describe('When searching with a term', () => {
 });
 
 test('search term variant returns same results', async ({ classificationsPage }) => {
+  // Remove default set filter
   await classificationsPage.getByRole('button', { name: REMOVE_STANDARD }).click();
   const { searchBox } = getLocators(classificationsPage);
   await searchBox.fill(searchTermVariant);
