@@ -1,5 +1,6 @@
 'use server';
 
+import { Subscriber } from '@/app/(details)/classifications/components/subscribe';
 import {
   ClassificationLanguageEnum,
   ClassificationRequest,
@@ -16,10 +17,12 @@ import {
   SearchResultResourceFromJSON,
 } from '@/libs/data-access/klass/models/SearchResultResource';
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
+import { localization } from '@/libs/language/src/localization';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import classificationsMock from '@/static-data/classifications.json';
 import searchResultsMock from '@/static-data/klass-search-results.json';
+import subscribersMock from '@/static-data/subscribers.json';
 import { parseClassification } from '@/utils/classifications/classificationHelpers';
 import { getClassification } from '@/utils/mock-data';
 import { getUserAgent } from '@/utils/userAgent';
@@ -205,4 +208,60 @@ export async function fetchSearchResult(searchRequest: SearchRequest): Promise<S
     throw error;
   }
   return searchResult.embedded?.searchResults ?? [];
+}
+
+export type SubscribeResult = {
+  code: 'STATUS_CREATED' | 'STATUS_EXISTS';
+  message: string;
+  dataColor: string;
+};
+
+export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeResult> {
+  const logger = createLogger('subscriber');
+  const klassBasePath = process.env.KLASS_BASE_PATH;
+
+  if (process.env.KLASS_STATIC_SUBSCRIBER === 'true') {
+    logger.warn('Using static mock data for subscriber');
+    const exists = subscribersMock.some(
+      (s) => s.email === subscriber.email && s.classificationId === subscriber.classificationId,
+    );
+    if (exists) {
+      return { code: 'STATUS_EXISTS', message: localization.classification.subscribeAlready, dataColor: 'warning' };
+    }
+    return { code: 'STATUS_CREATED', message: localization.classification.subscribeMessage, dataColor: 'success' };
+  }
+
+  if (!klassBasePath) {
+    throw new Error('KLASS_BASE_PATH is not configured');
+  }
+
+  const url = new URL(`${klassBasePath}/classifications/${subscriber.classificationId}/trackChanges`);
+  url.searchParams.set('email', subscriber.email);
+
+  try {
+    const res = await fetch(url.toString(), {
+      method: 'POST',
+      headers: {
+        'User-Agent': getUserAgent(),
+      },
+    });
+
+    const body: SubscribeResult = await res.json();
+
+    if (res.status === 400 && body.code === 'STATUS_EXISTS') {
+      logger.info({ classificationId: subscriber.classificationId }, 'Email already subscribed');
+      return body;
+    }
+
+    if (!res.ok) {
+      logger.error({ statusCode: res.status, url: url.toString() }, 'Failed to subscribe to classification changes');
+      throw new Error(`Failed to subscribe: ${res.status}`);
+    }
+
+    logger.info({ classificationId: subscriber.classificationId }, 'Subscribed to classification changes');
+    return body;
+  } catch (error: unknown) {
+    logger.error({ error: String(error) }, 'Unexpected error during subscription');
+    throw error;
+  }
 }
