@@ -8,7 +8,6 @@ metadata:
 spec:
   ingresses:
     - https://dataportal-dev.test.ssb.no
-    - https://metadata-catalog-dev.test.ssb.no # TODO: Remove once communicated
   port: 3000
   accessPolicy:
     outbound:
@@ -17,6 +16,7 @@ spec:
         - application: klass
       external:
         - host: auth.test.ssb.no
+        - host: data.ssb.no
   login:
     provider: openid
   ttl: 8h
