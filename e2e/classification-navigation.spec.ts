@@ -20,7 +20,7 @@ test('Can navigate back from classification details page', async ({ classificati
     .first();
   await link.click();
   await classificationsPage.waitForURL(`/classifications/${classification.id}/codes`);
-  const linkHome = classificationsPage.getByLabel('Du er her:').getByRole('link', { name: 'Klassifikasjoner' }).getByRole('link', { name: 'Klassifikasjoner' });
+  const linkHome = classificationsPage.getByLabel('Du er her:').getByRole('link', { name: 'Klassifikasjoner' });
   await expect(linkHome).toBeVisible();
   await linkHome.click();
   await expect(classificationsPage).toHaveURL(`/classifications?types=Standard`);
