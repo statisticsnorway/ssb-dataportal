@@ -9,7 +9,6 @@ if (typeof CSS === 'undefined') {
   CSS.supports = () => true;
 }
 
-
 // Polyfill constructable stylesheets used by designsystemet
 declare global {
   interface Document {
