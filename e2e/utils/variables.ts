@@ -47,4 +47,4 @@ export const DETAIL_URL = `${tabsData.VariableDefinitions.route}/${KNOWN_SHORT_N
 export const CODELIST = 'Kodeliste';
 export const STANDARD = 'Standard';
 
-export const CLASSIFICATIONS_URL = 'classifications?types=Standard'
+export const CLASSIFICATIONS_URL = 'classifications?types=Standard';
