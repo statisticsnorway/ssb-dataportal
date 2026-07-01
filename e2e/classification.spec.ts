@@ -1,37 +1,62 @@
 import { parseClassification } from '@/utils/classifications/classificationHelpers';
 import { expect, test } from './fixtures/classification.fixture';
 import classificationMock from '@/static-data/classifications.json';
+import { localization } from '@/libs/language/src/localization';
 
 const classifications = classificationMock.classifications;
 
 test('Classifications details page have title', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[1]);
   const page = await classificationDetailsPage(classification.id!);
-  const heading = page.getByRole('heading', { name: classification.name });
+  const heading = page.getByRole('heading', { level: 1 });
   await expect(heading).toBeVisible();
+  await expect(heading).toHaveText(classification.name!);
 });
 
 test('Classifications details version have title', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[1]);
   const page = await classificationDetailsPage(classification.id!);
-  const heading = page.getByRole('heading', { name: classification.name });
+  const heading = page.getByRole('heading', { level: 2 });
   await expect(heading).toBeVisible();
+  // Placeholder we fetch version title
+  await expect(heading).toHaveText('Versjonens navn');
 });
 
-test('Classifications details have codes', async ({ classificationDetailsPage }) => {
-  const classification = parseClassification(classifications[1]);
-  const page = await classificationDetailsPage(classification.id!);
-  const heading = page.getByRole('heading', { name: classification.name });
-  await expect(heading).toBeVisible();
+test.describe('Classifications details tabs', () => {
+  test('Codes tab is visible', async ({ classificationDetailsPage }) => {
+    const classification = parseClassification(classifications[3]);
+    const page = await classificationDetailsPage(classification.id!);
+    const tab = page.getByRole('tab', { name: localization.classificationDetails.codes });
+    await expect(tab).toBeVisible();
+  });
+  test('About tab is visible', async ({ classificationDetailsPage }) => {
+    const classification = parseClassification(classifications[3]);
+    const page = await classificationDetailsPage(classification.id!);
+    const tab = page.getByRole('tab', { name: localization.classificationDetails.about });
+    await expect(tab).toBeVisible();
+  });
+  test('Changes tab is visible', async ({ classificationDetailsPage }) => {
+    const classification = parseClassification(classifications[3]);
+    const page = await classificationDetailsPage(classification.id!);
+    const tab = page.getByRole('tab', { name: localization.classificationDetails.changes });
+    await expect(tab).toBeVisible();
+  });
+  test('All versions tab is visible', async ({ classificationDetailsPage }) => {
+    const classification = parseClassification(classifications[3]);
+    const page = await classificationDetailsPage(classification.id!);
+    const tab = page.getByRole('tab', { name: localization.classificationDetails.allVersions });
+    await expect(tab).toBeVisible();
+  });
+  test('Correspondences tab is visible', async ({ classificationDetailsPage }) => {
+    const classification = parseClassification(classifications[3]);
+    const page = await classificationDetailsPage(classification.id!);
+    const tab = page.getByRole('tab', { name: localization.classificationDetails.correspondences });
+    await expect(tab).toBeVisible();
+  });
+  test('Variants tab is visible', async ({ classificationDetailsPage }) => {
+    const classification = parseClassification(classifications[3]);
+    const page = await classificationDetailsPage(classification.id!);
+    const tab = page.getByRole('tab', { name: localization.classificationDetails.variants });
+    await expect(tab).toBeVisible();
+  });
 });
-
-/*
-test('test', async ({ page }) => {
-  await page.goto('http://localhost:3000/classifications/282/codes');
-  await page.getByText('Dette er en inndeling som').click();
-  await expect(page.getByText('Dette er en inndeling som')).toBeVisible();
-  await expect(page.getByRole('main')).toContainText('Dette er en inndeling som består av enkeltår. Hovedhensikten er at denne kan være utgangspunkt for ulike varianter (grupperinger).');
-  await page.getByRole('heading', { name: 'Versjonens navn' }).click();
-  await page.getByRole('tab', { name: 'Koder' }).click();
-});
-*/
