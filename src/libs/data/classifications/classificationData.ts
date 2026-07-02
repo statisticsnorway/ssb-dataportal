@@ -22,7 +22,7 @@ import { createLogger } from '@/libs/logger/server-logger';
 import classificationsMock from '@/static-data/classifications.json';
 import searchResultsMock from '@/static-data/klass-search-results.json';
 import subscribersMock from '@/static-data/subscribers.json';
-import { SubscribeResult, Subscriber } from '@/types/classification';
+import { SubscribeResult, SubscribeStatus, Subscriber } from '@/types/classification';
 import { parseClassification } from '@/utils/classifications/classificationHelpers';
 import { getClassification } from '@/utils/mock-data';
 import { getUserAgent } from '@/utils/userAgent';
@@ -234,9 +234,9 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
       (s) => s.email === subscriber.email && s.classificationId === subscriber.classificationId,
     );
     if (exists) {
-      return { code: 'STATUS_EXISTS', message: localization.classification.subscribeAlready, dataColor: 'warning' };
+      return { code: SubscribeStatus.Exists, message: localization.classification.subscribeAlready, dataColor: 'warning' };
     }
-    return { code: 'STATUS_CREATED', message: localization.classification.subscribeMessage, dataColor: 'success' };
+    return { code: SubscribeStatus.Created, message: localization.classification.subscribeMessage, dataColor: 'success' };
   }
 
   try {
@@ -248,9 +248,9 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
     logger.debug({ text, status: res.status }, 'Raw response from trackChanges');
     const body: Partial<SubscribeResult> = text ? JSON.parse(text) : {};
 
-    if (res.status === 400 && body.code === 'STATUS_EXISTS') {
+    if (res.status === 400 && body.code === SubscribeStatus.Exists) {
       logger.info({ classificationId: subscriber.classificationId }, 'Email already subscribed');
-      return { code: 'STATUS_EXISTS', message: localization.classification.subscribeAlready, dataColor: 'warning' };
+      return { code: SubscribeStatus.Exists, message: localization.classification.subscribeAlready, dataColor: 'warning' };
     }
 
     if (res.status === 500) {
@@ -264,7 +264,7 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
     }
 
     logger.info({ classificationId: subscriber.classificationId }, 'Subscribed to classification changes');
-    return { code: 'STATUS_CREATED', message: localization.classification.subscribeMessage, dataColor: 'success' };
+    return { code: SubscribeStatus.Created, message: localization.classification.subscribeMessage, dataColor: 'success' };
   } catch (error: unknown) {
     logger.error({ error: String(error) }, 'Unexpected error during subscription');
     throw error;

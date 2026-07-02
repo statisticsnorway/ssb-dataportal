@@ -6,13 +6,21 @@ export enum ClassificationType {
   Kodeliste = 'Kodeliste',
 }
 
+// use separate file
 export type Subscriber = {
   email: string;
   classificationId: number | undefined;
 };
 
 export type SubscribeResult = {
-  code: 'STATUS_CREATED' | 'STATUS_EXISTS' | 'STATUS_INVALID_EMAIL'  | 'STATUS_ERROR';
+  code: SubscribeStatus;
   message: string;
   dataColor: string;
 };
+
+export enum SubscribeStatus {
+  Created = 'STATUS_CREATED',
+  Exists = 'STATUS_EXISTS',
+  InvalidEmail = 'STATUS_INVALID_EMAIL',
+  Error = 'STATUS_ERROR',
+}

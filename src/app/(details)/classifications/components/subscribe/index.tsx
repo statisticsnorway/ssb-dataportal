@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { postSubscriber } from '@/libs/data/classifications/classificationData';
 import { localization } from '@/libs/language/src/localization';
 import { clientLogger } from '@/libs/logger/client-logger';
-import { SubscribeResult, Subscriber } from '@/types/classification';
+import { SubscribeResult, Subscriber, SubscribeStatus } from '@/types/classification';
 import styles from './subscribe.module.css';
 
 const SubscribeDialog = ({ classificationId }: { classificationId: number | undefined }) => {
@@ -35,7 +35,11 @@ const SubscribeDialog = ({ classificationId }: { classificationId: number | unde
   const handleSubscription = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!inputValue || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inputValue)) {
-      setSubscribeResult({ code: 'STATUS_INVALID_EMAIL', message: 'Skriv inn en gyldig e-postadresse', dataColor: 'danger' });
+      setSubscribeResult({
+        code: SubscribeStatus.InvalidEmail,
+        message: localization.classification.subscribeMessageInvalidEmail,
+        dataColor: 'danger',
+      });
       return;
     }
     setSubscriber({ email: inputValue, classificationId });
@@ -45,14 +49,19 @@ const SubscribeDialog = ({ classificationId }: { classificationId: number | unde
     <Dialog.TriggerContext>
       <Dialog.Trigger>{localization.classification.subscribe}</Dialog.Trigger>
       <Dialog onClose={resetState}>
-        <form onSubmit={handleSubscription}>
+        <form onSubmit={handleSubscription} noValidate>
           <Field className={styles.field}>
-            <Label weight='semibold' htmlFor='subscription-email'>{localization.classification.subscribeInfo}</Label>
+            <Label weight='semibold' htmlFor='subscription-email'>
+              {localization.classification.subscription}
+            </Label>
+            {persistedResult.current ? null : (
+              <Field.Description>{localization.classification.subscribeInfo}</Field.Description>
+            )}
             {persistedResult.current ? null : (
               <Input
                 id='subscription-email'
                 type='email'
-                placeholder='Din e-postadresse'
+                placeholder={localization.classification.emailPlaceholder}
                 value={inputValue}
                 onChange={(e) => {
                   setInputValue(e.target.value);
