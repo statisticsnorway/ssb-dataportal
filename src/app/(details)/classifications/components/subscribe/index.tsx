@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { postSubscriber } from '@/libs/data/classifications/classificationData';
 import { localization } from '@/libs/language/src/localization';
 import { clientLogger } from '@/libs/logger/client-logger';
-import { SubscribeResult, Subscriber, SubscribeStatus } from '@/types/classification';
+import { SubscribeResult, Subscriber, SubscribeStatus, ValidationMessageColors } from '@/types/subscription';
+import { validateEmailInput } from '@/utils/classifications/classificationHelpers';
 import styles from './subscribe.module.css';
 
 const SubscribeDialog = ({ classificationId }: { classificationId: number | undefined }) => {
@@ -34,11 +35,11 @@ const SubscribeDialog = ({ classificationId }: { classificationId: number | unde
 
   const handleSubscription = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!inputValue || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inputValue)) {
+    if (!validateEmailInput(inputValue)) {
       setSubscribeResult({
         code: SubscribeStatus.InvalidEmail,
         message: localization.classification.subscribeMessageInvalidEmail,
-        dataColor: 'danger',
+        dataColor: ValidationMessageColors.Danger,
       });
       return;
     }

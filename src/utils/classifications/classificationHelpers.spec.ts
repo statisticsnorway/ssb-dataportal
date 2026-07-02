@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { ClassificationType } from '@/types/classification';
-import { parseClassification, stripTitlePrefix } from './classificationHelpers';
+import { parseClassification, stripTitlePrefix, validateEmailInput } from './classificationHelpers';
 
 describe('parseClassification', () => {
   const validJson = {
@@ -66,5 +66,23 @@ describe('Normalize classification name', () => {
   });
   it('classification name is undefined', () => {
     expect(stripTitlePrefix(undefined)).toBe('');
+  });
+});
+
+describe('Validate email input', () => {
+  it('returns true for a valid email', () => {
+    expect(validateEmailInput('test@example.com')).toBe(true);
+  });
+
+  it('returns false for an invalid email', () => {
+    expect(validateEmailInput('invalid-email')).toBe(false);
+  });
+
+  it('returns false for an empty email', () => {
+    expect(validateEmailInput('')).toBe(false);
+  });
+
+  it('returns false for a null email', () => {
+    expect(validateEmailInput(null as unknown as string)).toBe(false);
   });
 });

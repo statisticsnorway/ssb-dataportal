@@ -22,7 +22,7 @@ import { createLogger } from '@/libs/logger/server-logger';
 import classificationsMock from '@/static-data/classifications.json';
 import searchResultsMock from '@/static-data/klass-search-results.json';
 import subscribersMock from '@/static-data/subscribers.json';
-import { SubscribeResult, SubscribeStatus, Subscriber } from '@/types/classification';
+import { SubscribeResult, Subscriber, SubscribeStatus, ValidationMessageColors } from '@/types/subscription';
 import { parseClassification } from '@/utils/classifications/classificationHelpers';
 import { getClassification } from '@/utils/mock-data';
 import { getUserAgent } from '@/utils/userAgent';
@@ -234,9 +234,17 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
       (s) => s.email === subscriber.email && s.classificationId === subscriber.classificationId,
     );
     if (exists) {
-      return { code: SubscribeStatus.Exists, message: localization.classification.subscribeAlready, dataColor: 'warning' };
+      return {
+        code: SubscribeStatus.Exists,
+        message: localization.classification.subscribeAlready,
+        dataColor: ValidationMessageColors.Warning,
+      };
     }
-    return { code: SubscribeStatus.Created, message: localization.classification.subscribeMessage, dataColor: 'success' };
+    return {
+      code: SubscribeStatus.Created,
+      message: localization.classification.subscribeMessage,
+      dataColor: ValidationMessageColors.Success,
+    };
   }
 
   try {
@@ -250,7 +258,11 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
 
     if (res.status === 400 && body.code === SubscribeStatus.Exists) {
       logger.info({ classificationId: subscriber.classificationId }, 'Email already subscribed');
-      return { code: SubscribeStatus.Exists, message: localization.classification.subscribeAlready, dataColor: 'warning' };
+      return {
+        code: SubscribeStatus.Exists,
+        message: localization.classification.subscribeAlready,
+        dataColor: ValidationMessageColors.Warning,
+      };
     }
 
     if (res.status === 500) {
@@ -264,7 +276,11 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
     }
 
     logger.info({ classificationId: subscriber.classificationId }, 'Subscribed to classification changes');
-    return { code: SubscribeStatus.Created, message: localization.classification.subscribeMessage, dataColor: 'success' };
+    return {
+      code: SubscribeStatus.Created,
+      message: localization.classification.subscribeMessage,
+      dataColor: ValidationMessageColors.Success,
+    };
   } catch (error: unknown) {
     logger.error({ error: String(error) }, 'Unexpected error during subscription');
     throw error;
