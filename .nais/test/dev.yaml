@@ -14,6 +14,7 @@ spec:
     outbound:
       rules:
         - application: metadata-api-gateway
+        - application: klass
         - application: klass-dev-subscribe
       external:
         - host: auth.test.ssb.no
@@ -43,7 +44,7 @@ spec:
     - name: KEYCLOAK_HOST
       value: https://auth.test.ssb.no
     - name: KLASS_BASE_PATH
-      value: http://klass
+      value: http://klass-dev-subscribe
     - name: KLASS_USE_STATIC_DATA
       value: "false"
     - name: HIDE_CLASSIFICATIONS
