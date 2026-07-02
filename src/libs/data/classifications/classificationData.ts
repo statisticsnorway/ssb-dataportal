@@ -209,6 +209,13 @@ export async function fetchSearchResult(searchRequest: SearchRequest): Promise<S
   }
   return searchResult.embedded?.searchResults ?? [];
 }
+
+/**
+ * 
+ * @param path 
+ * @param params 
+ * @returns 
+ */
 async function klassPost(path: string, params: Record<string, string>): Promise<Response> {
   const klassBasePath = process.env.KLASS_BASE_PATH;
   if (!klassBasePath) throw new Error('KLASS_BASE_PATH is not configured');
@@ -225,6 +232,11 @@ async function klassPost(path: string, params: Record<string, string>): Promise<
   });
 }
 
+/**
+ * 
+ * @param subscriber 
+ * @returns 
+ */
 export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeResult> {
   const logger = createLogger('subscriber');
 
