@@ -14,7 +14,7 @@ spec:
     outbound:
       rules:
         - application: metadata-api-gateway
-        - application: klass
+        - application: klass-dev-subscribe
       external:
         - host: auth.test.ssb.no
   login:
