@@ -4,13 +4,16 @@ import { SearchApi } from '@/libs/data-access/klass/apis/SearchApi';
 import { ResponseError } from '@/libs/data-access/klass/runtime';
 import classificationsMock from '@/static-data/classifications.json';
 import searchResultsMock from '@/static-data/klass-search-results.json';
+import subscribersMock from '@/static-data/subscribers.json';
 import { ClassificationType } from '@/types/classification';
+import { SubscribeStatus } from '@/types/subscription';
 import { getClassification as getStaticClassification } from '@/utils/mock-data';
 import {
   fetchAllClassifications,
   fetchClassificationById,
   fetchSearchResult,
   getKlassSearchClient,
+  postSubscriber,
 } from './classificationData';
 
 vi.mock('server-only', () => ({}));
@@ -227,3 +230,72 @@ describe('fetchSearchResult', () => {
 });
 
 // post
+describe('postSubscriber', () => {
+  const subscriber = { email: 'test@ssb.no', classificationId: 1 };
+
+  it('returns Created when static data and email is new', async () => {
+    vi.stubEnv('KLASS_STATIC_SUBSCRIBER', 'true');
+
+    const result = await postSubscriber({ email: 'new@ssb.no', classificationId: 1 });
+    expect(result.code).toBe(SubscribeStatus.Created);
+  });
+  it('returns Exists when static data and email already subscribed', async () => {
+    vi.stubEnv('KLASS_STATIC_SUBSCRIBER', 'true');
+
+    const existingSubscriber = subscribersMock[0];
+    expect(existingSubscriber).toBeDefined();
+
+    const result = await postSubscriber({
+      email: existingSubscriber!.email,
+      classificationId: existingSubscriber!.classificationId,
+    });
+    expect(result.code).toBe(SubscribeStatus.Exists);
+  });
+
+  it('returns Created on successful API call', async () => {
+    vi.stubEnv('KLASS_BASE_PATH', 'https://klass.example.com/api/klass/v1');
+    vi.spyOn(global, 'fetch').mockResolvedValue(new Response(null, { status: 201 }));
+
+    const result = await postSubscriber(subscriber);
+    expect(result.code).toBe(SubscribeStatus.Created);
+  });
+
+  it('returns Exists on 400 with Exists code', async () => {
+    vi.stubEnv('KLASS_BASE_PATH', 'https://klass.example.com/api/klass/v1');
+    vi.spyOn(global, 'fetch').mockResolvedValue(
+      new Response(JSON.stringify({ code: SubscribeStatus.Exists }), { status: 400 }),
+    );
+
+    const result = await postSubscriber(subscriber);
+    expect(result.code).toBe(SubscribeStatus.Exists);
+  });
+
+  it('returns Error on 500', async () => {
+    vi.stubEnv('KLASS_BASE_PATH', 'https://klass.example.com/api/klass/v1');
+    vi.spyOn(global, 'fetch').mockResolvedValue(new Response(null, { status: 500 }));
+
+    const result = await postSubscriber(subscriber);
+    expect(result.code).toBe(SubscribeStatus.Error);
+  });
+
+  it('returns Error on other non-ok status', async () => {
+    vi.stubEnv('KLASS_BASE_PATH', 'https://klass.example.com/api/klass/v1');
+    vi.spyOn(global, 'fetch').mockResolvedValue(new Response(null, { status: 404 }));
+
+    const result = await postSubscriber(subscriber);
+    expect(result.code).toBe(SubscribeStatus.Error);
+  });
+
+  it('rethrows on unexpected error', async () => {
+    vi.stubEnv('KLASS_BASE_PATH', 'https://klass.example.com/api/klass/v1');
+    vi.spyOn(global, 'fetch').mockRejectedValue(new Error('Network failure'));
+
+    await expect(postSubscriber(subscriber)).rejects.toThrow('Network failure');
+  });
+
+  it('throws when KLASS_BASE_PATH is not configured', async () => {
+    delete process.env.KLASS_BASE_PATH;
+
+    await expect(postSubscriber(subscriber)).rejects.toThrow('KLASS_BASE_PATH is not configured');
+  });
+});

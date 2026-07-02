@@ -288,10 +288,6 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
 
     if (!res.ok) {
       logger.error({ statusCode: res.status }, 'Failed to subscribe to classification changes');
-      throw new Error(`Failed to subscribe: ${res.status}`);
-    }
-    if (!res.ok) {
-      logger.error({ statusCode: res.status }, 'Failed to subscribe to classification changes');
       return {
         code: SubscribeStatus.Error,
         message: localization.classification.subscribeError,
