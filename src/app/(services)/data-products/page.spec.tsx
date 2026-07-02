@@ -27,8 +27,6 @@ vi.mock('./data-products-service-page', () => ({
   ),
 }));
 
-const searchParams = Promise.resolve({});
-
 describe('DataProductsPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -36,7 +34,7 @@ describe('DataProductsPage', () => {
 
   it('passes data products and subject fields to the service page', async () => {
     vi.mocked(listDataProducts).mockResolvedValue([{ product_short_name: 'arbstatus' }]);
-    render(await DataProductsPage({ searchParams }));
+    render(await DataProductsPage());
     expect(screen.getByText(/1 data products and \d+ subject fields/)).toBeInTheDocument();
   });
 });
