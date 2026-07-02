@@ -27,10 +27,7 @@ function makeCode(overrides: Partial<KlassCode> & { code: string; level: string 
   };
 }
 
-const FLAT_CODES: KlassCode[] = [
-  makeCode({ code: 'A', level: '1' }),
-  makeCode({ code: 'B', level: '1' }),
-];
+const FLAT_CODES: KlassCode[] = [makeCode({ code: 'A', level: '1' }), makeCode({ code: 'B', level: '1' })];
 
 const NESTED_CODES: KlassCode[] = [
   makeCode({ code: 'A', level: '1' }),

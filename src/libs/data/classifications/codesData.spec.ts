@@ -116,10 +116,7 @@ describe('fetchLatestVersionCodes', () => {
     const result = await fetchLatestVersionCodes(1);
 
     // Should have fetched version 20 (most recent validFrom)
-    expect(VersionsApi.prototype.versions).toHaveBeenCalledWith(
-      expect.objectContaining({ id: 20 }),
-      expect.anything(),
-    );
+    expect(VersionsApi.prototype.versions).toHaveBeenCalledWith(expect.objectContaining({ id: 20 }), expect.anything());
     expect(result).toHaveLength(1);
     expect(result[0]).toMatchObject({ code: 'A' });
   });
