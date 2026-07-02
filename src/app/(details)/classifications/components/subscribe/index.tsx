@@ -34,6 +34,10 @@ const SubscribeDialog = ({ classificationId }: { classificationId: number | unde
 
   const handleSubscription = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!inputValue || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inputValue)) {
+      setSubscribeResult({ code: 'STATUS_INVALID_EMAIL', message: 'Skriv inn en gyldig e-postadresse', dataColor: 'danger' });
+      return;
+    }
     setSubscriber({ email: inputValue, classificationId });
   };
 
@@ -48,7 +52,6 @@ const SubscribeDialog = ({ classificationId }: { classificationId: number | unde
               <Input
                 id='subscription-email'
                 type='email'
-                required
                 placeholder='Din e-postadresse'
                 value={inputValue}
                 onChange={(e) => {

@@ -12,7 +12,7 @@ export type Subscriber = {
 };
 
 export type SubscribeResult = {
-  code: 'STATUS_CREATED' | 'STATUS_EXISTS';
+  code: 'STATUS_CREATED' | 'STATUS_EXISTS' | 'STATUS_INVALID_EMAIL'  | 'STATUS_ERROR';
   message: string;
   dataColor: string;
 };
