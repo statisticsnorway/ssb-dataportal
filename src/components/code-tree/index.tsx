@@ -34,10 +34,8 @@ export function CodeTree({ codes, onChange }: CodeTreeProps) {
   const tree = useMemo(() => buildCodeTree(codes), [codes]);
   const allParentCodes = useMemo(() => collectParentCodes(tree), [tree]);
 
-  // Pre-expand all root-level nodes that have children so the first level is visible on load.
-  const [expandedCodes, setExpandedCodes] = useState<Set<string>>(
-    () => new Set(tree.filter((n) => n.children.length > 0).map((n) => n.code.code)),
-  );
+  // All codes start collapsed; the toolbar button or chevrons let the user open them.
+  const [expandedCodes, setExpandedCodes] = useState<Set<string>>(() => new Set());
 
   const [selectedCode, setSelectedCode] = useState<string | null>(null);
 
