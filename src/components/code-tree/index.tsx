@@ -33,7 +33,6 @@ export function CodeTree({ codes, onChange }: CodeTreeProps) {
   const tree = useMemo(() => buildCodeTree(codes), [codes]);
   const allParentCodes = useMemo(() => collectParentCodes(tree), [tree]);
 
-  // All codes start collapsed; the toolbar button or chevrons let the user open them.
   const [expandedCodes, setExpandedCodes] = useState<Set<string>>(() => new Set());
 
   const [selectedCode, setSelectedCode] = useState<string | null>(null);
@@ -55,11 +54,7 @@ export function CodeTree({ codes, onChange }: CodeTreeProps) {
   }
 
   function handleToggleAll() {
-    if (allExpanded) {
-      setExpandedCodes(new Set());
-    } else {
-      setExpandedCodes(new Set(allParentCodes));
-    }
+    setExpandedCodes(allExpanded ? new Set() : new Set(allParentCodes));
   }
 
   if (tree.length === 0) {

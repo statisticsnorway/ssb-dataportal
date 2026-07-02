@@ -21,7 +21,7 @@ export function buildCodeTree(codes: KlassCode[]): CodeTreeNode[] {
   const roots: CodeTreeNode[] = [];
   for (const code of codes) {
     const node = nodeMap.get(code.code)!;
-    if (code.parentCode !== null && code.parentCode !== undefined && nodeMap.has(code.parentCode)) {
+    if (code.parentCode != null && nodeMap.has(code.parentCode)) {
       nodeMap.get(code.parentCode)!.children.push(node);
     } else {
       roots.push(node);

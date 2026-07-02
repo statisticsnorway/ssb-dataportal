@@ -88,23 +88,22 @@ export async function fetchLatestVersionCodes(classificationId: number): Promise
   // This call shares Next.js's Data Cache with the layout's identical fetch,
   // so it does not add a second network round-trip.
   const classApi = getClassificationsClient();
-  let classification: Awaited<ReturnType<ClassificationsApi['classification']>>;
-  try {
-    classification = await classApi.classification({ id: classificationId, language: ClassificationLanguageEnum.NB }, {
+  const classification = await classApi
+    .classification({ id: classificationId, language: ClassificationLanguageEnum.NB }, {
       cache: 'force-cache',
       next: { revalidate: ttlSeconds },
-    } as RequestInit);
-  } catch (error) {
-    if (error instanceof ResponseError) {
-      logger.error(
-        { statusCode: error.response.status, url: error.response.url, classificationId },
-        'Failed to fetch classification for version lookup',
-      );
-    } else {
-      logger.error({ error: sanitizeError(error) }, 'Unexpected error fetching classification');
-    }
-    throw error;
-  }
+    } as RequestInit)
+    .catch((error) => {
+      if (error instanceof ResponseError) {
+        logger.error(
+          { statusCode: error.response.status, url: error.response.url, classificationId },
+          'Failed to fetch classification for version lookup',
+        );
+      } else {
+        logger.error({ error: sanitizeError(error) }, 'Unexpected error fetching classification');
+      }
+      throw error;
+    });
 
   const versions = classification.versions ?? [];
   if (versions.length === 0) {

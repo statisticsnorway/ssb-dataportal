@@ -17,8 +17,8 @@ interface CodeTreeRowProps {
 /**
  * Renders a single row in the code tree, recursing into children when expanded.
  *
- * The chevron button exclusively controls expand/collapse.
- * The row body exclusively controls selection (aria-pressed).
+ * Clicking the row body selects the code and, for parent nodes, also toggles expansion.
+ * Clicking the chevron only toggles expansion without affecting selection.
  */
 export function CodeTreeRow({ node, depth, expandedCodes, selectedCode, onToggle, onChange }: CodeTreeRowProps) {
   const { code } = node;
