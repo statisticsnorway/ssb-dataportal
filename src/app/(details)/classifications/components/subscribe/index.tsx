@@ -22,6 +22,7 @@ const SubscribeDialog = ({ classificationId }: { classificationId: number | unde
     if (subscriber) {
       postSubscriber(subscriber)
         .then((result) => {
+          clientLogger.info('subscribeResult', result.message);
           persistedResult.current = result;
           setSubscribeResult(result);
         })
