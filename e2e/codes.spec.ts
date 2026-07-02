@@ -67,7 +67,7 @@ test.describe('/classifications/[id]/codes', () => {
     await rowBody.click();
     await expect(rowBody).toHaveAttribute('aria-pressed', 'true');
 
-    await codesPage.getByRole('button', { name: collapseLabel(codeA.name) }).click();
+    await codesPage.getByRole('button', { name: expandLabel(codeA.name) }).click();
 
     await expect(rowBody).toHaveAttribute('aria-pressed', 'true');
   });

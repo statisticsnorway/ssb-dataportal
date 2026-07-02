@@ -52,7 +52,10 @@ export function CodeTreeRow({ node, depth, expandedCodes, selectedCode, onToggle
           className={styles.rowBody}
           aria-label={`${localization.codeTree.selectCode} ${code.code}: ${code.name}`}
           aria-pressed={isSelected}
-          onClick={() => onChange(code)}
+          onClick={() => {
+            onChange(code);
+            if (hasChildren) onToggle(code.code);
+          }}
         >
           <span className={styles.codeLabel}>{code.code}</span>
           <span className={styles.nameLabel}>{code.name}</span>
