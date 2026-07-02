@@ -1,0 +1,113 @@
+/* ── Toolbar (expand/collapse all button) ────────────────────────── */
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 0.5rem;
+}
+
+/* ── Container ───────────────────────────────────────────────────── */
+.tree {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: var(--ds-color-neutral-surface-default); /* white */
+  border-radius: var(--ds-border-radius-lg); /* same as Digdir Card */
+  border: var(--ds-border-width-default) solid var(--ssb-dark-color-2); /* matches global div.ds-card override */
+  overflow: hidden; /* clip row hover highlights to the rounded corners */
+  /* font-family inherits from html * in global.css → Open Sans, same as the rest of the app */
+  font-size: var(--font-size-lg);
+  color: var(--ds-color-neutral-text-default);
+}
+
+/* ── Child list ──────────────────────────────────────────────────── */
+.children {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ── Row ─────────────────────────────────────────────────────────── */
+.row {
+  display: flex;
+  align-items: center;
+  min-height: 3rem;
+  transition: background-color 80ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .row:hover {
+    background-color: var(--ds-color-surface-hover);
+  }
+}
+
+.row:active {
+  background-color: var(--ds-color-surface-active);
+}
+
+/* ── Chevron toggle button ───────────────────────────────────────── */
+.chevronButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2rem;
+  align-self: stretch; /* fills the full row height */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: var(--ds-color-neutral-text-subtle);
+  border-radius: var(--ds-border-radius-sm);
+}
+
+/* Digdir-style double-ring focus */
+.chevronButton:focus-visible {
+  outline: var(--ds-border-width-focus) solid var(--ds-color-focus-outer);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 var(--ds-border-width-focus) var(--ds-color-focus-inner);
+}
+
+/* Spacer that occupies the same width as the chevron for leaf nodes */
+.chevronPlaceholder {
+  flex-shrink: 0;
+  width: 2rem;
+}
+
+/* ── Clickable row body (code + name) ────────────────────────────── */
+.rowBody {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  padding: 0.625rem 0.75rem 0.625rem 0.125rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--ds-color-neutral-text-default);
+  min-width: 0;
+}
+
+.rowBody:focus-visible {
+  outline: var(--ds-border-width-focus) solid var(--ds-color-focus-outer);
+  outline-offset: 2px;
+  border-radius: var(--ds-border-radius-sm);
+  box-shadow: 0 0 0 var(--ds-border-width-focus) var(--ds-color-focus-inner);
+}
+
+/* ── Code identifier (muted, monospace) ──────────────────────────── */
+.codeLabel {
+  font-family: var(--font-family-monospace);
+  font-size: var(--font-size-md);
+  color: var(--ds-color-neutral-text-subtle);
+  flex-shrink: 0;
+}
+
+/* ── Display name ────────────────────────────────────────────────── */
+.nameLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

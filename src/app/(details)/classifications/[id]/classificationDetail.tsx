@@ -54,7 +54,9 @@ export default function ClassificationDetail({
               </Tabs.Tab>
             ))}
           </Tabs.List>
-          <Tabs.Panel value={activeTab.id}>{children}</Tabs.Panel>
+          <Tabs.Panel value={activeTab.id} id={activeTab.id}>
+            {children}
+          </Tabs.Panel>
         </Tabs>
       </main>
     </div>
