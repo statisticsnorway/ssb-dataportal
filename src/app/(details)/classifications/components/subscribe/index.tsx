@@ -47,7 +47,7 @@ const SubscribeDialog = ({ classificationId }: { classificationId: number | unde
       <Dialog onClose={resetState}>
         <form onSubmit={handleSubscription}>
           <Field className={styles.field}>
-            <Label weight='semibold'>{localization.classification.subscribeInfo}</Label>
+            <Label weight='semibold' htmlFor='subscription-email'>{localization.classification.subscribeInfo}</Label>
             {persistedResult.current ? null : (
               <Input
                 id='subscription-email'
