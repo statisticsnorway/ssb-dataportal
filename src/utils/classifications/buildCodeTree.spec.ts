@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import type { KlassCode } from '@/types/klass-codes';
 import { buildCodeTree } from './buildCodeTree';
 
-// Helper to construct a minimal valid KlassCode
 function makeCode(overrides: Partial<KlassCode> & { code: string; level: string }): KlassCode {
   return {
     parentCode: null,
@@ -46,7 +45,6 @@ describe('buildCodeTree', () => {
 
     const tree = buildCodeTree(codes);
 
-    // Two root nodes
     expect(tree).toHaveLength(2);
 
     const node1 = tree[0]!;
@@ -75,7 +73,6 @@ describe('buildCodeTree', () => {
 
     const tree = buildCodeTree(codes);
 
-    // Both X and Y end up at root level
     expect(tree).toHaveLength(2);
     const rootCodes = tree.map((n) => n.code.code);
     expect(rootCodes).toContain('X');

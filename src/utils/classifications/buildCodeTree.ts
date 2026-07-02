@@ -13,13 +13,11 @@ import type { CodeTreeNode, KlassCode } from '@/types/klass-codes';
  * @returns Array of root `CodeTreeNode` objects, each with nested `children`.
  */
 export function buildCodeTree(codes: KlassCode[]): CodeTreeNode[] {
-  // Pass 1: create a node for every code
   const nodeMap = new Map<string, CodeTreeNode>();
   for (const code of codes) {
     nodeMap.set(code.code, { code, children: [] });
   }
 
-  // Pass 2: attach each node to its parent, or collect it as a root
   const roots: CodeTreeNode[] = [];
   for (const code of codes) {
     const node = nodeMap.get(code.code)!;

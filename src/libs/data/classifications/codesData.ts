@@ -85,7 +85,6 @@ export async function fetchLatestVersionCodes(classificationId: number): Promise
     return (codesMock.currentCodes[key] ?? []) as KlassCode[];
   }
 
-  // Step 1 — get the classification's version list.
   // This call shares Next.js's Data Cache with the layout's identical fetch,
   // so it does not add a second network round-trip.
   const classApi = getClassificationsClient();
@@ -107,7 +106,6 @@ export async function fetchLatestVersionCodes(classificationId: number): Promise
     throw error;
   }
 
-  // Step 2 — pick the version with the latest validFrom.
   const versions = classification.versions ?? [];
   if (versions.length === 0) {
     logger.warn({ classificationId }, 'Classification has no versions');
@@ -126,6 +124,5 @@ export async function fetchLatestVersionCodes(classificationId: number): Promise
     'Resolved latest version',
   );
 
-  // Step 3 — fetch the version's codes.
   return fetchVersionCodes(latestVersion.id);
 }

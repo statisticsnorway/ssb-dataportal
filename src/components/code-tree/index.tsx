@@ -25,8 +25,7 @@ function collectParentCodes(nodes: CodeTreeNode[]): string[] {
 /**
  * Expand/collapse indented tree for browsing KLASS codes.
  *
- * - Root-level parent nodes start expanded; deeper nodes start collapsed.
- * - A toolbar button lets the user expand or collapse every level at once.
+ * - All codes start collapsed; the toolbar button or chevrons let the user open them.
  * - Row-body clicks select a code (aria-pressed); chevron clicks toggle expansion.
  * - Purely presentational — no data fetching.
  */
