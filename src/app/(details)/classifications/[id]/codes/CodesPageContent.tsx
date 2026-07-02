@@ -10,6 +10,6 @@ interface CodesPageContentProps {
  * The classification layout already supplies the heading, breadcrumbs and tab chrome;
  * this component is only responsible for the tree itself.
  */
-export function CodesPageContent({ codes }: CodesPageContentProps) {
+export function CodesPageContent({ codes }: Readonly<CodesPageContentProps>) {
   return <CodeTree codes={codes} />;
 }

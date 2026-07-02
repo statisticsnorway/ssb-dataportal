@@ -20,7 +20,14 @@ interface CodeTreeRowProps {
  * Clicking the row body selects the code and, for parent nodes, also toggles expansion.
  * Clicking the chevron only toggles expansion without affecting selection.
  */
-export function CodeTreeRow({ node, depth, expandedCodes, selectedCode, onToggle, onChange }: CodeTreeRowProps) {
+export function CodeTreeRow({
+  node,
+  depth,
+  expandedCodes,
+  selectedCode,
+  onToggle,
+  onChange,
+}: Readonly<CodeTreeRowProps>) {
   const { code } = node;
   const hasChildren = node.children.length > 0;
   const isExpanded = expandedCodes.has(code.code);
@@ -63,7 +70,7 @@ export function CodeTreeRow({ node, depth, expandedCodes, selectedCode, onToggle
       </div>
 
       {hasChildren && isExpanded && (
-        <ul className={styles.children} role='group'>
+        <ul className={styles.children}>
           {node.children.map((child) => (
             <CodeTreeRow
               key={child.code.code}
