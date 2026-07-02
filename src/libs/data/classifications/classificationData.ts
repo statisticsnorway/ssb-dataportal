@@ -211,10 +211,10 @@ export async function fetchSearchResult(searchRequest: SearchRequest): Promise<S
 }
 
 /**
- * 
- * @param path 
- * @param params 
- * @returns 
+ *
+ * @param path
+ * @param params
+ * @returns
  */
 async function klassPost(path: string, params: Record<string, string>): Promise<Response> {
   const klassBasePath = process.env.KLASS_BASE_PATH;
@@ -233,9 +233,9 @@ async function klassPost(path: string, params: Record<string, string>): Promise<
 }
 
 /**
- * 
- * @param subscriber 
- * @returns 
+ *
+ * @param subscriber
+ * @returns
  */
 export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeResult> {
   const logger = createLogger('subscriber');
@@ -279,7 +279,11 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
 
     if (res.status === 500) {
       logger.error({ classificationId: subscriber.classificationId }, 'Email problem during subscription');
-      throw new Error('Email could not be sent');
+      return {
+        code: SubscribeStatus.Error,
+        message: localization.classification.subscribeError,
+        dataColor: ValidationMessageColors.Danger,
+      };
     }
 
     if (!res.ok) {
