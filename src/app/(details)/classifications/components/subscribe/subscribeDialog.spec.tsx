@@ -27,7 +27,7 @@ describe('SubscribeDialog', () => {
     await user.click(screen.getByText(localization.classification.subscribe));
 
     expect(screen.getByRole('textbox')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: localization.classification.subscribe })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: localization.classification.subscribeConfirm })).toBeInTheDocument();
   });
 
   it('shows invalid email message when submitting bad email', async () => {
@@ -36,8 +36,7 @@ describe('SubscribeDialog', () => {
 
     await user.click(screen.getByText(localization.classification.subscribe));
     await user.type(screen.getByRole('textbox'), 'not-an-email');
-    await user.click(screen.getByRole('button', { name: "subscribe-button"  }));
-
+    await user.click(screen.getByRole('button', { name: localization.classification.subscribeConfirm }));
     expect(screen.getByText(localization.classification.subscribeMessageInvalidEmail)).toBeInTheDocument();
   });
 

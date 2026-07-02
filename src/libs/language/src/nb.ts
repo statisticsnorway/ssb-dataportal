@@ -44,6 +44,7 @@ export const nb = {
     subscription: 'Abonnement',
     subscribeError: 'Det oppstod en feil under registering',
     subscribeAlready: 'Du er allerede abonnent',
+    subscribeConfirm: 'Bekreft abonnement',
     subscribeInfo: 'Abonner på oppdateringer for denne klassifikasjonen',
     subscribeMessage: 'Du vil motta en mail. Følg instruksjonene i mailen for å starte ditt abonnement.',
     subscribeMessageInvalidEmail: 'Skriv inn en gyldig e-postadresse',
