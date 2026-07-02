@@ -70,7 +70,7 @@ export function CodeTree({ codes, onChange }: CodeTreeProps) {
     <div>
       {allParentCodes.length > 0 && (
         <div className={styles.toolbar}>
-          <Button variant='secondary' size='sm' onClick={handleToggleAll} aria-expanded={allExpanded}>
+          <Button variant='secondary' onClick={handleToggleAll} aria-expanded={allExpanded}>
             {allExpanded ? localization.codeTree.collapseAll : localization.codeTree.expandAll}
           </Button>
         </div>
