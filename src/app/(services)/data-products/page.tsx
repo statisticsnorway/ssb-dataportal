@@ -9,14 +9,11 @@ export const metadata: Metadata = {
   title: localization.pageTitle.dataProducts,
 };
 
-export default async function DataProducts({
-  searchParams,
-}: Readonly<{
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}>) {
-  const params = await searchParams;
+export const revalidate = 3600;
+
+export default async function DataProducts() {
   const logger = createLogger('data-products-discover-page');
-  logger.info({ params }, 'Data products page access');
+  logger.info('Data products page access');
   const dataProducts = await listDataProducts();
   const subjectFields = await fetchStaticSubjectFields();
   return <DataProductsServicePage dataProducts={dataProducts} subjectFields={subjectFields} />;
