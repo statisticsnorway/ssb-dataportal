@@ -17,6 +17,7 @@ export const test = base.extend<{
   codesPage: async ({ page }, use, testInfo: TestInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
     await page.goto(CODES_URL);
+    await expect(page).toHaveURL(new RegExp(CODES_URL));
     await stabilize();
     await use(page);
   },
@@ -24,6 +25,7 @@ export const test = base.extend<{
   codesVersionPage: async ({ page }, use, testInfo: TestInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
     await page.goto(CODES_VERSION_URL);
+    await expect(page).toHaveURL(new RegExp(CODES_VERSION_URL));
     await stabilize();
     await use(page);
   },

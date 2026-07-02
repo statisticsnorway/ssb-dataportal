@@ -2,7 +2,7 @@
 
 import { Button } from '@digdir/designsystemet-react';
 import { useMemo, useState } from 'react';
-import { localization } from '@/libs/language/src/localization';
+import { localization } from '@/libs/language';
 import type { CodeTreeNode, KlassCode } from '@/types/klass-codes';
 import { buildCodeTree } from '@/utils/classifications/buildCodeTree';
 import { CodeTreeRow } from './CodeTreeRow';
@@ -22,20 +22,24 @@ function collectParentCodes(nodes: CodeTreeNode[]): string[] {
   );
 }
 
-const noop = (_code: KlassCode) => undefined;
-
 /**
  * Expand/collapse indented tree for browsing KLASS codes.
  *
- * - All nodes start collapsed; the user expands on demand.
+ * - Root-level parent nodes start expanded; deeper nodes start collapsed.
  * - A toolbar button lets the user expand or collapse every level at once.
+ * - Row-body clicks select a code (aria-pressed); chevron clicks toggle expansion.
  * - Purely presentational — no data fetching.
  */
 export function CodeTree({ codes, onChange }: CodeTreeProps) {
   const tree = useMemo(() => buildCodeTree(codes), [codes]);
   const allParentCodes = useMemo(() => collectParentCodes(tree), [tree]);
 
-  const [expandedCodes, setExpandedCodes] = useState<Set<string>>(() => new Set());
+  // Pre-expand all root-level nodes that have children so the first level is visible on load.
+  const [expandedCodes, setExpandedCodes] = useState<Set<string>>(
+    () => new Set(tree.filter((n) => n.children.length > 0).map((n) => n.code.code)),
+  );
+
+  const [selectedCode, setSelectedCode] = useState<string | null>(null);
 
   const allExpanded = allParentCodes.length > 0 && allParentCodes.every((c) => expandedCodes.has(c));
 
@@ -46,6 +50,11 @@ export function CodeTree({ codes, onChange }: CodeTreeProps) {
       else next.add(code);
       return next;
     });
+  }
+
+  function handleChange(code: KlassCode) {
+    setSelectedCode(code.code);
+    onChange?.(code);
   }
 
   function handleToggleAll() {
@@ -76,8 +85,9 @@ export function CodeTree({ codes, onChange }: CodeTreeProps) {
             node={node}
             depth={0}
             expandedCodes={expandedCodes}
+            selectedCode={selectedCode}
             onToggle={handleToggle}
-            onChange={onChange ?? noop}
+            onChange={handleChange}
           />
         ))}
       </ul>

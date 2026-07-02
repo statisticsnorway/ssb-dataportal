@@ -43,9 +43,12 @@ test.describe('/classifications/[id]/codes', () => {
     await expect(codesPage.getByRole('button', { name: rowBodyLabel('C', 'Industri') })).toBeVisible();
   });
 
-  test('children of top-level codes are collapsed on page load', async ({ codesPage }) => {
-    await expect(codesPage.getByRole('button', { name: rowBodyLabel(code01.code, code01.name) })).not.toBeVisible();
-    await expect(codesPage.getByRole('button', { name: rowBodyLabel(code02.code, code02.name) })).not.toBeVisible();
+  test('second-level codes are visible but their children are not on page load', async ({ codesPage }) => {
+    // A is expanded by default, so its children (01, 02) are visible
+    await expect(codesPage.getByRole('button', { name: rowBodyLabel(code01.code, code01.name) })).toBeVisible();
+    await expect(codesPage.getByRole('button', { name: rowBodyLabel(code02.code, code02.name) })).toBeVisible();
+    // but 01 itself is not expanded, so grandchild 011 is not visible
+    await expect(codesPage.getByRole('button', { name: rowBodyLabel(code011.code, code011.name) })).not.toBeVisible();
   });
 
   test('top-level code A has an expanded chevron on page load', async ({ codesPage }) => {
@@ -135,7 +138,7 @@ test.describe('/classifications/[id]/codes/version/[versionNumber]', () => {
     await expect(page.getByRole('tree', { name: localization.codeTree.label })).toBeVisible();
   });
 
-  test('version top-level codes are visible and children collapsed', async ({ page }) => {
+  test('version top-level codes are visible; A is expanded by default, child 01 is visible but itself collapsed', async ({ page }) => {
     await page.goto(CODES_VERSION_URL);
 
     // Version mock has A and B at top level
@@ -146,9 +149,14 @@ test.describe('/classifications/[id]/codes/version/[versionNumber]', () => {
       page.getByRole('button', { name: rowBodyLabel('B', 'Bergverksdrift og utvinning (v1)') }),
     ).toBeVisible();
 
-    // Child 01 should be collapsed
+    // A is expanded by default, so child 01 is visible
     await expect(
       page.getByRole('button', { name: rowBodyLabel('01', 'Jordbruk og tjenester tilknyttet jordbruk (v1)') }),
-    ).not.toBeVisible();
+    ).toBeVisible();
+
+    // 01 itself is collapsed — its chevron shows the "expand" label
+    await expect(
+      page.getByRole('button', { name: `${localization.codeTree.expand} Jordbruk og tjenester tilknyttet jordbruk (v1)` }),
+    ).toBeVisible();
   });
 });

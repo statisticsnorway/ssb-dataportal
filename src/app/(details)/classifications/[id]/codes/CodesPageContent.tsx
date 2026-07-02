@@ -1,4 +1,4 @@
-import { ClassificationCodesView } from '@/components/code-tree/ClassificationCodesView';
+import { CodeTree } from '@/components/code-tree';
 import type { KlassCode } from '@/types/klass-codes';
 
 interface CodesPageContentProps {
@@ -11,5 +11,5 @@ interface CodesPageContentProps {
  * this component is only responsible for the tree itself.
  */
 export function CodesPageContent({ codes }: CodesPageContentProps) {
-  return <ClassificationCodesView codes={codes} />;
+  return <CodeTree codes={codes} />;
 }
