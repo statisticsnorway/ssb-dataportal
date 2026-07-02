@@ -11,6 +11,8 @@ import { mapClassificationItemToKlassCode } from '@/utils/classifications/codeMa
 import { getUserAgent } from '@/utils/userAgent';
 
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
+const logger = createLogger('codes-data');
+const fetchInit = { cache: 'force-cache', next: { revalidate: ttlSeconds } } as RequestInit;
 
 function buildKlassClientConfig(): ConfigurationParameters {
   const config: ConfigurationParameters = {
@@ -37,8 +39,6 @@ function getVersionsClient(): VersionsApi {
  * Falls back to static mock data when `KLASS_USE_STATIC_DATA=true`.
  */
 export async function fetchVersionCodes(versionId: number): Promise<KlassCode[]> {
-  const logger = createLogger('codes-data');
-
   if (process.env.KLASS_USE_STATIC_DATA === 'true') {
     logger.warn({ versionId }, 'Using static mock data for version codes');
     const key = String(versionId) as keyof typeof codesMock.versionCodes;
@@ -47,10 +47,7 @@ export async function fetchVersionCodes(versionId: number): Promise<KlassCode[]>
 
   const api = getVersionsClient();
   try {
-    const data = await api.versions({ id: versionId, language: VersionsLanguageEnum.NB }, {
-      cache: 'force-cache',
-      next: { revalidate: ttlSeconds },
-    } as RequestInit);
+    const data = await api.versions({ id: versionId, language: VersionsLanguageEnum.NB }, fetchInit);
     const items = data.classificationItems ?? [];
     logger.info({ versionId, count: items.length }, 'Fetched version codes');
     return items.map(mapClassificationItemToKlassCode);
@@ -77,8 +74,6 @@ export async function fetchVersionCodes(versionId: number): Promise<KlassCode[]>
  * Falls back to static mock data when `KLASS_USE_STATIC_DATA=true`.
  */
 export async function fetchLatestVersionCodes(classificationId: number): Promise<KlassCode[]> {
-  const logger = createLogger('codes-data');
-
   if (process.env.KLASS_USE_STATIC_DATA === 'true') {
     logger.warn({ classificationId }, 'Using static mock data for latest version codes');
     const key = String(classificationId) as keyof typeof codesMock.currentCodes;
@@ -89,10 +84,7 @@ export async function fetchLatestVersionCodes(classificationId: number): Promise
   // so it does not add a second network round-trip.
   const classApi = getClassificationsClient();
   const classification = await classApi
-    .classification({ id: classificationId, language: ClassificationLanguageEnum.NB }, {
-      cache: 'force-cache',
-      next: { revalidate: ttlSeconds },
-    } as RequestInit)
+    .classification({ id: classificationId, language: ClassificationLanguageEnum.NB }, fetchInit)
     .catch((error) => {
       if (error instanceof ResponseError) {
         logger.error(
