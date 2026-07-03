@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import { postSubscriber } from '@/libs/data/classifications/classificationData';
 import { localization } from '@/libs/language/src/localization';
 import { SubscribeDialog } from './index';
-import { postSubscriber } from '@/libs/data/classifications/classificationData';
 
 vi.mock('@/libs/data/classifications/classificationData', () => ({
   postSubscriber: vi.fn(),
