@@ -5,6 +5,11 @@ import classificationMock from '@/static-data/classifications.json';
 import { parseClassification } from '@/utils/classifications/classificationHelpers';
 import { Page } from '@playwright/test';
 
+// rewrite
+// main page
+// Title
+// subtitle
+// version
 type ClassificationPageFixture = (classification: ClassificationResource) => Promise<void>;
 const classifications = classificationMock.classifications;
 
