@@ -71,12 +71,12 @@ const SubscribeDialog = ({ classificationId }: { classificationId: number | unde
               />
             )}
             {subscribeResult && (
-              <ValidationMessage data-color={subscribeResult.dataColor}>{subscribeResult.message}</ValidationMessage>
+              <ValidationMessage role='alert' data-color={subscribeResult.dataColor}>{subscribeResult.message}</ValidationMessage>
             )}
           </Field>
           {persistedResult.current ? null : (
             <Button type='submit' id='subscribe-button'>
-              {localization.classification.subscribe}
+              {localization.classification.subscribeConfirm}
             </Button>
           )}
         </form>

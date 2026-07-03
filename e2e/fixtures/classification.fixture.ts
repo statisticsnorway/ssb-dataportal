@@ -18,3 +18,7 @@ export const test = base.extend<{
 });
 
 export { expect };
+
+// ...existing code...
+
+export type ClassificationFixture = Awaited<ReturnType<ClassificationDetailsFixture>>;
