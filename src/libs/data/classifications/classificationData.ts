@@ -248,13 +248,13 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
     if (exists) {
       return {
         code: SubscribeStatus.Exists,
-        message: localization.classification.subscribeAlready,
+        message: localization.classification.subscribeMessageAlready,
         dataColor: ValidationMessageColors.Warning,
       };
     }
     return {
       code: SubscribeStatus.Created,
-      message: localization.classification.subscribeMessage,
+      message: localization.classification.subscribeMessageSuccess,
       dataColor: ValidationMessageColors.Success,
     };
   }
@@ -272,7 +272,7 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
       logger.info({ classificationId: subscriber.classificationId }, 'Email already subscribed');
       return {
         code: SubscribeStatus.Exists,
-        message: localization.classification.subscribeAlready,
+        message: localization.classification.subscribeMessageAlready,
         dataColor: ValidationMessageColors.Warning,
       };
     }
@@ -281,7 +281,7 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
       logger.error({ classificationId: subscriber.classificationId }, 'Email problem during subscription');
       return {
         code: SubscribeStatus.Error,
-        message: localization.classification.subscribeError,
+        message: localization.classification.subscribeMessageError,
         dataColor: ValidationMessageColors.Danger,
       };
     }
@@ -290,7 +290,7 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
       logger.error({ statusCode: res.status }, 'Failed to subscribe to classification changes');
       return {
         code: SubscribeStatus.Error,
-        message: localization.classification.subscribeError,
+        message: localization.classification.subscribeMessageError,
         dataColor: ValidationMessageColors.Danger,
       };
     }
@@ -298,7 +298,7 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
     logger.info({ classificationId: subscriber.classificationId }, 'Subscribed to classification changes');
     return {
       code: SubscribeStatus.Created,
-      message: localization.classification.subscribeMessage,
+      message: localization.classification.subscribeMessageSuccess,
       dataColor: ValidationMessageColors.Success,
     };
   } catch (error: unknown) {
