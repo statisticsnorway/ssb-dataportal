@@ -1,58 +1,62 @@
-import { test as base, expect } from '@bgotink/playwright-coverage';
-import { ClassificationResource } from '@/libs/data-access/klass';
-import { localization } from '@/libs/language';
-import classificationMock from '@/static-data/classifications.json';
 import { parseClassification } from '@/utils/classifications/classificationHelpers';
-import { Page } from '@playwright/test';
+import { expect, test } from './fixtures/classification.fixture';
+import classificationMock from '@/static-data/classifications.json';
+import { localization } from '@/libs/language/src/localization';
 
-// rewrite
-// main page
-// Title
-// subtitle
-// version
-type ClassificationPageFixture = (classification: ClassificationResource) => Promise<void>;
 const classifications = classificationMock.classifications;
 
-const goToClassification = async (page: Page, classification: ClassificationResource) => {
-  await page.goto('/classifications');
-
-  // Wait for the classification link to be visible before clicking
-  const link = page.getByRole('link', { name: classification.name });
-  await expect(link).toBeVisible({ timeout: 5000 });
-
-  await Promise.all([page.waitForURL(new RegExp(`/classifications/${classification.id}`)), link.click()]);
-};
-
-const test = base.extend<{
-  goToClassification: ClassificationPageFixture;
-}>({
-  goToClassification: async ({ page }, applyClassificationFixture) => {
-    await applyClassificationFixture((classification: ClassificationResource) =>
-      goToClassification(page, classification),
-    );
-  },
+test('Classifications details page have title', async ({ classificationDetailsPage }) => {
+  const classification = parseClassification(classifications[1]);
+  const page = await classificationDetailsPage(classification.id!);
+  const heading = page.getByRole('heading', { level: 1 });
+  await expect(heading).toBeVisible();
+  await expect(heading).toHaveText(classification.name!);
 });
 
-test.skip('Navigate to up to 4 classifications', async ({ goToClassification, page }) => {
-  const validClassifications = classifications.slice(0, 4);
+test('Classifications details version have title', async ({ classificationDetailsPage }) => {
+  const classification = parseClassification(classifications[1]);
+  const page = await classificationDetailsPage(classification.id!);
+  const heading = page.getByRole('heading', { level: 2 });
+  await expect(heading).toBeVisible();
+  // Placeholder we fetch version title
+  await expect(heading).toHaveText('Versjonens navn');
+});
 
-  if (validClassifications.length === 0) {
-    test.skip();
-    return;
-  }
-
-  for (const classification of validClassifications) {
-    // Go to the classification
-    const parsedClassification = parseClassification(classification);
-    await goToClassification(parsedClassification);
-
-    // Return to classifications page safely
-    const homeLink = page.getByRole('link', { name: localization.navigateHomeClassifications });
-    await expect(homeLink).toBeVisible({ timeout: 10000 });
-
-    await Promise.all([page.waitForURL('/classifications'), homeLink.click()]);
-
-    // Wait for classifications page to be ready for next iteration
-    await expect(page.getByRole('tab', { name: localization.tabs.classifications })).toBeVisible({ timeout: 5000 });
-  }
+test.describe('Classifications details tabs', () => {
+  test('Codes tab is visible', async ({ classificationDetailsPage }) => {
+    const classification = parseClassification(classifications[3]);
+    const page = await classificationDetailsPage(classification.id!);
+    const tab = page.getByRole('tab', { name: localization.classificationDetails.codes });
+    await expect(tab).toBeVisible();
+  });
+  test('About tab is visible', async ({ classificationDetailsPage }) => {
+    const classification = parseClassification(classifications[3]);
+    const page = await classificationDetailsPage(classification.id!);
+    const tab = page.getByRole('tab', { name: localization.classificationDetails.about });
+    await expect(tab).toBeVisible();
+  });
+  test('Changes tab is visible', async ({ classificationDetailsPage }) => {
+    const classification = parseClassification(classifications[3]);
+    const page = await classificationDetailsPage(classification.id!);
+    const tab = page.getByRole('tab', { name: localization.classificationDetails.changes });
+    await expect(tab).toBeVisible();
+  });
+  test('All versions tab is visible', async ({ classificationDetailsPage }) => {
+    const classification = parseClassification(classifications[3]);
+    const page = await classificationDetailsPage(classification.id!);
+    const tab = page.getByRole('tab', { name: localization.classificationDetails.allVersions });
+    await expect(tab).toBeVisible();
+  });
+  test('Correspondences tab is visible', async ({ classificationDetailsPage }) => {
+    const classification = parseClassification(classifications[3]);
+    const page = await classificationDetailsPage(classification.id!);
+    const tab = page.getByRole('tab', { name: localization.classificationDetails.correspondences });
+    await expect(tab).toBeVisible();
+  });
+  test('Variants tab is visible', async ({ classificationDetailsPage }) => {
+    const classification = parseClassification(classifications[3]);
+    const page = await classificationDetailsPage(classification.id!);
+    const tab = page.getByRole('tab', { name: localization.classificationDetails.variants });
+    await expect(tab).toBeVisible();
+  });
 });
