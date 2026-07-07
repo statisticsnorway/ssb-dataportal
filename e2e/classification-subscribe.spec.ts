@@ -81,8 +81,10 @@ test.describe('User wants to start new subscription', () => {
     await dialog.getByRole('button', { name: 'Lukk dialogvindu' }).click();
     const linkHome = page.getByLabel('Du er her:').getByRole('link', { name: 'Klassifikasjoner' });
     await linkHome.click();
+    await page.waitForURL('**/classifications**');
     const link = page.getByRole('link', { name: stripTitlePrefix(classification.name!), exact: true }).first();
     await link.click();
+    await page.waitForURL(`**/${classification.id}**`);
 
     // Re-query locators after navigation
     const newSubscriptionButton = page.getByRole('button', { name: localization.classification.subscribe });
