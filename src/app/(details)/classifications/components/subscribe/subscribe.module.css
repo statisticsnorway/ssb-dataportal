@@ -13,3 +13,7 @@
 .field :global([data-color="danger"]) {
   color: var(--ds-color-danger-text-subtle);
 }
+
+.field :global([data-color="info"]) {
+  color: var(--ds-color-info-text-subtle);
+}
