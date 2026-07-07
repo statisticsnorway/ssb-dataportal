@@ -68,9 +68,6 @@ export function CodeTreeRow({
           }}
         >
           <span className={styles.codeLabel}>{code.code}</span>
-          <span className={styles.separator} aria-hidden='true'>
-            –
-          </span>
           <span className={styles.nameLabel}>{code.name}</span>
         </button>
       </div>
