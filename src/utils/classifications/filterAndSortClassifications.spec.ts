@@ -7,12 +7,11 @@ import {
   filterAndSortClassifications,
   mapSearchResultsToClassifications,
 } from '@/utils/classifications/filterAndSortClassifications';
+import { parseClassification } from './classificationHelpers';
 
-const classifications: ClassificationResource[] = classificationsMock.classifications.map((c) => ({
-  ...c,
-  lastModified: new Date(c.lastModified),
-  classificationType: c.classificationType as ClassificationResource['classificationType'],
-}));
+const classifications: ClassificationResource[] = classificationsMock.classifications.map((c) =>
+  parseClassification(c),
+);
 const searchResults = searchResultsMock;
 
 describe('mapSearchResultsToClassifications', () => {

@@ -213,16 +213,13 @@ export async function fetchSearchResult(searchRequest: SearchRequest): Promise<S
 /**
  * Makes a POST request to the Klass API at the given path with query parameters.
  *
+ * @param basePath - The resolved Klass API base path (must be a valid URL string)
  * @param path - The API endpoint path (e.g. `/api/klass/v1/classifications/1/trackChanges`)
  * @param params - Key-value pairs to append as query string parameters
  * @returns A promise that resolves to the raw `Response` object
- * @throws {Error} If `KLASS_BASE_PATH` is not configured
  */
-async function klassPost(path: string, params: Record<string, string>): Promise<Response> {
-  const klassBasePath = process.env.KLASS_BASE_PATH;
-  if (!klassBasePath) throw new Error('KLASS_BASE_PATH is not configured');
-
-  const origin = new URL(klassBasePath).origin;
+async function klassPost(basePath: string, path: string, params: Record<string, string>): Promise<Response> {
+  const origin = new URL(basePath).origin;
   const url = new URL(`${origin}${path}`);
   Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
 
@@ -269,10 +266,24 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
     };
   }
 
+  const klassBasePath = process.env.KLASS_BASE_PATH;
+  if (!klassBasePath) {
+    logger.error('KLASS_BASE_PATH is not configured');
+    return {
+      code: SubscribeStatus.Error,
+      message: localization.classification.subscribeMessageError,
+      dataColor: ValidationMessageColors.Danger,
+    };
+  }
+
   try {
-    const res = await klassPost(`/api/klass/v1/classifications/${subscriber.classificationId}/trackChanges`, {
-      email: subscriber.email,
-    });
+    const res = await klassPost(
+      klassBasePath,
+      `/api/klass/v1/classifications/${subscriber.classificationId}/trackChanges`,
+      {
+        email: subscriber.email,
+      },
+    );
 
     const text = await res.text();
     logger.debug({ text, status: res.status }, 'Raw response from trackChanges');

@@ -234,13 +234,13 @@ describe('postSubscriber', () => {
   const subscriber = { email: 'test@ssb.no', classificationId: 1 };
 
   it('returns Created when static data and email is new', async () => {
-    vi.stubEnv('KLASS_STATIC_SUBSCRIBER', 'true');
+    vi.stubEnv('KLASS_SUBSCRIBER_USE_STATIC_DATA', 'true');
 
     const result = await postSubscriber({ email: 'new@ssb.no', classificationId: 1 });
     expect(result.code).toBe(SubscribeStatus.Created);
   });
   it('returns Exists when static data and email already subscribed', async () => {
-    vi.stubEnv('KLASS_STATIC_SUBSCRIBER', 'true');
+    vi.stubEnv('KLASS_SUBSCRIBER_USE_STATIC_DATA', 'true');
 
     const existingSubscriber = subscribersMock[0];
     expect(existingSubscriber).toBeDefined();
@@ -293,9 +293,10 @@ describe('postSubscriber', () => {
     await expect(postSubscriber(subscriber)).rejects.toThrow('Network failure');
   });
 
-  it('throws when KLASS_BASE_PATH is not configured', async () => {
+  it('returns Error when KLASS_BASE_PATH is not configured', async () => {
     delete process.env.KLASS_BASE_PATH;
 
-    await expect(postSubscriber(subscriber)).rejects.toThrow('KLASS_BASE_PATH is not configured');
+    const result = await postSubscriber(subscriber);
+    expect(result.code).toBe(SubscribeStatus.Error);
   });
 });
