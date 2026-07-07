@@ -83,8 +83,15 @@ test.describe('User wants to start new subscription', () => {
     await linkHome.click();
     const link = page.getByRole('link', { name: stripTitlePrefix(classification.name!), exact: true }).first();
     await link.click();
-    await subscriptionButton.click();
-    await expect(confirmSubscription).toBeVisible();
+
+    // Re-query locators after navigation
+    const newSubscriptionButton = page.getByRole('button', { name: localization.classification.subscribe });
+    await newSubscriptionButton.click();
+    const newDialog = page.getByRole('dialog');
+    const newConfirmSubscription = newDialog.getByRole('button', {
+      name: localization.classification.subscribeConfirm,
+    });
+    await expect(newConfirmSubscription).toBeVisible();
   });
 });
 
