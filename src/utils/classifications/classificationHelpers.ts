@@ -65,4 +65,3 @@ export const getLabelForClassificationType = (value: ClassificationType) => {
   }
   return value;
 };
-

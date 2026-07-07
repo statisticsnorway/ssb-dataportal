@@ -2,14 +2,14 @@
   margin-bottom: 1rem;
 }
 
-.field :global([data-color='success']) {
+.field :global([data-color="success"]) {
   color: var(--ds-color-success-text-subtle);
 }
 
-.field :global([data-color='warning']) {
+.field :global([data-color="warning"]) {
   color: var(--ds-color-warning-text-subtle);
 }
 
-.field :global([data-color='danger']) {
+.field :global([data-color="danger"]) {
   color: var(--ds-color-danger-text-subtle);
 }
