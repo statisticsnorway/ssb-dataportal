@@ -41,7 +41,6 @@
       "classificationType": "Klassifikasjon",
       "classificationFamilyId": 3,
       "lastModified": "2018-12-07T14:02:33.000+0000",
-      "description": "Standard for kjønn beskriver hvordan kjønn skal registreres og rapporteres i statistikk.",
       "_links": {
         "self": {
           "href": "/classifications/2"
