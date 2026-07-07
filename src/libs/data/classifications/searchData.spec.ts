@@ -1,9 +1,23 @@
-import { describe, expect, it, vi } from 'vitest';
+import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { SearchApi } from '@/libs/data-access/klass/apis/SearchApi';
 import { ResponseError } from '@/libs/data-access/klass/runtime';
 import searchResultsMock from '@/static-data/klass-search-results.json';
 import { fetchSearchResult, getKlassSearchClient } from './searchData';
 
+vi.mock('server-only', () => ({}));
+
+const ORIGINAL_ENV = process.env;
+beforeEach(() => {
+  vi.restoreAllMocks();
+  vi.resetModules();
+  process.env = { ...ORIGINAL_ENV };
+});
+afterEach(() => {
+  vi.unstubAllEnvs();
+});
+afterAll(() => {
+  process.env = ORIGINAL_ENV;
+});
 describe('fetchSearchResult', () => {
   it('configures basePath from KLASS_BASE_PATH', async () => {
     vi.stubEnv('KLASS_BASE_PATH', 'https://klass.example.com/api/klass/v1');

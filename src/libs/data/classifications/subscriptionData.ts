@@ -1,3 +1,5 @@
+'use server';
+
 import { localization } from '@/libs/language/src/localization';
 import { createLogger } from '@/libs/logger/server-logger';
 import subscribersMock from '@/static-data/subscribers.json';

@@ -1,4 +1,6 @@
-import { SearchApi, SearchRequest } from '@/libs/data-access/klass/apis/SearchApi';
+'use server';
+
+import { SearchApi, SearchRequest } from '@/libs/data-access/klass/apis';
 import { KlassPagedResourcesSearchResultResource } from '@/libs/data-access/klass/models/KlassPagedResourcesSearchResultResource';
 import {
   SearchResultResource,
