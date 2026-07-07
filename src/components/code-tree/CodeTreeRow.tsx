@@ -44,6 +44,7 @@ export function CodeTreeRow({
           <button
             type='button'
             className={styles.chevronButton}
+            aria-expanded={isExpanded}
             aria-label={
               isExpanded
                 ? `${localization.codeTree.collapse} ${code.name}`
