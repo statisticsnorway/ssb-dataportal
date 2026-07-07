@@ -78,7 +78,7 @@ export function CodeTreeRow({
       </div>
 
       {hasChildren && isExpanded && (
-        <ul className={styles.children} role='group'>
+        <ul className={styles.children}>
           {node.children.map((child) => (
             <CodeTreeRow
               key={child.code.code}
