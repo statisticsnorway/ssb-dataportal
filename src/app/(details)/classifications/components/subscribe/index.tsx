@@ -1,6 +1,6 @@
 import { Button, Dialog, Field, Input, Label, ValidationMessage } from '@digdir/designsystemet-react';
 import { useEffect, useRef, useState } from 'react';
-import { postSubscriber } from '@/libs/data/classifications/classificationData';
+import { postSubscriber } from '@/libs/data/classifications/subscriptionData';
 import { localization } from '@/libs/language/src/localization';
 import { clientLogger } from '@/libs/logger/client-logger';
 import { SubscribeResult, Subscriber, SubscribeStatus, ValidationMessageColors } from '@/types/subscription';

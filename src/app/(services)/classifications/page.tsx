@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
-import { fetchAllClassifications, fetchSearchResult } from '@/libs/data/classifications/classificationData';
+import { fetchAllClassifications } from '@/libs/data/classifications/classificationData';
+import { fetchSearchResult } from '@/libs/data/classifications/searchData';
 import { localization } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
