@@ -173,7 +173,7 @@ test.describe('Classifications - search card', () => {
   });
 
   test('displays card without description if null', async ({ classificationsPage }) => {
-    const classification = parseClassification(classifications[5]);
+    const classification = parseClassification(classifications[8]);
     expect(classification.description).toBeUndefined();
     const card = classificationsPage.getByRole('article', { name: stripTitlePrefix(classification.name) });
     await expect(card).toBeVisible();
