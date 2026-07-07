@@ -39,7 +39,7 @@ const SubscribeDialog = ({ classificationId }: { classificationId: number | unde
       setSubscribeResult({
         code: SubscribeStatus.InvalidEmail,
         message: localization.classification.subscribeMessageInvalidEmail,
-        dataColor: ValidationMessageColors.Danger,
+        dataColor: ValidationMessageColors.Warning,
       });
       return;
     }

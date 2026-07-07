@@ -259,7 +259,7 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
       return {
         code: SubscribeStatus.Exists,
         message: localization.classification.subscribeMessageAlready,
-        dataColor: ValidationMessageColors.Warning,
+        dataColor: ValidationMessageColors.Info,
       };
     }
     return {
@@ -283,7 +283,7 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
       return {
         code: SubscribeStatus.Exists,
         message: localization.classification.subscribeMessageAlready,
-        dataColor: ValidationMessageColors.Warning,
+        dataColor: ValidationMessageColors.Info,
       };
     }
 
