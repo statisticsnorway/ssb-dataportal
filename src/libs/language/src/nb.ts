@@ -55,6 +55,8 @@ export const nb = {
     selectCode: 'Velg kode',
     expandAll: 'Åpne alle',
     collapseAll: 'Lukk alle',
+    codeColumn: 'Kode',
+    nameColumn: 'Navn',
   },
   codeSnippet: {
     codeExample: 'Kodeeksempel',

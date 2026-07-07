@@ -70,19 +70,26 @@ export function CodeTree({ codes, onChange }: Readonly<CodeTreeProps>) {
           </Button>
         </div>
       )}
-      <ul className={styles.tree} aria-label={localization.codeTree.label} role='tree'>
-        {tree.map((node) => (
-          <CodeTreeRow
-            key={node.code.code}
-            node={node}
-            depth={0}
-            expandedCodes={expandedCodes}
-            selectedCode={selectedCode}
-            onToggle={handleToggle}
-            onChange={handleChange}
-          />
-        ))}
-      </ul>
+      <div className={styles.treeCard}>
+        <div className={styles.treeHeader} aria-hidden='true'>
+          <span className={styles.treeHeaderCode}>{localization.codeTree.codeColumn}</span>
+          <span className={styles.separator}>–</span>
+          <span className={styles.treeHeaderName}>{localization.codeTree.nameColumn}</span>
+        </div>
+        <ul className={styles.tree} aria-label={localization.codeTree.label} role='tree'>
+          {tree.map((node) => (
+            <CodeTreeRow
+              key={node.code.code}
+              node={node}
+              depth={0}
+              expandedCodes={expandedCodes}
+              selectedCode={selectedCode}
+              onToggle={handleToggle}
+              onChange={handleChange}
+            />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
