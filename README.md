@@ -133,6 +133,7 @@ Configuration is primarily source from `.env*` files. This may be overridden in 
 | `KLASS_USE_STATIC_DATA`          | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance.      |
 | `HIDE_CLASSIFICATIONS`           | `true` Hides classifications so that only the info text is visible                                           |
 | `KLASS_SEARCH_USE_STATIC_DATA`   | `true` to use the static search result data from the repo. Otherwise the data will be retrieved from a live instance.      |
+| `KLASS_SUBSCRIBER_USE_STATIC_DATA`   | `true` to use the static subscriber data from the repo. Otherwise the data will be retrieved from a live instance.      |
 | `SSB_DATAPORTAL_JWT_TOKEN`       | A JWT token to use for auth. Can be obtained from via the [Dapla CLI](#local-auth).                          |
 | `DANGEROUSLY_DISABLE_USER_AUTH`  | `true` to completely disable token verification and take full control over authentication                    |
 | `IS_AUTHENTICATED`               | `true` to hardcode successful authentication. Only applies under `DANGEROUSLY_DISABLE_USER_AUTH` mode        |

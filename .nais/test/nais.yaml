@@ -49,6 +49,10 @@ spec:
       value: http://klass
     - name: KLASS_USE_STATIC_DATA
       value: "false"
+    - name: KLASS_SUBSCRIBER_USE_STATIC_DATA
+      value: "false"
+    - name: KLASS_SEARCH_USE_STATIC_DATA
+      value: "false"
     - name: VARDEF_API_DOCS_URL
       value: "https://metadata.test.ssb.no/docs/swagger/variable-definitions"
     - name: KLASS_API_DOCS_URL

@@ -237,7 +237,7 @@ async function klassPost(path: string, params: Record<string, string>): Promise<
 /**
  * Subscribes a user to change notifications for a specific classification.
  *
- * When `KLASS_STATIC_SUBSCRIBER` is `true`, returns a mock response based on
+ * When `KLASS_SUBSCRIBER_USE_STATIC_DATA` is `true`, returns a mock response based on
  * whether the email/classificationId pair already exists in the static data.
  *
  * @param subscriber - The subscriber details containing `email` and `classificationId`
@@ -250,7 +250,7 @@ async function klassPost(path: string, params: Record<string, string>): Promise<
 export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeResult> {
   const logger = createLogger('subscriber');
 
-  if (process.env.KLASS_STATIC_SUBSCRIBER === 'true') {
+  if (process.env.KLASS_SUBSCRIBER_USE_STATIC_DATA === 'true') {
     logger.warn('Using static mock data for subscriber');
     const exists = subscribersMock.some(
       (s) => s.email === subscriber.email && s.classificationId === subscriber.classificationId,
