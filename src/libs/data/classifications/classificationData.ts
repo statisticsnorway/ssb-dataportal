@@ -211,10 +211,12 @@ export async function fetchSearchResult(searchRequest: SearchRequest): Promise<S
 }
 
 /**
+ * Makes a POST request to the Klass API at the given path with query parameters.
  *
- * @param path
- * @param params
- * @returns
+ * @param path - The API endpoint path (e.g. `/api/klass/v1/classifications/1/trackChanges`)
+ * @param params - Key-value pairs to append as query string parameters
+ * @returns A promise that resolves to the raw `Response` object
+ * @throws {Error} If `KLASS_BASE_PATH` is not configured
  */
 async function klassPost(path: string, params: Record<string, string>): Promise<Response> {
   const klassBasePath = process.env.KLASS_BASE_PATH;
@@ -233,9 +235,17 @@ async function klassPost(path: string, params: Record<string, string>): Promise<
 }
 
 /**
+ * Subscribes a user to change notifications for a specific classification.
  *
- * @param subscriber
- * @returns
+ * When `KLASS_STATIC_SUBSCRIBER` is `true`, returns a mock response based on
+ * whether the email/classificationId pair already exists in the static data.
+ *
+ * @param subscriber - The subscriber details containing `email` and `classificationId`
+ * @returns A promise that resolves to a `SubscribeResult` with a status code, message, and color
+ *   - `SubscribeStatus.Created` – subscription was successfully created
+ *   - `SubscribeStatus.Exists` – email is already subscribed to this classification
+ *   - `SubscribeStatus.Error` – subscription failed due to a server or network error
+ * @throws {Error} If an unexpected error occurs during the request
  */
 export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeResult> {
   const logger = createLogger('subscriber');
