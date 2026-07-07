@@ -4,7 +4,7 @@ import { postSubscriber } from '@/libs/data/classifications/classificationData';
 import { localization } from '@/libs/language/src/localization';
 import { clientLogger } from '@/libs/logger/client-logger';
 import { SubscribeResult, Subscriber, SubscribeStatus, ValidationMessageColors } from '@/types/subscription';
-import { validateEmailInput } from '@/utils/classifications/classificationHelpers';
+import { validateEmailInput } from '@/utils/validators';
 import styles from './subscribe.module.css';
 
 const SubscribeDialog = ({ classificationId }: { classificationId: number | undefined }) => {
@@ -71,7 +71,9 @@ const SubscribeDialog = ({ classificationId }: { classificationId: number | unde
               />
             )}
             {subscribeResult && (
-              <ValidationMessage role='alert' data-color={subscribeResult.dataColor}>{subscribeResult.message}</ValidationMessage>
+              <ValidationMessage role='alert' data-color={subscribeResult.dataColor}>
+                {subscribeResult.message}
+              </ValidationMessage>
             )}
           </Field>
           {persistedResult.current ? null : (
