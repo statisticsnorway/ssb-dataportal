@@ -34,7 +34,7 @@ export function CodeTreeRow({
   const isSelected = selectedCode === code.code;
 
   return (
-    <li role='treeitem' aria-expanded={hasChildren ? isExpanded : undefined}>
+    <li role='treeitem' aria-expanded={hasChildren ? isExpanded : undefined} aria-selected={isSelected}>
       <div
         className={hasChildren ? `${styles.row} ${styles.expandableRow}` : styles.row}
         style={{ '--depth': depth } as React.CSSProperties}
