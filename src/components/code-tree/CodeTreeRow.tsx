@@ -35,7 +35,11 @@ export function CodeTreeRow({
 
   return (
     <li role='treeitem' aria-expanded={hasChildren ? isExpanded : undefined}>
-      <div className={styles.row} style={{ paddingLeft: `${depth * 1.5}rem` }}>
+      <div
+        className={hasChildren ? `${styles.row} ${styles.expandableRow}` : styles.row}
+        style={{ '--depth': depth } as React.CSSProperties}
+        data-depth={depth}
+      >
         {hasChildren ? (
           <button
             type='button'

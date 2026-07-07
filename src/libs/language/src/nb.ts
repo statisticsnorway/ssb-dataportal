@@ -57,6 +57,8 @@ export const nb = {
     collapseAll: 'Lukk alle',
     codeColumn: 'Kode',
     nameColumn: 'Navn',
+    back: 'Tilbake',
+    subcodes: 'Åpne underkoder',
   },
   codeSnippet: {
     codeExample: 'Kodeeksempel',
