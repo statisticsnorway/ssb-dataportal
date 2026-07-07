@@ -122,4 +122,3 @@ export async function fetchClassificationById(id: number): Promise<Classificatio
   }
   return classification;
 }
-
