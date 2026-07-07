@@ -19,7 +19,7 @@ export const FeedbackCallout = () => {
           <Paragraph>
             {localization.info.feedbackBody}{' '}
             <ExternalLink
-              linkText={localization.info.feedBackForm}
+              linkText={localization.info.feedbackForm}
               href='https://forms.office.com/Pages/ResponsePage.aspx?id=knAhx0CyHU69YfqXupdcvG8mQNraR5ZAu3es4-se84xUN0VFME5BSVFSUTZDRUZCTzNTVUlFTDlUNC4u'
             />
           </Paragraph>

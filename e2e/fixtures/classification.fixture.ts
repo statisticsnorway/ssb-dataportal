@@ -11,7 +11,6 @@ export const test = base.extend<{
     await use(async (id: string | number) => {
       test.skip(testInfo.project.name === 'chrome-unauth');
       await page.goto(`/classifications/${id}`);
-      //await expect(page).toHaveURL(new RegExp(`/classifications/${id}/codes`));
       await stabilize();
       return page;
     });
@@ -19,3 +18,7 @@ export const test = base.extend<{
 });
 
 export { expect };
+
+// ...existing code...
+
+export type ClassificationFixture = Awaited<ReturnType<ClassificationDetailsFixture>>;

@@ -8,7 +8,6 @@ metadata:
 spec:
   ingresses:
     - https://dataportal-dev.test.ssb.no
-    - https://metadata-catalog-dev.test.ssb.no # TODO: Remove once communicated
   port: 3000
   accessPolicy:
     outbound:
@@ -45,6 +44,10 @@ spec:
     - name: KLASS_BASE_PATH
       value: http://klass
     - name: KLASS_USE_STATIC_DATA
+      value: "false"
+    - name: KLASS_SUBSCRIBER_USE_STATIC_DATA
+      value: "false"
+    - name: KLASS_SEARCH_USE_STATIC_DATA
       value: "false"
     - name: HIDE_CLASSIFICATIONS
       value: "false"

@@ -39,6 +39,15 @@ export const nb = {
     standard: 'Standard',
     codeListPrefix: 'Kodeliste for',
     standardPrefix: 'Standard for',
+    emailPlaceholder: 'Din e-postadresse',
+    subscribe: 'Abonner',
+    subscription: 'Abonnement',
+    subscribeMessageError: 'Det oppstod en feil under registering',
+    subscribeMessageAlready: 'Du er allerede abonnent',
+    subscribeConfirm: 'Bekreft abonnement',
+    subscribeInfo: 'Abonner på oppdateringer for denne klassifikasjonen',
+    subscribeMessageSuccess: 'Du vil motta en mail. Følg instruksjonene i mailen for å starte ditt abonnement.',
+    subscribeMessageInvalidEmail: 'Skriv inn en gyldig e-postadresse',
   },
   classificationDetails: {
     codes: 'Koder',
@@ -175,11 +184,11 @@ export const nb = {
     classificationsPrototypeInfo:
       'En ny og forbedret visning av Klass lanseres ila 2026. Frem til lansering må du bruke dagens løsning på',
     datasetPrototypeIntro: 'Under utvikling',
-    datasetProtoypeInfo:
+    datasetPrototypeInfo:
       'Denne siden beskriver et utvalg av data i SSB. Utvikling fortsetter med flere typer data og mer detaljerte beskrivelser.',
     feedbackTitle: 'Del dine erfaringer!',
     feedbackBody: 'Vi jobber kontinuerlig med å forbedre dataportalen og du kan hjelpe oss ved å fylle ut',
-    feedBackForm: 'tilbakemeldingsskjema for SSB Dataportal',
+    feedbackForm: 'tilbakemeldingsskjema for SSB Dataportal',
     footerAboutPage: 'Om nettstedet',
     footerContact: 'Kom i kontakt',
     footerAccessibilityStatement: 'Tilgjengelighetserklæring',
