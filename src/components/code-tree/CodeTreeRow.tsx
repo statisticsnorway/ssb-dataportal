@@ -34,13 +34,12 @@ export function CodeTreeRow({
   const isSelected = selectedCode === code.code;
 
   return (
-    <li>
+    <li role='treeitem' aria-expanded={hasChildren ? isExpanded : undefined}>
       <div className={styles.row} style={{ paddingLeft: `${depth * 1.5}rem` }}>
         {hasChildren ? (
           <button
             type='button'
             className={styles.chevronButton}
-            aria-expanded={isExpanded}
             aria-label={
               isExpanded
                 ? `${localization.codeTree.collapse} ${code.name}`
@@ -48,7 +47,11 @@ export function CodeTreeRow({
             }
             onClick={() => onToggle(code.code)}
           >
-            {isExpanded ? <ChevronDownIcon fontSize='1.25rem' /> : <ChevronRightIcon fontSize='1.25rem' />}
+            {isExpanded ? (
+              <ChevronDownIcon fontSize='1.25rem' aria-hidden />
+            ) : (
+              <ChevronRightIcon fontSize='1.25rem' aria-hidden />
+            )}
           </button>
         ) : (
           <span className={styles.chevronPlaceholder} aria-hidden='true' />
@@ -65,12 +68,15 @@ export function CodeTreeRow({
           }}
         >
           <span className={styles.codeLabel}>{code.code}</span>
+          <span className={styles.separator} aria-hidden='true'>
+            –
+          </span>
           <span className={styles.nameLabel}>{code.name}</span>
         </button>
       </div>
 
       {hasChildren && isExpanded && (
-        <ul className={styles.children}>
+        <ul className={styles.children} role='group'>
           {node.children.map((child) => (
             <CodeTreeRow
               key={child.code.code}
