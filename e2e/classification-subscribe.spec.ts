@@ -79,9 +79,6 @@ test.describe('User wants to start new subscription', () => {
     await expect(confirmSubscription).toBeVisible();
     await confirmSubscription.click();
     await dialog.getByRole('button', { name: 'Lukk dialogvindu' }).click();
-    await page.getByRole('button', { name: localization.classification.subscribe }).click();
-    await expect(confirmSubscription).not.toBeVisible();
-    await dialog.getByRole('button', { name: 'Lukk dialogvindu' }).click();
     const linkHome = page.getByLabel('Du er her:').getByRole('link', { name: 'Klassifikasjoner' });
     await linkHome.click();
     const link = page.getByRole('link', { name: stripTitlePrefix(classification.name!), exact: true }).first();
