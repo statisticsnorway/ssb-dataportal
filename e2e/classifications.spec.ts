@@ -7,6 +7,7 @@ import { CLASSIFICATIONS_URL, REMOVE_STANDARD } from './utils/variables';
 
 const arbeidOgLonn = 'Arbeid og lønn';
 const bankOgFinans = 'Bank og finansmarked';
+const months = 'Standard for måneder';
 const classifications = classificationsMock.classifications;
 const codeListPrefix = 'Kodeliste for';
 const standardPrefix = 'Standard for';
@@ -173,7 +174,7 @@ test.describe('Classifications - search card', () => {
   });
 
   test('displays card without description if null', async ({ classificationsPage }) => {
-    const classification = parseClassification(classifications[4]);
+    const classification = parseClassification(classifications[3]);
     expect(classification.description).toBeUndefined();
     const card = classificationsPage.getByRole('article', { name: stripTitlePrefix(classification.name) });
     await expect(card).toBeVisible();

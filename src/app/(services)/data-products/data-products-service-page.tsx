@@ -163,7 +163,7 @@ export const DataProductsServicePage = ({
       <Heading level={2} className='infoHeadingSecondary'>
         {localization.info.datasetPrototypeIntro}
       </Heading>
-      <Paragraph>{localization.info.datasetProtoypeInfo}</Paragraph>
+      <Paragraph>{localization.info.datasetPrototypeInfo}</Paragraph>
     </Alert>
   );
 
