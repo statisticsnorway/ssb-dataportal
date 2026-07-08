@@ -116,7 +116,49 @@ jobs:
           path: coverage/
 
   e2e-tests:
-    timeout-minutes: 60
+    timeout-minutes: 25
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2, 3, 4]
+        shardTotal: [4]
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - name: Install pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+        with:
+          version: 11
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: lts/*
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Install Playwright Browsers
+        run: pnpm playwright install --with-deps
+      - name: Run Playwright tests (shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }})
+        run: pnpm playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        env:
+          NEXT_TEST: "test"
+      - name: Upload blob report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: blob-report-${{ matrix.shardIndex }}
+          path: blob-report/
+      - name: Upload e2e coverage shard
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: e2e-coverage-${{ matrix.shardIndex }}
+          path: results/e2e-coverage/
+
+  merge-e2e-results:
+    needs: [e2e-tests]
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -133,27 +175,39 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Install Playwright Browsers
-        run: pnpm playwright install --with-deps
-      - name: Run Playwright tests with coverage
-        run: pnpm test:e2e
-        env:
-          NEXT_TEST: "test"
-      - name: Upload e2e coverage
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - name: Download blob reports
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
-          name: e2e-coverage
-          path: results/e2e-coverage/
-      - name: Upload Playwright report
+          pattern: blob-report-*
+          path: all-blob-reports
+          merge-multiple: true
+      - name: Merge Playwright reports
+        run: pnpm playwright merge-reports --reporter html ./all-blob-reports
+      - name: Upload merged Playwright report
         if: ${{ always() }}
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+      - name: Download e2e coverage shards
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        with:
+          pattern: e2e-coverage-*
+          path: all-e2e-coverage
+      - name: Merge lcov coverage files
+        run: |
+          mkdir -p results/e2e-coverage
+          pnpm dlx lcov-result-merger 'all-e2e-coverage/*/coverage.lcov' results/e2e-coverage/coverage.lcov
+      - name: Upload merged e2e coverage
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: e2e-coverage
+          path: results/e2e-coverage/
+
   sonarqube:
     if: github.actor != 'dependabot[bot]'
-    needs: [unit-tests, e2e-tests]
+    needs: [unit-tests, merge-e2e-results]
     permissions:
       contents: read
       actions: read
