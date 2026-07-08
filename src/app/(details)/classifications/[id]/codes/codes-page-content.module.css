@@ -1,0 +1,8 @@
+.wrapper {
+  display: grid;
+  gap: 1rem;
+}
+
+.searchScope {
+  max-width: 30rem;
+}
