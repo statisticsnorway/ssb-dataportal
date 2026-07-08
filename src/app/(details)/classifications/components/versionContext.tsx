@@ -1,0 +1,29 @@
+'use client';
+
+import { createContext, useContext } from 'react';
+import { ClassificationResource } from '@/libs/data-access/klass';
+
+type VersionContextType = {
+  version: ClassificationResource;
+  isLatest: boolean;
+};
+
+const VersionContext = createContext<VersionContextType | null>(null);
+
+export function VersionProvider({
+  version,
+  isLatest,
+  children,
+}: {
+  version: ClassificationResource;
+  isLatest: boolean;
+  children: React.ReactNode;
+}) {
+  return <VersionContext.Provider value={{ version, isLatest }}>{children}</VersionContext.Provider>;
+}
+
+export function useVersion() {
+  const ctx = useContext(VersionContext);
+  if (!ctx) throw new Error('useVersion must be used within VersionProvider');
+  return ctx;
+}

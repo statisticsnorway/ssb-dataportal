@@ -9,7 +9,7 @@ import { localization } from '@/libs/language/src/localization';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
-import ClassificationDetail from './classificationDetail';
+import ClassificationDetail from '../components/classificationDetail';
 
 const showInfoOnly = process.env.HIDE_CLASSIFICATIONS === 'true';
 
@@ -45,6 +45,12 @@ const getPageData = cache(async (id: number) => {
   return { classification };
 });
 
+function resolveLatestVersion(classification: ClassificationResource) {
+  const versions = classification.versions ?? [];
+  if (versions.length === 0) return null;
+  return [...versions].sort((a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0))[0] ?? null;
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const { classification } = await getPageData(Number(id)).catch(() => ({
@@ -69,6 +75,12 @@ export default async function ClassificationLayout({
     return notFound();
   });
 
+  const latestVersion = resolveLatestVersion(classification);
+  if (!latestVersion) {
+    logger.warn({ id }, 'Classification has no versions');
+    return notFound();
+  }
+
   logger.info({ id }, 'Classification detail page access');
 
   if (showInfoOnly) {
@@ -76,5 +88,9 @@ export default async function ClassificationLayout({
     return renderInfoOnlyPage();
   }
 
-  return <ClassificationDetail classification={classification}>{children}</ClassificationDetail>;
+  return (
+    <ClassificationDetail classification={classification} version={latestVersion}>
+      {children}
+    </ClassificationDetail>
+  );
 }

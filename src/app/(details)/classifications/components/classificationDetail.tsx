@@ -8,12 +8,18 @@ import { ClassificationResource } from '@/libs/data-access/klass/models/Classifi
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import styles from './classification-page.module.css';
-import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from './tabs';
+import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from '../[id]/tabs';
 
+interface ClassificationDetailProps {
+  classification: ClassificationResource;
+  children: React.ReactNode;
+  version: ClassificationResource;
+}
 export default function ClassificationDetail({
   classification,
   children,
-}: Readonly<{ classification: ClassificationResource; children: React.ReactNode }>) {
+  version,
+}: Readonly<ClassificationDetailProps>) {
   const pathname = usePathname();
   const router = useRouter();
   const activeTab = getClassificationDetailsTabForRoute(pathname) ?? classificationDetailsTabsData.Codes;
@@ -41,7 +47,7 @@ export default function ClassificationDetail({
         <SubscribeDialog classificationId={classification.id} />
         <Divider />
         <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='lg' level={2}>
-          Versjonens navn
+          {version?.name ?? '—'}
         </Heading>
         {validTag && <Tag>Er dette dagens versjon?</Tag>}
         <Tabs value={activeTab.id}>
