@@ -138,7 +138,7 @@ export const nb = {
       notFoundCodes: 'Koder ikke funnet',
       notFoundAboutClassification: 'Om klassifikasjonen ikke funnet',
       notFoundChanges: 'Endringer ikke funnet',
-      notFoundAllVersions: 'Alle versjoner ikke funnet',
+      notFoundVersions: 'Versjoner ikke funnet',
       notFoundCorrespondences: 'Korrespondanser ikke funnet',
       notFoundVariants: 'Varianter ikke funnet',
     },
