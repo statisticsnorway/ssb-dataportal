@@ -1,22 +1,32 @@
-import Link from 'next/link';
+import { Link } from '@digdir/designsystemet-react';
+import { VersionsTable } from '@/app/(details)/classifications/components/details-table';
 import { ClassificationVersionSummaryResource } from '@/libs/data-access/klass';
+import { VersionItem } from '@/types/item';
 
 interface VersionsViewProps {
   classificationId: number;
   versions: ClassificationVersionSummaryResource[];
 }
 
-export default function VersionsView({ classificationId, versions }: Readonly<VersionsViewProps>) {
+export const mapVersions = (v: ClassificationVersionSummaryResource, classificationId: number): VersionItem[] => [
+  {
+    label: 'Navn',
+    value: <Link href={`/classifications/${classificationId}/version/${v.id}/codes`}>{v.name}</Link>,
+  },
+  {
+    label: 'Gyldig fra',
+    value: v.validFrom,
+  },
+  {
+    label: 'Gyldig til',
+    value: v.validTo ? v.validTo : "Nå",
+  },
+];
+
+export default function VersionsView({ versions, classificationId }: Readonly<VersionsViewProps>) {
   return (
     <div>
-      {versions.map((version) => (
-        <div key={version.id}>
-          <Link href={`/classifications/${classificationId}/version/${version.id}/codes`}>{version.name}</Link>
-          <span>
-            {version.validFrom?.getFullYear()} – {version.validTo?.getFullYear() ?? 'nå'}
-          </span>
-        </div>
-      ))}
+      <VersionsTable content={versions.map((v) => mapVersions(v, classificationId))} />
     </div>
   );
 }
