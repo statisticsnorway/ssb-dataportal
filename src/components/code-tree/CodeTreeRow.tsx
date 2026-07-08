@@ -97,7 +97,6 @@ export function CodeTreeRow({
               </Dialog.Block>
               <Dialog.Block>
                 {parseNotes(code.notes).map((section, idx) => (
-                  // biome-ignore lint/suspicious/noArrayIndexKey: static parsed sections, no stable key available
                   <div key={idx} className={styles.notesSection}>
                     {section.title && (
                       <Heading level={2} data-size='xs'>

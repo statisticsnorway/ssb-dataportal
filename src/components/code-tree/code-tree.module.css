@@ -158,6 +158,7 @@
   height: 91%;
   border-radius: 50%;
   background-color: transparent;
+  z-index: -1;
 }
 
 @media (hover: hover) and (pointer: fine) {
