@@ -15,7 +15,14 @@
         "name": "Bergverksdrift og utvinning",
         "validFrom": "2008-01-01"
       },
-      { "code": "C", "parentCode": null, "level": "1", "name": "Industri", "validFrom": "2008-01-01" },
+      {
+        "code": "C",
+        "parentCode": null,
+        "level": "1",
+        "name": "Industri",
+        "validFrom": "2008-01-01",
+        "notes": "Omfatter:\nDette næringshovedområdet omfatter bearbeiding og foredling av materialer og stoffer til nye produkter.\nOmfatter også:\nMontasje av komponenter til ferdigprodukter grupperes her.\nEkskluderer:\nBygging og anleggsvirksomhet grupperes under næring F."
+      },
       {
         "code": "01",
         "parentCode": "A",

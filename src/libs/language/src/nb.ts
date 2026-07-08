@@ -72,6 +72,7 @@ export const nb = {
     nameColumn: 'Navn',
     back: 'Tilbake',
     subcodes: 'Åpne underkoder',
+    notesButtonLabel: 'Vis tilleggsinformasjon for',
   },
   codeSnippet: {
     codeExample: 'Kodeeksempel',
