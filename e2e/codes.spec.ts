@@ -126,7 +126,7 @@ test.describe('/classifications/[id]/codes', () => {
   });
 });
 
-test.describe('/classifications/[id]/codes/version/[versionNumber]', () => {
+test.describe('/classifications/[id]/version/[versionNumber]/codes', () => {
   test('renders the code tree for the given version', async ({ page, codesVersionPage: _ }) => {
     await page.goto(CODES_VERSION_URL);
     await expect(page.getByRole('tree', { name: localization.codeTree.label })).toBeVisible();

@@ -44,7 +44,7 @@ test.describe('Classifications details tabs', () => {
   test('All versions tab is visible', async ({ classificationDetailsPage }) => {
     const classification = parseClassification(classifications[3]);
     const page = await classificationDetailsPage(classification.id!);
-    const tab = page.getByRole('tab', { name: localization.classificationDetails.allVersions });
+    const tab = page.getByRole('tab', { name: localization.classificationDetails.versions });
     await expect(tab).toBeVisible();
   });
   test('Correspondences tab is visible', async ({ classificationDetailsPage }) => {

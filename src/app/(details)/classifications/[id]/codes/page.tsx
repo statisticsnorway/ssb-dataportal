@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { fetchLatestVersionCodes } from '@/libs/data/classifications/codesData';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
-import { CodesPageContent } from './CodesPageContent';
+import { CodesView } from '../../components/views/CodesView';
 
 export default async function Codes({ params }: Readonly<{ params: Promise<{ id: string }> }>) {
   const logger = createLogger('codes-page');
@@ -16,5 +16,5 @@ export default async function Codes({ params }: Readonly<{ params: Promise<{ id:
     return notFound();
   });
 
-  return <CodesPageContent codes={codes} />;
+  return <CodesView codes={codes} />;
 }

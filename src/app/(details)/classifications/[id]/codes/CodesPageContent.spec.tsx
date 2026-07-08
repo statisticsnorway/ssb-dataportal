@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import type { KlassCode } from '@/types/klass-codes';
-import { CodesPageContent } from './CodesPageContent';
+import { CodesView } from '../../components/views/CodesView';
 
 vi.mock('@/components/code-tree', () => ({
   CodeTree: ({ codes }: { codes: KlassCode[] }) => (
@@ -29,9 +29,9 @@ const CODES: KlassCode[] = [
   makeCode({ code: 'B', level: '1', name: 'Boats' }),
 ];
 
-describe('CodesPageContent', () => {
+describe('CodesView', () => {
   it('renders all codes before filters are applied', () => {
-    render(<CodesPageContent codes={CODES} />);
+    render(<CodesView codes={CODES} />);
 
     expect(screen.getByText('A:Animals')).toBeInTheDocument();
     expect(screen.getByText('A1:Cats')).toBeInTheDocument();
@@ -44,7 +44,7 @@ describe('CodesPageContent', () => {
     { searchTerm: 'dog', visible: 'A2:Dogs', hidden: 'A1:Cats' },
     { searchTerm: 'cat', visible: 'A1:Cats', hidden: 'A2:Dogs' },
   ])('filters with "$searchTerm" using a single filter field', ({ searchTerm, visible, hidden }) => {
-    render(<CodesPageContent codes={CODES} />);
+    render(<CodesView codes={CODES} />);
 
     fireEvent.change(screen.getByLabelText('Filtrer på kode eller navn'), { target: { value: searchTerm } });
 

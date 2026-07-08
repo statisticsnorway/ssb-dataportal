@@ -6,9 +6,9 @@ import { CodeTree } from '@/components/code-tree';
 import { localization } from '@/libs/language';
 import type { KlassCode } from '@/types/klass-codes';
 import { filterCodesWithAncestors } from '@/utils/classifications/filterCodes';
-import styles from './codes-page-content.module.css';
+import styles from './views.module.css';
 
-interface CodesPageContentProps {
+interface CodesViewProps {
   codes: KlassCode[];
 }
 
@@ -17,7 +17,7 @@ interface CodesPageContentProps {
  * The classification layout already supplies the heading, breadcrumbs and tab chrome;
  * this component is responsible for filter inputs and rendering the filtered tree.
  */
-export function CodesPageContent({ codes }: Readonly<CodesPageContentProps>) {
+export function CodesView({ codes }: Readonly<CodesViewProps>) {
   const [filterTerm, setFilterTerm] = useState('');
 
   const filteredCodes = useMemo(() => filterCodesWithAncestors(codes, filterTerm), [codes, filterTerm]);
