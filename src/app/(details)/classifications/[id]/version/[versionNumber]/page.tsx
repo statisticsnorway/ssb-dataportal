@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { fetchVersionCodes } from '@/libs/data/classifications/codesData';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
-import { CodesPageContent } from '../../codes/CodesPageContent';
+import { CodesView } from '../../../components/views/CodesView';
 
 export default async function CodesVersion({
   params,
@@ -18,5 +18,5 @@ export default async function CodesVersion({
     return notFound();
   });
 
-  return <CodesPageContent codes={codes} />;
+  return <CodesView codes={codes} />;
 }
