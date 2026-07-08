@@ -150,7 +150,6 @@
 @media (hover: hover) and (pointer: fine) {
   .infoButton:hover {
     color: var(--ds-color-neutral-text-default);
-    background-color: var(--ds-color-surface-hover);
   }
 }
 
