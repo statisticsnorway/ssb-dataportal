@@ -39,36 +39,18 @@ describe('CodesPageContent', () => {
     expect(screen.getByText('B:Boats')).toBeInTheDocument();
   });
 
-  it('filters by code using a single search field', () => {
+  it.each([
+    { searchTerm: 'A1', visible: 'A1:Cats', hidden: 'A2:Dogs' },
+    { searchTerm: 'dog', visible: 'A2:Dogs', hidden: 'A1:Cats' },
+    { searchTerm: 'cat', visible: 'A1:Cats', hidden: 'A2:Dogs' },
+  ])('filters with "$searchTerm" using a single filter field', ({ searchTerm, visible, hidden }) => {
     render(<CodesPageContent codes={CODES} />);
 
-    fireEvent.change(screen.getByLabelText('Filtrer på kode eller navn'), { target: { value: 'A1' } });
+    fireEvent.change(screen.getByLabelText('Filtrer på kode eller navn'), { target: { value: searchTerm } });
 
     expect(screen.getByText('A:Animals')).toBeInTheDocument();
-    expect(screen.getByText('A1:Cats')).toBeInTheDocument();
-    expect(screen.queryByText('A2:Dogs')).not.toBeInTheDocument();
-    expect(screen.queryByText('B:Boats')).not.toBeInTheDocument();
-  });
-
-  it('filters by name using a single search field', () => {
-    render(<CodesPageContent codes={CODES} />);
-
-    fireEvent.change(screen.getByLabelText('Filtrer på kode eller navn'), { target: { value: 'dog' } });
-
-    expect(screen.getByText('A:Animals')).toBeInTheDocument();
-    expect(screen.getByText('A2:Dogs')).toBeInTheDocument();
-    expect(screen.queryByText('A1:Cats')).not.toBeInTheDocument();
-    expect(screen.queryByText('B:Boats')).not.toBeInTheDocument();
-  });
-
-  it('matches both code and name from the same search field', () => {
-    render(<CodesPageContent codes={CODES} />);
-
-    fireEvent.change(screen.getByLabelText('Filtrer på kode eller navn'), { target: { value: 'cat' } });
-
-    expect(screen.getByText('A:Animals')).toBeInTheDocument();
-    expect(screen.getByText('A1:Cats')).toBeInTheDocument();
-    expect(screen.queryByText('A2:Dogs')).not.toBeInTheDocument();
+    expect(screen.getByText(visible)).toBeInTheDocument();
+    expect(screen.queryByText(hidden)).not.toBeInTheDocument();
     expect(screen.queryByText('B:Boats')).not.toBeInTheDocument();
   });
 });
