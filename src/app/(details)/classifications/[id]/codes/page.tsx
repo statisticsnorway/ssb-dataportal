@@ -1,9 +1,11 @@
 import { notFound } from 'next/navigation';
-import { fetchLatestVersionCodes } from '@/libs/data/classifications/codesData';
+import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
+import { fetchVersionCodes } from '@/libs/data/classifications/codesData';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import { CodesView } from '../../components/views/CodesView';
 
+/*
 export default async function Codes({ params }: Readonly<{ params: Promise<{ id: string }> }>) {
   const logger = createLogger('codes-page');
   const { id } = await params;
@@ -13,6 +15,32 @@ export default async function Codes({ params }: Readonly<{ params: Promise<{ id:
 
   const codes = await fetchLatestVersionCodes(classificationId).catch((error) => {
     logger.error({ id, error: sanitizeError(error) }, 'Failed to load classification codes');
+    return notFound();
+  });
+
+  return <CodesView codes={codes} />;
+}*/
+
+export default async function Codes({ params }: Readonly<{ params: Promise<{ id: string }> }>) {
+  const logger = createLogger('codes-page');
+  const { id } = await params;
+  const classificationId = Number(id);
+
+  if (Number.isNaN(classificationId)) return notFound();
+
+  // Re-uses Next.js Data Cache — no extra network call, same fetch as layout
+  const classification = await fetchClassificationById(classificationId).catch((error) => {
+    logger.error({ id, error: sanitizeError(error) }, 'Failed to load classification');
+    return notFound();
+  });
+
+  const versions = classification.versions ?? [];
+  const latestVersion = [...versions].sort((a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0))[0];
+
+  if (!latestVersion?.id) return notFound();
+
+  const codes = await fetchVersionCodes(latestVersion.id).catch((error) => {
+    logger.error({ id, versionId: latestVersion.id, error: sanitizeError(error) }, 'Failed to load codes');
     return notFound();
   });
 

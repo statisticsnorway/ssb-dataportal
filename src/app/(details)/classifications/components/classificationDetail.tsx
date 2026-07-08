@@ -1,30 +1,19 @@
 'use client';
 
-import { Divider, Heading, Paragraph, Tabs, Tag } from '@digdir/designsystemet-react';
-import { usePathname, useRouter } from 'next/navigation';
+import { Divider, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { SubscribeDialog } from '@/app/(details)/classifications/components/subscribe';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import styles from './classification-page.module.css';
-import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from '../[id]/tabs';
+import { VersionView } from './views/VersionView';
 
 interface ClassificationDetailProps {
   classification: ClassificationResource;
   children: React.ReactNode;
-  version: ClassificationResource;
 }
-export default function ClassificationDetail({
-  classification,
-  children,
-  version,
-}: Readonly<ClassificationDetailProps>) {
-  const pathname = usePathname();
-  const router = useRouter();
-  const activeTab = getClassificationDetailsTabForRoute(pathname) ?? classificationDetailsTabsData.Codes;
-
-  const validTag = true;
+export default function ClassificationDetail({ classification, children }: Readonly<ClassificationDetailProps>) {
   return (
     <div className={`${styles.detailsPage} container`}>
       <DataportalBreadcrumbs
@@ -46,28 +35,7 @@ export default function ClassificationDetail({
         )}
         <SubscribeDialog classificationId={classification.id} />
         <Divider />
-        <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='lg' level={2}>
-          {version?.name ?? '—'}
-        </Heading>
-        {validTag && <Tag>Er dette dagens versjon?</Tag>}
-        <Tabs value={activeTab.id}>
-          <Tabs.List className={styles.tabList} aria-label={localization.tabs.ariaLabel}>
-            {Object.values(classificationDetailsTabsData).map((tab) => (
-              <Tabs.Tab
-                aria-controls={tab.id}
-                key={tab.id}
-                value={tab.id}
-                className={`${styles.tab} font-roboto`}
-                onClick={() => router.push(`/classifications/${classification.id}/${tab.slug}`)}
-              >
-                {tab.label}
-              </Tabs.Tab>
-            ))}
-          </Tabs.List>
-          <Tabs.Panel value={activeTab.id} id={activeTab.id}>
-            {children}
-          </Tabs.Panel>
-        </Tabs>
+        <VersionView classification={classification}>{children}</VersionView>
       </main>
     </div>
   );

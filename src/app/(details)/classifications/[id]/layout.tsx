@@ -89,7 +89,7 @@ export default async function ClassificationLayout({
   }
 
   return (
-    <ClassificationDetail classification={classification} version={latestVersion}>
+    <ClassificationDetail classification={classification}>
       {children}
     </ClassificationDetail>
   );

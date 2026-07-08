@@ -1,6 +1,5 @@
 'use server';
 
-import { ClassificationLanguageEnum, ClassificationsApi } from '@/libs/data-access/klass/apis/ClassificationsApi';
 import { VersionsApi, VersionsLanguageEnum } from '@/libs/data-access/klass/apis/VersionsApi';
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
 import { sanitizeError } from '@/libs/logger/sanitize';
@@ -25,9 +24,10 @@ function buildKlassClientConfig(): ConfigurationParameters {
   return config;
 }
 
+/*
 function getClassificationsClient(): ClassificationsApi {
   return new ClassificationsApi(new Configuration(buildKlassClientConfig()));
-}
+}*/
 
 function getVersionsClient(): VersionsApi {
   return new VersionsApi(new Configuration(buildKlassClientConfig()));
@@ -73,16 +73,17 @@ export async function fetchVersionCodes(versionId: number): Promise<KlassCode[]>
  *
  * Falls back to static mock data when `KLASS_USE_STATIC_DATA=true`.
  */
+/*
 export async function fetchLatestVersionCodes(classificationId: number): Promise<KlassCode[]> {
   if (process.env.KLASS_USE_STATIC_DATA === 'true') {
     logger.warn({ classificationId }, 'Using static mock data for latest version codes');
     const key = String(classificationId) as keyof typeof codesMock.currentCodes;
     return (codesMock.currentCodes[key] ?? []) as KlassCode[];
-  }
+  }*/
 
   // This call shares Next.js's Data Cache with the layout's identical fetch,
   // so it does not add a second network round-trip.
-  const classApi = getClassificationsClient();
+  /*const classApi = getClassificationsClient();
   const classification = await classApi
     .classification({ id: classificationId, language: ClassificationLanguageEnum.NB }, fetchInit)
     .catch((error) => {
@@ -117,3 +118,4 @@ export async function fetchLatestVersionCodes(classificationId: number): Promise
 
   return fetchVersionCodes(latestVersion.id);
 }
+*/
