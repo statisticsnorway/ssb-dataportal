@@ -1,0 +1,67 @@
+{
+  "currentCodes": {
+    "2003": [
+      {
+        "code": "A",
+        "parentCode": null,
+        "level": "1",
+        "name": "Jordbruk, skogbruk og fiske",
+        "validFrom": "2008-01-01"
+      },
+      {
+        "code": "B",
+        "parentCode": null,
+        "level": "1",
+        "name": "Bergverksdrift og utvinning",
+        "validFrom": "2008-01-01"
+      },
+      { "code": "C", "parentCode": null, "level": "1", "name": "Industri", "validFrom": "2008-01-01" },
+      {
+        "code": "01",
+        "parentCode": "A",
+        "level": "2",
+        "name": "Jordbruk og tjenester tilknyttet jordbruk",
+        "validFrom": "2008-01-01"
+      },
+      {
+        "code": "02",
+        "parentCode": "A",
+        "level": "2",
+        "name": "Skogbruk og tjenester tilknyttet skogbruk",
+        "validFrom": "2008-01-01"
+      },
+      {
+        "code": "011",
+        "parentCode": "01",
+        "level": "3",
+        "name": "Dyrking av ettårige vekster",
+        "validFrom": "2008-01-01"
+      }
+    ]
+  },
+  "versionCodes": {
+    "1": [
+      {
+        "code": "A",
+        "parentCode": null,
+        "level": "1",
+        "name": "Jordbruk, skogbruk og fiske (v1)",
+        "validFrom": "2002-01-01"
+      },
+      {
+        "code": "B",
+        "parentCode": null,
+        "level": "1",
+        "name": "Bergverksdrift og utvinning (v1)",
+        "validFrom": "2002-01-01"
+      },
+      {
+        "code": "01",
+        "parentCode": "A",
+        "level": "2",
+        "name": "Jordbruk og tjenester tilknyttet jordbruk (v1)",
+        "validFrom": "2002-01-01"
+      }
+    ]
+  }
+}

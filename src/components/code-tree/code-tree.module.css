@@ -1,0 +1,216 @@
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 0.5rem;
+}
+
+.treeCard {
+  background: var(--ds-color-neutral-surface-default);
+  border-radius: var(--ds-border-radius-lg);
+  border: var(--ds-border-width-default) solid var(--ssb-dark-color-2);
+  overflow: hidden;
+  font-size: 1rem;
+  color: var(--ds-color-neutral-text-default);
+}
+
+.treeHeader {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0.75rem 0.75rem 2.125rem;
+  border-bottom: var(--ds-border-width-default) solid var(--ssb-dark-color-2);
+  background: var(--ds-color-neutral-surface-tinted);
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--ds-color-neutral-text-subtle);
+  gap: 1.5rem;
+}
+
+.treeHeaderCode {
+  flex: 0 0 5rem;
+}
+
+.treeHeaderName {
+  flex: 1;
+}
+
+.tree {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.children {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  min-height: 3.5rem;
+  padding-left: calc(var(--depth, 0) * var(--tree-indent, 1rem));
+  transition: background-color 80ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .expandableRow:hover {
+    background-color: var(--ds-color-surface-hover);
+  }
+}
+
+.expandableRow:active {
+  background-color: var(--ds-color-surface-active);
+}
+
+.chevronButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2rem;
+  align-self: stretch;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: var(--ds-color-neutral-text-subtle);
+  border-radius: var(--ds-border-radius-sm);
+}
+
+.chevronButton:focus-visible {
+  outline: var(--ds-border-width-focus) solid var(--ds-color-focus-outer);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 var(--ds-border-width-focus) var(--ds-color-focus-inner);
+}
+
+.chevronPlaceholder {
+  flex-shrink: 0;
+  width: 2rem;
+}
+
+.rowBody {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
+  min-width: 0;
+  padding: 0.625rem 0.75rem 0.625rem 0.125rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--ds-color-neutral-text-default);
+}
+
+.rowBody:focus-visible {
+  outline: var(--ds-border-width-focus) solid var(--ds-color-focus-outer);
+  outline-offset: 2px;
+  border-radius: var(--ds-border-radius-sm);
+  box-shadow: 0 0 0 var(--ds-border-width-focus) var(--ds-color-focus-inner);
+}
+
+.codeLabel {
+  font-family: var(--font-family-monospace);
+  font-weight: 600;
+  flex: 0 0 5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ds-color-neutral-text-default);
+}
+
+.nameLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  flex: 1;
+}
+
+/* ── Tablet and below: name wraps (≤48rem / ~768px) ─────────────────────────
+   Only the text behaviour changes here — layout, chevrons and indentation
+   are all untouched until the phone breakpoint below.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 48rem) {
+  .treeCard {
+    --tree-indent: 0.625rem;
+  }
+
+  .rowBody {
+    align-items: flex-start;
+  }
+
+  .codeLabel {
+    align-self: center;
+  }
+
+  .nameLabel {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* ── Phone-only compact adjustments (≤30rem / ~480px) ───────────────────────
+   Everything above this point is unchanged. Below we tighten up horizontal
+   space so the tree stays readable on small phone screens without changing
+   the fundamental layout or interaction model.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 30rem) {
+  .treeCard {
+    --tree-indent: 0rem;
+    /* Depth stripe colours — progressively darker blue per level */
+    --stripe-1: #93c5fd;
+    --stripe-2: #60a5fa;
+    --stripe-3: #3b82f6;
+    --stripe-4: #2563eb;
+    --stripe-5: #1d4ed8;
+  }
+
+  /* Header: restore the 2rem left gap that clears the chevron column */
+  .treeHeader {
+    padding-left: 2rem;
+    gap: 0.5rem;
+  }
+
+  /* Auto-size the header code cell to match the content-width rows below */
+  .treeHeaderCode {
+    flex: 0 0 auto;
+  }
+
+  /* Row body: tighten the gap (chevron is back so default left padding applies) */
+  .rowBody {
+    gap: 0.5rem;
+  }
+
+  /* Shrink code cell to its actual text width — eliminates the dead-space column */
+  .codeLabel {
+    flex: 0 0 auto;
+  }
+
+  /* Left-edge depth stripe drawn with inset box-shadow — no layout impact */
+  .row[data-depth="1"] {
+    box-shadow: inset 4px 0 0 var(--stripe-1);
+  }
+  .row[data-depth="2"] {
+    box-shadow: inset 4px 0 0 var(--stripe-2);
+  }
+  .row[data-depth="3"] {
+    box-shadow: inset 4px 0 0 var(--stripe-3);
+  }
+  .row[data-depth="4"] {
+    box-shadow: inset 4px 0 0 var(--stripe-4);
+  }
+  .row[data-depth="5"],
+  .row[data-depth="6"],
+  .row[data-depth="7"],
+  .row[data-depth="8"] {
+    box-shadow: inset 4px 0 0 var(--stripe-5);
+  }
+}

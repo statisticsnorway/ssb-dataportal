@@ -57,6 +57,18 @@ export const nb = {
     correspondences: 'Korrespondanser',
     variants: 'Varianter',
   },
+  codeTree: {
+    label: 'Kodeliste',
+    expand: 'Vis underkoder for',
+    collapse: 'Skjul underkoder for',
+    selectCode: 'Velg kode',
+    expandAll: 'Åpne alle',
+    collapseAll: 'Lukk alle',
+    codeColumn: 'Kode',
+    nameColumn: 'Navn',
+    back: 'Tilbake',
+    subcodes: 'Åpne underkoder',
+  },
   codeSnippet: {
     codeExample: 'Kodeeksempel',
     daplaManual: 'Dapla-manualen',
