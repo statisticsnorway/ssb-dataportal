@@ -8,7 +8,9 @@ import path from 'node:path';
 export default defineConfig({
   reporter: [
     ['list'],
-    ['html', { outputFolder: 'playwright-report', open: 'never' }],
+    process.env.CI
+      ? ['blob', { outputDir: 'blob-report' }]
+      : ['html', { outputFolder: 'playwright-report', open: 'never' }],
     [
       '@bgotink/playwright-coverage',
       defineCoverageReporterConfig({
