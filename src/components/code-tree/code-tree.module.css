@@ -141,7 +141,7 @@
   cursor: pointer;
   padding: 0.25rem;
   color: var(--ds-color-neutral-text-subtle);
-  border-radius: var(--ds-border-radius-sm);
+  border-radius: 50%;
   margin-right: 0.5rem;
 }
 
@@ -156,6 +156,7 @@
   outline: var(--ds-border-width-focus) solid var(--ds-color-focus-outer);
   outline-offset: 2px;
   box-shadow: 0 0 0 var(--ds-border-width-focus) var(--ds-color-focus-inner);
+  border-radius: 50%;
 }
 
 .notesSection {
