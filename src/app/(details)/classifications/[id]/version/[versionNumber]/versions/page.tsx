@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
+import VersionsView from '@/app/(details)/classifications/components/views/VersionsView';
 import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
-import VersionsView from '../../../../components/views/VersionsView';
 
 export default async function Versions({
   params,

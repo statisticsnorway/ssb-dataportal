@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
+import { CodesView } from '@/app/(details)/classifications/components/views/CodesView';
 import { fetchVersionCodes } from '@/libs/data/classifications/codesData';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
-import { CodesView } from '../../../components/views/CodesView';
 
 export default async function CodesVersion({
   params,
