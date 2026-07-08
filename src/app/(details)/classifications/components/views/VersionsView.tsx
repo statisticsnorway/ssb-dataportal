@@ -1,5 +1,5 @@
 import { Link } from '@digdir/designsystemet-react';
-import { VersionsTable } from '@/app/(details)/classifications/components/details-table';
+import { VersionsTable } from '@/app/(details)/classifications/components/versions-table';
 import { ClassificationVersionSummaryResource } from '@/libs/data-access/klass';
 import { VersionItem } from '@/types/item';
 
