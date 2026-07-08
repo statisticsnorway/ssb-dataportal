@@ -6,7 +6,7 @@ import { CodeTree } from '@/components/code-tree';
 import { localization } from '@/libs/language';
 import type { KlassCode } from '@/types/klass-codes';
 import { filterCodesWithAncestors } from '@/utils/classifications/filterCodes';
-import styles from './codes-page-content.module.css';
+import styles from './views.module.css';
 
 interface CodesViewProps {
   codes: KlassCode[];
