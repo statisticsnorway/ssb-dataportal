@@ -1,10 +1,10 @@
 'use client';
 
 import { createContext, useContext } from 'react';
-import { ClassificationResource } from '@/libs/data-access/klass';
+import { ClassificationResource, ClassificationVersionSummaryResource } from '@/libs/data-access/klass';
 
 type VersionContextType = {
-  version: ClassificationResource;
+  version: ClassificationResource | ClassificationVersionSummaryResource;
   isLatest: boolean;
 };
 
@@ -15,7 +15,7 @@ export function VersionProvider({
   isLatest,
   children,
 }: {
-  version: ClassificationResource;
+  version: ClassificationResource | ClassificationVersionSummaryResource;
   isLatest: boolean;
   children: React.ReactNode;
 }) {

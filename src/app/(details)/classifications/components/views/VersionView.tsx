@@ -7,6 +7,7 @@ import { ClassificationResource } from '@/libs/data-access/klass/models/Classifi
 import { localization } from '@/libs/language';
 import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from '../../[id]/tabs';
 import styles from '../classification-page.module.css';
+import { VersionProvider } from '../versionContext';
 
 type ResolvedVersion = NonNullable<ClassificationResource['versions']>[number];
 
@@ -61,7 +62,8 @@ export function VersionView({ classification, children }: Readonly<VersionViewPr
   };
 
   return (
-    <VersionContext.Provider value={resolved}>
+    <VersionProvider version={resolved?.version!} isLatest={resolved?.isLatest ?? false}>
+      {/*<VersionContext.Provider value={resolved}>*/}
       <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='lg' level={2}>
         {resolved?.version.name ?? '—'}
       </Heading>
@@ -84,6 +86,7 @@ export function VersionView({ classification, children }: Readonly<VersionViewPr
           {children}
         </Tabs.Panel>
       </Tabs>
-    </VersionContext.Provider>
+      {/*</VersionContext.Provider>*/}
+    </VersionProvider>
   );
 }
