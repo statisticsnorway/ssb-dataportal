@@ -32,11 +32,6 @@ function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): 
   const versionMatch = pathname.match(/\/version\/(\d+)/);
   const sorted = [...versions].sort((a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0));
 
-  //const pathname = usePathname();
-  //const router = useRouter();
-  //const activeTab = getClassificationDetailsTabForRoute(pathname) ?? classificationDetailsTabsData.Codes;
-
-  //const validTag = true;
   if (versionMatch) {
     const versionId = Number(versionMatch[1]);
     const version = sorted.find((v) => v.id === versionId);
@@ -58,6 +53,13 @@ export function VersionView({ classification, children }: Readonly<VersionViewPr
   const versions = classification.versions ?? [];
   const resolved = resolveVersionFromPath(pathname, versions);
 
+  const getTabUrl = (slug: string) => {
+    if (resolved?.isLatest) {
+      return `/classifications/${classification.id}/${slug}`;
+    }
+    return `/classifications/${classification.id}/version/${resolved?.version.id}/${slug}`;
+  };
+
   return (
     <VersionContext.Provider value={resolved}>
       <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='lg' level={2}>
@@ -72,7 +74,7 @@ export function VersionView({ classification, children }: Readonly<VersionViewPr
               key={tab.id}
               value={tab.id}
               className={`${styles.tab} font-roboto`}
-              onClick={() => router.push(`/classifications/${classification.id}/${tab.slug}`)}
+              onClick={() => router.push(getTabUrl(tab.slug))}
             >
               {tab.label}
             </Tabs.Tab>
