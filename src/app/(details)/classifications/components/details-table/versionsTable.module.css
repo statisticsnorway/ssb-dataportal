@@ -1,54 +1,15 @@
 .tableContainer {
   padding: 2rem;
 }
-.detailsHeading {
-  margin-bottom: 2rem;
-}
+
 .row {
   padding: 1rem;
-}
-
-.key {
-  font-weight: var(--font-weight-heavy);
-}
-.key{
-  flex: 1 1 100%;
-  min-width: 0;
-}
-
-.value {
-  flex: 1 1 100%;
-  margin: 0;
 }
 
 @media (min-width: 768px) {
   .row {
     gap: 0;
   }
-  .key {
-    flex: 1 1 40%;
-    margin-bottom: 1rem;
-  }
-
-  .value {
-    flex: 1 1 60%;
-    margin-bottom: 1rem;
-  }
-}
-
-
-.columnsWrapper {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin: 0;
-  padding: 0;
-}
-
-.column {
-  display: flex;
-  flex-direction: column;
 }
 
 :root {

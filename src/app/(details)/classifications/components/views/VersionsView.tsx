@@ -8,7 +8,7 @@ interface VersionsViewProps {
   versions: ClassificationVersionSummaryResource[];
 }
 
-export const mapVersions = (v: ClassificationVersionSummaryResource, classificationId: number): VersionItem[] => [
+const mapVersions = (v: ClassificationVersionSummaryResource, classificationId: number): VersionItem[] => [
   {
     label: 'Navn',
     value: <Link href={`/classifications/${classificationId}/version/${v.id}/codes`}>{v.name}</Link>,
@@ -19,7 +19,7 @@ export const mapVersions = (v: ClassificationVersionSummaryResource, classificat
   },
   {
     label: 'Gyldig til',
-    value: v.validTo ? v.validTo : "Nå",
+    value: v.validTo ? v.validTo : 'Nå',
   },
 ];
 

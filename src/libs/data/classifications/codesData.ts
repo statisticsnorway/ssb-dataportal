@@ -81,9 +81,9 @@ export async function fetchLatestVersionCodes(classificationId: number): Promise
     return (codesMock.currentCodes[key] ?? []) as KlassCode[];
   }*/
 
-  // This call shares Next.js's Data Cache with the layout's identical fetch,
-  // so it does not add a second network round-trip.
-  /*const classApi = getClassificationsClient();
+// This call shares Next.js's Data Cache with the layout's identical fetch,
+// so it does not add a second network round-trip.
+/*const classApi = getClassificationsClient();
   const classification = await classApi
     .classification({ id: classificationId, language: ClassificationLanguageEnum.NB }, fetchInit)
     .catch((error) => {

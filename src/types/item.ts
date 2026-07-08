@@ -8,5 +8,5 @@ export interface Item {
 
 export interface VersionItem {
   label: string;
-  value?: ReactNode | string | number | boolean | null| Date;
+  value?: ReactNode | string | number | boolean | null | Date;
 }

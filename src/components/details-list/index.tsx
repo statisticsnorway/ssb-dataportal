@@ -1,6 +1,6 @@
 import { Card, Divider, Heading, Popover } from '@digdir/designsystemet-react';
 import { QuestionmarkCircleIcon } from '@navikt/aksel-icons';
-import { Item} from '@/types/item';
+import { Item } from '@/types/item';
 import styles from './detailsList.module.css';
 
 interface DetailsListProps {

@@ -88,9 +88,5 @@ export default async function ClassificationLayout({
     return renderInfoOnlyPage();
   }
 
-  return (
-    <ClassificationDetail classification={classification}>
-      {children}
-    </ClassificationDetail>
-  );
+  return <ClassificationDetail classification={classification}>{children}</ClassificationDetail>;
 }
