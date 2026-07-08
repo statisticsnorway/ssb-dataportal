@@ -23,7 +23,7 @@ import { getUserAgent } from '@/utils/userAgent';
  *
  * @returns A promise that resolves to a configured `SearchApi` instance.
  */
-export async function getKlassSearchClient(): Promise<SearchApi> {
+async function getKlassSearchClient(): Promise<SearchApi> {
   const logger = createLogger('klass-search');
   const configParams = {
     headers: {
