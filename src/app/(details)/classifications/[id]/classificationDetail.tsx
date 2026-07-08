@@ -45,7 +45,7 @@ export default function ClassificationDetail({
         </Heading>
         {validTag && <Tag>Er dette dagens versjon?</Tag>}
         <Tabs value={activeTab.id}>
-          <Tabs.List aria-label={localization.tabs.ariaLabel}>
+          <Tabs.List className={styles.tabList} aria-label={localization.tabs.ariaLabel}>
             {Object.values(classificationDetailsTabsData).map((tab) => (
               <Tabs.Tab
                 aria-controls={tab.id}
