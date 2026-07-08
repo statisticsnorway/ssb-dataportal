@@ -1,8 +1,10 @@
 'use client';
 
-import { ChevronDownIcon, ChevronRightIcon } from '@navikt/aksel-icons';
+import { Dialog, Heading } from '@digdir/designsystemet-react';
+import { ChevronDownIcon, ChevronRightIcon, QuestionmarkCircleIcon } from '@navikt/aksel-icons';
 import { localization } from '@/libs/language';
 import type { CodeTreeNode, KlassCode } from '@/types/klass-codes';
+import { parseNotes } from '@/utils/classifications/parseNotes';
 import styles from './code-tree.module.css';
 
 interface CodeTreeRowProps {
@@ -75,6 +77,40 @@ export function CodeTreeRow({
           <span className={styles.codeLabel}>{code.code}</span>
           <span className={styles.nameLabel}>{code.name}</span>
         </button>
+
+        {code.notes && (
+          <Dialog.TriggerContext>
+            <Dialog.Trigger asChild>
+              <button
+                type='button'
+                className={styles.infoButton}
+                aria-label={`${localization.codeTree.notesButtonLabel} ${code.name}`}
+              >
+                <QuestionmarkCircleIcon fontSize='1.25rem' aria-hidden />
+              </button>
+            </Dialog.Trigger>
+            <Dialog>
+              <Dialog.Block>
+                <Heading level={1} data-size='md'>
+                  {code.name}
+                </Heading>
+              </Dialog.Block>
+              <Dialog.Block>
+                {parseNotes(code.notes).map((section, idx) => (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: static parsed sections, no stable key available
+                  <div key={idx} className={styles.notesSection}>
+                    {section.title && (
+                      <Heading level={2} data-size='xs'>
+                        {section.title}
+                      </Heading>
+                    )}
+                    <p>{section.content}</p>
+                  </div>
+                ))}
+              </Dialog.Block>
+            </Dialog>
+          </Dialog.TriggerContext>
+        )}
       </div>
 
       {hasChildren && isExpanded && (

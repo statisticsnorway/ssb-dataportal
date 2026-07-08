@@ -130,6 +130,44 @@
   flex: 1;
 }
 
+.infoButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  align-self: stretch;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 0.625rem;
+  color: var(--ds-color-neutral-text-subtle);
+  border-radius: var(--ds-border-radius-sm);
+  margin-right: 0.25rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .infoButton:hover {
+    color: var(--ds-color-neutral-text-default);
+    background-color: var(--ds-color-surface-hover);
+  }
+}
+
+.infoButton:focus-visible {
+  outline: var(--ds-border-width-focus) solid var(--ds-color-focus-outer);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 var(--ds-border-width-focus) var(--ds-color-focus-inner);
+}
+
+.notesSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.notesSection + .notesSection {
+  margin-top: 0.75rem;
+}
+
 /* ── Tablet and below: name wraps (≤48rem / ~768px) ─────────────────────────
    Only the text behaviour changes here — layout, chevrons and indentation
    are all untouched until the phone breakpoint below.
