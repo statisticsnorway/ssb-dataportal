@@ -1,5 +1,5 @@
-import ChangesView from "../../components/views/ChangesView";
+import ChangesView from '../../components/views/ChangesView';
 
 export default async function Changes() {
-  return <ChangesView/>;
+  return <ChangesView />;
 }
