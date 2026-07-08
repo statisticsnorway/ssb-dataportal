@@ -24,3 +24,7 @@
   hyphens: auto;
   margin: 1rem 0;
 }
+
+.tabList {
+  flex-wrap: wrap;
+}
