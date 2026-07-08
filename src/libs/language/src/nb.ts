@@ -53,7 +53,7 @@ export const nb = {
     codes: 'Koder',
     about: 'Om versjonen',
     changes: 'Endringer',
-    allVersions: 'Alle versjoner',
+    versions: 'Versjoner',
     correspondences: 'Korrespondanser',
     variants: 'Varianter',
   },
