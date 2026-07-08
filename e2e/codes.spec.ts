@@ -94,9 +94,39 @@ test.describe('/classifications/[id]/codes', () => {
 
     await expect(codesPage.getByRole('button', { name: rowBodyLabel(code011.code, code011.name) })).toBeVisible();
   });
+
+  test('filter input narrows the tree by code', async ({ codesPage }) => {
+    const filterInput = codesPage.getByLabel(localization.codeTree.filterLabel);
+
+    await filterInput.fill('01');
+
+    await expect(codesPage.getByRole('button', { name: rowBodyLabel(codeA.code, codeA.name) })).toBeVisible();
+    await expect(
+      codesPage.getByRole('button', { name: rowBodyLabel('B', 'Bergverksdrift og utvinning') }),
+    ).not.toBeVisible();
+
+    await codesPage.getByRole('button', { name: expandLabel(codeA.name) }).click();
+    await expect(codesPage.getByRole('button', { name: rowBodyLabel(code01.code, code01.name) })).toBeVisible();
+  });
+
+  test('filter input narrows the tree by name and clear resets it', async ({ codesPage }) => {
+    const filterInput = codesPage.getByLabel(localization.codeTree.filterLabel);
+
+    await filterInput.fill('skogbruk');
+
+    await expect(codesPage.getByRole('button', { name: rowBodyLabel(codeA.code, codeA.name) })).toBeVisible();
+    await expect(codesPage.getByRole('button', { name: rowBodyLabel('C', 'Industri') })).not.toBeVisible();
+
+    await codesPage.getByRole('button', { name: localization.codeTree.clearFilter }).click();
+
+    await expect(
+      codesPage.getByRole('button', { name: rowBodyLabel('B', 'Bergverksdrift og utvinning') }),
+    ).toBeVisible();
+    await expect(codesPage.getByRole('button', { name: rowBodyLabel('C', 'Industri') })).toBeVisible();
+  });
 });
 
-test.describe('/classifications/[id]/codes/version/[versionNumber]', () => {
+test.describe('/classifications/[id]/version/[versionNumber]/codes', () => {
   test('renders the code tree for the given version', async ({ page, codesVersionPage: _ }) => {
     await page.goto(CODES_VERSION_URL);
     await expect(page.getByRole('tree', { name: localization.codeTree.label })).toBeVisible();

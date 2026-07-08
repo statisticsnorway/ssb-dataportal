@@ -1,3 +1,5 @@
+import AboutView from '../../components/views/AboutView';
+
 export default async function About() {
-  return <div>Om</div>;
+  return <AboutView />;
 }

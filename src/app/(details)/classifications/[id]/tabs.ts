@@ -4,7 +4,7 @@ enum Tabs {
   Codes,
   About,
   Changes,
-  AllVersions,
+  Versions,
   Correspondences,
   Variants,
 }
@@ -27,10 +27,10 @@ export const classificationDetailsTabsData: Record<keyof typeof Tabs, Classifica
     id: 'changesTab',
     slug: 'changes',
   },
-  AllVersions: {
-    label: localization.classificationDetails.allVersions,
-    id: 'allVersionsTab',
-    slug: 'all-versions',
+  Versions: {
+    label: localization.classificationDetails.versions,
+    id: 'versionsTab',
+    slug: 'versions',
   },
   Correspondences: {
     label: localization.classificationDetails.correspondences,
