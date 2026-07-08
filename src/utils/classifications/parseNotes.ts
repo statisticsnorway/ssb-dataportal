@@ -30,12 +30,10 @@ export function parseNotes(notes: string): NotesSection[] {
     const line = lines[i] ?? '';
     const nextLine = lines[i + 1];
 
-    // A title line ends with ':' and is followed by a content line
     if (line.endsWith(':') && nextLine !== undefined) {
       sections.push({ title: line.slice(0, -1), content: nextLine });
       i += 2;
     } else {
-      // Plain text without a preceding title (e.g. "Ny fra 01.01.2016")
       sections.push({ title: null, content: line });
       i += 1;
     }
