@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import { CodeTree } from '@/components/code-tree';
 import { localization } from '@/libs/language';
 import type { KlassCode } from '@/types/klass-codes';
+import { filterCodesWithAncestors } from '@/utils/classifications/filterCodes';
 import styles from './codes-page-content.module.css';
 
 interface CodesPageContentProps {
@@ -19,36 +20,7 @@ interface CodesPageContentProps {
 export function CodesPageContent({ codes }: Readonly<CodesPageContentProps>) {
   const [filterTerm, setFilterTerm] = useState('');
 
-  const filteredCodes = useMemo(() => {
-    const normalizedFilterTerm = filterTerm.trim().toLocaleLowerCase();
-
-    if (!normalizedFilterTerm) {
-      return codes;
-    }
-
-    const byCode = new Map(codes.map((item) => [item.code, item]));
-    const includedCodes = new Set<string>();
-
-    for (const item of codes) {
-      const matchesFilter =
-        item.code.toLocaleLowerCase().includes(normalizedFilterTerm) ||
-        item.name.toLocaleLowerCase().includes(normalizedFilterTerm);
-
-      if (!matchesFilter) {
-        continue;
-      }
-
-      includedCodes.add(item.code);
-
-      let parentCode = item.parentCode;
-      while (parentCode) {
-        includedCodes.add(parentCode);
-        parentCode = byCode.get(parentCode)?.parentCode ?? null;
-      }
-    }
-
-    return codes.filter((item) => includedCodes.has(item.code));
-  }, [codes, filterTerm]);
+  const filteredCodes = useMemo(() => filterCodesWithAncestors(codes, filterTerm), [codes, filterTerm]);
 
   return (
     <div className={styles.wrapper}>
@@ -65,7 +37,6 @@ export function CodesPageContent({ codes }: Readonly<CodesPageContentProps>) {
           <Search.Button variant='secondary'>{localization.codeTree.filterButton}</Search.Button>
         </Search>
       </div>
-
       <CodeTree codes={filteredCodes} />
     </div>
   );
