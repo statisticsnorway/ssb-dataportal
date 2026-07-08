@@ -3,7 +3,9 @@
 import { createContext, useContext } from 'react';
 import { ClassificationResource, ClassificationVersionSummaryResource } from '@/libs/data-access/klass';
 
-type VersionContextType = {
+export type ResolvedVersion = NonNullable<ClassificationResource['versions']>[number];
+
+export type VersionContextType = {
   version: ClassificationResource | ClassificationVersionSummaryResource;
   isLatest: boolean;
 };

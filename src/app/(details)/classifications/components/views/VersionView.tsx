@@ -2,15 +2,15 @@
 
 import { Heading, Tabs, Tag } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { createContext, useContext } from 'react';
+//import { createContext, useContext } from 'react';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language';
 import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from '../../[id]/tabs';
 import styles from '../classification-page.module.css';
-import { VersionProvider } from '../versionContext';
+import { ResolvedVersion, VersionContextType, VersionProvider } from '../versionContext';
 
-type ResolvedVersion = NonNullable<ClassificationResource['versions']>[number];
 
+/*
 interface VersionContextType {
   version: ResolvedVersion;
   isLatest: boolean;
@@ -23,7 +23,7 @@ export function useResolvedVersion() {
   if (!ctx) throw new Error('useResolvedVersion must be used within VersionView');
   return ctx;
 }
-
+*/
 interface VersionViewProps {
   classification: ClassificationResource;
   children: React.ReactNode;
