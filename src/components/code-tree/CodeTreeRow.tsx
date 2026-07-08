@@ -86,7 +86,7 @@ export function CodeTreeRow({
                 className={styles.infoButton}
                 aria-label={`${localization.codeTree.notesButtonLabel} ${code.name}`}
               >
-                <QuestionmarkCircleIcon fontSize='1.5rem' aria-hidden />
+                <QuestionmarkCircleIcon fontSize='1.75rem' aria-hidden />
               </button>
             </Dialog.Trigger>
             <Dialog>
