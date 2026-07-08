@@ -1,7 +1,7 @@
 import { Link } from '@digdir/designsystemet-react';
-import { VersionsTable } from '@/app/(details)/classifications/components/versions-table';
+import { VersionItem, VersionsTable } from '@/app/(details)/classifications/components/versions-table';
 import { ClassificationVersionSummaryResource } from '@/libs/data-access/klass';
-import { VersionItem } from '@/types/item';
+import { localization } from '@/libs/language/src/localization';
 
 interface VersionsViewProps {
   classificationId: number;
@@ -10,16 +10,16 @@ interface VersionsViewProps {
 
 const mapVersions = (v: ClassificationVersionSummaryResource, classificationId: number): VersionItem[] => [
   {
-    label: 'Navn',
+    label: localization.versions.name,
     value: <Link href={`/classifications/${classificationId}/version/${v.id}/codes`}>{v.name}</Link>,
   },
   {
-    label: 'Gyldig fra',
+    label: localization.versions.validFrom,
     value: v.validFrom,
   },
   {
-    label: 'Gyldig til',
-    value: v.validTo ? v.validTo : 'Nå',
+    label: localization.versions.validTo,
+    value: v.validTo ? v.validTo : localization.versions.now,
   },
 ];
 

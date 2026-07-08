@@ -369,4 +369,10 @@ export const nb = {
     viewExternalReference: 'Se ekstern referanse',
     viewRelevant: 'Se relevant variabeldefinisjon',
   },
+  versions: {
+    name: 'Navn',
+    validFrom: 'Gyldig fra',
+    validTo: 'Gyldig til',
+    now: 'Nå'
+  }
 };

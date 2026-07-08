@@ -1,9 +1,14 @@
 import { Card, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from '@digdir/designsystemet-react';
-import { VersionItem } from '@/types/item';
+import { ReactNode } from 'react';
 import styles from './versionsTable.module.css';
 
 interface VersionsTableProps {
   content: VersionItem[][];
+}
+
+export interface VersionItem {
+  label: string;
+  value?: ReactNode | string | number | boolean | null | Date;
 }
 
 const VersionsTable = ({ content }: VersionsTableProps) => {
