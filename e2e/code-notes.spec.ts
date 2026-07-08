@@ -29,7 +29,7 @@ test.describe('Code notes info icon and dialog', () => {
     await codesPage.getByRole('button', { name: notesButtonLabel(codeWithNotes.name) }).click();
 
     const dialog = codesPage.getByRole('dialog');
-    await expect(dialog.getByRole('heading', { name: 'Omfatter' })).toBeVisible();
+    await expect(dialog.getByRole('heading', { name: 'Omfatter', exact: true })).toBeVisible();
     await expect(dialog.getByRole('heading', { name: 'Omfatter også' })).toBeVisible();
     await expect(dialog.getByRole('heading', { name: 'Ekskluderer' })).toBeVisible();
   });
