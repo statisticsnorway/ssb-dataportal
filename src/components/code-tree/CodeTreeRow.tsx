@@ -96,8 +96,8 @@ export function CodeTreeRow({
                 </Heading>
               </Dialog.Block>
               <Dialog.Block>
-                {parseNotes(code.notes).map((section, idx) => (
-                  <div key={idx} className={styles.notesSection}>
+                {parseNotes(code.notes).map((section) => (
+                  <div key={section.title ?? section.content} className={styles.notesSection}>
                     {section.title && (
                       <Heading level={2} data-size='xs'>
                         {section.title}
