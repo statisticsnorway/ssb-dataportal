@@ -23,10 +23,10 @@ const VersionsTable = ({ content }: VersionsTableProps) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {content.map((row, index) => (
-          <TableRow key={index} className={styles.row}>
-            {row.map((item, i) => (
-              <TableCell key={i}>{item.value instanceof Date ? item.value.toLocaleDateString() : item.value}</TableCell>
+        {content.map((row) => (
+          <TableRow key={row.map((item) => item.value).join('-')}  className={styles.row}>
+            {row.map((item) => (
+              <TableCell key={item.label}>{item.value instanceof Date ? item.value.toLocaleDateString() : item.value}</TableCell>
             ))}
           </TableRow>
         ))}
