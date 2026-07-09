@@ -48,7 +48,9 @@ export function VersionView({ classification, children }: Readonly<VersionViewPr
     <Tag data-color={'info'}>
       {`${localization.versions.tags.isLatest} (${localization.versions.tags.validFrom}: ${resolved?.version?.validFrom?.toLocaleDateString('nb-NO', { year: 'numeric', month: 'long', day: 'numeric' }) ?? '—'})`}
     </Tag>
-  ) : <Tag data-color={'warning'}>{localization.versions.tags.isNotCurrent}</Tag>;
+  ) : (
+    <Tag data-color={'warning'}>{localization.versions.tags.isNotCurrent}</Tag>
+  );
 
   return (
     <VersionProvider version={resolved?.version!} isLatest={resolved?.isLatest ?? false}>

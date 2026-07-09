@@ -1,7 +1,11 @@
 'use client';
 
 import { createContext, useContext } from 'react';
-import { ClassificationResource, ClassificationVersionResource, ClassificationVersionSummaryResource } from '@/libs/data-access/klass';
+import {
+  ClassificationResource,
+  ClassificationVersionResource,
+  ClassificationVersionSummaryResource,
+} from '@/libs/data-access/klass';
 
 export type ResolvedVersion = NonNullable<ClassificationResource['versions']>[number];
 
