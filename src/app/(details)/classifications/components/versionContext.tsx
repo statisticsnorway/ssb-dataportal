@@ -20,11 +20,11 @@ export function VersionProvider({
   version,
   isLatest,
   children,
-}: {
+}: Readonly<{
   version: ClassificationResource | ClassificationVersionSummaryResource | ClassificationVersionResource;
   isLatest: boolean;
   children: React.ReactNode;
-}) {
+}>) {
   return <VersionContext.Provider value={{ version, isLatest }}>{children}</VersionContext.Provider>;
 }
 
