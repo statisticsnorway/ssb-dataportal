@@ -6,9 +6,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language';
 import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from '../../[id]/tabs';
-import styles from '../classification-page.module.css';
 import { ResolvedVersion, VersionContextType, VersionProvider } from '../versionContext';
-
+import styles from './views.module.css';
 
 /*
 interface VersionContextType {
@@ -82,7 +81,7 @@ export function VersionView({ classification, children }: Readonly<VersionViewPr
             </Tabs.Tab>
           ))}
         </Tabs.List>
-        <Tabs.Panel value={activeTab.id} id={activeTab.id}>
+        <Tabs.Panel value={activeTab.id} id={activeTab.id} className={styles.tabsPanel}>
           {children}
         </Tabs.Panel>
       </Tabs>

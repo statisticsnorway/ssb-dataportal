@@ -1,17 +1,19 @@
-.tableContainer {
-  padding: 2rem;
+.table {
+  background-color: var(--element-background-color);
+  --dsc-table-padding: var(--ds-size-1) var(--ds-size-2);
+  word-break: break-word;
+  font-size: var(--ds-font-size-sm);
 }
 
-.row {
-  padding: 1rem;
-}
-
-@media (min-width: 768px) {
-  .row {
-    gap: 0;
+@media (min-width: 400px) {
+  .table {
+    font-size: var(--ds-font-size-md);
+    word-break: normal;
   }
 }
 
-:root {
-  --dsc-table-padding: 1rem;
+@media (min-width: 768px) {
+  .table {
+    --dsc-table-padding: var(--ds-size-2) var(--ds-size-3);
+  }
 }

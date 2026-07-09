@@ -373,6 +373,6 @@ export const nb = {
     name: 'Navn',
     validFrom: 'Gyldig fra',
     validTo: 'Gyldig til',
-    now: 'Nå'
+    now: 'Nå',
   }
 };
