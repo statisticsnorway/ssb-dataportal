@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useMemo } from 'react';
 import {
   ClassificationResource,
   ClassificationVersionResource,
@@ -25,7 +25,8 @@ export function VersionProvider({
   isLatest: boolean;
   children: React.ReactNode;
 }>) {
-  return <VersionContext.Provider value={{ version, isLatest }}>{children}</VersionContext.Provider>;
+  const value = useMemo(() => ({ version, isLatest }), [version, isLatest]);
+  return <VersionContext.Provider value={value}>{children}</VersionContext.Provider>;
 }
 
 // useVersion will be consumed by tab components (CodesView, VariantsView, etc.) — in progress
