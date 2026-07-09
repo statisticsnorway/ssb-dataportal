@@ -20,7 +20,7 @@ const mapVersions = (v: ClassificationVersionSummaryResource, classificationId: 
   },
   {
     label: localization.versions.validTo,
-    value: v.validTo ? v.validTo : localization.versions.now,
+    value: v.validTo ?? localization.versions.now,
   },
 ];
 
