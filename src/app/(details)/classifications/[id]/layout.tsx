@@ -45,12 +45,6 @@ const getPageData = cache(async (id: number) => {
   return { classification };
 });
 
-function resolveLatestVersion(classification: ClassificationResource) {
-  const versions = classification.versions ?? [];
-  if (versions.length === 0) return null;
-  return [...versions].sort((a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0))[0] ?? null;
-}
-
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const { classification } = await getPageData(Number(id)).catch(() => ({
@@ -75,8 +69,8 @@ export default async function ClassificationLayout({
     return notFound();
   });
 
-  const latestVersion = resolveLatestVersion(classification);
-  if (!latestVersion) {
+  const hasVersions = (classification.versions ?? []).length > 0;
+  if (!hasVersions) {
     logger.warn({ id }, 'Classification has no versions');
     return notFound();
   }

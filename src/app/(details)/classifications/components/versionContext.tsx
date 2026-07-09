@@ -24,6 +24,8 @@ export function VersionProvider({
   return <VersionContext.Provider value={{ version, isLatest }}>{children}</VersionContext.Provider>;
 }
 
+// useVersion will be consumed by tab components (CodesView, VariantsView, etc.) — in progress
+// fallow-ignore-next-line unused-export
 export function useVersion() {
   const ctx = useContext(VersionContext);
   if (!ctx) throw new Error('useVersion must be used within VersionProvider');
