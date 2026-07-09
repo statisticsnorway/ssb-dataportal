@@ -4,7 +4,7 @@ import classificationMock from '@/static-data/classifications.json';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { formatDate } from './utils/commonUtils';
 
-const classification = classificationMock.classifications[1] as unknown as ClassificationResource;
+const classification = classificationMock.classifications[0] as unknown as ClassificationResource;
 const currentVersion = classification!.versions![0];
 const olderVersion = classification!.versions![1];
 
@@ -31,7 +31,11 @@ test('renders table', async ({ versionsPage }) => {
 
 test('links to other versions', async ({ versionsPage }) => {
   await expect(versionsPage).toHaveURL(VERSION_URL);
-  const link = versionsPage.getByRole('link', { name: olderVersion?.name });
+  const link = versionsPage
+    .getByRole('table')
+    .getByRole('row')
+    .filter({ hasText: olderVersion!.name })
+    .getByRole('link', { name: olderVersion!.name });
   await expect(link).toBeVisible();
   await link.click();
   await expect(versionsPage).toHaveURL(VERSIONS_CODES_URL);
