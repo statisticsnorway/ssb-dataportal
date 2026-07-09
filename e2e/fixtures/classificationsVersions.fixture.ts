@@ -9,6 +9,7 @@ export const MOCK_VERSION_ID = '1';
 
 export const VERSION_URL = `/classifications/${MOCK_CLASSIFICATION_ID}/versions`;
 export const VERSIONS_VERSION_URL = `/classifications/${MOCK_CLASSIFICATION_ID}/version/${MOCK_VERSION_ID}/versions`;
+export const VERSIONS_CODES_URL = `/classifications/${MOCK_CLASSIFICATION_ID}/version/${MOCK_VERSION_ID}/codes`;
 
 export const test = base.extend<{
   versionsPage: Page;
