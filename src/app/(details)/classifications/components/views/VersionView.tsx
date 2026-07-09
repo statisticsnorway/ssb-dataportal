@@ -2,27 +2,12 @@
 
 import { Heading, Tabs, Tag } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
-//import { createContext, useContext } from 'react';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language';
 import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from '../../[id]/tabs';
 import { ResolvedVersion, VersionContextType, VersionProvider } from '../versionContext';
 import styles from './views.module.css';
 
-/*
-interface VersionContextType {
-  version: ResolvedVersion;
-  isLatest: boolean;
-}
-
-const VersionContext = createContext<VersionContextType | null>(null);
-
-export function useResolvedVersion() {
-  const ctx = useContext(VersionContext);
-  if (!ctx) throw new Error('useResolvedVersion must be used within VersionView');
-  return ctx;
-}
-*/
 interface VersionViewProps {
   classification: ClassificationResource;
   children: React.ReactNode;
@@ -62,7 +47,6 @@ export function VersionView({ classification, children }: Readonly<VersionViewPr
 
   return (
     <VersionProvider version={resolved?.version!} isLatest={resolved?.isLatest ?? false}>
-      {/*<VersionContext.Provider value={resolved}>*/}
       <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='lg' level={2}>
         {resolved?.version.name ?? '—'}
       </Heading>
@@ -85,7 +69,6 @@ export function VersionView({ classification, children }: Readonly<VersionViewPr
           {children}
         </Tabs.Panel>
       </Tabs>
-      {/*</VersionContext.Provider>*/}
     </VersionProvider>
   );
 }
