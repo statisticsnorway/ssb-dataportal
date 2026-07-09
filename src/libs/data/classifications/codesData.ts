@@ -24,7 +24,6 @@ function buildKlassClientConfig(): ConfigurationParameters {
   return config;
 }
 
-
 function getVersionsClient(): VersionsApi {
   return new VersionsApi(new Configuration(buildKlassClientConfig()));
 }
@@ -59,4 +58,3 @@ export async function fetchVersionCodes(versionId: number): Promise<KlassCode[]>
     throw error;
   }
 }
-
