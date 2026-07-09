@@ -24,8 +24,8 @@ test('renders table', async ({ versionsPage }) => {
   await expect(versionsPage.getByRole('cell', { name: olderVersion?.name })).toBeVisible();
   await expect(versionsPage.getByRole('cell', { name: currentVersion?.name })).toBeVisible();
   await expect(versionsPage.getByRole('cell', { name: formatDate(olderVersion?.validFrom) })).toBeVisible();
-  await expect(versionsPage.getByRole('cell', { name: formatDate(olderVersion?.validTo) })).toBeVisible();
-  await expect(versionsPage.getByRole('cell', { name: formatDate(currentVersion?.validFrom) })).toBeVisible();
+  await expect(versionsPage.getByRole('cell', { name: formatDate(olderVersion?.validTo) }).first()).toBeVisible();
+  await expect(versionsPage.getByRole('cell', { name: formatDate(currentVersion?.validFrom) }).nth(1)).toBeVisible();
   await expect(versionsPage.getByRole('cell', { name: localization.versions.now })).toBeVisible();
 });
 
