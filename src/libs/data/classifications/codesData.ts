@@ -24,10 +24,6 @@ function buildKlassClientConfig(): ConfigurationParameters {
   return config;
 }
 
-/*
-function getClassificationsClient(): ClassificationsApi {
-  return new ClassificationsApi(new Configuration(buildKlassClientConfig()));
-}*/
 
 function getVersionsClient(): VersionsApi {
   return new VersionsApi(new Configuration(buildKlassClientConfig()));
