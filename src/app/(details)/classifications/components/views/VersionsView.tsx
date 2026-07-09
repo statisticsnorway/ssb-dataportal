@@ -2,6 +2,7 @@ import { Link } from '@digdir/designsystemet-react';
 import { VersionItem, VersionsTable } from '@/app/(details)/classifications/components/versions-table';
 import { ClassificationVersionSummaryResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language/src/localization';
+import styles from './views.module.css';
 
 interface VersionsViewProps {
   classificationId: number;
@@ -25,7 +26,7 @@ const mapVersions = (v: ClassificationVersionSummaryResource, classificationId: 
 
 export default function VersionsView({ versions, classificationId }: Readonly<VersionsViewProps>) {
   return (
-    <div>
+    <div className={styles.versionsWrapper}>
       <VersionsTable content={versions.map((v) => mapVersions(v, classificationId))} />
     </div>
   );
