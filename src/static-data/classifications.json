@@ -10,14 +10,14 @@
       "versions": [
         {
           "name": "Oppvarmingskilde 1983",
-          "id": 49,
+          "id": 1,
           "validFrom": "1983-01-01",
           "validTo": "2001-01-01",
           "lastModified": "2016-10-13T08:07:43.000+0000",
           "published": ["nb", "nn", "en"],
           "_links": {
             "self": {
-              "href": "https://data.ssb.no/api/klass/v1/versions/49"
+              "href": "https://data.ssb.no/api/klass/v1/versions/1"
             }
           }
         }
