@@ -27,7 +27,7 @@ const VersionsTable = ({ content }: VersionsTableProps) => {
           <TableRow key={row.map((item) => item.value).join('-')} className={styles.row}>
             {row.map((item) => (
               <TableCell key={item.label}>
-                {item.value instanceof Date ? item.value.toLocaleDateString() : item.value}
+                {item.value instanceof Date ? item.value.toLocaleDateString('nb-NO') : item.value}
               </TableCell>
             ))}
           </TableRow>
