@@ -1,0 +1,34 @@
+import { Page, TestInfo } from '@playwright/test';
+import { test as base, expect } from '@bgotink/playwright-coverage';
+import { stabilize } from '../utils/commonUtils';
+
+// Classification 2003 is the first entry in the static mock data (codes-mock.json).
+// Both routes below use static data in the test environment (KLASS_USE_STATIC_DATA=true).
+export const MOCK_CLASSIFICATION_ID = '2003';
+export const MOCK_VERSION_ID = '1';
+
+export const VERSION_URL = `/classifications/${MOCK_CLASSIFICATION_ID}/versions`;
+export const VERSIONS_VERSION_URL = `/classifications/${MOCK_CLASSIFICATION_ID}/version/${MOCK_VERSION_ID}/versions`;
+
+export const test = base.extend<{
+  versionsPage: Page;
+  versionsVersionPage: Page;
+}>({
+  versionsPage: async ({ page }, use, testInfo: TestInfo) => {
+    test.skip(testInfo.project.name === 'chrome-unauth');
+    await page.goto(VERSION_URL);
+    await expect(page).toHaveURL(new RegExp(VERSION_URL));
+    await stabilize();
+    await use(page);
+  },
+
+  versionsVersionPage: async ({ page }, use, testInfo: TestInfo) => {
+    test.skip(testInfo.project.name === 'chrome-unauth');
+    await page.goto(VERSIONS_VERSION_URL);
+    await expect(page).toHaveURL(new RegExp(VERSIONS_VERSION_URL));
+    await stabilize();
+    await use(page);
+  },
+});
+
+export { expect };
