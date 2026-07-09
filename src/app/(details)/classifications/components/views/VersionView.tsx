@@ -14,7 +14,7 @@ interface VersionViewProps {
 }
 
 function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): VersionContextType | null {
-  const versionMatch = pathname.match(/\/version\/(\d+)/);
+  const versionMatch = /\/version\/(\d+)/.exec(pathname);
   const sorted = [...versions].sort((a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0));
 
   if (versionMatch) {
