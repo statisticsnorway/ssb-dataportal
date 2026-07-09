@@ -44,13 +44,17 @@ export function VersionView({ classification, children }: Readonly<VersionViewPr
     }
     return `/classifications/${classification.id}/version/${resolved?.version.id}/${slug}`;
   };
-
+  const versionTag = resolved?.isLatest ? (
+    <Tag data-color={'info'}>
+      {`${localization.versions.tags.isLatest} (${localization.versions.tags.validFrom}: ${resolved?.version?.validFrom?.toLocaleDateString() ?? '—'})`}
+    </Tag>
+  ) : <Tag data-color={'warning'}>{localization.versions.tags.isNotCurrent}</Tag>;
   return (
     <VersionProvider version={resolved?.version!} isLatest={resolved?.isLatest ?? false}>
       <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='lg' level={2}>
         {resolved?.version.name ?? '—'}
       </Heading>
-      {resolved?.isLatest && <Tag>Nyeste versjon</Tag>}
+      {versionTag}
       <Tabs value={activeTab.id}>
         <Tabs.List className={styles.tabList} aria-label={localization.tabs.ariaLabel}>
           {Object.values(classificationDetailsTabsData).map((tab) => (

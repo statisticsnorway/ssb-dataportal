@@ -1,12 +1,12 @@
 'use client';
 
 import { createContext, useContext } from 'react';
-import { ClassificationResource, ClassificationVersionSummaryResource } from '@/libs/data-access/klass';
+import { ClassificationResource, ClassificationVersionResource, ClassificationVersionSummaryResource } from '@/libs/data-access/klass';
 
 export type ResolvedVersion = NonNullable<ClassificationResource['versions']>[number];
 
 export type VersionContextType = {
-  version: ClassificationResource | ClassificationVersionSummaryResource;
+  version: ClassificationVersionSummaryResource | ClassificationVersionResource;
   isLatest: boolean;
 };
 
@@ -17,7 +17,7 @@ export function VersionProvider({
   isLatest,
   children,
 }: {
-  version: ClassificationResource | ClassificationVersionSummaryResource;
+  version: ClassificationResource | ClassificationVersionSummaryResource | ClassificationVersionResource;
   isLatest: boolean;
   children: React.ReactNode;
 }) {

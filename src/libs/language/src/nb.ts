@@ -374,5 +374,10 @@ export const nb = {
     validFrom: 'Gyldig fra',
     validTo: 'Gyldig til',
     now: 'Nå',
-  }
+    tags: {
+      isLatest:'Gjeldende versjon:',
+      validFrom: 'Gyldig fra og med',
+      isNotCurrent: 'OBS! Dette er ikke dagens versjon av klassifikasjonen',
+    },
+  },
 };
