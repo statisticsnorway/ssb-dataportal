@@ -9,15 +9,27 @@
       "description": "Landet er delt inn i ca. 14 000 grunnkretser som igjen er gruppert sammen til ca. 1 550 delområder.Formålet med å dele kommunen inn i grunnkretser er å lage små, stabile og geografisk enheter som kan gi et fleksibelt grunnlag for arbeide med og presentere regionalstatistikk. Hensikten med dette er igjen å gi et mer effektivt statistisk grunnlag for kommunal og regional analyse, forvaltning og planlegging. I tillegg til at grunnkretser skal være stabil over en rimelig tidsperiode, skal de også bestå av et geografisk sammenhengende område. Et annet hovedkriterium er at grunnkretsene bør være mest mulig ensartet når det gjelder natur og næringsgrunnlag, kommunikasjonsforhold og bygningsmessig struktur. Delområde er et mellomnivå mellom kommune og grunnkrets.En slik delområdeinndeling er egnet for data som blir for detaljert på grunnkretsnivå, samtidig som den er egnet til regionale oversiktsanalyser. Ved utarbeidelse av delområder ble det lagt vekt på at området hørte naturlig sammen kommunikasjonsmessig, og helst burde området være en naturlig enhet.",
       "versions": [
         {
-          "name": "Oppvarmingskilde 1983",
+          "name": "Oppvarmingskilde 2001",
           "id": 1,
+          "validFrom": "2001-01-01",
+          "lastModified": "2010-10-13T08:07:43.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/1"
+            }
+          }
+        },
+        {
+          "name": "Oppvarmingskilde 1983",
+          "id": 2,
           "validFrom": "1983-01-01",
           "validTo": "2001-01-01",
           "lastModified": "2016-10-13T08:07:43.000+0000",
           "published": ["nb", "nn", "en"],
           "_links": {
             "self": {
-              "href": "https://data.ssb.no/api/klass/v1/versions/1"
+              "href": "https://data.ssb.no/api/klass/v1/versions/2"
             }
           }
         }
