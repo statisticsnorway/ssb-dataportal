@@ -18,8 +18,7 @@ test('Classifications details version have title', async ({ classificationDetail
   const page = await classificationDetailsPage(classification.id!);
   const heading = page.getByRole('heading', { level: 2 });
   await expect(heading).toBeVisible();
-  // Placeholder we fetch version title
-  await expect(heading).toHaveText('Versjonens navn');
+  await expect(heading).toHaveText(classification.versions![0]!.name!);
 });
 
 test.describe('Classifications details tabs', () => {
