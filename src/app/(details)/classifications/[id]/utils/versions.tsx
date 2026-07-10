@@ -3,6 +3,11 @@ import { VersionItem } from '@/app/(details)/classifications/components/versions
 import { ClassificationVersionSummaryResource } from '@/libs/data-access/klass/models/ClassificationVersionSummaryResource';
 import { localization } from '@/libs/language/src/localization';
 
+const mapVersionName = (v: ClassificationVersionSummaryResource, classificationId: number | undefined) => {
+  if (!classificationId) return v.name;
+  return <Link href={`/classifications/${classificationId}/version/${v.id}/codes`}>{v.name}</Link>;
+};
+
 /**
  * Maps a classification version to a list of display items for the versions table.
  *
@@ -20,15 +25,7 @@ export const mapVersions = (
 ): VersionItem[] => [
   {
     label: localization.versions.name,
-    value: v ? (
-      classificationId ? (
-        <Link href={`/classifications/${classificationId}/version/${v.id}/codes`}>{v.name}</Link>
-      ) : (
-        v.name
-      )
-    ) : (
-      ''
-    ),
+    value: v ? mapVersionName(v, classificationId) : '',
   },
   {
     label: localization.versions.validFrom,
