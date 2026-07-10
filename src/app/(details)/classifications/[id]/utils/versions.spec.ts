@@ -41,7 +41,7 @@ describe('Map versions', () => {
     expect(result[2]?.value).toBe('2001-01-01');
   });
 
-    it('Classification id is not defined current version', () => {
+  it('Classification id is not defined current version', () => {
     const result = mapVersions(currentVersion, undefined);
     expect(result[0]?.value).toBe(currentVersion?.name);
     expect(result[1]?.value).toBe('2001-01-01');
