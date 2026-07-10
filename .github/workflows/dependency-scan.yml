@@ -56,19 +56,45 @@ jobs:
           output-format: table
           fail-build: false
           severity-cutoff: high
-
-      - name: Create SARIF file
+          
+      - name: Create Docker SARIF file
         uses: anchore/scan-action@e1165082ffb1fe366ebaf02d8526e7c4989ea9d2 # v7.4.0
         id: scan
         with:
           image: "ssb-dataportal:latest"
           fail-build: false
           severity-cutoff: high
+    
+      - name: Filter Docker SARIF (security-severity > 1.0, high/critical)
+        run: |
+          jq '
+            .runs = (
+              (.runs // [])
+              | map(
+                  .tool.driver.rules = (.tool.driver.rules // [])
+                  | ((.tool.driver.rules // []) | map({ key: (.id // ""), value: . }) | from_entries) as $rules
+                  | .results = (
+                      (.results // [])
+                      | map(
+                          select(
+                            ((.level // "") == "error")
+                            and ((((($rules[(.ruleId // "")].properties["security-severity"] // "0") | tostring) | try tonumber catch 0) > 1.0))
+                          )
+                        )
+                    )
+                  | (.results | map(.ruleId // empty) | unique) as $keep
+                  | .tool.driver.rules = (
+                      (.tool.driver.rules // [])
+                      | map(select((.id // "") as $id | ($keep | index($id))))
+                    )
+                )
+            )
+          ' "${{ steps.scan.outputs.sarif }}" > docker.filtered.sarif
 
-      - name: Upload Anchore scan SARIF report
-        uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4.36.0
+      - name: Upload Docker SARIF report
+        uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
         with:
-          sarif_file: ${{ steps.scan.outputs.sarif }}
+          sarif_file: docker.filtered.sarif
 
       - name: Install Grype + jq
         env:
