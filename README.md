@@ -54,9 +54,8 @@ The result will show a risk score based on: threat, impact and context.
 
 Read more https://oss.anchore.com/docs/guides/vulnerability/interpreting-results/#why-risk-based-sorting-works-best
 
-A complete SARIF report is uploaded to GitHub Security & Quality.
-
-Since GitHub filters findings based on severity only, we also generate a filtered Grype report based on severity and risk score.
+A filtered SARIF report is uploaded to GitHub Security & Quality.
+This report is filtered on risk score > 1.0 and severity high/critical.
 
 The filter values can be configured:
 
