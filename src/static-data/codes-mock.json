@@ -1,6 +1,6 @@
 {
-  "currentCodes": {
-    "2003": [
+  "versionCodes": {
+    "1": [
       {
         "code": "A",
         "parentCode": null,
@@ -44,10 +44,8 @@
         "name": "Dyrking av ettårige vekster",
         "validFrom": "2008-01-01"
       }
-    ]
-  },
-  "versionCodes": {
-    "1": [
+    ],
+    "2": [
       {
         "code": "A",
         "parentCode": null,

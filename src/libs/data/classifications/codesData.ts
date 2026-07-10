@@ -1,6 +1,5 @@
 'use server';
 
-import { ClassificationLanguageEnum, ClassificationsApi } from '@/libs/data-access/klass/apis/ClassificationsApi';
 import { VersionsApi, VersionsLanguageEnum } from '@/libs/data-access/klass/apis/VersionsApi';
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
 import { sanitizeError } from '@/libs/logger/sanitize';
@@ -23,10 +22,6 @@ function buildKlassClientConfig(): ConfigurationParameters {
     config.basePath = new URL(klassBasePath).origin;
   }
   return config;
-}
-
-function getClassificationsClient(): ClassificationsApi {
-  return new ClassificationsApi(new Configuration(buildKlassClientConfig()));
 }
 
 function getVersionsClient(): VersionsApi {
@@ -62,58 +57,4 @@ export async function fetchVersionCodes(versionId: number): Promise<KlassCode[]>
     }
     throw error;
   }
-}
-
-/**
- * Fetches the codes for the latest version of a classification.
- *
- * Resolves the latest version by fetching the classification's version list and
- * picking the entry with the most recent `validFrom` date. Then delegates to
- * `fetchVersionCodes` so the same caching/mapping logic applies.
- *
- * Falls back to static mock data when `KLASS_USE_STATIC_DATA=true`.
- */
-export async function fetchLatestVersionCodes(classificationId: number): Promise<KlassCode[]> {
-  if (process.env.KLASS_USE_STATIC_DATA === 'true') {
-    logger.warn({ classificationId }, 'Using static mock data for latest version codes');
-    const key = String(classificationId) as keyof typeof codesMock.currentCodes;
-    return (codesMock.currentCodes[key] ?? []) as KlassCode[];
-  }
-
-  // This call shares Next.js's Data Cache with the layout's identical fetch,
-  // so it does not add a second network round-trip.
-  const classApi = getClassificationsClient();
-  const classification = await classApi
-    .classification({ id: classificationId, language: ClassificationLanguageEnum.NB }, fetchInit)
-    .catch((error) => {
-      if (error instanceof ResponseError) {
-        logger.error(
-          { statusCode: error.response.status, url: error.response.url, classificationId },
-          'Failed to fetch classification for version lookup',
-        );
-      } else {
-        logger.error({ error: sanitizeError(error) }, 'Unexpected error fetching classification');
-      }
-      throw error;
-    });
-
-  const versions = classification.versions ?? [];
-  if (versions.length === 0) {
-    logger.warn({ classificationId }, 'Classification has no versions');
-    return [];
-  }
-
-  const latestVersion = [...versions].sort((a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0))[0]!;
-
-  if (!latestVersion.id) {
-    logger.warn({ classificationId }, 'Latest version has no id');
-    return [];
-  }
-
-  logger.info(
-    { classificationId, versionId: latestVersion.id, versionName: latestVersion.name },
-    'Resolved latest version',
-  );
-
-  return fetchVersionCodes(latestVersion.id);
 }

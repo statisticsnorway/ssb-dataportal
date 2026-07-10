@@ -369,4 +369,15 @@ export const nb = {
     viewExternalReference: 'Se ekstern referanse',
     viewRelevant: 'Se relevant variabeldefinisjon',
   },
+  versions: {
+    name: 'Navn',
+    validFrom: 'Gyldig fra',
+    validTo: 'Gyldig til',
+    now: 'Nå',
+    tags: {
+      isLatest: 'Gjeldende versjon:',
+      validFrom: 'Gyldig fra og med',
+      isNotCurrent: 'OBS! Dette er ikke dagens versjon av klassifikasjonen',
+    },
+  },
 };

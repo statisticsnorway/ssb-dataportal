@@ -11,10 +11,6 @@
   flex-direction: column;
 }
 
-.detailsHeading {
-  overflow-wrap: break-word;
-}
-
 .description {
   line-height: 1.5;
   text-align: left;
@@ -23,8 +19,4 @@
   overflow-wrap: break-word;
   hyphens: auto;
   margin: 1rem 0;
-}
-
-.tabList {
-  flex-wrap: wrap;
 }

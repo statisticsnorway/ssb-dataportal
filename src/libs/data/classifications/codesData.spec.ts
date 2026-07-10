@@ -1,9 +1,8 @@
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ClassificationsApi } from '@/libs/data-access/klass/apis/ClassificationsApi';
 import { VersionsApi } from '@/libs/data-access/klass/apis/VersionsApi';
 import { ResponseError } from '@/libs/data-access/klass/runtime';
 import codesMock from '@/static-data/codes-mock.json';
-import { fetchLatestVersionCodes, fetchVersionCodes } from './codesData';
+import { fetchVersionCodes } from './codesData';
 
 vi.mock('server-only', () => ({}));
 
@@ -78,7 +77,7 @@ describe('fetchVersionCodes', () => {
     await expect(fetchVersionCodes(1)).rejects.toThrow('Network failure');
   });
 });
-
+/*
 describe('fetchLatestVersionCodes', () => {
   it('returns static mock data when KLASS_USE_STATIC_DATA is true', async () => {
     vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
@@ -163,3 +162,4 @@ describe('fetchLatestVersionCodes', () => {
     await expect(fetchLatestVersionCodes(1)).rejects.toThrow('Unexpected');
   });
 });
+*/
