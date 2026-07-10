@@ -8,8 +8,8 @@ export const test = base.extend<{
   classificationDetailsPage: ClassificationDetailsFixture;
 }>({
   classificationDetailsPage: async ({ page }, use, testInfo: TestInfo) => {
+    test.skip(testInfo.project.name === 'chrome-unauth');
     await use(async (id: string | number) => {
-      test.skip(testInfo.project.name === 'chrome-unauth');
       await page.goto(`/classifications/${id}`);
       await stabilize();
       return page;
@@ -18,7 +18,5 @@ export const test = base.extend<{
 });
 
 export { expect };
-
-// ...existing code...
 
 export type ClassificationFixture = Awaited<ReturnType<ClassificationDetailsFixture>>;

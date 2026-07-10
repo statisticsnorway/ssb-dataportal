@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import type { KlassCode } from '@/types/klass-codes';
-import { CodesView } from '../../components/views/CodesView';
+import { CodesView } from './CodesView';
 
 vi.mock('@/components/code-tree', () => ({
   CodeTree: ({ codes }: { codes: KlassCode[] }) => (

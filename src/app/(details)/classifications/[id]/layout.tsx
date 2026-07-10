@@ -9,7 +9,7 @@ import { localization } from '@/libs/language/src/localization';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
-import ClassificationDetail from './classificationDetail';
+import ClassificationDetail from '../components/classificationDetail';
 
 const showInfoOnly = process.env.HIDE_CLASSIFICATIONS === 'true';
 
@@ -68,6 +68,12 @@ export default async function ClassificationLayout({
     logger.error({ id, error: sanitizeError(error) }, 'Failed to load classification details');
     return notFound();
   });
+
+  const hasVersions = (classification.versions ?? []).length > 0;
+  if (!hasVersions) {
+    logger.warn({ id }, 'Classification has no versions');
+    return notFound();
+  }
 
   logger.info({ id }, 'Classification detail page access');
 

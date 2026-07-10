@@ -7,7 +7,34 @@
       "classificationFamilyId": 1,
       "lastModified": "2025-12-04T12:30:00Z",
       "description": "Landet er delt inn i ca. 14 000 grunnkretser som igjen er gruppert sammen til ca. 1 550 delområder.Formålet med å dele kommunen inn i grunnkretser er å lage små, stabile og geografisk enheter som kan gi et fleksibelt grunnlag for arbeide med og presentere regionalstatistikk. Hensikten med dette er igjen å gi et mer effektivt statistisk grunnlag for kommunal og regional analyse, forvaltning og planlegging. I tillegg til at grunnkretser skal være stabil over en rimelig tidsperiode, skal de også bestå av et geografisk sammenhengende område. Et annet hovedkriterium er at grunnkretsene bør være mest mulig ensartet når det gjelder natur og næringsgrunnlag, kommunikasjonsforhold og bygningsmessig struktur. Delområde er et mellomnivå mellom kommune og grunnkrets.En slik delområdeinndeling er egnet for data som blir for detaljert på grunnkretsnivå, samtidig som den er egnet til regionale oversiktsanalyser. Ved utarbeidelse av delområder ble det lagt vekt på at området hørte naturlig sammen kommunikasjonsmessig, og helst burde området være en naturlig enhet.",
-      "_links": { "self": { "href": "/classifications/2" } }
+      "versions": [
+        {
+          "name": "Oppvarmingskilde 2001",
+          "id": 1,
+          "validFrom": "2001-01-01",
+          "lastModified": "2010-10-13T08:07:43.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/1"
+            }
+          }
+        },
+        {
+          "name": "Oppvarmingskilde 1983",
+          "id": 2,
+          "validFrom": "1983-01-01",
+          "validTo": "2001-01-01",
+          "lastModified": "2016-10-13T08:07:43.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/2"
+            }
+          }
+        }
+      ],
+      "_links": { "self": { "href": "/classifications/2003" } }
     },
     {
       "name": "Standard for delområde- og grunnkretsinndeling",
@@ -16,6 +43,21 @@
       "classificationFamilyId": 4,
       "lastModified": "2025-12-03T10:05:55.000+0000",
       "description": "For barn som har mottatt barnvernstiltak i statistikkåret registreres hvilke tiltak dette er (hovedgruppe1-8) og om tiltakene er hjelpe- eller omsorgstiltak. Omsorgstiltak er gjeldende når barneverntjenesten har overtatt omsorgen for barnet via fylkesnemnda.",
+      "versions": [
+        {
+          "name": "Delområde- og grunnkretsinndeling 2016",
+          "id": 1,
+          "validFrom": "2016-01-01",
+          "validTo": "2017-01-01",
+          "lastModified": "2023-04-18T12:43:39.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/1"
+            }
+          }
+        }
+      ],
       "_links": {
         "self": {
           "href": "/classifications/1"
@@ -29,6 +71,228 @@
       "classificationFamilyId": 15,
       "lastModified": "2026-03-17T10:25:54.000+0000",
       "description": "Standard for landkoder (SSB-3) beskriver landkoder som brukes i statistikk og rapportering.",
+      "versions": [
+        {
+          "name": "Landkoder (SSB-3) 2011",
+          "id": 363,
+          "validFrom": "2011-01-01",
+          "validTo": "2012-01-01",
+          "lastModified": "2024-01-09T09:13:30.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/363"
+            }
+          }
+        },
+        {
+          "name": "Landkoder (SSB-3) 2009",
+          "id": 364,
+          "validFrom": "2009-01-01",
+          "validTo": "2011-01-01",
+          "lastModified": "2023-10-27T11:06:05.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/364"
+            }
+          }
+        },
+        {
+          "name": "Landkoder (SSB-3) 2007",
+          "id": 365,
+          "validFrom": "2007-01-01",
+          "validTo": "2009-01-01",
+          "lastModified": "2023-10-27T11:15:16.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/365"
+            }
+          }
+        },
+        {
+          "name": "Landkoder (SSB-3) 2019",
+          "id": 1633,
+          "validFrom": "2019-01-01",
+          "validTo": "2023-01-01",
+          "lastModified": "2024-05-10T06:31:28.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/1633"
+            }
+          }
+        },
+        {
+          "name": "Landkoder (SSB-3) 2023",
+          "id": 1698,
+          "validFrom": "2023-01-01",
+          "lastModified": "2024-05-10T06:29:09.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/1698"
+            }
+          }
+        },
+        {
+          "name": "Landkoder (SSB-3) 2014",
+          "id": 1840,
+          "validFrom": "2014-01-01",
+          "validTo": "2019-01-01",
+          "lastModified": "2022-11-02T09:49:09.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/1840"
+            }
+          }
+        },
+        {
+          "name": "Landkoder (SSB-3) 2013",
+          "id": 1841,
+          "validFrom": "2013-01-01",
+          "validTo": "2014-01-01",
+          "lastModified": "2022-11-02T09:50:42.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/1841"
+            }
+          }
+        },
+        {
+          "name": "Landkoder (SSB-3) 2012",
+          "id": 2349,
+          "validFrom": "2012-01-01",
+          "validTo": "2013-01-01",
+          "lastModified": "2023-10-25T10:21:49.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/2349"
+            }
+          }
+        },
+        {
+          "name": "Landkoder (SSB-3) 2004",
+          "id": 2365,
+          "validFrom": "2004-01-01",
+          "validTo": "2007-01-01",
+          "lastModified": "2023-10-27T13:32:51.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/2365"
+            }
+          }
+        },
+        {
+          "name": "Landkoder (SSB-3) 2001",
+          "id": 2366,
+          "validFrom": "2001-01-01",
+          "validTo": "2004-01-01",
+          "lastModified": "2023-10-27T13:55:49.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/2366"
+            }
+          }
+        },
+        {
+          "name": "Landkoder (SSB-3) 1999",
+          "id": 2368,
+          "validFrom": "1999-01-01",
+          "validTo": "2001-01-01",
+          "lastModified": "2023-11-07T09:26:15.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/2368"
+            }
+          }
+        },
+        {
+          "name": "Landkoder (SSB-3) 1998",
+          "id": 2369,
+          "validFrom": "1998-01-01",
+          "validTo": "1999-01-01",
+          "lastModified": "2023-11-07T09:20:13.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/2369"
+            }
+          }
+        },
+        {
+          "name": "Landkoder (SSB-3) 1997",
+          "id": 2370,
+          "validFrom": "1997-01-01",
+          "validTo": "1998-01-01",
+          "lastModified": "2023-11-07T09:49:35.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/2370"
+            }
+          }
+        },
+        {
+          "name": "Landkoder (SSB-3) 1995",
+          "id": 2371,
+          "validFrom": "1995-01-01",
+          "validTo": "1997-01-01",
+          "lastModified": "2023-11-07T10:56:05.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/2371"
+            }
+          }
+        },
+        {
+          "name": "Landkoder (SSB-3) 1994",
+          "id": 2372,
+          "validFrom": "1994-01-01",
+          "validTo": "1995-01-01",
+          "lastModified": "2023-11-07T12:28:02.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/2372"
+            }
+          }
+        },
+        {
+          "name": "Landkoder (SSB-3) 1993",
+          "id": 2373,
+          "validFrom": "1993-01-01",
+          "validTo": "1994-01-01",
+          "lastModified": "2023-11-07T12:16:12.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/2373"
+            }
+          }
+        },
+        {
+          "name": "Landkoder (SSB-3) 1992",
+          "id": 2374,
+          "validFrom": "1992-01-01",
+          "validTo": "1993-01-01",
+          "lastModified": "2023-11-07T12:35:47.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/2374"
+            }
+          }
+        }
+      ],
       "_links": {
         "self": {
           "href": "/classifications/91"
@@ -41,6 +305,20 @@
       "classificationType": "Klassifikasjon",
       "classificationFamilyId": 3,
       "lastModified": "2018-12-07T14:02:33.000+0000",
+      "versions": [
+        {
+          "name": "Kjønn 1960",
+          "id": 14,
+          "validFrom": "1960-01-01",
+          "lastModified": "2016-10-07T12:05:23.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/14"
+            }
+          }
+        }
+      ],
       "_links": {
         "self": {
           "href": "/classifications/2"
@@ -156,6 +434,46 @@
       "classificationFamilyId": 4,
       "lastModified": "2020-10-13T10:07:50.000+0000",
       "description": "Standard for regionale spesialkoder beskriver hvordan regionale spesialkoder skal brukes i statistikk.",
+      "versions": [
+        {
+          "name": "Regionale spesialkoder 2011",
+          "id": 18,
+          "validFrom": "2011-01-01",
+          "validTo": "2017-01-01",
+          "lastModified": "2016-10-11T10:50:24.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/18"
+            }
+          }
+        },
+        {
+          "name": "Regionale spesialkoder 2004",
+          "id": 19,
+          "validFrom": "2004-01-01",
+          "validTo": "2011-01-01",
+          "lastModified": "2016-10-07T12:05:23.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/19"
+            }
+          }
+        },
+        {
+          "name": "Regionale spesialkoder 2017",
+          "id": 480,
+          "validFrom": "2017-01-01",
+          "lastModified": "2020-10-13T10:07:50.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/480"
+            }
+          }
+        }
+      ],
       "_links": {
         "self": {
           "href": "/classifications/4"

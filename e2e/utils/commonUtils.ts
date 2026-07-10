@@ -17,3 +17,9 @@ export async function expectButtonVisible(page: Page, roleName: string) {
   await expect(button).toBeVisible();
   return button;
 }
+
+// duplicate ??
+export const formatDate = (dateStr: string | Date | undefined) => {
+  if (!dateStr) return '';
+  return new Date(dateStr).toLocaleDateString('nb-NO');
+};

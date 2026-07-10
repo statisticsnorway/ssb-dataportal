@@ -3,6 +3,30 @@
   gap: 1rem;
 }
 
+.versionsWrapper {
+  max-width: 100%;
+}
+
 .searchScope {
   max-width: 30rem;
+}
+
+.tabsPanel {
+  --dsc-tabs-content-padding: 0;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.tabList {
+  flex-wrap: wrap;
+}
+
+.detailsHeading {
+  overflow-wrap: break-word;
+}
+
+@media (min-width: 400px) {
+  .tabsPanel {
+    --dsc-tabs-content-padding: var(--dsc-tabs-tab-padding);
+  }
 }
