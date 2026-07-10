@@ -1,4 +1,4 @@
-import { Link } from '@digdir/designsystemet-react';
+import Link from 'next/link';
 import { VersionItem, VersionsTable } from '@/app/(details)/classifications/components/versions-table';
 import { ClassificationVersionSummaryResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language/src/localization';
