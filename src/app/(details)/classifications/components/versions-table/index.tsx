@@ -1,3 +1,5 @@
+'use client';
+
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from '@digdir/designsystemet-react';
 import { ReactNode } from 'react';
 import styles from './versionsTable.module.css';
