@@ -27,7 +27,7 @@ export default function ClassificationDetail({ classification, children }: Reado
         currentText={classification.name ?? String(classification.id)}
       />
       <main className={styles.mainContent}>
-        <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='xl' level={1}>
+        <Heading className={'primaryHeading'} data-size='xl' level={1}>
           {classification.name}
         </Heading>
         {classification.description && (
