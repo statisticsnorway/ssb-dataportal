@@ -16,7 +16,7 @@ const VersionsTable = ({ content }: VersionsTableProps) => {
   return (
     <Table border={true} zebra={true} hover={true} className={styles.table}>
       <TableHead>
-        <TableRow className={styles.row}>
+        <TableRow>
           {headers.map((header) => (
             <TableHeaderCell key={header}>{header}</TableHeaderCell>
           ))}
@@ -24,7 +24,7 @@ const VersionsTable = ({ content }: VersionsTableProps) => {
       </TableHead>
       <TableBody>
         {content.map((row) => (
-          <TableRow key={row.map((item) => item.value).join('-')} className={styles.row}>
+          <TableRow key={row.map((item) => item.value).join('-')}>
             {row.map((item) => (
               <TableCell key={item.label}>
                 {item.value instanceof Date ? item.value.toLocaleDateString('nb-NO') : item.value}
