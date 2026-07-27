@@ -224,6 +224,12 @@ export const en = {
     landingPageTitle: 'Welcome to SSB Dataportal',
   },
 
+  language: {
+    label: 'Language',
+    nb: 'Norwegian Bokmal',
+    en: 'English',
+  },
+
   loading: {
     filters: 'Loading filters...',
     results: 'Loading results...',
