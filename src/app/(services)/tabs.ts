@@ -10,17 +10,23 @@ export type TabData = { label: string; route: string; id: string };
 
 export const tabsData: Record<keyof typeof Tabs, TabData> = {
   VariableDefinitions: {
-    label: localization.tabs.variableDefinitions,
+    get label() {
+      return localization.tabs.variableDefinitions;
+    },
     route: '/variable-definitions',
     id: 'variableDefinitionsTab',
   },
   Classifications: {
-    label: localization.tabs.classifications,
+    get label() {
+      return localization.tabs.classifications;
+    },
     route: '/classifications',
     id: 'classificationsTab',
   },
   DataProducts: {
-    label: localization.tabs.dataProducts,
+    get label() {
+      return localization.tabs.dataProducts;
+    },
     route: '/data-products',
     id: 'dataProductsTab',
   },

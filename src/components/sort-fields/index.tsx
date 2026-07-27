@@ -10,13 +10,13 @@ interface SortFieldsProps {
   onSortChange: (key: SortTypes) => void;
 }
 
-const sortLabels: Record<string, string> = {
-  titleAsc: localization.search.sort.titleAlphabeticalAsc,
-  titleDesc: localization.search.sort.titleAlphabeticalDesc,
-  lastChanged: localization.search.sort.lastUpdatedFirst,
-};
-
 const SortFields = ({ sortOptions, sortValue, onSortChange }: SortFieldsProps) => {
+  const sortLabels: Record<string, string> = {
+    titleAsc: localization.search.sort.titleAlphabeticalAsc,
+    titleDesc: localization.search.sort.titleAlphabeticalDesc,
+    lastChanged: localization.search.sort.lastUpdatedFirst,
+  };
+
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     onSortChange(e.target.value as SortTypes);
   };

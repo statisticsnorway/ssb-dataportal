@@ -23,11 +23,11 @@ import { StatusFiltersSection } from './components/StatusFiltersSection';
 import { SubjectFiltersSection } from './components/SubjectFiltersSection';
 import { VariableDefinitionsProvider } from './components/variableDefinitionContext';
 
-const statusLabelByValue: Record<string, string> = {
+const getStatusLabelByValue = (): Record<string, string> => ({
   DRAFT: localization.status.draft,
   PUBLISHED_INTERNAL: localization.status.publishedInternal,
   PUBLISHED_EXTERNAL: localization.status.publishedExternal,
-};
+});
 
 interface VariableDefinitionsServicePageProps {
   variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
@@ -49,6 +49,7 @@ const VariableDefinitionsServicePage = ({
   });
 
   const { q, status, subjects, sort, page } = queryState;
+  const statusLabelByValue = getStatusLabelByValue();
 
   const { data: subjectFields } = use(subjectFieldsPromise);
 
