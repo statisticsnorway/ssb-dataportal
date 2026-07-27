@@ -381,3 +381,5 @@ export const nb = {
     },
   },
 };
+
+export type Translation = typeof nb;
