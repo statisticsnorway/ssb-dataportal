@@ -222,6 +222,12 @@ export const nb = {
     landingPageTitle: 'Velkommen til SSB Dataportal',
   },
 
+  language: {
+    label: 'Språk',
+    nb: 'Norsk Bokmål',
+    en: 'Engelsk',
+  },
+
   loading: {
     filters: 'Laster filtere...',
     results: 'Laster resultater...',

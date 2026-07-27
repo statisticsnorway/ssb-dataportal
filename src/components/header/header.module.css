@@ -22,13 +22,11 @@
 .rightGroup {
   margin-left: 0;
   width: 100%;
-}
-
-/* Make LoginButton fit container */
-.header :global(button),
-.header button {
-  box-sizing: border-box;
-  align-self: stretch;
+  gap: var(--small-gap);
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 @media (min-width: 768px) {
@@ -43,12 +41,8 @@
     margin: 0;
   }
   .rightGroup {
+    flex-direction: row;
     margin-left: auto;
     width: auto;
-  }
-  .header :global(button),
-  .header button {
-    width: auto;
-    align-self: auto;
   }
 }
