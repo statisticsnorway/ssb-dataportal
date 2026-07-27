@@ -6,3 +6,6 @@ export const localization = new LocalizedStrings<Translation>({
   nb,
   en: en as Translation,
 });
+
+// Default language. Expected to be overridden by user preferences at runtime
+localization.setLanguage('nb');
