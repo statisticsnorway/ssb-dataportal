@@ -28,10 +28,16 @@ export const CookieBanner = () => {
   }
 
   return (
-    <section className='containerBox' aria-label='Cookie banner'>
+    <section className='containerBox' aria-label={localization.cookieBanner.label}>
       <Alert data-color='info' className={styles.content}>
         <p>{localization.cookieBanner.message}</p>
-        <Button className={styles.closeButton} variant='tertiary' onClick={onClose} icon={true}>
+        <Button
+          className={styles.closeButton}
+          aria-label={localization.cookieBanner.closeButtonLabel}
+          variant='tertiary'
+          onClick={onClose}
+          icon={true}
+        >
           <XMarkIcon aria-hidden />
         </Button>
       </Alert>

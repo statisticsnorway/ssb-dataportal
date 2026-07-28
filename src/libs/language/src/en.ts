@@ -86,6 +86,8 @@ export const en = {
   },
 
   cookieBanner: {
+    closeButtonLabel: 'Close button',
+    label: 'Cookie banner',
     message: 'We store cookies necessary to keep the website working and secure.',
   },
 

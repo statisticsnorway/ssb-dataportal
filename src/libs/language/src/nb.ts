@@ -83,6 +83,8 @@ export const nb = {
   },
 
   cookieBanner: {
+    closeButtonLabel: 'Lukk knapp',
+    label: 'Informasjonskaplser kunngjøring',
     message: 'Vi lagrer nødvendige informasjonskapsler som gjør at nettsiden fungerer og er trygg.',
   },
 
