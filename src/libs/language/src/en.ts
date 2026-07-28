@@ -85,6 +85,10 @@ export const en = {
     daplaLab: 'Dapla Lab',
   },
 
+  cookieBanner: {
+    message: 'We store cookies necessary to keep the website working and secure.',
+  },
+
   comment: 'Comment',
 
   contact: {
@@ -226,7 +230,7 @@ export const en = {
 
   language: {
     label: 'Language',
-    nb: 'Norwegian Bokmal',
+    nb: 'Norsk Bokmål',
     en: 'English',
   },
 

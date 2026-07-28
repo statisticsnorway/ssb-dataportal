@@ -4,7 +4,7 @@ import { Dropdown } from '@digdir/designsystemet-react';
 import { LanguageIcon } from '@navikt/aksel-icons';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { languageCookieName, localization, type SupportedLanguage } from '@/libs/language';
+import { languageCookieName, localization, type SupportedLanguage, setPreferenceCookie } from '@/libs/language';
 
 const LanguagePicker = () => {
   const router = useRouter();
@@ -12,7 +12,7 @@ const LanguagePicker = () => {
 
   const onLanguageChange = (language: SupportedLanguage) => {
     localization.setLanguage(language);
-    document.cookie = `${languageCookieName}=${language}; path=/; max-age=31536000; samesite=lax`;
+    setPreferenceCookie(languageCookieName, language);
     setLangOpen(false);
     router.refresh();
   };

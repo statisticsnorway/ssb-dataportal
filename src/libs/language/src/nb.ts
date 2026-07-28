@@ -82,6 +82,10 @@ export const nb = {
     daplaLab: 'Dapla Lab',
   },
 
+  cookieBanner: {
+    message: 'Vi lagrer nødvendige informasjonskapsler som gjør at nettsiden fungerer og er trygg.',
+  },
+
   comment: 'Kommentar',
 
   contact: {
@@ -225,7 +229,7 @@ export const nb = {
   language: {
     label: 'Språk',
     nb: 'Norsk Bokmål',
-    en: 'Engelsk',
+    en: 'English',
   },
 
   loading: {

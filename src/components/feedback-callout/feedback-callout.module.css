@@ -2,9 +2,9 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-width: 100%;
-  margin: var(--medium-gap);
-  font-size: larger;
+  gap: var(--medium-gap);
+  padding-top: var(--medium-gap);
+  padding-bottom: var(--medium-gap);
 }
 
 @media (min-width: 768px) {
