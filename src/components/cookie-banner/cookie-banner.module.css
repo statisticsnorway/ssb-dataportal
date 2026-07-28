@@ -1,20 +1,12 @@
 .content {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: start;
-  gap: var(--medium-gap);
-  padding-top: var(--medium-gap);
-  padding-bottom: var(--medium-gap);
+  padding-top: var(--small-gap);
+  padding-bottom: var(--small-gap);
 }
 
 .closeButton {
-  flex-shrink: 0;
   margin-left: auto;
-}
-
-@media (max-width: 767px) {
-  .content {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }
