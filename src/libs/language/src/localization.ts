@@ -4,13 +4,13 @@ import { nb, type Translation } from './nb';
 
 export const languageCookieName = 'ssb-dataportal-language';
 export const cookieBannerDismissedCookieName = 'ssb-dataportal-cookie-banner-dismissed';
-export const preferenceCookieMaxAge = 31536000;
+const preferenceCookieMaxAge = 31536000;
 
-export const supportedLanguages = ['nb', 'en'] as const;
+const supportedLanguages = ['nb', 'en'] as const;
 
 export type SupportedLanguage = (typeof supportedLanguages)[number];
 
-export const isSupportedLanguage = (value: string): value is SupportedLanguage => {
+const isSupportedLanguage = (value: string): value is SupportedLanguage => {
   return supportedLanguages.includes(value as SupportedLanguage);
 };
 
