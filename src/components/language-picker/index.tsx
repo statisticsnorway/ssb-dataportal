@@ -19,7 +19,7 @@ const LanguagePicker = () => {
 
   return (
     <Dropdown.TriggerContext>
-      <Dropdown.Trigger onClick={() => setLangOpen(!langOpen)}>
+      <Dropdown.Trigger variant='secondary' onClick={() => setLangOpen(!langOpen)}>
         <LanguageIcon aria-hidden />
         <span>{localization.language.label}</span>
       </Dropdown.Trigger>
