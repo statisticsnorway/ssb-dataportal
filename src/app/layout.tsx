@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { AppLayout } from '@/components/app-layout';
+import { LocalizationSync } from '@/components/localization-sync';
 import { languageCookieName, localization, resolveLanguage } from '@/libs/language';
 import { createLogger } from '@/libs/logger/server-logger';
 import { openSans, roboto, robotoCondensed } from './fonts';
@@ -47,9 +48,11 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
     <AuthProvider isAuthenticated={authResult.isAuthenticated}>
       <html lang={language}>
         <body className={`${robotoCondensed.variable} ${roboto.variable} ${openSans.variable}`}>
-          <NuqsAdapter>
-            <AppLayout catalogTitle={localization.appTitle}>{children}</AppLayout>
-          </NuqsAdapter>
+          <LocalizationSync language={language}>
+            <NuqsAdapter>
+              <AppLayout catalogTitle={localization.appTitle}>{children}</AppLayout>
+            </NuqsAdapter>
+          </LocalizationSync>
         </body>
       </html>
     </AuthProvider>

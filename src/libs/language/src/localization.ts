@@ -21,17 +21,4 @@ export const localization = new LocalizedStrings<Translation>({
   en: en as Translation,
 });
 
-const getLanguageFromCookie = () => {
-  if (typeof document === 'undefined') {
-    return undefined;
-  }
-
-  const languageCookie = document.cookie
-    .split(';')
-    .map((value) => value.trim())
-    .find((value) => value.startsWith(`${languageCookieName}=`));
-
-  return languageCookie?.split('=')[1];
-};
-
-localization.setLanguage(resolveLanguage(getLanguageFromCookie()));
+localization.setLanguage('nb');
