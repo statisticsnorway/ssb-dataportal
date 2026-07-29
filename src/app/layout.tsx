@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import { AppLayout } from '@/components/app-layout';
-import { localization } from '@/libs/language';
+import { LocalizationSync } from '@/components/localization-sync';
+import { languageCookieName, localization, resolveLanguage } from '@/libs/language';
 import { createLogger } from '@/libs/logger/server-logger';
 import { openSans, roboto, robotoCondensed } from './fonts';
 import './global.css';
@@ -10,35 +12,47 @@ import { AuthProvider } from './authContext';
 
 const logger = createLogger('app:root');
 
-// Hardcoded until we implement multi-language support
-localization.setLanguage('nb');
+export const generateMetadata = async (): Promise<Metadata> => {
+  const cookieStore = await cookies();
+  const language = resolveLanguage(cookieStore.get(languageCookieName)?.value);
 
-logger.info(
-  {
-    language: localization.getLanguage(),
-    useStaticData: process.env.VARDEF_USE_STATIC_DATA === 'true',
-    nodeEnv: process.env.NODE_ENV,
-  },
-  'Application initializing',
-);
+  localization.setLanguage(language);
 
-export const metadata: Metadata = {
-  title: {
-    template: `%s - ${localization.ssbDataportal}`,
-    default: localization.ssbDataportal,
-  },
-  description: `${localization.appTitle} | ${localization.statisticsNorway}`,
+  return {
+    title: {
+      template: `%s - ${localization.ssbDataportal}`,
+      default: localization.ssbDataportal,
+    },
+    description: `${localization.appTitle} | ${localization.statisticsNorway}`,
+  };
 };
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
+  const cookieStore = await cookies();
+  const language = resolveLanguage(cookieStore.get(languageCookieName)?.value);
+
+  localization.setLanguage(language);
+
+  logger.info(
+    {
+      language,
+      useStaticData: process.env.VARDEF_USE_STATIC_DATA === 'true',
+      nodeEnv: process.env.NODE_ENV,
+    },
+    'Application initializing',
+  );
+
   const authResult = await authenticateUser();
+
   return (
     <AuthProvider isAuthenticated={authResult.isAuthenticated}>
-      <html lang={localization.getLanguage()}>
+      <html lang={language}>
         <body className={`${robotoCondensed.variable} ${roboto.variable} ${openSans.variable}`}>
-          <NuqsAdapter>
-            <AppLayout catalogTitle={localization.appTitle}>{children}</AppLayout>
-          </NuqsAdapter>
+          <LocalizationSync language={language}>
+            <NuqsAdapter>
+              <AppLayout catalogTitle={localization.appTitle}>{children}</AppLayout>
+            </NuqsAdapter>
+          </LocalizationSync>
         </body>
       </html>
     </AuthProvider>

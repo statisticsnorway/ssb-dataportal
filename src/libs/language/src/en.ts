@@ -85,6 +85,12 @@ export const en = {
     daplaLab: 'Dapla Lab',
   },
 
+  cookieBanner: {
+    closeButtonLabel: 'Close button',
+    label: 'Cookie banner',
+    message: 'We store cookies necessary to keep the website working and secure.',
+  },
+
   comment: 'Comment',
 
   contact: {
@@ -222,6 +228,12 @@ export const en = {
     landingPagePrototypeTitle: 'Continuous improvement',
     landingPageSubTitle: "Your gateway to Statistics Norway's public data",
     landingPageTitle: 'Welcome to SSB Dataportal',
+  },
+
+  language: {
+    label: 'Language',
+    nb: 'Norsk Bokmål',
+    en: 'English',
   },
 
   loading: {

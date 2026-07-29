@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { CookieBanner } from '@/components/cookie-banner';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { getDevEnvironmentName } from '@/utils/functions';
@@ -15,6 +16,7 @@ export const AppLayout = ({ children, catalogTitle }: AppLayoutProps) => {
       <Header homeUrl='/' title={catalogTitle} devEnvironmentName={getDevEnvironmentName()} />
       <div style={{ flex: '1' }}>{children}</div>
       <FeedbackCallout />
+      <CookieBanner />
       <Footer />
     </div>
   );

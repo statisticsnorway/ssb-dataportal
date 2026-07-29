@@ -82,6 +82,12 @@ export const nb = {
     daplaLab: 'Dapla Lab',
   },
 
+  cookieBanner: {
+    closeButtonLabel: 'Lukk knapp',
+    label: 'Informasjonskaplser kunngjøring',
+    message: 'Vi lagrer nødvendige informasjonskapsler som gjør at nettsiden fungerer og er trygg.',
+  },
+
   comment: 'Kommentar',
 
   contact: {
@@ -220,6 +226,12 @@ export const nb = {
     landingPagePrototypeTitle: 'Kontinuerlig forbedring',
     landingPageSubTitle: 'Din inngang til SSBs felles kunnskap om data',
     landingPageTitle: 'Velkommen til SSB Dataportal',
+  },
+
+  language: {
+    label: 'Språk',
+    nb: 'Norsk Bokmål',
+    en: 'English',
   },
 
   loading: {

@@ -1,0 +1,12 @@
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  padding-top: var(--small-gap);
+  padding-bottom: var(--small-gap);
+}
+
+.closeButton {
+  margin-left: auto;
+}
