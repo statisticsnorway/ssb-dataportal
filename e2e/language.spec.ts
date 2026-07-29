@@ -1,10 +1,17 @@
 import { expect, test } from '@bgotink/playwright-coverage';
+import { Browser } from '@playwright/test';
 import { en } from '@/libs/language/src/en';
 import { languageCookieName } from '@/libs/language/src/localization';
 import { nb } from '@/libs/language/src/nb';
 import { nn } from '@/libs/language/src/nn';
 
 test.describe('language picker', () => {
+  test.use({
+    extraHTTPHeaders: {
+      'accept-language': 'nb-NO,nb;q=0.9',
+    },
+  });
+
   test.beforeEach(async ({ context }, testInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
     await context.clearCookies();
@@ -54,5 +61,57 @@ test.describe('language picker', () => {
     await page.reload();
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await expect(page.getByRole('button', { name: en.language.label })).toBeVisible();
+  });
+});
+
+test.describe('automatic locale mapping', () => {
+  test.beforeEach(async ({}, testInfo) => {
+    test.skip(testInfo.project.name === 'chrome-unauth');
+  });
+
+  const openPageWithLocale = async (browser: Browser, locale: string) => {
+    const context = await browser.newContext({
+      locale,
+    });
+    await context.clearCookies();
+    const page = await context.newPage();
+    await page.goto('/');
+    return { context, page };
+  };
+
+  test('uses Nynorsk automatically when locale is Nynorsk', async ({ browser }) => {
+    const { context, page } = await openPageWithLocale(browser, 'nn-NO');
+
+    await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
+    await expect(page.getByRole('button', { name: nn.language.label })).toBeVisible();
+
+    await context.close();
+  });
+
+  test('uses Bokmal automatically when locale is Danish', async ({ browser }) => {
+    const { context, page } = await openPageWithLocale(browser, 'da-DK');
+
+    await expect(page.locator('html')).toHaveAttribute('lang', 'nb');
+    await expect(page.getByRole('button', { name: nb.language.label })).toBeVisible();
+
+    await context.close();
+  });
+
+  test('uses Bokmal automatically when locale is Swedish', async ({ browser }) => {
+    const { context, page } = await openPageWithLocale(browser, 'sv-SE');
+
+    await expect(page.locator('html')).toHaveAttribute('lang', 'nb');
+    await expect(page.getByRole('button', { name: nb.language.label })).toBeVisible();
+
+    await context.close();
+  });
+
+  test('uses English automatically for other locales', async ({ browser }) => {
+    const { context, page } = await openPageWithLocale(browser, 'de-DE');
+
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await expect(page.getByRole('button', { name: en.language.label })).toBeVisible();
+
+    await context.close();
   });
 });

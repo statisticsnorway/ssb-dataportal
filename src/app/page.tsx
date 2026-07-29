@@ -1,16 +1,25 @@
 import { Card, Heading } from '@digdir/designsystemet-react';
+import { cookies, headers } from 'next/headers';
 import { ReactNode } from 'react';
 import { NavigationCard } from '@/components/navigation-card';
 import AlphabetIcon from '@/icons/alphabet.svg';
 import DatasetIcon from '@/icons/dataset.svg';
 import NetworkIcon from '@/icons/networks.svg';
-import { localization } from '@/libs/language';
+import { languageCookieName, localization, resolveLanguage } from '@/libs/language';
 import { tabsData } from './(services)/tabs';
 import styles from './home.module.css';
 import './home.css';
 import { ClientDetails } from '@/components/client-details/clientDetails';
 
-export default function Home() {
+export default async function Home() {
+  const cookieStore = await cookies();
+  const requestHeaders = await headers();
+  const language = resolveLanguage(
+    cookieStore.get(languageCookieName)?.value,
+    requestHeaders.get('accept-language') ?? undefined,
+  );
+  localization.setLanguage(language);
+
   const getDetailKey = (summary: string, index: number) => {
     return summary || String(index);
   };
