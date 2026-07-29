@@ -232,7 +232,8 @@ export const en = {
 
   language: {
     label: 'Language',
-    nb: 'Norsk Bokmål',
+    nb: 'Norsk bokmål',
+    nn: 'Norsk nynorsk',
     en: 'English',
   },
 

@@ -230,7 +230,8 @@ export const nb = {
 
   language: {
     label: 'Språk',
-    nb: 'Norsk Bokmål',
+    nb: 'Norsk bokmål',
+    nn: 'Norsk nynorsk',
     en: 'English',
   },
 
