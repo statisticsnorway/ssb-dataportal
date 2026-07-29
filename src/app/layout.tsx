@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { AppLayout } from '@/components/app-layout';
 import { LocalizationSync } from '@/components/localization-sync';
 import { languageCookieName, localization, resolveLanguage } from '@/libs/language';
@@ -14,7 +14,11 @@ const logger = createLogger('app:root');
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const cookieStore = await cookies();
-  const language = resolveLanguage(cookieStore.get(languageCookieName)?.value);
+  const requestHeaders = await headers();
+  const language = resolveLanguage(
+    cookieStore.get(languageCookieName)?.value,
+    requestHeaders.get('accept-language') ?? undefined,
+  );
 
   localization.setLanguage(language);
 
@@ -29,7 +33,11 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   const cookieStore = await cookies();
-  const language = resolveLanguage(cookieStore.get(languageCookieName)?.value);
+  const requestHeaders = await headers();
+  const language = resolveLanguage(
+    cookieStore.get(languageCookieName)?.value,
+    requestHeaders.get('accept-language') ?? undefined,
+  );
 
   localization.setLanguage(language);
 

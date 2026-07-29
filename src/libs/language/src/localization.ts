@@ -15,8 +15,35 @@ const isSupportedLanguage = (value: string): value is SupportedLanguage => {
   return supportedLanguages.includes(value as SupportedLanguage);
 };
 
-export const resolveLanguage = (value?: string): SupportedLanguage => {
-  return value && isSupportedLanguage(value) ? value : 'nb';
+const bokmalLocalePrefixes = ['nb', 'no', 'da', 'sv'];
+
+export const resolveLanguageFromLocale = (locale?: string): SupportedLanguage => {
+  if (!locale) {
+    return 'en';
+  }
+
+  const locales = locale
+    .split(',')
+    .map((part) => part.trim().split(';')[0]?.toLowerCase())
+    .filter((part): part is string => Boolean(part));
+
+  if (locales.some((part) => part === 'nn' || part.startsWith('nn-'))) {
+    return 'nn';
+  }
+
+  if (locales.some((part) => bokmalLocalePrefixes.some((prefix) => part === prefix || part.startsWith(`${prefix}-`)))) {
+    return 'nb';
+  }
+
+  return 'en';
+};
+
+export const resolveLanguage = (value?: string, locale?: string): SupportedLanguage => {
+  if (value && isSupportedLanguage(value)) {
+    return value;
+  }
+
+  return resolveLanguageFromLocale(locale);
 };
 
 export const getCookieValue = (name: string) => {

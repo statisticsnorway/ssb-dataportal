@@ -8,6 +8,7 @@ test.describe('language picker', () => {
   test.beforeEach(async ({ context }, testInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
     await context.clearCookies();
+    await context.setExtraHTTPHeaders({ 'accept-language': 'nb-NO,nb;q=0.9' });
   });
 
   test('shows current language and available options', async ({ page }) => {
@@ -52,6 +53,35 @@ test.describe('language picker', () => {
     expect(languageCookie?.value).toBe('en');
 
     await page.reload();
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await expect(page.getByRole('button', { name: en.language.label })).toBeVisible();
+  });
+
+  test('uses Nynorsk automatically when locale is Nynorsk', async ({ context, page }) => {
+    await context.setExtraHTTPHeaders({ 'accept-language': 'nn-NO,nn;q=0.9' });
+    await page.goto('/');
+
+    await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
+    await expect(page.getByRole('button', { name: nn.language.label })).toBeVisible();
+  });
+
+  test('uses Bokmal automatically when locale is Danish or Swedish', async ({ context, page }) => {
+    await context.setExtraHTTPHeaders({ 'accept-language': 'da-DK,da;q=0.9' });
+    await page.goto('/');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'nb');
+    await expect(page.getByRole('button', { name: nb.language.label })).toBeVisible();
+
+    await context.clearCookies();
+    await context.setExtraHTTPHeaders({ 'accept-language': 'sv-SE,sv;q=0.9' });
+    await page.goto('/');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'nb');
+    await expect(page.getByRole('button', { name: nb.language.label })).toBeVisible();
+  });
+
+  test('uses English automatically for other locales', async ({ context, page }) => {
+    await context.setExtraHTTPHeaders({ 'accept-language': 'de-DE,de;q=0.9' });
+    await page.goto('/');
+
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await expect(page.getByRole('button', { name: en.language.label })).toBeVisible();
   });
