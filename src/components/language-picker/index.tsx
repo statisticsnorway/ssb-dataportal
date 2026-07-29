@@ -29,6 +29,9 @@ const LanguagePicker = () => {
             <Dropdown.Button onClick={() => onLanguageChange('nb')}>{localization.language.nb}</Dropdown.Button>
           </Dropdown.Item>
           <Dropdown.Item>
+            <Dropdown.Button onClick={() => onLanguageChange('nn')}>{localization.language.nn}</Dropdown.Button>
+          </Dropdown.Item>
+          <Dropdown.Item>
             <Dropdown.Button onClick={() => onLanguageChange('en')}>{localization.language.en}</Dropdown.Button>
           </Dropdown.Item>
         </Dropdown.List>

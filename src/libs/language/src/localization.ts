@@ -1,12 +1,13 @@
 import LocalizedStrings from 'react-localization';
 import { en } from './en';
 import { nb, type Translation } from './nb';
+import { nn } from './nn';
 
 export const languageCookieName = 'ssb-dataportal-language';
 export const cookieBannerDismissedCookieName = 'ssb-dataportal-cookie-banner-dismissed';
 const preferenceCookieMaxAge = 31536000;
 
-const supportedLanguages = ['nb', 'en'] as const;
+const supportedLanguages = ['nb', 'nn', 'en'] as const;
 
 export type SupportedLanguage = (typeof supportedLanguages)[number];
 
@@ -41,6 +42,7 @@ export const setPreferenceCookie = (name: string, value: string) => {
 
 export const localization = new LocalizedStrings<Translation>({
   nb,
+  nn: nn as Translation,
   en: en as Translation,
 });
 
