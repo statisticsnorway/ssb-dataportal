@@ -6,6 +6,11 @@ import { type DataFileSearchHitData } from '@/types/dataFileSearchHit';
 import styles from './components.module.css';
 
 const monthYearFormat = { month: 'short', year: 'numeric', day: undefined } as Intl.DateTimeFormatOptions;
+const dateLocalesByLanguage = {
+  nb: 'nb-NO',
+  nn: 'nn-NO',
+  en: 'en-US',
+} as const;
 
 interface DataFileSearchHitProps {
   readonly dataFile: DataFileSearchHitData;
@@ -20,12 +25,14 @@ const toDate = (value: Date | string | null | undefined): Date | null => {
 function formatPeriodString(dataFile: DataFileSearchHitData) {
   const fromDate = toDate(dataFile.contains_data_from ?? dataFile.start);
   const untilDate = toDate(dataFile.contains_data_until ?? dataFile.end);
-  const from = fromDate?.toLocaleDateString(undefined, monthYearFormat);
-  const until = untilDate?.toLocaleDateString(undefined, monthYearFormat);
+  const appLanguage = localization.getLanguage();
+  const dateLocale = dateLocalesByLanguage[appLanguage as keyof typeof dateLocalesByLanguage] ?? 'en-US';
+  const from = fromDate?.toLocaleDateString(dateLocale, monthYearFormat);
+  const until = untilDate?.toLocaleDateString(dateLocale, monthYearFormat);
   if (from === until) {
     return from;
   }
-  return `${fromDate?.toLocaleDateString(undefined, monthYearFormat)} - ${untilDate?.toLocaleDateString(undefined, monthYearFormat)}`;
+  return `${fromDate?.toLocaleDateString(dateLocale, monthYearFormat)} - ${untilDate?.toLocaleDateString(dateLocale, monthYearFormat)}`;
 }
 
 export const DataFileSearchHit = ({ dataFile }: DataFileSearchHitProps) => {
