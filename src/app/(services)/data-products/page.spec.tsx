@@ -1,9 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { fetchSubjectFieldFilterValues } from '@/libs/data/classifications/codesData';
 import { listDataProducts } from '@/libs/data/datasets/datasets';
 import type { DataProductDTO } from '@/libs/data-access/datadoc/models';
 import { KlassCode } from '@/types/klass-codes';
 import DataProductsPage from './page';
+
+vi.mock('@/libs/data/classifications/codesData', () => ({
+  fetchSubjectFieldFilterValues: vi.fn(),
+}));
 
 vi.mock('@/libs/data/datasets/datasets', () => ({
   listDataProducts: vi.fn(),
@@ -36,7 +41,16 @@ describe('DataProductsPage', () => {
 
   it('passes data products and subject fields to the service page', async () => {
     vi.mocked(listDataProducts).mockResolvedValue([{ product_short_name: 'arbstatus' }]);
+    vi.mocked(fetchSubjectFieldFilterValues).mockResolvedValue([
+      {
+        code: 'al',
+        parentCode: null,
+        level: '1',
+        name: 'Arbeid og lønn',
+        validFrom: '',
+      },
+    ]);
     render(await DataProductsPage({ searchParams }));
-    expect(screen.getByText(/1 data products and \d+ subject fields/)).toBeInTheDocument();
+    expect(screen.getByText(/1 data products and 1 subject fields/)).toBeInTheDocument();
   });
 });

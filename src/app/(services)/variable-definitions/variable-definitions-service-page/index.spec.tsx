@@ -2,12 +2,21 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { NuqsTestingAdapter, type UrlUpdateEvent } from 'nuqs/adapters/testing';
 import { describe, expect, it, vi } from 'vitest';
 import { AuthProvider } from '@/app/authContext';
-import { fetchSubjectFieldFilterValues } from '@/libs/data/classifications/codesData';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import { KlassCode } from '@/types/klass-codes';
 import { getStaticVariableDefinitions } from '@/utils/mock-data';
 import VariableDefinitionsServicePage from '.';
+
+const defaultSubjectFields: KlassCode[] = [
+  {
+    code: 'al',
+    parentCode: null,
+    level: '1',
+    name: 'Arbeid og lønn',
+    validFrom: '',
+  },
+];
 
 async function renderPage(
   isAuthenticated = true,
@@ -21,9 +30,8 @@ async function renderPage(
 ) {
   let resolvedSubjectFieldsPromise = subjectFieldsPromise;
   if (!resolvedSubjectFieldsPromise) {
-    const subjectFields = await fetchSubjectFieldFilterValues();
     resolvedSubjectFieldsPromise = Promise.resolve({
-      data: subjectFields,
+      data: defaultSubjectFields,
       error: null,
     });
   }
