@@ -221,7 +221,8 @@ export const en = {
     landingPageInfoGoal:
       "The goal is to make it easier to find, understand, and use Statistics Norway's data correctly and efficiently.",
     landingPageInfoGoalTitle: 'Why SSB Dataportal?',
-    landingPageInfoIntro: 'Here we gather information about our datasets, variables, code sets, and APIs in one place.',
+    landingPageInfoIntro:
+      'Here we gather information about our datasets, variables, classifications, and APIs in one place.',
     landingPageInfoIntroTitle: 'What is SSB Dataportal?',
     landingPageInfoPrototype:
       'In this first version, you can explore Statistics Norway\'s variable definitions. The portal will gradually expand with an overview of datasets, code sets, and APIs, so you can see the full context from concept to finished data file. By linking definitions from Vardef with code sets from Klass and dataset documentation, we establish a "single source of truth" to ensure that we always interpret and use our data in the same way.',
@@ -263,7 +264,7 @@ export const en = {
   },
 
   pageTitle: {
-    classifications: 'Code sets',
+    classifications: 'Classifications',
     dataProducts: 'Data products',
     variableDefinitions: 'Variable definitions',
   },
