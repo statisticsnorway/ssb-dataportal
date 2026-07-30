@@ -219,10 +219,10 @@ export const nn = {
     landingPageInfoGoal:
       'Målet er å gjere det enklare å finne, forstå og bruke SSB-data på ein korrekt og effektiv måte.',
     landingPageInfoGoalTitle: 'Kvifor SSB Dataportal?',
-    landingPageInfoIntro: 'Her samlar vi informasjon om datasett, variablar, kodeverk og API-ar på ein stad.',
+    landingPageInfoIntro: 'Her samlar vi informasjon om datasett, variablar, klassifikasjonar og API-ar på ein stad.',
     landingPageInfoIntroTitle: 'Kva er SSB Dataportal?',
     landingPageInfoPrototype:
-      'I denne første versjonen kan du utforske SSBs variabeldefinisjonar. Portalen vil gradvis utvidast med oversikt over datasett, kodeverk og API-ar, slik at du kan sjå heile samanhengen frå konsept til ferdig datafil. Ved å kople definisjonar frå Vardef med kodeverk frå Klass og dokumentasjon om datasett, etablerer vi ei "felles sanning" som sikrar at vi alltid tolkar og bruker dataa våre på same måte.',
+      'I denne første versjonen kan du utforske SSBs variabeldefinisjonar. Portalen vil gradvis utvidast med oversikt over datasett, klassifikasjonar og API-ar, slik at du kan sjå heile samanhengen frå konsept til ferdig datafil. Ved å kople definisjonar frå Vardef med kodeverk frå Klass og dokumentasjon om datasett, etablerer vi ei "felles sanning" som sikrar at vi alltid tolkar og bruker dataa våre på same måte.',
     landingPagePrototypeTitle: 'Kontinuerleg forbetring',
     landingPageSubTitle: 'Di inngang til SSBs felles kunnskap om data',
     landingPageTitle: 'Velkomen til SSB Dataportal',
@@ -261,7 +261,7 @@ export const nn = {
   },
 
   pageTitle: {
-    classifications: 'Kodeverk',
+    classifications: 'Klassifikasjoner',
     dataProducts: 'Dataprodukter',
     variableDefinitions: 'Variabeldefinisjonar',
   },
