@@ -50,13 +50,13 @@ describe('vardef data fetching', () => {
     it('static data', async () => {
       vi.stubEnv('VARDEF_USE_STATIC_DATA', 'true');
       // noinspection ES6RedundantAwait
-      await expect(listRenderedVariableDefinitions()).resolves.toContainEqual(staticDefs[0]);
+      await expect(listRenderedVariableDefinitions('nb')).resolves.toContainEqual(staticDefs[0]);
       vi.unstubAllEnvs();
     });
     it('no token available', async () => {
       process.env.VARDEF_USE_STATIC_DATA = 'false';
       // noinspection ES6RedundantAwait
-      await expect(listRenderedVariableDefinitions()).rejects.toThrow('Could not retrieve access token!');
+      await expect(listRenderedVariableDefinitions('nb')).rejects.toThrow('Could not retrieve access token!');
     });
     it('mock api call happy path', () => {
       process.env.VARDEF_USE_STATIC_DATA = 'false';
@@ -64,7 +64,7 @@ describe('vardef data fetching', () => {
 
       vi.spyOn(VariableDefinitionsApi.prototype, 'listVariableDefinitions').mockResolvedValue(staticDefs);
 
-      listRenderedVariableDefinitions().then((result) => {
+      listRenderedVariableDefinitions('nb').then((result) => {
         expect(result).toContainEqual(staticDefs[2]);
       });
     });
