@@ -3,8 +3,8 @@ import { NuqsTestingAdapter, type UrlUpdateEvent } from 'nuqs/adapters/testing';
 import type { ReactNode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { type DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
-import type { CodeItem } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
+import { KlassCode } from '@/types/klass-codes';
 import { DataProductsServicePage } from './data-products-service-page';
 
 vi.mock('server-only', () => ({}));
@@ -57,10 +57,10 @@ const dataProducts: DataProductDTO[] = [
   },
 ];
 
-const subjectFields: CodeItem[] = [
-  { code: 'al', name: 'Arbeid og lønn' },
-  { code: 'bf', name: 'Bank og finansmarked' },
-  { code: 'he', name: 'Helse' },
+const subjectFields: KlassCode[] = [
+  { code: 'al', name: 'Arbeid og lønn', parentCode: null, level: '1', validFrom: '2020' },
+  { code: 'bf', name: 'Bank og finansmarked', parentCode: null, level: '1', validFrom: '2020' },
+  { code: 'he', name: 'Helse', parentCode: null, level: '1', validFrom: '2020' },
 ];
 
 const renderPage = (

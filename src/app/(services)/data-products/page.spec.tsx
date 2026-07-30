@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { listDataProducts } from '@/libs/data/datasets/datasets';
 import type { DataProductDTO } from '@/libs/data-access/datadoc/models';
-import type { CodeItem } from '@/libs/data-access/klass/models';
+import { KlassCode } from '@/types/klass-codes';
 import DataProductsPage from './page';
 
 vi.mock('@/libs/data/datasets/datasets', () => ({
@@ -19,7 +19,7 @@ vi.mock('./data-products-service-page', () => ({
     subjectFields,
   }: {
     dataProducts: DataProductDTO[];
-    subjectFields: CodeItem[];
+    subjectFields: KlassCode[];
   }) => (
     <div>
       {dataProducts.length} data products and {subjectFields.length} subject fields

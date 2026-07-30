@@ -7,9 +7,9 @@ import { CheckboxFilter, FiltersPanel, SelectFilter } from '@/components/filters
 import { FilterTagsSection } from '@/components/filters/filter-tags-section';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { type DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
-import type { CodeItem } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import type { FilterItem } from '@/types/filters';
+import { KlassCode } from '@/types/klass-codes';
 import { getParentCode } from '@/utils/functions';
 import { scrollToFilterTags } from '@/utils/scrollToFilterTags';
 import { tabsData } from '../tabs';
@@ -18,12 +18,12 @@ import styles from './page.module.css';
 
 interface DataProductsServicePageProps {
   readonly dataProducts: DataProductDTO[];
-  readonly subjectFields?: CodeItem[];
+  readonly subjectFields?: KlassCode[];
 }
 
 const UNKNOWN_PRODUCT_TYPE = 'UNKNOWN_PRODUCT_TYPE';
 const ALL_SUBJECT_FIELDS = '';
-const EMPTY_SUBJECT_FIELDS: CodeItem[] = [];
+const EMPTY_SUBJECT_FIELDS: KlassCode[] = [];
 
 type ProductTypeFilterValue = DataProductType | typeof UNKNOWN_PRODUCT_TYPE;
 

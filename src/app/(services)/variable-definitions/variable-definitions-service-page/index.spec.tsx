@@ -2,10 +2,11 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { NuqsTestingAdapter, type UrlUpdateEvent } from 'nuqs/adapters/testing';
 import { describe, expect, it, vi } from 'vitest';
 import { AuthProvider } from '@/app/authContext';
-import { CodeItem } from '@/libs/data-access/klass';
+import { fetchSubjectFieldFilterValues } from '@/libs/data/classifications/codesData';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
-import { fetchStaticSubjectFields, getStaticVariableDefinitions } from '@/utils/mock-data';
+import { KlassCode } from '@/types/klass-codes';
+import { getStaticVariableDefinitions } from '@/utils/mock-data';
 import VariableDefinitionsServicePage from '.';
 
 async function renderPage(
@@ -14,13 +15,13 @@ async function renderPage(
     data: getStaticVariableDefinitions(),
     error: null,
   }),
-  subjectFieldsPromise?: Promise<{ data: CodeItem[]; error: Error | null }>,
+  subjectFieldsPromise?: Promise<{ data: KlassCode[]; error: Error | null }>,
   searchParams = '',
   onUrlUpdate: (event: UrlUpdateEvent) => void = vi.fn(),
 ) {
   let resolvedSubjectFieldsPromise = subjectFieldsPromise;
   if (!resolvedSubjectFieldsPromise) {
-    const subjectFields = await fetchStaticSubjectFields();
+    const subjectFields = await fetchSubjectFieldFilterValues();
     resolvedSubjectFieldsPromise = Promise.resolve({
       data: subjectFields,
       error: null,

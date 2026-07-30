@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 import { fetchAllClassifications } from '@/libs/data/classifications/classificationData';
+import { fetchSubjectFieldFilterValues } from '@/libs/data/classifications/codesData';
 import { fetchSearchResult } from '@/libs/data/classifications/searchData';
 import { localization } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
-import { fetchStaticSubjectFields } from '@/utils/mock-data';
 import { regionFamily } from '@/utils/subjectFieldsMapping';
 import ClassificationsServicePage from './classifications-service-page';
 
@@ -21,7 +21,7 @@ export default async function Classifications({
   const logger = createLogger('classifications-discover-page');
   logger.info({ params }, 'Classifications page access');
 
-  const subjectFieldsPromise = fetchStaticSubjectFields()
+  const subjectFieldsPromise = fetchSubjectFieldFilterValues()
     .then((data) => ({
       data: data.some((field) => String(field.code) === regionFamily.code) ? data : [...data, regionFamily],
       error: null,

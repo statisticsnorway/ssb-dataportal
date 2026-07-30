@@ -1,7 +1,8 @@
-import { ClassificationResource, CodeItem, SearchResultResource } from '@/libs/data-access/klass';
+import { ClassificationResource, SearchResultResource } from '@/libs/data-access/klass';
 import { clientLogger } from '@/libs/logger/client-logger';
 import { CLASSIFICATION_TYPE_CATEGORY, ClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
+import { KlassCode } from '@/types/klass-codes';
 import { SortTypes } from '@/types/sort';
 import { sortAscending, sortDatesDescendingSafe, sortDescending } from '@/utils/sort';
 import { SUBJECT_FIELD_BY_CODE } from '@/utils/subjectFieldsMapping';
@@ -74,7 +75,7 @@ export function mapSearchResultsToClassifications(
   return mapped;
 }
 
-export function mapSelectedSubjectFilters(subjectCodes: string[], subjectFields: CodeItem[]): FilterItem[] {
+export function mapSelectedSubjectFilters(subjectCodes: string[], subjectFields: KlassCode[]): FilterItem[] {
   return subjectCodes.map((value) => {
     const subject = subjectFields.find((item) => String(item.code) === value);
     return {
@@ -87,7 +88,7 @@ export function mapSelectedSubjectFilters(subjectCodes: string[], subjectFields:
 
 export function createSubjectFieldFilterItems(
   classifications: ClassificationResource[],
-  subjectFields: CodeItem[],
+  subjectFields: KlassCode[],
 ): FilterItem[] {
   return subjectFields
     .filter((item) => !item.parentCode && item.code != null)
