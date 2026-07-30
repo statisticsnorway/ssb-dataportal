@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
+import { cookies, headers } from 'next/headers';
 import { listRenderedVariableDefinitions } from '@/libs/data/variable-definitions/variableDefinitions';
-import { localization } from '@/libs/language';
+import { languageCookieName, localization, resolveLanguage } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import { fetchStaticSubjectFields } from '@/utils/mock-data';
@@ -16,6 +17,12 @@ export default async function VariableDefinitions({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }>) {
   const params = await searchParams;
+  const cookieStore = await cookies();
+  const requestHeaders = await headers();
+  const language = resolveLanguage(
+    cookieStore.get(languageCookieName)?.value,
+    requestHeaders.get('accept-language') ?? undefined,
+  );
   const logger = createLogger('variable-definitions-discover-page');
   logger.info({ params }, 'Variable definitions page access');
 
@@ -26,7 +33,7 @@ export default async function VariableDefinitions({
       return { data: [], error };
     });
 
-  const variableDefsPromise = listRenderedVariableDefinitions()
+  const variableDefsPromise = listRenderedVariableDefinitions(language)
     .then((data) => ({ data, error: null }))
     .catch((error) => {
       logger.error({ error: sanitizeError(error) }, 'Failed to load variable definitions');
