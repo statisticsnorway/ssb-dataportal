@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { ClassificationResource, SearchResultResource } from '@/libs/data-access/klass';
+import { localization } from '@/libs/language';
 import classificationsMock from '@/static-data/classifications.json';
 import searchResultsMock from '@/static-data/klass-search-results.json';
 import { ClassificationType } from '@/types/classification';
@@ -35,6 +36,7 @@ describe('filterAndSortClassifications', () => {
   });
 
   it('filters by type when api uses english classificationType values', () => {
+    localization.setLanguage('en');
     const englishTypeClassifications: ClassificationResource[] = [
       {
         id: 1,
@@ -45,7 +47,7 @@ describe('filterAndSortClassifications', () => {
       {
         id: 2,
         name: 'Code list item',
-        classificationType: 'Code list',
+        classificationType: 'Codelist',
         lastModified: new Date(),
       },
     ];
