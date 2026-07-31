@@ -7,10 +7,9 @@ import { SortTypes } from '@/types/sort';
 import { sortAscending, sortDatesDescendingSafe, sortDescending } from '@/utils/sort';
 import { SUBJECT_FIELD_BY_CODE } from '@/utils/subjectFieldsMapping';
 import {
-  fromQueryTypeValue,
+  getClassificationTypeForLabel,
   getLabelForClassificationType,
   stripTitlePrefix,
-  toQueryTypeValue,
 } from './classificationHelpers';
 
 /**
@@ -122,8 +121,8 @@ export function createSubjectFieldFilterItems(
 export function createTypeFilterItems(classifications: ClassificationResource[]): FilterItem[] {
   return [ClassificationType.Klassifikasjon, ClassificationType.Kodeliste].map((value) => ({
     label: getLabelForClassificationType(value as ClassificationType),
-    value: toQueryTypeValue(value),
-    count: classifications.filter((c) => c.classificationType === value).length,
+    value: value,
+    count: classifications.filter((c) => getClassificationTypeForLabel(c.classificationType ?? '') === value).length,
     category: CLASSIFICATION_TYPE_CATEGORY,
   }));
 }
@@ -147,11 +146,14 @@ export function filterAndSortClassifications(
       ? withName
       : withName.filter((c) => c.classificationFamilyId != null && familyIds.has(c.classificationFamilyId));
 
-  const domainTypes = classificationTypes.map(fromQueryTypeValue);
+  const domainTypes = classificationTypes.map(getClassificationTypeForLabel);
   const byType =
     domainTypes.length === 0
       ? bySubject
-      : bySubject.filter((c) => c.classificationType != null && domainTypes.includes(c.classificationType));
+      : bySubject.filter(
+          (c) =>
+            c.classificationType != null && domainTypes.includes(getClassificationTypeForLabel(c.classificationType)),
+        );
 
   if (keepInputOrder) return byType;
   const comparators: Record<SortTypes, (a: ClassificationResource, b: ClassificationResource) => number> = {

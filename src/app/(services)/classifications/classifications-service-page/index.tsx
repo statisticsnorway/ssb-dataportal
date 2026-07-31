@@ -71,7 +71,7 @@ const ClassificationsServicePage = ({
       }),
       ...types.map((code) => ({
         value: code,
-        label: getLabelForClassificationType(code as ClassificationType),
+        label: getLabelForClassificationType(code),
       })),
     ],
     [q, subjects, subjectFields, types],
@@ -103,7 +103,7 @@ const ClassificationsServicePage = ({
 
   useEffect(() => {
     if (types.length === 0) {
-      updateQuery({ types: [getLabelForClassificationType(ClassificationType.Klassifikasjon)] });
+      updateQuery({ types: [ClassificationType.Klassifikasjon] });
     }
   }, []);
 

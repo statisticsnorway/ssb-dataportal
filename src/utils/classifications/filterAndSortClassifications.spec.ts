@@ -33,4 +33,39 @@ describe('filterAndSortClassifications', () => {
 
     expect(result.every((c) => c.classificationType === ClassificationType.Kodeliste)).toBe(true);
   });
+
+  it('filters by type when api uses english classificationType values', () => {
+    const englishTypeClassifications: ClassificationResource[] = [
+      {
+        id: 1,
+        name: 'Classification item',
+        classificationType: 'Classification',
+        lastModified: new Date(),
+      },
+      {
+        id: 2,
+        name: 'Code list item',
+        classificationType: 'Code list',
+        lastModified: new Date(),
+      },
+    ];
+
+    const standards = filterAndSortClassifications(
+      englishTypeClassifications,
+      [],
+      'titleAsc',
+      [ClassificationType.Klassifikasjon],
+      true,
+    );
+    const codelists = filterAndSortClassifications(
+      englishTypeClassifications,
+      [],
+      'titleAsc',
+      [ClassificationType.Kodeliste],
+      true,
+    );
+
+    expect(standards.map((c) => c.id)).toEqual([1]);
+    expect(codelists.map((c) => c.id)).toEqual([2]);
+  });
 });
