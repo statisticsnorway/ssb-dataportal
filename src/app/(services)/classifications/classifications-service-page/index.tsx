@@ -15,7 +15,10 @@ import { ClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
 import { KlassCode } from '@/types/klass-codes';
 import { SortTypes, sortTypes } from '@/types/sort';
-import { getLabelForClassificationType } from '@/utils/classifications/classificationHelpers';
+import {
+  getClassificationTypeForLabel,
+  getLabelForClassificationType,
+} from '@/utils/classifications/classificationHelpers';
 import { scrollToFilterTags } from '@/utils/scrollToFilterTags';
 import { tabsData } from '../../tabs';
 import { ClassificationTypeFiltersSection } from './components/ClassificationTypeFiltersSection';
@@ -95,15 +98,18 @@ const ClassificationsServicePage = ({
   };
 
   const toggleClassificationType = (filter: FilterItem) => {
-    const nextTypes = toggleValue(types, filter.value);
+    const nextTypes = toggleValue(
+      types.map(getClassificationTypeForLabel),
+      getClassificationTypeForLabel(filter.value),
+    );
 
-    updateQuery({ types: nextTypes.length > 0 ? nextTypes : null, page: 1 });
+    updateQuery({ types: nextTypes.length > 0 ? nextTypes.map(getLabelForClassificationType) : null, page: 1 });
     scrollToFilterTags();
   };
 
   useEffect(() => {
     if (types.length === 0) {
-      updateQuery({ types: [ClassificationType.Klassifikasjon] });
+      updateQuery({ types: [getLabelForClassificationType(ClassificationType.Klassifikasjon)] });
     }
   }, []);
 

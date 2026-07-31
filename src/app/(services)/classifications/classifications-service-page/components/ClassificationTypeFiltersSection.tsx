@@ -5,7 +5,10 @@ import { CheckboxFilter } from '@/components/filters';
 import { localization } from '@/libs/language';
 import { CLASSIFICATION_TYPE_CATEGORY } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
-import { getLabelForClassificationType } from '@/utils/classifications/classificationHelpers';
+import {
+  getClassificationTypeForLabel,
+  getLabelForClassificationType,
+} from '@/utils/classifications/classificationHelpers';
 import { createTypeFilterItems } from '@/utils/classifications/filterAndSortClassifications';
 import { useClassificationContext } from './classificationContext';
 
@@ -21,7 +24,7 @@ export const ClassificationTypeFiltersSection = ({ onFilterChange }: Classificat
   const selectedItems = useMemo(
     () =>
       selectedClassificationTypes.map((value) => ({
-        value,
+        value: getClassificationTypeForLabel(value),
         label: getLabelForClassificationType(value),
         category: CLASSIFICATION_TYPE_CATEGORY,
       })),
