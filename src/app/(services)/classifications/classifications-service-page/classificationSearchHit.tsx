@@ -1,14 +1,15 @@
 import { Tag } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
 import { SearchHit } from '@/components/search-hit';
-import { ClassificationResource, CodeItem } from '@/libs/data-access/klass';
+import { ClassificationResource } from '@/libs/data-access/klass';
 import { ClassificationType } from '@/types/classification';
+import { KlassCode } from '@/types/klass-codes';
 import { getLabelForClassificationType, stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
 import { getSubjectCodeByFamilyId } from '@/utils/subjectFieldsMapping';
 
 interface SearchHitProps {
   classification?: ClassificationResource;
-  subjectFields: CodeItem[];
+  subjectFields: KlassCode[];
 }
 
 const ClassificationSearchHit = ({ classification, subjectFields }: SearchHitProps) => {

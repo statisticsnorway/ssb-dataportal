@@ -1,5 +1,5 @@
-import { CodeItem } from '@/libs/data-access/klass/models/CodeItem';
 import { clientLogger } from '@/libs/logger/client-logger';
+import { KlassCode } from '@/types/klass-codes';
 
 /**
  * Maps a subject field code (`string`) to the classification family IDs
@@ -45,9 +45,12 @@ export const SUBJECT_FIELD_BY_CODE: Record<string, number[]> = {
  * Added to subject field lists so Region can be shown and filtered
  * like other subject fields.
  */
-export const regionFamily: CodeItem = {
+export const regionFamily: KlassCode = {
   code: '15',
   name: 'Region',
+  parentCode: '',
+  level: '1',
+  validFrom: '2024-10-01',
 };
 
 /**

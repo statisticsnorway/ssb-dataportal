@@ -2,6 +2,7 @@
 
 import { VersionsApi, VersionsLanguageEnum } from '@/libs/data-access/klass/apis/VersionsApi';
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
+import { SupportedLanguage } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import codesMock from '@/static-data/codes-mock.json';
@@ -33,7 +34,10 @@ function getVersionsClient(): VersionsApi {
  * Uses `VersionsApi.versions` and extracts `classificationItems`.
  * Falls back to static mock data when `KLASS_USE_STATIC_DATA=true`.
  */
-export async function fetchVersionCodes(versionId: number): Promise<KlassCode[]> {
+export async function fetchVersionCodes(
+  versionId: number,
+  language: VersionsLanguageEnum | undefined = VersionsLanguageEnum.NB,
+): Promise<KlassCode[]> {
   if (process.env.KLASS_USE_STATIC_DATA === 'true') {
     logger.warn({ versionId }, 'Using static mock data for version codes');
     const key = String(versionId) as keyof typeof codesMock.versionCodes;
@@ -42,9 +46,10 @@ export async function fetchVersionCodes(versionId: number): Promise<KlassCode[]>
 
   const api = getVersionsClient();
   try {
-    const data = await api.versions({ id: versionId, language: VersionsLanguageEnum.NB }, fetchInit);
+    const params = { id: versionId, language: language };
+    const data = await api.versions(params, fetchInit);
     const items = data.classificationItems ?? [];
-    logger.info({ versionId, count: items.length }, 'Fetched version codes');
+    logger.info({ params, count: items.length }, 'Fetched version codes');
     return items.map(mapClassificationItemToKlassCode);
   } catch (error) {
     if (error instanceof ResponseError) {
@@ -57,4 +62,16 @@ export async function fetchVersionCodes(versionId: number): Promise<KlassCode[]>
     }
     throw error;
   }
+}
+
+export async function fetchSubjectFieldFilterValues(
+  language: SupportedLanguage | undefined = 'nb',
+): Promise<KlassCode[]> {
+  const id = process.env.SUBJECT_FIELD_CLASSIFICATION_VERSION_ID;
+  if (!id) {
+    throw new Error('Necessary data not provided');
+  }
+  return (await fetchVersionCodes(Number(id), language.toUpperCase() as VersionsLanguageEnum)).filter(
+    (code) => code.level == '1',
+  );
 }

@@ -10,10 +10,10 @@ import { TextFilter } from '@/components/filters/text-filter';
 import { ExternalLink } from '@/components/link-components/externalLink';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortFields } from '@/components/sort-fields';
-import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language/src/localization';
 import { FilterItem } from '@/types/filters';
+import { KlassCode } from '@/types/klass-codes';
 import { sortTypes } from '@/types/sort';
 import { scrollToFilterTags } from '@/utils/scrollToFilterTags';
 import { tabsData } from '../../tabs';
@@ -31,7 +31,7 @@ const getStatusLabelByValue = (): Record<string, string> => ({
 
 interface VariableDefinitionsServicePageProps {
   variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
-  subjectFieldsPromise: Promise<{ data: CodeItem[]; error: Error | null }>;
+  subjectFieldsPromise: Promise<{ data: KlassCode[]; error: Error | null }>;
 }
 
 const VariableDefinitionsServicePage = ({

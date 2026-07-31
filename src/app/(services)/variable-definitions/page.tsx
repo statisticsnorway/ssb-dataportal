@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 import { cookies, headers } from 'next/headers';
+import { fetchSubjectFieldFilterValues } from '@/libs/data/classifications/codesData';
 import { listRenderedVariableDefinitions } from '@/libs/data/variable-definitions/variableDefinitions';
 import { languageCookieName, localization, resolveLanguage } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
-import { fetchStaticSubjectFields } from '@/utils/mock-data';
 import VariableDefinitionsServicePage from './variable-definitions-service-page';
 
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ export default async function VariableDefinitions({
   const logger = createLogger('variable-definitions-discover-page');
   logger.info({ params }, 'Variable definitions page access');
 
-  const subjectFieldsPromise = fetchStaticSubjectFields()
+  const subjectFieldsPromise = fetchSubjectFieldFilterValues(language)
     .then((data) => ({ data, error: null }))
     .catch((error) => {
       logger.error({ error: sanitizeError(error) }, 'Failed to load subject fields');

@@ -2,28 +2,30 @@
 
 import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { parseAsArrayOf, parseAsString, useQueryStates } from 'nuqs';
-import { useMemo } from 'react';
-import { CheckboxFilter, FiltersPanel, SelectFilter } from '@/components/filters';
+import { Suspense, useMemo } from 'react';
+import { CheckboxFilter, FiltersPanel } from '@/components/filters';
 import { FilterTagsSection } from '@/components/filters/filter-tags-section';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { type DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
-import type { CodeItem } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
+import { clientLogger } from '@/libs/logger/client-logger';
 import type { FilterItem } from '@/types/filters';
+import { KlassCode } from '@/types/klass-codes';
 import { getParentCode } from '@/utils/functions';
 import { scrollToFilterTags } from '@/utils/scrollToFilterTags';
 import { tabsData } from '../tabs';
 import { DataProductSearchHit, localizeDataProductType } from './components/DataProductSearchHit';
+import { DataProductsProvider } from './components/dataProductsContext';
+import { SubjectFiltersSection, SubjectFiltersSectionFallback } from './components/SubjectFiltersSection';
 import styles from './page.module.css';
 
 interface DataProductsServicePageProps {
   readonly dataProducts: DataProductDTO[];
-  readonly subjectFields?: CodeItem[];
+  readonly subjectFields?: KlassCode[];
 }
 
 const UNKNOWN_PRODUCT_TYPE = 'UNKNOWN_PRODUCT_TYPE';
-const ALL_SUBJECT_FIELDS = '';
-const EMPTY_SUBJECT_FIELDS: CodeItem[] = [];
+const EMPTY_SUBJECT_FIELDS: KlassCode[] = [];
 
 type ProductTypeFilterValue = DataProductType | typeof UNKNOWN_PRODUCT_TYPE;
 
@@ -32,6 +34,10 @@ const dataProductTypeOrder: ProductTypeFilterValue[] = [
   DataProductType.OTHER_DATA_PRODUCT,
   UNKNOWN_PRODUCT_TYPE,
 ];
+
+const toggleValue = (values: string[], nextValue: string): string[] => {
+  return values.includes(nextValue) ? values.filter((value) => value !== nextValue) : [...values, nextValue];
+};
 
 const getProductTypeFilterValue = (dataProduct: DataProductDTO): ProductTypeFilterValue => {
   return dataProduct.product_type ?? UNKNOWN_PRODUCT_TYPE;
@@ -70,9 +76,9 @@ export const DataProductsServicePage = ({
   dataProducts,
   subjectFields = EMPTY_SUBJECT_FIELDS,
 }: DataProductsServicePageProps) => {
-  const [{ productTypes, subject }, setQueryState] = useQueryStates({
+  const [{ productTypes, subjects }, setQueryState] = useQueryStates({
     productTypes: parseAsArrayOf(parseAsString).withDefault([]),
-    subject: parseAsString.withDefault(ALL_SUBJECT_FIELDS),
+    subjects: parseAsArrayOf(parseAsString).withDefault([]),
   });
 
   const productTypeFilters = useMemo<FilterItem[]>(() => {
@@ -95,9 +101,20 @@ export const DataProductsServicePage = ({
         value: String(subjectField.code),
         count: counts[String(subjectField.code)]?.size ?? 0,
       }))
-      .filter((subjectField) => subjectField.count > 0)
       .sort((a, b) => a.label.localeCompare(b.label, 'nb'));
   }, [dataProducts, subjectFields]);
+
+  const updateQuery = (update: Parameters<typeof setQueryState>[0]) =>
+    setQueryState(update).catch((error) => {
+      clientLogger.error('Failed to update query state', error);
+    });
+
+  const toggleSubject = (filter: FilterItem) => {
+    const nextSubjects = toggleValue(subjects, filter.value);
+
+    updateQuery({ subjects: nextSubjects.length > 0 ? nextSubjects : null });
+    scrollToFilterTags();
+  };
 
   const selectedProductTypeFilters = useMemo<FilterItem[]>(
     () =>
@@ -113,20 +130,23 @@ export const DataProductsServicePage = ({
 
   const filterTags = useMemo<FilterItem[]>(() => {
     const tags = [...selectedProductTypeFilters];
-    if (subject && subject !== ALL_SUBJECT_FIELDS) {
-      const field = subjectFields.find((f) => String(f.code) === subject);
-      tags.push({ value: subject, label: field ? String(field.name) : subject });
-    }
+
+    tags.push(
+      ...subjects.map((code) => {
+        const subject = subjectFields?.find((item) => String(item.code) === code);
+        return { value: code, label: subject ? String(subject.name) : code };
+      }),
+    );
     return tags;
-  }, [selectedProductTypeFilters, subject, subjectFields]);
+  }, [selectedProductTypeFilters, subjects, subjectFields]);
 
   const removeFilter = async (tag: FilterItem) => {
     const nextProductTypes = productTypes.filter((v) => v !== tag.value);
-    const nextSubject = tag.value === subject ? ALL_SUBJECT_FIELDS : subject;
+    const nextSubjects = subjects.filter((value) => value !== tag.value);
 
     await setQueryState({
       productTypes: nextProductTypes.length > 0 ? nextProductTypes : null,
-      subject: nextSubject || null,
+      subjects: nextSubjects.length > 0 ? nextSubjects : null,
     });
     scrollToFilterTags();
   };
@@ -134,20 +154,26 @@ export const DataProductsServicePage = ({
   const clearAll = async () => {
     await setQueryState({
       productTypes: null,
-      subject: null,
+      subjects: null,
     });
     scrollToFilterTags();
   };
 
   const filteredDataProducts = useMemo(() => {
     const selectedProductTypes = new Set(productTypes);
+    const selectedSubjectFields = new Set(subjects);
+
     return dataProducts.filter((dataProduct) => {
       const matchesProductType =
         selectedProductTypes.size === 0 || selectedProductTypes.has(getProductTypeFilterValue(dataProduct));
-      const matchesSubjectField = subject === ALL_SUBJECT_FIELDS || getSubjectFieldCodes(dataProduct).includes(subject);
+
+      const subjectFieldCodes = getSubjectFieldCodes(dataProduct);
+      const matchesSubjectField =
+        selectedSubjectFields.size === 0 || subjectFieldCodes.some((code) => selectedSubjectFields.has(code));
+
       return matchesProductType && matchesSubjectField;
     });
-  }, [dataProducts, productTypes, subject]);
+  }, [dataProducts, productTypes, subjects]);
 
   const handleProductTypeFilterChange = (filter: FilterItem) => {
     const nextProductTypes = productTypes.includes(filter.value)
@@ -168,49 +194,47 @@ export const DataProductsServicePage = ({
   );
 
   return (
-    <SearchPage
-      banner={pageInfo}
-      tabsId={tabsData.DataProducts.id}
-      header={localization.tabs.dataProducts}
-      totalHits={filteredDataProducts.length}
-      infoContent={<FilterTagsSection tags={filterTags} onRemoveTag={removeFilter} onClearAll={clearAll} />}
-      asideContent={
-        <FiltersPanel heading={localization.search.filter.label}>
-          <CheckboxFilter
-            filterHeading={localization.products.typeFilterLabel}
-            filters={productTypeFilters}
-            selectedItems={selectedProductTypeFilters}
-            onFilterChange={handleProductTypeFilterChange}
-          />
-          <SelectFilter
-            id='data-product-subject-field-filter'
-            filterHeading={localization.subjectArea}
-            filters={subjectFieldFilters}
-            selectedValue={subject}
-            defaultOptionLabel='Alle statistikkområder'
-            defaultOptionValue={ALL_SUBJECT_FIELDS}
-            onFilterChange={(value) => {
-              setQueryState({ subject: value || null });
-              scrollToFilterTags();
-            }}
-          />
-        </FiltersPanel>
-      }
-      searchResult={
-        filteredDataProducts.length === 0 ? (
-          <div>{localization.search.noHits}</div>
-        ) : (
-          <div className={styles.searchResultList}>
-            {filteredDataProducts.map((dataProduct, index) => (
-              <DataProductSearchHit
-                key={dataProduct.product_short_name || index}
-                dataProduct={dataProduct}
-                subjectFields={subjectFields}
-              />
-            ))}
-          </div>
-        )
-      }
-    />
+    <DataProductsProvider
+      dataProducts={dataProducts}
+      subjectFields={subjectFields}
+      subjectFieldFilters={subjectFieldFilters}
+      selectedSubjectCodes={subjects}
+    >
+      <SearchPage
+        banner={pageInfo}
+        tabsId={tabsData.DataProducts.id}
+        header={localization.tabs.dataProducts}
+        totalHits={filteredDataProducts.length}
+        infoContent={<FilterTagsSection tags={filterTags} onRemoveTag={removeFilter} onClearAll={clearAll} />}
+        asideContent={
+          <FiltersPanel heading={localization.search.filter.label}>
+            <CheckboxFilter
+              filterHeading={localization.products.typeFilterLabel}
+              filters={productTypeFilters}
+              selectedItems={selectedProductTypeFilters}
+              onFilterChange={handleProductTypeFilterChange}
+            />
+            <Suspense fallback={<SubjectFiltersSectionFallback />}>
+              <SubjectFiltersSection onFilterChange={toggleSubject} />
+            </Suspense>
+          </FiltersPanel>
+        }
+        searchResult={
+          filteredDataProducts.length === 0 ? (
+            <div>{localization.search.noHits}</div>
+          ) : (
+            <div className={styles.searchResultList}>
+              {filteredDataProducts.map((dataProduct, index) => (
+                <DataProductSearchHit
+                  key={dataProduct.product_short_name || index}
+                  dataProduct={dataProduct}
+                  subjectFields={subjectFields}
+                />
+              ))}
+            </div>
+          )
+        }
+      />
+    </DataProductsProvider>
   );
 };
