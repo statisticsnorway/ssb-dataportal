@@ -1,5 +1,4 @@
-import { cache } from 'react';
-import { ClassificationResource, CodeItem } from '@/libs/data-access/klass';
+import { ClassificationResource } from '@/libs/data-access/klass';
 import { RenderedView, RenderedViewFromJSON } from '@/libs/data-access/variable-definitions/internal';
 import classificationsMock from '@/static-data/classifications.json';
 import subjectFieldsMock from '@/static-data/subject-fields.json';
@@ -22,15 +21,6 @@ export function getClassification(id: number): ClassificationResource {
   const classification = classifications.find((v) => v.id === id);
   return parseClassification(classification);
 }
-
-export const fetchStaticSubjectFields = cache(async (): Promise<CodeItem[]> => {
-  return subjectFieldsMock.codes.map((item) => ({
-    ...item,
-    parentCode: item.parentCode ?? undefined,
-    validFrom: item.validFrom ?? undefined,
-    validTo: item.validTo ?? undefined,
-  }));
-});
 
 export const getSubjectFieldFilterItems: FilterItem[] = subjectFieldsMock.codes.map((item) => ({
   label: String(item.name),
