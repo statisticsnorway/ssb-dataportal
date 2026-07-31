@@ -61,6 +61,21 @@ export default defineConfig({
     extraHTTPHeaders: {
       'accept-language': 'nb-NO,nb;q=0.9',
     },
+    storageState: {
+      cookies: [
+        {
+          name: 'ssb-dataportal-language',
+          value: 'nb',
+          domain: 'localhost',
+          path: '/',
+          expires: -1,
+          httpOnly: false,
+          secure: false,
+          sameSite: 'Lax',
+        },
+      ],
+      origins: [],
+    },
 
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: 'http://localhost:3000',

@@ -38,7 +38,7 @@ export default async function Classifications({
       return { data: [regionFamily], error };
     });
 
-  const classificationsPromise = fetchAllClassifications()
+  const classificationsPromise = fetchAllClassifications(language)
     .then((data) => ({ data, error: null }))
     .catch((error) => {
       logger.error({ error: sanitizeError(error) }, 'Failed to load classifications');
