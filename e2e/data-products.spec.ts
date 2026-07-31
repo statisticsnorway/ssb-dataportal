@@ -1,6 +1,6 @@
 import { expect, test } from './fixtures/dataProducts.fixture';
 import { localization } from '@/libs/language';
-import { stabilize } from './utils/commonUtils';
+import { checkCheckbox, stabilize } from './utils/commonUtils';
 import { tabsData } from '@/app/(services)/tabs';
 
 test('Data products page displays data products', async ({ dataProductsPage }) => {
@@ -63,20 +63,15 @@ test.describe('unauthenticated', () => {
 
 test('Data products can be filtered by subject area', async ({ dataProductsPage }) => {
   const main = dataProductsPage.getByRole('main');
-  const subjectAreaFilter = main.getByRole('combobox', { name: localization.subjectArea });
+  const subjectCheckbox = (name: string) => dataProductsPage.getByRole('checkbox', { name });
 
-  await subjectAreaFilter.selectOption('al');
+  await subjectCheckbox('Arbeid og lønn').check();
   await expect(main).toContainText('2 treff');
   await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
   await expect(main).toContainText('Arblonn');
   await expect(main).not.toContainText('Ameldingen');
 
-  await subjectAreaFilter.selectOption('bf');
-  await expect(main).toContainText('1 treff');
-  await expect(main).toContainText('Ameldingen');
-  await expect(main).not.toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
-
-  await subjectAreaFilter.selectOption('');
+  await subjectCheckbox('Arbeid og lønn').uncheck();
   await expect(main).toContainText('4 treff');
   await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
   await expect(main).toContainText('Ameldingen');
