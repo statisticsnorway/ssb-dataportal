@@ -112,7 +112,7 @@ export const DataProductsServicePage = ({
   const toggleSubject = (filter: FilterItem) => {
     const nextSubjects = toggleValue(subjects, filter.value);
 
-    updateQuery({ subjects: nextSubjects.length > 0 ? nextSubjects : null, page: 1 });
+    updateQuery({ subjects: nextSubjects.length > 0 ? nextSubjects : null });
     scrollToFilterTags();
   };
 
