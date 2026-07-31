@@ -67,6 +67,184 @@
         "name": "Jordbruk og tjenester tilknyttet jordbruk (v1)",
         "validFrom": "2002-01-01"
       }
+    ],
+    "2828": [
+      {
+        "code": "al",
+        "level": "1",
+        "name": "Arbeid og lønn",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "bb",
+        "level": "1",
+        "name": "Bygg, bolig og eiendom",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "be",
+        "level": "1",
+        "name": "Befolkning",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "bf",
+        "level": "1",
+        "name": "Bank og finansmarked",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "ei",
+        "level": "1",
+        "name": "Energi og industri",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "he",
+        "level": "1",
+        "name": "Helse",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "if",
+        "level": "1",
+        "name": "Inntekt og forbruk",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "js",
+        "level": "1",
+        "name": "Jord, skog, jakt og fiskeri",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "kf",
+        "level": "1",
+        "name": "Kultur og fritid",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "nk",
+        "level": "1",
+        "name": "Nasjonalregnskap og konjunkturer",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "nm",
+        "level": "1",
+        "name": "Natur og miljø",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "os",
+        "level": "1",
+        "name": "Offentlig sektor",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "pp",
+        "level": "1",
+        "name": "Priser og prisindekser",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "sk",
+        "level": "1",
+        "name": "Sosiale forhold og kriminalitet",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "ti",
+        "level": "1",
+        "name": "Teknologi og innovasjon",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "tr",
+        "level": "1",
+        "name": "Transport og reiseliv",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "ud",
+        "level": "1",
+        "name": "Utdanning",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "ut",
+        "level": "1",
+        "name": "Utenriksøkonomi",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "va",
+        "level": "1",
+        "name": "Valg",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "vf",
+        "level": "1",
+        "name": "Bedrifter, foretak og regnskap",
+        "notes": "Bedrift ble fram til mai 2024 kalt virksomhet.",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "vt",
+        "level": "1",
+        "name": "Varehandel og tjenesteyting",
+        "notes": "",
+        "parentCode": "",
+        "shortName": null
+      },
+      {
+        "code": "zm",
+        "level": "1",
+        "name": "Ingen",
+        "notes": "Denne kategorien brukes ikke i Statistikkbanken, men trengs for å dokumentere at noen objekter i SSBs metadatasystemer ikke tilhører noe bestemt statistikkområde.",
+        "parentCode": "",
+        "shortName": null
+      }
     ]
   }
 }
