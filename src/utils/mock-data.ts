@@ -1,7 +1,7 @@
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { RenderedView, RenderedViewFromJSON } from '@/libs/data-access/variable-definitions/internal';
 import classificationsMock from '@/static-data/classifications.json';
-import subjectFieldsMock from '@/static-data/subject-fields.json';
+import subjectFieldsMock from '@/static-data/codes-mock.json';
 import variableDefinitionsJson from '@/static-data/variable-definitions.json';
 import { FilterItem } from '@/types/filters';
 import { parseClassification } from './classifications/classificationHelpers';
@@ -22,7 +22,7 @@ export function getClassification(id: number): ClassificationResource {
   return parseClassification(classification);
 }
 
-export const getSubjectFieldFilterItems: FilterItem[] = subjectFieldsMock.codes.map((item) => ({
+export const getSubjectFieldFilterItems: FilterItem[] = subjectFieldsMock.versionCodes['2828'].map((item) => ({
   label: String(item.name),
   value: String(item.code),
 }));
