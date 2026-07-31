@@ -6,6 +6,15 @@ import type { DataProductDTO } from '@/libs/data-access/datadoc/models';
 import { KlassCode } from '@/types/klass-codes';
 import DataProductsPage from './page';
 
+vi.mock('next/headers', () => ({
+  cookies: vi.fn().mockResolvedValue({
+    get: vi.fn().mockReturnValue(undefined),
+  }),
+  headers: vi.fn().mockResolvedValue({
+    get: vi.fn().mockReturnValue('nb'),
+  }),
+}));
+
 vi.mock('@/libs/data/classifications/codesData', () => ({
   fetchSubjectFieldFilterValues: vi.fn(),
 }));
