@@ -1,35 +1,49 @@
-import type { KlassCode } from '@/types/klass-codes';
+import { ClassificationItemResource } from '@/libs/data-access/klass/models/ClassificationItemResource';
 
-/**
- * Returns codes matching the given term, plus all ancestors of each match,
- * so the tree can render matches in their proper hierarchical context.
- * Returns the original array reference when the term is empty.
- */
-export function filterCodesWithAncestors(codes: KlassCode[], term: string): KlassCode[] {
-  const normalizedTerm = term.trim().toLocaleLowerCase();
+function normalize(value: string | null | undefined): string {
+  return value?.trim().toLocaleLowerCase() ?? '';
+}
+
+export function filterCodesWithAncestors(
+  codes: ClassificationItemResource[] | null | undefined,
+  term: string | null | undefined,
+): ClassificationItemResource[] {
+  const safeCodes = codes ?? [];
+  const normalizedTerm = normalize(term);
+
   if (!normalizedTerm) {
-    return codes;
+    return safeCodes;
   }
 
-  const byCode = new Map(codes.map((item) => [item.code, item]));
+  const byCode = new Map(safeCodes.filter((item) => item?.code).map((item) => [item.code!, item]));
+
   const includedCodes = new Set<string>();
 
-  for (const item of codes) {
-    const matchesFilter =
-      item.code.toLocaleLowerCase().includes(normalizedTerm) || item.name.toLocaleLowerCase().includes(normalizedTerm);
+  for (const item of safeCodes) {
+    const code = item?.code;
+    const name = normalize(item?.name);
+
+    if (!code) {
+      continue;
+    }
+
+    const matchesFilter = normalize(code).includes(normalizedTerm) || name.includes(normalizedTerm);
 
     if (!matchesFilter) {
       continue;
     }
 
-    includedCodes.add(item.code);
+    includedCodes.add(code);
 
-    let parentCode = item.parentCode;
+    let parentCode = item?.parentCode ?? null;
     while (parentCode && !includedCodes.has(parentCode)) {
       includedCodes.add(parentCode);
       parentCode = byCode.get(parentCode)?.parentCode ?? null;
     }
   }
 
-  return codes.filter((item) => includedCodes.has(item.code));
+  return safeCodes.filter((item) => {
+    const code = item?.code;
+    return !!code && includedCodes.has(code);
+  });
 }

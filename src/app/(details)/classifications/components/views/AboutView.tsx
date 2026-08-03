@@ -1,19 +1,32 @@
+/** biome-ignore-all lint/suspicious/noConsole: <explanation> */
+'use client';
 import { Heading, Paragraph } from '@digdir/designsystemet-react';
-import { ClassificationResource } from '@/libs/data-access/klass/models';
+import { mapAboutItems } from '@/app/(details)/classifications/utils/about';
+import { DetailsTable } from '@/components/details-list';
+import {
+  ClassificationResource,
+  ClassificationVersionResource,
+  ClassificationVersionSummaryResource,
+} from '@/libs/data-access/klass/models';
+
+import styles from './views.module.css';
 
 interface AboutViewProps {
   classification: ClassificationResource;
+  classificationSummary: ClassificationVersionSummaryResource;
+  classificationVersion: ClassificationVersionResource;
 }
-export default async function AboutView({ classification }: AboutViewProps) {
+export default function AboutView({ classification, classificationSummary, classificationVersion }: AboutViewProps) {
+  console.log('Sammendrag', classificationSummary);
+  console.log('Versjon', classificationVersion);
+  console.log('Klassifikasjon', classification);
   return (
-    <div>
-      <Heading>{classification.name}</Heading>
-      <Paragraph>{classification.description}</Paragraph>
-      {/*
-       * Key - value table
-        Levels - table
-        Changelog - table
-       */}
+    <div className={styles.aboutWrapper}>
+      <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='md' level={3}>
+        {classificationSummary?.name ?? '—'}
+      </Heading>
+      <Paragraph>{classificationVersion?.introduction ?? '—'}</Paragraph>
+      <DetailsTable content={mapAboutItems(classificationVersion, classification)} />
     </div>
   );
 }

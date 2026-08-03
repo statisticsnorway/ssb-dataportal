@@ -2,24 +2,31 @@
 
 import { Button } from '@digdir/designsystemet-react';
 import { useMemo, useState } from 'react';
+import type { ClassificationItemResource } from '@/libs/data-access/klass/models/ClassificationItemResource';
 import { localization } from '@/libs/language';
-import type { CodeTreeNode, KlassCode } from '@/types/klass-codes';
+import type { CodeTreeNode } from '@/types/klass-codes';
 import { buildCodeTree } from '@/utils/classifications/buildCodeTree';
 import { CodeTreeRow } from './CodeTreeRow';
 import styles from './code-tree.module.css';
 
 export interface CodeTreeProps {
   /** Flat array of codes exactly as returned by the KLASS API (after mapping to KlassCode). */
-  codes: KlassCode[];
+  codes: ClassificationItemResource[];
   /** Called with the KlassCode the user clicked. Optional. */
-  onChange?: (code: KlassCode) => void;
+  onChange?: (code: ClassificationItemResource) => void;
 }
 
 /** Recursively collects the code string of every node that has at least one child. */
 function collectParentCodes(nodes: CodeTreeNode[]): string[] {
-  return nodes.flatMap((node) =>
-    node.children.length > 0 ? [node.code.code, ...collectParentCodes(node.children)] : [],
-  );
+  return nodes.flatMap((node) => {
+    const codeValue = node.code.code;
+
+    if (!codeValue || node.children.length === 0) {
+      return [];
+    }
+
+    return [codeValue, ...collectParentCodes(node.children)];
+  });
 }
 
 /**
@@ -48,8 +55,14 @@ export function CodeTree({ codes, onChange }: Readonly<CodeTreeProps>) {
     });
   }
 
-  function handleChange(code: KlassCode) {
-    setSelectedCode(code.code);
+  function handleChange(code: ClassificationItemResource) {
+    const codeValue = code.code;
+
+    if (!codeValue) {
+      return;
+    }
+
+    setSelectedCode(codeValue);
     onChange?.(code);
   }
 

@@ -7,6 +7,12 @@
   max-width: 100%;
 }
 
+.aboutWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .searchScope {
   max-width: 30rem;
 }

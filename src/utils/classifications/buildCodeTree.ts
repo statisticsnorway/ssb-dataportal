@@ -1,4 +1,5 @@
-import type { CodeTreeNode, KlassCode } from '@/types/klass-codes';
+import { ClassificationItemResource } from '@/libs/data-access/klass';
+import type { CodeTreeNode } from '@/types/klass-codes';
 
 /**
  * Converts a flat array of KLASS codes into a recursive tree structure.
@@ -12,15 +13,27 @@ import type { CodeTreeNode, KlassCode } from '@/types/klass-codes';
  * @param codes - Flat array of codes as returned by the KLASS API.
  * @returns Array of root `CodeTreeNode` objects, each with nested `children`.
  */
-export function buildCodeTree(codes: KlassCode[]): CodeTreeNode[] {
+export function buildCodeTree(codes: ClassificationItemResource[] | null | undefined): CodeTreeNode[] {
+  const safeCodes = codes ?? [];
   const nodeMap = new Map<string, CodeTreeNode>();
-  for (const code of codes) {
-    nodeMap.set(code.code, { code, children: [] });
+
+  for (const code of safeCodes) {
+    const codeValue = code?.code;
+
+    if (!codeValue) {
+      continue;
+    }
+
+    nodeMap.set(codeValue, { code, children: [] });
   }
 
   const roots: CodeTreeNode[] = [];
-  for (const code of codes) {
-    const node = nodeMap.get(code.code)!;
+  for (const code of safeCodes) {
+    const codeValue = code?.code;
+    if (!codeValue) {
+      continue;
+    }
+    const node = nodeMap.get(codeValue)!;
     if (code.parentCode != null && nodeMap.has(code.parentCode)) {
       nodeMap.get(code.parentCode)!.children.push(node);
     } else {

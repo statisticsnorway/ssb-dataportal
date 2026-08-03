@@ -3,13 +3,13 @@
 import { Search } from '@digdir/designsystemet-react';
 import { useMemo, useState } from 'react';
 import { CodeTree } from '@/components/code-tree';
+import { ClassificationItemResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
-import type { KlassCode } from '@/types/klass-codes';
 import { filterCodesWithAncestors } from '@/utils/classifications/filterCodes';
 import styles from './views.module.css';
 
 interface CodesViewProps {
-  codes: KlassCode[];
+  codes: ClassificationItemResource[];
 }
 
 /**
