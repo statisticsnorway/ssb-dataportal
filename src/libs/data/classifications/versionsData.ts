@@ -33,7 +33,7 @@ async function getKlassVersionsClient(): Promise<VersionsApi> {
 export async function fetchVersionById(
   id: number,
   language: SupportedLanguage | undefined = 'nb',
-): Promise<ClassificationVersionResource> {
+): Promise<ClassificationVersionResource | undefined> {
   const logger = createLogger('classification-versions-data');
   const api = await getKlassVersionsClient();
 
@@ -48,7 +48,8 @@ export async function fetchVersionById(
     const version = versionsMock.versions.find((v) => v.id === id);
 
     if (!version) {
-      throw new Error(`Version with id=${id} not found in static data`);
+      logger.debug({ id }, 'Version not found in static data');
+      return undefined;
     }
 
     return parseVersion(version);
