@@ -27,7 +27,7 @@ describe('fetchVersion', () => {
   it('returns empty array for an unknown version id in static mode', async () => {
     vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
 
-    const result = await fetchVersionById(1);
+    const result = await fetchVersionById(999);
 
     expect(result).toEqual(undefined);
   });
