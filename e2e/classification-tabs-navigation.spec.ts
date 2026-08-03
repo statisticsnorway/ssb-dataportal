@@ -15,6 +15,22 @@ async function navigateAndAssertTabs(page: any, baseUrl: string) {
   }
 }
 
+test('Redirects to codes tab by default', async ({ classificationDetailsPage }) => {
+  const classification = parseClassification(classifications[0]);
+  const page = await classificationDetailsPage(classification.id!);
+  const baseUrl = `/classifications/${classification.id}`;
+  await expect(page).toHaveURL(`${baseUrl}/codes`);
+});
+
+test('Redirects to codes tab by default version', async ({ classificationDetailsPage }) => {
+  const classification = parseClassification(classifications[0]);
+  const page = await classificationDetailsPage(classification.id!);
+  const versionId = 364;
+  const baseUrl = `/classifications/${classification.id}/version/${versionId}`;
+  await page.goto(baseUrl);
+  await expect(page).toHaveURL(`${baseUrl}/codes`);
+});
+
 test('Can navigate between tabs - latest version', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[0]);
   const page = await classificationDetailsPage(classification.id!);
