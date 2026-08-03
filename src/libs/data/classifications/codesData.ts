@@ -1,4 +1,4 @@
-'use server';
+/*'use server';
 
 import { VersionsApi, VersionsLanguageEnum } from '@/libs/data-access/klass/apis/VersionsApi';
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
@@ -6,7 +6,6 @@ import { SupportedLanguage } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import codesMock from '@/static-data/codes-mock.json';
-import type { KlassCode } from '@/types/klass-codes';
 import { mapClassificationItemToKlassCode } from '@/utils/classifications/codeMappers';
 import { getUserAgent } from '@/utils/userAgent';
 
@@ -34,7 +33,7 @@ function getVersionsClient(): VersionsApi {
  * Uses `VersionsApi.versions` and extracts `classificationItems`.
  * Falls back to static mock data when `KLASS_USE_STATIC_DATA=true`.
  */
-export async function fetchVersionCodes(
+/*export async function fetchVersionCodes(
   versionId: number,
   language: VersionsLanguageEnum | undefined = VersionsLanguageEnum.NB,
 ): Promise<KlassCode[]> {
@@ -74,4 +73,4 @@ export async function fetchSubjectFieldFilterValues(
   return (await fetchVersionCodes(Number(id), language.toUpperCase() as VersionsLanguageEnum)).filter(
     (code) => code.level == '1',
   );
-}
+}*/

@@ -1,4 +1,4 @@
-import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
+/*import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { VersionsApi } from '@/libs/data-access/klass/apis/VersionsApi';
 import { ResponseError } from '@/libs/data-access/klass/runtime';
 import codesMock from '@/static-data/codes-mock.json';
@@ -76,7 +76,7 @@ describe('fetchVersionCodes', () => {
 
     await expect(fetchVersionCodes(1)).rejects.toThrow('Network failure');
   });
-});
+});*/
 /*
 describe('fetchLatestVersionCodes', () => {
   it('returns static mock data when KLASS_USE_STATIC_DATA is true', async () => {

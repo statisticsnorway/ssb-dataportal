@@ -6,6 +6,8 @@ import { ClassificationVersionResource } from '@/libs/data-access/klass/models/C
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
 import { SupportedLanguage } from '@/libs/language';
 import { createLogger } from '@/libs/logger/server-logger';
+import versionsMock from '@/static-data/versions.json';
+import { parseVersion } from '@/utils/classifications/classificationHelpers';
 import { getUserAgent } from '@/utils/userAgent';
 
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
@@ -39,6 +41,18 @@ export async function fetchVersionById(
     id,
     language: language.toUpperCase() as ClassificationsLanguageEnum,
   };
+
+  if (process.env.KLASS_USE_STATIC_DATA === 'true') {
+    logger.warn({ id }, 'Using static mock data for versions');
+
+    const version = versionsMock.versions.find((v) => v.id === id);
+
+    if (!version) {
+      throw new Error(`Version with id=${id} not found in static data`);
+    }
+
+    return parseVersion(version);
+  }
 
   try {
     return await api.versions(params, {
