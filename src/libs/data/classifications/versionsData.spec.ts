@@ -29,7 +29,7 @@ describe('fetchVersion', () => {
 
     const result = await fetchVersionById(999);
 
-    expect(result).toEqual(undefined);
+    expect(result).toBeUndefined();
   });
 
   /*

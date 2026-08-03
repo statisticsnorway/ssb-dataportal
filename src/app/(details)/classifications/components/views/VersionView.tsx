@@ -24,7 +24,7 @@ function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): 
   if (!latest) return null;
 
   const segments = pathname.split('/').filter(Boolean);
-  const versionIndex = segments.findIndex((s) => s === 'version');
+  const versionIndex = segments.indexOf('version');
 
   if (versionIndex >= 0) {
     const versionId = Number(segments[versionIndex + 1]);

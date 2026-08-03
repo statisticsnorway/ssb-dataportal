@@ -44,30 +44,7 @@ function instanceOfClassificationVersion(value: object): value is Classification
   if (!('name' in value) || typeof value['name'] !== 'string') return false;
   if (!('validFrom' in value) || typeof value['validFrom'] !== 'string') return false;
   if (!('lastModified' in value) || typeof value['lastModified'] !== 'string') return false;
-
-  if (!('published' in value) || !Array.isArray(value['published'])) return false;
-  if (value['published'].some((it) => typeof it !== 'string')) return false;
-
-  if (!('introduction' in value) || typeof value['introduction'] !== 'string') return false;
-  if (!('owningSection' in value) || typeof value['owningSection'] !== 'string') return false;
-  if (!('legalBase' in value) || typeof value['legalBase'] !== 'string') return false;
-  if (!('publications' in value) || typeof value['publications'] !== 'string') return false;
-  if (!('derivedFrom' in value) || typeof value['derivedFrom'] !== 'string') return false;
-
-  if (!('contactPerson' in value) || typeof value['contactPerson'] !== 'object' || value['contactPerson'] === null)
-    return false;
-  if (!('name' in value['contactPerson']) || typeof value['contactPerson']['name'] !== 'string') return false;
-  if (!('email' in value['contactPerson']) || typeof value['contactPerson']['email'] !== 'string') return false;
-  if (!('phone' in value['contactPerson']) || typeof value['contactPerson']['phone'] !== 'string') return false;
-
-  if (!('correspondenceTables' in value) || !Array.isArray(value['correspondenceTables'])) return false;
-  if (!('classificationVariants' in value) || !Array.isArray(value['classificationVariants'])) return false;
-  if (!('changelogs' in value) || !Array.isArray(value['changelogs'])) return false;
-  if (!('levels' in value) || !Array.isArray(value['levels'])) return false;
-  if (!('classificationItems' in value) || !Array.isArray(value['classificationItems'])) return false;
-
   if (!('_links' in value) || typeof value['_links'] !== 'object' || value['_links'] === null) return false;
-
   return true;
 }
 
@@ -98,7 +75,7 @@ export function parseVersion(json?: object | null): ClassificationVersionResourc
     throw new Error(`Object is null: ${json}`);
   }
   if (!instanceOfClassificationVersion(json)) {
-    throw new Error(`Invalid classification version: ${json}`);
+    throw new Error(`Invalid classification version: ${JSON.stringify(json)}`);
   }
   return ClassificationVersionResourceFromJSONTyped(json, true);
 }
