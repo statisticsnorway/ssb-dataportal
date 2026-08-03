@@ -6,7 +6,6 @@ import { cache, ReactNode } from 'react';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
-import { ClassificationResource } from '@/libs/data-access/klass';
 import { languageCookieName, resolveLanguage } from '@/libs/language';
 import { localization } from '@/libs/language/src/localization';
 import { sanitizeError } from '@/libs/logger/sanitize';
@@ -37,22 +36,21 @@ const renderInfoOnlyPage = () => {
   );
 };
 
+const getRequestLanguage = cache(async () => {
+  const cookieStore = await cookies();
+  const requestHeaders = await headers();
+  return resolveLanguage(
+    cookieStore.get(languageCookieName)?.value,
+    requestHeaders.get('accept-language') ?? undefined,
+  );
+});
+
 const getPageData = cache(async (id: number) => {
   const logger = createLogger('classification-detail-page');
-  let classification: ClassificationResource | undefined = undefined;
-
-  if (classification === undefined) {
-    const cookieStore = await cookies();
-    const requestHeaders = await headers();
-    const language = resolveLanguage(
-      cookieStore.get(languageCookieName)?.value,
-      requestHeaders.get('accept-language') ?? undefined,
-    );
-    classification = await fetchClassificationById(id, language);
-    logger.debug(`Fetched classification ${classification.name}`);
-  }
-
-  return { classification };
+  const language = await getRequestLanguage();
+  const classification = await fetchClassificationById(id, language);
+  logger.debug(`Fetched classification ${classification.name}`);
+  return { classification, language };
 });
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
@@ -74,7 +72,7 @@ export default async function ClassificationLayout({
   const logger = createLogger('classification-detail-page');
   const { id } = await params;
 
-  const { classification } = await getPageData(Number(id)).catch((error) => {
+  const { classification, language } = await getPageData(Number(id)).catch((error) => {
     logger.error({ id, error: sanitizeError(error) }, 'Failed to load classification details');
     return notFound();
   });
@@ -87,7 +85,7 @@ export default async function ClassificationLayout({
   )[0];
 
   const latestVersionResource =
-    latestSummary?.id != null ? await fetchVersionById(latestSummary.id).catch(() => null) : null;
+    latestSummary?.id != null ? await fetchVersionById(latestSummary.id, language).catch(() => null) : null;
 
   logger.info({ id }, 'Classification detail page access');
 

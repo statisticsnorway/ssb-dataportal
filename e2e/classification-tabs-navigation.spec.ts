@@ -25,7 +25,7 @@ test('Can navigate between tabs - latest version', async ({ classificationDetail
 
 test('Can navigate between tabs - specific version', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[2]);
-  const versionId = 365;
+  const versionId = 364;
   const page = await classificationDetailsPage(classification.id!);
   const baseUrl = `/classifications/${classification.id}/version/${versionId}`;
   await page.goto(baseUrl);
