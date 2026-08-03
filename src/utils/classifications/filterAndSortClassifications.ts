@@ -135,9 +135,9 @@ export function filterAndSortClassifications(
   keepInputOrder = false,
 ): ClassificationResource[] {
   const withoutName = classifications.filter((c) => !c.name);
-  for (const c of withoutName) {
-    clientLogger.info(`classification with id: ${c.id} hidden`);
-  }
+  clientLogger.debug(
+    `${withoutName.length} classifications are missing names in this language and will not be viewable: \n[${withoutName.map((c) => c.id)}]`,
+  );
   const withName = classifications.filter((c) => c.name);
 
   const familyIds = new Set(subjectCodes.flatMap((code) => SUBJECT_FIELD_BY_CODE[code] ?? []));

@@ -2,7 +2,7 @@
 
 import { Spinner } from '@digdir/designsystemet-react';
 import { parseAsArrayOf, parseAsInteger, parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs';
-import { Suspense, use, useEffect, useMemo } from 'react';
+import { Suspense, use, useMemo } from 'react';
 import { FiltersPanel } from '@/components/filters';
 import { FilterTagsSection } from '@/components/filters/filter-tags-section';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
@@ -54,7 +54,9 @@ const ClassificationsServicePage = ({
     {
       q: parseAsString.withDefault(''),
       subjects: parseAsArrayOf(parseAsString).withDefault([]),
-      types: parseAsArrayOf(parseAsString).withDefault([]),
+      types: parseAsArrayOf(parseAsString).withDefault([
+        getLabelForClassificationType(ClassificationType.Klassifikasjon),
+      ]),
       sort: parseAsStringLiteral(sortTypes).withDefault('titleAsc'),
       page: parseAsInteger.withDefault(1).withOptions({ clearOnDefault: true }),
     },
@@ -106,12 +108,6 @@ const ClassificationsServicePage = ({
     updateQuery({ types: nextTypes.length > 0 ? nextTypes.map(getLabelForClassificationType) : null, page: 1 });
     scrollToFilterTags();
   };
-
-  useEffect(() => {
-    if (types.length === 0) {
-      updateQuery({ types: [getLabelForClassificationType(ClassificationType.Klassifikasjon)] });
-    }
-  }, []);
 
   const removeFilter = (filter: FilterItem) => {
     const isDifferent = isDifferentFilterValue(filter.value);
