@@ -43,7 +43,6 @@ function instanceOfClassificationVersion(value: object): value is Classification
   if (!('id' in value) || typeof value['id'] !== 'number') return false;
   if (!('name' in value) || typeof value['name'] !== 'string') return false;
   if (!('validFrom' in value) || typeof value['validFrom'] !== 'string') return false;
-  if (!('validTo' in value) || typeof value['validTo'] !== 'string') return false;
   if (!('lastModified' in value) || typeof value['lastModified'] !== 'string') return false;
 
   if (!('published' in value) || !Array.isArray(value['published'])) return false;
