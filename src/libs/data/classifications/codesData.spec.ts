@@ -77,4 +77,3 @@ describe('fetchVersionCodes', () => {
     await expect(fetchVersionCodes(1)).rejects.toThrow('Network failure');
   });
 });
-
