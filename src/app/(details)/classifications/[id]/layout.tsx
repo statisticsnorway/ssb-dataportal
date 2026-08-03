@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { cache, ReactNode } from 'react';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
+import { fetchVersionById } from '@/libs/data/classifications/versionsData';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { languageCookieName, resolveLanguage } from '@/libs/language';
 import { localization } from '@/libs/language/src/localization';
@@ -12,6 +13,7 @@ import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import ClassificationDetail from '../components/classificationDetail';
+import { VersionResourceLayer } from '../components/versionContext';
 
 const showInfoOnly = process.env.HIDE_CLASSIFICATIONS === 'true';
 
@@ -78,10 +80,14 @@ export default async function ClassificationLayout({
   });
 
   const hasVersions = (classification.versions ?? []).length > 0;
-  if (!hasVersions) {
-    logger.warn({ id }, 'Classification has no versions');
-    return notFound();
-  }
+  if (!hasVersions) return notFound();
+
+  const latestSummary = [...(classification.versions ?? [])].sort(
+    (a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0),
+  )[0];
+
+  const latestVersionResource =
+    latestSummary?.id != null ? await fetchVersionById(latestSummary.id).catch(() => null) : null;
 
   logger.info({ id }, 'Classification detail page access');
 
@@ -90,5 +96,9 @@ export default async function ClassificationLayout({
     return renderInfoOnlyPage();
   }
 
-  return <ClassificationDetail classification={classification}>{children}</ClassificationDetail>;
+  return (
+    <VersionResourceLayer versionResource={latestVersionResource ?? undefined}>
+      <ClassificationDetail classification={classification}>{children}</ClassificationDetail>
+    </VersionResourceLayer>
+  );
 }
