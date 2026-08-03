@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/suspicious/noConsole: <explanation> */
 'use client';
 import { Heading, Paragraph } from '@digdir/designsystemet-react';
 import { mapAboutItems } from '@/app/(details)/classifications/utils/about';
@@ -17,9 +16,6 @@ interface AboutViewProps {
   classificationVersion: ClassificationVersionResource;
 }
 export default function AboutView({ classification, classificationSummary, classificationVersion }: AboutViewProps) {
-  console.log('Sammendrag', classificationSummary);
-  console.log('Versjon', classificationVersion);
-  console.log('Klassifikasjon', classification);
   return (
     <div className={styles.aboutWrapper}>
       <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='md' level={3}>

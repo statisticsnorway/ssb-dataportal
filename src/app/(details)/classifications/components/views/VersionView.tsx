@@ -18,7 +18,7 @@ type ResolvedVersionResult = {
   isLatest: boolean;
 };
 
-export function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): ResolvedVersionResult | null {
+function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): ResolvedVersionResult | null {
   const sorted = [...versions].sort((a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0));
   const latest = sorted.at(0);
   if (!latest) return null;
@@ -61,11 +61,7 @@ export function VersionView({ classification, children }: Readonly<VersionViewPr
     }) ?? '—';
 
   return (
-    <VersionProvider
-      classification={classification}
-      versionSummary={resolved.version}
-      isLatest={resolved.isLatest}
-    >
+    <VersionProvider classification={classification} versionSummary={resolved.version} isLatest={resolved.isLatest}>
       <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='lg' level={2}>
         {resolved.version.name ?? '—'}
       </Heading>
@@ -89,23 +85,13 @@ export function VersionView({ classification, children }: Readonly<VersionViewPr
       >
         <Tabs.List className={styles.tabList} aria-label={localization.tabs.ariaLabel}>
           {tabs.map((tab) => (
-            <Tabs.Tab
-              key={tab.id}
-              value={tab.id}
-              aria-controls={tab.id}
-              className='font-roboto'
-            >
+            <Tabs.Tab key={tab.id} value={tab.id} aria-controls={tab.id} className='font-roboto'>
               {tab.label}
             </Tabs.Tab>
           ))}
         </Tabs.List>
 
-        <Tabs.Panel
-          key={pathname}
-          value={activeTab.id}
-          id={activeTab.id}
-          className={styles.tabsPanel}
-        >
+        <Tabs.Panel key={pathname} value={activeTab.id} id={activeTab.id} className={styles.tabsPanel}>
           {children}
         </Tabs.Panel>
       </Tabs>

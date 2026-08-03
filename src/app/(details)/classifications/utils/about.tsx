@@ -3,8 +3,6 @@ import { ClassificationResource } from '@/libs/data-access/klass/models/Classifi
 import { localization } from '@/libs/language/src/localization';
 import { Item } from '@/types/item';
 
-export type AboutSource = ClassificationVersionResource;
-
 const formatDate = (d: Date | string | undefined) => {
   if (!d) return '';
   const date = d instanceof Date ? d : new Date(d);
