@@ -1,0 +1,4139 @@
+{
+  "versions": [
+    {
+      "name": "Landkoder (SSB-3) 2011",
+      "id": 363,
+      "validFrom": "2011-01-01",
+      "validTo": "2012-01-01",
+      "lastModified": "2024-01-09T09:13:30.000+0000",
+      "published": ["nb", "nn", "en"],
+      "introduction": "Kodereferanse har rekkefølgen (alfa-2, alfa-3, num-3, SSB-3), for eks. Norge (NO, NOR, 578, 000). De nederlandske Antiller (AN, ANT, 530, 656) ble delt i Sint Maarten (NL) (SX, SXM, 534, 658), Bonaire, Sint Eustatius og Saba (BQ, BES, 535, 659) og Curaçao (CW, CUW, 531, 661).\nNavnet St. Helena og avhengige områder (SH, SHN, 654, 209) ble endret til Sankt Helena, Ascension og Tristan da Cunha (SH, SHN, 654, 209).",
+      "contactPerson": {
+        "name": "Moe, Dana",
+        "email": "Dana.Moe@ssb.no",
+        "phone": ""
+      },
+      "owningSection": "320 - Seksjon for befolkningsstatistikk",
+      "legalBase": "",
+      "publications": "",
+      "derivedFrom": "",
+      "correspondenceTables": [
+        {
+          "name": "Landkoder (SSB-3) 2011 - Landkoder (SSB-3) 2009",
+          "id": 1506,
+          "contactPerson": {
+            "name": "Moe, Dana",
+            "email": "Dana.Moe@ssb.no",
+            "phone": ""
+          },
+          "owningSection": "320",
+          "source": "Landkoder (SSB-3) 2011",
+          "sourceId": 363,
+          "target": "Landkoder (SSB-3) 2009",
+          "targetId": 364,
+          "changeTable": true,
+          "lastModified": "2023-10-27T11:11:09.000+0000",
+          "published": ["nb", "nn", "en"],
+          "sourceLevel": null,
+          "targetLevel": null,
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/correspondencetables/1506"
+            },
+            "source": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/363{?language,includeFuture}",
+              "templated": true
+            },
+            "target": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/364{?language,includeFuture}",
+              "templated": true
+            }
+          }
+        },
+        {
+          "name": "Landkoder (SSB-3) 2012 - Landkoder (SSB-3) 2011",
+          "id": 1503,
+          "contactPerson": {
+            "name": "Moe, Dana",
+            "email": "Dana.Moe@ssb.no",
+            "phone": ""
+          },
+          "owningSection": "320",
+          "source": "Landkoder (SSB-3) 2012",
+          "sourceId": 2349,
+          "target": "Landkoder (SSB-3) 2011",
+          "targetId": 363,
+          "changeTable": true,
+          "lastModified": "2024-01-09T09:15:20.000+0000",
+          "published": ["nb", "nn", "en"],
+          "sourceLevel": null,
+          "targetLevel": null,
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/correspondencetables/1503"
+            },
+            "source": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/2349{?language,includeFuture}",
+              "templated": true
+            },
+            "target": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/363{?language,includeFuture}",
+              "templated": true
+            }
+          }
+        }
+      ],
+      "classificationVariants": [],
+      "changelogs": [
+        {
+          "changeOccured": "2019-04-04T10:42:04.000+0000",
+          "description": "Navneendring fra Makedonia til Nord-Makedonia og fra Swaziland til Eswatini"
+        },
+        {
+          "changeOccured": "2021-03-01T14:27:37.000+0000",
+          "description": "Det ble lagt inn dette notatet til 158 Tsjekkia og 159 Slovakia:\n\nSelvstendig stat fra 1.1.1993.\t\nSjølvstendeg stat fra 1.1.1993.\t\nIndependent state from 1. january 1993.\t"
+        },
+        {
+          "changeOccured": "2021-03-02T13:23:09.000+0000",
+          "description": "Gyldighetsperioden av standarden ble av praktiske grunner forandret fra desember 2011 til januar 2012."
+        },
+        {
+          "changeOccured": "2022-02-07T13:35:36.000+0000",
+          "description": "Navneendringer i klassifikasjonen fører til en ny versjon (2019)."
+        },
+        {
+          "changeOccured": "2022-02-07T14:08:30.000+0000",
+          "description": "Navnet 156 Nord-Makedonia endret tilbake til 156 Makedonia. Ny versjon (2019) med oppdatert navn ble publisert."
+        },
+        {
+          "changeOccured": "2022-02-07T14:10:39.000+0000",
+          "description": "Navnet 357 Eswatini endret tilbake til 357 Swaziland. Ny versjon (2019) med oppdatert navn ble publisert."
+        },
+        {
+          "changeOccured": "2022-02-21T11:05:28.000+0000",
+          "description": "Gyldighetsperiode ble rettet opp. Ved en feil ble versjonen satt gyldig til 01.2018 i stedet for 12.2018."
+        },
+        {
+          "changeOccured": "2022-11-01T12:05:30.000+0000",
+          "description": "Gyldighetsperioden for versjon 2012 endret pga. opplasting av versjon 2013 og 2014."
+        },
+        {
+          "changeOccured": "2023-10-24T13:04:22.000+0000",
+          "description": "Harmonisering av standarden, endringene gjelder versjonens beskrivelse, skrivemåten av navn, fotnoter og gyldighetsperioden. Ingen reelle endringer."
+        },
+        {
+          "changeOccured": "2024-01-09T09:06:37.000+0000",
+          "description": "manglende koder 980 og 990 legges inn"
+        }
+      ],
+      "levels": [
+        {
+          "levelNumber": 1,
+          "levelName": "Land"
+        }
+      ],
+      "classificationItems": [
+        {
+          "code": "000",
+          "parentCode": "",
+          "level": "1",
+          "name": "Norge",
+          "shortName": null,
+          "notes": "Inkluderer også Svalbard og Jan Mayen (SJ, SJM, 744, 001) til tross for at øyene har sin egen kode."
+        },
+        {
+          "code": "101",
+          "parentCode": "",
+          "level": "1",
+          "name": "Danmark",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "102",
+          "parentCode": "",
+          "level": "1",
+          "name": "Grønland",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "103",
+          "parentCode": "",
+          "level": "1",
+          "name": "Finland",
+          "shortName": null,
+          "notes": "Vær oppmerksom på at Åland (AX, ALA, 248, 107) har fått tildelt sin egen kode i 2004.  I noen tilfeller ekskluderes det fra Finland."
+        },
+        {
+          "code": "104",
+          "parentCode": "",
+          "level": "1",
+          "name": "Færøyene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "105",
+          "parentCode": "",
+          "level": "1",
+          "name": "Island",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "106",
+          "parentCode": "",
+          "level": "1",
+          "name": "Sverige",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "111",
+          "parentCode": "",
+          "level": "1",
+          "name": "Albania",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "112",
+          "parentCode": "",
+          "level": "1",
+          "name": "Belgia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "113",
+          "parentCode": "",
+          "level": "1",
+          "name": "Bulgaria",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "114",
+          "parentCode": "",
+          "level": "1",
+          "name": "Andorra",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "115",
+          "parentCode": "",
+          "level": "1",
+          "name": "Estland",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "117",
+          "parentCode": "",
+          "level": "1",
+          "name": "Frankrike",
+          "shortName": null,
+          "notes": "I noen tilfeller lages diverse sammensetninger av: Metropolitan France (tidligere FX, FXX, 249, 199), F. Guiana (GF, GUF, 254, 745), Guadalope (GP, GLP, 312, 630 eller 631), Saint Barthélemy (BL, BLM, 652, 687), Saint-Martin (MF, MAF, 663, 686), Martiniqu"
+        },
+        {
+          "code": "118",
+          "parentCode": "",
+          "level": "1",
+          "name": "Gibraltar",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "119",
+          "parentCode": "",
+          "level": "1",
+          "name": "Hellas",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "120",
+          "parentCode": "",
+          "level": "1",
+          "name": "Hviterussland",
+          "shortName": null,
+          "notes": "Tidligere del av Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "121",
+          "parentCode": "",
+          "level": "1",
+          "name": "Irland",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "122",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kroatia",
+          "shortName": null,
+          "notes": "Tidligere Jugoslavia (YU, YUG, 890, 116)."
+        },
+        {
+          "code": "123",
+          "parentCode": "",
+          "level": "1",
+          "name": "Italia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "124",
+          "parentCode": "",
+          "level": "1",
+          "name": "Latvia",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "126",
+          "parentCode": "",
+          "level": "1",
+          "name": "Malta",
+          "shortName": null,
+          "notes": "Malta var en kronkoloni i Storbritannia fra 1814 til 1964, da det ble gitt uavhengighet og sluttet seg til det britiske samveldet."
+        },
+        {
+          "code": "127",
+          "parentCode": "",
+          "level": "1",
+          "name": "Nederland",
+          "shortName": null,
+          "notes": "De autonome øyterritoriene i Karibien (eller deres historiske samlinger) som er en del av kongeriket.vises under følgende koder:.(AW, ABW, 533, 657) Aruba; (BQ, BES, 535, 659) Bonaire, Sint.Eustatius og Saba; (CW, CUW, 531, 661) Curaçao;.og (SX, SXM, 534,"
+        },
+        {
+          "code": "128",
+          "parentCode": "",
+          "level": "1",
+          "name": "Liechtenstein",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "129",
+          "parentCode": "",
+          "level": "1",
+          "name": "Luxembourg",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "130",
+          "parentCode": "",
+          "level": "1",
+          "name": "Monaco",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "131",
+          "parentCode": "",
+          "level": "1",
+          "name": "Polen",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "132",
+          "parentCode": "",
+          "level": "1",
+          "name": "Portugal",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "133",
+          "parentCode": "",
+          "level": "1",
+          "name": "Romania",
+          "shortName": null,
+          "notes": "Endring av trebokstavskode fra ROM til ROU."
+        },
+        {
+          "code": "134",
+          "parentCode": "",
+          "level": "1",
+          "name": "San Marino",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "136",
+          "parentCode": "",
+          "level": "1",
+          "name": "Litauen",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "137",
+          "parentCode": "",
+          "level": "1",
+          "name": "Spania",
+          "shortName": null,
+          "notes": "Vær oppmerksom på at Kanariøyene (XB, ---, ---, 137) og Ceuta og Mellilla- (XC, ---, 728, 137) har også sine egne koder. I noen tilfeller ekskluderes de fra Spania."
+        },
+        {
+          "code": "138",
+          "parentCode": "",
+          "level": "1",
+          "name": "Moldova",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "139",
+          "parentCode": "",
+          "level": "1",
+          "name": "Storbritannia",
+          "shortName": null,
+          "notes": "Tidligere del av Storbritannia (GB, GBR, 826, 139)."
+        },
+        {
+          "code": "140",
+          "parentCode": "",
+          "level": "1",
+          "name": "Russland",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "141",
+          "parentCode": "",
+          "level": "1",
+          "name": "Sveits",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "143",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tyrkia",
+          "shortName": null,
+          "notes": "Navnet (på engelsk) endret til Türkiye 11.07.2022."
+        },
+        {
+          "code": "144",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tyskland",
+          "shortName": null,
+          "notes": "Sammenslåing av Den tyske demokratiske republikken (DD, DDR, 278, 151) og Forbundsrepublikken Tyskland (DE, DEU, 280, 144)."
+        },
+        {
+          "code": "146",
+          "parentCode": "",
+          "level": "1",
+          "name": "Slovenia",
+          "shortName": null,
+          "notes": "Tidligere Jugoslavia (YU, YUG, 890, 116)."
+        },
+        {
+          "code": "148",
+          "parentCode": "",
+          "level": "1",
+          "name": "Ukraina",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135). Ukraina hadde sin egen kode siden 1974 til tross for å være en del av Sovjetunionen."
+        },
+        {
+          "code": "152",
+          "parentCode": "",
+          "level": "1",
+          "name": "Ungarn",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "153",
+          "parentCode": "",
+          "level": "1",
+          "name": "Østerrike",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "154",
+          "parentCode": "",
+          "level": "1",
+          "name": "Vatikanstaten",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "155",
+          "parentCode": "",
+          "level": "1",
+          "name": "Bosnia-Hercegovina",
+          "shortName": null,
+          "notes": "Tidligere Jugoslavia (YU, YUG, 890, 116)."
+        },
+        {
+          "code": "156",
+          "parentCode": "",
+          "level": "1",
+          "name": "Makedonia",
+          "shortName": null,
+          "notes": "Tidligere Jugoslavia (YU, YUG, 890, 116)."
+        },
+        {
+          "code": "157",
+          "parentCode": "",
+          "level": "1",
+          "name": "Slovakia",
+          "shortName": null,
+          "notes": "Tidligere Tsjekkoslovakia (CS, CSK, 200, 142)."
+        },
+        {
+          "code": "158",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tsjekkia",
+          "shortName": null,
+          "notes": "Tidligere Tsjekkoslovakia (CS, CSK, 200, 142)."
+        },
+        {
+          "code": "159",
+          "parentCode": "",
+          "level": "1",
+          "name": "Serbia",
+          "shortName": null,
+          "notes": "Tidligere Serbia og Montenegro (CS, SCG, 891, 125). Nå Serbia ekskludert Kosovo (XK, XXK, ---, 161)."
+        },
+        {
+          "code": "160",
+          "parentCode": "",
+          "level": "1",
+          "name": "Montenegro",
+          "shortName": null,
+          "notes": "Tidligere Serbia og Montenegro (CS, SCG, 891, 125)."
+        },
+        {
+          "code": "161",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kosovo",
+          "shortName": null,
+          "notes": "Alfa-2 og alfa-3 er midlertidige koder. SSB-3 er offisielt tildelt."
+        },
+        {
+          "code": "162",
+          "parentCode": "",
+          "level": "1",
+          "name": "Guernsey",
+          "shortName": null,
+          "notes": "Tidligere del av Storbritannia (GB, GBR, 826, 139)."
+        },
+        {
+          "code": "163",
+          "parentCode": "",
+          "level": "1",
+          "name": "Jersey",
+          "shortName": null,
+          "notes": "Tidligere del av Storbritannia (GB, GBR, 826, 139)."
+        },
+        {
+          "code": "164",
+          "parentCode": "",
+          "level": "1",
+          "name": "Man",
+          "shortName": null,
+          "notes": "Tidligere del av Storbritannia (GB, GBR, 826, 139)."
+        },
+        {
+          "code": "203",
+          "parentCode": "",
+          "level": "1",
+          "name": "Algerie",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "204",
+          "parentCode": "",
+          "level": "1",
+          "name": "Angola",
+          "shortName": null,
+          "notes": "Portugisisk koloni fram til 1975."
+        },
+        {
+          "code": "205",
+          "parentCode": "",
+          "level": "1",
+          "name": "Botswana",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "209",
+          "parentCode": "",
+          "level": "1",
+          "name": "Sankt Helena, Ascension og Tristan da Cunha",
+          "shortName": null,
+          "notes": "Tidligere St. Helena og avhengige områder (SH, SHN, 654, 209)."
+        },
+        {
+          "code": "213",
+          "parentCode": "",
+          "level": "1",
+          "name": "Det britiske territorium i Indiahavet",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "216",
+          "parentCode": "",
+          "level": "1",
+          "name": "Burundi",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "220",
+          "parentCode": "",
+          "level": "1",
+          "name": "Komorene",
+          "shortName": null,
+          "notes": "Separte seg fra Mayotte. Mayotte ble inkludert i Frankrike (FR, FRA, 250, 117) uten å få kode."
+        },
+        {
+          "code": "229",
+          "parentCode": "",
+          "level": "1",
+          "name": "Benin",
+          "shortName": null,
+          "notes": "Tidligere Dahomey (DY, DHY, 204, 229)."
+        },
+        {
+          "code": "235",
+          "parentCode": "",
+          "level": "1",
+          "name": "Ekvatorial-Guinea",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "239",
+          "parentCode": "",
+          "level": "1",
+          "name": "Elfenbeinskysten",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "241",
+          "parentCode": "",
+          "level": "1",
+          "name": "Eritrea",
+          "shortName": null,
+          "notes": "Tidligere del av Etiopia (ET, ETH, 230, 246)."
+        },
+        {
+          "code": "246",
+          "parentCode": "",
+          "level": "1",
+          "name": "Etiopia",
+          "shortName": null,
+          "notes": "Tidligere del av Etiopia (ET, ETH, 230, 246)."
+        },
+        {
+          "code": "249",
+          "parentCode": "",
+          "level": "1",
+          "name": "Egypt",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "250",
+          "parentCode": "",
+          "level": "1",
+          "name": "Djibouti",
+          "shortName": null,
+          "notes": "Tidligere Det franske Afar- og Issa-territoriet (AI, AFI, 262, 250)."
+        },
+        {
+          "code": "254",
+          "parentCode": "",
+          "level": "1",
+          "name": "Gabon",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "256",
+          "parentCode": "",
+          "level": "1",
+          "name": "Gambia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "260",
+          "parentCode": "",
+          "level": "1",
+          "name": "Ghana",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "264",
+          "parentCode": "",
+          "level": "1",
+          "name": "Guinea",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "266",
+          "parentCode": "",
+          "level": "1",
+          "name": "Guinea-Bissau",
+          "shortName": null,
+          "notes": "Portugisisk koloni fram til september 1974."
+        },
+        {
+          "code": "270",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kamerun",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "273",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kapp Verde",
+          "shortName": null,
+          "notes": "Portugisisk koloni fram til 1975."
+        },
+        {
+          "code": "276",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kenya",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "278",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kongo - Brazzaville",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "279",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kongo",
+          "shortName": null,
+          "notes": "Tidligere Zaïre (ZR, ZAR, 180, 279)."
+        },
+        {
+          "code": "281",
+          "parentCode": "",
+          "level": "1",
+          "name": "Lesotho",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "283",
+          "parentCode": "",
+          "level": "1",
+          "name": "Liberia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "286",
+          "parentCode": "",
+          "level": "1",
+          "name": "Libya",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "289",
+          "parentCode": "",
+          "level": "1",
+          "name": "Madagaskar",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "296",
+          "parentCode": "",
+          "level": "1",
+          "name": "Malawi",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "299",
+          "parentCode": "",
+          "level": "1",
+          "name": "Mali",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "303",
+          "parentCode": "",
+          "level": "1",
+          "name": "Marokko",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "304",
+          "parentCode": "",
+          "level": "1",
+          "name": "Vest-Sahara",
+          "shortName": null,
+          "notes": "Tidligere Spansk Sahara (EH, EHS,732, 304). Nå uten Spanske områder i Afrika (XC, ---, 728, 349)."
+        },
+        {
+          "code": "306",
+          "parentCode": "",
+          "level": "1",
+          "name": "Mauritania",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "307",
+          "parentCode": "",
+          "level": "1",
+          "name": "Mauritius",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "308",
+          "parentCode": "",
+          "level": "1",
+          "name": "Namibia",
+          "shortName": null,
+          "notes": "Tidliere del av Sør-Afrika (ZA, ZAF, 710, 359)."
+        },
+        {
+          "code": "309",
+          "parentCode": "",
+          "level": "1",
+          "name": "Niger",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "313",
+          "parentCode": "",
+          "level": "1",
+          "name": "Nigeria",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "319",
+          "parentCode": "",
+          "level": "1",
+          "name": "Mosambik",
+          "shortName": null,
+          "notes": "Portugisisk koloni fram til 1975."
+        },
+        {
+          "code": "322",
+          "parentCode": "",
+          "level": "1",
+          "name": "Mayotte",
+          "shortName": null,
+          "notes": "Delt ut av Komorene (KM, COM, 174, 219) i 1976 og inkludert i Frankrike (FR, FRA, 250, 117) til og med 1992 (uten å nevnes eksplisit). Fra 1993 til og med 2013 hadde sin egen kode siden det fantes France métropolitaine (FX,FXX,249, 199), så ble den inklud"
+        },
+        {
+          "code": "323",
+          "parentCode": "",
+          "level": "1",
+          "name": "Réunion",
+          "shortName": null,
+          "notes": "Også som en underavdeling av Frankrike.(FR-RE)."
+        },
+        {
+          "code": "326",
+          "parentCode": "",
+          "level": "1",
+          "name": "Zimbabwe",
+          "shortName": null,
+          "notes": "Tidligere Sør-Rhodesia (RH, RHO, 716, 326)."
+        },
+        {
+          "code": "329",
+          "parentCode": "",
+          "level": "1",
+          "name": "Rwanda",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "333",
+          "parentCode": "",
+          "level": "1",
+          "name": "São Tomé og Príncipe",
+          "shortName": null,
+          "notes": "Portugisisk koloni fram til 1975."
+        },
+        {
+          "code": "336",
+          "parentCode": "",
+          "level": "1",
+          "name": "Senegal",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "337",
+          "parentCode": "",
+          "level": "1",
+          "name": "Den sentralafrikanske republikk",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "338",
+          "parentCode": "",
+          "level": "1",
+          "name": "Seychellene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "339",
+          "parentCode": "",
+          "level": "1",
+          "name": "Sierra Leone",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "346",
+          "parentCode": "",
+          "level": "1",
+          "name": "Somalia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "356",
+          "parentCode": "",
+          "level": "1",
+          "name": "Sudan",
+          "shortName": null,
+          "notes": "Delt inn i: Sudan (SD, SDN, 729, 356) og Sør-Sudan (SS, SSD, 728, 355)."
+        },
+        {
+          "code": "357",
+          "parentCode": "",
+          "level": "1",
+          "name": "Swaziland",
+          "shortName": null,
+          "notes": "Navn endra til Eswatini (SZ, SWZ, 748, 357)."
+        },
+        {
+          "code": "359",
+          "parentCode": "",
+          "level": "1",
+          "name": "Sør-Afrika",
+          "shortName": null,
+          "notes": "Tidligere del av Sør-Afrika (ZA, ZAF, 710, 359). Fortsetter uten Namibia (NA, NAM, 516, 308)."
+        },
+        {
+          "code": "369",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tanzania",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "373",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tsjad",
+          "shortName": null,
+          "notes": "yu"
+        },
+        {
+          "code": "376",
+          "parentCode": "",
+          "level": "1",
+          "name": "Togo",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "379",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tunisia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "386",
+          "parentCode": "",
+          "level": "1",
+          "name": "Uganda",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "389",
+          "parentCode": "",
+          "level": "1",
+          "name": "Zambia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "393",
+          "parentCode": "",
+          "level": "1",
+          "name": "Burkina Faso",
+          "shortName": null,
+          "notes": "Tidligere Øvre-Volta (HV, HVO, 854, 393)."
+        },
+        {
+          "code": "404",
+          "parentCode": "",
+          "level": "1",
+          "name": "Afghanistan",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "406",
+          "parentCode": "",
+          "level": "1",
+          "name": "Armenia",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "407",
+          "parentCode": "",
+          "level": "1",
+          "name": "Aserbajdsjan",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "409",
+          "parentCode": "",
+          "level": "1",
+          "name": "Bahrain",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "410",
+          "parentCode": "",
+          "level": "1",
+          "name": "Bangladesh",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "412",
+          "parentCode": "",
+          "level": "1",
+          "name": "Bhutan",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "416",
+          "parentCode": "",
+          "level": "1",
+          "name": "Brunei",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "420",
+          "parentCode": "",
+          "level": "1",
+          "name": "Myanmar",
+          "shortName": null,
+          "notes": "Tidligere Burma (BU, BUR, 104, 420)."
+        },
+        {
+          "code": "424",
+          "parentCode": "",
+          "level": "1",
+          "name": "Sri Lanka",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "426",
+          "parentCode": "",
+          "level": "1",
+          "name": "De forente arabiske emirater",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "428",
+          "parentCode": "",
+          "level": "1",
+          "name": "Filippinene",
+          "shortName": null,
+          "notes": "Trebokstavskode endret fra PHI to PHL."
+        },
+        {
+          "code": "430",
+          "parentCode": "",
+          "level": "1",
+          "name": "Georgia",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "432",
+          "parentCode": "",
+          "level": "1",
+          "name": "Taiwan",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "436",
+          "parentCode": "",
+          "level": "1",
+          "name": "Hongkong",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "444",
+          "parentCode": "",
+          "level": "1",
+          "name": "India",
+          "shortName": null,
+          "notes": "Slått sammen med Sikkim (SK, SKM, 698, 546)."
+        },
+        {
+          "code": "448",
+          "parentCode": "",
+          "level": "1",
+          "name": "Indonesia",
+          "shortName": null,
+          "notes": "Indonesia (ID, IDN, 360, 448) uten Øst-Timor (TP, TMP, 626, 537)."
+        },
+        {
+          "code": "452",
+          "parentCode": "",
+          "level": "1",
+          "name": "Irak",
+          "shortName": null,
+          "notes": "Slått sammen med del av Nøytral sone (NT, NTZ, 536, 453)."
+        },
+        {
+          "code": "456",
+          "parentCode": "",
+          "level": "1",
+          "name": "Iran",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "460",
+          "parentCode": "",
+          "level": "1",
+          "name": "Israel",
+          "shortName": null,
+          "notes": "Tidligere Israel (IL, ISR, 376, 460) som inkluderte Gaza og Jeriko."
+        },
+        {
+          "code": "464",
+          "parentCode": "",
+          "level": "1",
+          "name": "Japan",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "476",
+          "parentCode": "",
+          "level": "1",
+          "name": "Jordan",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "478",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kambodsja",
+          "shortName": null,
+          "notes": "Landet endret navn fra Kambodsja til Kampuchea i 1979, så tilbake til Kambodsja igjen i 1990."
+        },
+        {
+          "code": "480",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kasakhstan",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "484",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kina",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "488",
+          "parentCode": "",
+          "level": "1",
+          "name": "Nord-Korea",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "492",
+          "parentCode": "",
+          "level": "1",
+          "name": "Sør-Korea",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "496",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kuwait",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "500",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kypros",
+          "shortName": null,
+          "notes": "I 1960 ble Kypros en selvstendig republikk."
+        },
+        {
+          "code": "502",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kirgisistan",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "504",
+          "parentCode": "",
+          "level": "1",
+          "name": "Laos",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "508",
+          "parentCode": "",
+          "level": "1",
+          "name": "Libanon",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "510",
+          "parentCode": "",
+          "level": "1",
+          "name": "Macao",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "512",
+          "parentCode": "",
+          "level": "1",
+          "name": "Malaysia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "513",
+          "parentCode": "",
+          "level": "1",
+          "name": "Maldivene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "516",
+          "parentCode": "",
+          "level": "1",
+          "name": "Mongolia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "520",
+          "parentCode": "",
+          "level": "1",
+          "name": "Oman",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "524",
+          "parentCode": "",
+          "level": "1",
+          "name": "Det palestinske området",
+          "shortName": null,
+          "notes": "Tidligere Vestbredden og Gazastripen  (XI, ---, ---, 524)."
+        },
+        {
+          "code": "528",
+          "parentCode": "",
+          "level": "1",
+          "name": "Nepal",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "534",
+          "parentCode": "",
+          "level": "1",
+          "name": "Pakistan",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "537",
+          "parentCode": "",
+          "level": "1",
+          "name": "Øst-Timor",
+          "shortName": null,
+          "notes": "Tidligere Øst-Timor (TP, TMP, 626, 537). Engelsk navn og kode endret."
+        },
+        {
+          "code": "540",
+          "parentCode": "",
+          "level": "1",
+          "name": "Qatar",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "544",
+          "parentCode": "",
+          "level": "1",
+          "name": "Saudi-Arabia",
+          "shortName": null,
+          "notes": "Slått sammen med del av Nøytral sone (NT, NTZ, 536, 453)."
+        },
+        {
+          "code": "548",
+          "parentCode": "",
+          "level": "1",
+          "name": "Singapore",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "550",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tadsjikistan",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "552",
+          "parentCode": "",
+          "level": "1",
+          "name": "Turkmenistan",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "554",
+          "parentCode": "",
+          "level": "1",
+          "name": "Usbekistan",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "564",
+          "parentCode": "",
+          "level": "1",
+          "name": "Syria",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "568",
+          "parentCode": "",
+          "level": "1",
+          "name": "Thailand",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "575",
+          "parentCode": "",
+          "level": "1",
+          "name": "Vietnam",
+          "shortName": null,
+          "notes": "Sammenslåing av Nord-Vietnam (VD, VDR, 704, 572) og Sør-Vietnam (VN, VNM, 714, 576)."
+        },
+        {
+          "code": "578",
+          "parentCode": "",
+          "level": "1",
+          "name": "Jemen",
+          "shortName": null,
+          "notes": "Sammenslåing av Sør-Jemen (YD, YMD, 720, 556) og Nord-Jemen (YE, YEM, 886, 557)."
+        },
+        {
+          "code": "601",
+          "parentCode": "",
+          "level": "1",
+          "name": "De amerikanske Jomfruøyer",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "602",
+          "parentCode": "",
+          "level": "1",
+          "name": "Barbados",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "603",
+          "parentCode": "",
+          "level": "1",
+          "name": "Antigua og Barbuda",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "604",
+          "parentCode": "",
+          "level": "1",
+          "name": "Belize",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "605",
+          "parentCode": "",
+          "level": "1",
+          "name": "Bahamas",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "606",
+          "parentCode": "",
+          "level": "1",
+          "name": "Bermuda",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "608",
+          "parentCode": "",
+          "level": "1",
+          "name": "De britiske Jomfruøyer",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "612",
+          "parentCode": "",
+          "level": "1",
+          "name": "Canada",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "613",
+          "parentCode": "",
+          "level": "1",
+          "name": "Caymanøyene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "616",
+          "parentCode": "",
+          "level": "1",
+          "name": "Costa Rica",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "620",
+          "parentCode": "",
+          "level": "1",
+          "name": "Cuba",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "622",
+          "parentCode": "",
+          "level": "1",
+          "name": "Dominica",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "624",
+          "parentCode": "",
+          "level": "1",
+          "name": "Den dominikanske republikk",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "629",
+          "parentCode": "",
+          "level": "1",
+          "name": "Grenada",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "631",
+          "parentCode": "",
+          "level": "1",
+          "name": "Guadeloupe",
+          "shortName": null,
+          "notes": "Tidligere Guadeloupe (GP, GLP, 312, 631) som bestod av Guadeloupe (GP, GLP, 312, 631), Saint-Barthélemy (BL, BLM, 652, 687) og Saint-Martin (MF, MAF, 663, 686)."
+        },
+        {
+          "code": "632",
+          "parentCode": "",
+          "level": "1",
+          "name": "Guatemala",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "636",
+          "parentCode": "",
+          "level": "1",
+          "name": "Haiti",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "644",
+          "parentCode": "",
+          "level": "1",
+          "name": "Honduras",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "648",
+          "parentCode": "",
+          "level": "1",
+          "name": "Jamaica",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "650",
+          "parentCode": "",
+          "level": "1",
+          "name": "Martinique",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "652",
+          "parentCode": "",
+          "level": "1",
+          "name": "Mexico",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "654",
+          "parentCode": "",
+          "level": "1",
+          "name": "Montserrat",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "657",
+          "parentCode": "",
+          "level": "1",
+          "name": "Aruba",
+          "shortName": null,
+          "notes": "Tidligere De nederlandske Antiller (AN, ANT, 532, 655)."
+        },
+        {
+          "code": "658",
+          "parentCode": "",
+          "level": "1",
+          "name": "Sint Maarten (NL)",
+          "shortName": null,
+          "notes": "Tidligere De nederlandske Antiller (AN, ANT, 530, 656)."
+        },
+        {
+          "code": "659",
+          "parentCode": "",
+          "level": "1",
+          "name": "Bonaire, Sint Eustatius og Saba",
+          "shortName": null,
+          "notes": "Tidligere De nederlandske Antiller (AN, ANT, 530, 656)."
+        },
+        {
+          "code": "660",
+          "parentCode": "",
+          "level": "1",
+          "name": "Anguilla",
+          "shortName": null,
+          "notes": "Separerte seg fra St. Kitts og Nevis (KN, KNA, 659, 677)."
+        },
+        {
+          "code": "661",
+          "parentCode": "",
+          "level": "1",
+          "name": "Curaçao",
+          "shortName": null,
+          "notes": "Tidligere De nederlandske Antiller (AN, ANT, 530, 656)."
+        },
+        {
+          "code": "664",
+          "parentCode": "",
+          "level": "1",
+          "name": "Nicaragua",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "668",
+          "parentCode": "",
+          "level": "1",
+          "name": "Panama",
+          "shortName": null,
+          "notes": "Sammenslåing av Panama (PA, PAN, 590, 668) og Panamakanalsonen (PZ, PCZ, 594, 669)."
+        },
+        {
+          "code": "672",
+          "parentCode": "",
+          "level": "1",
+          "name": "El Salvador",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "676",
+          "parentCode": "",
+          "level": "1",
+          "name": "Saint-Pierre-et-Miquelon",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "677",
+          "parentCode": "",
+          "level": "1",
+          "name": "St. Kitts og Nevis",
+          "shortName": null,
+          "notes": "Tidligere St. Kitts, Nevis og Anguilla (KN, KNA, 659, 677). Anguilla (AI, AIA, 660, 660) separerte seg."
+        },
+        {
+          "code": "678",
+          "parentCode": "",
+          "level": "1",
+          "name": "St. Lucia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "679",
+          "parentCode": "",
+          "level": "1",
+          "name": "St. Vincent og Grenadinene",
+          "shortName": null,
+          "notes": "Tidligere Saint Vincent  (VC, VCT, 670, 679)."
+        },
+        {
+          "code": "680",
+          "parentCode": "",
+          "level": "1",
+          "name": "Trinidad og Tobago",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "681",
+          "parentCode": "",
+          "level": "1",
+          "name": "Turks- og Caicosøyene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "684",
+          "parentCode": "",
+          "level": "1",
+          "name": "USA",
+          "shortName": null,
+          "notes": "For innhold se: https://www.iso.org/obp/ui/#iso:code:3166:US."
+        },
+        {
+          "code": "685",
+          "parentCode": "",
+          "level": "1",
+          "name": "Puerto Rico",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "686",
+          "parentCode": "",
+          "level": "1",
+          "name": "Saint-Martin (FR)",
+          "shortName": null,
+          "notes": "Tidligere part of Guadeloupe (GP, GLP, 312, 630)."
+        },
+        {
+          "code": "687",
+          "parentCode": "",
+          "level": "1",
+          "name": "Saint-Barthélemy",
+          "shortName": null,
+          "notes": "Tidligere part of Guadeloupe (GP, GLP, 312, 630)."
+        },
+        {
+          "code": "705",
+          "parentCode": "",
+          "level": "1",
+          "name": "Argentina",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "710",
+          "parentCode": "",
+          "level": "1",
+          "name": "Bolivia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "715",
+          "parentCode": "",
+          "level": "1",
+          "name": "Brasil",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "720",
+          "parentCode": "",
+          "level": "1",
+          "name": "Guyana",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "725",
+          "parentCode": "",
+          "level": "1",
+          "name": "Chile",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "730",
+          "parentCode": "",
+          "level": "1",
+          "name": "Colombia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "735",
+          "parentCode": "",
+          "level": "1",
+          "name": "Ecuador",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "740",
+          "parentCode": "",
+          "level": "1",
+          "name": "Falklandsøyene",
+          "shortName": null,
+          "notes": "Tidligere del av Falklandsøyene (FK, FLK, 238, 740) sammen med Sør-Georgia og Sør-Sandwichøyene (GS, SGS, 239, 738)."
+        },
+        {
+          "code": "745",
+          "parentCode": "",
+          "level": "1",
+          "name": "Fransk Guyana",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "755",
+          "parentCode": "",
+          "level": "1",
+          "name": "Paraguay",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "760",
+          "parentCode": "",
+          "level": "1",
+          "name": "Peru",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "765",
+          "parentCode": "",
+          "level": "1",
+          "name": "Surinam",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "770",
+          "parentCode": "",
+          "level": "1",
+          "name": "Uruguay",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "775",
+          "parentCode": "",
+          "level": "1",
+          "name": "Venezuela",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "802",
+          "parentCode": "",
+          "level": "1",
+          "name": "Amerikansk Samoa",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "805",
+          "parentCode": "",
+          "level": "1",
+          "name": "Australia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "806",
+          "parentCode": "",
+          "level": "1",
+          "name": "Salomonøyene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "807",
+          "parentCode": "",
+          "level": "1",
+          "name": "Christmasøya",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "808",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kokosøyene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "809",
+          "parentCode": "",
+          "level": "1",
+          "name": "Cookøyene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "811",
+          "parentCode": "",
+          "level": "1",
+          "name": "Fiji",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "812",
+          "parentCode": "",
+          "level": "1",
+          "name": "Vanuatu",
+          "shortName": null,
+          "notes": "Tidligere Ny-Hebridene (NH, NHB, 548, 812)."
+        },
+        {
+          "code": "813",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tonga",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "814",
+          "parentCode": "",
+          "level": "1",
+          "name": "Fransk Polynesia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "815",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kiribati",
+          "shortName": null,
+          "notes": "Sammenslått Kiribati (KI, KIR, 296, 841) og Canton- og Enderburyøyene (CT, CTE, 128, 825)."
+        },
+        {
+          "code": "816",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tuvalu",
+          "shortName": null,
+          "notes": "Tidligere del av Gilbert- og Elliceøyene (GE, GEL, 296, 810). Bare Elliceøyene."
+        },
+        {
+          "code": "817",
+          "parentCode": "",
+          "level": "1",
+          "name": "Guam",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "818",
+          "parentCode": "",
+          "level": "1",
+          "name": "Nauru",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "819",
+          "parentCode": "",
+          "level": "1",
+          "name": "USAs ytre småøyer",
+          "shortName": null,
+          "notes": "Sammenslåing av Wakeøya (WK, WAK, 872, 831), Johnston Atoll (JT, JTN, 396, 845), Midwayøyene (MI, MID, 488, 846) og USAs stillehavsøyer (PU, PUS, 849, 847). Offisielt inkludert i USA (US, USA, 840, 683). For innhold se: https://www.iso.org/obp/ui/#iso:cod"
+        },
+        {
+          "code": "820",
+          "parentCode": "",
+          "level": "1",
+          "name": "New Zealand",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "821",
+          "parentCode": "",
+          "level": "1",
+          "name": "Niue",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "822",
+          "parentCode": "",
+          "level": "1",
+          "name": "Norfolkøya",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "826",
+          "parentCode": "",
+          "level": "1",
+          "name": "Mikronesiaføderasjonen",
+          "shortName": null,
+          "notes": "Tidligere USAs stillehavsprotektorat (PC, PCI, 582, 849)."
+        },
+        {
+          "code": "827",
+          "parentCode": "",
+          "level": "1",
+          "name": "Papua Ny-Guinea",
+          "shortName": null,
+          "notes": "Sammenslått av Ny-Guineaterritoriet (--, ---, ---, 823) og Territoriet Papua (--, ---, ---, 824)."
+        },
+        {
+          "code": "828",
+          "parentCode": "",
+          "level": "1",
+          "name": "Pitcairn",
+          "shortName": null,
+          "notes": "Tidligere del av Gilbertøyene (GE, GEL, 296, 841)."
+        },
+        {
+          "code": "829",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tokelau",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "830",
+          "parentCode": "",
+          "level": "1",
+          "name": "Samoa",
+          "shortName": null,
+          "notes": "Vest-Samoa endret navnet til Samoa i 1997. Ingen kodeendring."
+        },
+        {
+          "code": "832",
+          "parentCode": "",
+          "level": "1",
+          "name": "Wallis- og Futunaøyene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "833",
+          "parentCode": "",
+          "level": "1",
+          "name": "Ny-Caledonia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "835",
+          "parentCode": "",
+          "level": "1",
+          "name": "Marshalløyene",
+          "shortName": null,
+          "notes": "Tidligere USAs stillehavsprotektorat (PC, PCI, 582, 849)."
+        },
+        {
+          "code": "839",
+          "parentCode": "",
+          "level": "1",
+          "name": "Palau",
+          "shortName": null,
+          "notes": "Tidligere USAs stillehavsprotektorat (PC, PCI, 582, 849)."
+        },
+        {
+          "code": "840",
+          "parentCode": "",
+          "level": "1",
+          "name": "Nord-Marianene",
+          "shortName": null,
+          "notes": "Tidligere USAs stillehavsprotektorat (PC, PCI, 582, 849)."
+        },
+        {
+          "code": "980",
+          "parentCode": "",
+          "level": "1",
+          "name": "Statsløs",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "990",
+          "parentCode": "",
+          "level": "1",
+          "name": "Uoppgitt",
+          "shortName": null,
+          "notes": ""
+        }
+      ],
+      "_links": {
+        "self": {
+          "href": "https://data.ssb.no/api/klass/v1/versions/363"
+        }
+      }
+    },
+    {
+      "name": "Landkoder (SSB-3) 2009",
+      "id": 364,
+      "validFrom": "2012-01-02",
+      "lastModified": "2023-10-27T11:06:05.000+0000",
+      "published": ["nb", "nn", "en"],
+      "introduction": "Kodereferanse har rekkefølgen (alfa-2, alfa-3, num-3, SSB-3), for eks. Norge (NO, NOR, 578, 000). Serbia (RS, SRB, 688, 159) ble delt i Serbia (RS, SRB, 688, 159) og Kosovo (XK, XXK, ---, 161). Alfa-2 og alfa-3 er midlertidige koder, da Kosovo ikke er annerkjent av FN. SSB-3 er offisielt tildelt.",
+      "contactPerson": {
+        "name": "Moe, Dana",
+        "email": "Dana.Moe@ssb.no",
+        "phone": ""
+      },
+      "owningSection": "320 - Seksjon for befolkningsstatistikk",
+      "legalBase": "",
+      "publications": "",
+      "derivedFrom": "",
+      "correspondenceTables": [
+        {
+          "name": "Landkoder (SSB-3) 2009 - Landkoder (SSB-3) 2007",
+          "id": 1507,
+          "contactPerson": {
+            "name": "Moe, Dana",
+            "email": "Dana.Moe@ssb.no",
+            "phone": ""
+          },
+          "owningSection": "320",
+          "source": "Landkoder (SSB-3) 2009",
+          "sourceId": 364,
+          "target": "Landkoder (SSB-3) 2007",
+          "targetId": 365,
+          "changeTable": true,
+          "lastModified": "2023-10-27T11:20:55.000+0000",
+          "published": ["nb", "nn", "en"],
+          "sourceLevel": null,
+          "targetLevel": null,
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/correspondencetables/1507"
+            },
+            "source": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/364{?language,includeFuture}",
+              "templated": true
+            },
+            "target": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/365{?language,includeFuture}",
+              "templated": true
+            }
+          }
+        },
+        {
+          "name": "Landkoder (SSB-3) 2011 - Landkoder (SSB-3) 2009",
+          "id": 1506,
+          "contactPerson": {
+            "name": "Moe, Dana",
+            "email": "Dana.Moe@ssb.no",
+            "phone": ""
+          },
+          "owningSection": "320",
+          "source": "Landkoder (SSB-3) 2011",
+          "sourceId": 363,
+          "target": "Landkoder (SSB-3) 2009",
+          "targetId": 364,
+          "changeTable": true,
+          "lastModified": "2023-10-27T11:11:09.000+0000",
+          "published": ["nb", "nn", "en"],
+          "sourceLevel": null,
+          "targetLevel": null,
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/correspondencetables/1506"
+            },
+            "source": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/363{?language,includeFuture}",
+              "templated": true
+            },
+            "target": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/364{?language,includeFuture}",
+              "templated": true
+            }
+          }
+        }
+      ],
+      "classificationVariants": [],
+      "changelogs": [
+        {
+          "changeOccured": "2021-03-02T13:36:39.000+0000",
+          "description": "Gyldighetsperioden av standarden ble av praktiske grunner utvidet fra desember 2011 til januar 2012."
+        },
+        {
+          "changeOccured": "2023-10-24T13:03:04.000+0000",
+          "description": "Harmonisering av standarden, endringene gjelder skrivemåten, fotnoter og gyldighetsperioden. Ingen reelle endringer."
+        }
+      ],
+      "levels": [
+        {
+          "levelNumber": 1,
+          "levelName": "Land"
+        }
+      ],
+      "classificationItems": [
+        {
+          "code": "000",
+          "parentCode": "",
+          "level": "1",
+          "name": "Norge",
+          "shortName": null,
+          "notes": "Inkluderer også Svalbard og Jan Mayen (SJ, SJM, 744, 001) til tross for at øyene har sin egen kode."
+        },
+        {
+          "code": "101",
+          "parentCode": "",
+          "level": "1",
+          "name": "Danmark",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "102",
+          "parentCode": "",
+          "level": "1",
+          "name": "Grønland",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "103",
+          "parentCode": "",
+          "level": "1",
+          "name": "Finland",
+          "shortName": null,
+          "notes": "Vær oppmerksom på at Åland (AX, ALA, 248, 107) har fått tildelt sin egen kode i 2004.  I noen tilfeller ekskluderes det fra Finland."
+        },
+        {
+          "code": "104",
+          "parentCode": "",
+          "level": "1",
+          "name": "Færøyene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "105",
+          "parentCode": "",
+          "level": "1",
+          "name": "Island",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "106",
+          "parentCode": "",
+          "level": "1",
+          "name": "Sverige",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "111",
+          "parentCode": "",
+          "level": "1",
+          "name": "Albania",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "112",
+          "parentCode": "",
+          "level": "1",
+          "name": "Belgia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "113",
+          "parentCode": "",
+          "level": "1",
+          "name": "Bulgaria",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "114",
+          "parentCode": "",
+          "level": "1",
+          "name": "Andorra",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "115",
+          "parentCode": "",
+          "level": "1",
+          "name": "Estland",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "117",
+          "parentCode": "",
+          "level": "1",
+          "name": "Frankrike",
+          "shortName": null,
+          "notes": "I noen tilfeller lages diverse sammensetninger av: Metropolitan France (tidligere FX, FXX, 249, 199), F. Guiana (GF, GUF, 254, 745), Guadalope (GP, GLP, 312, 630 eller 631), Saint Barthélemy (BL, BLM, 652, 687), Saint-Martin (MF, MAF, 663, 686), Martiniqu"
+        },
+        {
+          "code": "118",
+          "parentCode": "",
+          "level": "1",
+          "name": "Gibraltar",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "119",
+          "parentCode": "",
+          "level": "1",
+          "name": "Hellas",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "120",
+          "parentCode": "",
+          "level": "1",
+          "name": "Hviterussland",
+          "shortName": null,
+          "notes": "Tidligere del av Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "121",
+          "parentCode": "",
+          "level": "1",
+          "name": "Irland",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "122",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kroatia",
+          "shortName": null,
+          "notes": "Tidligere Jugoslavia (YU, YUG, 890, 116)."
+        },
+        {
+          "code": "123",
+          "parentCode": "",
+          "level": "1",
+          "name": "Italia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "124",
+          "parentCode": "",
+          "level": "1",
+          "name": "Latvia",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "126",
+          "parentCode": "",
+          "level": "1",
+          "name": "Malta",
+          "shortName": null,
+          "notes": "Malta var en kronkoloni i Storbritannia fra 1814 til 1964, da det ble gitt uavhengighet og sluttet seg til det britiske samveldet."
+        },
+        {
+          "code": "127",
+          "parentCode": "",
+          "level": "1",
+          "name": "Nederland",
+          "shortName": null,
+          "notes": "De autonome øyterritoriene i Karibien (eller deres historiske samlinger) som er en del av kongeriket.vises under følgende koder:.(AW, ABW, 533, 657) Aruba; (BQ, BES, 535, 659) Bonaire, Sint.Eustatius og Saba; (CW, CUW, 531, 661) Curaçao;.og (SX, SXM, 534,"
+        },
+        {
+          "code": "128",
+          "parentCode": "",
+          "level": "1",
+          "name": "Liechtenstein",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "129",
+          "parentCode": "",
+          "level": "1",
+          "name": "Luxembourg",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "130",
+          "parentCode": "",
+          "level": "1",
+          "name": "Monaco",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "131",
+          "parentCode": "",
+          "level": "1",
+          "name": "Polen",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "132",
+          "parentCode": "",
+          "level": "1",
+          "name": "Portugal",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "133",
+          "parentCode": "",
+          "level": "1",
+          "name": "Romania",
+          "shortName": null,
+          "notes": "Endring av trebokstavskode fra ROM til ROU."
+        },
+        {
+          "code": "134",
+          "parentCode": "",
+          "level": "1",
+          "name": "San Marino",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "136",
+          "parentCode": "",
+          "level": "1",
+          "name": "Litauen",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "137",
+          "parentCode": "",
+          "level": "1",
+          "name": "Spania",
+          "shortName": null,
+          "notes": "Vær oppmerksom på at Kanariøyene (XB, ---, ---, 137) og Ceuta og Mellilla- (XC, ---, 728, 137) har også sine egne koder. I noen tilfeller ekskluderes de fra Spania."
+        },
+        {
+          "code": "138",
+          "parentCode": "",
+          "level": "1",
+          "name": "Moldova",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "139",
+          "parentCode": "",
+          "level": "1",
+          "name": "Storbritannia",
+          "shortName": null,
+          "notes": "Tidligere del av Storbritannia (GB, GBR, 826, 139)."
+        },
+        {
+          "code": "140",
+          "parentCode": "",
+          "level": "1",
+          "name": "Russland",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "141",
+          "parentCode": "",
+          "level": "1",
+          "name": "Sveits",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "143",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tyrkia",
+          "shortName": null,
+          "notes": "Navnet (på engelsk) endret til Türkiye 11.07.2022."
+        },
+        {
+          "code": "144",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tyskland",
+          "shortName": null,
+          "notes": "Sammenslåing av Den tyske demokratiske republikken (DD, DDR, 278, 151) og Forbundsrepublikken Tyskland (DE, DEU, 280, 144)."
+        },
+        {
+          "code": "146",
+          "parentCode": "",
+          "level": "1",
+          "name": "Slovenia",
+          "shortName": null,
+          "notes": "Tidligere Jugoslavia (YU, YUG, 890, 116)."
+        },
+        {
+          "code": "148",
+          "parentCode": "",
+          "level": "1",
+          "name": "Ukraina",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135). Ukraina hadde sin egen kode siden 1974 til tross for å være en del av Sovjetunionen."
+        },
+        {
+          "code": "152",
+          "parentCode": "",
+          "level": "1",
+          "name": "Ungarn",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "153",
+          "parentCode": "",
+          "level": "1",
+          "name": "Østerrike",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "154",
+          "parentCode": "",
+          "level": "1",
+          "name": "Vatikanstaten",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "155",
+          "parentCode": "",
+          "level": "1",
+          "name": "Bosnia-Hercegovina",
+          "shortName": null,
+          "notes": "Tidligere Jugoslavia (YU, YUG, 890, 116)."
+        },
+        {
+          "code": "156",
+          "parentCode": "",
+          "level": "1",
+          "name": "Makedonia",
+          "shortName": null,
+          "notes": "Tidligere Jugoslavia (YU, YUG, 890, 116)."
+        },
+        {
+          "code": "157",
+          "parentCode": "",
+          "level": "1",
+          "name": "Slovakia",
+          "shortName": null,
+          "notes": "Tidligere Tsjekkoslovakia (CS, CSK, 200, 142)."
+        },
+        {
+          "code": "158",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tsjekkia",
+          "shortName": null,
+          "notes": "Tidligere Tsjekkoslovakia (CS, CSK, 200, 142)."
+        },
+        {
+          "code": "159",
+          "parentCode": "",
+          "level": "1",
+          "name": "Serbia",
+          "shortName": null,
+          "notes": "Tidligere Serbia og Montenegro (CS, SCG, 891, 125). Nå Serbia ekskludert Kosovo (XK, XXK, ---, 161)."
+        },
+        {
+          "code": "160",
+          "parentCode": "",
+          "level": "1",
+          "name": "Montenegro",
+          "shortName": null,
+          "notes": "Tidligere Serbia og Montenegro (CS, SCG, 891, 125)."
+        },
+        {
+          "code": "161",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kosovo",
+          "shortName": null,
+          "notes": "Alfa-2 og alfa-3 er midlertidige koder. SSB-3 er offisielt tildelt."
+        },
+        {
+          "code": "162",
+          "parentCode": "",
+          "level": "1",
+          "name": "Guernsey",
+          "shortName": null,
+          "notes": "Tidligere del av Storbritannia (GB, GBR, 826, 139)."
+        },
+        {
+          "code": "163",
+          "parentCode": "",
+          "level": "1",
+          "name": "Jersey",
+          "shortName": null,
+          "notes": "Tidligere del av Storbritannia (GB, GBR, 826, 139)."
+        },
+        {
+          "code": "164",
+          "parentCode": "",
+          "level": "1",
+          "name": "Man",
+          "shortName": null,
+          "notes": "Tidligere del av Storbritannia (GB, GBR, 826, 139)."
+        },
+        {
+          "code": "203",
+          "parentCode": "",
+          "level": "1",
+          "name": "Algerie",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "204",
+          "parentCode": "",
+          "level": "1",
+          "name": "Angola",
+          "shortName": null,
+          "notes": "Portugisisk koloni fram til 1975."
+        },
+        {
+          "code": "205",
+          "parentCode": "",
+          "level": "1",
+          "name": "Botswana",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "209",
+          "parentCode": "",
+          "level": "1",
+          "name": "Sankt Helena og avhengige områder",
+          "shortName": null,
+          "notes": "Navnet endret til Sankt Helena, Ascension og Tristan da Cunha (SH, SHN, 654, 209)."
+        },
+        {
+          "code": "213",
+          "parentCode": "",
+          "level": "1",
+          "name": "Det britiske territorium i Indiahavet",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "216",
+          "parentCode": "",
+          "level": "1",
+          "name": "Burundi",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "220",
+          "parentCode": "",
+          "level": "1",
+          "name": "Komorene",
+          "shortName": null,
+          "notes": "Separte seg fra Mayotte. Mayotte ble inkludert i Frankrike (FR, FRA, 250, 117) uten å få kode."
+        },
+        {
+          "code": "229",
+          "parentCode": "",
+          "level": "1",
+          "name": "Benin",
+          "shortName": null,
+          "notes": "Tidligere Dahomey (DY, DHY, 204, 229)."
+        },
+        {
+          "code": "235",
+          "parentCode": "",
+          "level": "1",
+          "name": "Ekvatorial-Guinea",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "239",
+          "parentCode": "",
+          "level": "1",
+          "name": "Elfenbeinskysten",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "241",
+          "parentCode": "",
+          "level": "1",
+          "name": "Eritrea",
+          "shortName": null,
+          "notes": "Tidligere del av Etiopia (ET, ETH, 230, 246)."
+        },
+        {
+          "code": "246",
+          "parentCode": "",
+          "level": "1",
+          "name": "Etiopia",
+          "shortName": null,
+          "notes": "Tidligere del av Etiopia (ET, ETH, 230, 246)."
+        },
+        {
+          "code": "249",
+          "parentCode": "",
+          "level": "1",
+          "name": "Egypt",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "250",
+          "parentCode": "",
+          "level": "1",
+          "name": "Djibouti",
+          "shortName": null,
+          "notes": "Tidligere Det franske Afar- og Issa-territoriet (AI, AFI, 262, 250)."
+        },
+        {
+          "code": "254",
+          "parentCode": "",
+          "level": "1",
+          "name": "Gabon",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "256",
+          "parentCode": "",
+          "level": "1",
+          "name": "Gambia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "260",
+          "parentCode": "",
+          "level": "1",
+          "name": "Ghana",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "264",
+          "parentCode": "",
+          "level": "1",
+          "name": "Guinea",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "266",
+          "parentCode": "",
+          "level": "1",
+          "name": "Guinea-Bissau",
+          "shortName": null,
+          "notes": "Portugisisk koloni fram til september 1974."
+        },
+        {
+          "code": "270",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kamerun",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "273",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kapp Verde",
+          "shortName": null,
+          "notes": "Portugisisk koloni fram til 1975."
+        },
+        {
+          "code": "276",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kenya",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "278",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kongo - Brazzaville",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "279",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kongo",
+          "shortName": null,
+          "notes": "Tidligere Zaïre (ZR, ZAR, 180, 279)."
+        },
+        {
+          "code": "281",
+          "parentCode": "",
+          "level": "1",
+          "name": "Lesotho",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "283",
+          "parentCode": "",
+          "level": "1",
+          "name": "Liberia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "286",
+          "parentCode": "",
+          "level": "1",
+          "name": "Libya",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "289",
+          "parentCode": "",
+          "level": "1",
+          "name": "Madagaskar",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "296",
+          "parentCode": "",
+          "level": "1",
+          "name": "Malawi",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "299",
+          "parentCode": "",
+          "level": "1",
+          "name": "Mali",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "303",
+          "parentCode": "",
+          "level": "1",
+          "name": "Marokko",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "304",
+          "parentCode": "",
+          "level": "1",
+          "name": "Vest-Sahara",
+          "shortName": null,
+          "notes": "Tidligere Spansk Sahara (EH, EHS,732, 304). Nå uten Spanske områder i Afrika (XC, ---, 728, 349)."
+        },
+        {
+          "code": "306",
+          "parentCode": "",
+          "level": "1",
+          "name": "Mauritania",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "307",
+          "parentCode": "",
+          "level": "1",
+          "name": "Mauritius",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "308",
+          "parentCode": "",
+          "level": "1",
+          "name": "Namibia",
+          "shortName": null,
+          "notes": "Tidliere del av Sør-Afrika (ZA, ZAF, 710, 359)."
+        },
+        {
+          "code": "309",
+          "parentCode": "",
+          "level": "1",
+          "name": "Niger",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "313",
+          "parentCode": "",
+          "level": "1",
+          "name": "Nigeria",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "319",
+          "parentCode": "",
+          "level": "1",
+          "name": "Mosambik",
+          "shortName": null,
+          "notes": "Portugisisk koloni fram til 1975."
+        },
+        {
+          "code": "322",
+          "parentCode": "",
+          "level": "1",
+          "name": "Mayotte",
+          "shortName": null,
+          "notes": "Delt ut av Komorene (KM, COM, 174, 219) i 1976 og inkludert i Frankrike (FR, FRA, 250, 117) til og med 1992 (uten å nevnes eksplisit). Fra 1993 til og med 2013 hadde sin egen kode siden det fantes France métropolitaine (FX,FXX,249, 199), så ble den inklud"
+        },
+        {
+          "code": "323",
+          "parentCode": "",
+          "level": "1",
+          "name": "Réunion",
+          "shortName": null,
+          "notes": "Også som en underavdeling av Frankrike.(FR-RE)."
+        },
+        {
+          "code": "326",
+          "parentCode": "",
+          "level": "1",
+          "name": "Zimbabwe",
+          "shortName": null,
+          "notes": "Tidligere Sør-Rhodesia (RH, RHO, 716, 326)."
+        },
+        {
+          "code": "329",
+          "parentCode": "",
+          "level": "1",
+          "name": "Rwanda",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "333",
+          "parentCode": "",
+          "level": "1",
+          "name": "São Tomé og Príncipe",
+          "shortName": null,
+          "notes": "Portugisisk koloni fram til 1975."
+        },
+        {
+          "code": "336",
+          "parentCode": "",
+          "level": "1",
+          "name": "Senegal",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "337",
+          "parentCode": "",
+          "level": "1",
+          "name": "Den sentralafrikanske republikk",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "338",
+          "parentCode": "",
+          "level": "1",
+          "name": "Seychellene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "339",
+          "parentCode": "",
+          "level": "1",
+          "name": "Sierra Leone",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "346",
+          "parentCode": "",
+          "level": "1",
+          "name": "Somalia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "356",
+          "parentCode": "",
+          "level": "1",
+          "name": "Sudan",
+          "shortName": null,
+          "notes": "Delt inn i: Sudan (SD, SDN, 729, 356) og Sør-Sudan (SS, SSD, 728, 355)."
+        },
+        {
+          "code": "357",
+          "parentCode": "",
+          "level": "1",
+          "name": "Swaziland",
+          "shortName": null,
+          "notes": "Navn endra til Eswatini (SZ, SWZ, 748, 357)."
+        },
+        {
+          "code": "359",
+          "parentCode": "",
+          "level": "1",
+          "name": "Sør-Afrika",
+          "shortName": null,
+          "notes": "Tidligere del av Sør-Afrika (ZA, ZAF, 710, 359). Fortsetter uten Namibia (NA, NAM, 516, 308)."
+        },
+        {
+          "code": "369",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tanzania",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "373",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tsjad",
+          "shortName": null,
+          "notes": "yu"
+        },
+        {
+          "code": "376",
+          "parentCode": "",
+          "level": "1",
+          "name": "Togo",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "379",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tunisia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "386",
+          "parentCode": "",
+          "level": "1",
+          "name": "Uganda",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "389",
+          "parentCode": "",
+          "level": "1",
+          "name": "Zambia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "393",
+          "parentCode": "",
+          "level": "1",
+          "name": "Burkina Faso",
+          "shortName": null,
+          "notes": "Tidligere Øvre-Volta (HV, HVO, 854, 393)."
+        },
+        {
+          "code": "404",
+          "parentCode": "",
+          "level": "1",
+          "name": "Afghanistan",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "406",
+          "parentCode": "",
+          "level": "1",
+          "name": "Armenia",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "407",
+          "parentCode": "",
+          "level": "1",
+          "name": "Aserbajdsjan",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "409",
+          "parentCode": "",
+          "level": "1",
+          "name": "Bahrain",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "410",
+          "parentCode": "",
+          "level": "1",
+          "name": "Bangladesh",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "412",
+          "parentCode": "",
+          "level": "1",
+          "name": "Bhutan",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "416",
+          "parentCode": "",
+          "level": "1",
+          "name": "Brunei",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "420",
+          "parentCode": "",
+          "level": "1",
+          "name": "Myanmar",
+          "shortName": null,
+          "notes": "Tidligere Burma (BU, BUR, 104, 420)."
+        },
+        {
+          "code": "424",
+          "parentCode": "",
+          "level": "1",
+          "name": "Sri Lanka",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "426",
+          "parentCode": "",
+          "level": "1",
+          "name": "De forente arabiske emirater",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "428",
+          "parentCode": "",
+          "level": "1",
+          "name": "Filippinene",
+          "shortName": null,
+          "notes": "Trebokstavskode endret fra PHI to PHL."
+        },
+        {
+          "code": "430",
+          "parentCode": "",
+          "level": "1",
+          "name": "Georgia",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "432",
+          "parentCode": "",
+          "level": "1",
+          "name": "Taiwan",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "436",
+          "parentCode": "",
+          "level": "1",
+          "name": "Hongkong",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "444",
+          "parentCode": "",
+          "level": "1",
+          "name": "India",
+          "shortName": null,
+          "notes": "Slått sammen med Sikkim (SK, SKM, 698, 546)."
+        },
+        {
+          "code": "448",
+          "parentCode": "",
+          "level": "1",
+          "name": "Indonesia",
+          "shortName": null,
+          "notes": "Indonesia (ID, IDN, 360, 448) uten Øst-Timor (TP, TMP, 626, 537)."
+        },
+        {
+          "code": "452",
+          "parentCode": "",
+          "level": "1",
+          "name": "Irak",
+          "shortName": null,
+          "notes": "Slått sammen med del av Nøytral sone (NT, NTZ, 536, 453)."
+        },
+        {
+          "code": "456",
+          "parentCode": "",
+          "level": "1",
+          "name": "Iran",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "460",
+          "parentCode": "",
+          "level": "1",
+          "name": "Israel",
+          "shortName": null,
+          "notes": "Tidligere Israel (IL, ISR, 376, 460) som inkluderte Gaza og Jeriko."
+        },
+        {
+          "code": "464",
+          "parentCode": "",
+          "level": "1",
+          "name": "Japan",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "476",
+          "parentCode": "",
+          "level": "1",
+          "name": "Jordan",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "478",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kambodsja",
+          "shortName": null,
+          "notes": "Landet endret navn fra Kambodsja til Kampuchea i 1979, så tilbake til Kambodsja igjen i 1990."
+        },
+        {
+          "code": "480",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kasakhstan",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "484",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kina",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "488",
+          "parentCode": "",
+          "level": "1",
+          "name": "Nord-Korea",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "492",
+          "parentCode": "",
+          "level": "1",
+          "name": "Sør-Korea",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "496",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kuwait",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "500",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kypros",
+          "shortName": null,
+          "notes": "I 1960 ble Kypros en selvstendig republikk."
+        },
+        {
+          "code": "502",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kirgisistan",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "504",
+          "parentCode": "",
+          "level": "1",
+          "name": "Laos",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "508",
+          "parentCode": "",
+          "level": "1",
+          "name": "Libanon",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "510",
+          "parentCode": "",
+          "level": "1",
+          "name": "Macao",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "512",
+          "parentCode": "",
+          "level": "1",
+          "name": "Malaysia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "513",
+          "parentCode": "",
+          "level": "1",
+          "name": "Maldivene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "516",
+          "parentCode": "",
+          "level": "1",
+          "name": "Mongolia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "520",
+          "parentCode": "",
+          "level": "1",
+          "name": "Oman",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "524",
+          "parentCode": "",
+          "level": "1",
+          "name": "Det palestinske området",
+          "shortName": null,
+          "notes": "Tidligere Vestbredden og Gazastripen  (XI, ---, ---, 524)."
+        },
+        {
+          "code": "528",
+          "parentCode": "",
+          "level": "1",
+          "name": "Nepal",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "534",
+          "parentCode": "",
+          "level": "1",
+          "name": "Pakistan",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "537",
+          "parentCode": "",
+          "level": "1",
+          "name": "Øst-Timor",
+          "shortName": null,
+          "notes": "Tidligere Øst-Timor (TP, TMP, 626, 537). Engelsk navn og kode endret."
+        },
+        {
+          "code": "540",
+          "parentCode": "",
+          "level": "1",
+          "name": "Qatar",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "544",
+          "parentCode": "",
+          "level": "1",
+          "name": "Saudi-Arabia",
+          "shortName": null,
+          "notes": "Slått sammen med del av Nøytral sone (NT, NTZ, 536, 453)."
+        },
+        {
+          "code": "548",
+          "parentCode": "",
+          "level": "1",
+          "name": "Singapore",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "550",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tadsjikistan",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "552",
+          "parentCode": "",
+          "level": "1",
+          "name": "Turkmenistan",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "554",
+          "parentCode": "",
+          "level": "1",
+          "name": "Usbekistan",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "564",
+          "parentCode": "",
+          "level": "1",
+          "name": "Syria",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "568",
+          "parentCode": "",
+          "level": "1",
+          "name": "Thailand",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "575",
+          "parentCode": "",
+          "level": "1",
+          "name": "Vietnam",
+          "shortName": null,
+          "notes": "Sammenslåing av Nord-Vietnam (VD, VDR, 704, 572) og Sør-Vietnam (VN, VNM, 714, 576)."
+        },
+        {
+          "code": "578",
+          "parentCode": "",
+          "level": "1",
+          "name": "Jemen",
+          "shortName": null,
+          "notes": "Sammenslåing av Sør-Jemen (YD, YMD, 720, 556) og Nord-Jemen (YE, YEM, 886, 557)."
+        },
+        {
+          "code": "601",
+          "parentCode": "",
+          "level": "1",
+          "name": "De amerikanske Jomfruøyer",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "602",
+          "parentCode": "",
+          "level": "1",
+          "name": "Barbados",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "603",
+          "parentCode": "",
+          "level": "1",
+          "name": "Antigua og Barbuda",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "604",
+          "parentCode": "",
+          "level": "1",
+          "name": "Belize",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "605",
+          "parentCode": "",
+          "level": "1",
+          "name": "Bahamas",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "606",
+          "parentCode": "",
+          "level": "1",
+          "name": "Bermuda",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "608",
+          "parentCode": "",
+          "level": "1",
+          "name": "De britiske Jomfruøyer",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "612",
+          "parentCode": "",
+          "level": "1",
+          "name": "Canada",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "613",
+          "parentCode": "",
+          "level": "1",
+          "name": "Caymanøyene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "616",
+          "parentCode": "",
+          "level": "1",
+          "name": "Costa Rica",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "620",
+          "parentCode": "",
+          "level": "1",
+          "name": "Cuba",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "622",
+          "parentCode": "",
+          "level": "1",
+          "name": "Dominica",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "624",
+          "parentCode": "",
+          "level": "1",
+          "name": "Den dominikanske republikk",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "629",
+          "parentCode": "",
+          "level": "1",
+          "name": "Grenada",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "631",
+          "parentCode": "",
+          "level": "1",
+          "name": "Guadeloupe",
+          "shortName": null,
+          "notes": "Tidligere Guadeloupe (GP, GLP, 312, 631) som bestod av Guadeloupe (GP, GLP, 312, 631), Saint-Barthélemy (BL, BLM, 652, 687) og Saint-Martin (MF, MAF, 663, 686)."
+        },
+        {
+          "code": "632",
+          "parentCode": "",
+          "level": "1",
+          "name": "Guatemala",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "636",
+          "parentCode": "",
+          "level": "1",
+          "name": "Haiti",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "644",
+          "parentCode": "",
+          "level": "1",
+          "name": "Honduras",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "648",
+          "parentCode": "",
+          "level": "1",
+          "name": "Jamaica",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "650",
+          "parentCode": "",
+          "level": "1",
+          "name": "Martinique",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "652",
+          "parentCode": "",
+          "level": "1",
+          "name": "Mexico",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "654",
+          "parentCode": "",
+          "level": "1",
+          "name": "Montserrat",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "656",
+          "parentCode": "",
+          "level": "1",
+          "name": "De nederlandske Antiller",
+          "shortName": null,
+          "notes": "Delt inn i: Bonaire, Sint Eustatius og Saba (BQ, BES, 535, 659), Curaçao (CW, CUW, 531, 661), Sint Maarten (SX, SXM, 534, 658) i 2010. Den numeriske koden for De nederlandske Antiller ble endra fra 532 til 530 da Aruba ble skilt ut i 1986."
+        },
+        {
+          "code": "657",
+          "parentCode": "",
+          "level": "1",
+          "name": "Aruba",
+          "shortName": null,
+          "notes": "Tidligere De nederlandske Antiller (AN, ANT, 532, 655)."
+        },
+        {
+          "code": "660",
+          "parentCode": "",
+          "level": "1",
+          "name": "Anguilla",
+          "shortName": null,
+          "notes": "Separerte seg fra St. Kitts og Nevis (KN, KNA, 659, 677)."
+        },
+        {
+          "code": "664",
+          "parentCode": "",
+          "level": "1",
+          "name": "Nicaragua",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "668",
+          "parentCode": "",
+          "level": "1",
+          "name": "Panama",
+          "shortName": null,
+          "notes": "Sammenslåing av Panama (PA, PAN, 590, 668) og Panamakanalsonen (PZ, PCZ, 594, 669)."
+        },
+        {
+          "code": "672",
+          "parentCode": "",
+          "level": "1",
+          "name": "El Salvador",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "676",
+          "parentCode": "",
+          "level": "1",
+          "name": "Saint-Pierre-et-Miquelon",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "677",
+          "parentCode": "",
+          "level": "1",
+          "name": "St. Kitts og Nevis",
+          "shortName": null,
+          "notes": "Tidligere St. Kitts, Nevis og Anguilla (KN, KNA, 659, 677). Anguilla (AI, AIA, 660, 660) separerte seg."
+        },
+        {
+          "code": "678",
+          "parentCode": "",
+          "level": "1",
+          "name": "St. Lucia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "679",
+          "parentCode": "",
+          "level": "1",
+          "name": "St. Vincent og Grenadinene",
+          "shortName": null,
+          "notes": "Tidligere Saint Vincent  (VC, VCT, 670, 679)."
+        },
+        {
+          "code": "680",
+          "parentCode": "",
+          "level": "1",
+          "name": "Trinidad og Tobago",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "681",
+          "parentCode": "",
+          "level": "1",
+          "name": "Turks- og Caicosøyene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "684",
+          "parentCode": "",
+          "level": "1",
+          "name": "USA",
+          "shortName": null,
+          "notes": "For innhold se: https://www.iso.org/obp/ui/#iso:code:3166:US."
+        },
+        {
+          "code": "685",
+          "parentCode": "",
+          "level": "1",
+          "name": "Puerto Rico",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "686",
+          "parentCode": "",
+          "level": "1",
+          "name": "Saint-Martin (FR)",
+          "shortName": null,
+          "notes": "Tidligere part of Guadeloupe (GP, GLP, 312, 630)."
+        },
+        {
+          "code": "687",
+          "parentCode": "",
+          "level": "1",
+          "name": "Saint-Barthélemy",
+          "shortName": null,
+          "notes": "Tidligere part of Guadeloupe (GP, GLP, 312, 630)."
+        },
+        {
+          "code": "705",
+          "parentCode": "",
+          "level": "1",
+          "name": "Argentina",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "710",
+          "parentCode": "",
+          "level": "1",
+          "name": "Bolivia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "715",
+          "parentCode": "",
+          "level": "1",
+          "name": "Brasil",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "720",
+          "parentCode": "",
+          "level": "1",
+          "name": "Guyana",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "725",
+          "parentCode": "",
+          "level": "1",
+          "name": "Chile",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "730",
+          "parentCode": "",
+          "level": "1",
+          "name": "Colombia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "735",
+          "parentCode": "",
+          "level": "1",
+          "name": "Ecuador",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "740",
+          "parentCode": "",
+          "level": "1",
+          "name": "Falklandsøyene",
+          "shortName": null,
+          "notes": "Tidligere del av Falklandsøyene (FK, FLK, 238, 740) sammen med Sør-Georgia og Sør-Sandwichøyene (GS, SGS, 239, 738)."
+        },
+        {
+          "code": "745",
+          "parentCode": "",
+          "level": "1",
+          "name": "Fransk Guyana",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "755",
+          "parentCode": "",
+          "level": "1",
+          "name": "Paraguay",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "760",
+          "parentCode": "",
+          "level": "1",
+          "name": "Peru",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "765",
+          "parentCode": "",
+          "level": "1",
+          "name": "Surinam",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "770",
+          "parentCode": "",
+          "level": "1",
+          "name": "Uruguay",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "775",
+          "parentCode": "",
+          "level": "1",
+          "name": "Venezuela",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "802",
+          "parentCode": "",
+          "level": "1",
+          "name": "Amerikansk Samoa",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "805",
+          "parentCode": "",
+          "level": "1",
+          "name": "Australia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "806",
+          "parentCode": "",
+          "level": "1",
+          "name": "Salomonøyene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "807",
+          "parentCode": "",
+          "level": "1",
+          "name": "Christmasøya",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "808",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kokosøyene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "809",
+          "parentCode": "",
+          "level": "1",
+          "name": "Cookøyene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "811",
+          "parentCode": "",
+          "level": "1",
+          "name": "Fiji",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "812",
+          "parentCode": "",
+          "level": "1",
+          "name": "Vanuatu",
+          "shortName": null,
+          "notes": "Tidligere Ny-Hebridene (NH, NHB, 548, 812)."
+        },
+        {
+          "code": "813",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tonga",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "814",
+          "parentCode": "",
+          "level": "1",
+          "name": "Fransk Polynesia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "815",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kiribati",
+          "shortName": null,
+          "notes": "Sammenslått Kiribati (KI, KIR, 296, 841) og Canton- og Enderburyøyene (CT, CTE, 128, 825)."
+        },
+        {
+          "code": "816",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tuvalu",
+          "shortName": null,
+          "notes": "Tidligere del av Gilbert- og Elliceøyene (GE, GEL, 296, 810). Bare Elliceøyene."
+        },
+        {
+          "code": "817",
+          "parentCode": "",
+          "level": "1",
+          "name": "Guam",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "818",
+          "parentCode": "",
+          "level": "1",
+          "name": "Nauru",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "819",
+          "parentCode": "",
+          "level": "1",
+          "name": "USAs ytre småøyer",
+          "shortName": null,
+          "notes": "Sammenslåing av Wakeøya (WK, WAK, 872, 831), Johnston Atoll (JT, JTN, 396, 845), Midwayøyene (MI, MID, 488, 846) og USAs stillehavsøyer (PU, PUS, 849, 847). Offisielt inkludert i USA (US, USA, 840, 683). For innhold se: https://www.iso.org/obp/ui/#iso:cod"
+        },
+        {
+          "code": "820",
+          "parentCode": "",
+          "level": "1",
+          "name": "New Zealand",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "821",
+          "parentCode": "",
+          "level": "1",
+          "name": "Niue",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "822",
+          "parentCode": "",
+          "level": "1",
+          "name": "Norfolkøya",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "826",
+          "parentCode": "",
+          "level": "1",
+          "name": "Mikronesiaføderasjonen",
+          "shortName": null,
+          "notes": "Tidligere USAs stillehavsprotektorat (PC, PCI, 582, 849)."
+        },
+        {
+          "code": "827",
+          "parentCode": "",
+          "level": "1",
+          "name": "Papua Ny-Guinea",
+          "shortName": null,
+          "notes": "Sammenslått av Ny-Guineaterritoriet (--, ---, ---, 823) og Territoriet Papua (--, ---, ---, 824)."
+        },
+        {
+          "code": "828",
+          "parentCode": "",
+          "level": "1",
+          "name": "Pitcairn",
+          "shortName": null,
+          "notes": "Tidligere del av Gilbertøyene (GE, GEL, 296, 841)."
+        },
+        {
+          "code": "829",
+          "parentCode": "",
+          "level": "1",
+          "name": "Tokelau",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "830",
+          "parentCode": "",
+          "level": "1",
+          "name": "Samoa",
+          "shortName": null,
+          "notes": "Vest-Samoa endret navnet til Samoa i 1997. Ingen kodeendring."
+        },
+        {
+          "code": "832",
+          "parentCode": "",
+          "level": "1",
+          "name": "Wallis- og Futunaøyene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "833",
+          "parentCode": "",
+          "level": "1",
+          "name": "Ny-Caledonia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "835",
+          "parentCode": "",
+          "level": "1",
+          "name": "Marshalløyene",
+          "shortName": null,
+          "notes": "Tidligere USAs stillehavsprotektorat (PC, PCI, 582, 849)."
+        },
+        {
+          "code": "839",
+          "parentCode": "",
+          "level": "1",
+          "name": "Palau",
+          "shortName": null,
+          "notes": "Tidligere USAs stillehavsprotektorat (PC, PCI, 582, 849)."
+        },
+        {
+          "code": "840",
+          "parentCode": "",
+          "level": "1",
+          "name": "Nord-Marianene",
+          "shortName": null,
+          "notes": "Tidligere USAs stillehavsprotektorat (PC, PCI, 582, 849)."
+        },
+        {
+          "code": "980",
+          "parentCode": "",
+          "level": "1",
+          "name": "Statsløs",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "990",
+          "parentCode": "",
+          "level": "1",
+          "name": "Uoppgitt",
+          "shortName": null,
+          "notes": ""
+        }
+      ],
+      "_links": {
+        "self": {
+          "href": "https://data.ssb.no/api/klass/v1/versions/364"
+        }
+      }
+    }
+  ]
+}
