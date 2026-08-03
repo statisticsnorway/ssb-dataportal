@@ -1,7 +1,6 @@
 import { localization } from '@/libs/language';
 import { expect, test, CODES_VERSION_URL } from './fixtures/codesPage.fixture';
 
-// fikse test
 const codeA = { code: 'A', name: 'Jordbruk, skogbruk og fiske' };
 const code01 = { code: '01', name: 'Jordbruk og tjenester tilknyttet jordbruk' };
 const code02 = { code: '02', name: 'Skogbruk og tjenester tilknyttet skogbruk' };
@@ -137,18 +136,18 @@ test.describe('/classifications/[id]/version/[versionNumber]/codes', () => {
     await page.goto(CODES_VERSION_URL);
 
     await expect(
-      page.getByRole('button', { name: rowBodyLabel('A', 'Jordbruk, skogbruk og fiske (v1)') }),
+      page.getByRole('button', { name: rowBodyLabel('A', 'Jordbruk, skogbruk og fiske') }),
     ).toBeVisible();
     await expect(
-      page.getByRole('button', { name: rowBodyLabel('B', 'Bergverksdrift og utvinning (v1)') }),
+      page.getByRole('button', { name: rowBodyLabel('B', 'Bergverksdrift og utvinning') }),
     ).toBeVisible();
 
     await expect(
-      page.getByRole('button', { name: rowBodyLabel('01', 'Jordbruk og tjenester tilknyttet jordbruk (v1)') }),
+      page.getByRole('button', { name: rowBodyLabel('01', 'Jordbruk og tjenester tilknyttet jordbruk') }),
     ).not.toBeVisible();
 
     await expect(
-      page.getByRole('button', { name: `${localization.codeTree.expand} Jordbruk, skogbruk og fiske (v1)` }),
+      page.getByRole('button', { name: `${localization.codeTree.expand} Jordbruk, skogbruk og fiske` }),
     ).toBeVisible();
   });
 });

@@ -1,7 +1,6 @@
 import { localization } from '@/libs/language';
 import { expect, test } from './fixtures/codesPage.fixture';
 
-// fikse test
 const codeWithNotes = { code: 'C', name: 'Industri' };
 const codeWithoutNotes = { code: 'B', name: 'Bergverksdrift og utvinning' };
 
