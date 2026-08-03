@@ -1,6 +1,7 @@
 import { localization } from '@/libs/language';
 import { expect, test, CODES_VERSION_URL } from './fixtures/codesPage.fixture';
 
+// fikse test
 const codeA = { code: 'A', name: 'Jordbruk, skogbruk og fiske' };
 const code01 = { code: '01', name: 'Jordbruk og tjenester tilknyttet jordbruk' };
 const code02 = { code: '02', name: 'Skogbruk og tjenester tilknyttet skogbruk' };
