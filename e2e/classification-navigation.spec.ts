@@ -23,5 +23,5 @@ test('Can navigate back from classification details page', async ({ classificati
   const linkHome = classificationsPage.getByLabel('Du er her:').getByRole('link', { name: 'Klassifikasjoner' });
   await expect(linkHome).toBeVisible();
   await linkHome.click();
-  await expect(classificationsPage).toHaveURL(`/classifications?types=Standard`);
+  await expect(classificationsPage).toHaveURL(`/classifications?types=Klassifikasjon`);
 });

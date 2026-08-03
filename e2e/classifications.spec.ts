@@ -65,7 +65,7 @@ test('Sort classifications', async ({ classificationsPage }) => {
   expect(await firstCard.innerText()).not.toBe(firstAsc);
 
   await sortSelect.selectOption('lastChanged');
-  await expect(classificationsPage).toHaveURL('classifications?types=Standard&sort=lastChanged');
+  await expect(classificationsPage).toHaveURL('classifications?types=Klassifikasjon&sort=lastChanged');
 });
 
 test.describe('Classifications - pagination', () => {
