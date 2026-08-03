@@ -88,7 +88,8 @@
         {
           "name": "Landkoder (SSB-3) 2009",
           "id": 364,
-          "validFrom": "2012-01-02",
+          "validFrom": "2009-01-01",
+          "validTo": "2011-01-01",
           "lastModified": "2023-10-27T11:06:05.000+0000",
           "published": ["nb", "nn", "en"],
           "_links": {
