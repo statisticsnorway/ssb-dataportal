@@ -10,6 +10,5 @@ export default function CodesVersion() {
     return null;
   }
 
-  
   return <CodesView codes={versionResource.classificationItems} />;
 }
