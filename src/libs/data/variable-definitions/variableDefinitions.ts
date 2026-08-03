@@ -62,7 +62,7 @@ export async function getVardefClient(): Promise<VariableDefinitionsApi> {
   return new VariableDefinitionsApi(new Configuration(configParams));
 }
 
-export async function listRenderedVariableDefinitions(): Promise<Array<RenderedView>> {
+export async function listRenderedVariableDefinitions(language: SupportedLanguages): Promise<Array<RenderedView>> {
   const logger = createLoggerWithBindings({ module: 'variable-definitions', fn: 'listRenderedVariableDefinitions' });
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
     logger.warn('Using static mock data for vardef');
@@ -73,7 +73,7 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
   if (!api) throw new Error('Could not access Vardef API!');
 
   const params = {
-    acceptLanguage: localization.getLanguage() as SupportedLanguages,
+    acceptLanguage: language,
     render: true,
   } satisfies ListVariableDefinitionsRequest;
   let data: RenderedView[] = [];
@@ -86,7 +86,7 @@ export async function listRenderedVariableDefinitions(): Promise<Array<RenderedV
     } as RequestInit);
     const durationMs = Date.now() - startTime;
     data = rawData.filter((each) => instanceOfRenderedView(each));
-    logger.info({ count: data.length, durationMs }, 'Fetched variable definitions from API');
+    logger.info({ count: data.length, time: durationMs, params }, 'Fetched variable definitions from API');
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
       logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');

@@ -1,10 +1,12 @@
 import { Alert } from '@digdir/designsystemet-react';
 import { Metadata } from 'next';
+import { cookies, headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { cache, ReactNode } from 'react';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
 import { ClassificationResource } from '@/libs/data-access/klass';
+import { languageCookieName, resolveLanguage } from '@/libs/language';
 import { localization } from '@/libs/language/src/localization';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
@@ -38,7 +40,13 @@ const getPageData = cache(async (id: number) => {
   let classification: ClassificationResource | undefined = undefined;
 
   if (classification === undefined) {
-    classification = await fetchClassificationById(id);
+    const cookieStore = await cookies();
+    const requestHeaders = await headers();
+    const language = resolveLanguage(
+      cookieStore.get(languageCookieName)?.value,
+      requestHeaders.get('accept-language') ?? undefined,
+    );
+    classification = await fetchClassificationById(id, language);
     logger.debug(`Fetched classification ${classification.name}`);
   }
 

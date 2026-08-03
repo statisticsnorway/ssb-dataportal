@@ -2,8 +2,8 @@ import { Tag } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
 import { SearchHit } from '@/components/search-hit';
 import { DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
-import type { CodeItem } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
+import { KlassCode } from '@/types/klass-codes';
 import { getParentCode } from '@/utils/functions';
 
 export const localizeDataProductType = (it: DataProductType | null | undefined) => {
@@ -22,10 +22,10 @@ export const localizeDataProductType = (it: DataProductType | null | undefined) 
 
 interface DataProductSearchHitProps {
   readonly dataProduct: DataProductDTO;
-  readonly subjectFields?: CodeItem[];
+  readonly subjectFields?: KlassCode[];
 }
 
-const getSubjectFieldLabel = (dataProduct: DataProductDTO, subjectFields: CodeItem[] = []) => {
+const getSubjectFieldLabel = (dataProduct: DataProductDTO, subjectFields: KlassCode[] = []) => {
   const subjectCode = dataProduct.subject_code?.trim();
   if (!subjectCode) return null;
 

@@ -82,6 +82,12 @@ export const nb = {
     daplaLab: 'Dapla Lab',
   },
 
+  cookieBanner: {
+    closeButtonLabel: 'Lukk knapp',
+    label: 'Informasjonskaplser kunngjøring',
+    message: 'Vi lagrer nødvendige informasjonskapsler som gjør at nettsiden fungerer og er trygg.',
+  },
+
   comment: 'Kommentar',
 
   contact: {
@@ -213,13 +219,21 @@ export const nb = {
     landingPageInfoGoal:
       'Målet er å gjøre det enklere å finne, forstå og bruke SSBs data på en korrekt og effektiv måte.',
     landingPageInfoGoalTitle: 'Hvorfor SSB Dataportal?',
-    landingPageInfoIntro: 'Her samler vi informasjon om våre datasett, variabler, kodeverk og API-er på ett sted.',
+    landingPageInfoIntro:
+      'Her samler vi informasjon om våre datasett, variabler, klassifikasjoner og API-er på ett sted.',
     landingPageInfoIntroTitle: 'Hva er SSB Dataportal?',
     landingPageInfoPrototype:
-      'I denne første versjonen kan du utforske SSBs variabeldefinisjoner. Portalen vil gradvis utvides med oversikt over datasett, kodeverk og API-er, slik at du kan se hele sammenhengen fra konsept til ferdig datafil. Ved å koble definisjoner fra Vardef med kodeverk fra Klass og dokumentasjon om datasett, etablerer vi en "felles sannhet" som sikrer at vi alltid tolker og bruker dataene våre på samme måte.',
+      'I denne første versjonen kan du utforske SSBs variabeldefinisjoner. Portalen vil gradvis utvides med oversikt over datasett, klassifikasjoner og API-er, slik at du kan se hele sammenhengen fra konsept til ferdig datafil. Ved å koble definisjoner fra Vardef med kodeverk fra Klass og dokumentasjon om datasett, etablerer vi en "felles sannhet" som sikrer at vi alltid tolker og bruker dataene våre på samme måte.',
     landingPagePrototypeTitle: 'Kontinuerlig forbedring',
     landingPageSubTitle: 'Din inngang til SSBs felles kunnskap om data',
     landingPageTitle: 'Velkommen til SSB Dataportal',
+  },
+
+  language: {
+    label: 'Språk',
+    nb: 'Norsk bokmål',
+    nn: 'Norsk nynorsk',
+    en: 'English',
   },
 
   loading: {
@@ -248,7 +262,7 @@ export const nb = {
   },
 
   pageTitle: {
-    classifications: 'Kodeverk',
+    classifications: 'Klassifikasjoner',
     dataProducts: 'Dataprodukter',
     variableDefinitions: 'Variabeldefinisjoner',
   },
@@ -381,3 +395,5 @@ export const nb = {
     },
   },
 };
+
+export type Translation = typeof nb;

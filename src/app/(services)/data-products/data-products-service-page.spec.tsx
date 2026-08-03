@@ -3,8 +3,8 @@ import { NuqsTestingAdapter, type UrlUpdateEvent } from 'nuqs/adapters/testing';
 import type { ReactNode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { type DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
-import type { CodeItem } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
+import { KlassCode } from '@/types/klass-codes';
 import { DataProductsServicePage } from './data-products-service-page';
 
 vi.mock('server-only', () => ({}));
@@ -57,10 +57,10 @@ const dataProducts: DataProductDTO[] = [
   },
 ];
 
-const subjectFields: CodeItem[] = [
-  { code: 'al', name: 'Arbeid og lønn' },
-  { code: 'bf', name: 'Bank og finansmarked' },
-  { code: 'he', name: 'Helse' },
+const subjectFields: KlassCode[] = [
+  { code: 'al', name: 'Arbeid og lønn', parentCode: null, level: '1', validFrom: '2020' },
+  { code: 'bf', name: 'Bank og finansmarked', parentCode: null, level: '1', validFrom: '2020' },
+  { code: 'he', name: 'Helse', parentCode: null, level: '1', validFrom: '2020' },
 ];
 
 const renderPage = (
@@ -150,30 +150,38 @@ describe('DataProductsServicePage', () => {
     expect(within(cards[1]!).getByLabelText(localization.subjectArea)).toHaveTextContent('Bank og finansmarked');
   });
 
-  it('renders subject field dropdown options with counts', () => {
+  it('renders subject field checkboxes with counts', () => {
     renderPage({ subjectFields });
-    const subjectFieldFilter = screen.getByRole('combobox', { name: localization.subjectArea });
+    const workAndPayFilter = screen.getByRole('checkbox', { name: 'Arbeid og lønn (1)' });
+    const bankingFilter = screen.getByRole('checkbox', { name: 'Bank og finansmarked (1)' });
     expect(screen.getByRole('group', { name: new RegExp(localization.subjectArea) })).toBeInTheDocument();
-    expect(subjectFieldFilter).toHaveValue('');
-    expect(screen.getByRole('option', { name: 'Alle statistikkområder' })).toBeInTheDocument();
-    expect(screen.getByRole('option', { name: 'Arbeid og lønn (1)' })).toBeInTheDocument();
-    expect(screen.getByRole('option', { name: 'Bank og finansmarked (1)' })).toBeInTheDocument();
-    expect(screen.queryByRole('option', { name: 'Helse (0)' })).not.toBeInTheDocument();
+    expect(workAndPayFilter).not.toBeChecked();
+    expect(bankingFilter).not.toBeChecked();
+    expect(screen.getByRole('checkbox', { name: 'Helse (0)' })).toBeInTheDocument();
   });
 
-  it('filters data products by selected subject field', () => {
+  it('filters data products by selected subject fields', () => {
     renderPage({ subjectFields });
     const main = screen.getByRole('main');
-    const subjectFieldFilter = screen.getByRole('combobox', { name: localization.subjectArea });
-    fireEvent.change(subjectFieldFilter, { target: { value: 'al' } });
+    const workAndPayFilter = screen.getByRole('checkbox', { name: 'Arbeid og lønn (1)' });
+    const bankingFilter = screen.getByRole('checkbox', { name: 'Bank og finansmarked (1)' });
+
+    fireEvent.click(workAndPayFilter);
     expect(main).toHaveTextContent('1 treff');
     expect(main).toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
     expect(main).not.toHaveTextContent('Ameldingen');
-    fireEvent.change(subjectFieldFilter, { target: { value: 'bf' } });
+
+    fireEvent.click(bankingFilter);
+    expect(main).toHaveTextContent('2 treff');
+    expect(main).toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
+    expect(main).toHaveTextContent('Ameldingen');
+
+    fireEvent.click(workAndPayFilter);
     expect(main).toHaveTextContent('1 treff');
     expect(main).toHaveTextContent('Ameldingen');
     expect(main).not.toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
-    fireEvent.change(subjectFieldFilter, { target: { value: '' } });
+
+    fireEvent.click(bankingFilter);
     expect(main).toHaveTextContent('2 treff');
     expect(main).toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
     expect(main).toHaveTextContent('Ameldingen');
@@ -192,8 +200,8 @@ describe('DataProductsServicePage', () => {
       subjectFields,
     });
     const main = screen.getByRole('main');
-    const subjectFieldFilter = screen.getByRole('combobox', { name: localization.subjectArea });
-    fireEvent.change(subjectFieldFilter, { target: { value: 'he' } });
+    const healthFilter = screen.getByRole('checkbox', { name: 'Helse (1)' });
+    fireEvent.click(healthFilter);
     expect(main).toHaveTextContent('1 treff');
     expect(main).toHaveTextContent('Helseprodukt');
   });
@@ -202,9 +210,9 @@ describe('DataProductsServicePage', () => {
     renderPage({ subjectFields });
     const main = screen.getByRole('main');
     const otherProductFilter = screen.getByRole('checkbox', { name: 'Annen dataprodukt (1)' });
-    const subjectFieldFilter = screen.getByRole('combobox', { name: localization.subjectArea });
+    const workAndPayFilter = screen.getByRole('checkbox', { name: 'Arbeid og lønn (1)' });
     fireEvent.click(otherProductFilter);
-    fireEvent.change(subjectFieldFilter, { target: { value: 'al' } });
+    fireEvent.click(workAndPayFilter);
     expect(main).toHaveTextContent('0 treff');
     expect(main).toHaveTextContent(localization.search.noHits);
     expect(main).not.toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
@@ -238,34 +246,30 @@ describe('URL state', () => {
     expect(onUrlUpdate.mock.calls.at(-1)?.[0].searchParams.get('productTypes')).toBeNull();
   });
 
-  it('hydrates selected subject area from subject parameter', () => {
-    renderPage({ subjectFields }, '?subject=al');
-    expect(screen.getByRole('combobox', { name: localization.subjectArea })).toHaveValue('al');
+  it('hydrates selected subject filters from subjects parameter', () => {
+    renderPage({ subjectFields }, '?subjects=al');
+    expect(screen.getByRole('checkbox', { name: 'Arbeid og lønn (1)' })).toBeChecked();
     expect(screen.getByRole('main')).toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
     expect(screen.getByRole('main')).not.toHaveTextContent('Ameldingen');
   });
 
-  it('updates subjectArea parameter when subject area filter changes', async () => {
+  it('updates subjects parameters when subject filters change', async () => {
     const onUrlUpdate = vi.fn<(event: UrlUpdateEvent) => void>();
     renderPage({ subjectFields }, '', onUrlUpdate);
-    fireEvent.change(screen.getByRole('combobox', { name: localization.subjectArea }), {
-      target: { value: 'bf' },
-    });
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Bank og finansmarked (1)' }));
     await waitFor(() => {
       expect(onUrlUpdate).toHaveBeenCalled();
     });
-    expect(onUrlUpdate.mock.calls.at(-1)?.[0].searchParams.get('subject')).toBe('bf');
+    expect(onUrlUpdate.mock.calls.at(-1)?.[0].searchParams.getAll('subjects')).toEqual(['bf']);
   });
 
-  it('clears subjectArea parameter when all subject areas are selected', async () => {
+  it('clears subjects parameter when the last selected subject is unchecked', async () => {
     const onUrlUpdate = vi.fn<(event: UrlUpdateEvent) => void>();
-    renderPage({ subjectFields }, '?subject=al', onUrlUpdate);
-    fireEvent.change(screen.getByRole('combobox', { name: localization.subjectArea }), {
-      target: { value: '' },
-    });
+    renderPage({ subjectFields }, '?subjects=al', onUrlUpdate);
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Arbeid og lønn (1)' }));
     await waitFor(() => {
       expect(onUrlUpdate).toHaveBeenCalled();
     });
-    expect(onUrlUpdate.mock.calls.at(-1)?.[0].searchParams.get('subject')).toBeNull();
+    expect(onUrlUpdate.mock.calls.at(-1)?.[0].searchParams.get('subjects')).toBeNull();
   });
 });

@@ -47,21 +47,36 @@ export function parseClassification(json?: object | null): ClassificationResourc
   }
   return ClassificationResourceFromJSONTyped(json, true);
 }
-export const toQueryTypeValue = (value: string) => (value === ClassificationType.Klassifikasjon ? 'Standard' : value);
-
-export const fromQueryTypeValue = (value: string) => (value === 'Standard' ? ClassificationType.Klassifikasjon : value);
+/**
+ * Returns a classification type for a  display label.
+ *
+ * @param it - The display label.
+ * @returns The  classification type.
+ */
+export const getClassificationTypeForLabel = (it: string) => {
+  switch (it) {
+    case localization.classification.standard:
+      return ClassificationType.Klassifikasjon;
+    case localization.classification.codelist:
+      return ClassificationType.Kodeliste;
+    default:
+      return it;
+  }
+};
 
 /**
  * Returns a display label for a classification type.
- * If the classification type is `Klassifikasjon`, a localized "Standard" label is returned.
- * Otherwise, the original `classificationType` value is returned.
  *
- * @param value - The classification type.
+ * @param it - The classification type.
  * @returns The label to display for the classification type.
  */
-export const getLabelForClassificationType = (value: ClassificationType) => {
-  if (value === ClassificationType.Klassifikasjon) {
-    return localization.classification.standard;
+export const getLabelForClassificationType = (it: string) => {
+  switch (it) {
+    case ClassificationType.Klassifikasjon:
+      return localization.classification.standard;
+    case ClassificationType.Kodeliste:
+      return localization.classification.codelist;
+    default:
+      return it;
   }
-  return value;
 };

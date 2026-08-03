@@ -14,11 +14,11 @@ import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { DatasetSearchHit } from './components/DatasetSearchHit';
 import styles from './page.module.css';
 
-const assessmentLabelByValue: Record<string, string> = {
+const getAssessmentLabelByValue = (): Record<string, string> => ({
   PROTECTED: localization.products.assessment.protected,
   OPEN: localization.products.assessment.open,
   SENSITIVE: localization.products.assessment.sensitive,
-};
+});
 
 export default function DataProductDetail({
   dataProduct,
@@ -27,6 +27,7 @@ export default function DataProductDetail({
   dataProduct: DataProductDTO;
   datasets: DatasetDTO[];
 }>) {
+  const assessmentLabelByValue = getAssessmentLabelByValue();
   const { isAuthenticated } = useAuthContext();
   const [visibleDatasets, setVisibleDatasets] = useState<DatasetDTO[]>(() => (isAuthenticated ? datasets : []));
 
@@ -60,7 +61,7 @@ export default function DataProductDetail({
         value,
         label: assessmentLabelByValue[value] ?? value,
       })),
-    [],
+    [assessmentLabelByValue],
   );
 
   const [selectedAssessments, setSelectedAssessments] = useState<FilterItem[]>([]);

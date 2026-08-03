@@ -8,13 +8,17 @@ import { FilterTagsSection } from '@/components/filters/filter-tags-section';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortFields } from '@/components/sort-fields';
 import { ClassificationResource } from '@/libs/data-access/klass';
-import { CodeItem, SearchResultResource } from '@/libs/data-access/klass/models';
+import { SearchResultResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
 import { ClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
+import { KlassCode } from '@/types/klass-codes';
 import { SortTypes, sortTypes } from '@/types/sort';
-import { getLabelForClassificationType } from '@/utils/classifications/classificationHelpers';
+import {
+  getClassificationTypeForLabel,
+  getLabelForClassificationType,
+} from '@/utils/classifications/classificationHelpers';
 import { scrollToFilterTags } from '@/utils/scrollToFilterTags';
 import { tabsData } from '../../tabs';
 import { ClassificationTypeFiltersSection } from './components/ClassificationTypeFiltersSection';
@@ -26,7 +30,7 @@ import { SubjectFiltersSection, SubjectFiltersSectionFallback } from './componen
 
 interface ClassificationServicePageProps {
   classificationsPromise: Promise<{ data: ClassificationResource[]; error: Error | null }>;
-  subjectFieldsPromise: Promise<{ data: CodeItem[]; error: Error | null }>;
+  subjectFieldsPromise: Promise<{ data: KlassCode[]; error: Error | null }>;
   searchResultPromise: Promise<{ data: SearchResultResource[]; error: Error | null }>;
   isSearchActive: boolean;
 }
@@ -70,7 +74,7 @@ const ClassificationsServicePage = ({
       }),
       ...types.map((code) => ({
         value: code,
-        label: getLabelForClassificationType(code as ClassificationType),
+        label: getLabelForClassificationType(code),
       })),
     ],
     [q, subjects, subjectFields, types],
@@ -94,9 +98,12 @@ const ClassificationsServicePage = ({
   };
 
   const toggleClassificationType = (filter: FilterItem) => {
-    const nextTypes = toggleValue(types, filter.value);
+    const nextTypes = toggleValue(
+      types.map(getClassificationTypeForLabel),
+      getClassificationTypeForLabel(filter.value),
+    );
 
-    updateQuery({ types: nextTypes.length > 0 ? nextTypes : null, page: 1 });
+    updateQuery({ types: nextTypes.length > 0 ? nextTypes.map(getLabelForClassificationType) : null, page: 1 });
     scrollToFilterTags();
   };
 

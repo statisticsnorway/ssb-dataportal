@@ -46,6 +46,10 @@ vi.mock('@/components/login-button', () => ({
   LoginButton: () => <div data-testid='login-button' />,
 }));
 
+vi.mock('@/components/language-picker', () => ({
+  LanguagePicker: () => <div data-testid='language-picker' />,
+}));
+
 describe('Header', () => {
   it('renders the logo link with correct href and text', () => {
     render(<Header homeUrl='https://example.com' />);

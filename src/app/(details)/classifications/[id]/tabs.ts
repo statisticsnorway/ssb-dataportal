@@ -13,32 +13,44 @@ export type ClassificationDetailsTabData = { label: string; id: string; slug: st
 
 export const classificationDetailsTabsData: Record<keyof typeof Tabs, ClassificationDetailsTabData> = {
   Codes: {
-    label: localization.classificationDetails.codes,
+    get label() {
+      return localization.classificationDetails.codes;
+    },
     id: 'codesTab',
     slug: 'codes',
   },
   About: {
-    label: localization.classificationDetails.about,
+    get label() {
+      return localization.classificationDetails.about;
+    },
     id: 'aboutTab',
     slug: 'about',
   },
   Changes: {
-    label: localization.classificationDetails.changes,
+    get label() {
+      return localization.classificationDetails.changes;
+    },
     id: 'changesTab',
     slug: 'changes',
   },
   Versions: {
-    label: localization.classificationDetails.versions,
+    get label() {
+      return localization.classificationDetails.versions;
+    },
     id: 'versionsTab',
     slug: 'versions',
   },
   Correspondences: {
-    label: localization.classificationDetails.correspondences,
+    get label() {
+      return localization.classificationDetails.correspondences;
+    },
     id: 'correspondencesTab',
     slug: 'correspondences',
   },
   Variants: {
-    label: localization.classificationDetails.variants,
+    get label() {
+      return localization.classificationDetails.variants;
+    },
     id: 'variantsTab',
     slug: 'variants',
   },

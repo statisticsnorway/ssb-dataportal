@@ -1,13 +1,13 @@
 import { use, useMemo } from 'react';
 import { CheckboxFilter } from '@/components/filters/checkbox-filter';
 import { useSubjectFieldCounts } from '@/hooks/useVariableCounts';
-import { CodeItem } from '@/libs/data-access/klass/models';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language/src/localization';
 import { FilterItem } from '@/types/filters';
+import { KlassCode } from '@/types/klass-codes';
 
 interface SubjectFiltersSectionProps {
-  subjectFieldsPromise: Promise<{ data: CodeItem[]; error: Error | null }>;
+  subjectFieldsPromise: Promise<{ data: KlassCode[]; error: Error | null }>;
   variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>;
   selectedItems: FilterItem[];
   onFilterChange: (filter: FilterItem) => void;

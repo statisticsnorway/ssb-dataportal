@@ -1,7 +1,6 @@
 'use server';
 
 import {
-  ClassificationLanguageEnum,
   ClassificationRequest,
   ClassificationsApi,
   ClassificationsLanguageEnum,
@@ -11,6 +10,7 @@ import { ClassificationResource } from '@/libs/data-access/klass/models/Classifi
 import { KlassPagedResourcesClassificationSummaryResourceFromJSON } from '@/libs/data-access/klass/models/KlassPagedResourcesClassificationSummaryResource';
 
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
+import { SupportedLanguage } from '@/libs/language';
 import { createLogger } from '@/libs/logger/server-logger';
 import classificationsMock from '@/static-data/classifications.json';
 import { parseClassification } from '@/utils/classifications/classificationHelpers';
@@ -37,7 +37,9 @@ async function getKlassClassificationsClient(): Promise<ClassificationsApi> {
   return new ClassificationsApi(new Configuration(configParams));
 }
 
-export async function fetchAllClassifications(): Promise<ClassificationResource[]> {
+export async function fetchAllClassifications(
+  language: SupportedLanguage | undefined = 'nb',
+): Promise<ClassificationResource[]> {
   const logger = createLogger('classification-data');
 
   if (process.env.KLASS_USE_STATIC_DATA === 'true') {
@@ -50,7 +52,7 @@ export async function fetchAllClassifications(): Promise<ClassificationResource[
   const params = {
     includeCodelists: true,
     includeDescription: true,
-    language: ClassificationsLanguageEnum.NB,
+    language: language.toUpperCase() as ClassificationsLanguageEnum,
   } satisfies ClassificationsRequest;
 
   try {
@@ -89,7 +91,10 @@ export async function fetchAllClassifications(): Promise<ClassificationResource[
   }
 }
 
-export async function fetchClassificationById(id: number): Promise<ClassificationResource> {
+export async function fetchClassificationById(
+  id: number,
+  language: SupportedLanguage | undefined = 'nb',
+): Promise<ClassificationResource> {
   let classification: ClassificationResource;
   const logger = createLogger('classification-data');
 
@@ -100,7 +105,7 @@ export async function fetchClassificationById(id: number): Promise<Classificatio
     const api = await getKlassClassificationsClient();
     const params = {
       id,
-      language: ClassificationLanguageEnum.NB,
+      language: language.toUpperCase() as ClassificationsLanguageEnum,
     } satisfies ClassificationRequest;
 
     try {

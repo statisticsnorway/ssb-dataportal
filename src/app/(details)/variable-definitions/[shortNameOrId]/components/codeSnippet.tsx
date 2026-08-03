@@ -2,12 +2,14 @@
 
 import { Button, Card, Divider, Heading, Paragraph, Tooltip } from '@digdir/designsystemet-react';
 import { FilesIcon } from '@navikt/aksel-icons';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import dynamic from 'next/dynamic';
 import { coldarkCold } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { ExternalLink } from '@/components/link-components/externalLink';
 import { useClipboard } from '@/hooks/useClipboard';
 import { localization } from '@/libs/language';
 import styles from './code-snippet.module.css';
+
+const SyntaxHighlighter = dynamic(() => import('react-syntax-highlighter').then((mod) => mod.Prism), { ssr: false });
 
 export interface CodeSnippetProps {
   code: string[];

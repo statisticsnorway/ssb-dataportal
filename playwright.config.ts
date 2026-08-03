@@ -57,6 +57,26 @@ export default defineConfig({
   //reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    locale: 'nb-NO',
+    extraHTTPHeaders: {
+      'accept-language': 'nb-NO,nb;q=0.9',
+    },
+    storageState: {
+      cookies: [
+        {
+          name: 'ssb-dataportal-language',
+          value: 'nb',
+          domain: 'localhost',
+          path: '/',
+          expires: -1,
+          httpOnly: false,
+          secure: false,
+          sameSite: 'Lax',
+        },
+      ],
+      origins: [],
+    },
+
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: 'http://localhost:3000',
 
@@ -69,15 +89,36 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:3000' },
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: 'http://localhost:3000',
+        locale: 'nb-NO',
+        extraHTTPHeaders: {
+          'accept-language': 'nb-NO,nb;q=0.9',
+        },
+      },
     },
     {
       name: 'chrome-unauth',
-      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:8000' },
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: 'http://localhost:8000',
+        locale: 'nb-NO',
+        extraHTTPHeaders: {
+          'accept-language': 'nb-NO,nb;q=0.9',
+        },
+      },
     },
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'], baseURL: 'http://localhost:3000' },
+      use: {
+        ...devices['Desktop Firefox'],
+        baseURL: 'http://localhost:3000',
+        locale: 'nb-NO',
+        extraHTTPHeaders: {
+          'accept-language': 'nb-NO,nb;q=0.9',
+        },
+      },
     },
 
     //{
@@ -113,14 +154,14 @@ export default defineConfig({
       command: process.env.CI ? 'pnpm build:test && pnpm start:test' : 'pnpm dev:test',
       url: 'http://localhost:3000',
       timeout: 120 * 1000,
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: false,
     },
     {
       name: 'unauthenticated',
       command: 'pnpm build:test:unauth && pnpm start:test:unauth',
       url: 'http://localhost:8000',
       timeout: 120 * 1000,
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: false,
     },
   ],
 });

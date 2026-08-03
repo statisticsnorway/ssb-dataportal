@@ -42,8 +42,8 @@
   },
   "dependencies": {
     "@biomejs/biome": "2.5.0",
-    "@digdir/designsystemet-css": "1.16.1",
-    "@digdir/designsystemet-react": "1.16.1",
+    "@digdir/designsystemet-css": "1.18.0",
+    "@digdir/designsystemet-react": "1.18.0",
     "@navikt/aksel-icons": "8.14.0",
     "@next/env": "16.2.10",
     "@svgr/webpack": "8.1.0",
@@ -67,7 +67,7 @@
   "devDependencies": {
     "@axe-core/playwright": "4.12.1",
     "@bgotink/playwright-coverage": "0.3.2",
-    "@digdir/designsystemet-web": "1.16.1",
+    "@digdir/designsystemet-web": "1.18.0",
     "@openapitools/openapi-generator-cli": "2.39.1",
     "@playwright/test": "1.61.1",
     "@testing-library/dom": "10.4.1",
