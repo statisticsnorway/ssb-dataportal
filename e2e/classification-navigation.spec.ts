@@ -1,6 +1,7 @@
 import { expect, test } from './fixtures/classifications.fixture';
 import classificationsMock from '@/static-data/classifications.json';
 import { parseClassification, stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
+import { CLASSIFICATIONS_URL } from './utils/variables';
 const classifications = classificationsMock.classifications;
 
 test('Can navigate to classification', async ({ classificationsPage }) => {
@@ -23,5 +24,5 @@ test('Can navigate back from classification details page', async ({ classificati
   const linkHome = classificationsPage.getByLabel('Du er her:').getByRole('link', { name: 'Klassifikasjoner' });
   await expect(linkHome).toBeVisible();
   await linkHome.click();
-  await expect(classificationsPage).toHaveURL(`/classifications?types=Standard`);
+  await expect(classificationsPage).toHaveURL(CLASSIFICATIONS_URL);
 });

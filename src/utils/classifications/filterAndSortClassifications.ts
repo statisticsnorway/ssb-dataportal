@@ -119,7 +119,7 @@ export function createSubjectFieldFilterItems(
  * @returns A FilterItem array with one entry per classification type.
  */
 export function createTypeFilterItems(classifications: ClassificationResource[]): FilterItem[] {
-  return [ClassificationType.Klassifikasjon, ClassificationType.Kodeliste].map((value) => ({
+  return [ClassificationType.Classification, ClassificationType.Codelist].map((value) => ({
     label: getLabelForClassificationType(value as ClassificationType),
     value: value,
     count: classifications.filter((c) => getClassificationTypeForLabel(c.classificationType ?? '') === value).length,
@@ -135,9 +135,9 @@ export function filterAndSortClassifications(
   keepInputOrder = false,
 ): ClassificationResource[] {
   const withoutName = classifications.filter((c) => !c.name);
-  for (const c of withoutName) {
-    clientLogger.info(`classification with id: ${c.id} hidden`);
-  }
+  clientLogger.debug(
+    `${withoutName.length} classifications are missing names in this language and will not be viewable: \n[${withoutName.map((c) => c.id)}]`,
+  );
   const withName = classifications.filter((c) => c.name);
 
   const familyIds = new Set(subjectCodes.flatMap((code) => SUBJECT_FIELD_BY_CODE[code] ?? []));

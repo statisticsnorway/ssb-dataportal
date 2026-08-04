@@ -2,7 +2,7 @@
 
 import { Spinner } from '@digdir/designsystemet-react';
 import { parseAsArrayOf, parseAsInteger, parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs';
-import { Suspense, use, useEffect, useMemo } from 'react';
+import { Suspense, use, useEffect, useMemo, useState } from 'react';
 import { FiltersPanel } from '@/components/filters';
 import { FilterTagsSection } from '@/components/filters/filter-tags-section';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
@@ -11,7 +11,7 @@ import { ClassificationResource } from '@/libs/data-access/klass';
 import { SearchResultResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
-import { ClassificationType } from '@/types/classification';
+import { ClassificationType, isKnownClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
 import { KlassCode } from '@/types/klass-codes';
 import { SortTypes, sortTypes } from '@/types/sort';
@@ -54,7 +54,7 @@ const ClassificationsServicePage = ({
     {
       q: parseAsString.withDefault(''),
       subjects: parseAsArrayOf(parseAsString).withDefault([]),
-      types: parseAsArrayOf(parseAsString).withDefault([]),
+      types: parseAsArrayOf(parseAsString).withDefault([]).withOptions({ shallow: true }),
       sort: parseAsStringLiteral(sortTypes).withDefault('titleAsc'),
       page: parseAsInteger.withDefault(1).withOptions({ clearOnDefault: true }),
     },
@@ -62,6 +62,14 @@ const ClassificationsServicePage = ({
   );
 
   const { q, page, sort, subjects, types } = queryState;
+  const [hasInitializedTypes, setHasInitializedTypes] = useState(false);
+  const selectedClassificationTypes = useMemo(() => {
+    const normalizedTypes = types.map(getClassificationTypeForLabel).filter(isKnownClassificationType);
+    if (!hasInitializedTypes && normalizedTypes.length === 0) {
+      return [ClassificationType.Classification];
+    }
+    return normalizedTypes;
+  }, [hasInitializedTypes, types]);
 
   const { data: subjectFields } = use(subjectFieldsPromise);
 
@@ -72,18 +80,30 @@ const ClassificationsServicePage = ({
         const subject = subjectFields?.find((item) => String(item.code) === code);
         return { value: code, label: subject ? String(subject.name) : code };
       }),
-      ...types.map((code) => ({
+      ...selectedClassificationTypes.map((code) => ({
         value: code,
         label: getLabelForClassificationType(code),
       })),
     ],
-    [q, subjects, subjectFields, types],
+    [q, selectedClassificationTypes, subjects, subjectFields],
   );
 
   const updateQuery = (update: Parameters<typeof setQueryState>[0]) =>
     setQueryState(update).catch((error) => {
       clientLogger.error('Failed to update query state', error);
     });
+
+  useEffect(() => {
+    if (hasInitializedTypes) return;
+
+    if (types.length > 0) {
+      setHasInitializedTypes(true);
+      return;
+    }
+
+    updateQuery({ types: [ClassificationType.Classification] });
+    setHasInitializedTypes(true);
+  }, [hasInitializedTypes, types]);
 
   const handlePageChange = (nextPage: number) => {
     updateQuery({ page: nextPage });
@@ -98,20 +118,11 @@ const ClassificationsServicePage = ({
   };
 
   const toggleClassificationType = (filter: FilterItem) => {
-    const nextTypes = toggleValue(
-      types.map(getClassificationTypeForLabel),
-      getClassificationTypeForLabel(filter.value),
-    );
+    const nextTypes = toggleValue(selectedClassificationTypes, getClassificationTypeForLabel(filter.value));
 
-    updateQuery({ types: nextTypes.length > 0 ? nextTypes.map(getLabelForClassificationType) : null, page: 1 });
+    updateQuery({ types: nextTypes.length > 0 ? nextTypes : null, page: 1 });
     scrollToFilterTags();
   };
-
-  useEffect(() => {
-    if (types.length === 0) {
-      updateQuery({ types: [getLabelForClassificationType(ClassificationType.Klassifikasjon)] });
-    }
-  }, []);
 
   const removeFilter = (filter: FilterItem) => {
     const isDifferent = isDifferentFilterValue(filter.value);
@@ -119,7 +130,7 @@ const ClassificationsServicePage = ({
 
     updateQuery({
       q: nextQ,
-      types: types.filter(isDifferent),
+      types: selectedClassificationTypes.filter(isDifferent),
       subjects: subjects.filter(isDifferent),
       page: 1,
     });
@@ -137,7 +148,7 @@ const ClassificationsServicePage = ({
       subjectFieldsPromise={subjectFieldsPromise}
       searchResultPromise={searchResultPromise}
       selectedSubjectCodes={subjects}
-      selectedClassificationTypes={types}
+      selectedClassificationTypes={selectedClassificationTypes}
       sortOption={sort}
       searchQuery={q}
       isSearchActive={isSearchActive}
