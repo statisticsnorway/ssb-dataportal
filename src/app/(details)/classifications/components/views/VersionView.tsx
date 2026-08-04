@@ -1,6 +1,6 @@
 'use client';
 
-import { Heading, Tabs, Tag } from '@digdir/designsystemet-react';
+import { Alert, Heading, Tabs, Tag } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language';
@@ -44,20 +44,19 @@ export function VersionView({ classification, children }: Readonly<VersionViewPr
     }
     return `/classifications/${classification.id}/version/${resolved?.version.id}/${slug}`;
   };
-  const versionTag = resolved?.isLatest ? (
+  const versionTag =  (
     <Tag data-color={'info'}>
       {`${localization.versions.tags.isLatest} (${localization.versions.tags.validFrom}: ${resolved?.version?.validFrom?.toLocaleDateString('nb-NO', { year: 'numeric', month: 'long', day: 'numeric' }) ?? '—'})`}
     </Tag>
-  ) : (
-    <Tag data-color={'warning'}>{localization.versions.tags.isNotCurrent}</Tag>
   );
 
   return (
     <VersionProvider version={resolved?.version!} isLatest={resolved?.isLatest ?? false}>
+      {!resolved?.isLatest && <Alert data-color={'danger'}>{localization.versions.tags.isNotCurrent}</Alert>}
       <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='lg' level={2}>
         {resolved?.version.name ?? '—'}
       </Heading>
-      {versionTag}
+      {resolved?.isLatest && versionTag}
       <Tabs value={activeTab.id}>
         <Tabs.List className={styles.tabList} aria-label={localization.tabs.ariaLabel}>
           {Object.values(classificationDetailsTabsData).map((tab) => (
@@ -65,7 +64,7 @@ export function VersionView({ classification, children }: Readonly<VersionViewPr
               aria-controls={tab.id}
               key={tab.id}
               value={tab.id}
-              className={`${styles.tab} font-roboto`}
+              className={`font-roboto`}
               onClick={() => router.push(getTabUrl(tab.slug))}
             >
               {tab.label}
