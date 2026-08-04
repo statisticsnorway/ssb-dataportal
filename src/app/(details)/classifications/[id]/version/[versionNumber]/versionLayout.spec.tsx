@@ -83,7 +83,7 @@ describe('VersionLayout', () => {
       }),
     ).rejects.toThrow('NEXT_NOT_FOUND');
 
-    expect(mocks.fetchVersionById).toHaveBeenCalledWith(42);
+    expect(mocks.fetchVersionById).toHaveBeenCalledWith(42, "nb");
     expect(mocks.notFound).toHaveBeenCalled();
   });
 
@@ -98,7 +98,7 @@ describe('VersionLayout', () => {
       }),
     ).rejects.toThrow('NEXT_NOT_FOUND');
 
-    expect(mocks.fetchVersionById).toHaveBeenCalledWith(42);
+    expect(mocks.fetchVersionById).toHaveBeenCalledWith(42, "nb");
     expect(mocks.logger.error).toHaveBeenCalledWith(
       { error: new Error('boom'), versionId: 42 },
       'Failed to fetch version by id',
