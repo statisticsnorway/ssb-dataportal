@@ -68,7 +68,7 @@ export function VersionView({ classification, children }: Readonly<VersionViewPr
 
   return (
     <VersionProvider classification={classification} versionSummary={resolved.version} isLatest={resolved.isLatest}>
-      {!resolved?.isLatest && <Alert data-color={'danger'}>{localization.versions.tags.isNotCurrent}</Alert>}
+      {!resolved?.isLatest && <Alert data-color={'danger'} role="status">{localization.versions.tags.isNotCurrent}</Alert>}
       <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='lg' level={2}>
         {resolved.version.name ?? '—'}
       </Heading>
