@@ -11,7 +11,7 @@ import { ClassificationResource } from '@/libs/data-access/klass';
 import { SearchResultResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
-import { ClassificationType } from '@/types/classification';
+import { ClassificationType, isKnownClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
 import { KlassCode } from '@/types/klass-codes';
 import { SortTypes, sortTypes } from '@/types/sort';
@@ -41,10 +41,6 @@ const toggleValue = (values: string[], nextValue: string): string[] => {
 
 const isDifferentFilterValue = (currentValue: string) => {
   return (filterValue: string) => filterValue !== currentValue;
-};
-
-const isKnownClassificationType = (value: string): value is ClassificationType => {
-  return value === ClassificationType.Classification || value === ClassificationType.Codelist;
 };
 
 const ClassificationsServicePage = ({

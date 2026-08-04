@@ -3,7 +3,7 @@ import {
   ClassificationResourceFromJSONTyped,
 } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language/src/localization';
-import { ClassificationType } from '@/types/classification';
+import { ClassificationType, getClassificationTypeFromString } from '@/types/classification';
 
 /**
  * Removes known classification prefixes from a title and capitalizes first letter.
@@ -45,7 +45,11 @@ export function parseClassification(json?: object | null): ClassificationResourc
   if (!instanceOfClassification(json)) {
     throw new Error(`Invalid classification: ${json}`);
   }
-  return ClassificationResourceFromJSONTyped(json, true);
+  const classificationResource = ClassificationResourceFromJSONTyped(json, true);
+  classificationResource.classificationType = getClassificationTypeFromString(
+    classificationResource.classificationType,
+  );
+  return classificationResource;
 }
 /**
  * Returns a classification type for a  display label.
