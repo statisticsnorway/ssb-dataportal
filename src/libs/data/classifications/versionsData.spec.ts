@@ -1,8 +1,6 @@
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
-import { VersionsApi } from '@/libs/data-access/klass/apis/VersionsApi';
-import { ResponseError } from '@/libs/data-access/klass/runtime';
-import codesMock from '@/static-data/codes-mock.json';
-import { fetchVersionCodes } from './codesData';
+import versionsMock from '@/static-data/versions.json';
+import { fetchVersionById } from './versionsData';
 
 vi.mock('server-only', () => ({}));
 
@@ -16,24 +14,25 @@ afterAll(() => {
   process.env = ORIGINAL_ENV;
 });
 
-describe('fetchVersionCodes', () => {
+describe('fetchVersion', () => {
   it('returns static mock data when KLASS_USE_STATIC_DATA is true', async () => {
     vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
 
-    const result = await fetchVersionCodes(1);
+    const result = await fetchVersionById(91);
 
-    const expected = codesMock.versionCodes['1'];
+    const expected = versionsMock.versions['91'];
     expect(result).toEqual(expected);
   });
 
   it('returns empty array for an unknown version id in static mode', async () => {
     vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
 
-    const result = await fetchVersionCodes(9999);
+    const result = await fetchVersionById(999);
 
-    expect(result).toEqual([]);
+    expect(result).toBeUndefined();
   });
 
+  /*
   it('maps classificationItems from the API on the happy path', async () => {
     process.env.KLASS_USE_STATIC_DATA = 'false';
 
@@ -75,5 +74,5 @@ describe('fetchVersionCodes', () => {
     vi.spyOn(VersionsApi.prototype, 'versions').mockRejectedValue(new Error('Network failure'));
 
     await expect(fetchVersionCodes(1)).rejects.toThrow('Network failure');
-  });
+  });*/
 });

@@ -1,6 +1,5 @@
 'use server';
 
-import { localization } from '@/libs/language/src/localization';
 import { createLogger } from '@/libs/logger/server-logger';
 import subscribersMock from '@/static-data/subscribers.json';
 import { SubscribeResult, Subscriber, SubscribeStatus, ValidationMessageColors } from '@/types/subscription';
@@ -51,13 +50,13 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
     if (exists) {
       return {
         code: SubscribeStatus.Exists,
-        message: localization.classification.subscribeMessageAlready,
+        message: '',
         dataColor: ValidationMessageColors.Info,
       };
     }
     return {
       code: SubscribeStatus.Created,
-      message: localization.classification.subscribeMessageSuccess,
+      message: '',
       dataColor: ValidationMessageColors.Success,
     };
   }
@@ -67,7 +66,7 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
     logger.error('KLASS_BASE_PATH is not configured');
     return {
       code: SubscribeStatus.Error,
-      message: localization.classification.subscribeMessageError,
+      message: '',
       dataColor: ValidationMessageColors.Danger,
     };
   }
@@ -89,7 +88,7 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
       logger.info({ classificationId: subscriber.classificationId }, 'Email already subscribed');
       return {
         code: SubscribeStatus.Exists,
-        message: localization.classification.subscribeMessageAlready,
+        message: '',
         dataColor: ValidationMessageColors.Info,
       };
     }
@@ -98,7 +97,7 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
       logger.error({ classificationId: subscriber.classificationId }, 'Email problem during subscription');
       return {
         code: SubscribeStatus.Error,
-        message: localization.classification.subscribeMessageError,
+        message: '',
         dataColor: ValidationMessageColors.Danger,
       };
     }
@@ -107,7 +106,7 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
       logger.error({ statusCode: res.status }, 'Failed to subscribe to classification changes');
       return {
         code: SubscribeStatus.Error,
-        message: localization.classification.subscribeMessageError,
+        message: '',
         dataColor: ValidationMessageColors.Danger,
       };
     }
@@ -115,7 +114,7 @@ export async function postSubscriber(subscriber: Subscriber): Promise<SubscribeR
     logger.info({ classificationId: subscriber.classificationId }, 'Subscribed to classification changes');
     return {
       code: SubscribeStatus.Created,
-      message: localization.classification.subscribeMessageSuccess,
+      message: '',
       dataColor: ValidationMessageColors.Success,
     };
   } catch (error: unknown) {

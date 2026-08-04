@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language';
 import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from '../../[id]/tabs';
-import { ResolvedVersion, VersionContextType, VersionProvider } from '../versionContext';
+import { ResolvedVersion, VersionProvider } from '../versionContext';
 import styles from './views.module.css';
 
 interface VersionViewProps {
@@ -13,20 +13,27 @@ interface VersionViewProps {
   children: React.ReactNode;
 }
 
-function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): VersionContextType | null {
-  const versionMatch = /\/version\/(\d+)/.exec(pathname);
-  const sorted = [...versions].sort((a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0));
+type ResolvedVersionResult = {
+  version: ResolvedVersion;
+  isLatest: boolean;
+};
 
-  if (versionMatch) {
-    const versionId = Number(versionMatch[1]);
-    const version = sorted.find((v) => v.id === versionId);
-    if (!version) return null;
-    return { version, isLatest: sorted[0]?.id === versionId };
+function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): ResolvedVersionResult | null {
+  const sorted = [...versions].sort((a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0));
+  const latest = sorted.at(0);
+  if (!latest) return null;
+
+  const segments = pathname.split('/').filter(Boolean);
+  const versionIndex = segments.indexOf('version');
+
+  if (versionIndex >= 0) {
+    const versionId = Number(segments[versionIndex + 1]);
+    if (!Number.isNaN(versionId)) {
+      const version = sorted.find((v) => v.id === versionId);
+      if (version) return { version, isLatest: latest.id === versionId };
+    }
   }
 
-  // No versionId in URL — use latest
-  const latest = sorted[0];
-  if (!latest) return null;
   return { version: latest, isLatest: true };
 }
 
@@ -37,41 +44,53 @@ export function VersionView({ classification, children }: Readonly<VersionViewPr
 
   const versions = classification.versions ?? [];
   const resolved = resolveVersionFromPath(pathname, versions);
+  if (!resolved) return null;
 
-  const getTabUrl = (slug: string) => {
-    if (resolved?.isLatest) {
-      return `/classifications/${classification.id}/${slug}`;
-    }
-    return `/classifications/${classification.id}/version/${resolved?.version.id}/${slug}`;
-  };
-  const versionTag =  (
+  const tabs = Object.values(classificationDetailsTabsData);
+
+  const getTabUrl = (slug: string) =>
+    resolved.isLatest
+      ? `/classifications/${classification.id}/${slug}`
+      : `/classifications/${classification.id}/version/${resolved.version.id}/${slug}`;
+
+  const validFromText =
+    resolved.version.validFrom?.toLocaleDateString('nb-NO', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }) ?? '—';
+
+  const versionTag = (
     <Tag data-color={'info'}>
-      {`${localization.versions.tags.isLatest} (${localization.versions.tags.validFrom}: ${resolved?.version?.validFrom?.toLocaleDateString('nb-NO', { year: 'numeric', month: 'long', day: 'numeric' }) ?? '—'})`}
+      {`${localization.versions.tags.isLatest} (${localization.versions.tags.validFrom}: ${validFromText})`}
     </Tag>
   );
 
   return (
-    <VersionProvider version={resolved?.version!} isLatest={resolved?.isLatest ?? false}>
+    <VersionProvider classification={classification} versionSummary={resolved.version} isLatest={resolved.isLatest}>
       {!resolved?.isLatest && <Alert data-color={'danger'}>{localization.versions.tags.isNotCurrent}</Alert>}
       <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='lg' level={2}>
-        {resolved?.version.name ?? '—'}
+        {resolved.version.name ?? '—'}
       </Heading>
       {resolved?.isLatest && versionTag}
-      <Tabs value={activeTab.id}>
+      <Tabs
+        value={activeTab.id}
+        onChange={(value) => {
+          const nextTab = tabs.find((tab) => tab.id === value);
+          if (nextTab) {
+            router.push(getTabUrl(nextTab.slug));
+          }
+        }}
+      >
         <Tabs.List className={styles.tabList} aria-label={localization.tabs.ariaLabel}>
-          {Object.values(classificationDetailsTabsData).map((tab) => (
-            <Tabs.Tab
-              aria-controls={tab.id}
-              key={tab.id}
-              value={tab.id}
-              className={`font-roboto`}
-              onClick={() => router.push(getTabUrl(tab.slug))}
-            >
+          {tabs.map((tab) => (
+            <Tabs.Tab key={tab.id} value={tab.id} aria-controls={tab.id} className='font-roboto'>
               {tab.label}
             </Tabs.Tab>
           ))}
         </Tabs.List>
-        <Tabs.Panel value={activeTab.id} id={activeTab.id} className={styles.tabsPanel}>
+
+        <Tabs.Panel key={pathname} value={activeTab.id} id={activeTab.id} className={styles.tabsPanel}>
           {children}
         </Tabs.Panel>
       </Tabs>
