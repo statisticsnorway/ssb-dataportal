@@ -1,9 +1,11 @@
+import { ClassificationVersionResource, ClassificationVersionResourceFromJSONTyped } from '@/libs/data-access/klass';
 import {
   ClassificationResource,
   ClassificationResourceFromJSONTyped,
 } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language/src/localization';
 import { ClassificationType, getClassificationTypeFromString } from '@/types/classification';
+import { SubscribeStatus } from '@/types/subscription';
 
 /**
  * Removes known classification prefixes from a title and capitalizes first letter.
@@ -33,6 +35,21 @@ function instanceOfClassification(value: object): value is ClassificationResourc
 }
 
 /**
+ * Check if an object is compatible with type 'ClassificationVersionResource'
+ *
+ * @param value - object to check
+ * @returns true if object is a valid 'ClassificationVersionResource'
+ */
+function instanceOfClassificationVersion(value: object): value is ClassificationVersionResource {
+  if (!('id' in value) || typeof value['id'] !== 'number') return false;
+  if (!('name' in value) || typeof value['name'] !== 'string') return false;
+  if (!('validFrom' in value) || typeof value['validFrom'] !== 'string') return false;
+  if (!('lastModified' in value) || typeof value['lastModified'] !== 'string') return false;
+  if (!('_links' in value) || typeof value['_links'] !== 'object' || value['_links'] === null) return false;
+  return true;
+}
+
+/**
  * Parse json to valid 'ClassificationResource'
  *
  * @param json
@@ -51,6 +68,23 @@ export function parseClassification(json?: object | null): ClassificationResourc
   );
   return classificationResource;
 }
+
+/**
+ * Parse json to valid 'ClassificationVersionResource'
+ *
+ * @param json
+ * @returns ClassificationVersionResource
+ */
+export function parseVersion(json?: object | null): ClassificationVersionResource {
+  if (json == null) {
+    throw new Error(`Object is null: ${json}`);
+  }
+  if (!instanceOfClassificationVersion(json)) {
+    throw new Error(`Invalid classification version: ${JSON.stringify(json)}`);
+  }
+  return ClassificationVersionResourceFromJSONTyped(json, true);
+}
+
 /**
  * Returns a classification type for a  display label.
  *
@@ -82,5 +116,24 @@ export const getLabelForClassificationType = (it: string) => {
       return localization.classification.codelist;
     default:
       return it;
+  }
+};
+
+/**
+ * Returns a localized message for a subscription status code.
+ *
+ * @param code - The subscription status code.
+ * @returns The localized message corresponding to the status code.
+ */
+export const messageByCode = (code: SubscribeStatus) => {
+  switch (code) {
+    case SubscribeStatus.Exists:
+      return localization.classification.subscribeMessageAlready;
+    case SubscribeStatus.Created:
+      return localization.classification.subscribeMessageSuccess;
+    case SubscribeStatus.Error:
+      return localization.classification.subscribeMessageError;
+    case SubscribeStatus.InvalidEmail:
+      return localization.classification.subscribeMessageInvalidEmail;
   }
 };

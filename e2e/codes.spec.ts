@@ -135,19 +135,15 @@ test.describe('/classifications/[id]/version/[versionNumber]/codes', () => {
   test('version top-level codes are visible and children are collapsed on page load', async ({ page }) => {
     await page.goto(CODES_VERSION_URL);
 
-    await expect(
-      page.getByRole('button', { name: rowBodyLabel('A', 'Jordbruk, skogbruk og fiske (v1)') }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole('button', { name: rowBodyLabel('B', 'Bergverksdrift og utvinning (v1)') }),
-    ).toBeVisible();
+    await expect(page.getByRole('button', { name: rowBodyLabel('A', 'Jordbruk, skogbruk og fiske') })).toBeVisible();
+    await expect(page.getByRole('button', { name: rowBodyLabel('B', 'Bergverksdrift og utvinning') })).toBeVisible();
 
     await expect(
-      page.getByRole('button', { name: rowBodyLabel('01', 'Jordbruk og tjenester tilknyttet jordbruk (v1)') }),
+      page.getByRole('button', { name: rowBodyLabel('01', 'Jordbruk og tjenester tilknyttet jordbruk') }),
     ).not.toBeVisible();
 
     await expect(
-      page.getByRole('button', { name: `${localization.codeTree.expand} Jordbruk, skogbruk og fiske (v1)` }),
+      page.getByRole('button', { name: `${localization.codeTree.expand} Jordbruk, skogbruk og fiske` }),
     ).toBeVisible();
   });
 });

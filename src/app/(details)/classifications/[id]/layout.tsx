@@ -5,13 +5,14 @@ import { notFound } from 'next/navigation';
 import { cache, ReactNode } from 'react';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
-import { ClassificationResource } from '@/libs/data-access/klass';
+import { fetchVersionById } from '@/libs/data/classifications/versionsData';
 import { languageCookieName, resolveLanguage } from '@/libs/language';
 import { localization } from '@/libs/language/src/localization';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import ClassificationDetail from '../components/classificationDetail';
+import { VersionResourceLayer } from '../components/versionContext';
 
 const showInfoOnly = process.env.HIDE_CLASSIFICATIONS === 'true';
 
@@ -35,22 +36,21 @@ const renderInfoOnlyPage = () => {
   );
 };
 
+export const getRequestLanguage = cache(async () => {
+  const cookieStore = await cookies();
+  const requestHeaders = await headers();
+  return resolveLanguage(
+    cookieStore.get(languageCookieName)?.value,
+    requestHeaders.get('accept-language') ?? undefined,
+  );
+});
+
 const getPageData = cache(async (id: number) => {
   const logger = createLogger('classification-detail-page');
-  let classification: ClassificationResource | undefined = undefined;
-
-  if (classification === undefined) {
-    const cookieStore = await cookies();
-    const requestHeaders = await headers();
-    const language = resolveLanguage(
-      cookieStore.get(languageCookieName)?.value,
-      requestHeaders.get('accept-language') ?? undefined,
-    );
-    classification = await fetchClassificationById(id, language);
-    logger.debug(`Fetched classification ${classification.name}`);
-  }
-
-  return { classification };
+  const language = await getRequestLanguage();
+  const classification = await fetchClassificationById(id, language);
+  logger.debug(`Fetched classification ${classification.name}`);
+  return { classification, language };
 });
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
@@ -72,14 +72,23 @@ export default async function ClassificationLayout({
   const logger = createLogger('classification-detail-page');
   const { id } = await params;
 
-  const { classification } = await getPageData(Number(id)).catch((error) => {
+  const { classification, language } = await getPageData(Number(id)).catch((error) => {
     logger.error({ id, error: sanitizeError(error) }, 'Failed to load classification details');
     return notFound();
   });
 
   const hasVersions = (classification.versions ?? []).length > 0;
-  if (!hasVersions) {
-    logger.warn({ id }, 'Classification has no versions');
+  if (!hasVersions) return notFound();
+
+  const latestSummary = [...(classification.versions ?? [])].sort(
+    (a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0),
+  )[0];
+
+  let latestVersionResource;
+  try {
+    latestVersionResource = latestSummary?.id != null ? await fetchVersionById(latestSummary.id, language) : null;
+  } catch (error) {
+    logger.error({ id, error: sanitizeError(error) }, 'Failed to fetch latest version resource');
     return notFound();
   }
 
@@ -90,5 +99,9 @@ export default async function ClassificationLayout({
     return renderInfoOnlyPage();
   }
 
-  return <ClassificationDetail classification={classification}>{children}</ClassificationDetail>;
+  return (
+    <VersionResourceLayer versionResource={latestVersionResource ?? undefined}>
+      <ClassificationDetail classification={classification}>{children}</ClassificationDetail>
+    </VersionResourceLayer>
+  );
 }

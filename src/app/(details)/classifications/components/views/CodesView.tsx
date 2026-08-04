@@ -3,13 +3,33 @@
 import { Search } from '@digdir/designsystemet-react';
 import { useMemo, useState } from 'react';
 import { CodeTree } from '@/components/code-tree';
+import { ClassificationItemResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import type { KlassCode } from '@/types/klass-codes';
 import { filterCodesWithAncestors } from '@/utils/classifications/filterCodes';
 import styles from './views.module.css';
 
 interface CodesViewProps {
-  codes: KlassCode[];
+  codes: ClassificationItemResource[];
+}
+
+function toDateString(value?: string | Date | null): string | undefined {
+  if (!value) return undefined;
+  return value instanceof Date ? value.toISOString() : value;
+}
+
+function toKlassCode(item: ClassificationItemResource): KlassCode {
+  return {
+    code: item.code ?? '',
+    parentCode: item.parentCode || null,
+    level: item.level ?? '',
+    name: item.name ?? '',
+    shortName: item.shortName ?? undefined,
+    presentationName: undefined,
+    validFrom: toDateString(item.validFrom) ?? '',
+    validTo: toDateString(item.validTo),
+    notes: item.notes ?? '',
+  };
 }
 
 /**
@@ -19,8 +39,8 @@ interface CodesViewProps {
  */
 export function CodesView({ codes }: Readonly<CodesViewProps>) {
   const [filterTerm, setFilterTerm] = useState('');
-
-  const filteredCodes = useMemo(() => filterCodesWithAncestors(codes, filterTerm), [codes, filterTerm]);
+  const mappedCodes = useMemo(() => codes.map(toKlassCode), [codes]);
+  const filteredCodes = useMemo(() => filterCodesWithAncestors(mappedCodes, filterTerm), [mappedCodes, filterTerm]);
 
   return (
     <div className={styles.wrapper}>
