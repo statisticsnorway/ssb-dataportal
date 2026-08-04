@@ -4,6 +4,7 @@ import { expect, test } from './fixtures/classifications.fixture';
 import classificationsMock from '@/static-data/classifications.json';
 import { parseClassification, stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
 import { CLASSIFICATIONS_URL, REMOVE_STANDARD } from './utils/variables';
+import { ClassificationType } from '@/types/classification';
 
 const arbeidOgLonn = 'Arbeid og lønn';
 const bankOgFinans = 'Bank og finansmarked';
@@ -65,7 +66,7 @@ test('Sort classifications', async ({ classificationsPage }) => {
   expect(await firstCard.innerText()).not.toBe(firstAsc);
 
   await sortSelect.selectOption('lastChanged');
-  await expect(classificationsPage).toHaveURL('classifications?types=Standard&sort=lastChanged');
+  await expect(classificationsPage).toHaveURL(`${CLASSIFICATIONS_URL}&sort=lastChanged`);
 });
 
 test.describe('Classifications - pagination', () => {
@@ -130,12 +131,12 @@ test.describe('Classifications - type filter', () => {
     // Remove default set filter
     await classificationsPage.getByRole('button', { name: REMOVE_STANDARD }).click();
     await classificationsPage.getByRole('checkbox', { name: localization.classification.codelist }).check();
-    await expect(classificationsPage).toHaveURL(`classifications?types=${localization.classification.codelist}`);
+    await expect(classificationsPage).toHaveURL(`classifications?types=${ClassificationType.Codelist}`);
     await expect(classificationsPage.getByRole('article')).toHaveCount(2);
   });
 
   test('hydrates type filter from shared URL', async ({ classificationsPage }) => {
-    await classificationsPage.goto(`classifications?types=${localization.classification.codelist}`);
+    await classificationsPage.goto(`classifications?types=${ClassificationType.Codelist}`);
     await expect(
       classificationsPage.getByRole('checkbox', { name: localization.classification.codelist }),
     ).toBeChecked();

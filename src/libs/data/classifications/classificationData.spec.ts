@@ -46,7 +46,7 @@ describe('classification data fetching', () => {
             {
               id: 1,
               name: 'A',
-              classificationType: ClassificationType.Klassifikasjon,
+              classificationType: ClassificationType.Classification,
             },
           ],
         },
@@ -56,7 +56,7 @@ describe('classification data fetching', () => {
         {
           id: 1,
           name: 'A',
-          classificationType: ClassificationType.Klassifikasjon,
+          classificationType: ClassificationType.Classification,
         },
       ]);
     });
@@ -66,7 +66,7 @@ describe('classification data fetching', () => {
 
       vi.spyOn(ClassificationsApi.prototype, 'classifications').mockResolvedValue({
         embedded: {
-          classifications: [{ id: 1, name: 'A', classificationType: ClassificationType.Klassifikasjon }],
+          classifications: [{ id: 1, name: 'A', classificationType: ClassificationType.Classification }],
         },
         links: {
           next: { href: 'https://example.com/next-page' },
@@ -119,13 +119,13 @@ describe('classification data fetching', () => {
       vi.spyOn(ClassificationsApi.prototype, 'classification').mockResolvedValue({
         id: 1,
         name: 'A',
-        classificationType: ClassificationType.Klassifikasjon,
+        classificationType: ClassificationType.Classification,
       });
 
       await expect(fetchClassificationById(1)).resolves.toEqual({
         id: 1,
         name: 'A',
-        classificationType: ClassificationType.Klassifikasjon,
+        classificationType: ClassificationType.Classification,
       });
     });
 

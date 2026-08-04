@@ -30,9 +30,9 @@ describe('mapSearchResultsToClassifications', () => {
 
 describe('filterAndSortClassifications', () => {
   it('filters by type', () => {
-    const result = filterAndSortClassifications(classifications, [], 'titleAsc', [ClassificationType.Kodeliste], true);
+    const result = filterAndSortClassifications(classifications, [], 'titleAsc', [ClassificationType.Codelist], true);
 
-    expect(result.every((c) => c.classificationType === ClassificationType.Kodeliste)).toBe(true);
+    expect(result.every((c) => c.classificationType === ClassificationType.Codelist)).toBe(true);
   });
 
   it('filters by type when api uses english classificationType values', () => {
@@ -56,14 +56,14 @@ describe('filterAndSortClassifications', () => {
       englishTypeClassifications,
       [],
       'titleAsc',
-      [ClassificationType.Klassifikasjon],
+      [ClassificationType.Classification],
       true,
     );
     const codelists = filterAndSortClassifications(
       englishTypeClassifications,
       [],
       'titleAsc',
-      [ClassificationType.Kodeliste],
+      [ClassificationType.Codelist],
       true,
     );
 
