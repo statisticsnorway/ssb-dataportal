@@ -15,6 +15,15 @@ const mocks = vi.hoisted(() => ({
   createLogger: vi.fn(),
 }));
 
+vi.mock('next/headers', () => ({
+  cookies: vi.fn(async () => ({
+    get: vi.fn(() => ({ value: 'nb' })),
+  })),
+  headers: vi.fn(async () => ({
+    get: vi.fn((name: string) => (name === 'accept-language' ? 'nb' : null)),
+  })),
+}));
+
 mocks.createLogger.mockReturnValue(mocks.logger);
 
 vi.mock('@/libs/data/classifications/versionsData', () => ({
