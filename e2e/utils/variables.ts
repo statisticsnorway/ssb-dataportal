@@ -1,5 +1,6 @@
 import { tabsData } from '@/app/(services)/tabs';
 import { localization } from '@/libs/language';
+import { ClassificationType } from '@/types/classification';
 
 export const statuses = {
   draft: {
@@ -47,5 +48,5 @@ export const DETAIL_URL = `${tabsData.VariableDefinitions.route}/${KNOWN_SHORT_N
 export const CODELIST = 'Kodeliste';
 export const STANDARD = 'Standard';
 
-export const CLASSIFICATIONS_URL = 'classifications?types=Classification';
+export const CLASSIFICATIONS_URL = `classifications?types=${ClassificationType.Classification}`;
 export const REMOVE_STANDARD = 'Fjern Standard';
