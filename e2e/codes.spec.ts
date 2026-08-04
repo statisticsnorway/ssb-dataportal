@@ -1,5 +1,6 @@
 import { localization } from '@/libs/language';
-import { expect, test, CODES_VERSION_URL } from './fixtures/codesPage.fixture';
+import { expect, test } from './fixtures/codesPage.fixture';
+import { CODES_VERSION_URL } from './utils/commonUtils';
 
 const codeA = { code: 'A', name: 'Jordbruk, skogbruk og fiske' };
 const code01 = { code: '01', name: 'Jordbruk og tjenester tilknyttet jordbruk' };
