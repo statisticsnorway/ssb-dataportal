@@ -84,8 +84,13 @@ export default async function ClassificationLayout({
     (a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0),
   )[0];
 
-  const latestVersionResource =
-    latestSummary?.id != null ? await fetchVersionById(latestSummary.id, language).catch(() => null) : null;
+  let latestVersionResource;
+  try {
+    latestVersionResource = latestSummary?.id != null ? await fetchVersionById(latestSummary.id, language) : null;
+  } catch (error) {
+    logger.error({ id, error: sanitizeError(error) }, 'Failed to fetch latest version resource');
+    return notFound();
+  }
 
   logger.info({ id }, 'Classification detail page access');
 

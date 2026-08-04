@@ -8,7 +8,14 @@ const mocks = vi.hoisted(() => ({
   notFound: vi.fn(() => {
     throw new Error('NEXT_NOT_FOUND');
   }),
+  logger: {
+    warn: vi.fn(),
+    error: vi.fn(),
+  },
+  createLogger: vi.fn(),
 }));
+
+mocks.createLogger.mockReturnValue(mocks.logger);
 
 vi.mock('@/libs/data/classifications/versionsData', () => ({
   fetchVersionById: mocks.fetchVersionById,
@@ -16,6 +23,10 @@ vi.mock('@/libs/data/classifications/versionsData', () => ({
 
 vi.mock('next/navigation', () => ({
   notFound: mocks.notFound,
+}));
+
+vi.mock('@/libs/logger/server-logger', () => ({
+  createLogger: mocks.createLogger,
 }));
 
 vi.mock('@/app/(details)/classifications/components/versionContext', () => ({
@@ -48,6 +59,7 @@ describe('VersionLayout', () => {
     ).rejects.toThrow('NEXT_NOT_FOUND');
 
     expect(mocks.fetchVersionById).not.toHaveBeenCalled();
+    expect(mocks.logger.warn).toHaveBeenCalledWith({ versionNumber: 'abc' }, 'Invalid versionNumber param');
     expect(mocks.notFound).toHaveBeenCalled();
   });
 
@@ -78,6 +90,10 @@ describe('VersionLayout', () => {
     ).rejects.toThrow('NEXT_NOT_FOUND');
 
     expect(mocks.fetchVersionById).toHaveBeenCalledWith(42);
+    expect(mocks.logger.error).toHaveBeenCalledWith(
+      { error: new Error('boom'), versionId: 42 },
+      'Failed to fetch version by id',
+    );
     expect(mocks.notFound).toHaveBeenCalled();
   });
 
