@@ -1,5 +1,6 @@
 import { localization } from '@/libs/language';
 import { expect, test } from './fixtures/variableDefinitions.fixture';
+import { CLASSIFICATIONS_URL } from './utils/variables';
 
 test.describe('Tabs navigation', () => {
   test('navigate to classifications', async ({ variableDefinitionsPage: page }) => {
@@ -8,7 +9,7 @@ test.describe('Tabs navigation', () => {
     await expect(klassTab).toBeEnabled();
 
     await Promise.all([page.waitForURL('/classifications'), klassTab.click()]);
-    await expect(page).toHaveURL('/classifications');
+    await expect(page).toHaveURL(CLASSIFICATIONS_URL);
   });
 
   test('navigate to data products', async ({ variableDefinitionsPage: page }) => {

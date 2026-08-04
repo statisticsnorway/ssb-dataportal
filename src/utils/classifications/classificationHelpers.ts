@@ -49,7 +49,14 @@ function instanceOfClassificationVersion(value: object): value is Classification
   return true;
 }
 
+export function normalizeClassificationTypes(classification: ClassificationResource): ClassificationResource {
+  classification.classificationType = getClassificationTypeFromString(classification.classificationType);
+  return classification;
+}
+
 /**
+ * ONLY USED FOR TESTING, NOT PART OF DATA FLOW FROM API
+ *
  * Parse json to valid 'ClassificationResource'
  *
  * @param json
@@ -86,29 +93,12 @@ export function parseVersion(json?: object | null): ClassificationVersionResourc
 }
 
 /**
- * Returns a classification type for a  display label.
- *
- * @param it - The display label.
- * @returns The  classification type.
- */
-export const getClassificationTypeForLabel = (it: string) => {
-  switch (it) {
-    case localization.classification.standard:
-      return ClassificationType.Classification;
-    case localization.classification.codelist:
-      return ClassificationType.Codelist;
-    default:
-      return it;
-  }
-};
-
-/**
  * Returns a display label for a classification type.
  *
  * @param it - The classification type.
  * @returns The label to display for the classification type.
  */
-export const getLabelForClassificationType = (it: string) => {
+export const getLabelForClassificationType = (it: ClassificationType | undefined) => {
   switch (it) {
     case ClassificationType.Classification:
       return localization.classification.standard;
