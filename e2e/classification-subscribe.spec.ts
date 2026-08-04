@@ -1,9 +1,10 @@
 import { localization } from '@/libs/language/src/localization';
 import { ClassificationFixture, expect, test } from './fixtures/classification.fixture';
 import classificationsMock from '@/static-data/classifications.json';
-import { parseClassification, stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
+import { stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
 import { Locator } from '@playwright/test';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
+import { parseClassification } from '@/utils/mock-data';
 
 const classifications = classificationsMock.classifications;
 

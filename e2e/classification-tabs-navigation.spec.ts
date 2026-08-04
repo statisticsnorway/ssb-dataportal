@@ -1,7 +1,7 @@
 import { expect, test } from './fixtures/classification.fixture';
 import classificationsMock from '@/static-data/classifications.json';
-import { parseClassification } from '@/utils/classifications/classificationHelpers';
 import { classificationDetailsTabsData } from '@/app/(details)/classifications/[id]/tabs';
+import { parseClassification } from '@/utils/mock-data';
 
 const classifications = classificationsMock.classifications;
 

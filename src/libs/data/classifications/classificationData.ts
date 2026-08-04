@@ -13,8 +13,8 @@ import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/da
 import { SupportedLanguage } from '@/libs/language';
 import { createLogger } from '@/libs/logger/server-logger';
 import classificationsMock from '@/static-data/classifications.json';
-import { normalizeClassificationTypes, parseClassification } from '@/utils/classifications/classificationHelpers';
-import { getClassification } from '@/utils/mock-data';
+import { normalizeClassificationTypes } from '@/utils/classifications/classificationHelpers';
+import { getClassification, parseClassification } from '@/utils/mock-data';
 import { getUserAgent } from '@/utils/userAgent';
 
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);

@@ -1,7 +1,8 @@
 import { expect, test } from './fixtures/classifications.fixture';
 import classificationsMock from '@/static-data/classifications.json';
-import { parseClassification, stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
+import { stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
 import { CLASSIFICATIONS_URL } from './utils/variables';
+import { parseClassification } from '@/utils/mock-data';
 const classifications = classificationsMock.classifications;
 
 test('Can navigate to classification', async ({ classificationsPage }) => {

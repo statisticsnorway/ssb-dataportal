@@ -1,6 +1,6 @@
-import { parseClassification } from '@/utils/classifications/classificationHelpers';
 import { expect, test } from './fixtures/classification.fixture';
 import classificationMock from '@/static-data/classifications.json';
+import { parseClassification } from '@/utils/mock-data';
 import AxeBuilder from '@axe-core/playwright';
 
 const classifications = classificationMock.classifications;
