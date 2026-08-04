@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext } from 'react';
 import { ClassificationResource } from '@/libs/data-access/klass';
 import { SearchResultResource } from '@/libs/data-access/klass/models';
+import { ClassificationType } from '@/types/classification';
 import { KlassCode } from '@/types/klass-codes';
 import { SortTypes } from '@/types/sort';
 
@@ -9,7 +10,7 @@ interface ClassificationContextValue {
   subjectFieldsPromise: Promise<{ data: KlassCode[]; error: Error | null }>;
   searchResultPromise: Promise<{ data: SearchResultResource[]; error: Error | null }>;
   selectedSubjectCodes: string[];
-  selectedClassificationTypes: string[];
+  selectedClassificationTypes: ClassificationType[];
   sortOption: SortTypes;
   searchQuery: string;
   isSearchActive: boolean;

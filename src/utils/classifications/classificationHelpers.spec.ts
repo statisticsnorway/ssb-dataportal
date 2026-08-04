@@ -4,7 +4,8 @@ import { ClassificationVersionResource } from '@/libs/data-access/klass/models/C
 import { localization } from '@/libs/language/src/localization';
 import { ClassificationType } from '@/types/classification';
 import { SubscribeStatus } from '@/types/subscription';
-import { messageByCode, parseClassification, parseVersion, stripTitlePrefix } from './classificationHelpers';
+import { parseClassification, parseVersion } from '../mock-data';
+import { messageByCode, stripTitlePrefix } from './classificationHelpers';
 
 describe('parseClassification', () => {
   const validJson = {

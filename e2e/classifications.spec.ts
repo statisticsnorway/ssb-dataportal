@@ -2,9 +2,10 @@ import { localization } from '@/libs/language';
 import { checkCheckbox } from './utils/commonUtils';
 import { expect, test } from './fixtures/classifications.fixture';
 import classificationsMock from '@/static-data/classifications.json';
-import { parseClassification, stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
+import { stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
 import { CLASSIFICATIONS_URL, REMOVE_STANDARD } from './utils/variables';
 import { ClassificationType } from '@/types/classification';
+import { parseClassification } from '@/utils/mock-data';
 
 const arbeidOgLonn = 'Arbeid og lønn';
 const bankOgFinans = 'Bank og finansmarked';
