@@ -74,7 +74,7 @@ jobs:
       id-token: "write"
       packages: "read"
     runs-on: ubuntu-latest
-    if: github.event.inputs.cluster == 'test' || inputs.cluster == 'test' || (github.event_name == 'push' && needs.docker-build.outputs.test-config-changed == 'true')
+    if: github.event.inputs.cluster == 'test' || inputs.cluster == 'test' || github.event_name == 'push'
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
