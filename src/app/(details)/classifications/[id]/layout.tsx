@@ -36,7 +36,7 @@ const renderInfoOnlyPage = () => {
   );
 };
 
-const getRequestLanguage = cache(async () => {
+export const getRequestLanguage = cache(async () => {
   const cookieStore = await cookies();
   const requestHeaders = await headers();
   return resolveLanguage(
