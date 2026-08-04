@@ -1,7 +1,8 @@
-import { ClassificationVersionResource } from '@/libs/data-access/klass/models';
+import { ClassificationVersionResource, LevelResource } from '@/libs/data-access/klass/models';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language/src/localization';
 import { Item } from '@/types/item';
+import { VersionItem } from '../components/versions-table';
 
 const formatDate = (d: Date | string | undefined) => {
   if (!d) return '';
@@ -44,3 +45,14 @@ export const mapAboutItems = (c: ClassificationVersionResource, classification: 
 
   return rows;
 };
+
+export const mapLevels = (l: LevelResource | undefined): VersionItem[] => [
+  {
+    label: localization.classification.about.number,
+    value: l?.levelNumber?.toString() ?? '',
+  },
+  {
+    label: localization.classification.about.name,
+    value: l?.levelName ?? '',
+  },
+];

@@ -1,12 +1,13 @@
 'use client';
-import { Heading, Paragraph } from '@digdir/designsystemet-react';
-import { mapAboutItems } from '@/app/(details)/classifications/utils/about';
+import { Details, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { mapAboutItems, mapLevels } from '@/app/(details)/classifications/utils/about';
 import { DetailsTable } from '@/components/details-list';
 import {
   ClassificationResource,
   ClassificationVersionResource,
   ClassificationVersionSummaryResource,
 } from '@/libs/data-access/klass/models';
+import { VersionsTable } from '../versions-table';
 import styles from './views.module.css';
 
 interface AboutViewProps {
@@ -22,6 +23,9 @@ export default function AboutView({ classification, classificationSummary, class
       </Heading>
       <Paragraph>{classificationVersion?.introduction ?? '—'}</Paragraph>
       <DetailsTable content={mapAboutItems(classificationVersion, classification)} />
+      <Details>
+        <VersionsTable content={classificationVersion?.levels?.map((l) => mapLevels(l)) ?? []} />
+      </Details>
     </div>
   );
 }
