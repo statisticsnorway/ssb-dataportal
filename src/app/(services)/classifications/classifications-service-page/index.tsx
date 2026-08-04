@@ -11,14 +11,11 @@ import { ClassificationResource } from '@/libs/data-access/klass';
 import { SearchResultResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
-import { ClassificationType, isKnownClassificationType } from '@/types/classification';
+import { ClassificationType, getClassificationTypeFromString, isKnownClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
 import { KlassCode } from '@/types/klass-codes';
 import { SortTypes, sortTypes } from '@/types/sort';
-import {
-  getClassificationTypeForLabel,
-  getLabelForClassificationType,
-} from '@/utils/classifications/classificationHelpers';
+import { getLabelForClassificationType } from '@/utils/classifications/classificationHelpers';
 import { scrollToFilterTags } from '@/utils/scrollToFilterTags';
 import { tabsData } from '../../tabs';
 import { ClassificationTypeFiltersSection } from './components/ClassificationTypeFiltersSection';
@@ -35,7 +32,7 @@ interface ClassificationServicePageProps {
   isSearchActive: boolean;
 }
 
-const toggleValue = (values: string[], nextValue: string): string[] => {
+const toggleValue = <T extends string>(values: T[], nextValue: T): T[] => {
   return values.includes(nextValue) ? values.filter((value) => value !== nextValue) : [...values, nextValue];
 };
 
@@ -64,7 +61,7 @@ const ClassificationsServicePage = ({
   const { q, page, sort, subjects, types } = queryState;
   const [hasInitializedTypes, setHasInitializedTypes] = useState(false);
   const selectedClassificationTypes = useMemo(() => {
-    const normalizedTypes = types.map(getClassificationTypeForLabel).filter(isKnownClassificationType);
+    const normalizedTypes = types.map(getClassificationTypeFromString).filter(isKnownClassificationType);
     if (!hasInitializedTypes && normalizedTypes.length === 0) {
       return [ClassificationType.Classification];
     }
@@ -118,7 +115,10 @@ const ClassificationsServicePage = ({
   };
 
   const toggleClassificationType = (filter: FilterItem) => {
-    const nextTypes = toggleValue(selectedClassificationTypes, getClassificationTypeForLabel(filter.value));
+    const nextType = getClassificationTypeFromString(filter.value);
+    if (!nextType) return;
+
+    const nextTypes = toggleValue(selectedClassificationTypes, nextType);
 
     updateQuery({ types: nextTypes.length > 0 ? nextTypes : null, page: 1 });
     scrollToFilterTags();

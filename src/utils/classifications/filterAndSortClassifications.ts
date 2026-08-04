@@ -1,16 +1,16 @@
 import { ClassificationResource, SearchResultResource } from '@/libs/data-access/klass';
 import { clientLogger } from '@/libs/logger/client-logger';
-import { CLASSIFICATION_TYPE_CATEGORY, ClassificationType } from '@/types/classification';
+import {
+  CLASSIFICATION_TYPE_CATEGORY,
+  ClassificationType,
+  getClassificationTypeFromString,
+} from '@/types/classification';
 import { FilterItem } from '@/types/filters';
 import { KlassCode } from '@/types/klass-codes';
 import { SortTypes } from '@/types/sort';
 import { sortAscending, sortDatesDescendingSafe, sortDescending } from '@/utils/sort';
 import { SUBJECT_FIELD_BY_CODE } from '@/utils/subjectFieldsMapping';
-import {
-  getClassificationTypeForLabel,
-  getLabelForClassificationType,
-  stripTitlePrefix,
-} from './classificationHelpers';
+import { getLabelForClassificationType, stripTitlePrefix } from './classificationHelpers';
 
 /**
  * Maps search results to unique `ClassificationResource` entries.
@@ -122,7 +122,7 @@ export function createTypeFilterItems(classifications: ClassificationResource[])
   return [ClassificationType.Classification, ClassificationType.Codelist].map((value) => ({
     label: getLabelForClassificationType(value as ClassificationType),
     value: value,
-    count: classifications.filter((c) => getClassificationTypeForLabel(c.classificationType ?? '') === value).length,
+    count: classifications.filter((c) => getClassificationTypeFromString(c.classificationType) === value).length,
     category: CLASSIFICATION_TYPE_CATEGORY,
   }));
 }
@@ -131,7 +131,7 @@ export function filterAndSortClassifications(
   classifications: ClassificationResource[],
   subjectCodes: string[],
   sortOption: SortTypes,
-  classificationTypes: string[] = [],
+  classificationTypes: ClassificationType[] = [],
   keepInputOrder = false,
 ): ClassificationResource[] {
   const withoutName = classifications.filter((c) => !c.name);
@@ -145,15 +145,15 @@ export function filterAndSortClassifications(
     subjectCodes.length === 0
       ? withName
       : withName.filter((c) => c.classificationFamilyId != null && familyIds.has(c.classificationFamilyId));
-
-  const domainTypes = classificationTypes.map(getClassificationTypeForLabel);
   const byType =
-    domainTypes.length === 0
+    classificationTypes.length === 0
       ? bySubject
-      : bySubject.filter(
-          (c) =>
-            c.classificationType != null && domainTypes.includes(getClassificationTypeForLabel(c.classificationType)),
-        );
+      : bySubject.filter((c) => {
+          if (c.classificationType == null) return false;
+          const normalizedType = getClassificationTypeFromString(c.classificationType);
+          if (!normalizedType) return false;
+          return classificationTypes.includes(normalizedType);
+        });
 
   if (keepInputOrder) return byType;
   const comparators: Record<SortTypes, (a: ClassificationResource, b: ClassificationResource) => number> = {

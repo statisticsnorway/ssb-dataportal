@@ -8,7 +8,7 @@ import {
   filterAndSortClassifications,
   mapSearchResultsToClassifications,
 } from '@/utils/classifications/filterAndSortClassifications';
-import { parseClassification } from './classificationHelpers';
+import { parseClassification } from '../mock-data';
 
 const classifications: ClassificationResource[] = classificationsMock.classifications.map((c) =>
   parseClassification(c),
