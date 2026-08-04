@@ -44,7 +44,7 @@ const isDifferentFilterValue = (currentValue: string) => {
 };
 
 const isKnownClassificationType = (value: string): value is ClassificationType => {
-  return value === ClassificationType.Klassifikasjon || value === ClassificationType.Kodeliste;
+  return value === ClassificationType.Classification || value === ClassificationType.Codelist;
 };
 
 const ClassificationsServicePage = ({
@@ -70,7 +70,7 @@ const ClassificationsServicePage = ({
   const selectedClassificationTypes = useMemo(() => {
     const normalizedTypes = types.map(getClassificationTypeForLabel).filter(isKnownClassificationType);
     if (!hasInitializedTypes && normalizedTypes.length === 0) {
-      return [ClassificationType.Klassifikasjon];
+      return [ClassificationType.Classification];
     }
     return normalizedTypes;
   }, [hasInitializedTypes, types]);
@@ -105,7 +105,7 @@ const ClassificationsServicePage = ({
       return;
     }
 
-    updateQuery({ types: [ClassificationType.Klassifikasjon] });
+    updateQuery({ types: [ClassificationType.Classification] });
     setHasInitializedTypes(true);
   }, [hasInitializedTypes, types]);
 

@@ -56,9 +56,9 @@ export function parseClassification(json?: object | null): ClassificationResourc
 export const getClassificationTypeForLabel = (it: string) => {
   switch (it) {
     case localization.classification.standard:
-      return ClassificationType.Klassifikasjon;
+      return ClassificationType.Classification;
     case localization.classification.codelist:
-      return ClassificationType.Kodeliste;
+      return ClassificationType.Codelist;
     default:
       return it;
   }
@@ -72,9 +72,9 @@ export const getClassificationTypeForLabel = (it: string) => {
  */
 export const getLabelForClassificationType = (it: string) => {
   switch (it) {
-    case ClassificationType.Klassifikasjon:
+    case ClassificationType.Classification:
       return localization.classification.standard;
-    case ClassificationType.Kodeliste:
+    case ClassificationType.Codelist:
       return localization.classification.codelist;
     default:
       return it;
