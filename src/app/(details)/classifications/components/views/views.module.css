@@ -25,6 +25,12 @@
   overflow-wrap: break-word;
 }
 
+.aboutWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 @media (min-width: 400px) {
   .tabsPanel {
     --dsc-tabs-content-padding: var(--dsc-tabs-tab-padding);
