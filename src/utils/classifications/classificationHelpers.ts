@@ -5,6 +5,7 @@ import {
 } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language/src/localization';
 import { ClassificationType } from '@/types/classification';
+import { SubscribeStatus } from '@/types/subscription';
 
 /**
  * Removes known classification prefixes from a title and capitalizes first letter.
@@ -111,5 +112,24 @@ export const getLabelForClassificationType = (it: string) => {
       return localization.classification.codelist;
     default:
       return it;
+  }
+};
+
+/**
+ * Returns a localized message for a subscription status code.
+ *
+ * @param code - The subscription status code.
+ * @returns The localized message corresponding to the status code.
+ */
+export const messageByCode = (code: SubscribeStatus) => {
+  switch (code) {
+    case SubscribeStatus.Exists:
+      return localization.classification.subscribeMessageAlready;
+    case SubscribeStatus.Created:
+      return localization.classification.subscribeMessageSuccess;
+    case SubscribeStatus.Error:
+      return localization.classification.subscribeMessageError;
+    case SubscribeStatus.InvalidEmail:
+      return localization.classification.subscribeMessageInvalidEmail;
   }
 };

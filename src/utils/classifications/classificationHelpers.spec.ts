@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
+import { localization } from '@/libs/language/src/localization';
 import { ClassificationType } from '@/types/classification';
-import { parseClassification, parseVersion, stripTitlePrefix } from './classificationHelpers';
+import { SubscribeStatus } from '@/types/subscription';
+import { messageByCode, parseClassification, parseVersion, stripTitlePrefix } from './classificationHelpers';
 
 describe('parseClassification', () => {
   const validJson = {
@@ -113,5 +115,14 @@ describe('Normalize classification name', () => {
   });
   it('classification name is undefined', () => {
     expect(stripTitlePrefix(undefined)).toBe('');
+  });
+});
+
+describe('Maps subscription status to localized message', () => {
+  it('maps subscription status to localized message', () => {
+    expect(messageByCode(SubscribeStatus.Exists)).toBe(localization.classification.subscribeMessageAlready);
+    expect(messageByCode(SubscribeStatus.Created)).toBe(localization.classification.subscribeMessageSuccess);
+    expect(messageByCode(SubscribeStatus.Error)).toBe(localization.classification.subscribeMessageError);
+    expect(messageByCode(SubscribeStatus.InvalidEmail)).toBe(localization.classification.subscribeMessageInvalidEmail);
   });
 });
