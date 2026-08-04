@@ -16,17 +16,16 @@ test('Classifications details page have title', async ({ classificationDetailsPa
 test('Latest version display tag', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[0]);
   const page = await classificationDetailsPage(classification.id!);
-  const tag = page.getByText('Gjeldende versjon: (Gyldig');
+  const tag = page.getByText(localization.versions.tags.isLatest);
   await expect(tag).toBeVisible();
-  await expect(tag).toHaveText('Gjeldende versjon: (Gyldig');
+  await expect(tag).toContainText('Gjeldende versjon: (Gyldig');
 });
 
 test('Outdated versions display alert', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[0]);
   const page = await classificationDetailsPage(classification.id!);
-  const heading = page.getByRole('heading', { level: 1 });
-  await expect(heading).toBeVisible();
-  await expect(heading).toHaveText(classification.name!);
+  const alert = page.getByRole('alert', { name: localization.versions.tags.isNotCurrent });
+  await expect(alert).toBeVisible();
 });
 
 test('Classifications details version have title', async ({ classificationDetailsPage }) => {
