@@ -1,8 +1,6 @@
 name: Image Build and Deploy
 
 on:
-  release:
-    types: [published]
   push:
     branches:
       - main
@@ -16,6 +14,12 @@ on:
         options:
           - test
           - prod
+  workflow_call:
+    inputs:
+      cluster:
+        description: "Which cluster to deploy to?"
+        required: true
+        type: string
 
 jobs:
   docker-build:
@@ -56,7 +60,7 @@ jobs:
           files: .nais/prod/nais.yaml
 
       - name: Build and push
-        if: steps.changed-files.outputs.changed != 'only-inputs' || github.event.inputs.cluster == 'test' || github.event.inputs.cluster == 'prod'
+        if: steps.changed-files.outputs.changed != 'only-inputs' || github.event.inputs.cluster == 'test' || github.event.inputs.cluster == 'prod' || inputs.cluster == 'test' || inputs.cluster == 'prod'
         uses: nais/docker-build-push@751a312f0803eb96a05a41fadf51be19b7be362c # v0
         id: docker-build-push
         with:
@@ -70,7 +74,7 @@ jobs:
       id-token: "write"
       packages: "read"
     runs-on: ubuntu-latest
-    if: github.event_name != 'release' || github.event.inputs.cluster == 'test' || needs.docker-build.outputs.test-config-changed == 'true'
+    if: github.event.inputs.cluster == 'test' || inputs.cluster == 'test' || (github.event_name == 'push' && needs.docker-build.outputs.test-config-changed == 'true')
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -91,7 +95,7 @@ jobs:
       id-token: "write"
       packages: "read"
     runs-on: ubuntu-latest
-    if: github.event_name == 'release' || github.event.inputs.cluster == 'prod' || (needs.docker-build.outputs.prod-config-changed == 'true' && needs.docker-build.outputs.only-config-changed == 'true')
+    if: github.event.inputs.cluster == 'prod' || inputs.cluster == 'prod' || (github.event_name == 'push' && needs.docker-build.outputs.prod-config-changed == 'true' && needs.docker-build.outputs.only-config-changed == 'true')
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2

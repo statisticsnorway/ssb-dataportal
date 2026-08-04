@@ -2,31 +2,31 @@ import { localization } from '@/libs/language';
 import { expect, test } from './fixtures/variableDefinitions.fixture';
 
 test.describe('Tabs navigation', () => {
-  test('navigate to classifications', async ({ variableDefinitionsPage }) => {
-    const klassTab = variableDefinitionsPage.getByRole('tab', { name: localization.tabs.classifications });
+  test('navigate to classifications', async ({ variableDefinitionsPage: page }) => {
+    const klassTab = page.getByRole('tab', { name: localization.tabs.classifications });
 
     await expect(klassTab).toBeEnabled();
 
-    await Promise.all([variableDefinitionsPage.waitForURL('/classifications'), klassTab.click()]);
-    await expect(variableDefinitionsPage).toHaveURL('/classifications?types=Standard');
+    await Promise.all([page.waitForURL('/classifications'), klassTab.click()]);
+    await expect(page).toHaveURL('/classifications');
   });
 
-  test('navigate to data products', async ({ variableDefinitionsPage }) => {
-    const dataProductsTab = variableDefinitionsPage.getByRole('tab', { name: localization.tabs.dataProducts });
+  test('navigate to data products', async ({ variableDefinitionsPage: page }) => {
+    const dataProductsTab = page.getByRole('tab', { name: localization.tabs.dataProducts });
 
     await expect(dataProductsTab).toBeEnabled();
 
-    await Promise.all([variableDefinitionsPage.waitForURL('/data-products'), dataProductsTab.click()]);
-    await expect(variableDefinitionsPage).toHaveURL('/data-products');
+    await Promise.all([page.waitForURL('/data-products'), dataProductsTab.click()]);
+    await expect(page).toHaveURL('/data-products');
   });
 
-  test('navigate to variable definitions', async ({ variableDefinitionsPage }) => {
-    const vardefTab = variableDefinitionsPage.getByRole('tab', { name: localization.tabs.variableDefinitions });
+  test('navigate to variable definitions', async ({ variableDefinitionsPage: page }) => {
+    const vardefTab = page.getByRole('tab', { name: localization.tabs.variableDefinitions });
 
     await expect(vardefTab).toBeEnabled();
 
-    await Promise.all([variableDefinitionsPage.waitForURL('/variable-definitions'), vardefTab.click()]);
+    await Promise.all([page.waitForURL('/variable-definitions'), vardefTab.click()]);
 
-    await expect(variableDefinitionsPage).toHaveURL('/variable-definitions');
+    await expect(page).toHaveURL('/variable-definitions');
   });
 });

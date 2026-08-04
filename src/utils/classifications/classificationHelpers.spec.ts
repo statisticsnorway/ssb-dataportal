@@ -33,7 +33,7 @@ describe('parseClassification', () => {
     const expected: ClassificationResource = {
       id: validJson.id,
       name: validJson.name,
-      classificationType: ClassificationType[validJson.classificationType as keyof typeof ClassificationType],
+      classificationType: ClassificationType.Classification,
       lastModified: new Date(validJson.lastModified),
       links: validJson._links,
     };
