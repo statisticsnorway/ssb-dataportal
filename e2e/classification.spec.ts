@@ -2,6 +2,7 @@ import { parseClassification } from '@/utils/classifications/classificationHelpe
 import { expect, test } from './fixtures/classification.fixture';
 import classificationMock from '@/static-data/classifications.json';
 import { localization } from '@/libs/language/src/localization';
+import { CODES_PREV_VERSION_URL, CODES_VERSION_URL } from './utils/commonUtils';
 
 const classifications = classificationMock.classifications;
 
@@ -24,7 +25,8 @@ test('Latest version display tag', async ({ classificationDetailsPage }) => {
 test('Outdated versions display alert', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[0]);
   const page = await classificationDetailsPage(classification.id!);
-  const alert = page.getByRole('alert', { name: localization.versions.tags.isNotCurrent });
+  await page.goto(CODES_PREV_VERSION_URL);
+  const alert = page.getByText(localization.versions.tags.isNotCurrent);
   await expect(alert).toBeVisible();
 });
 
