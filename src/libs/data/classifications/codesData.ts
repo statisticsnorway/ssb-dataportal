@@ -1,11 +1,12 @@
 'use server';
 
-import { ChangesRequest, CodeChangeItem, CodesApi } from '@/libs/data-access/klass';
+import { ChangesRequest, CodeChangeItem, CodeChangeItemFromJSON, CodesApi } from '@/libs/data-access/klass';
 import { VersionsApi, VersionsLanguageEnum } from '@/libs/data-access/klass/apis/VersionsApi';
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
 import { SupportedLanguage } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
+import changesMock from '@/static-data/classification-changes.json';
 import codesMock from '@/static-data/codes-mock.json';
 import type { KlassCode } from '@/types/klass-codes';
 import { mapClassificationItemToKlassCode } from '@/utils/classifications/codeMappers';
@@ -78,9 +79,9 @@ export async function fetchChanges(
   language: VersionsLanguageEnum | undefined = VersionsLanguageEnum.NB,
 ): Promise<CodeChangeItem[]> {
   if (process.env.KLASS_USE_STATIC_DATA === 'true') {
-    logger.warn({ versionId: classificationId }, 'Using static mock data for version codes');
-    const key = String(classificationId) as keyof typeof codesMock.versionCodes;
-    return (codesMock.versionCodes[key] ?? []) as KlassCode[];
+    logger.warn({ versionId: classificationId }, 'Using static mock data for changes');
+    const key = String(classificationId) as keyof typeof changesMock;
+    return (changesMock[key]?.codeChanges.map(CodeChangeItemFromJSON) ?? []) as CodeChangeItem[];
   }
 
   const api = getCodesClient();

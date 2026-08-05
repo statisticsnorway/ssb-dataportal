@@ -49,3 +49,34 @@
     --dsc-table-padding: var(--ds-size-2) var(--ds-size-3);
   }
 }
+
+.tableHeader {
+  border-bottom: var(--ds-border-width-default) solid var(--ssb-dark-color-2);
+  background: var(--ds-color-neutral-surface-tinted);
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--ds-color-neutral-text-subtle);
+  gap: 1.5rem;
+}
+
+.tableCodeLabel {
+  font-family: var(--font-family-monospace);
+  font-weight: 600;
+  flex: 0 0 5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ds-color-neutral-text-default);
+}
+
+.tableNameLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  flex: 1;
+}
+
+.tableCentralDivider {
+  border-right: var(--ds-border-width-default) solid var(--ssb-dark-color-2);
+}

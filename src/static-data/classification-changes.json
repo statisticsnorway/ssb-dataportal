@@ -1,0 +1,33 @@
+{
+  "646": {
+    "codeChanges": [
+      {
+        "changeOccurred": "2023-01-01",
+        "newCode": "120",
+        "newName": "Belarus",
+        "newShortName": "",
+        "oldCode": "120",
+        "oldName": "Hviterussland",
+        "oldShortName": ""
+      },
+      {
+        "changeOccurred": "2023-01-01",
+        "newCode": "143",
+        "newName": "Tyrkia",
+        "newShortName": "",
+        "oldCode": "143",
+        "oldName": "Tyrkia",
+        "oldShortName": ""
+      },
+      {
+        "changeOccurred": "2025-01-01",
+        "newCode": "524",
+        "newName": "Palestina",
+        "newShortName": "",
+        "oldCode": "980",
+        "oldName": "Statsløs",
+        "oldShortName": ""
+      }
+    ]
+  }
+}
