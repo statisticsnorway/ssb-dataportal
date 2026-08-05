@@ -29,5 +29,72 @@
         "oldShortName": ""
       }
     ]
+  },
+  "91": {
+    "codeChanges": [
+      {
+        "changeOccurred": "2023-01-01",
+        "newCode": "120",
+        "newName": "Belarus",
+        "newShortName": "",
+        "oldCode": "120",
+        "oldName": "Hviterussland",
+        "oldShortName": ""
+      },
+      {
+        "changeOccurred": "2023-01-01",
+        "newCode": "143",
+        "newName": "Tyrkia",
+        "newShortName": "",
+        "oldCode": "143",
+        "oldName": "Tyrkia",
+        "oldShortName": ""
+      },
+      {
+        "changeOccurred": "2025-01-01",
+        "newCode": "524",
+        "newName": "Palestina",
+        "newShortName": "",
+        "oldCode": "980",
+        "oldName": "Statsløs",
+        "oldShortName": ""
+      },
+      {
+        "changeOccurred": "2024-01-01",
+        "newCode": "700",
+        "newName": "Samlet kode",
+        "newShortName": "",
+        "oldCode": "701",
+        "oldName": "Kode A",
+        "oldShortName": ""
+      },
+      {
+        "changeOccurred": "2024-01-01",
+        "newCode": "700",
+        "newName": "Samlet kode",
+        "newShortName": "",
+        "oldCode": "702",
+        "oldName": "Kode B",
+        "oldShortName": ""
+      },
+      {
+        "changeOccurred": "2024-02-01",
+        "newCode": "990",
+        "newName": "Ny kode",
+        "newShortName": "",
+        "oldCode": null,
+        "oldName": null,
+        "oldShortName": null
+      },
+      {
+        "changeOccurred": "2024-03-01",
+        "newCode": null,
+        "newName": null,
+        "newShortName": null,
+        "oldCode": "888",
+        "oldName": "Utgatt kode",
+        "oldShortName": ""
+      }
+    ]
   }
 }

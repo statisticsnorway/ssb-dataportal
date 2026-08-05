@@ -1,0 +1,56 @@
+import { localization } from '@/libs/language/src/localization';
+import { Page } from '@playwright/test';
+import { expect, test } from './fixtures/classification.fixture';
+
+const CHANGES_CLASSIFICATION_ID = 91;
+const NO_CHANGES_CLASSIFICATION_ID = 2003;
+
+async function openChangesTab(classificationDetailsPage: (id: string | number) => Promise<Page>, id: number) {
+  const page = await classificationDetailsPage(id);
+  const changesTab = page.getByRole('tab', { name: localization.classificationDetails.changes });
+  await expect(changesTab).toBeVisible();
+  await changesTab.click();
+  await expect(page).toHaveURL(`/classifications/${id}/changes`);
+  return page;
+}
+
+test('changes tab renders base case with static data', async ({ classificationDetailsPage }) => {
+  const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID);
+
+  await expect(page.getByRole('table')).toBeVisible();
+  await expect(page.getByRole('cell', { name: '120' })).toHaveCount(2);
+  await expect(page.getByRole('cell', { name: 'Hviterussland' })).toBeVisible();
+  await expect(page.getByRole('cell', { name: 'Belarus' })).toBeVisible();
+});
+
+test('changes tab shows no data rows when no changes are found', async ({ classificationDetailsPage }) => {
+  const page = await openChangesTab(classificationDetailsPage, NO_CHANGES_CLASSIFICATION_ID);
+
+  await expect(page.getByRole('table')).toBeVisible();
+  await expect(page.locator('tbody tr')).toHaveCount(0);
+});
+
+test('changes tab groups rows by new code', async ({ classificationDetailsPage }) => {
+  const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID);
+
+  await expect(page.getByRole('cell', { name: '701' })).toBeVisible();
+  await expect(page.getByRole('cell', { name: '702' })).toBeVisible();
+  await expect(page.getByRole('cell', { name: '700' })).toHaveCount(1);
+  await expect(page.getByRole('cell', { name: 'Samlet kode' })).toHaveCount(1);
+});
+
+test('changes tab renders newly created codes', async ({ classificationDetailsPage }) => {
+  const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID);
+
+  const createdRow = page.getByRole('row').filter({ has: page.getByRole('cell', { name: '990' }) });
+  await expect(createdRow.getByRole('cell', { name: 'Ny kode' })).toBeVisible();
+  await expect(createdRow.getByRole('cell', { name: '-' }).first()).toBeVisible();
+});
+
+test('changes tab renders deleted codes', async ({ classificationDetailsPage }) => {
+  const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID);
+
+  const deletedRow = page.getByRole('row').filter({ has: page.getByRole('cell', { name: '888' }) });
+  await expect(deletedRow.getByRole('cell', { name: 'Utgatt kode' })).toBeVisible();
+  await expect(deletedRow.getByRole('cell', { name: '-' }).first()).toBeVisible();
+});
