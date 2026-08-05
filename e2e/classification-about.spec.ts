@@ -1,10 +1,9 @@
-import { expect, test } from './fixtures/classification.fixture';
 import { classificationDetailsTabsData } from '@/app/(details)/classifications/[id]/tabs';
 import versionsMock from '@/static-data/versions.json';
 import { localization } from '@/libs/language';
 import { formatCustodian, formatLanguages, formatLocaleDate } from '@/utils/functions';
 import { parseVersion } from '@/utils/mock-data';
-import { Page } from '@playwright/test';
+import test, { expect, Page } from '@playwright/test';
 
 const versions = versionsMock.versions;
 const currentVersion = versions![0];
@@ -79,56 +78,48 @@ async function assertChangelogTable(page: Page, version: (typeof versions)[numbe
 }
 
 test.describe('Current version about tab', () => {
-  test('displays version heading and introduction', async ({ classificationDetailsPage }) => {
-    const page = await classificationDetailsPage(2003);
+  test('displays version heading and introduction', async ({ page }) => {
     const about = await gotoAbout(page, CURRENT_ABOUT_URL);
     await expect(about.getByRole('heading', { name: currentVersion!.name })).toBeVisible();
     await expect(about.locator('p').first()).toHaveText(currentVersion!.introduction!);
   });
 
-  test('displays version details', async ({ classificationDetailsPage }) => {
-    const page = await classificationDetailsPage(2003);
+  test('displays version details', async ({ page }) => {
     await gotoAbout(page, CURRENT_ABOUT_URL);
     await assertDetailsList(page, currentVersion!);
   });
 
-  test('displays version level table', async ({ classificationDetailsPage }) => {
-    const page = await classificationDetailsPage(2003);
+  test('displays version level table', async ({ page }) => {
     await gotoAbout(page, CURRENT_ABOUT_URL);
     await assertLevelsTable(page, currentVersion!);
   });
 
-  test('displays version changelog table', async ({ classificationDetailsPage }) => {
-    const page = await classificationDetailsPage(2003);
+  test('displays version changelog table', async ({ page }) => {
     await gotoAbout(page, CURRENT_ABOUT_URL);
     await assertChangelogTable(page, currentVersion!);
   });
 });
 
 test.describe('Older version about tab', () => {
-  test('displays version heading and introduction', async ({ classificationDetailsPage }) => {
-    const page = await classificationDetailsPage(2003);
+  test('displays version heading and introduction', async ({ page }) => {
     const about = await gotoAbout(page, OLDER_ABOUT_URL);
-    await expect(about.getByRole('heading').first()).toBeVisible();
+    await expect(about.getByRole('heading', { name: olderVersion!.name })).toBeVisible();
     if (olderVersion!.introduction) {
       await expect(about.locator('p').first()).toHaveText(olderVersion!.introduction);
     }
   });
 
-  test('displays version details', async ({ classificationDetailsPage }) => {
-    const page = await classificationDetailsPage(2003);
+  test('displays version details', async ({ page }) => {
     await gotoAbout(page, OLDER_ABOUT_URL);
     await assertDetailsList(page, olderVersion!);
   });
 
-  test('displays version level table', async ({ classificationDetailsPage }) => {
-    const page = await classificationDetailsPage(2003);
+  test('displays version level table', async ({ page }) => {
     await gotoAbout(page, OLDER_ABOUT_URL);
     await assertLevelsTable(page, olderVersion!);
   });
 
-  test('displays version changelog table', async ({ classificationDetailsPage }) => {
-    const page = await classificationDetailsPage(2003);
+  test('displays version changelog table', async ({ page }) => {
     await gotoAbout(page, OLDER_ABOUT_URL);
     await assertChangelogTable(page, olderVersion!);
   });
