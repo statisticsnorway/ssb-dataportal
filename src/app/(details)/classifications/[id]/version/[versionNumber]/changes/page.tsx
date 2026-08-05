@@ -5,11 +5,11 @@ import { useVersion } from '@/app/(details)/classifications/components/versionCo
 import ChangesView from '@/app/(details)/classifications/components/views/ChangesView';
 
 export default function ChangesVersion() {
-  const { versionResource } = useVersion();
+  const { classification, versionResource } = useVersion();
 
   if (!versionResource?.classificationItems) {
     return notFound();
   }
 
-  return <ChangesView version={versionResource} />;
+  return <ChangesView classification={classification} version={versionResource} />;
 }
