@@ -136,3 +136,22 @@ describe('mapChanges', () => {
     expect(rows.map((r) => r.value)).toEqual(['', '', '']);
   });
 });
+
+describe('mapAboutItems edge cases', () => {
+  it('treats explicit false and whitespace-only strings as not relevant', () => {
+    const version = {
+      contactPerson: { email: 'x@y.no' },
+      validFrom: '   ',
+      published: ['nb'],
+      derivedFrom: false as unknown as string,
+      legalBase: '',
+      publications: '   ',
+    } as unknown as ClassificationVersionResource;
+
+    const rows = mapAboutItems(version, { statisticalUnits: [] } as unknown as ClassificationResource);
+
+    expect(rows.find((r) => r.label === localization.classification.about.basedOn)?.value).toBe(notRelevant);
+    expect(rows.find((r) => r.label === localization.classification.about.legalBasis)?.value).toBe(notRelevant);
+    expect(rows.find((r) => r.label === localization.classification.about.publications)?.value).toBe(notRelevant);
+  });
+});
