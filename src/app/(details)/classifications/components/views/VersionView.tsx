@@ -1,6 +1,6 @@
 'use client';
 
-import { Heading, Tabs, Tag } from '@digdir/designsystemet-react';
+import { Alert, Heading, Tabs, Tag } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language';
@@ -60,20 +60,23 @@ export function VersionView({ classification, children }: Readonly<VersionViewPr
       day: 'numeric',
     }) ?? '—';
 
+  const versionTag = (
+    <Tag data-color={'info'}>
+      {`${localization.versions.tags.isLatest} (${localization.versions.tags.validFrom}: ${validFromText})`}
+    </Tag>
+  );
+
   return (
     <VersionProvider classification={classification} versionSummary={resolved.version} isLatest={resolved.isLatest}>
+      {!resolved?.isLatest && (
+        <Alert data-color={'danger'} role='status'>
+          {localization.versions.tags.isNotCurrent}
+        </Alert>
+      )}
       <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='lg' level={2}>
         {resolved.version.name ?? '—'}
       </Heading>
-
-      {resolved.isLatest ? (
-        <Tag data-color='info'>
-          {`${localization.versions.tags.isLatest} (${localization.versions.tags.validFrom}: ${validFromText})`}
-        </Tag>
-      ) : (
-        <Tag data-color='warning'>{localization.versions.tags.isNotCurrent}</Tag>
-      )}
-
+      {resolved?.isLatest && versionTag}
       <Tabs
         value={activeTab.id}
         onChange={(value) => {

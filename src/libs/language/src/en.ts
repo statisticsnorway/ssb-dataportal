@@ -392,7 +392,7 @@ export const en = {
     tags: {
       isLatest: 'Current version:',
       validFrom: 'Valid from and including',
-      isNotCurrent: 'Note: This is not the current version of the classification',
+      isNotCurrent: 'This is not the current version of the classification',
     },
   },
 } satisfies Translation;
