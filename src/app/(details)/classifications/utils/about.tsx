@@ -6,7 +6,7 @@ import { ClassificationResource } from '@/libs/data-access/klass/models/Classifi
 import { localization } from '@/libs/language/src/localization';
 import { Item } from '@/types/item';
 import { formatCustodian, formatLanguages, formatLocaleDate } from '@/utils/functions';
-import { VersionItem } from '../components/versions-table';
+import { VersionItem } from '../components/classification-version-table';
 
 /**
  * Formats the changelog timestamp as a Norwegian Bokmål time string (`nb-NO`).

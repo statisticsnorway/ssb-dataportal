@@ -4,8 +4,8 @@ import { mapAboutItems, mapChanges, mapLevels } from '@/app/(details)/classifica
 import { DetailsTable } from '@/components/details-list';
 import { ClassificationResource, ClassificationVersionResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
+import { ClassificationVersionTable } from '../classification-version-table';
 import { ExpandableTable } from '../expandable-table';
-import { VersionsTable } from '../versions-table';
 import styles from './views.module.css';
 
 interface AboutViewProps {
@@ -22,13 +22,13 @@ export default function AboutView({ classification, classificationVersion }: Abo
       <DetailsTable content={mapAboutItems(classificationVersion, classification)} />
       <ExpandableTable
         title={localization.classification.about.levels}
-        table={<VersionsTable content={classificationVersion?.levels?.map((l) => mapLevels(l)) ?? []} />}
+        table={<ClassificationVersionTable content={classificationVersion?.levels?.map((l) => mapLevels(l)) ?? []} />}
       />
       <ExpandableTable
         title={localization.classification.about.changelog}
         table={
           classificationVersion?.changelogs?.length ? (
-            <VersionsTable content={classificationVersion.changelogs.map((c) => mapChanges(c))} />
+            <ClassificationVersionTable content={classificationVersion.changelogs.map((c) => mapChanges(c))} />
           ) : undefined
         }
         message={classificationVersion?.changelogs?.length ? undefined : localization.classification.about.noChanges}

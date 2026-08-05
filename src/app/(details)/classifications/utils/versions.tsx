@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { VersionItem } from '@/app/(details)/classifications/components/versions-table';
+import { VersionItem } from '@/app/(details)/classifications/components/classification-version-table';
 import { ClassificationVersionSummaryResource } from '@/libs/data-access/klass/models/ClassificationVersionSummaryResource';
 import { localization } from '@/libs/language/src/localization';
 

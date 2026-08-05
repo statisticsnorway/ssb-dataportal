@@ -2,9 +2,9 @@
 
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from '@digdir/designsystemet-react';
 import { ReactNode } from 'react';
-import styles from './versionsTable.module.css';
+import styles from './classificationVersionTable.module.css';
 
-interface VersionsTableProps {
+interface ClassificationVersionTableProps {
   content: VersionItem[][];
 }
 
@@ -13,7 +13,7 @@ export interface VersionItem {
   value?: ReactNode | string | number | boolean | null | Date;
 }
 
-const VersionsTable = ({ content }: VersionsTableProps) => {
+const ClassificationVersionTable = ({ content }: ClassificationVersionTableProps) => {
   const headers = content[0]?.map((item) => item.label) ?? [];
   return (
     <Table border={true} zebra={true} hover={true} className={styles.table}>
@@ -41,4 +41,4 @@ const VersionsTable = ({ content }: VersionsTableProps) => {
   );
 };
 
-export { VersionsTable };
+export { ClassificationVersionTable };
