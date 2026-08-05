@@ -35,7 +35,7 @@ export const en = {
     about: {
       custodian: 'Custodian',
       mail: 'Mail',
-      validity: 'Validity',
+      validity: 'Valid from',
       publishedLanguages: 'Published languages',
       basedOn: 'Based on',
       langEN: 'English',

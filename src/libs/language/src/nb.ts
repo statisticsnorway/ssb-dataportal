@@ -33,7 +33,7 @@ export const nb = {
     about: {
       custodian: 'Ansvarlig',
       mail: 'E-post',
-      validity: 'Gyldighet',
+      validity: 'Gyldig fra',
       publishedLanguages: 'Publiserte språk',
       basedOn: 'Basert på',
       langEN: 'Engelsk',
