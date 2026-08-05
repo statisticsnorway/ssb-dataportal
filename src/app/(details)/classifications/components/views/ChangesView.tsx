@@ -20,9 +20,10 @@ export default function ChangesView({
   classification,
   version,
 }: Readonly<{ classification: ClassificationResource; version: ClassificationVersionResource }>) {
-  // Shall we filter "identical" changes out?
-  // TODO: Wire in language
-  const sortedVersions = classification.versions?.sort((v1, v2) => v2.validFrom - v1.validFrom) ?? [];
+  const sortedVersions =
+    [...(classification.versions ?? [])].sort(
+      (v1, v2) => (v2.validFrom?.getTime() ?? 0) - (v1.validFrom?.getTime() ?? 0),
+    ) ?? [];
   const previousVersion = sortedVersions[sortedVersions.findIndex((v) => v.id === version.id) + 1];
   if (
     sortedVersions.length <= 1 ||
