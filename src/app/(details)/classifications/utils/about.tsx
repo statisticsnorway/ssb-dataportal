@@ -25,7 +25,11 @@ const formatLanguages = (language: string) => {
 
 const addRow = (rows: Item[], label: string, value: string | undefined | null) => {
   const v = value?.trim();
-  if (v) rows.push({ label, value: v });
+  if (v) {
+    rows.push({ label, value: v });
+  } else {
+    rows.push({ label, value: localization.classification.about.notRelevant });
+  }
 };
 
 export const mapAboutItems = (c: ClassificationVersionResource, classification: ClassificationResource): Item[] => {
