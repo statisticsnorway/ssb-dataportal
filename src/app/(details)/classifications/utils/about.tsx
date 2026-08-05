@@ -5,7 +5,7 @@ import { ChangelogResource, ClassificationVersionResource, LevelResource } from 
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language/src/localization';
 import { Item } from '@/types/item';
-import { formatLocaleDate } from '@/utils/functions';
+import { formatLanguages, formatLocaleDate } from '@/utils/functions';
 import { VersionItem } from '../components/versions-table';
 
 /**
@@ -75,27 +75,6 @@ export const formatCustodian = (classificationVersion: ClassificationVersionReso
   const section = classificationVersion.owningSection?.trim();
 
   return [name, section].filter(Boolean).join(', ');
-};
-
-/**
- * Maps a language code to its localized display label used in the classification "about" section.
- *
- * Supports `en`, `nb`, and `nn`. If the code is unknown, the original value is returned.
- *
- * @param language - Language code from classification data (for example: `en`, `nb`, `nn`).
- * @returns A localized language label, or the original language code when no mapping exists.
- */
-export const formatLanguages = (language: string) => {
-  switch (language) {
-    case 'en':
-      return localization.classification.about.langEN;
-    case 'nb':
-      return localization.classification.about.langNB;
-    case 'nn':
-      return localization.classification.about.langNN;
-    default:
-      return language;
-  }
 };
 
 /**

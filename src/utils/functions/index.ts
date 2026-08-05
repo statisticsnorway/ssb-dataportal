@@ -150,3 +150,24 @@ export const getLabelWithParent = (klassReference: KlassReference, filterList: F
 export function assertUnreachable(x: never): never {
   throw new Error('The impossible has happened.');
 }
+
+/**
+ * Maps a language code to its localized display label used in the classification "about" section.
+ *
+ * Supports `en`, `nb`, and `nn`. If the code is unknown, the original value is returned.
+ *
+ * @param language - Language code from classification data (for example: `en`, `nb`, `nn`).
+ * @returns A localized language label, or the original language code when no mapping exists.
+ */
+export const formatLanguages = (language: string) => {
+  switch (language) {
+    case 'en':
+      return localization.classification.about.langEN;
+    case 'nb':
+      return localization.classification.about.langNB;
+    case 'nn':
+      return localization.classification.about.langNN;
+    default:
+      return language;
+  }
+};

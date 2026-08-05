@@ -2,8 +2,7 @@ import { expect, test } from './fixtures/classification.fixture';
 import { classificationDetailsTabsData } from '@/app/(details)/classifications/[id]/tabs';
 import versionsMock from '@/static-data/versions.json';
 import { localization } from '@/libs/language';
-import { formatLocaleDate } from '@/utils/functions';
-import { formatLanguages } from '@/app/(details)/classifications/utils/about';
+import { formatLanguages, formatLocaleDate } from '@/utils/functions';
 
 const versions = versionsMock.versions;
 const currentVersion = versions![0];
