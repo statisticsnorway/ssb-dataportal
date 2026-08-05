@@ -234,6 +234,10 @@ jobs:
           test -f coverage/lcov.info && wc -l coverage/lcov.info || echo "coverage/lcov.info MISSING"
           echo "=== results/e2e-coverage/ ==="
           ls -la results/e2e-coverage/ 2>/dev/null || echo "MISSING"
+          echo "=== about.tsx in unit lcov ==="
+          grep -A 60 "SF:.*about.tsx" coverage/lcov.info | head -60 || echo "not found"
+          echo "=== about.tsx in e2e lcov ==="
+          grep -A 60 "SF:.*about.tsx" results/e2e-coverage/coverage.lcov | head -60 || echo "not found"
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@fd88b7d7ccbaefd23d8f36f73b59db7a3d246602 # v6.0.0
         env:
