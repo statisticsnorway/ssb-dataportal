@@ -31,7 +31,12 @@ export default function AboutView({ classification, classificationSummary, class
       />
       <ExpandableTable
         title={localization.classification.about.changelog}
-        table={<VersionsTable content={classificationVersion?.changelogs?.map((c) => mapChanges(c)) ?? []} />}
+        table={
+          classificationVersion?.changelogs?.length ? (
+            <VersionsTable content={classificationVersion.changelogs.map((c) => mapChanges(c))} />
+          ) : undefined
+        }
+        message={classificationVersion?.changelogs?.length ? undefined : localization.classification.about.noChanges}
       />
     </div>
   );
