@@ -2,100 +2,134 @@ import { expect, test } from './fixtures/classification.fixture';
 import { classificationDetailsTabsData } from '@/app/(details)/classifications/[id]/tabs';
 import versionsMock from '@/static-data/versions.json';
 import { localization } from '@/libs/language';
-import { formatLanguages, formatLocaleDate } from '@/utils/functions';
+import { formatCustodian, formatLanguages, formatLocaleDate } from '@/utils/functions';
+import { parseVersion } from '@/utils/mock-data';
+import { Page } from '@playwright/test';
 
 const versions = versionsMock.versions;
 const currentVersion = versions![0];
 const olderVersion = versions![1];
 
+const CURRENT_ABOUT_URL = '/classifications/2003/about';
+const OLDER_ABOUT_URL = `/classifications/2003/version/${olderVersion!.id ?? 2}/about`;
+
+async function gotoAbout(page: Page, url: string) {
+  await page.goto(url, { waitUntil: 'domcontentloaded' });
+  const aboutTab = page.getByRole('tab', { name: classificationDetailsTabsData.About.label });
+  await expect(aboutTab).toHaveAttribute('aria-selected', 'true');
+  return page.getByLabel(localization.classificationDetails.about);
+}
+
+async function expandSection(page: Page, title: string) {
+  const section = page.locator('details', {
+    has: page.locator('summary', { hasText: title }),
+  });
+  await expect(section).toBeVisible();
+  const summary = section.locator('summary');
+  if ((await section.getAttribute('open')) === null) {
+    await summary.click();
+  }
+  return section;
+}
+
+async function assertDetailsList(page: Page, version: (typeof versions)[number]) {
+  const dl = page.locator('dl');
+  await expect(dl.getByText(localization.classification.about.custodian, { exact: true })).toBeVisible();
+  await expect(dl.locator('dd').getByText(formatCustodian(parseVersion(version)), { exact: true })).toBeVisible();
+  await expect(dl.getByText(localization.classification.about.mail, { exact: true })).toBeVisible();
+  await expect(dl.locator('dd').getByText(version.contactPerson!.email!, { exact: true })).toBeVisible();
+  await expect(dl.getByText(localization.classification.about.validity, { exact: true })).toBeVisible();
+  await expect(dl.locator('dd').getByText(formatLocaleDate(version.validFrom!), { exact: true })).toBeVisible();
+  await expect(dl.getByText(localization.classification.about.publishedLanguages, { exact: true })).toBeVisible();
+  await expect(
+    dl.locator('dd').getByText(version.published!.map(formatLanguages).join(', '), { exact: true }),
+  ).toBeVisible();
+}
+
+async function assertLevelsTable(page: Page, version: (typeof versions)[number]) {
+  const section = await expandSection(page, localization.classification.about.levels);
+  const table = section.getByRole('table');
+  await expect(table).toBeVisible();
+
+  const levels = version.levels ?? [];
+  await expect(table.getByRole('row')).toHaveCount(levels.length + 1);
+  for (const level of levels) {
+    await expect(table.getByRole('cell', { name: String(level.levelNumber), exact: true }).first()).toBeVisible();
+    await expect(table.getByRole('cell', { name: level.levelName, exact: true }).first()).toBeVisible();
+  }
+}
+
+async function assertChangelogTable(page: Page, version: (typeof versions)[number]) {
+  const section = await expandSection(page, localization.classification.about.changelog);
+  const changelogs = version.changelogs ?? [];
+
+  if (changelogs.length === 0) {
+    await expect(section.getByText(localization.classification.about.noChanges)).toBeVisible();
+    return;
+  }
+
+  const table = section.getByRole('table');
+  await expect(table).toBeVisible();
+  await expect(table.getByRole('row')).toHaveCount(changelogs.length + 1);
+  for (const entry of changelogs) {
+    if (entry.description) {
+      await expect(table.getByText(entry.description, { exact: false }).first()).toBeVisible();
+    }
+  }
+}
+
 test.describe('Current version about tab', () => {
   test('displays version heading and introduction', async ({ classificationDetailsPage }) => {
     const page = await classificationDetailsPage(2003);
-    const aboutTab = page.getByRole('tab', { name: classificationDetailsTabsData.About.label });
-    await expect(aboutTab).toBeVisible();
-    await aboutTab.click();
-    await expect(aboutTab).toHaveAttribute('aria-selected', 'true');
-    await expect(page).toHaveURL(/classifications\/2003\/about/);
-    const aboutSection = page.getByLabel(localization.classificationDetails.about);
-    await expect(aboutSection.getByRole('heading', { name: currentVersion!.name })).toBeVisible();
-    await expect(aboutSection.locator('p').first()).toHaveText(currentVersion!.introduction!);
+    const about = await gotoAbout(page, CURRENT_ABOUT_URL);
+    await expect(about.getByRole('heading', { name: currentVersion!.name })).toBeVisible();
+    await expect(about.locator('p').first()).toHaveText(currentVersion!.introduction!);
   });
 
   test('displays version details', async ({ classificationDetailsPage }) => {
     const page = await classificationDetailsPage(2003);
-    const aboutTab = page.getByRole('tab', { name: classificationDetailsTabsData.About.label });
-    await expect(aboutTab).toBeVisible();
-    await aboutTab.click();
-    await expect(page.getByText(localization.classification.about.mail)).toBeVisible();
+    await gotoAbout(page, CURRENT_ABOUT_URL);
+    await assertDetailsList(page, currentVersion!);
+  });
 
-    const dl = page.locator('dl');
+  test('displays version level table', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage(2003);
+    await gotoAbout(page, CURRENT_ABOUT_URL);
+    await assertLevelsTable(page, currentVersion!);
+  });
 
-    await expect(dl.getByText(localization.classification.about.mail, { exact: true })).toBeVisible();
-    await expect(dl.locator('dd').getByText(currentVersion!.contactPerson!.email!, { exact: true })).toBeVisible();
-
-    await expect(dl.getByText(localization.classification.about.validity, { exact: true })).toBeVisible();
-    await expect(
-      dl.locator('dd').getByText(formatLocaleDate(currentVersion!.validFrom!), { exact: true }),
-    ).toBeVisible();
-
-    await expect(dl.getByText(localization.classification.about.publishedLanguages, { exact: true })).toBeVisible();
-    await expect(
-      dl.locator('dd').getByText(currentVersion!.published?.map(formatLanguages).join(', ')!, { exact: true }),
-    ).toBeVisible();
+  test('displays version changelog table', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage(2003);
+    await gotoAbout(page, CURRENT_ABOUT_URL);
+    await assertChangelogTable(page, currentVersion!);
   });
 });
 
-/*
 test.describe('Older version about tab', () => {
   test('displays version heading and introduction', async ({ classificationDetailsPage }) => {
     const page = await classificationDetailsPage(2003);
-    await page.goto(CODES_PREV_VERSION_URL);
-
-    const aboutTab = page.getByRole('tab', { name: classificationDetailsTabsData.About.label });
-    await expect(aboutTab).toBeVisible();
-    await aboutTab.click();
-    await expect(aboutTab).toHaveAttribute('aria-selected', 'true');
-    await expect(page).toHaveURL(/classifications\/2003\/version\/2\/about/);
-    const aboutSection = page.getByLabel(localization.classificationDetails.about);
-    await expect(aboutSection.getByRole('heading', { name: olderVersion!.name })).toBeVisible();
-    await expect(aboutSection.locator('p').first()).toHaveText('');
+    const about = await gotoAbout(page, OLDER_ABOUT_URL);
+    await expect(about.getByRole('heading').first()).toBeVisible();
+    if (olderVersion!.introduction) {
+      await expect(about.locator('p').first()).toHaveText(olderVersion!.introduction);
+    }
   });
 
   test('displays version details', async ({ classificationDetailsPage }) => {
     const page = await classificationDetailsPage(2003);
-    const aboutTab = page.getByRole('tab', { name: classificationDetailsTabsData.About.label });
-    await expect(aboutTab).toBeVisible();
-    await aboutTab.click();
+    await gotoAbout(page, OLDER_ABOUT_URL);
+    await assertDetailsList(page, olderVersion!);
+  });
+
+  test('displays version level table', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage(2003);
+    await gotoAbout(page, OLDER_ABOUT_URL);
+    await assertLevelsTable(page, olderVersion!);
+  });
+
+  test('displays version changelog table', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage(2003);
+    await gotoAbout(page, OLDER_ABOUT_URL);
+    await assertChangelogTable(page, olderVersion!);
   });
 });
-*/
-/*
-test('test', async ({ page }) => {
-  await page.goto('http://localhost:3000/classifications/282/codes');
-  await page.getByRole('tab', { name: 'Om versjonen' }).click();
-  await page.getByText('E-post').click();
-  await page.getByText('Gyldig fra', { exact: true }).click();
-  await page.getByText('Publiserte språk').click();
-  await page.getByText('Nivåer').click();
-  await page.getByRole('cell', { name: 'Nivå' }).click();
-  await page.getByText('Endringslogg').click();
-});
-
-test('test 2', async ({ page }) => {
-  await page.goto('http://localhost:3000/classifications/563/codes');
-  await page.getByRole('tab', { name: 'Om versjonen' }).click();
-  await expect(page.getByLabel('Om versjonen').getByRole('heading')).toContainText('Barnevernsregionar 2004');
-  await expect(page.getByText('I 2004 ble Barne-, ungdoms-')).toBeVisible();
-  await expect(page.getByLabel('Om versjonen')).toContainText('Dyrhaug, Tone, 330 - Seksjon for helsestatistikk');
-  await expect(page.locator('div').filter({ hasText: /^Tone\.Dyrhaug@ssb\.no$/ })).toBeVisible();
-  await expect(page.getByText('Bokmål, Nynorsk, Engelsk')).toBeVisible();
-  await expect(page.getByLabel('Om versjonen')).toContainText('Ikke relevant');
-  await expect(page.getByLabel('Om versjonen')).toContainText(
-    'Lov om barneverntjenester, § 2-2, Statlige barnevernmyndigheters organisatoriske inndeling, § 2-3, Statlige barnevernmyndigheters oppgaver og myndighet og § 2-3 a, Særskilte bestemmelser for Oslo kommune - Lovdata',
-  );
-  await expect(page.getByLabel('Om versjonen')).toContainText('Ikke relevant');
-  await page.getByText('Nivåer').click();
-      await expect(page.getByLabel(localization.classificationDetails.about).getByRole('heading')).toContainText(currentVersion!.name);
-    await expect(page.getByRole('heading', { level: 2 })).toHaveText(currentVersion!.name);
-    await expect(page.getByLabel(localization.classificationDetails.about).getByRole('heading', { level: 2, name: currentVersion!.name })).toBeVisible();
-});*/

@@ -5,7 +5,7 @@ import { ChangelogResource, ClassificationVersionResource, LevelResource } from 
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language/src/localization';
 import { Item } from '@/types/item';
-import { formatLanguages, formatLocaleDate } from '@/utils/functions';
+import { formatCustodian, formatLanguages, formatLocaleDate } from '@/utils/functions';
 import { VersionItem } from '../components/versions-table';
 
 /**
@@ -61,20 +61,6 @@ const addRow = (rows: Item[], label: string, value: ReactNode | undefined | null
     label,
     value: hasDisplayValue(value) ? value : localization.classification.about.notRelevant,
   });
-};
-
-/**
- * Format the custodian information (contact person and owning section) extracted from classification version
- * @param classificationVersion
- * @returns
- */
-export const formatCustodian = (classificationVersion: ClassificationVersionResource | undefined) => {
-  if (!classificationVersion) return '';
-
-  const name = classificationVersion.contactPerson?.name?.trim();
-  const section = classificationVersion.owningSection?.trim();
-
-  return [name, section].filter(Boolean).join(', ');
 };
 
 /**

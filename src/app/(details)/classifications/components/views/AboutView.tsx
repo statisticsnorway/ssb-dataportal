@@ -5,7 +5,6 @@ import { DetailsTable } from '@/components/details-list';
 import {
   ClassificationResource,
   ClassificationVersionResource,
-  ClassificationVersionSummaryResource,
 } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import { ExpandableTable } from '../expandable-table';
@@ -14,14 +13,13 @@ import styles from './views.module.css';
 
 interface AboutViewProps {
   classification: ClassificationResource;
-  classificationSummary: ClassificationVersionSummaryResource;
   classificationVersion: ClassificationVersionResource;
 }
-export default function AboutView({ classification, classificationSummary, classificationVersion }: AboutViewProps) {
+export default function AboutView({ classification, classificationVersion }: AboutViewProps) {
   return (
     <div className={styles.aboutWrapper}>
       <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='md' level={3}>
-        {classificationSummary?.name ?? '—'}
+        {classificationVersion?.name ?? '—'}
       </Heading>
       <Paragraph>{classificationVersion?.introduction ?? '—'}</Paragraph>
       <DetailsTable content={mapAboutItems(classificationVersion, classification)} />

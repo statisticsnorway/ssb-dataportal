@@ -4,7 +4,7 @@ import { useVersion } from '@/app/(details)/classifications/components/versionCo
 import AboutView from '@/app/(details)/classifications/components/views/AboutView';
 
 export default function About() {
-  const { classification, versionSummary, versionResource } = useVersion();
+  const { classification, versionResource } = useVersion();
   if (!versionResource) {
     return null;
   }
@@ -12,7 +12,6 @@ export default function About() {
   return (
     <AboutView
       classification={classification}
-      classificationSummary={versionSummary}
       classificationVersion={versionResource}
     />
   );

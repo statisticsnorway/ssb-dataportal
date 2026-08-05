@@ -1,4 +1,5 @@
 import { Assessment, DatasetState } from '@/libs/data-access/datadoc/models';
+import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { KlassReference, VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import { FilterItem } from '@/types/filters';
@@ -170,4 +171,18 @@ export const formatLanguages = (language: string) => {
     default:
       return language;
   }
+};
+
+/**
+ * Format the custodian information (contact person and owning section) extracted from classification version
+ * @param classificationVersion
+ * @returns
+ */
+export const formatCustodian = (classificationVersion: ClassificationVersionResource | undefined) => {
+  if (!classificationVersion) return '';
+
+  const name = classificationVersion.contactPerson?.name?.trim();
+  const section = classificationVersion.owningSection?.trim();
+
+  return [name, section].filter(Boolean).join(', ');
 };
