@@ -1,14 +1,6 @@
 import { Page, TestInfo } from '@playwright/test';
 import { test as base, expect } from '@bgotink/playwright-coverage';
-import { stabilize } from '../utils/commonUtils';
-
-// The first two entries in the static mock data (versions.json) belong to Classification 2003.
-// Both routes below use static data in the test environment (KLASS_USE_STATIC_DATA=true).
-export const MOCK_CLASSIFICATION_ID = '2003';
-export const MOCK_VERSION_ID = '1';
-
-export const CODES_URL = `/classifications/${MOCK_CLASSIFICATION_ID}/codes`;
-export const CODES_VERSION_URL = `/classifications/${MOCK_CLASSIFICATION_ID}/version/${MOCK_VERSION_ID}/codes`;
+import { CODES_URL, CODES_VERSION_URL, stabilize } from '../utils/commonUtils';
 
 export const test = base.extend<{
   codesPage: Page;

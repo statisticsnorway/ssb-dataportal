@@ -412,7 +412,7 @@ export const nb = {
     tags: {
       isLatest: 'Gjeldende versjon:',
       validFrom: 'Gyldig fra og med',
-      isNotCurrent: 'OBS! Dette er ikke dagens versjon av klassifikasjonen',
+      isNotCurrent: 'Dette er ikke dagens versjon av klassifikasjonen',
     },
   },
 };

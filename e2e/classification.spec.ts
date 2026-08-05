@@ -1,6 +1,7 @@
 import { expect, test } from './fixtures/classification.fixture';
 import classificationMock from '@/static-data/classifications.json';
 import { localization } from '@/libs/language/src/localization';
+import { CODES_PREV_VERSION_URL } from './utils/commonUtils';
 import { parseClassification } from '@/utils/mock-data';
 
 const classifications = classificationMock.classifications;
@@ -11,6 +12,22 @@ test('Classifications details page have title', async ({ classificationDetailsPa
   const heading = page.getByRole('heading', { level: 1 });
   await expect(heading).toBeVisible();
   await expect(heading).toHaveText(classification.name!);
+});
+
+test('Latest version display tag', async ({ classificationDetailsPage }) => {
+  const classification = parseClassification(classifications[0]);
+  const page = await classificationDetailsPage(classification.id!);
+  const tag = page.getByText(localization.versions.tags.isLatest);
+  await expect(tag).toBeVisible();
+  await expect(tag).toContainText('Gjeldende versjon: (Gyldig');
+});
+
+test('Outdated versions display alert', async ({ classificationDetailsPage }) => {
+  const classification = parseClassification(classifications[0]);
+  const page = await classificationDetailsPage(classification.id!);
+  await page.goto(CODES_PREV_VERSION_URL);
+  const alert = page.getByText(localization.versions.tags.isNotCurrent);
+  await expect(alert).toBeVisible();
 });
 
 test('Classifications details version have title', async ({ classificationDetailsPage }) => {
