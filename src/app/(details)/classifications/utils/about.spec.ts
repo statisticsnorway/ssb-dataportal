@@ -1,29 +1,31 @@
 import { describe, expect, it } from 'vitest';
-import {
-  ChangelogResource,
-  ClassificationResource,
-  ClassificationVersionResource,
-  LevelResource,
-} from '@/libs/data-access/klass';
-import { localization } from '@/libs/language';
-import classificationMock from '@/static-data/classifications.json';
-import versionMock from '@/static-data/versions.json';
+import { ChangelogResource, ClassificationVersionResource, LevelResource } from '@/libs/data-access/klass/models';
+import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
+import { localization } from '@/libs/language/src/localization';
 import { mapAboutItems, mapChanges, mapLevels } from './about';
 
-const versions = versionMock.versions as unknown as ClassificationVersionResource[];
-const classification = classificationMock.classifications[0] as unknown as ClassificationResource;
+const notRelevant = localization.classification.about.notRelevant;
 
-const byLabel = <T extends { label: string; value?: unknown }>(rows: T[], label: string) =>
-  rows.find((r) => r.label === label)?.value;
+const baseVersion: ClassificationVersionResource = {
+  name: 'Version 1',
+  contactPerson: { email: 'test@ssb.no', name: 'Test', phone: '' },
+  validFrom: '2024-01-01',
+  published: ['nb', 'en'],
+  derivedFrom: 'Base classification',
+  legalBase: 'Some law',
+  publications: 'Some publication',
+} as unknown as ClassificationVersionResource;
 
-describe('About details', () => {
-  it('returns expected rows for complete data', () => {
-    const result = mapAboutItems(versions[0]!, classification);
+const baseClassification: ClassificationResource = {
+  statisticalUnits: ['Person', 'Household'],
+} as unknown as ClassificationResource;
 
-    expect(result).toBeInstanceOf(Array);
-    expect(result).toHaveLength(8);
+describe('mapAboutItems', () => {
+  it('maps all populated fields to rows', () => {
+    const rows = mapAboutItems(baseVersion, baseClassification);
 
-    expect(result.map((r) => r.label)).toEqual([
+    const labels = rows.map((r) => r.label);
+    expect(labels).toEqual([
       localization.classification.about.custodian,
       localization.classification.about.mail,
       localization.classification.about.validity,
@@ -33,79 +35,105 @@ describe('About details', () => {
       localization.classification.about.publications,
       localization.classification.about.unitTypes,
     ]);
+
+    // No row should fall back to "not relevant" when all fields are set
+    expect(rows.every((r) => r.value !== notRelevant)).toBe(true);
   });
 
-  it('uses notRelevant fallback for missing plain-text fields', () => {
-    const version = {
-      ...versions[0],
-      derivedFrom: '',
-      legalBase: '',
-      publications: '',
+  it('falls back to "not relevant" for missing/empty fields', () => {
+    const emptyVersion = {
+      contactPerson: { email: '' },
       published: [],
-    } as ClassificationVersionResource;
+    } as unknown as ClassificationVersionResource;
+    const emptyClassification = { statisticalUnits: [] } as unknown as ClassificationResource;
 
-    const result = mapAboutItems(version, classification);
+    const rows = mapAboutItems(emptyVersion, emptyClassification);
+    const fallbackLabels = rows.filter((r) => r.value === notRelevant).map((r) => r.label);
 
-    expect(byLabel(result, localization.classification.about.basedOn)).toBe(
-      localization.classification.about.notRelevant,
-    );
-    expect(byLabel(result, localization.classification.about.legalBasis)).toBe(
-      localization.classification.about.notRelevant,
-    );
-    expect(byLabel(result, localization.classification.about.publications)).toBe(
-      localization.classification.about.notRelevant,
-    );
-    expect(byLabel(result, localization.classification.about.publishedLanguages)).toBe(
-      localization.classification.about.notRelevant,
-    );
+    expect(fallbackLabels).toContain(localization.classification.about.validity);
+    expect(fallbackLabels).toContain(localization.classification.about.basedOn);
+    expect(fallbackLabels).toContain(localization.classification.about.legalBasis);
+    expect(fallbackLabels).toContain(localization.classification.about.publications);
+    expect(fallbackLabels).toContain(localization.classification.about.unitTypes);
+    expect(fallbackLabels).toContain(localization.classification.about.publishedLanguages);
+  });
+
+  it('renders statisticalUnits as Tag elements', () => {
+    const rows = mapAboutItems(baseVersion, baseClassification);
+    const unitRow = rows.find((r) => r.label === localization.classification.about.unitTypes);
+    expect(Array.isArray(unitRow?.value)).toBe(true);
+    expect((unitRow?.value as unknown[]).length).toBe(2);
   });
 });
 
-describe('Level details', () => {
+describe('mapLevels', () => {
   it('maps level number and name', () => {
-    const level = { levelNumber: 2, levelName: 'Region' } as LevelResource;
-    const result = mapLevels(level);
+    const level: LevelResource = { levelNumber: 2, levelName: 'Group' } as LevelResource;
+    const rows = mapLevels(level);
 
-    expect(result).toEqual([
+    expect(rows).toEqual([
       { label: localization.classification.about.number, value: '2' },
-      { label: localization.classification.about.name, value: 'Region' },
+      { label: localization.classification.about.name, value: 'Group' },
     ]);
   });
 
-  it('returns empty values when level is undefined', () => {
-    const result = mapLevels(undefined);
+  it('returns empty strings when level is undefined', () => {
+    const rows = mapLevels(undefined);
+    expect(rows.map((r) => r.value)).toEqual(['', '']);
+  });
 
-    expect(result).toEqual([
-      { label: localization.classification.about.number, value: '' },
-      { label: localization.classification.about.name, value: '' },
-    ]);
+  it('returns empty strings when level fields are missing', () => {
+    const rows = mapLevels({} as LevelResource);
+    expect(rows.map((r) => r.value)).toEqual(['', '']);
   });
 });
 
-describe('Changelog details', () => {
-  it('maps date/time/comment when changelog is valid', () => {
-    const changelog = {
-      changeOccured: new Date('2024-01-10T12:34:56Z'),
-      description: 'Updated description',
-    } as ChangelogResource;
+describe('mapChanges', () => {
+  it('maps changelog date, time, and description', () => {
+    const changelog: ChangelogResource = {
+      changeOccured: '2024-05-15T09:30:45',
+      description: 'Updated code list',
+    } as unknown as ChangelogResource;
 
-    const result = mapChanges(changelog);
+    const rows = mapChanges(changelog);
 
-    expect(byLabel(result, localization.classification.about.date)).not.toBe('');
-    expect(byLabel(result, localization.classification.about.time)).not.toBe('');
-    expect(byLabel(result, localization.classification.about.comment)).toBe('Updated description');
+    expect(rows[0]?.label).toBe(localization.classification.about.date);
+    expect(rows[0]?.value).toBeTruthy();
+
+    expect(rows[1]?.label).toBe(localization.classification.about.time);
+    expect(rows[1]?.value).toMatch(/^\d{2}:\d{2}:\d{2}$/);
+
+    expect(rows[2]).toEqual({
+      label: localization.classification.about.comment,
+      value: 'Updated code list',
+    });
   });
 
-  it('returns empty date/time when changelog date is invalid', () => {
+  it('accepts a Date instance for changeOccured', () => {
     const changelog = {
-      changeOccured: new Date('invalid-date'),
-      description: 'Invalid date test',
-    } as ChangelogResource;
+      changeOccured: new Date('2024-05-15T09:30:45'),
+      description: 'x',
+    } as unknown as ChangelogResource;
 
-    const result = mapChanges(changelog);
+    const rows = mapChanges(changelog);
+    expect(rows[1]?.value).toMatch(/^\d{2}:\d{2}:\d{2}$/);
+  });
 
-    expect(byLabel(result, localization.classification.about.date)).toBe('');
-    expect(byLabel(result, localization.classification.about.time)).toBe('');
-    expect(byLabel(result, localization.classification.about.comment)).toBe('Invalid date test');
+  it('returns empty date/time when changeOccured is missing', () => {
+    const rows = mapChanges({ description: 'only text' } as ChangelogResource);
+    expect(rows[0]?.value).toBe('');
+    expect(rows[1]?.value).toBe('');
+    expect(rows[2]?.value).toBe('only text');
+  });
+
+  it('returns empty date/time when changeOccured is invalid', () => {
+    const rows = mapChanges({ changeOccured: 'not-a-date' } as unknown as ChangelogResource);
+    expect(rows[1]?.value).toBe('');
+  });
+
+  it('handles undefined changelog', () => {
+    const rows = mapChanges(undefined);
+    expect(rows.map((r) => r.value)).toEqual(['', '', '']);
   });
 });
+
