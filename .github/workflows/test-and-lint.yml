@@ -227,6 +227,13 @@ jobs:
         with:
           name: e2e-coverage
           path: results/e2e-coverage/
+      - name: Verify coverage files
+        run: |
+          echo "=== coverage/ ==="
+          ls -la coverage/ 2>/dev/null || echo "MISSING"
+          test -f coverage/lcov.info && wc -l coverage/lcov.info || echo "coverage/lcov.info MISSING"
+          echo "=== results/e2e-coverage/ ==="
+          ls -la results/e2e-coverage/ 2>/dev/null || echo "MISSING"
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@fd88b7d7ccbaefd23d8f36f73b59db7a3d246602 # v6.0.0
         env:
