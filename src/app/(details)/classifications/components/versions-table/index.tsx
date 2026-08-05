@@ -20,7 +20,9 @@ const VersionsTable = ({ content }: VersionsTableProps) => {
       <TableHead>
         <TableRow>
           {headers.map((header) => (
-            <TableHeaderCell key={header}>{header}</TableHeaderCell>
+            <TableHeaderCell scope='col' key={header}>
+              {header}
+            </TableHeaderCell>
           ))}
         </TableRow>
       </TableHead>
