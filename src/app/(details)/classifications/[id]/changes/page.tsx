@@ -11,5 +11,5 @@ export default function ChangesVersion() {
     return notFound();
   }
 
-  return <ChangesView />;
+  return <ChangesView version={versionResource} />;
 }

@@ -1,4 +1,5 @@
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from '@digdir/designsystemet-react';
+import { ClassificationVersionResource } from '@/libs/data-access/klass';
 import styles from './views.module.css';
 
 const content = [
@@ -8,7 +9,7 @@ const content = [
   ],
 ];
 
-export default function ChangesView() {
+export default function ChangesView({ version }: Readonly<{ version: ClassificationVersionResource }>) {
   // Work out from and to dates based on relevant versions
   // Get changes from endpoint e.g. http https://data.ssb.no/api/klass/v1/classifications/131/changes\?from\=2025-01-01
   // Shall we filter "identical" changes out?
@@ -17,7 +18,7 @@ export default function ChangesView() {
       <TableHead>
         <TableRow>
           <TableHeaderCell key='Version 1'>Version 1</TableHeaderCell>
-          <TableHeaderCell key='Version 2'>Version 2</TableHeaderCell>
+          <TableHeaderCell key={version.name}>{version.name}</TableHeaderCell>
         </TableRow>
       </TableHead>
       <TableBody>
