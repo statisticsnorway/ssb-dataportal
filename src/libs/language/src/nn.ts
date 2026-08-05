@@ -44,6 +44,8 @@ export const nn = {
       langNN: 'Nynorsk',
       levels: 'Nivå',
       number: 'Nummer',
+      noChanges: 'Ingen endringar',
+      notRelevant: 'Ikkje relevant',
       name: 'Namn',
       description: 'Skildring',
       changelog: 'Endringslogg',

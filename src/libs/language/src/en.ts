@@ -45,6 +45,8 @@ export const en = {
       publications: 'Publications',
       unitTypes: 'Unit types',
       levels: 'Levels',
+      noChanges: 'No changes',
+      notRelevant: 'Not relevant',
       number: 'Number',
       name: 'Name',
       description: 'Description',

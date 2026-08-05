@@ -1,0 +1,15 @@
+.card {
+  padding: 1rem;
+  min-width: 0;
+}
+
+.details {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.table {
+  margin: 0;
+}

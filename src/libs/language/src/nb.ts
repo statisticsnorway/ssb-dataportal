@@ -45,6 +45,8 @@ export const nb = {
       levels: 'Nivåer',
       number: 'Nummer',
       name: 'Navn',
+      notRelevant: 'Ikke relevant',
+      noChanges: 'Ingen endringer',
       description: 'Beskrivelse',
       changelog: 'Endringslogg',
       date: 'Dato',

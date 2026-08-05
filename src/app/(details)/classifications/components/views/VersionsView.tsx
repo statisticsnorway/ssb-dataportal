@@ -1,6 +1,6 @@
-import { VersionsTable } from '@/app/(details)/classifications/components/versions-table';
 import { mapVersions } from '@/app/(details)/classifications/utils/versions';
 import { ClassificationVersionSummaryResource } from '@/libs/data-access/klass';
+import { VersionsTable } from '../versions-table';
 import styles from './views.module.css';
 
 interface VersionsViewProps {

@@ -1,4 +1,4 @@
-import { ClassificationVersionResource, LevelResource } from '@/libs/data-access/klass/models';
+import { ChangelogResource, ClassificationVersionResource, LevelResource } from '@/libs/data-access/klass/models';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language/src/localization';
 import { Item } from '@/types/item';
@@ -54,5 +54,16 @@ export const mapLevels = (l: LevelResource | undefined): VersionItem[] => [
   {
     label: localization.classification.about.name,
     value: l?.levelName ?? '',
+  },
+];
+
+export const mapChanges = (c: ChangelogResource | undefined): VersionItem[] => [
+  {
+    label: localization.classification.about.date,
+    value: c?.changeOccured ? formatDate(c.changeOccured) : '',
+  },
+  {
+    label: localization.classification.about.comment,
+    value: c?.description ?? '',
   },
 ];
