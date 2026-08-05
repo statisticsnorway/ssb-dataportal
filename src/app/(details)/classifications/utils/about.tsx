@@ -23,6 +23,16 @@ const formatLanguages = (language: string) => {
   }
 };
 
+//const formatChangelogDate;
+//const formatchangeLogTime;
+// const formatCustodian; -> owningSection
+const formatCustodian = (classification: ClassificationVersionResource | undefined) => {
+  if (!classification) return '';
+  return classification.name + (classification.owningSection ? ' - ' + classification.owningSection : '') ?? classification.name ?? '';
+};
+// const formatEmail;
+// format link to publications?
+
 const addRow = (rows: Item[], label: string, value: string | undefined | null) => {
   const v = value?.trim();
   if (v) {
@@ -34,7 +44,7 @@ const addRow = (rows: Item[], label: string, value: string | undefined | null) =
 
 export const mapAboutItems = (c: ClassificationVersionResource, classification: ClassificationResource): Item[] => {
   const rows: Item[] = [];
-  addRow(rows, localization.classification.about.custodian, c.contactPerson?.name);
+  addRow(rows, localization.classification.about.custodian, formatCustodian(c));
   addRow(rows, localization.classification.about.mail, c.contactPerson?.email);
   addRow(
     rows,
