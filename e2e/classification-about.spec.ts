@@ -2,7 +2,7 @@ import { expect, test } from './fixtures/classification.fixture';
 import { classificationDetailsTabsData } from '@/app/(details)/classifications/[id]/tabs';
 import versionsMock from '@/static-data/versions.json';
 import { localization } from '@/libs/language';
-import { CODES_PREV_VERSION_URL, formatDate } from './utils/commonUtils';
+import { formatLocaleDate } from '@/utils/functions';
 import { formatLanguages } from '@/app/(details)/classifications/utils/about';
 
 const versions = versionsMock.versions;
@@ -35,7 +35,9 @@ test.describe('Current version about tab', () => {
     await expect(dl.locator('dd').getByText(currentVersion!.contactPerson!.email!, { exact: true })).toBeVisible();
 
     await expect(dl.getByText(localization.classification.about.validity, { exact: true })).toBeVisible();
-    await expect(dl.locator('dd').getByText(formatDate(currentVersion!.validFrom!), { exact: true })).toBeVisible();
+    await expect(
+      dl.locator('dd').getByText(formatLocaleDate(currentVersion!.validFrom!), { exact: true }),
+    ).toBeVisible();
 
     await expect(dl.getByText(localization.classification.about.publishedLanguages, { exact: true })).toBeVisible();
     await expect(

@@ -5,42 +5,8 @@ import { ChangelogResource, ClassificationVersionResource, LevelResource } from 
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language/src/localization';
 import { Item } from '@/types/item';
+import { formatLocaleDate } from '@/utils/functions';
 import { VersionItem } from '../components/versions-table';
-
-/**
- * Formats a date value to a Norwegian Bokmål locale date string (`nb-NO`).
- *
- * Returns an empty string when the input is missing or cannot be parsed as a valid date.
- *
- * @param date - A `Date` instance, date string, or `undefined`.
- * @returns The formatted date string, or an empty string if invalid/missing.
- */
-const formatDate = (date: Date | string | undefined) => {
-  if (!date) return '';
-  const parsedDate = date instanceof Date ? date : new Date(date);
-  return Number.isNaN(parsedDate.getTime()) ? '' : parsedDate.toLocaleDateString('nb-NO');
-};
-
-/**
- * Maps a language code to its localized display label used in the classification "about" section.
- *
- * Supports `en`, `nb`, and `nn`. If the code is unknown, the original value is returned.
- *
- * @param language - Language code from classification data (for example: `en`, `nb`, `nn`).
- * @returns A localized language label, or the original language code when no mapping exists.
- */
-export const formatLanguages = (language: string) => {
-  switch (language) {
-    case 'en':
-      return localization.classification.about.langEN;
-    case 'nb':
-      return localization.classification.about.langNB;
-    case 'nn':
-      return localization.classification.about.langNN;
-    default:
-      return language;
-  }
-};
 
 /**
  * Formats the changelog timestamp as a Norwegian Bokmål time string (`nb-NO`).
@@ -63,20 +29,6 @@ const formatChangelogDateTime = (changelog: ChangelogResource | undefined) => {
     second: '2-digit',
     hour12: false,
   });
-};
-
-/**
- * Format the custodian information (contact person and owning section) extracted from classification version
- * @param classificationVersion
- * @returns
- */
-export const formatCustodian = (classificationVersion: ClassificationVersionResource | undefined) => {
-  if (!classificationVersion) return '';
-
-  const name = classificationVersion.contactPerson?.name?.trim();
-  const section = classificationVersion.owningSection?.trim();
-
-  return [name, section].filter(Boolean).join(', ');
 };
 
 /**
@@ -112,6 +64,41 @@ const addRow = (rows: Item[], label: string, value: ReactNode | undefined | null
 };
 
 /**
+ * Format the custodian information (contact person and owning section) extracted from classification version
+ * @param classificationVersion
+ * @returns
+ */
+export const formatCustodian = (classificationVersion: ClassificationVersionResource | undefined) => {
+  if (!classificationVersion) return '';
+
+  const name = classificationVersion.contactPerson?.name?.trim();
+  const section = classificationVersion.owningSection?.trim();
+
+  return [name, section].filter(Boolean).join(', ');
+};
+
+/**
+ * Maps a language code to its localized display label used in the classification "about" section.
+ *
+ * Supports `en`, `nb`, and `nn`. If the code is unknown, the original value is returned.
+ *
+ * @param language - Language code from classification data (for example: `en`, `nb`, `nn`).
+ * @returns A localized language label, or the original language code when no mapping exists.
+ */
+export const formatLanguages = (language: string) => {
+  switch (language) {
+    case 'en':
+      return localization.classification.about.langEN;
+    case 'nb':
+      return localization.classification.about.langNB;
+    case 'nn':
+      return localization.classification.about.langNN;
+    default:
+      return language;
+  }
+};
+
+/**
  * ------------------------------
  * Version details
  * ------------------------------
@@ -136,7 +123,7 @@ export const mapAboutItems = (
   const rows: Item[] = [];
   addRow(rows, localization.classification.about.custodian, formatCustodian(version));
   addRow(rows, localization.classification.about.mail, <EmailLink email={version.contactPerson?.email!} />);
-  addRow(rows, localization.classification.about.validity, formatDate(version.validFrom));
+  addRow(rows, localization.classification.about.validity, formatLocaleDate(version.validFrom));
   addRow(
     rows,
     localization.classification.about.publishedLanguages,
@@ -195,7 +182,7 @@ export const mapLevels = (level: LevelResource | undefined): VersionItem[] => [
 export const mapChanges = (changelog: ChangelogResource | undefined): VersionItem[] => [
   {
     label: localization.classification.about.date,
-    value: changelog?.changeOccured ? formatDate(changelog.changeOccured) : '',
+    value: changelog?.changeOccured ? formatLocaleDate(changelog.changeOccured) : '',
   },
   {
     label: localization.classification.about.time,

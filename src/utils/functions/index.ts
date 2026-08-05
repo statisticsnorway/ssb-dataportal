@@ -15,6 +15,21 @@ export function areFieldsDefinedAndNonNull<T extends {}, U extends Array<keyof T
 }
 
 export const formatDate = (date?: Date) => date?.toISOString().split('T')[0] || '-';
+
+/**
+ * Formats a date value to a Norwegian Bokmål locale date string (`nb-NO`).
+ *
+ * Returns an empty string when the input is missing or cannot be parsed as a valid date.
+ *
+ * @param date - A `Date` instance, date string, or `undefined`.
+ * @returns The formatted date string, or an empty string if invalid/missing.
+ */
+export const formatLocaleDate = (date: Date | string | undefined) => {
+  if (!date) return '';
+  const parsedDate = date instanceof Date ? date : new Date(date);
+  return Number.isNaN(parsedDate.getTime()) ? '' : parsedDate.toLocaleDateString('nb-NO');
+};
+
 export const yesNo = (flag?: boolean) => (flag ? localization.yes : localization.no);
 export const nonEmpty = (items: Item[]) =>
   items.filter((i) => (Array.isArray(i.value) ? i.value.length > 0 : !!i.value));
