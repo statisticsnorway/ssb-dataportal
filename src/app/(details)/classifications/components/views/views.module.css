@@ -30,3 +30,22 @@
     --dsc-tabs-content-padding: var(--dsc-tabs-tab-padding);
   }
 }
+.table {
+  background-color: var(--element-background-color);
+  --dsc-table-padding: var(--ds-size-1) var(--ds-size-2);
+  word-break: break-all;
+  font-size: var(--ds-font-size-sm);
+}
+
+@media (min-width: 400px) {
+  .table {
+    font-size: var(--ds-font-size-md);
+    word-break: normal;
+  }
+}
+
+@media (min-width: 768px) {
+  .table {
+    --dsc-table-padding: var(--ds-size-2) var(--ds-size-3);
+  }
+}
