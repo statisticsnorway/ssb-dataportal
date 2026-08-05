@@ -9,10 +9,5 @@ export default function AboutVersion() {
     return null;
   }
 
-  return (
-    <AboutView
-      classification={versionResource}
-      classificationVersion={versionResource}
-    />
-  );
+  return <AboutView classification={versionResource} classificationVersion={versionResource} />;
 }

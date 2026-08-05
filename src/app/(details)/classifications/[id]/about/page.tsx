@@ -9,10 +9,5 @@ export default function About() {
     return null;
   }
 
-  return (
-    <AboutView
-      classification={classification}
-      classificationVersion={versionResource}
-    />
-  );
+  return <AboutView classification={classification} classificationVersion={versionResource} />;
 }

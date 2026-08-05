@@ -2,10 +2,7 @@
 import { Heading, Paragraph } from '@digdir/designsystemet-react';
 import { mapAboutItems, mapChanges, mapLevels } from '@/app/(details)/classifications/utils/about';
 import { DetailsTable } from '@/components/details-list';
-import {
-  ClassificationResource,
-  ClassificationVersionResource,
-} from '@/libs/data-access/klass/models';
+import { ClassificationResource, ClassificationVersionResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import { ExpandableTable } from '../expandable-table';
 import { VersionsTable } from '../versions-table';
