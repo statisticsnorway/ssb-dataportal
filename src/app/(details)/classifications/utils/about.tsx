@@ -7,12 +7,28 @@ import { localization } from '@/libs/language/src/localization';
 import { Item } from '@/types/item';
 import { VersionItem } from '../components/versions-table';
 
-const formatDate = (d: Date | string | undefined) => {
-  if (!d) return '';
-  const date = d instanceof Date ? d : new Date(d);
-  return Number.isNaN(date.getTime()) ? '' : date.toLocaleDateString('nb-NO');
+/**
+ * Formats a date value to a Norwegian Bokmål locale date string (`nb-NO`).
+ *
+ * Returns an empty string when the input is missing or cannot be parsed as a valid date.
+ *
+ * @param date - A `Date` instance, date string, or `undefined`.
+ * @returns The formatted date string, or an empty string if invalid/missing.
+ */
+const formatDate = (date: Date | string | undefined) => {
+  if (!date) return '';
+  const parsedDate = date instanceof Date ? date : new Date(date);
+  return Number.isNaN(parsedDate.getTime()) ? '' : parsedDate.toLocaleDateString('nb-NO');
 };
 
+/**
+ * Maps a language code to its localized display label used in the classification "about" section.
+ *
+ * Supports `en`, `nb`, and `nn`. If the code is unknown, the original value is returned.
+ *
+ * @param language - Language code from classification data (for example: `en`, `nb`, `nn`).
+ * @returns A localized language label, or the original language code when no mapping exists.
+ */
 const formatLanguages = (language: string) => {
   switch (language) {
     case 'en':
@@ -26,10 +42,19 @@ const formatLanguages = (language: string) => {
   }
 };
 
-const formatChangelogDateTime = (c: ChangelogResource | undefined) => {
-  if (!c?.changeOccured) return '';
+/**
+ * Formats the changelog timestamp as a Norwegian Bokmål time string (`nb-NO`).
+ *
+ * Uses 24-hour format with hours, minutes, and seconds (`HH:mm:ss`).
+ * Returns an empty string when `changeOccured` is missing or invalid.
+ *
+ * @param changelog - Changelog entry containing the `changeOccured` timestamp.
+ * @returns A localized time string, or an empty string if timestamp is missing/invalid.
+ */
+const formatChangelogDateTime = (changelog: ChangelogResource | undefined) => {
+  if (!changelog?.changeOccured) return '';
 
-  const date = c.changeOccured instanceof Date ? c.changeOccured : new Date(c.changeOccured);
+  const date = changelog.changeOccured instanceof Date ? changelog.changeOccured : new Date(changelog.changeOccured);
   if (Number.isNaN(date.getTime())) return '';
 
   return date.toLocaleTimeString('nb-NO', {
@@ -41,24 +66,27 @@ const formatChangelogDateTime = (c: ChangelogResource | undefined) => {
 };
 
 /**
- * Format the custodian information (contact person and owning section)
- * @param classification
+ * Format the custodian information (contact person and owning section) extracted from classification version
+ * @param classificationVersion
  * @returns
  */
-const formatCustodian = (classification: ClassificationVersionResource | undefined) => {
-  if (!classification) return '';
+const formatCustodian = (classificationVersion: ClassificationVersionResource | undefined) => {
+  if (!classificationVersion) return '';
 
-  const name = classification.contactPerson?.name?.trim();
-  const section = classification.owningSection?.trim();
+  const name = classificationVersion.contactPerson?.name?.trim();
+  const section = classificationVersion.owningSection?.trim();
 
   return [name, section].filter(Boolean).join(', ');
 };
 
-const formatValidity = (validFrom: Date | string | undefined) => {
-  if (!validFrom) return '';
-  return `${formatDate(validFrom)}`;
-};
-
+/**
+ * Determines whether a React node contains a value that should be rendered.
+ *
+ * Treats `null`, `undefined`, `false`, empty strings, and arrays containing only non-displayable values as not displayable.
+ *
+ * @param value - The React node to evaluate.
+ * @returns `true` if the value should be displayed; otherwise `false`.
+ */
 const hasDisplayValue = (value: ReactNode | undefined | null): boolean => {
   if (value === null || value === undefined || value === false) return false;
   if (typeof value === 'string') return value.trim() !== '';
@@ -66,6 +94,16 @@ const hasDisplayValue = (value: ReactNode | undefined | null): boolean => {
   return true;
 };
 
+/**
+ * Adds a labeled row to the output list for the "about" section.
+ *
+ * If `value` is not displayable (for example `null`, `undefined`, `false`, or an empty string),
+ * the localized fallback text for "not relevant" is used instead.
+ *
+ * @param rows - Mutable list of rows to append to.
+ * @param label - Row label shown in the UI.
+ * @param value - Row value to render.
+ */
 const addRow = (rows: Item[], label: string, value: ReactNode | undefined | null) => {
   rows.push({
     label,
@@ -73,15 +111,40 @@ const addRow = (rows: Item[], label: string, value: ReactNode | undefined | null
   });
 };
 
-export const mapAboutItems = (c: ClassificationVersionResource, classification: ClassificationResource): Item[] => {
+/**
+ * ------------------------------
+ * Version details
+ * ------------------------------
+ */
+
+/**
+ * Builds the list of version details for a classification version.
+ *
+ * Each row contains a label and a formatted value
+ *
+ * Missing or non-displayable values are handled by `addRow`, which inserts
+ * the localized fallback text for "not relevant".
+ *
+ * @param version - Classification version source data.
+ * @param classification - Classification source data containing statistical units.
+ * @returns Ordered rows for rendering in the "about" section.
+ */
+export const mapAboutItems = (
+  version: ClassificationVersionResource,
+  classification: ClassificationResource,
+): Item[] => {
   const rows: Item[] = [];
-  addRow(rows, localization.classification.about.custodian, formatCustodian(c));
-  addRow(rows, localization.classification.about.mail, <EmailLink email={c.contactPerson?.email!} />);
-  addRow(rows, localization.classification.about.validity, formatValidity(c.validFrom));
-  addRow(rows, localization.classification.about.publishedLanguages, c.published?.map(formatLanguages).join(', '));
-  addRow(rows, localization.classification.about.basedOn, c.derivedFrom);
-  addRow(rows, localization.classification.about.legalBasis, c.legalBase);
-  addRow(rows, localization.classification.about.publications, c.publications);
+  addRow(rows, localization.classification.about.custodian, formatCustodian(version));
+  addRow(rows, localization.classification.about.mail, <EmailLink email={version.contactPerson?.email!} />);
+  addRow(rows, localization.classification.about.validity, formatDate(version.validFrom));
+  addRow(
+    rows,
+    localization.classification.about.publishedLanguages,
+    version.published?.map(formatLanguages).join(', '),
+  );
+  addRow(rows, localization.classification.about.basedOn, version.derivedFrom);
+  addRow(rows, localization.classification.about.legalBasis, version.legalBase);
+  addRow(rows, localization.classification.about.publications, version.publications);
   addRow(
     rows,
     localization.classification.about.unitTypes,
@@ -91,28 +154,55 @@ export const mapAboutItems = (c: ClassificationVersionResource, classification: 
   return rows;
 };
 
-export const mapLevels = (l: LevelResource | undefined): VersionItem[] => [
+/**
+ * ------------------------------
+ * Level details
+ * ------------------------------
+ */
+
+/**
+ * Maps level data to rows for the level details table.
+ *
+ * Creates rows for level number and level name. If `level` is missing,
+ * row values default to empty strings.
+ *
+ * @param level - Level source data.
+ * @returns Rows for rendering level details.
+ */
+export const mapLevels = (level: LevelResource | undefined): VersionItem[] => [
   {
     label: localization.classification.about.number,
-    value: l?.levelNumber?.toString() ?? '',
+    value: level?.levelNumber?.toString() ?? '',
   },
   {
     label: localization.classification.about.name,
-    value: l?.levelName ?? '',
+    value: level?.levelName ?? '',
   },
 ];
 
-export const mapChanges = (c: ChangelogResource | undefined): VersionItem[] => [
+/**
+ * ------------------------------
+ * Changelog details
+ * ------------------------------
+ */
+
+/**
+ * Maps changelog data to rows for the changelog details table.
+ *
+ * @param changelog - Changelog entry containing timestamp and description.
+ * @returns Rows for rendering changelog details.
+ */
+export const mapChanges = (changelog: ChangelogResource | undefined): VersionItem[] => [
   {
     label: localization.classification.about.date,
-    value: c?.changeOccured ? formatDate(c.changeOccured) : '',
+    value: changelog?.changeOccured ? formatDate(changelog.changeOccured) : '',
   },
   {
     label: localization.classification.about.time,
-    value: c?.changeOccured ? formatChangelogDateTime(c) : '',
+    value: changelog?.changeOccured ? formatChangelogDateTime(changelog) : '',
   },
   {
     label: localization.classification.about.comment,
-    value: c?.description ?? '',
+    value: changelog?.description ?? '',
   },
 ];
