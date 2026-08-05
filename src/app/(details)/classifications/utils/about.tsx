@@ -4,9 +4,8 @@ import { EmailLink } from '@/components/link-components/emailLink';
 import { ChangelogResource, ClassificationVersionResource, LevelResource } from '@/libs/data-access/klass/models';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language/src/localization';
-import { Item } from '@/types/item';
+import { Item, VersionItem } from '@/types/item';
 import { formatCustodian, formatLanguages, formatLocaleDate } from '@/utils/functions';
-import { VersionItem } from '../components/classification-version-table';
 
 /**
  * Formats the changelog timestamp as a Norwegian Bokmål time string (`nb-NO`).
