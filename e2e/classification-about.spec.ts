@@ -3,7 +3,8 @@ import versionsMock from '@/static-data/versions.json';
 import { localization } from '@/libs/language';
 import { formatCustodian, formatLanguages, formatLocaleDate } from '@/utils/functions';
 import { parseVersion } from '@/utils/mock-data';
-import test, { expect, Page } from '@playwright/test';
+import { Page } from '@playwright/test';
+import { test, expect } from '@bgotink/playwright-coverage';
 
 const versions = versionsMock.versions;
 const currentVersion = versions![0];

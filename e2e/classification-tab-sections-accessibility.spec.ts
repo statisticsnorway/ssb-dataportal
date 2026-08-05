@@ -1,5 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
-import test, { expect } from '@playwright/test';
+import { test, expect } from '@bgotink/playwright-coverage';
 
 test.beforeEach(({}, testInfo) => {
   test.skip(testInfo.project.name === 'chrome-unauth');
