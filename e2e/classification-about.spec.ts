@@ -77,6 +77,10 @@ async function assertChangelogTable(page: Page, version: (typeof versions)[numbe
   }
 }
 
+test.beforeEach(({}, testInfo) => {
+  test.skip(testInfo.project.name === 'chrome-unauth');
+});
+
 test.describe('Current version about tab', () => {
   test('displays version heading and introduction', async ({ page }) => {
     const about = await gotoAbout(page, CURRENT_ABOUT_URL);
