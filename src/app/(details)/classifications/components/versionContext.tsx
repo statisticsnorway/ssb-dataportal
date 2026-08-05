@@ -8,7 +8,7 @@ import {
 } from '@/libs/data-access/klass';
 
 export type ResolvedVersion = NonNullable<ClassificationResource['versions']>[number];
-// Test and document
+
 type BaseVersionContextType = {
   classification: ClassificationResource;
   versionSummary: ClassificationVersionSummaryResource;
