@@ -23,6 +23,13 @@ export default defineConfig({
         },
         /* Configure the reports to generate.
            The value is an array of istanbul reports, with optional configuration attached. */
+        exclude: [
+          'src/**/utils/**',
+          'src/**/*.spec.{ts,tsx}',
+          'src/libs/data-access/**',
+          'src/static-data/**',
+          'node_modules/**',
+        ],
         reports: [
           /* Create <resultDir>/coverage.lcov for consumption by tooling */
           [
