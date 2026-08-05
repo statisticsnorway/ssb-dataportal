@@ -136,4 +136,3 @@ describe('mapChanges', () => {
     expect(rows.map((r) => r.value)).toEqual(['', '', '']);
   });
 });
-
