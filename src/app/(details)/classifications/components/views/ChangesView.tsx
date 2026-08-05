@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from '@digdir/designsystemet-react';
+import { Alert, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from '@digdir/designsystemet-react';
 import { useEffect, useState } from 'react';
 import { fetchChanges } from '@/libs/data/classifications/codesData';
 import {
@@ -31,7 +31,11 @@ export default function ChangesView({
     previousVersion.validFrom === undefined ||
     classification.id === undefined
   )
-    return <p>No changes related to this version</p>;
+    return (
+      <Alert data-color={'info'} role='status'>
+        {localization.versions.noChanges}
+      </Alert>
+    );
 
   const startDate: Date = getDayBeforeDate(previousVersion.validFrom);
   const classificationId: number = classification.id;
