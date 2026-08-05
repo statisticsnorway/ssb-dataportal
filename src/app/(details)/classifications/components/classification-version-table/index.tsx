@@ -1,16 +1,11 @@
 'use client';
 
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from '@digdir/designsystemet-react';
-import { ReactNode } from 'react';
+import { VersionItem } from '@/types/item';
 import styles from './classificationVersionTable.module.css';
 
 interface ClassificationVersionTableProps {
   content: VersionItem[][];
-}
-
-export interface VersionItem {
-  label: string;
-  value?: ReactNode | string | number | boolean | null | Date;
 }
 
 const ClassificationVersionTable = ({ content }: ClassificationVersionTableProps) => {
