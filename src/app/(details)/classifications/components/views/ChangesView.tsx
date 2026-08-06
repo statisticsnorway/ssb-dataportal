@@ -96,12 +96,13 @@ export default function ChangesView({
         <TableRow>
           <TableHeaderCell
             colSpan={2}
+            scope='col'
             className={`${styles.tableHeader} ${styles.tableCentralDivider}`}
             key={previousVersion.name}
           >
             {previousVersion.name}
           </TableHeaderCell>
-          <TableHeaderCell colSpan={2} className={styles.tableHeader} key={version.name}>
+          <TableHeaderCell colSpan={2} scope='col' className={styles.tableHeader} key={version.name}>
             {version.name}
           </TableHeaderCell>
         </TableRow>
