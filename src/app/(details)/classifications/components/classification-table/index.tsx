@@ -11,7 +11,7 @@ import {
 } from '@digdir/designsystemet-react';
 import { useState } from 'react';
 import { VersionItem } from '@/types/item';
-import styles from './classificationVersionTable.module.css';
+import styles from './classificationTable.module.css';
 
 interface ClassificationTableProps {
   content: VersionItem[][];
@@ -104,4 +104,4 @@ const ClassificationTable = ({ content, sortableField }: ClassificationTableProp
   );
 };
 
-export { ClassificationTable as ClassificationVersionTable };
+export { ClassificationTable };

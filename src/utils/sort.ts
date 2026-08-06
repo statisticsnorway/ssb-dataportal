@@ -28,4 +28,3 @@ const toTimestamp = (value?: Date | string) => {
 export const sortDatesDescendingSafe = (a?: Date | string, b?: Date | string) => {
   return toTimestamp(b) - toTimestamp(a);
 };
-

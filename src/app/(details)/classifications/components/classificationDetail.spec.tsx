@@ -25,9 +25,9 @@ vi.mock('next/navigation', () => ({
   useParams: () => ({}),
 }));
 
-vi.mock('@/app/(details)/classifications/components/classification-version-table', () => ({
-  ClassificationVersionTable: ({ content }: { content: unknown[] }) => (
-    <div data-testid='classification-version-table'>rows: {content.length}</div>
+vi.mock('@/app/(details)/classifications/components/classification-table', () => ({
+  ClassificationTable: ({ content }: { content: unknown[] }) => (
+    <div data-testid='classification-table'>rows: {content.length}</div>
   ),
 }));
 
@@ -48,7 +48,7 @@ describe('Classification details page', () => {
         {null}
       </ClassificationDetail>,
     );
-    expect(screen.getByTestId('classification-version-table')).toBeDefined();
+    expect(screen.getByTestId('classification-table')).toBeDefined();
   });
 
   it('passes correct number of rows to ClassificationVersionTable', () => {
@@ -58,7 +58,7 @@ describe('Classification details page', () => {
       </ClassificationDetail>,
     );
     const expected = classification.versions?.length ?? 0;
-    expect(screen.getByTestId('classification-version-table').textContent).toBe(`rows: ${expected}`);
+    expect(screen.getByTestId('classification-table').textContent).toBe(`rows: ${expected}`);
   });
 
   it('renders the classification name as the primary heading', () => {
@@ -138,6 +138,6 @@ describe('Classification details page', () => {
         {null}
       </ClassificationDetail>,
     );
-    expect(screen.getByTestId('classification-version-table').textContent).toBe('rows: 0');
+    expect(screen.getByTestId('classification-table').textContent).toBe('rows: 0');
   });
 });
