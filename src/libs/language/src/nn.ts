@@ -414,5 +414,6 @@ export const nn = {
       validFrom: 'Gyldig frå og med',
       isNotCurrent: 'Dette er ikkje dagens versjon av klassifikasjonen',
     },
+    noChanges: 'Ingen endringar finst for den aktuelle versjonen.',
   },
 } satisfies Translation;

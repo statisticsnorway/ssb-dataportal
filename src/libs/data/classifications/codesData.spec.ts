@@ -1,8 +1,9 @@
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { CodesApi } from '@/libs/data-access/klass';
 import { VersionsApi } from '@/libs/data-access/klass/apis/VersionsApi';
 import { ResponseError } from '@/libs/data-access/klass/runtime';
 import codesMock from '@/static-data/codes-mock.json';
-import { fetchVersionCodes } from './codesData';
+import { fetchChanges, fetchVersionCodes } from './codesData';
 
 vi.mock('server-only', () => ({}));
 
@@ -75,5 +76,29 @@ describe('fetchVersionCodes', () => {
     vi.spyOn(VersionsApi.prototype, 'versions').mockRejectedValue(new Error('Network failure'));
 
     await expect(fetchVersionCodes(1)).rejects.toThrow('Network failure');
+  });
+});
+
+describe('fetchChanges', () => {
+  it('returns static mock data when KLASS_USE_STATIC_DATA is true', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
+
+    const result = await fetchChanges(646, new Date(), undefined);
+
+    expect(result[0]?.newName).toEqual('Belarus');
+  });
+  it('returns empty array for an unknown version id in static mode', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
+
+    const result = await fetchChanges(9999, new Date(), undefined);
+
+    expect(result).toEqual([]);
+  });
+  it('logs and rethrows an unexpected non-response error', async () => {
+    process.env.KLASS_USE_STATIC_DATA = 'false';
+
+    vi.spyOn(CodesApi.prototype, 'changes').mockRejectedValue(new Error('Network failure'));
+
+    await expect(fetchChanges(646, new Date(), undefined)).rejects.toThrow('Network failure');
   });
 });
