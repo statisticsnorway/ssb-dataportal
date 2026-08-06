@@ -34,34 +34,34 @@ test.describe('language picker', () => {
     await page.goto('/');
 
     await page.getByRole('button', { name: LANGUAGE_LABEL }).click();
-    await page.getByRole('button', { name: nb.language.nn }).click();
+    await page.getByRole('button', { name: NB_LABEL }).click();
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
-    await expect(page.getByRole('button', { name: nn.language.label })).toBeVisible();
+    await expect(page.getByRole('button', { name: NN_LABEL })).toBeVisible();
 
     const languageCookie = (await context.cookies()).find((cookie) => cookie.name === languageCookieName);
     expect(languageCookie?.value).toBe('nn');
 
     await page.reload();
     await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
-    await expect(page.getByRole('button', { name: nn.language.label })).toBeVisible();
+    await expect(page.getByRole('button', { name: NN_LABEL })).toBeVisible();
   });
 
   test('can switch to English and keeps preference after reload', async ({ context, page }) => {
     await page.goto('/');
 
     await page.getByRole('button', { name: LANGUAGE_LABEL }).click();
-    await page.getByRole('button', { name: nb.language.en }).click();
+    await page.getByRole('button', { name: NB_LABEL }).click();
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page.getByRole('button', { name: en.language.label })).toBeVisible();
+    await expect(page.getByRole('button', { name: EN_LABEL })).toBeVisible();
 
     const languageCookie = (await context.cookies()).find((cookie) => cookie.name === languageCookieName);
     expect(languageCookie?.value).toBe('en');
 
     await page.reload();
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page.getByRole('button', { name: en.language.label })).toBeVisible();
+    await expect(page.getByRole('button', { name: EN_LABEL })).toBeVisible();
   });
 });
 
@@ -84,7 +84,7 @@ test.describe('automatic locale mapping', () => {
     const { context, page } = await openPageWithLocale(browser, 'nn-NO');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
-    await expect(page.getByRole('button', { name: nn.language.label })).toBeVisible();
+    await expect(page.getByRole('button', { name: NN_LABEL })).toBeVisible();
 
     await context.close();
   });
@@ -111,7 +111,7 @@ test.describe('automatic locale mapping', () => {
     const { context, page } = await openPageWithLocale(browser, 'de-DE');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page.getByRole('button', { name: en.language.label })).toBeVisible();
+    await expect(page.getByRole('button', { name: EN_LABEL })).toBeVisible();
 
     await context.close();
   });
