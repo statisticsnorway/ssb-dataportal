@@ -122,3 +122,29 @@ test.describe('All versions table on classification page', () => {
     await expect(page).toHaveURL(CODES_PREV_VERSION_URL_CODES);
   });
 });
+
+test('sorts versions by "valid from" when clicking the column header', async ({ classificationDetailsPage }) => {
+  const classification = parseClassification(classifications[0]);
+  const page = await classificationDetailsPage(classification.id!);
+  await page.getByText(localization.classificationDetails.versions).click();
+  const currentVersion = classification.versions![0];
+  const olderVersion = classification.versions![1];
+  const validFromHeader = page.getByRole('columnheader', { name: localization.versions.validFrom });
+  const rows = page.getByRole('table').getByRole('row');
+
+  // Default order (unsorted): current version first, older version second
+  await expect(rows.nth(1)).toContainText(currentVersion!.name!);
+  await expect(rows.nth(2)).toContainText(olderVersion!.name!);
+
+  // Ascending → older version should come first
+  await validFromHeader.click();
+  await expect(validFromHeader).toHaveAttribute('aria-sort', 'ascending');
+  await expect(rows.nth(1)).toContainText(olderVersion!.name!);
+  await expect(rows.nth(2)).toContainText(currentVersion!.name!);
+
+  // Descending → current version should come first
+  await validFromHeader.click();
+  await expect(validFromHeader).toHaveAttribute('aria-sort', 'descending');
+  await expect(rows.nth(1)).toContainText(currentVersion!.name!);
+  await expect(rows.nth(2)).toContainText(olderVersion!.name!);
+});
