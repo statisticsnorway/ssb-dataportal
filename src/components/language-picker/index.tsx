@@ -5,6 +5,7 @@ import { GlobeIcon } from '@navikt/aksel-icons';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { languageCookieName, localization, type SupportedLanguage, setPreferenceCookie } from '@/libs/language';
+import styles from './language-picker.module.css';
 
 // These remain the same across language changes so no need to localize
 export const LANGUAGE_LABEL = 'Language/Språk';
@@ -25,20 +26,32 @@ const LanguagePicker = () => {
 
   return (
     <Dropdown.TriggerContext>
-      <Dropdown.Trigger variant='secondary' onClick={() => setLangOpen(!langOpen)}>
+      <Dropdown.Trigger variant='secondary'>
         <GlobeIcon aria-hidden />
         <span>{LANGUAGE_LABEL}</span>
       </Dropdown.Trigger>
-      <Dropdown open={langOpen} onClose={() => setLangOpen(false)}>
-        <Dropdown.List>
-          <Dropdown.Item>
-            <Dropdown.Button onClick={() => onLanguageChange('nb')}>{NB_LABEL}</Dropdown.Button>
+      <Dropdown
+        className={styles.dropdown}
+        placement='bottom-end'
+        open={langOpen}
+        onOpen={() => setLangOpen(true)}
+        onClose={() => setLangOpen(false)}
+      >
+        <Dropdown.List className={styles.dropdownList}>
+          <Dropdown.Item className={styles.dropdownItem}>
+            <Dropdown.Button className={styles.dropdownButton} onClick={() => onLanguageChange('nb')}>
+              {NB_LABEL}
+            </Dropdown.Button>
           </Dropdown.Item>
-          <Dropdown.Item>
-            <Dropdown.Button onClick={() => onLanguageChange('nn')}>{NN_LABEL}</Dropdown.Button>
+          <Dropdown.Item className={styles.dropdownItem}>
+            <Dropdown.Button className={styles.dropdownButton} onClick={() => onLanguageChange('nn')}>
+              {NN_LABEL}
+            </Dropdown.Button>
           </Dropdown.Item>
-          <Dropdown.Item>
-            <Dropdown.Button onClick={() => onLanguageChange('en')}>{EN_LABEL}</Dropdown.Button>
+          <Dropdown.Item className={styles.dropdownItem}>
+            <Dropdown.Button className={styles.dropdownButton} onClick={() => onLanguageChange('en')}>
+              {EN_LABEL}
+            </Dropdown.Button>
           </Dropdown.Item>
         </Dropdown.List>
       </Dropdown>
