@@ -66,7 +66,8 @@ const ClassificationTable = ({ content, sortableField }: ClassificationTableProp
           const a = rowA[sortableIndex]?.value;
           const b = rowB[sortableIndex]?.value;
           if (a === undefined || b === undefined) return 0;
-          return sortDirection === 'ascending' ? compare(a, b) : compare(b, a);
+          const result = compare(a, b);
+          return sortDirection === 'ascending' ? result : -result;
         })
       : content;
 
