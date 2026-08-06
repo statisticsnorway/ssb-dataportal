@@ -3,7 +3,7 @@ import { mapChanges, mapDetailsItems, mapLevels } from '@/app/(details)/classifi
 import { DetailsTable } from '@/components/details-list';
 import { ClassificationResource, ClassificationVersionResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
-import { ClassificationVersionTable } from '../classification-version-table';
+import { ClassificationVersionTable } from '../classification-table';
 import { ExpandableTable } from '../expandable-table';
 import styles from './views.module.css';
 

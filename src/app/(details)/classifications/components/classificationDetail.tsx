@@ -9,7 +9,7 @@ import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { mapVersions } from '../utils/versions';
 import styles from './classification-page.module.css';
-import { ClassificationVersionTable } from './classification-version-table';
+import { ClassificationVersionTable } from './classification-table';
 import { ExpandableTable } from './expandable-table';
 import { VersionView } from './views/VersionView';
 
@@ -47,6 +47,7 @@ export default function ClassificationDetail({
           title={localization.classificationDetails.versions}
           table={
             <ClassificationVersionTable
+              sortableField={localization.versions.validFrom}
               content={(classification.versions ?? []).map((v) => mapVersions(v, classification.id))}
             />
           }
