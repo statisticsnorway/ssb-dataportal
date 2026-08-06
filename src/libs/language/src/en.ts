@@ -33,7 +33,7 @@ export const en = {
 
   classification: {
     about: {
-      custodian: 'Custodian',
+      custodian: 'Maintainer',
       mail: 'Mail',
       validity: 'Valid from',
       publishedLanguages: 'Published languages',
