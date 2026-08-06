@@ -1,10 +1,7 @@
 import { expect, test } from '@bgotink/playwright-coverage';
 import { Browser } from '@playwright/test';
-import { en } from '@/libs/language/src/en';
 import { languageCookieName } from '@/libs/language/src/localization';
-import { nb } from '@/libs/language/src/nb';
-import { nn } from '@/libs/language/src/nn';
-import { EN_LABEL, LANGUAGE_LABEL, NB_LABEL, NN_LABEL } from '@/components/language-picker';
+import { EN_LABEL, LANGUAGE_LABEL, NB_LABEL, NN_LABEL } from '@/components/language-picker/constants';
 
 test.describe('language picker', () => {
   test.use({
