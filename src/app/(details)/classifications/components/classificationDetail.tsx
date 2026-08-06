@@ -4,6 +4,7 @@ import { Divider, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { SubscribeDialog } from '@/app/(details)/classifications/components/subscribe';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
+import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import styles from './classification-page.module.css';
@@ -11,9 +12,14 @@ import { VersionView } from './views/VersionView';
 
 interface ClassificationDetailProps {
   classification: ClassificationResource;
+  classificationVersion?: ClassificationVersionResource | null;
   children: React.ReactNode;
 }
-export default function ClassificationDetail({ classification, children }: Readonly<ClassificationDetailProps>) {
+export default function ClassificationDetail({
+  classification,
+  classificationVersion,
+  children,
+}: Readonly<ClassificationDetailProps>) {
   return (
     <div className={`${styles.detailsPage} container`}>
       <DataportalBreadcrumbs
@@ -35,7 +41,9 @@ export default function ClassificationDetail({ classification, children }: Reado
         )}
         <SubscribeDialog classificationId={classification.id} />
         <Divider />
-        <VersionView classification={classification}>{children}</VersionView>
+        <VersionView classification={classification} classificationVersion={classificationVersion}>
+          {children}
+        </VersionView>
       </main>
     </div>
   );

@@ -4,7 +4,7 @@ import { Item } from '@/types/item';
 import styles from './detailsList.module.css';
 
 interface DetailsListProps {
-  title: string;
+  title?: string;
   content: Item[];
   popoverContent?: string;
 }
@@ -16,14 +16,16 @@ const DetailsList = ({ title, content, popoverContent }: DetailsListProps) => {
 
   return (
     <Card className={styles.tableContainer}>
-      <Heading
-        level={2}
-        className={`${styles.detailsHeading} infoHeadingSecondary`}
-        data-size='md'
-        id={`tableHeading-${title}`}
-      >
-        {title}
-      </Heading>
+      {title && (
+        <Heading
+          level={2}
+          className={`${styles.detailsHeading} infoHeadingSecondary`}
+          data-size='md'
+          id={`tableHeading-${title}`}
+        >
+          {title}
+        </Heading>
+      )}
       {content.map((row, index) => (
         <dl key={getRowKey(row, index)} className={styles.row}>
           {row.popover ? (

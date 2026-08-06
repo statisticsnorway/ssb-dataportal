@@ -1,6 +1,6 @@
-import { VersionsTable } from '@/app/(details)/classifications/components/versions-table';
 import { mapVersions } from '@/app/(details)/classifications/utils/versions';
 import { ClassificationVersionSummaryResource } from '@/libs/data-access/klass';
+import { ClassificationVersionTable } from '../classification-version-table';
 import styles from './views.module.css';
 
 interface VersionsViewProps {
@@ -11,7 +11,7 @@ interface VersionsViewProps {
 export default function VersionsView({ versions, classificationId }: Readonly<VersionsViewProps>) {
   return (
     <div className={styles.versionsWrapper}>
-      <VersionsTable content={versions.map((v) => mapVersions(v, classificationId))} />
+      <ClassificationVersionTable content={versions.map((v) => mapVersions(v, classificationId))} />
     </div>
   );
 }

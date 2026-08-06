@@ -2,7 +2,7 @@ import { localization } from '@/libs/language';
 
 enum Tabs {
   Codes,
-  About,
+  Details,
   Changes,
   Versions,
   Correspondences,
@@ -19,12 +19,12 @@ export const classificationDetailsTabsData: Record<keyof typeof Tabs, Classifica
     id: 'codesTab',
     slug: 'codes',
   },
-  About: {
+  Details: {
     get label() {
-      return localization.classificationDetails.about;
+      return localization.classificationDetails.details;
     },
-    id: 'aboutTab',
-    slug: 'about',
+    id: 'detailsTab',
+    slug: 'details',
   },
   Changes: {
     get label() {

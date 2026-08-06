@@ -101,7 +101,9 @@ export default async function ClassificationLayout({
 
   return (
     <VersionResourceLayer versionResource={latestVersionResource ?? undefined}>
-      <ClassificationDetail classification={classification}>{children}</ClassificationDetail>
+      <ClassificationDetail classification={classification} classificationVersion={latestVersionResource}>
+        {children}
+      </ClassificationDetail>
     </VersionResourceLayer>
   );
 }

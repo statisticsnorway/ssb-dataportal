@@ -227,6 +227,14 @@ jobs:
         with:
           name: e2e-coverage
           path: results/e2e-coverage/
+      - name: Verify coverage files
+        run: |
+          echo "=== about.tsx summary in UNIT lcov ==="
+          awk '/^SF:.*classifications\/utils\/about\.tsx$/,/^end_of_record$/' coverage/lcov.info \
+            | grep -E "^(SF|LF|LH|BRF|BRH):" || true
+          echo "=== about.tsx summary in E2E lcov ==="
+          awk '/^SF:.*classifications\/utils\/about\.tsx$/,/^end_of_record$/' results/e2e-coverage/coverage.lcov \
+            | grep -E "^(SF|LF|LH|BRF|BRH):" || true
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@fd88b7d7ccbaefd23d8f36f73b59db7a3d246602 # v6.0.0
         env:

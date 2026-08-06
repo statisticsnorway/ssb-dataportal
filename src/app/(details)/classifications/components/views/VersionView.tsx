@@ -1,8 +1,9 @@
 'use client';
 
-import { Alert, Heading, Tabs, Tag } from '@digdir/designsystemet-react';
+import { Alert, Heading, Paragraph, Tabs, Tag } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
+import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
 import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from '../../[id]/tabs';
 import { ResolvedVersion, VersionProvider } from '../versionContext';
@@ -10,6 +11,7 @@ import styles from './views.module.css';
 
 interface VersionViewProps {
   classification: ClassificationResource;
+  classificationVersion?: ClassificationVersionResource | null;
   children: React.ReactNode;
 }
 
@@ -37,7 +39,7 @@ function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): 
   return { version: latest, isLatest: true };
 }
 
-export function VersionView({ classification, children }: Readonly<VersionViewProps>) {
+export function VersionView({ classification, classificationVersion, children }: Readonly<VersionViewProps>) {
   const pathname = usePathname();
   const router = useRouter();
   const activeTab = getClassificationDetailsTabForRoute(pathname) ?? classificationDetailsTabsData.Codes;
@@ -77,6 +79,7 @@ export function VersionView({ classification, children }: Readonly<VersionViewPr
         {resolved.version.name ?? '—'}
       </Heading>
       {resolved?.isLatest && versionTag}
+      <Paragraph>{classificationVersion?.introduction ?? '—'}</Paragraph>
       <Tabs
         value={activeTab.id}
         onChange={(value) => {

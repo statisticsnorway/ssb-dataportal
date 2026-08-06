@@ -11,7 +11,7 @@ const supportedLanguages = ['nb', 'nn', 'en'] as const;
 
 export type SupportedLanguage = (typeof supportedLanguages)[number];
 
-const isSupportedLanguage = (value: string): value is SupportedLanguage => {
+export const isSupportedLanguage = (value: string): value is SupportedLanguage => {
   return supportedLanguages.includes(value as SupportedLanguage);
 };
 
