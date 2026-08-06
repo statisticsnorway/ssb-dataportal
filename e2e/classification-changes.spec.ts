@@ -26,8 +26,8 @@ test('changes tab renders base case with static data', async ({ classificationDe
 test('changes tab shows no data rows when no changes are found', async ({ classificationDetailsPage }) => {
   const page = await openChangesTab(classificationDetailsPage, NO_CHANGES_CLASSIFICATION_ID);
 
-  await expect(page.getByRole('table')).toBeVisible();
-  await expect(page.locator('tbody tr')).toHaveCount(0);
+  await expect(page.getByText(localization.versions.noChanges)).toBeVisible();
+  await expect(page.getByRole('table')).not.toBeVisible();
 });
 
 test('changes tab groups rows by new code', async ({ classificationDetailsPage }) => {

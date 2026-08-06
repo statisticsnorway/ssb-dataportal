@@ -86,7 +86,11 @@ export default function ChangesView({
     getChanges();
   }, []);
 
-  return (
+  return groupedChanges.length < 1 ? (
+    <Alert data-color={'info'} role='status'>
+      {localization.versions.noChanges}
+    </Alert>
+  ) : (
     <Table border={true} zebra={false} hover={false} stickyHeader={true} className={styles.table}>
       <TableHead>
         <TableRow>
