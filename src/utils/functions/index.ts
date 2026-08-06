@@ -1,6 +1,7 @@
 import { Assessment, DatasetState } from '@/libs/data-access/datadoc/models';
+import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { KlassReference, VariableStatus } from '@/libs/data-access/variable-definitions/internal';
-import { localization } from '@/libs/language';
+import { localization, SupportedLanguage } from '@/libs/language';
 import { FilterItem } from '@/types/filters';
 import { Item } from '@/types/item';
 
@@ -15,6 +16,21 @@ export function areFieldsDefinedAndNonNull<T extends {}, U extends Array<keyof T
 }
 
 export const formatDate = (date?: Date) => date?.toISOString().split('T')[0] || '-';
+
+/**
+ * Formats a date value to a Norwegian Bokmål locale date string (`nb-NO`).
+ *
+ * Returns an empty string when the input is missing or cannot be parsed as a valid date.
+ *
+ * @param date - A `Date` instance, date string, or `undefined`.
+ * @returns The formatted date string, or an empty string if invalid/missing.
+ */
+export const formatLocaleDate = (date: Date | string | undefined) => {
+  if (!date) return '';
+  const parsedDate = date instanceof Date ? date : new Date(date);
+  return Number.isNaN(parsedDate.getTime()) ? '' : parsedDate.toLocaleDateString('nb-NO');
+};
+
 export const yesNo = (flag?: boolean) => (flag ? localization.yes : localization.no);
 export const nonEmpty = (items: Item[]) =>
   items.filter((i) => (Array.isArray(i.value) ? i.value.length > 0 : !!i.value));
@@ -135,3 +151,38 @@ export const getLabelWithParent = (klassReference: KlassReference, filterList: F
 export function assertUnreachable(x: never): never {
   throw new Error('The impossible has happened.');
 }
+
+/**
+ * Maps a language code to its localized display label.
+ *
+ * Supports `en`, `nb`, and `nn`. If the code is unknown, the original value is returned.
+ *
+ * @param language - Language code from classification data (for example: `en`, `nb`, `nn`).
+ * @returns A localized language label, or the original language code when no mapping exists.
+ */
+export const formatLanguages = (language: SupportedLanguage) => {
+  switch (language) {
+    case 'en':
+      return localization.classification.about.langEN;
+    case 'nb':
+      return localization.classification.about.langNB;
+    case 'nn':
+      return localization.classification.about.langNN;
+    default:
+      return language;
+  }
+};
+
+/**
+ * Format the custodian information (contact person and owning section) extracted from classification version
+ * @param classificationVersion
+ * @returns
+ */
+export const formatCustodian = (classificationVersion: ClassificationVersionResource | undefined) => {
+  if (!classificationVersion) return '';
+
+  const name = classificationVersion.contactPerson?.name?.trim();
+  const section = classificationVersion.owningSection?.trim();
+
+  return [name, section].filter(Boolean).join(', ');
+};

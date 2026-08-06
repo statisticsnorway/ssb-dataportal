@@ -14,7 +14,7 @@ export default defineConfig({
       reporter: ['text', 'html', 'lcov'],
       enabled: true,
       reportsDirectory: './coverage',
-
+      include: ['src/**/*.{ts,tsx}'],
       exclude: [
         'node_modules/',
         'dist/',
@@ -23,8 +23,12 @@ export default defineConfig({
         '**/*.d.ts',
         '**/*.config.*',
         '**/vitest.setup.ts',
-        '**/libs/data-access/**'
+        '**/libs/data-access/**',
+        'src/static-data/**',
+        'src/libs/language/src/{en,nb,nn}.ts',
+        '**/*.spec.{ts,tsx}',
+        '**/index.ts',
+        '**/types.ts',
       ],
     },
-
 }});

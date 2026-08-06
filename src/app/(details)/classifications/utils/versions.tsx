@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import { VersionItem } from '@/app/(details)/classifications/components/versions-table';
 import { ClassificationVersionSummaryResource } from '@/libs/data-access/klass/models/ClassificationVersionSummaryResource';
 import { localization } from '@/libs/language/src/localization';
+import { VersionItem } from '@/types/item';
 
 const mapVersionName = (v: ClassificationVersionSummaryResource, classificationId: number | undefined) => {
   if (!classificationId) return v.name;

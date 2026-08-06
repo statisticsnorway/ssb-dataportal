@@ -4,9 +4,9 @@ import { ClassificationResource } from '@/libs/data-access/klass/models/Classifi
 import classificationMock from '@/static-data/classifications.json';
 import VersionsView from './VersionsView';
 
-vi.mock('@/app/(details)/classifications/components/versions-table', () => ({
-  VersionsTable: ({ content }: { content: unknown[] }) => (
-    <div data-testid='versions-table'>rows: {content.length}</div>
+vi.mock('@/app/(details)/classifications/components/classification-version-table', () => ({
+  ClassificationVersionTable: ({ content }: { content: unknown[] }) => (
+    <div data-testid='classification-version-table'>rows: {content.length}</div>
   ),
 }));
 
@@ -19,12 +19,12 @@ vi.mock('next/link', () => ({
 describe('VersionsView', () => {
   const versions = [classification];
 
-  it('renders VersionsTable with mapped versions', () => {
+  it('renders ClassificationVersionTable with mapped versions', () => {
     render(<VersionsView classificationId={2003} versions={versions} />);
-    expect(screen.getByTestId('versions-table')).toBeDefined();
+    expect(screen.getByTestId('classification-version-table')).toBeDefined();
   });
 
-  it('passes correct number of rows to VersionsTable', () => {
+  it('passes correct number of rows to ClassificationVersionTable', () => {
     render(<VersionsView classificationId={2003} versions={versions} />);
     expect(screen.getByText(`rows: ${versions.length}`)).toBeDefined();
   });

@@ -6,7 +6,7 @@
       "validFrom": "2001-01-01",
       "lastModified": "2010-10-13T08:07:43.000+0000",
       "published": ["nb", "nn", "en"],
-      "introduction": "",
+      "introduction": "Beskrivelse av versjonen",
       "contactPerson": {
         "name": "Moe, Dana",
         "email": "Dana.Moe@ssb.no",
