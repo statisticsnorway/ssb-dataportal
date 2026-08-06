@@ -64,4 +64,4 @@ spec:
     - name: USE_ANNIVERSARY_LOGO
       value: "true"
     - name: HIDE_CLASSIFICATIONS
-      value: "true"
+      value: "false"

@@ -1,14 +1,17 @@
 'use server';
 
+import { ChangesRequest, CodeChangeItem, CodeChangeItemFromJSON, CodesApi } from '@/libs/data-access/klass';
 import { VersionsApi, VersionsLanguageEnum } from '@/libs/data-access/klass/apis/VersionsApi';
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
 import { SupportedLanguage } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
+import changesMock from '@/static-data/classification-changes.json';
 import codesMock from '@/static-data/codes-mock.json';
 import type { KlassCode } from '@/types/klass-codes';
 import { mapClassificationItemToKlassCode } from '@/utils/classifications/codeMappers';
 import { getUserAgent } from '@/utils/userAgent';
+import { querystringFormatDates } from './utils';
 
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
 const logger = createLogger('codes-data');
@@ -21,12 +24,17 @@ function buildKlassClientConfig(): ConfigurationParameters {
   const klassBasePath = process.env.KLASS_BASE_PATH;
   if (klassBasePath) {
     config.basePath = new URL(klassBasePath).origin;
+    config.queryParamsStringify = querystringFormatDates;
   }
   return config;
 }
 
 function getVersionsClient(): VersionsApi {
   return new VersionsApi(new Configuration(buildKlassClientConfig()));
+}
+
+function getCodesClient(): CodesApi {
+  return new CodesApi(new Configuration(buildKlassClientConfig()));
 }
 
 /**
@@ -59,6 +67,42 @@ export async function fetchVersionCodes(
       );
     } else {
       logger.error({ error: sanitizeError(error) }, 'Unexpected error fetching version codes');
+    }
+    throw error;
+  }
+}
+
+export async function fetchChanges(
+  classificationId: number,
+  from: Date,
+  to?: Date,
+  language: VersionsLanguageEnum | undefined = VersionsLanguageEnum.NB,
+): Promise<CodeChangeItem[]> {
+  if (process.env.KLASS_USE_STATIC_DATA === 'true') {
+    logger.warn({ versionId: classificationId }, 'Using static mock data for changes');
+    const key = String(classificationId) as keyof typeof changesMock;
+    return (changesMock[key]?.codeChanges.map(CodeChangeItemFromJSON) ?? []) as CodeChangeItem[];
+  }
+
+  const api = getCodesClient();
+  try {
+    const params = { id: classificationId, from: from, to: to, language: language } satisfies ChangesRequest;
+    const data = await api.changes(params, fetchInit);
+    logger.info({ params, count: data.codeChanges?.length }, 'Fetched changes');
+    return data.codeChanges ?? [];
+  } catch (error) {
+    if (error instanceof ResponseError) {
+      logger.error(
+        {
+          statusCode: error.response.status,
+          url: error.response.url,
+          message: error.response.body,
+          versionId: classificationId,
+        },
+        'Failed to fetch changes',
+      );
+    } else {
+      logger.error({ error: sanitizeError(error) }, 'Unexpected error fetching changes');
     }
     throw error;
   }

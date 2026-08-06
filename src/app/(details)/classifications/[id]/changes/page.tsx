@@ -1,5 +1,15 @@
-import ChangesView from '../../components/views/ChangesView';
+'use client';
 
-export default async function Changes() {
-  return <ChangesView />;
+import { notFound } from 'next/navigation';
+import { useVersion } from '@/app/(details)/classifications/components/versionContext';
+import ChangesView from '@/app/(details)/classifications/components/views/ChangesView';
+
+export default function ChangesVersion() {
+  const { classification, versionResource } = useVersion();
+
+  if (!versionResource?.classificationItems) {
+    return notFound();
+  }
+
+  return <ChangesView classification={classification} version={versionResource} />;
 }
