@@ -7,7 +7,10 @@ import { ClassificationResource } from '@/libs/data-access/klass/models/Classifi
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
+import { mapVersions } from '../utils/versions';
 import styles from './classification-page.module.css';
+import { ClassificationVersionTable } from './classification-version-table';
+import { ExpandableTable } from './expandable-table';
 import { VersionView } from './views/VersionView';
 
 interface ClassificationDetailProps {
@@ -40,6 +43,14 @@ export default function ClassificationDetail({
           <Paragraph className={`${styles.description} ingress`}>{classification.description}</Paragraph>
         )}
         <SubscribeDialog classificationId={classification.id} />
+        <ExpandableTable
+          title={localization.classificationDetails.versions}
+          table={
+            <ClassificationVersionTable
+              content={(classification.versions ?? []).map((v) => mapVersions(v, classification.id))}
+            />
+          }
+        />
         <Divider />
         <VersionView classification={classification} classificationVersion={classificationVersion}>
           {children}
