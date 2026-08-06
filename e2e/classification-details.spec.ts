@@ -10,14 +10,14 @@ const versions = versionsMock.versions;
 const currentVersion = versions![0];
 const olderVersion = versions![1];
 
-const CURRENT_ABOUT_URL = '/classifications/2003/about';
-const OLDER_ABOUT_URL = `/classifications/2003/version/${olderVersion!.id ?? 2}/about`;
+const CURRENT_DETAILS_URL = '/classifications/2003/details';
+const OLDER_DETAILS_URL = `/classifications/2003/version/${olderVersion!.id ?? 2}/details`;
 
 async function gotoAbout(page: Page, url: string) {
   await page.goto(url, { waitUntil: 'domcontentloaded' });
-  const aboutTab = page.getByRole('tab', { name: classificationDetailsTabsData.About.label });
+  const aboutTab = page.getByRole('tab', { name: classificationDetailsTabsData.Details.label });
   await expect(aboutTab).toHaveAttribute('aria-selected', 'true');
-  return page.getByLabel(localization.classificationDetails.about);
+  return page.getByLabel(localization.classificationDetails.details);
 }
 
 async function expandSection(page: Page, title: string) {
@@ -84,36 +84,36 @@ test.beforeEach(({}, testInfo) => {
   test.skip(testInfo.project.name === 'chrome-unauth');
 });
 
-test.describe('Current version about tab', () => {
+test.describe('Current version details tab', () => {
   test('displays version details', async ({ page }) => {
-    await gotoAbout(page, CURRENT_ABOUT_URL);
+    await gotoAbout(page, CURRENT_DETAILS_URL);
     await assertDetailsList(page, currentVersion!);
   });
 
   test('displays version level table', async ({ page }) => {
-    await gotoAbout(page, CURRENT_ABOUT_URL);
+    await gotoAbout(page, CURRENT_DETAILS_URL);
     await assertLevelsTable(page, currentVersion!);
   });
 
   test('displays version changelog table', async ({ page }) => {
-    await gotoAbout(page, CURRENT_ABOUT_URL);
+    await gotoAbout(page, CURRENT_DETAILS_URL);
     await assertChangelogTable(page, currentVersion!);
   });
 });
 
-test.describe('Older version about tab', () => {
+test.describe('Older version details tab', () => {
   test('displays version details', async ({ page }) => {
-    await gotoAbout(page, OLDER_ABOUT_URL);
+    await gotoAbout(page, OLDER_DETAILS_URL);
     await assertDetailsList(page, olderVersion!);
   });
 
   test('displays version level table', async ({ page }) => {
-    await gotoAbout(page, OLDER_ABOUT_URL);
+    await gotoAbout(page, OLDER_DETAILS_URL);
     await assertLevelsTable(page, olderVersion!);
   });
 
   test('displays version changelog table', async ({ page }) => {
-    await gotoAbout(page, OLDER_ABOUT_URL);
+    await gotoAbout(page, OLDER_DETAILS_URL);
     await assertChangelogTable(page, olderVersion!);
   });
 });

@@ -74,7 +74,7 @@ export const nb = {
   },
   classificationDetails: {
     codes: 'Koder',
-    about: 'Om versjonen',
+    details: 'Detaljer',
     changes: 'Endringer',
     versions: 'Versjoner',
     correspondences: 'Korrespondanser',

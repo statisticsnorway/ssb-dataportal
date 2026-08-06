@@ -51,7 +51,7 @@ test.describe('Classifications details tabs', () => {
   test('About tab is visible', async ({ classificationDetailsPage }) => {
     const classification = parseClassification(classifications[3]);
     const page = await classificationDetailsPage(classification.id!);
-    const tab = page.getByRole('tab', { name: localization.classificationDetails.about });
+    const tab = page.getByRole('tab', { name: localization.classificationDetails.details });
     await expect(tab).toBeVisible();
   });
   test('Changes tab is visible', async ({ classificationDetailsPage }) => {

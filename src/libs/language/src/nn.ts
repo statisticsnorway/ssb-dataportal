@@ -74,7 +74,7 @@ export const nn = {
   },
   classificationDetails: {
     codes: 'Kodar',
-    about: 'Om versjonen',
+    details: 'Detaljar',
     changes: 'Endringar',
     versions: 'Versjonar',
     correspondences: 'Korrespondansar',

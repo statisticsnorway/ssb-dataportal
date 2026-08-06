@@ -77,7 +77,7 @@ export const en = {
   },
   classificationDetails: {
     codes: 'Codes',
-    about: 'About this version',
+    details: 'Details',
     changes: 'Changes',
     versions: 'Versions',
     correspondences: 'Correspondences',

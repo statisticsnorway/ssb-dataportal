@@ -7,11 +7,11 @@ import { ClassificationVersionTable } from '../classification-version-table';
 import { ExpandableTable } from '../expandable-table';
 import styles from './views.module.css';
 
-interface AboutViewProps {
+interface DetailsViewProps {
   classification: ClassificationResource;
   classificationVersion: ClassificationVersionResource;
 }
-export default function AboutView({ classification, classificationVersion }: AboutViewProps) {
+export default function DetailsView({ classification, classificationVersion }: DetailsViewProps) {
   return (
     <div className={styles.aboutWrapper}>
       <DetailsTable content={mapAboutItems(classificationVersion, classification)} />
