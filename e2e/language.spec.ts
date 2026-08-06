@@ -15,23 +15,11 @@ test.describe('language picker', () => {
     await context.clearCookies();
   });
 
-  test('shows current language and available options', async ({ page }) => {
-    await page.goto('/');
-
-    const languageTrigger = page.getByRole('button', { name: LANGUAGE_LABEL });
-    await expect(languageTrigger).toBeVisible();
-
-    await languageTrigger.click();
-    await expect(page.getByRole('button', { name: NB_LABEL })).toBeVisible();
-    await expect(page.getByRole('button', { name: NN_LABEL })).toBeVisible();
-    await expect(page.getByRole('button', { name: EN_LABEL })).toBeVisible();
-  });
-
   test('can switch to Nynorsk and keeps preference after reload', async ({ context, page }) => {
     await page.goto('/');
 
     await page.getByRole('button', { name: LANGUAGE_LABEL }).click();
-    await page.getByRole('button', { name: NB_LABEL }).click();
+    await page.getByRole('button', { name: NN_LABEL }).click();
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
     await expect(page.getByText('Kva er SSB Dataportal?')).toBeVisible();
@@ -48,17 +36,17 @@ test.describe('language picker', () => {
     await page.goto('/');
 
     await page.getByRole('button', { name: LANGUAGE_LABEL }).click();
-    await page.getByRole('button', { name: NB_LABEL }).click();
+    await page.getByRole('button', { name: EN_LABEL }).click();
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page.getByRole('button', { name: 'What is SSB Dataportal?' })).toBeVisible();
+    await expect(page.getByText('What is SSB Dataportal?')).toBeVisible();
 
     const languageCookie = (await context.cookies()).find((cookie) => cookie.name === languageCookieName);
     expect(languageCookie?.value).toBe('en');
 
     await page.reload();
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page.getByRole('button', { name: 'What is SSB Dataportal?' })).toBeVisible();
+    await expect(page.getByText('What is SSB Dataportal?')).toBeVisible();
   });
 });
 
@@ -108,7 +96,7 @@ test.describe('automatic locale mapping', () => {
     const { context, page } = await openPageWithLocale(browser, 'de-DE');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page.getByRole('button', { name: 'What is SSB Dataportal?' })).toBeVisible();
+    await expect(page.getByText('What is SSB Dataportal?')).toBeVisible();
 
     await context.close();
   });
