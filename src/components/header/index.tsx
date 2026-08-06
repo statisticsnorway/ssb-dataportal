@@ -17,8 +17,8 @@ export const Header: FC<HeaderProps> = ({ homeUrl, title, devEnvironmentName }) 
         <DataportalLogo homeUrl={homeUrl} title={title} placement='header' />
         <div className={styles.rightGroup}>
           {devEnvironmentName ? <p className={styles.environmentName}>{devEnvironmentName}</p> : undefined}
-          <LanguagePicker />
           <LoginButton />
+          <LanguagePicker />
         </div>
       </header>
     </div>
