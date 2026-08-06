@@ -1,15 +1,6 @@
 .dropdown {
   min-width: max-content;
 }
-
-.dropdownList {
-  width: fit-content;
-}
-
-.dropdownItem {
-  width: 100%;
-}
-
 .dropdownButton {
   width: 100%;
 }

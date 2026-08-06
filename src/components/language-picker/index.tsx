@@ -13,6 +13,11 @@ export const NB_LABEL = 'Norsk bokmål';
 export const NN_LABEL = 'Norsk nynorsk';
 export const EN_LABEL = 'English';
 
+interface LanguageItem {
+  label: string;
+  code: SupportedLanguage;
+}
+
 const LanguagePicker = () => {
   const router = useRouter();
   const [langOpen, setLangOpen] = useState(false);
@@ -37,22 +42,18 @@ const LanguagePicker = () => {
         onOpen={() => setLangOpen(true)}
         onClose={() => setLangOpen(false)}
       >
-        <Dropdown.List className={styles.dropdownList}>
-          <Dropdown.Item className={styles.dropdownItem}>
-            <Dropdown.Button className={styles.dropdownButton} onClick={() => onLanguageChange('nb')}>
-              {NB_LABEL}
-            </Dropdown.Button>
-          </Dropdown.Item>
-          <Dropdown.Item className={styles.dropdownItem}>
-            <Dropdown.Button className={styles.dropdownButton} onClick={() => onLanguageChange('nn')}>
-              {NN_LABEL}
-            </Dropdown.Button>
-          </Dropdown.Item>
-          <Dropdown.Item className={styles.dropdownItem}>
-            <Dropdown.Button className={styles.dropdownButton} onClick={() => onLanguageChange('en')}>
-              {EN_LABEL}
-            </Dropdown.Button>
-          </Dropdown.Item>
+        <Dropdown.List>
+          {[
+            { label: NB_LABEL, code: 'nb' } satisfies LanguageItem,
+            { label: NN_LABEL, code: 'nn' } satisfies LanguageItem,
+            { label: EN_LABEL, code: 'en' } satisfies LanguageItem,
+          ].map((data: LanguageItem) => (
+            <Dropdown.Item key={data.code}>
+              <Dropdown.Button className={styles.dropdownButton} onClick={() => onLanguageChange(data.code)}>
+                {data.label}
+              </Dropdown.Button>
+            </Dropdown.Item>
+          ))}
         </Dropdown.List>
       </Dropdown>
     </Dropdown.TriggerContext>
