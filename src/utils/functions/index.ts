@@ -1,7 +1,7 @@
 import { Assessment, DatasetState } from '@/libs/data-access/datadoc/models';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { KlassReference, VariableStatus } from '@/libs/data-access/variable-definitions/internal';
-import { localization } from '@/libs/language';
+import { localization, SupportedLanguage } from '@/libs/language';
 import { FilterItem } from '@/types/filters';
 import { Item } from '@/types/item';
 
@@ -160,7 +160,7 @@ export function assertUnreachable(x: never): never {
  * @param language - Language code from classification data (for example: `en`, `nb`, `nn`).
  * @returns A localized language label, or the original language code when no mapping exists.
  */
-export const formatLanguages = (language: string) => {
+export const formatLanguages = (language: SupportedLanguage) => {
   switch (language) {
     case 'en':
       return localization.classification.about.langEN;

@@ -1,6 +1,6 @@
 import { classificationDetailsTabsData } from '@/app/(details)/classifications/[id]/tabs';
 import versionsMock from '@/static-data/versions.json';
-import { localization } from '@/libs/language';
+import { isSupportedLanguage, localization } from '@/libs/language';
 import { formatCustodian, formatLanguages, formatLocaleDate } from '@/utils/functions';
 import { parseVersion } from '@/utils/mock-data';
 import { Page } from '@playwright/test';
@@ -42,7 +42,9 @@ async function assertDetailsList(page: Page, version: (typeof versions)[number])
   await expect(dl.locator('dd').getByText(formatLocaleDate(version.validFrom!), { exact: true })).toBeVisible();
   await expect(dl.getByText(localization.classification.about.publishedLanguages, { exact: true })).toBeVisible();
   await expect(
-    dl.locator('dd').getByText(version.published!.map(formatLanguages).join(', '), { exact: true }),
+    dl.locator('dd').getByText((version.published ?? []).filter(isSupportedLanguage).map(formatLanguages).join(', '), {
+      exact: true,
+    }),
   ).toBeVisible();
 }
 

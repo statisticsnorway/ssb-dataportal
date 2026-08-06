@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { EmailLink } from '@/components/link-components/emailLink';
 import { ChangelogResource, ClassificationVersionResource, LevelResource } from '@/libs/data-access/klass/models';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
+import { isSupportedLanguage } from '@/libs/language';
 import { localization } from '@/libs/language/src/localization';
 import { Item, VersionItem } from '@/types/item';
 import { formatCustodian, formatLanguages, formatLocaleDate } from '@/utils/functions';
@@ -91,7 +92,7 @@ export const mapAboutItems = (
   addRow(
     rows,
     localization.classification.about.publishedLanguages,
-    version.published?.map(formatLanguages).join(', '),
+    version.published?.filter(isSupportedLanguage).map(formatLanguages).join(', '),
   );
   addRow(rows, localization.classification.about.basedOn, version.derivedFrom);
   addRow(rows, localization.classification.about.legalBasis, version.legalBase);
