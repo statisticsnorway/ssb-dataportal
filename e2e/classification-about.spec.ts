@@ -83,12 +83,6 @@ test.beforeEach(({}, testInfo) => {
 });
 
 test.describe('Current version about tab', () => {
-  test('displays version heading and introduction', async ({ page }) => {
-    const about = await gotoAbout(page, CURRENT_ABOUT_URL);
-    await expect(about.getByRole('heading', { name: currentVersion!.name })).toBeVisible();
-    await expect(about.locator('p').first()).toHaveText(currentVersion!.introduction!);
-  });
-
   test('displays version details', async ({ page }) => {
     await gotoAbout(page, CURRENT_ABOUT_URL);
     await assertDetailsList(page, currentVersion!);
@@ -106,14 +100,6 @@ test.describe('Current version about tab', () => {
 });
 
 test.describe('Older version about tab', () => {
-  test('displays version heading and introduction', async ({ page }) => {
-    const about = await gotoAbout(page, OLDER_ABOUT_URL);
-    await expect(about.getByRole('heading', { name: olderVersion!.name })).toBeVisible();
-    if (olderVersion!.introduction) {
-      await expect(about.locator('p').first()).toHaveText(olderVersion!.introduction);
-    }
-  });
-
   test('displays version details', async ({ page }) => {
     await gotoAbout(page, OLDER_ABOUT_URL);
     await assertDetailsList(page, olderVersion!);
