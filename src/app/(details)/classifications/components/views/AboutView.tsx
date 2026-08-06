@@ -1,5 +1,4 @@
 'use client';
-import { Heading, Paragraph } from '@digdir/designsystemet-react';
 import { mapAboutItems, mapChanges, mapLevels } from '@/app/(details)/classifications/utils/about';
 import { DetailsTable } from '@/components/details-list';
 import { ClassificationResource, ClassificationVersionResource } from '@/libs/data-access/klass/models';
@@ -15,10 +14,6 @@ interface AboutViewProps {
 export default function AboutView({ classification, classificationVersion }: AboutViewProps) {
   return (
     <div className={styles.aboutWrapper}>
-      <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='md' level={3}>
-        {classificationVersion?.name ?? '—'}
-      </Heading>
-      <Paragraph>{classificationVersion?.introduction ?? '—'}</Paragraph>
       <DetailsTable content={mapAboutItems(classificationVersion, classification)} />
       <ExpandableTable
         title={localization.classification.about.levels}
