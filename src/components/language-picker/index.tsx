@@ -8,9 +8,13 @@ import { languageCookieName, localization, type SupportedLanguage, setPreference
 import styles from './language-picker.module.css';
 
 // These remain the same across language changes so no need to localize
+// fallow-ignore-next-line unused-export
 export const LANGUAGE_LABEL = 'Language/Språk';
+// fallow-ignore-next-line unused-export
 export const NB_LABEL = 'Norsk bokmål';
+// fallow-ignore-next-line unused-export
 export const NN_LABEL = 'Norsk nynorsk';
+// fallow-ignore-next-line unused-export
 export const EN_LABEL = 'English';
 
 interface LanguageItem {
