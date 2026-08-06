@@ -394,5 +394,6 @@ export const en = {
       validFrom: 'Valid from and including',
       isNotCurrent: 'This is not the current version of the classification',
     },
+    noChanges: 'No changes related to this version',
   },
 } satisfies Translation;
