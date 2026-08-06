@@ -153,7 +153,7 @@ export function assertUnreachable(x: never): never {
 }
 
 /**
- * Maps a language code to its localized display label used in the classification "about" section.
+ * Maps a language code to its localized display label.
  *
  * Supports `en`, `nb`, and `nn`. If the code is unknown, the original value is returned.
  *

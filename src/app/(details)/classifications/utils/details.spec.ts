@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { ChangelogResource, ClassificationVersionResource, LevelResource } from '@/libs/data-access/klass/models';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language/src/localization';
-import { mapAboutItems, mapChanges, mapLevels } from './about';
+import { mapChanges, mapDetailsItems, mapLevels } from './details';
 
 const notRelevant = localization.classification.about.notRelevant;
 
@@ -22,7 +22,7 @@ const baseClassification: ClassificationResource = {
 
 describe('mapAboutItems', () => {
   it('maps all populated fields to rows', () => {
-    const rows = mapAboutItems(baseVersion, baseClassification);
+    const rows = mapDetailsItems(baseVersion, baseClassification);
 
     const labels = rows.map((r) => r.label);
     expect(labels).toEqual([
@@ -47,7 +47,7 @@ describe('mapAboutItems', () => {
     } as unknown as ClassificationVersionResource;
     const emptyClassification = { statisticalUnits: [] } as unknown as ClassificationResource;
 
-    const rows = mapAboutItems(emptyVersion, emptyClassification);
+    const rows = mapDetailsItems(emptyVersion, emptyClassification);
     const fallbackLabels = rows.filter((r) => r.value === notRelevant).map((r) => r.label);
 
     expect(fallbackLabels).toContain(localization.classification.about.validity);
@@ -59,7 +59,7 @@ describe('mapAboutItems', () => {
   });
 
   it('renders statisticalUnits as Tag elements', () => {
-    const rows = mapAboutItems(baseVersion, baseClassification);
+    const rows = mapDetailsItems(baseVersion, baseClassification);
     const unitRow = rows.find((r) => r.label === localization.classification.about.unitTypes);
     expect(Array.isArray(unitRow?.value)).toBe(true);
     expect((unitRow?.value as unknown[]).length).toBe(2);
@@ -148,7 +148,7 @@ describe('mapAboutItems edge cases', () => {
       publications: '   ',
     } as unknown as ClassificationVersionResource;
 
-    const rows = mapAboutItems(version, { statisticalUnits: [] } as unknown as ClassificationResource);
+    const rows = mapDetailsItems(version, { statisticalUnits: [] } as unknown as ClassificationResource);
 
     expect(rows.find((r) => r.label === localization.classification.about.basedOn)?.value).toBe(notRelevant);
     expect(rows.find((r) => r.label === localization.classification.about.legalBasis)?.value).toBe(notRelevant);

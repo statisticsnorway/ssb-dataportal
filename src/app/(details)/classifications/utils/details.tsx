@@ -47,10 +47,10 @@ const hasDisplayValue = (value: ReactNode | undefined | null): boolean => {
 };
 
 /**
- * Adds a labeled row to the output list for the "about" section.
+ * Adds a labeled row to the output list for the "details" section.
  *
  * If `value` is not displayable (for example `null`, `undefined`, `false`, or an empty string),
- * the localized fallback text for "not relevant" is used instead.
+ * the localized fallback text for "not relevant" is used instead in the "details" section.
  *
  * @param rows - Mutable list of rows to append to.
  * @param label - Row label shown in the UI.
@@ -79,9 +79,9 @@ const addRow = (rows: Item[], label: string, value: ReactNode | undefined | null
  *
  * @param version - Classification version source data.
  * @param classification - Classification source data containing statistical units.
- * @returns Ordered rows for rendering in the "about" section.
+ * @returns Ordered rows for rendering in the "details" section.
  */
-export const mapAboutItems = (
+export const mapDetailsItems = (
   version: ClassificationVersionResource,
   classification: ClassificationResource,
 ): Item[] => {
