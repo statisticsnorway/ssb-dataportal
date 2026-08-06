@@ -25,12 +25,7 @@ export default function ChangesView({
       (v1, v2) => (v2.validFrom?.getTime() ?? 0) - (v1.validFrom?.getTime() ?? 0),
     ) ?? [];
   const previousVersion = sortedVersions[sortedVersions.findIndex((v) => v.id === version.id) + 1];
-  if (
-    sortedVersions.length <= 1 ||
-    previousVersion === undefined ||
-    previousVersion.validFrom === undefined ||
-    classification.id === undefined
-  )
+  if (sortedVersions.length <= 1 || previousVersion?.validFrom === undefined || classification.id === undefined)
     return (
       <Alert data-color={'info'} role='status'>
         {localization.versions.noChanges}
