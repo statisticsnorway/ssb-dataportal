@@ -7,11 +7,6 @@ import ClassificationDetail from './classificationDetail';
 
 vi.mock('server-only', () => ({}));
 
-vi.mock('@/libs/data/klass', () => ({
-  getClassification: vi.fn(),
-  getClassificationVersions: vi.fn(),
-}));
-
 vi.mock('next/link', () => ({
   default: ({ href, children }: { href: string; children: React.ReactNode }) => <a href={href}>{children}</a>,
 }));
