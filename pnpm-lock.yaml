@@ -301,9 +301,9 @@ importers:
       '@testing-library/user-event':
         specifier: 14.6.1
         version: 14.6.1(@testing-library/dom@10.4.1)
-      '@vitest/coverage-istanbul':
-        specifier: 4.1.10
-        version: 4.1.10(vitest@4.1.9)
+      '@vitest/coverage-v8':
+        specifier: 4.1.9
+        version: 4.1.9(vitest@4.1.9)
       fallow:
         specifier: 2.104.0
         version: 2.104.0
@@ -324,7 +324,7 @@ importers:
         version: 8.1.3(@types/node@26.1.0)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0)
       vitest:
         specifier: 4.1.9
-        version: 4.1.9(@types/node@26.1.0)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.9)(jsdom@29.1.1)(vite@8.1.3(@types/node@26.1.0)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0))
+        version: 4.1.9(@types/node@26.1.0)(@vitest/coverage-v8@4.1.9)(jsdom@29.1.1)(vite@8.1.3(@types/node@26.1.0)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0))
 
 packages:
 
@@ -1290,10 +1290,6 @@ packages:
     resolution: {integrity: sha512-MzICLu4yS7V8AA61sANROZ9vT1H3ooca5dSmI1FjZkzq7o/koMsRfQSzRtFo+F3Ao4Sf1C0bpLKejpKB/+j6MA==}
     engines: {node: '>=18'}
 
-  '@istanbuljs/schema@0.1.6':
-    resolution: {integrity: sha512-+Sg6GCR/wy1oSmQDFq4LQDAhm3ETKnorxN+y5nbLULOR3P0c14f2Wurzj3/xqPXtasLFfHd5iRFQ7AJt4KH2cw==}
-    engines: {node: '>=8'}
-
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
 
@@ -1864,11 +1860,6 @@ packages:
 
   '@u-elements/u-tabs@1.0.4':
     resolution: {integrity: sha512-F0CoSaiFnUInfTSiftufZARi6bvC0Ucb+aVaVfO65a0GWeIsTjTZupXh313POqN7SkvH4lQ+4+X33uhwBMAiww==}
-
-  '@vitest/coverage-istanbul@4.1.10':
-    resolution: {integrity: sha512-AyNJ5pQRFqCX7pwB9PSTmoVKPaZ4H5IEVJfJsT+q1DYkXvZMEFYgJlyk5sfStmt9rVYRyYYRRsuBeImCOc39ww==}
-    peerDependencies:
-      vitest: 4.1.10
 
   '@vitest/coverage-v8@4.1.9':
     resolution: {integrity: sha512-G9/lgqibheLVBDRuya45EbsEXTYcWoSG+TLg7i2axuzx0Eq62eXn+aWXyaVdV5vKvFSWd6ywcX8hA7la9Pvu8g==}
@@ -4507,8 +4498,7 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@bcoe/v8-coverage@1.0.2':
-    optional: true
+  '@bcoe/v8-coverage@1.0.2': {}
 
   '@bgotink/playwright-coverage@0.3.2(@playwright/test@1.61.1)':
     dependencies:
@@ -4813,8 +4803,6 @@ snapshots:
   '@inquirer/type@1.5.5':
     dependencies:
       mute-stream: 1.0.0
-
-  '@istanbuljs/schema@0.1.6': {}
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
@@ -5315,22 +5303,6 @@ snapshots:
 
   '@u-elements/u-tabs@1.0.4': {}
 
-  '@vitest/coverage-istanbul@4.1.10(vitest@4.1.9)':
-    dependencies:
-      '@babel/core': 7.29.0
-      '@istanbuljs/schema': 0.1.6
-      '@jridgewell/gen-mapping': 0.3.13
-      '@jridgewell/trace-mapping': 0.3.31
-      istanbul-lib-coverage: 3.2.2
-      istanbul-lib-report: 3.0.1
-      istanbul-reports: 3.2.0
-      magicast: 0.5.3
-      obug: 2.1.1
-      tinyrainbow: 3.1.0
-      vitest: 4.1.9(@types/node@26.1.0)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.9)(jsdom@29.1.1)(vite@8.1.3(@types/node@26.1.0)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0))
-    transitivePeerDependencies:
-      - supports-color
-
   '@vitest/coverage-v8@4.1.9(vitest@4.1.9)':
     dependencies:
       '@bcoe/v8-coverage': 1.0.2
@@ -5343,8 +5315,7 @@ snapshots:
       obug: 2.1.1
       std-env: 4.1.0
       tinyrainbow: 3.1.0
-      vitest: 4.1.9(@types/node@26.1.0)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.9)(jsdom@29.1.1)(vite@8.1.3(@types/node@26.1.0)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0))
-    optional: true
+      vitest: 4.1.9(@types/node@26.1.0)(@vitest/coverage-v8@4.1.9)(jsdom@29.1.1)(vite@8.1.3(@types/node@26.1.0)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0))
 
   '@vitest/expect@4.1.9':
     dependencies:
@@ -5438,7 +5409,6 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.31
       estree-walker: 3.0.3
       js-tokens: 10.0.0
-    optional: true
 
   asynckit@0.4.0: {}
 
@@ -6091,8 +6061,7 @@ snapshots:
 
   joycon@3.1.1: {}
 
-  js-tokens@10.0.0:
-    optional: true
+  js-tokens@10.0.0: {}
 
   js-tokens@4.0.0: {}
 
@@ -7026,7 +6995,7 @@ snapshots:
       sass: 1.100.0
       stylus: 0.62.0
 
-  vitest@4.1.9(@types/node@26.1.0)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.9)(jsdom@29.1.1)(vite@8.1.3(@types/node@26.1.0)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0)):
+  vitest@4.1.9(@types/node@26.1.0)(@vitest/coverage-v8@4.1.9)(jsdom@29.1.1)(vite@8.1.3(@types/node@26.1.0)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0)):
     dependencies:
       '@vitest/expect': 4.1.9
       '@vitest/mocker': 4.1.9(vite@8.1.3(@types/node@26.1.0)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0))
@@ -7050,7 +7019,6 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 26.1.0
-      '@vitest/coverage-istanbul': 4.1.10(vitest@4.1.9)
       '@vitest/coverage-v8': 4.1.9(vitest@4.1.9)
       jsdom: 29.1.1
     transitivePeerDependencies:
