@@ -231,13 +231,6 @@ export const en = {
     landingPageTitle: 'Welcome to SSB Dataportal',
   },
 
-  language: {
-    label: 'Language',
-    nb: 'Norsk bokmål',
-    nn: 'Norsk nynorsk',
-    en: 'English',
-  },
-
   loading: {
     filters: 'Loading filters...',
     results: 'Loading results...',
