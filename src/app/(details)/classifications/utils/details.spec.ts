@@ -62,7 +62,7 @@ describe('mapAboutItems', () => {
     const rows = mapDetailsItems(baseVersion, baseClassification);
     const unitRow = rows.find((r) => r.label === localization.classification.about.unitTypes);
     expect(Array.isArray(unitRow?.value)).toBe(true);
-    expect((unitRow?.value as unknown[]).length).toBe(2);
+    expect(unitRow?.value as unknown[]).toHaveLength(2);
   });
 });
 

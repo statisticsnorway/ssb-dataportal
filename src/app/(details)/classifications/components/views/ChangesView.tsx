@@ -25,7 +25,8 @@ export default function ChangesView({
   version,
 }: Readonly<{ classification: ClassificationResource; version: ClassificationVersionResource }>) {
   const sortedVersions =
-    [...(classification.versions ?? [])].sort((v1, v2) => sortDatesDescendingSafe(v1.validFrom, v2.validFrom)) ?? [];
+    [...(classification.versions ?? [])].toSorted((v1, v2) => sortDatesDescendingSafe(v1.validFrom, v2.validFrom)) ??
+    [];
   const previousVersion = sortedVersions[sortedVersions.findIndex((v) => v.id === version.id) + 1];
   if (sortedVersions.length <= 1 || previousVersion?.validFrom === undefined || classification.id === undefined)
     return (
@@ -91,7 +92,7 @@ export default function ChangesView({
           version?.changelogs?.length ? (
             <ClassificationTable
               content={version.changelogs
-                .sort((cl1, cl2) => sortDatesDescendingSafe(cl1.changeOccured, cl2.changeOccured))
+                .toSorted((cl1, cl2) => sortDatesDescendingSafe(cl1.changeOccured, cl2.changeOccured))
                 .map((c) => mapChanges(c))}
             />
           ) : undefined
@@ -104,40 +105,38 @@ export default function ChangesView({
           {localization.versions.noChanges}
         </Alert>
       ) : (
-        <>
-          <Table border={true} zebra={false} hover={false} stickyHeader={true} className={styles.table}>
-            <caption>
-              {localization.formatString(localization.versions.codeChangesForVersion, {
-                numberOfChanges: changes.length,
-              })}
-            </caption>
-            <TableHead>
-              <TableRow>
-                <TableHeaderCell
-                  colSpan={2}
-                  scope='col'
-                  className={`${styles.tableHeader} ${styles.tableCentralDivider}`}
-                  key={previousVersion.name}
-                >
-                  {previousVersion.name}
-                </TableHeaderCell>
-                <TableHeaderCell colSpan={2} scope='col' className={styles.tableHeader} key={version.name}>
-                  {version.name}
-                </TableHeaderCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {groupedChanges.flatMap((group) =>
-                group.changes.map((change, index) => (
-                  <TableRow key={`${group.newCodeKey}-${change.oldCode}-${index}`}>
-                    {renderCodeAndName(change.oldCode, change.oldName, 1, true)}
-                    {index === 0 ? renderCodeAndName(change.newCode, change.newName, group.changes.length) : null}
-                  </TableRow>
-                )),
-              )}
-            </TableBody>
-          </Table>
-        </>
+        <Table border={true} zebra={false} hover={false} stickyHeader={true} className={styles.table}>
+          <caption>
+            {localization.formatString(localization.versions.codeChangesForVersion, {
+              numberOfChanges: changes.length,
+            })}
+          </caption>
+          <TableHead>
+            <TableRow>
+              <TableHeaderCell
+                colSpan={2}
+                scope='col'
+                className={`${styles.tableHeader} ${styles.tableCentralDivider}`}
+                key={previousVersion.name}
+              >
+                {previousVersion.name}
+              </TableHeaderCell>
+              <TableHeaderCell colSpan={2} scope='col' className={styles.tableHeader} key={version.name}>
+                {version.name}
+              </TableHeaderCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {groupedChanges.flatMap((group) =>
+              group.changes.map((change, index) => (
+                <TableRow key={`${group.newCodeKey}-${change.oldCode}-${index}`}>
+                  {renderCodeAndName(change.oldCode, change.oldName, 1, true)}
+                  {index === 0 ? renderCodeAndName(change.newCode, change.newName, group.changes.length) : null}
+                </TableRow>
+              )),
+            )}
+          </TableBody>
+        </Table>
       )}
     </>
   );
