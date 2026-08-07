@@ -27,6 +27,12 @@
   gap: 1rem;
 }
 
+.classificationParagraph {
+  padding-right: 1rem;
+}
+.versionTag {
+  max-width: 100%;
+}
 @media (min-width: 400px) {
   .tabsPanel {
     --dsc-tabs-content-padding: var(--dsc-tabs-tab-padding);
