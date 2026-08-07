@@ -1,9 +1,10 @@
-import { expect, test } from './fixtures/classification.fixture';
-import classificationMock from '@/static-data/classifications.json';
+import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language/src/localization';
-import { CODES_PREV_VERSION_URL } from './utils/commonUtils';
-import { parseClassification } from '@/utils/mock-data';
+import classificationMock from '@/static-data/classifications.json';
 import versionsMock from '@/static-data/versions.json';
+import { parseClassification } from '@/utils/mock-data';
+import { expect, test } from './fixtures/classification.fixture';
+import { CODES_PREV_VERSION_URL, CODES_PREV_VERSION_URL_CODES, formatDate } from './utils/commonUtils';
 
 const classifications = classificationMock.classifications;
 const versions = versionsMock.versions;
@@ -60,12 +61,6 @@ test.describe('Classifications details tabs', () => {
     const tab = page.getByRole('tab', { name: localization.classificationDetails.changes });
     await expect(tab).toBeVisible();
   });
-  test('All versions tab is visible', async ({ classificationDetailsPage }) => {
-    const classification = parseClassification(classifications[3]);
-    const page = await classificationDetailsPage(classification.id!);
-    const tab = page.getByRole('tab', { name: localization.classificationDetails.versions });
-    await expect(tab).toBeVisible();
-  });
   test('Correspondences tab is visible', async ({ classificationDetailsPage }) => {
     const classification = parseClassification(classifications[3]);
     const page = await classificationDetailsPage(classification.id!);
@@ -78,4 +73,78 @@ test.describe('Classifications details tabs', () => {
     const tab = page.getByRole('tab', { name: localization.classificationDetails.variants });
     await expect(tab).toBeVisible();
   });
+});
+
+test.describe('All versions table on classification page', () => {
+  const classification = classifications[0] as unknown as ClassificationResource;
+  const currentVersion = classification.versions![0];
+  const olderVersion = classification.versions![1];
+
+  test('renders the all versions section title', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage(classification.id!);
+    await expect(page.getByText(localization.classificationDetails.versions)).toBeVisible();
+  });
+
+  test('renders versions table when expanded', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage(classification.id!);
+    await page.getByText(localization.classificationDetails.versions).click();
+    await expect(page.getByRole('table')).toBeVisible();
+  });
+
+  test('renders table headers and cells', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage(classification.id!);
+    await page.getByText(localization.classificationDetails.versions).click();
+
+    await expect(page.getByRole('columnheader', { name: localization.versions.name })).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: localization.versions.validFrom })).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: localization.versions.validTo })).toBeVisible();
+
+    await expect(page.getByRole('cell', { name: olderVersion?.name })).toBeVisible();
+    await expect(page.getByRole('cell', { name: currentVersion?.name })).toBeVisible();
+    await expect(page.getByRole('cell', { name: formatDate(olderVersion?.validFrom) })).toBeVisible();
+    await expect(page.getByRole('cell', { name: formatDate(olderVersion?.validTo) }).nth(1)).toBeVisible();
+    await expect(page.getByRole('cell', { name: formatDate(currentVersion?.validFrom) }).first()).toBeVisible();
+    await expect(page.getByRole('cell', { name: localization.versions.now })).toBeVisible();
+  });
+
+  test('links to other versions', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage(classification.id!);
+    await page.getByText(localization.classificationDetails.versions).click();
+
+    const link = page
+      .getByRole('table')
+      .getByRole('row')
+      .filter({ hasText: olderVersion!.name! })
+      .getByRole('link', { name: olderVersion!.name! });
+
+    await expect(link).toBeVisible();
+    await link.click();
+    await expect(page).toHaveURL(CODES_PREV_VERSION_URL_CODES);
+  });
+});
+
+test('sorts versions by "valid from" when clicking the column header', async ({ classificationDetailsPage }) => {
+  const classification = parseClassification(classifications[0]);
+  const page = await classificationDetailsPage(classification.id!);
+  await page.getByText(localization.classificationDetails.versions).click();
+  const currentVersion = classification.versions![0];
+  const olderVersion = classification.versions![1];
+  const validFromHeader = page.getByRole('columnheader', { name: localization.versions.validFrom });
+  const rows = page.getByRole('table').getByRole('row');
+
+  // Default order (unsorted): current version first, older version second
+  await expect(rows.nth(1)).toContainText(currentVersion!.name!);
+  await expect(rows.nth(2)).toContainText(olderVersion!.name!);
+
+  // Ascending → older version should come first
+  await validFromHeader.click();
+  await expect(validFromHeader).toHaveAttribute('aria-sort', 'ascending');
+  await expect(rows.nth(1)).toContainText(olderVersion!.name!);
+  await expect(rows.nth(2)).toContainText(currentVersion!.name!);
+
+  // Descending → current version should come first
+  await validFromHeader.click();
+  await expect(validFromHeader).toHaveAttribute('aria-sort', 'descending');
+  await expect(rows.nth(1)).toContainText(currentVersion!.name!);
+  await expect(rows.nth(2)).toContainText(olderVersion!.name!);
 });
