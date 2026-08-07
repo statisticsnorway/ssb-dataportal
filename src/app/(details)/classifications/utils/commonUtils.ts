@@ -10,7 +10,7 @@ import { Item } from '@/types/item';
  * @param value - The React node to evaluate.
  * @returns `true` if the value should be displayed; otherwise `false`.
  */
-export const hasDisplayValue = (value: ReactNode | undefined | null): boolean => {
+const hasDisplayValue = (value: ReactNode | undefined | null): boolean => {
   if (value === null || value === undefined || value === false) return false;
   if (typeof value === 'string') return value.trim() !== '';
   if (Array.isArray(value)) return value.some((v) => hasDisplayValue(v));

@@ -1,15 +1,5 @@
-.tableContainer {
-  padding: 2rem;
-}
 .detailsHeading {
   margin-bottom: 2rem;
-}
-.columns {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--ds-size-4, 1rem);
-  align-items: stretch;
-  margin: 0;
 }
 
 .grid {

@@ -9,7 +9,6 @@ interface VariantsViewProps {
   classificationVersion: ClassificationVersionResource;
 }
 
-
 export default function VariantsView({ classificationVersion }: Readonly<VariantsViewProps>) {
   const variants = classificationVersion?.classificationVariants ?? [];
   return (
@@ -26,7 +25,6 @@ export default function VariantsView({ classificationVersion }: Readonly<Variant
           content={mapVariantItems(variant)}
           key={variant.id}
         />
-     
       ))}
     </div>
   );
