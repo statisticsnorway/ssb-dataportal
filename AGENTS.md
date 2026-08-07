@@ -18,6 +18,17 @@ pnpm test:e2e             # playwright; boots TWO servers (:3000 auth, :8000 una
 pnpm test:e2e:accessibility / :headed / :ui / :generate
 ```
 
+## Skills
+
+- Skills for this project are stored in `.claude/skills`
+
+### Playwright
+
+- `playwright-cli` (`.claude/skills/playwright-cli`): use for browser automation and fast UI checks (open pages, inspect snapshots, click through flows, debug Playwright behavior).
+- The executable is installed in the project, prepend `pnpm exec` to all skill commands.
+- IMPORTANT: Only access the local running dev server for this project on http://localhost. Under no circumstances shall you access any other web resources of any kind.
+- Prefer this skill when the task is interactive frontend validation or reproducing issues in the running app; prefer regular `pnpm test:e2e*` commands for full regression test runs.
+
 ## Environment & static data
 
 - `.env` (tracked, base), `.env.test` (tracked, applies when `NODE_ENV=test`), `.env.local` (untracked). Next.js load order applies.
