@@ -56,7 +56,7 @@ const hasDisplayValue = (value: ReactNode | undefined | null): boolean => {
  * @param label - Row label shown in the UI.
  * @param value - Row value to render.
  */
-const addRow = (rows: Item[], label: string, value: ReactNode | undefined | null) => {
+export const addRow = (rows: Item[], label: string, value: ReactNode | undefined | null) => {
   rows.push({
     label,
     value: hasDisplayValue(value) ? value : localization.classification.about.notRelevant,
