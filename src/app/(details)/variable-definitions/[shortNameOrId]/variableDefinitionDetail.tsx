@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
-import { DetailsTable } from '@/components/details-list';
+import { DetailsList } from '@/components/details-list';
 import { CopyTag } from '@/components/tag-components/copy-tag';
 import { StatusTag } from '@/components/tag-components/statusTag';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
@@ -55,7 +55,7 @@ export default function VariableDefinitionDetail({
             </Details>
           </Card>
         ) : null}
-        <DetailsTable
+        <DetailsList
           title={localization.variableDefinition.aboutVariable}
           content={mapAboutVariableItems(variableDefinition, isAuthenticated, apiDocsBaseUrl)}
           popoverContent={localization.variableDefinition.unitTypeInfo}
@@ -70,7 +70,7 @@ export default function VariableDefinitionDetail({
             ]}
           />
         )}
-        <DetailsTable
+        <DetailsList
           title={localization.variableDefinition.contact}
           content={mapContactItems(variableDefinition, isAuthenticated)}
         />

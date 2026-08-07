@@ -51,4 +51,4 @@ const DetailsList = ({ title, content, popoverContent }: DetailsListProps) => {
   );
 };
 
-export { DetailsList as DetailsTable };
+export { DetailsList };
