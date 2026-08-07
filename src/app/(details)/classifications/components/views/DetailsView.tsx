@@ -1,5 +1,5 @@
 'use client';
-import { mapChanges, mapDetailsItems, mapLevels } from '@/app/(details)/classifications/utils/details';
+import { mapChanges, mapDetailsItems } from '@/app/(details)/classifications/utils/details';
 import { DetailsTable } from '@/components/details-list';
 import { ClassificationResource, ClassificationVersionResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
@@ -15,10 +15,6 @@ export default function DetailsView({ classification, classificationVersion }: R
   return (
     <div className={styles.aboutWrapper}>
       <DetailsTable content={mapDetailsItems(classificationVersion, classification)} />
-      <ExpandableTable
-        title={localization.classification.about.levels}
-        table={<ClassificationTable content={classificationVersion?.levels?.map((l) => mapLevels(l)) ?? []} />}
-      />
       <ExpandableTable
         title={localization.classification.about.changelog}
         table={

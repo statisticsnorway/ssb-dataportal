@@ -411,5 +411,8 @@ export const en = {
       isNotCurrent: 'This is not the current version of the classification',
     },
     noChanges: 'No changes related to this version',
+    numberOfCodesAndLevels: 'This version contains {numberOfCodes} codes organized into {numberOfLevels} {level}.',
+    level: 'level',
+    levelPlural: 'levels',
   },
 } satisfies Translation;

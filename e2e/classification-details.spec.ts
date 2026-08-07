@@ -47,20 +47,6 @@ async function assertDetailsList(page: Page, version: (typeof versions)[number])
     }),
   ).toBeVisible();
 }
-
-async function assertLevelsTable(page: Page, version: (typeof versions)[number]) {
-  const section = await expandSection(page, localization.classification.about.levels);
-  const table = section.getByRole('table');
-  await expect(table).toBeVisible();
-
-  const levels = version.levels ?? [];
-  await expect(table.getByRole('row')).toHaveCount(levels.length + 1);
-  for (const level of levels) {
-    await expect(table.getByRole('cell', { name: String(level.levelNumber), exact: true }).first()).toBeVisible();
-    await expect(table.getByRole('cell', { name: level.levelName, exact: true }).first()).toBeVisible();
-  }
-}
-
 async function assertChangelogTable(page: Page, version: (typeof versions)[number]) {
   const section = await expandSection(page, localization.classification.about.changelog);
   const changelogs = version.changelogs ?? [];
@@ -90,11 +76,6 @@ test.describe('Current version details tab', () => {
     await assertDetailsList(page, currentVersion!);
   });
 
-  test('displays version level table', async ({ page }) => {
-    await gotoAbout(page, CURRENT_DETAILS_URL);
-    await assertLevelsTable(page, currentVersion!);
-  });
-
   test('displays version changelog table', async ({ page }) => {
     await gotoAbout(page, CURRENT_DETAILS_URL);
     await assertChangelogTable(page, currentVersion!);
@@ -105,11 +86,6 @@ test.describe('Older version details tab', () => {
   test('displays version details', async ({ page }) => {
     await gotoAbout(page, OLDER_DETAILS_URL);
     await assertDetailsList(page, olderVersion!);
-  });
-
-  test('displays version level table', async ({ page }) => {
-    await gotoAbout(page, OLDER_DETAILS_URL);
-    await assertLevelsTable(page, olderVersion!);
   });
 
   test('displays version changelog table', async ({ page }) => {

@@ -408,5 +408,8 @@ export const nn = {
       isNotCurrent: 'Dette er ikkje dagens versjon av klassifikasjonen',
     },
     noChanges: 'Ingen endringar finst for den aktuelle versjonen.',
+    numberOfCodesAndLevels: 'Versjonen inneheld {numberOfCodes} kodar fordelt over {numberOfLevels} {level}.',
+    level: 'nivå',
+    levelPlural: 'nivåer',
   },
 } satisfies Translation;

@@ -7,9 +7,9 @@ import { CodesView } from '@/app/(details)/classifications/components/views/Code
 export default function CodesVersion() {
   const { versionResource } = useVersion();
 
-  if (!versionResource?.classificationItems) {
+  if (!versionResource) {
     return notFound();
   }
 
-  return <CodesView codes={versionResource.classificationItems} />;
+  return <CodesView version={versionResource} />;
 }
