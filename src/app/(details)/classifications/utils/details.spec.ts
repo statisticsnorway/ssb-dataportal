@@ -99,11 +99,9 @@ describe('mapChanges', () => {
 
     expect(rows[0]?.label).toBe(localization.classification.about.date);
     expect(rows[0]?.value).toBeTruthy();
+    expect(rows[0]?.value).toMatch(/^\d{1,2}.\d{1,2}.\d{4}$/);
 
-    expect(rows[1]?.label).toBe(localization.classification.about.time);
-    expect(rows[1]?.value).toMatch(/^\d{2}:\d{2}:\d{2}$/);
-
-    expect(rows[2]).toEqual({
+    expect(rows[1]).toEqual({
       label: localization.classification.about.comment,
       value: 'Updated code list',
     });
@@ -116,14 +114,13 @@ describe('mapChanges', () => {
     } as unknown as ChangelogResource;
 
     const rows = mapChanges(changelog);
-    expect(rows[1]?.value).toMatch(/^\d{2}:\d{2}:\d{2}$/);
+    expect(rows[0]?.value).toMatch(/^\d{1,2}.\d{1,2}.\d{4}$/);
   });
 
   it('returns empty date/time when changeOccured is missing', () => {
     const rows = mapChanges({ description: 'only text' } as ChangelogResource);
     expect(rows[0]?.value).toBe('');
-    expect(rows[1]?.value).toBe('');
-    expect(rows[2]?.value).toBe('only text');
+    expect(rows[1]?.value).toBe('only text');
   });
 
   it('returns empty date/time when changeOccured is invalid', () => {
@@ -133,7 +130,7 @@ describe('mapChanges', () => {
 
   it('handles undefined changelog', () => {
     const rows = mapChanges(undefined);
-    expect(rows.map((r) => r.value)).toEqual(['', '', '']);
+    expect(rows.map((r) => r.value)).toEqual(['', '']);
   });
 });
 

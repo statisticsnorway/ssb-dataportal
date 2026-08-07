@@ -11,7 +11,7 @@ import { localization } from '@/libs/language';
 import { getDayBeforeDate } from '@/utils/dates';
 import { sortDatesDescendingSafe } from '@/utils/sort';
 import { mapChanges } from '../../utils/details';
-import { ClassificationVersionTable } from '../classification-version-table';
+import { ClassificationTable } from '../classification-table';
 import { ExpandableTable } from '../expandable-table';
 import styles from './views.module.css';
 
@@ -89,7 +89,7 @@ export default function ChangesView({
         title={localization.classification.about.changelog}
         table={
           version?.changelogs?.length ? (
-            <ClassificationVersionTable
+            <ClassificationTable
               content={version.changelogs
                 .sort((cl1, cl2) => sortDatesDescendingSafe(cl1.changeOccured, cl2.changeOccured))
                 .map((c) => mapChanges(c))}

@@ -9,29 +9,6 @@ import { Item, VersionItem } from '@/types/item';
 import { formatCustodian, formatLanguages, formatLocaleDate } from '@/utils/functions';
 
 /**
- * Formats the changelog timestamp as a Norwegian Bokmål time string (`nb-NO`).
- *
- * Uses 24-hour format with hours, minutes, and seconds (`HH:mm:ss`).
- * Returns an empty string when `changeOccured` is missing or invalid.
- *
- * @param changelog - Changelog entry containing the `changeOccured` timestamp.
- * @returns A localized time string, or an empty string if timestamp is missing/invalid.
- */
-const formatChangelogDateTime = (changelog: ChangelogResource | undefined) => {
-  if (!changelog?.changeOccured) return '';
-
-  const date = changelog.changeOccured instanceof Date ? changelog.changeOccured : new Date(changelog.changeOccured);
-  if (Number.isNaN(date.getTime())) return '';
-
-  return date.toLocaleTimeString('nb-NO', {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false,
-  });
-};
-
-/**
  * Determines whether a React node contains a value that should be rendered.
  *
  * Treats `null`, `undefined`, `false`, empty strings, and arrays containing only non-displayable values as not displayable.
@@ -148,10 +125,6 @@ export const mapChanges = (changelog: ChangelogResource | undefined): VersionIte
   {
     label: localization.classification.about.date,
     value: changelog?.changeOccured ? formatLocaleDate(changelog.changeOccured) : '',
-  },
-  {
-    label: localization.classification.about.time,
-    value: changelog?.changeOccured ? formatChangelogDateTime(changelog) : '',
   },
   {
     label: localization.classification.about.comment,
