@@ -9,6 +9,10 @@ import {
 } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import { getDayBeforeDate } from '@/utils/dates';
+import { sortDatesDescendingSafe } from '@/utils/sort';
+import { mapChanges } from '../../utils/details';
+import { ClassificationVersionTable } from '../classification-version-table';
+import { ExpandableTable } from '../expandable-table';
 import styles from './views.module.css';
 
 type GroupedChanges = {
@@ -21,9 +25,7 @@ export default function ChangesView({
   version,
 }: Readonly<{ classification: ClassificationResource; version: ClassificationVersionResource }>) {
   const sortedVersions =
-    [...(classification.versions ?? [])].sort(
-      (v1, v2) => (v2.validFrom?.getTime() ?? 0) - (v1.validFrom?.getTime() ?? 0),
-    ) ?? [];
+    [...(classification.versions ?? [])].sort((v1, v2) => sortDatesDescendingSafe(v1.validFrom, v2.validFrom)) ?? [];
   const previousVersion = sortedVersions[sortedVersions.findIndex((v) => v.id === version.id) + 1];
   if (sortedVersions.length <= 1 || previousVersion?.validFrom === undefined || classification.id === undefined)
     return (
@@ -81,37 +83,58 @@ export default function ChangesView({
     getChanges();
   }, []);
 
-  return groupedChanges.length < 1 ? (
-    <Alert data-color={'info'} role='status'>
-      {localization.versions.noChanges}
-    </Alert>
-  ) : (
-    <Table border={true} zebra={false} hover={false} stickyHeader={true} className={styles.table}>
-      <TableHead>
-        <TableRow>
-          <TableHeaderCell
-            colSpan={2}
-            scope='col'
-            className={`${styles.tableHeader} ${styles.tableCentralDivider}`}
-            key={previousVersion.name}
-          >
-            {previousVersion.name}
-          </TableHeaderCell>
-          <TableHeaderCell colSpan={2} scope='col' className={styles.tableHeader} key={version.name}>
-            {version.name}
-          </TableHeaderCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {groupedChanges.flatMap((group) =>
-          group.changes.map((change, index) => (
-            <TableRow key={`${group.newCodeKey}-${change.oldCode}-${index}`}>
-              {renderCodeAndName(change.oldCode, change.oldName, 1, true)}
-              {index === 0 ? renderCodeAndName(change.newCode, change.newName, group.changes.length) : null}
-            </TableRow>
-          )),
-        )}
-      </TableBody>
-    </Table>
+  return (
+    <>
+      <ExpandableTable
+        title={localization.classification.about.changelog}
+        table={
+          version?.changelogs?.length ? (
+            <ClassificationVersionTable
+              content={version.changelogs
+                .sort((cl1, cl2) => sortDatesDescendingSafe(cl1.changeOccured, cl2.changeOccured))
+                .map((c) => mapChanges(c))}
+            />
+          ) : undefined
+        }
+        message={version?.changelogs?.length ? undefined : localization.classification.about.noChanges}
+      />
+      <br />
+      {groupedChanges.length < 1 ? (
+        <Alert data-color={'info'} role='status'>
+          {localization.versions.noChanges}
+        </Alert>
+      ) : (
+        <>
+          <Table border={true} zebra={false} hover={false} stickyHeader={true} className={styles.table}>
+            <caption>{changes.length} changes to codes from the previous version.</caption>
+            <TableHead>
+              <TableRow>
+                <TableHeaderCell
+                  colSpan={2}
+                  scope='col'
+                  className={`${styles.tableHeader} ${styles.tableCentralDivider}`}
+                  key={previousVersion.name}
+                >
+                  {previousVersion.name}
+                </TableHeaderCell>
+                <TableHeaderCell colSpan={2} scope='col' className={styles.tableHeader} key={version.name}>
+                  {version.name}
+                </TableHeaderCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {groupedChanges.flatMap((group) =>
+                group.changes.map((change, index) => (
+                  <TableRow key={`${group.newCodeKey}-${change.oldCode}-${index}`}>
+                    {renderCodeAndName(change.oldCode, change.oldName, 1, true)}
+                    {index === 0 ? renderCodeAndName(change.newCode, change.newName, group.changes.length) : null}
+                  </TableRow>
+                )),
+              )}
+            </TableBody>
+          </Table>
+        </>
+      )}
+    </>
   );
 }
