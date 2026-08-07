@@ -4,7 +4,6 @@ enum Tabs {
   Codes,
   Details,
   Changes,
-  Versions,
   Correspondences,
   Variants,
 }
@@ -32,13 +31,6 @@ export const classificationDetailsTabsData: Record<keyof typeof Tabs, Classifica
     },
     id: 'changesTab',
     slug: 'changes',
-  },
-  Versions: {
-    get label() {
-      return localization.classificationDetails.versions;
-    },
-    id: 'versionsTab',
-    slug: 'versions',
   },
   Correspondences: {
     get label() {
