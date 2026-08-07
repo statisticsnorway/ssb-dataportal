@@ -53,7 +53,7 @@
   .table {
     --dsc-table-padding: var(--ds-size-2) var(--ds-size-3);
   }
-  .detailsHeading{
+  .detailsHeading {
     font-size: 2rem;
   }
 }
