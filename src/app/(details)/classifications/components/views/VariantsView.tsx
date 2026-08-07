@@ -9,9 +9,7 @@ interface VariantsViewProps {
   classificationVersion: ClassificationVersionResource;
 }
 
-// message if none -> localization
-// Card with table -> mapVersions
-// Link to page later
+
 export default function VariantsView({ classificationVersion }: Readonly<VariantsViewProps>) {
   const variants = classificationVersion?.classificationVariants ?? [];
   return (
