@@ -36,10 +36,10 @@ const compare = (a: VersionItem['value'], b: VersionItem['value']) => {
  * as-is, except `Date` values which are formatted with `nb-NO` locale.
  *
  * Optionally, a single column can be made sortable by passing `sortableField`
- * matching one of the header labels. Clicking that header cycles through:
- * unsorted → ascending → descending → unsorted. Sorting is stable-ish and
- * handles `Date`, strings, numbers and nullish values via the local `compare`
- * helper.
+ * matching one of the header labels. The sortable column defaults to
+ * descending order (newest first); clicking the header toggles between
+ * descending and ascending. Sorting is stable-ish and handles `Date`, strings,
+ * numbers and nullish values via the local `compare` helper.
  *
  * @param props - Component props
  * @param props.content - 2D array of `VersionItem`s; outer array = rows, inner array = cells
@@ -50,18 +50,14 @@ const ClassificationTable = ({ content, sortableField }: ClassificationTableProp
   const headers = content[0]?.map((item) => item.label) ?? [];
   const sortableIndex = sortableField ? headers.indexOf(sortableField) : -1;
 
-  const [sortDirection, setSortDirection] = useState<TableHeaderCellProps['sort']>(undefined);
+  const [sortDirection, setSortDirection] = useState<TableHeaderCellProps['sort']>('descending');
 
   const handleSort = () => {
-    setSortDirection((prev) => {
-      if (prev === undefined) return 'ascending';
-      if (prev === 'ascending') return 'descending';
-      return undefined;
-    });
+    setSortDirection((prev) => (prev === 'descending' ? 'ascending' : 'descending'));
   };
 
   const sortedContent =
-    sortableIndex >= 0 && sortDirection
+    sortableIndex >= 0
       ? [...content].sort((rowA, rowB) => {
           const a = rowA[sortableIndex]?.value;
           const b = rowB[sortableIndex]?.value;
@@ -81,7 +77,7 @@ const ClassificationTable = ({ content, sortableField }: ClassificationTableProp
               <TableHeaderCell
                 scope='col'
                 key={header}
-                sort={isSortable ? (sortDirection ?? 'none') : undefined}
+                sort={isSortable ? sortDirection : undefined}
                 onClick={isSortable ? handleSort : undefined}
               >
                 {header}
