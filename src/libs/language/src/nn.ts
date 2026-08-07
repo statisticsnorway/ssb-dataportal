@@ -71,6 +71,15 @@ export const nn = {
     subscribeInfo: 'Abonner på oppdateringar for denne klassifikasjonen',
     subscribeMessageSuccess: 'Du vil motta ein e-post. Følg instruksjonane i e-posten for å starte abonnementet ditt.',
     subscribeMessageInvalidEmail: 'Skriv inn ei gyldig e-postadresse',
+    variant: {
+      name: 'Namn',
+      id: 'ID',
+      owner: 'Eigar',
+      ownerSection: 'Eierseksjon',
+      noVariants: 'Ingen variantar',
+      variantHeading: 'Variantar',
+      variantInfo: 'Ein variant baserer seg på ein klassifikasjonsversjon, og representerer ei alternativ gruppering av denne (grupperinga KAN gå på tvers av strukturen i den opphavlege klassifikasjonen). Variantar blir ofte brukt for å oppfylle krav til spesifikke statistikkar, t.d. blir ein variant av Standard for næringsgruppering brukt for å lage Miljørekneskap.'
+    },
   },
   classificationDetails: {
     codes: 'Kodar',

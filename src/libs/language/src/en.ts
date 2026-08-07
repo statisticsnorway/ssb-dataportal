@@ -74,6 +74,16 @@ export const en = {
     subscribeMessageSuccess:
       'You will receive an email. Follow the instructions in the email to start your subscription.',
     subscribeMessageInvalidEmail: 'Enter a valid email address',
+    variant: {
+      name: 'Name',
+      id: 'ID',
+      owner: 'Owner',
+      ownerSection: 'Owner section',
+      noVariants: 'No variants',
+      variantHeading: 'Variants',
+      variantInfo:
+        'A variant is based on a classification version and represents an alternative grouping of it (the grouping MAY go across the structure of the original classification). Variants are often used to meet the requirements of specific statistics, e.g., a variant of the Standard for industry classification is used to create Environmental Accounts.',
+    },
   },
   classificationDetails: {
     codes: 'Codes',
