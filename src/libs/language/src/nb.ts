@@ -410,6 +410,7 @@ export const nb = {
       isNotCurrent: 'Dette er ikke dagens versjon av klassifikasjonen',
     },
     noChanges: 'Ingen endringer finnes for den aktuelle versjonen.',
+    codeChangesForVersion: '{numberOfChanges} kodeendringer fra forrige versjon.',
   },
 };
 

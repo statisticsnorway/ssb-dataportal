@@ -106,7 +106,11 @@ export default function ChangesView({
       ) : (
         <>
           <Table border={true} zebra={false} hover={false} stickyHeader={true} className={styles.table}>
-            <caption>{changes.length} changes to codes from the previous version.</caption>
+            <caption>
+              {localization.formatString(localization.versions.codeChangesForVersion, {
+                numberOfChanges: changes.length,
+              })}
+            </caption>
             <TableHead>
               <TableRow>
                 <TableHeaderCell
