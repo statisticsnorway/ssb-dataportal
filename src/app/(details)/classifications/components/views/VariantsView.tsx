@@ -1,4 +1,4 @@
-import { Heading } from '@digdir/designsystemet-react';
+import { Alert, Heading } from '@digdir/designsystemet-react';
 import { ClassificationVersionResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language/src/localization';
 import { formatVariantName, mapVariantItems } from '../../utils/variants';
@@ -19,13 +19,15 @@ export default function VariantsView({ classificationVersion }: Readonly<Variant
         </Heading>
         <p>{localization.classification.variant.variantInfo}</p>
       </header>
-      {variants.map((variant) => (
-        <ClassificationCard
-          title={formatVariantName(variant.name)}
-          content={mapVariantItems(variant)}
-          key={variant.id}
-        />
-      ))}
+      {variants.length > 0 &&
+        variants.map((variant) => (
+          <ClassificationCard
+            title={formatVariantName(variant.name)}
+            content={mapVariantItems(variant)}
+            key={variant.id}
+          />
+        ))}
+      {variants.length === 0 && <Alert data-color='info'>{localization.classification.variant.noVariants}</Alert>}
     </div>
   );
 }
