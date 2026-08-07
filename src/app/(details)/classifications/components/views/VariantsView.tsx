@@ -26,16 +26,7 @@ export default function VariantsView({ classificationVersion }: Readonly<Variant
           content={mapVariantItems(variant)}
           key={variant.id}
         />
-        /* <ClassificationTableCard
-          title={formatVariantName(variant.name)}
-          key={variant.id}
-          table={
-            variants?.length ? (
-              <ClassificationVersionTable content={variants.map((c) => mapVariantItems(c))} />
-            ) : undefined
-          }
-          message={variants?.length ? undefined : localization.classification.variant.noVariants}
-        />*/
+     
       ))}
     </div>
   );
