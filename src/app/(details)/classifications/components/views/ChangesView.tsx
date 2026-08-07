@@ -1,4 +1,13 @@
-import { Alert, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from '@digdir/designsystemet-react';
+import {
+  Alert,
+  Spinner,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeaderCell,
+  TableRow,
+} from '@digdir/designsystemet-react';
 import { useEffect, useState } from 'react';
 import { fetchChanges } from '@/libs/data/classifications/codesData';
 import {
@@ -34,9 +43,9 @@ export default function ChangesView({
 
   const startDate: Date = getDayBeforeDate(previousVersion.validFrom);
   const classificationId: number = classification.id;
-  const [changes, setChanges] = useState<CodeChangeItem[]>([]);
+  const [changes, setChanges] = useState<CodeChangeItem[] | null>(null);
 
-  const groupedChanges: GroupedChanges[] = changes.reduce<GroupedChanges[]>((groups, change) => {
+  const groupedChanges: GroupedChanges[] = (changes ?? []).reduce<GroupedChanges[]>((groups, change) => {
     const newCodeKey = change.newCode ?? '__undefined_new_code__';
     const existingGroup = groups.find((group) => group.newCodeKey === newCodeKey);
 
@@ -80,6 +89,10 @@ export default function ChangesView({
     };
     getChanges();
   }, []);
+
+  if (changes === null) {
+    return <Spinner aria-label={localization.loading.results} />;
+  }
 
   return groupedChanges.length < 1 ? (
     <Alert data-color={'info'} role='status'>
