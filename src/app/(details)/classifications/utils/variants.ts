@@ -3,6 +3,12 @@ import { localization } from '@/libs/language/src/localization';
 import { Item } from '@/types/item';
 import { addRow } from './details';
 
+/**
+ * Formats the name of a classification variant by removing the "variant" suffix and trailing hyphens.
+ *
+ * @param name - The original name of the classification variant.
+ * @returns The formatted variant name.
+ */
 export const formatVariantName = (name: string | undefined) => {
   if (!name) return '';
   return name.split('variant')[0]?.replace(/-\s*$/, '').trimEnd() ?? '';
