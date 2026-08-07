@@ -1,7 +1,7 @@
 import { ClassificationVariantResource } from '@/libs/data-access/klass/models/ClassificationVariantResource';
 import { localization } from '@/libs/language/src/localization';
 import { Item } from '@/types/item';
-import { addRow } from './details';
+import { addRow } from './commonUtils';
 
 /**
  * Formats the name of a classification variant by removing the "variant" suffix and trailing hyphens.

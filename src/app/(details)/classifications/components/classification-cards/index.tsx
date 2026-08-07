@@ -10,6 +10,12 @@ interface ClassificationCardProps {
   popoverContent?: string;
 }
 
+/**
+ * Renders a Card with column aligned description list
+ *
+ * @param param0
+ * @returns
+ */
 const ClassificationCard = ({ content, title, message, popoverContent }: Readonly<ClassificationCardProps>) => {
   const getColumnKey = (col: Item, index: number) => {
     return typeof col.label === 'string' && col.label.length > 0 ? col.label : String(index);
