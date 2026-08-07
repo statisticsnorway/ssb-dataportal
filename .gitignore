@@ -58,3 +58,4 @@ results/**
 # vscode
 .vscode/extensions.json
 .fallow/
+.playwright-cli/

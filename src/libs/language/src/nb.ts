@@ -86,7 +86,7 @@ export const nb = {
     codes: 'Koder',
     details: 'Detaljer',
     changes: 'Endringer',
-    versions: 'Versjoner',
+    versions: 'Alle versjoner',
     correspondences: 'Korrespondanser',
     variants: 'Varianter',
   },

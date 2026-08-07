@@ -63,9 +63,6 @@ Github actions: `.github/workflows/dependency-scan.yml`
 SEVERITIES — included vulnerability severities
 RISK_THRESHOLD — minimum risk score
 
-Github pages report: [https://statisticsnorway.github.io/ssb-dataportal/](https://statisticsnorway.github.io/ssb-dataportal/)
-
-
 #### Local scans
 
 Install [Grype](https://oss.anchore.com/docs/installation/grype/)

@@ -1,6 +1,6 @@
 {
   "name": "ssb-dataportal",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "private": true,
   "devEngines": {
     "packageManager": {
@@ -69,6 +69,7 @@
     "@bgotink/playwright-coverage": "0.3.2",
     "@digdir/designsystemet-web": "1.18.0",
     "@openapitools/openapi-generator-cli": "2.39.1",
+    "@playwright/cli": "^0.1.17",
     "@playwright/test": "1.61.1",
     "@testing-library/dom": "10.4.1",
     "@testing-library/jest-dom": "6.9.1",
