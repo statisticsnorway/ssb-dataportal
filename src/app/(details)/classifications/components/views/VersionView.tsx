@@ -75,11 +75,11 @@ export function VersionView({ classification, classificationVersion, children }:
           {localization.versions.tags.isNotCurrent}
         </Alert>
       )}
-      <Heading className={`${styles.detailsHeading} secondaryHeading`} data-size='lg' level={2}>
+      <Heading className={`${styles.detailsHeading} secondaryHeading`} data-size='md' level={2}>
         {resolved.version.name ?? '—'}
       </Heading>
       {resolved?.isLatest && versionTag}
-      <p className={styles.classificationParagraph}>{classificationVersion?.introduction ?? '—'}</p>
+      <p>{classificationVersion?.introduction ?? '—'}</p>
       <Tabs
         value={activeTab.id}
         onChange={(value) => {

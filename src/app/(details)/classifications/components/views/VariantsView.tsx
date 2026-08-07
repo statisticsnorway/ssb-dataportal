@@ -17,7 +17,7 @@ export default function VariantsView({ classificationVersion }: Readonly<Variant
         <Heading className='secondaryHeading' data-size='md' level={2}>
           {localization.classification.variant.variantHeading}
         </Heading>
-        <p className={styles.classificationParagraph}>{localization.classification.variant.variantInfo}</p>
+        <p>{localization.classification.variant.variantInfo}</p>
       </header>
       {variants.length > 0 &&
         variants.map((variant) => (

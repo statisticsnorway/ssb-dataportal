@@ -36,7 +36,7 @@ export default function ClassificationDetail({
         currentText={classification.name ?? String(classification.id)}
       />
       <main className={styles.mainContent}>
-        <Heading className={'primaryHeading'} data-size='xl' level={1}>
+        <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='lg' level={1}>
           {classification.name}
         </Heading>
         {classification.description && (

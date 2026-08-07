@@ -1,6 +1,21 @@
 .detailsHeading {
+  display: flex;
+  align-items: center;
+  gap: var(--small-gap);
   margin-bottom: 2rem;
+  font-size: var(--font-size-lg);
 }
+
+/*
+
+  --font-size-sm: 0.85rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xlg: 1.5rem;
+  --font-size-2xl: 2.5rem;
+  --font-size-3xl: 3rem;
+
+  */
 
 .grid {
   display: flex;
@@ -38,6 +53,10 @@
   margin: 0;
 }
 
+.arrowIcon {
+  font-size: var(--font-size-lg);
+}
+
 @media (min-width: 768px) {
   .column {
     gap: 0;
@@ -49,5 +68,14 @@
 
   .value {
     flex: 1 1 60%;
+  }
+}
+
+@media (min-width: 848px) {
+  .detailsHeading {
+    font-size: var(--font-size-xlg);
+  }
+  .arrowIcon {
+    font-size: var(--font-size-xlg);
   }
 }
