@@ -159,7 +159,7 @@ p {
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
-  line-height: normal;
+  line-height: 1.5;
   letter-spacing: normal;
   color: var(--ssb-dark-color-6);
 }
