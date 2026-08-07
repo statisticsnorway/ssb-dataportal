@@ -22,11 +22,7 @@ const ClassificationCard = ({ content, title }: Readonly<ClassificationCardProps
   return (
     <Card>
       {title && (
-        <Heading
-          level={3}
-          className={`${styles.detailsHeading} infoHeadingSecondary`}
-          id={`tableHeading-${title}`}
-        >
+        <Heading level={3} className={`${styles.detailsHeading} infoHeadingSecondary`} id={`tableHeading-${title}`}>
           {title} {<ArrowRightIcon />}
         </Heading>
       )}
