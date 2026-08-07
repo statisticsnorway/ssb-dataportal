@@ -1,11 +1,10 @@
-import { Card, Divider, Heading, Paragraph, Popover } from '@digdir/designsystemet-react';
+import { Card, Divider, Heading, Popover } from '@digdir/designsystemet-react';
 import { ArrowRightIcon, QuestionmarkCircleIcon } from '@navikt/aksel-icons';
 import { Item } from '@/types/item';
 import styles from './classificationCards.module.css';
 
 interface ClassificationCardProps {
   content: Item[];
-  message?: string;
   title?: string;
   popoverContent?: string;
 }
@@ -16,7 +15,7 @@ interface ClassificationCardProps {
  * @param param0
  * @returns
  */
-const ClassificationCard = ({ content, title, message, popoverContent }: Readonly<ClassificationCardProps>) => {
+const ClassificationCard = ({ content, title, popoverContent }: Readonly<ClassificationCardProps>) => {
   const getColumnKey = (col: Item, index: number) => {
     return typeof col.label === 'string' && col.label.length > 0 ? col.label : String(index);
   };
@@ -33,7 +32,7 @@ const ClassificationCard = ({ content, title, message, popoverContent }: Readonl
           {title} {<ArrowRightIcon />}
         </Heading>
       )}
-      {content ? (
+      {content && content.length > 0 ? (
         <dl className={styles.grid}>
           <div className={styles.row}>
             {content.map((col, index) =>
@@ -66,7 +65,7 @@ const ClassificationCard = ({ content, title, message, popoverContent }: Readonl
           </div>
         </dl>
       ) : (
-        <Paragraph className={styles.value}>{message}</Paragraph>
+        null
       )}
       <Divider />
     </Card>
