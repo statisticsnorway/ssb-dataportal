@@ -1,6 +1,9 @@
 import { localization } from '@/libs/language/src/localization';
 import { Page } from '@playwright/test';
 import { expect, test } from './fixtures/classification.fixture';
+import versionsMock from '@/static-data/versions.json';
+
+const currentVersion = versionsMock.versions![0];
 
 const CHANGES_CLASSIFICATION_ID = 91;
 const NO_CHANGES_CLASSIFICATION_ID = 2003;
@@ -12,6 +15,37 @@ async function openChangesTab(classificationDetailsPage: (id: string | number) =
   await changesTab.click();
   await expect(page).toHaveURL(`/classifications/${id}/changes`);
   return page;
+}
+
+async function expandSection(page: Page, title: string) {
+  const section = page.locator('details', {
+    has: page.locator('summary', { hasText: title }),
+  });
+  await expect(section).toBeVisible();
+  const summary = section.locator('summary');
+  if ((await section.getAttribute('open')) === null) {
+    await summary.click();
+  }
+  return section;
+}
+
+async function assertChangelogTable(page: Page, version: (typeof versionsMock.versions)[number]) {
+  const section = await expandSection(page, localization.classification.about.changelog);
+  const changelogs = version.changelogs ?? [];
+
+  if (changelogs.length === 0) {
+    await expect(section.getByText(localization.classification.about.noChanges)).toBeVisible();
+    return;
+  }
+
+  const table = section.getByRole('table');
+  await expect(table).toBeVisible();
+  await expect(table.getByRole('row')).toHaveCount(changelogs.length + 1);
+  for (const entry of changelogs) {
+    if (entry.description) {
+      await expect(table.getByText(entry.description, { exact: false }).first()).toBeVisible();
+    }
+  }
 }
 
 test('changes tab renders base case with static data', async ({ classificationDetailsPage }) => {
@@ -28,6 +62,8 @@ test('changes tab shows no data rows when no changes are found', async ({ classi
 
   await expect(page.getByText(localization.versions.noChanges)).toBeVisible();
   await expect(page.getByRole('table')).not.toBeVisible();
+
+  await assertChangelogTable(page, currentVersion!);
 });
 
 test('changes tab groups rows by new code', async ({ classificationDetailsPage }) => {
