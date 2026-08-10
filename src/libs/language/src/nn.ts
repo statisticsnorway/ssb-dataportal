@@ -44,7 +44,7 @@ export const nn = {
       langNN: 'Nynorsk',
       levels: 'Nivå',
       number: 'Nummer',
-      noChanges: 'Ingen endringar',
+      noChanges: 'Ingen beskrivelser i endringsloggen.',
       notRelevant: 'Ikkje relevant',
       name: 'Namn',
       description: 'Skildring',
@@ -407,6 +407,7 @@ export const nn = {
       validFrom: 'Gyldig frå og med',
       isNotCurrent: 'Dette er ikkje dagens versjon av klassifikasjonen',
     },
-    noChanges: 'Ingen endringar finst for den aktuelle versjonen.',
+    noChanges: 'Ingen kodeendringar finst for den aktuelle versjonen.',
+    codeChangesForVersion: '{numberOfChanges} kodeendringar frå forrige versjon.',
   },
 } satisfies Translation;
