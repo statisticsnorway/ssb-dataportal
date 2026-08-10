@@ -36,12 +36,12 @@ async function assertDetailsList(page: Page, version: (typeof versions)[number])
   ).toBeVisible();
 }
 
-test('displays version details', async ({ page }) => {
+test('displays version details current', async ({ page }) => {
   await gotoAbout(page, CURRENT_DETAILS_URL);
   await assertDetailsList(page, currentVersion!);
 });
 
-test('displays version details', async ({ page }) => {
+test('displays version details older', async ({ page }) => {
   await gotoAbout(page, OLDER_DETAILS_URL);
   await assertDetailsList(page, olderVersion!);
 });
