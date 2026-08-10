@@ -43,9 +43,14 @@ test.describe('Current variants tab', () => {
     await gotoVariants(page, CURRENT_DETAILS_URL);
 
     for (const variant of currentVersion!.classificationVariants!) {
-      await expect(page.getByRole('heading', { name: formatVariantName(variant.name) })).toBeVisible();
-      await expect(page.getByText(String(variant.id))).toBeVisible();
-      await expect(page.getByText(variant.owningSection ?? '')).toBeVisible();
+      const heading = page.getByRole('heading', { name: formatVariantName(variant.name) });
+      await expect(heading).toBeVisible();
+      const card = heading.locator('xpath=following-sibling::dl[1]');
+
+      await expect(card.getByText(String(variant.id), { exact: true })).toBeVisible();
+      if (variant.owningSection) {
+        await expect(card.getByText(variant.owningSection, { exact: true })).toBeVisible();
+      }
     }
   });
 });
