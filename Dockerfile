@@ -2,35 +2,39 @@
 
 # Based on example from: https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
 
-FROM node@sha256:b46a10d964ad15136ebdf9012142131481caa0697d7a4d4eafe4bbabd818f876 AS base
-
+FROM cgr.dev/chainguard/node:latest-dev AS base
+USER root
 RUN npm install -g pnpm@11.9.0
+USER node
 
 # Install dependencies only when needed
 FROM base AS deps
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY pnpm-workspace.yaml package.json pnpm-lock.yaml* ./
-
+COPY --chown=node:node pnpm-workspace.yaml package.json pnpm-lock.yaml* ./
 RUN pnpm i --prod --frozen-lockfile
 
 
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY --from=deps --chown=node:node /app/node_modules ./node_modules
+COPY --chown=node:node . .
 ENV NEXT_TELEMETRY_DISABLED=1
+RUN pnpm run build
 
-RUN pnpm run build;
+# Pre-create prerender cache dir so it can be COPY --chown'd into distroless
+RUN mkdir -p .next/cache
 
 # Production image, copy all the files and run next
-FROM gcr.io/distroless/nodejs24-debian13@sha256:7a22f300e7bd7ec78f3db220fb679af4e169e5f3373f97fe432847111f9b1810 AS runner
+FROM gcr.io/distroless/nodejs26-debian13:nonroot AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+
+USER nonroot:nonroot
 
 COPY --from=builder /app/public ./public
 
