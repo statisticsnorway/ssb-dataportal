@@ -27,7 +27,11 @@ export default function VariantsView({ classificationVersion }: Readonly<Variant
             key={variant.id}
           />
         ))}
-      {variants.length === 0 && <Alert role='status' data-color='info'>{localization.classification.variant.noVariants}</Alert>}
+      {variants.length === 0 && (
+        <Alert role='status' data-color='info'>
+          {localization.classification.variant.noVariants}
+        </Alert>
+      )}
     </div>
   );
 }
