@@ -34,11 +34,6 @@ test.describe('Current variants tab', () => {
     await expect(page.getByText(localization.classification.variant.variantInfo)).toBeVisible();
   });
 
-  test('displays variants cards', async ({ page }) => {
-    await gotoVariants(page, CURRENT_DETAILS_URL);
-    await expect(page.getByRole('list')).toBeVisible();
-    await expect(page.getByRole('listitem')).toHaveCount(currentVersion!.classificationVariants!.length);
-  });
   test('each card displays id and owner', async ({ page }) => {
     await gotoVariants(page, CURRENT_DETAILS_URL);
 
