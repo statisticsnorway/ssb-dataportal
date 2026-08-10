@@ -118,10 +118,6 @@ export const mapChanges = (changelog: ChangelogResource | undefined): VersionIte
     value: changelog?.changeOccured ? formatLocaleDate(changelog.changeOccured) : '',
   },
   {
-    label: localization.classification.about.time,
-    value: changelog?.changeOccured ? formatChangelogDateTime(changelog) : '',
-  },
-  {
     label: localization.classification.about.comment,
     value: changelog?.description ?? '',
   },
