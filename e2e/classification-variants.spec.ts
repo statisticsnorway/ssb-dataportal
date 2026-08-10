@@ -1,7 +1,6 @@
 import versionsMock from '@/static-data/versions.json';
-import { isSupportedLanguage, localization } from '@/libs/language';
-import { formatCustodian, formatLanguages, formatLocaleDate } from '@/utils/functions';
-import { parseVersion } from '@/utils/mock-data';
+import { localization } from '@/libs/language';
+import { formatCustodian } from '@/utils/functions';
 import { Page } from '@playwright/test';
 import { test, expect } from '@bgotink/playwright-coverage';
 import { classificationDetailsTabsData } from '@/app/(details)/classifications/[id]/tabs';
@@ -10,7 +9,6 @@ const versions = versionsMock.versions;
 const currentVersion = versions![0];
 const olderVersion = versions![1];
 
-// add test data variants ?
 const CURRENT_DETAILS_URL = '/classifications/2003/variants';
 const OLDER_DETAILS_URL = `/classifications/2003/version/${olderVersion!.id ?? 2}/variants`;
 
@@ -39,5 +37,36 @@ test.describe('Current variants tab', () => {
   test('displays variants cards', async ({ page }) => {
     await gotoVariants(page, CURRENT_DETAILS_URL);
     await expect(page.getByRole('list')).toBeVisible();
+    await expect(page.getByRole('listitem')).toHaveCount(currentVersion!.classificationVariants!.length);
+  });
+  test('each card displays id and owner', async ({ page }) => {
+    await gotoVariants(page, CURRENT_DETAILS_URL);
+    const items = page.getByRole('listitem');
+
+    for (const variant of currentVersion!.classificationVariants!) {
+      const card = items.filter({ hasText: String(variant.id) });
+      await expect(card).toBeVisible();
+      await expect(card).toContainText(String(variant.id));
+      await expect(card).toContainText(formatCustodian(variant.contactPerson ?? variant.owningSection ?? ''));
+    }
+  });
+});
+
+test.describe('Older variants tab', () => {
+  test('displays variant heading', async ({ page }) => {
+    await gotoVariants(page, OLDER_DETAILS_URL);
+    await expect(page.getByRole('heading', { name: localization.classification.variant.variantHeading })).toBeVisible();
+  });
+
+  test('displays variant info', async ({ page }) => {
+    await gotoVariants(page, OLDER_DETAILS_URL);
+    await expect(page.getByText(localization.classification.variant.variantInfo)).toBeVisible();
+  });
+
+  test('displays no variants alert', async ({ page }) => {
+    await gotoVariants(page, OLDER_DETAILS_URL);
+    await expect(
+      page.getByRole('status').filter({ hasText: localization.classification.variant.noVariants }),
+    ).toBeVisible();
   });
 });
