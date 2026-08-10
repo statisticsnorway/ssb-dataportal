@@ -1,6 +1,6 @@
 'use client';
 
-import { Alert, Heading, Paragraph, Tabs, Tag } from '@digdir/designsystemet-react';
+import { Alert, Heading, Tabs, Tag } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
@@ -70,7 +70,7 @@ export function VersionView({ classification, classificationVersion, children }:
     }) ?? '—';
 
   const versionTag = (
-    <Tag data-color={'info'}>
+    <Tag data-color={'info'} className={styles.versionTag}>
       {`${localization.versions.tags.isLatest} (${localization.versions.tags.validFrom}: ${validFromText})`}
     </Tag>
   );
@@ -82,11 +82,11 @@ export function VersionView({ classification, classificationVersion, children }:
           {localization.versions.tags.isNotCurrent}
         </Alert>
       )}
-      <Heading className={`${styles.detailsHeading} secondaryHeading`} data-size='lg' level={2}>
+      <Heading className={`${styles.detailsHeading} secondaryHeading`} data-size='md' level={2}>
         {resolved.version.name ?? '—'}
       </Heading>
       {resolved?.isLatest && versionTag}
-      <Paragraph>{classificationVersion?.introduction ?? '—'}</Paragraph>
+      <p>{classificationVersion?.introduction ?? '—'}</p>
       <Tabs
         value={activeTab.id}
         onChange={(value) => {

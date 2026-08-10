@@ -20,3 +20,9 @@
   hyphens: auto;
   margin: 1rem 0;
 }
+
+@media (min-width: 768px) {
+  .detailsHeading {
+    font-size: 3rem;
+  }
+}

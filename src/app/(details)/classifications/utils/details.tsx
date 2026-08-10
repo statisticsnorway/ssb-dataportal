@@ -1,5 +1,4 @@
 import { Tag } from '@digdir/designsystemet-react';
-import { ReactNode } from 'react';
 import { EmailLink } from '@/components/link-components/emailLink';
 import { ChangelogResource, ClassificationVersionResource, LevelResource } from '@/libs/data-access/klass/models';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
@@ -7,36 +6,28 @@ import { isSupportedLanguage } from '@/libs/language';
 import { localization } from '@/libs/language/src/localization';
 import { Item, VersionItem } from '@/types/item';
 import { formatCustodian, formatLanguages, formatLocaleDate } from '@/utils/functions';
+import { addRow } from './commonUtils';
 
 /**
- * Determines whether a React node contains a value that should be rendered.
+ * Formats the changelog timestamp as a Norwegian Bokmål time string (`nb-NO`).
  *
- * Treats `null`, `undefined`, `false`, empty strings, and arrays containing only non-displayable values as not displayable.
+ * Uses 24-hour format with hours, minutes, and seconds (`HH:mm:ss`).
+ * Returns an empty string when `changeOccured` is missing or invalid.
  *
- * @param value - The React node to evaluate.
- * @returns `true` if the value should be displayed; otherwise `false`.
+ * @param changelog - Changelog entry containing the `changeOccured` timestamp.
+ * @returns A localized time string, or an empty string if timestamp is missing/invalid.
  */
-const hasDisplayValue = (value: ReactNode | undefined | null): boolean => {
-  if (value === null || value === undefined || value === false) return false;
-  if (typeof value === 'string') return value.trim() !== '';
-  if (Array.isArray(value)) return value.some((v) => hasDisplayValue(v));
-  return true;
-};
+const _formatChangelogDateTime = (changelog: ChangelogResource | undefined) => {
+  if (!changelog?.changeOccured) return '';
 
-/**
- * Adds a labeled row to the output list for the "details" section.
- *
- * If `value` is not displayable (for example `null`, `undefined`, `false`, or an empty string),
- * the localized fallback text for "not relevant" is used instead in the "details" section.
- *
- * @param rows - Mutable list of rows to append to.
- * @param label - Row label shown in the UI.
- * @param value - Row value to render.
- */
-const addRow = (rows: Item[], label: string, value: ReactNode | undefined | null) => {
-  rows.push({
-    label,
-    value: hasDisplayValue(value) ? value : localization.classification.about.notRelevant,
+  const date = changelog.changeOccured instanceof Date ? changelog.changeOccured : new Date(changelog.changeOccured);
+  if (Number.isNaN(date.getTime())) return '';
+
+  return date.toLocaleTimeString('nb-NO', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
   });
 };
 

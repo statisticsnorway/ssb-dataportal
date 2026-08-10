@@ -43,7 +43,15 @@
 @media (min-width: 768px) {
   :is(.footerTopRow, .footerMiddleRow) {
     flex-direction: row;
-    gap: var(--extra-large-gap);
     padding: var(--medium-gap) 0;
+  }
+  .footer {
+    flex-wrap: wrap;
+  }
+}
+
+@media (min-width: 1400px) {
+  :is(.footerTopRow, .footerMiddleRow) {
+    gap: var(--extra-large-gap);
   }
 }

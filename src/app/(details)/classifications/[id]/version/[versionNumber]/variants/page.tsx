@@ -1,5 +1,13 @@
+'use client';
+
+import { notFound } from 'next/navigation';
+import { useVersion } from '@/app/(details)/classifications/components/versionContext';
 import VariantsView from '@/app/(details)/classifications/components/views/VariantsView';
 
-export default async function Variants() {
-  return <VariantsView />;
+export default function VariantsVersion() {
+  const { versionResource } = useVersion();
+  if (!versionResource?.classificationVariants) {
+    return notFound();
+  }
+  return <VariantsView classificationVersion={versionResource} />;
 }

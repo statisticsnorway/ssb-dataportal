@@ -27,6 +27,9 @@
   gap: 1rem;
 }
 
+.versionTag {
+  max-width: 100%;
+}
 @media (min-width: 400px) {
   .tabsPanel {
     --dsc-tabs-content-padding: var(--dsc-tabs-tab-padding);
@@ -49,6 +52,9 @@
 @media (min-width: 768px) {
   .table {
     --dsc-table-padding: var(--ds-size-2) var(--ds-size-3);
+  }
+  .detailsHeading {
+    font-size: 2rem;
   }
 }
 

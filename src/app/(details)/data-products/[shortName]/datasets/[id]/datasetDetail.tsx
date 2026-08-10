@@ -6,7 +6,7 @@ import { useAuthContext } from '@/app/authContext';
 import { useTimelineData } from '@/components/data-coverage-timeline';
 import DataCoverageTimeline from '@/components/data-coverage-timeline/dataCoverageTimeline';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
-import { DetailsTable } from '@/components/details-list';
+import { DetailsList } from '@/components/details-list';
 import { ExternalLink } from '@/components/link-components/externalLink';
 import { CopyTag } from '@/components/tag-components/copy-tag';
 import { DaplaDataFileDTO, DatasetDTO } from '@/libs/data-access/datadoc';
@@ -56,7 +56,7 @@ export default function DatasetDetail({
         <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='xl' level={1}>
           {dataset.short_description}
         </Heading>
-        <DetailsTable
+        <DetailsList
           title={localization.datasetDetail.aboutDataset}
           content={[
             { label: localization.datasetDetail.dataProduct, value: dataset.product_short_name },

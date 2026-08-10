@@ -71,6 +71,16 @@ export const nb = {
     subscribeInfo: 'Abonner på oppdateringer for denne klassifikasjonen',
     subscribeMessageSuccess: 'Du vil motta en mail. Følg instruksjonene i mailen for å starte ditt abonnement.',
     subscribeMessageInvalidEmail: 'Skriv inn en gyldig e-postadresse',
+    variant: {
+      name: 'Navn',
+      id: 'ID',
+      owner: 'Eier',
+      ownerSection: 'Eierseksjon',
+      noVariants: 'Denne versjonen har ingen varianter',
+      variantHeading: 'Varianter',
+      variantInfo:
+        'En variant baserer seg på en klassifikasjonsversjon, og representerer en alternativ gruppering av denne (grupperingen KAN gå på tvers av strukturen i den opprinnelige klassifikasjonen). Varianter brukes ofte for å oppfylle krav til spesifikke statistikker, f.eks. brukes en variant av Standard for næringsgruppering for å lage Miljøregnskap.',
+    },
   },
   classificationDetails: {
     codes: 'Koder',
