@@ -1,7 +1,9 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { ClassificationItemResource } from '@/libs/data-access/klass/models/ClassificationItemResource';
+import versionsMock from '@/static-data/versions.json';
 import type { KlassCode } from '@/types/klass-codes';
+import { parseVersion } from '@/utils/mock-data';
 import { CodesView } from './CodesView';
 
 vi.mock('@/components/code-tree', () => ({
@@ -47,9 +49,12 @@ const codes: ClassificationItemResource[] = [
   },
 ];
 
+const version = parseVersion(versionsMock.versions[0]);
+version.classificationItems = codes;
+
 describe('CodesView', () => {
   it('renders all codes before filters are applied', () => {
-    render(<CodesView codes={codes} />);
+    render(<CodesView version={version} />);
 
     expect(screen.getByText('01:Agriculture')).toBeInTheDocument();
     expect(screen.getByText('01.1:Crop production')).toBeInTheDocument();
@@ -61,7 +66,7 @@ describe('CodesView', () => {
     { searchTerm: 'forestry', visible: '02:Forestry', hidden: '01:Agriculture' },
     { searchTerm: 'crop', visible: '01.1:Crop production', hidden: '02:Forestry' },
   ])('filters with "$searchTerm" using a single filter field', ({ searchTerm, visible, hidden }) => {
-    render(<CodesView codes={codes} />);
+    render(<CodesView version={version} />);
 
     fireEvent.change(screen.getByLabelText('Filtrer på kode eller navn'), { target: { value: searchTerm } });
 

@@ -1,6 +1,11 @@
 import { localization } from '@/libs/language';
+import versionsMock from '@/static-data/versions.json';
 import { expect, test } from './fixtures/codesPage.fixture';
 import { CODES_VERSION_URL } from './utils/commonUtils';
+import { Page } from '@playwright/test';
+
+const versions = versionsMock.versions;
+const currentVersion = versions![0];
 
 const codeA = { code: 'A', name: 'Jordbruk, skogbruk og fiske' };
 const code01 = { code: '01', name: 'Jordbruk og tjenester tilknyttet jordbruk' };
@@ -10,6 +15,31 @@ const code011 = { code: '011', name: 'Dyrking av ettårige vekster' };
 const rowBodyLabel = (code: string, name: string) => `${localization.codeTree.selectCode} ${code}: ${name}`;
 const expandLabel = (name: string) => `${localization.codeTree.expand} ${name}`;
 const collapseLabel = (name: string) => `${localization.codeTree.collapse} ${name}`;
+
+async function expandSection(page: Page, title: string) {
+  const section = page.locator('details', {
+    has: page.locator('summary', { hasText: title }),
+  });
+  await expect(section).toBeVisible();
+  const summary = section.locator('summary');
+  if ((await section.getAttribute('open')) === null) {
+    await summary.click();
+  }
+  return section;
+}
+
+async function assertLevelsTable(page: Page, version: (typeof versions)[number]) {
+  const section = await expandSection(page, localization.classification.about.levels);
+  const table = section.getByRole('table');
+  await expect(table).toBeVisible();
+
+  const levels = version.levels ?? [];
+  await expect(table.getByRole('row')).toHaveCount(levels.length + 1);
+  for (const level of levels) {
+    await expect(table.getByRole('cell', { name: String(level.levelNumber), exact: true }).first()).toBeVisible();
+    await expect(table.getByRole('cell', { name: level.levelName, exact: true }).first()).toBeVisible();
+  }
+}
 
 test.describe('/classifications/[id]/codes', () => {
   test('renders the code tree inside the Koder tab', async ({ codesPage }) => {
@@ -146,5 +176,11 @@ test.describe('/classifications/[id]/version/[versionNumber]/codes', () => {
     await expect(
       page.getByRole('button', { name: `${localization.codeTree.expand} Jordbruk, skogbruk og fiske` }),
     ).toBeVisible();
+  });
+
+  test('displays version level table', async ({ page }) => {
+    await page.goto(CODES_VERSION_URL);
+
+    await assertLevelsTable(page, currentVersion!);
   });
 });
