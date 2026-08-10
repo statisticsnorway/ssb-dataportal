@@ -2,6 +2,7 @@
 
 import { Alert, Heading, Tabs, Tag } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
@@ -46,6 +47,7 @@ export function VersionView({ classification, classificationVersion, children }:
 
   const versions = classification.versions ?? [];
   const resolved = resolveVersionFromPath(pathname, versions);
+
   if (!resolved) return null;
 
   const tabs = Object.values(classificationDetailsTabsData);
@@ -54,6 +56,11 @@ export function VersionView({ classification, classificationVersion, children }:
     resolved.isLatest
       ? `/classifications/${classification.id}/${slug}`
       : `/classifications/${classification.id}/version/${resolved.version.id}/${slug}`;
+
+  useEffect(() => {
+    // Changes can take 6s or more to load in so prefetch this to avoid the user having to wait on tab access
+    router.prefetch(getTabUrl(classificationDetailsTabsData.Changes.slug));
+  }, [router, classification.id, resolved.isLatest, resolved.version.id]);
 
   const validFromText =
     resolved.version.validFrom?.toLocaleDateString('nb-NO', {
