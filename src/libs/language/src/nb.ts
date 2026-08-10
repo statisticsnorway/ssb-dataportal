@@ -46,7 +46,7 @@ export const nb = {
       number: 'Nummer',
       name: 'Navn',
       notRelevant: 'Ikke relevant',
-      noChanges: 'Ingen endringer',
+      noChanges: 'Ingen beskrivelser i endringsloggen.',
       description: 'Beskrivelse',
       changelog: 'Endringslogg',
       date: 'Dato',
@@ -409,7 +409,8 @@ export const nb = {
       validFrom: 'Gyldig fra og med',
       isNotCurrent: 'Dette er ikke dagens versjon av klassifikasjonen',
     },
-    noChanges: 'Ingen endringer finnes for den aktuelle versjonen.',
+    noChanges: 'Ingen kodeendringer finnes for den aktuelle versjonen.',
+    codeChangesForVersion: '{numberOfChanges} kodeendringer fra forrige versjon.',
   },
 };
 

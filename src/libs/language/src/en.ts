@@ -45,7 +45,7 @@ export const en = {
       publications: 'Publications',
       unitTypes: 'Unit types',
       levels: 'Levels',
-      noChanges: 'No changes',
+      noChanges: 'No descriptions available in the changelog.',
       notRelevant: 'Not relevant',
       number: 'Number',
       name: 'Name',
@@ -410,6 +410,7 @@ export const en = {
       validFrom: 'Valid from and including',
       isNotCurrent: 'This is not the current version of the classification',
     },
-    noChanges: 'No changes related to this version',
+    noChanges: 'No changes to codes for this version',
+    codeChangesForVersion: '{numberOfChanges} changes to codes from the previous version.',
   },
 } satisfies Translation;

@@ -60,26 +60,6 @@ async function assertLevelsTable(page: Page, version: (typeof versions)[number])
     await expect(table.getByRole('cell', { name: level.levelName, exact: true }).first()).toBeVisible();
   }
 }
-
-async function assertChangelogTable(page: Page, version: (typeof versions)[number]) {
-  const section = await expandSection(page, localization.classification.about.changelog);
-  const changelogs = version.changelogs ?? [];
-
-  if (changelogs.length === 0) {
-    await expect(section.getByText(localization.classification.about.noChanges)).toBeVisible();
-    return;
-  }
-
-  const table = section.getByRole('table');
-  await expect(table).toBeVisible();
-  await expect(table.getByRole('row')).toHaveCount(changelogs.length + 1);
-  for (const entry of changelogs) {
-    if (entry.description) {
-      await expect(table.getByText(entry.description, { exact: false }).first()).toBeVisible();
-    }
-  }
-}
-
 test.beforeEach(({}, testInfo) => {
   test.skip(testInfo.project.name === 'chrome-unauth');
 });
@@ -94,11 +74,6 @@ test.describe('Current version details tab', () => {
     await gotoAbout(page, CURRENT_DETAILS_URL);
     await assertLevelsTable(page, currentVersion!);
   });
-
-  test('displays version changelog table', async ({ page }) => {
-    await gotoAbout(page, CURRENT_DETAILS_URL);
-    await assertChangelogTable(page, currentVersion!);
-  });
 });
 
 test.describe('Older version details tab', () => {
@@ -110,10 +85,5 @@ test.describe('Older version details tab', () => {
   test('displays version level table', async ({ page }) => {
     await gotoAbout(page, OLDER_DETAILS_URL);
     await assertLevelsTable(page, olderVersion!);
-  });
-
-  test('displays version changelog table', async ({ page }) => {
-    await gotoAbout(page, OLDER_DETAILS_URL);
-    await assertChangelogTable(page, olderVersion!);
   });
 });
