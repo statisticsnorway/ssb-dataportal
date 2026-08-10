@@ -11,5 +11,5 @@ export default function CodesVersion() {
     return notFound();
   }
 
-  return <CodesView codes={versionResource.classificationItems} />;
+  return <CodesView version={versionResource} />;
 }

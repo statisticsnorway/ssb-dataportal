@@ -410,6 +410,9 @@ export const nb = {
       isNotCurrent: 'Dette er ikke dagens versjon av klassifikasjonen',
     },
     noChanges: 'Ingen kodeendringer finnes for den aktuelle versjonen.',
+    numberOfCodesAndLevels: 'Versjonen inneholder {numberOfCodes} koder fordelt over {numberOfLevels} {level}.',
+    level: 'nivå',
+    levelPlural: 'nivåer',
     codeChangesForVersion: '{numberOfChanges} kodeendringer fra forrige versjon.',
   },
 };
