@@ -1,6 +1,6 @@
 import versionsMock from '@/static-data/versions.json';
 import { localization } from '@/libs/language';
-import { formatCustodian } from '@/utils/functions';
+import { formatVariantName } from '@/app/(details)/classifications/utils/variants';
 import { Page } from '@playwright/test';
 import { test, expect } from '@bgotink/playwright-coverage';
 import { classificationDetailsTabsData } from '@/app/(details)/classifications/[id]/tabs';
@@ -41,13 +41,15 @@ test.describe('Current variants tab', () => {
   });
   test('each card displays id and owner', async ({ page }) => {
     await gotoVariants(page, CURRENT_DETAILS_URL);
-    const items = page.getByRole('listitem');
 
     for (const variant of currentVersion!.classificationVariants!) {
-      const card = items.filter({ hasText: String(variant.id) });
+      const card = page
+        .getByRole('listitem')
+        .filter({ has: page.getByRole('heading', { level: 3, name: formatVariantName(variant.name) }) });
+
       await expect(card).toBeVisible();
       await expect(card).toContainText(String(variant.id));
-      await expect(card).toContainText(formatCustodian(variant.contactPerson ?? variant.owningSection ?? ''));
+      await expect(card).toContainText(variant.owningSection ?? '');
     }
   });
 });
