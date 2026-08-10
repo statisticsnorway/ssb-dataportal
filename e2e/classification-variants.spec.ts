@@ -28,13 +28,16 @@ test.beforeEach(({}, testInfo) => {
 test.describe('Current variants tab', () => {
   test('displays variant heading', async ({ page }) => {
     await gotoVariants(page, CURRENT_DETAILS_URL);
+    await expect(page.getByRole('heading', { name: localization.classification.variant.variantHeading })).toBeVisible();
   });
 
   test('displays variant info', async ({ page }) => {
     await gotoVariants(page, CURRENT_DETAILS_URL);
+    await expect(page.getByText(localization.classification.variant.variantInfo)).toBeVisible();
   });
 
-  test('displays variants list', async ({ page }) => {
+  test('displays variants cards', async ({ page }) => {
     await gotoVariants(page, CURRENT_DETAILS_URL);
+    await expect(page.getByRole('list')).toBeVisible();
   });
 });
