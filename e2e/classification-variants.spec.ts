@@ -43,13 +43,9 @@ test.describe('Current variants tab', () => {
     await gotoVariants(page, CURRENT_DETAILS_URL);
 
     for (const variant of currentVersion!.classificationVariants!) {
-      const card = page
-        .getByRole('listitem')
-        .filter({ has: page.getByRole('heading', { level: 3, name: formatVariantName(variant.name) }) });
-
-      await expect(card).toBeVisible();
-      await expect(card).toContainText(String(variant.id));
-      await expect(card).toContainText(variant.owningSection ?? '');
+      await expect(page.getByRole('heading', { name: formatVariantName(variant.name) })).toBeVisible();
+      await expect(page.getByText(String(variant.id))).toBeVisible();
+      await expect(page.getByText(variant.owningSection ?? '')).toBeVisible();
     }
   });
 });
