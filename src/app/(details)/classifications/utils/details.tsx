@@ -17,7 +17,7 @@ import { addRow } from './commonUtils';
  * @param changelog - Changelog entry containing the `changeOccured` timestamp.
  * @returns A localized time string, or an empty string if timestamp is missing/invalid.
  */
-const formatChangelogDateTime = (changelog: ChangelogResource | undefined) => {
+const _formatChangelogDateTime = (changelog: ChangelogResource | undefined) => {
   if (!changelog?.changeOccured) return '';
 
   const date = changelog.changeOccured instanceof Date ? changelog.changeOccured : new Date(changelog.changeOccured);
