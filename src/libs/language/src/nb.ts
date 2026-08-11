@@ -261,6 +261,9 @@ export const nb = {
     landingPageSubTitle: 'Din inngang til SSBs felles kunnskap om data',
     landingPageTitle: 'Velkommen til SSB Dataportal',
   },
+  language: {
+    notSelectedLanguage: 'Denne {item} er ikke tilgjengelig på valgt språk',
+  },
 
   loading: {
     filters: 'Laster filtere...',

@@ -1,6 +1,7 @@
-import { Card, Heading, Link, Paragraph, Tag } from '@digdir/designsystemet-react';
+import { Card, Heading, Link, Paragraph, Tag, Tooltip } from '@digdir/designsystemet-react';
 import { InformationSquareIcon } from '@navikt/aksel-icons';
 import { ReactNode } from 'react';
+import { localization } from '@/libs/language';
 import styles from './search-hit.module.css';
 
 interface SearchHitProps {
@@ -8,19 +9,26 @@ interface SearchHitProps {
   href?: string;
   description?: string;
   tagsList?: ReactNode;
+  notSelectedLanguage?: string;
 }
-// const resolveLanguage prop
-// has not value in selected language
-const hasNotValueInSelectedLanguage = true;
-const SearchHit = ({ title, href, description, tagsList }: SearchHitProps) => {
+
+const SearchHit = ({ title, href, description, tagsList, notSelectedLanguage }: SearchHitProps) => {
   return (
     <Card aria-label={title} role='article'>
-      {hasNotValueInSelectedLanguage && (
+      {notSelectedLanguage && (
         <div className={styles.hasNotValueInSelectedLanguage}>
-          <Tag data-size='lg' className={styles.languageTag}>
-            <InformationSquareIcon />
-            Engelsk
-          </Tag>
+          <Tooltip
+            content={
+              localization.formatString(localization.language.notSelectedLanguage, {
+                item: localization.classification.labelSingular.toLocaleLowerCase(),
+              }) as string
+            }
+          >
+            <Tag data-size='lg' className={styles.languageTag}>
+              <InformationSquareIcon />
+              {notSelectedLanguage}
+            </Tag>
+          </Tooltip>
         </div>
       )}
       {href && title ? (
