@@ -1,5 +1,7 @@
 import {
   Alert,
+  Button,
+  Card,
   Spinner,
   Table,
   TableBody,
@@ -118,38 +120,45 @@ export default function ChangesView({
           {localization.versions.noChanges}
         </Alert>
       ) : (
-        <Table border={true} zebra={false} hover={false} stickyHeader={true} className={styles.table}>
-          <caption>
-            {localization.formatString(localization.versions.codeChangesForVersion, {
-              numberOfChanges: changes.length,
-            })}
-          </caption>
-          <TableHead>
-            <TableRow>
-              <TableHeaderCell
-                colSpan={2}
-                scope='col'
-                className={`${styles.tableHeader} ${styles.tableCentralDivider}`}
-                key={previousVersion.name}
-              >
-                {previousVersion.name}
-              </TableHeaderCell>
-              <TableHeaderCell colSpan={2} scope='col' className={styles.tableHeader} key={version.name}>
-                {version.name}
-              </TableHeaderCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {groupedChanges.flatMap((group) =>
-              group.changes.map((change, index) => (
-                <TableRow key={`${group.newCodeKey}-${change.oldCode}-${index}`}>
-                  {renderCodeAndName(change.oldCode, change.oldName, 1, true)}
-                  {index === 0 ? renderCodeAndName(change.newCode, change.newName, group.changes.length) : null}
+        <Card>
+          <figure className={styles.tableFigure} aria-labelledby='code-changes-caption'>
+            <figcaption id='code-changes-caption' className={styles.tableToolbar}>
+              <span>
+                {localization.formatString(localization.versions.codeChangesForVersion, {
+                  numberOfChanges: changes.length,
+                })}
+              </span>
+              <Button variant='secondary'>{localization.versions.invert}</Button>
+            </figcaption>
+            <Table border={true} zebra={false} hover={false} stickyHeader={true} className={styles.table}>
+              <TableHead>
+                <TableRow>
+                  <TableHeaderCell
+                    colSpan={2}
+                    scope='col'
+                    className={`${styles.tableHeader} ${styles.tableCentralDivider}`}
+                    key={previousVersion.name}
+                  >
+                    {previousVersion.name}
+                  </TableHeaderCell>
+                  <TableHeaderCell colSpan={2} scope='col' className={styles.tableHeader} key={version.name}>
+                    {version.name}
+                  </TableHeaderCell>
                 </TableRow>
-              )),
-            )}
-          </TableBody>
-        </Table>
+              </TableHead>
+              <TableBody>
+                {groupedChanges.flatMap((group) =>
+                  group.changes.map((change, index) => (
+                    <TableRow key={`${group.newCodeKey}-${change.oldCode}-${index}`}>
+                      {renderCodeAndName(change.oldCode, change.oldName, 1, true)}
+                      {index === 0 ? renderCodeAndName(change.newCode, change.newName, group.changes.length) : null}
+                    </TableRow>
+                  )),
+                )}
+              </TableBody>
+            </Table>
+          </figure>
+        </Card>
       )}
     </>
   );
