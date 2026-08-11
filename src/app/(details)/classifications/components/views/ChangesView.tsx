@@ -21,15 +21,17 @@ import {
 import { localization } from '@/libs/language';
 import { getDayBeforeDate } from '@/utils/dates';
 import { sortDatesDescendingSafe } from '@/utils/sort';
+import { groupChanges } from '../../utils/changes';
 import { mapChanges } from '../../utils/details';
 import { ClassificationTable } from '../classification-table';
 import { ExpandableTable } from '../expandable-table';
 import styles from './views.module.css';
 
+/*
 type GroupedChanges = {
   newCodeKey: string;
   changes: CodeChangeItem[];
-};
+};*/
 
 export default function ChangesView({
   classification,
@@ -66,20 +68,7 @@ export default function ChangesView({
     getChanges();
   }, [hasPreviousVersion, classification.id, previousVersion?.validFrom, version.validTo]);
 
-  const groupedChanges: GroupedChanges[] = (changes ?? []).reduce<GroupedChanges[]>((groups, change) => {
-    const groupKey = inverted
-      ? (change.oldCode ?? '__undefined_old_code__')
-      : (change.newCode ?? '__undefined_new_code__');
-    const existingGroup = groups.find((group) => group.newCodeKey === groupKey);
-
-    if (existingGroup) {
-      existingGroup.changes.push(change);
-      return groups;
-    }
-
-    groups.push({ newCodeKey: groupKey, changes: [change] });
-    return groups;
-  }, []);
+  const groupedChanges = groupChanges(changes ?? [], inverted);
 
   const renderCodeAndName = (code?: string, name?: string, rowSpan?: number, addDivider = false) => (
     <>
