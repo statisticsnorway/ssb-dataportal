@@ -6,8 +6,20 @@ const changes: CodeChangeItem[] = [
   { oldCode: '01', oldName: 'Oslo (gammel)', newCode: '0301', newName: 'Oslo', changeOccurred: new Date('2020-01-01') },
   { oldCode: '02', oldName: 'Akershus', newCode: '3000', newName: 'Viken', changeOccurred: new Date('2020-01-01') },
   { oldCode: '06', oldName: 'Buskerud', newCode: '3000', newName: 'Viken', changeOccurred: new Date('2020-01-01') },
-  { oldCode: '3000', oldName: 'Viken', newCode: '32', newName: 'Akershus (ny)', changeOccurred: new Date('2024-01-01') },
-  { oldCode: '3000', oldName: 'Viken', newCode: '33', newName: 'Buskerud (ny)', changeOccurred: new Date('2024-01-01') },
+  {
+    oldCode: '3000',
+    oldName: 'Viken',
+    newCode: '32',
+    newName: 'Akershus (ny)',
+    changeOccurred: new Date('2024-01-01'),
+  },
+  {
+    oldCode: '3000',
+    oldName: 'Viken',
+    newCode: '33',
+    newName: 'Buskerud (ny)',
+    changeOccurred: new Date('2024-01-01'),
+  },
 ];
 
 describe('groupChanges', () => {
