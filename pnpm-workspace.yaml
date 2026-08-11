@@ -10,4 +10,6 @@ minimumReleaseAgeExclude:
   - playwright-core@1.61.1
   - playwright@1.61.1
 overrides:
+  # Override transitive vulnerable dependency
   sharp: '^0.35.0'
+  playwright-core: 1.61.1
