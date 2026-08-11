@@ -27,12 +27,6 @@ import { ClassificationTable } from '../classification-table';
 import { ExpandableTable } from '../expandable-table';
 import styles from './views.module.css';
 
-/*
-type GroupedChanges = {
-  newCodeKey: string;
-  changes: CodeChangeItem[];
-};*/
-
 export default function ChangesView({
   classification,
   version,
