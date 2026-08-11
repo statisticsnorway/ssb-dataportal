@@ -7,7 +7,7 @@ test.describe('Correspondences', () => {
     const page = await classificationDetailsPage(classificationId);
     await page.goto(`/classifications/${classificationId}/correspondences`);
 
-    await expect(page.getByRole('heading', { name: 'Korrespondanser', level: 3 })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Korrespondanser', level: 2 })).toBeVisible();
     await expect(
       page.getByRole('link', { name: /Landkoder \(SSB-3\) 2023 - Landkoder \(SSB-3\) 2019/ }),
     ).toHaveAttribute('href', '/correspondences/950?returnTo=/classifications/91/correspondences');
