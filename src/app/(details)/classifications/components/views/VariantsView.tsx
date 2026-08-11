@@ -7,9 +7,10 @@ import styles from './views.module.css';
 
 interface VariantsViewProps {
   classificationVersion: ClassificationVersionResource;
+  classificationId: number;
 }
 
-export default function VariantsView({ classificationVersion }: Readonly<VariantsViewProps>) {
+export default function VariantsView({ classificationVersion, classificationId }: Readonly<VariantsViewProps>) {
   const variants = classificationVersion?.classificationVariants ?? [];
   return (
     <div className={styles.aboutWrapper}>
@@ -24,6 +25,7 @@ export default function VariantsView({ classificationVersion }: Readonly<Variant
           <ClassificationCard
             title={formatVariantName(variant.name)}
             content={mapVariantItems(variant)}
+            href={`/classifications/${classificationId}/variant/${variant.id}`}
             key={variant.id}
           />
         ))}

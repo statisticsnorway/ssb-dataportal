@@ -49,6 +49,8 @@ export const classificationDetailsTabsData: Record<keyof typeof Tabs, Classifica
 };
 
 export function getClassificationDetailsTabForRoute(pathname: string): ClassificationDetailsTabData | undefined {
+  if (pathname.includes('/variant/')) return classificationDetailsTabsData.Variants;
+
   return Object.values(classificationDetailsTabsData).find((tabData: ClassificationDetailsTabData) =>
     pathname.endsWith(`/${tabData.slug}`),
   );

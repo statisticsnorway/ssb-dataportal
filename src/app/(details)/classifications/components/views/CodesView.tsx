@@ -13,7 +13,7 @@ import { ExpandableTable } from '../expandable-table';
 import styles from './views.module.css';
 
 interface CodesViewProps {
-  version: ClassificationVersionResource;
+  version: Pick<ClassificationVersionResource, 'classificationItems' | 'levels'>;
 }
 
 function toDateString(value?: string | Date | null): string | undefined {

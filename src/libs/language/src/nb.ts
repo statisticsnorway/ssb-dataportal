@@ -74,8 +74,11 @@ export const nb = {
     variant: {
       name: 'Navn',
       id: 'ID',
+      description: 'Beskrivelse',
+      responsible: 'Ansvarlig',
       owner: 'Eier',
       ownerSection: 'Eierseksjon',
+      validFrom: 'Gyldig fra og med',
       noVariants: 'Denne versjonen har ingen varianter',
       variantHeading: 'Varianter',
       variantInfo:
