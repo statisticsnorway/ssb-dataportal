@@ -1,14 +1,5 @@
-import { Link as DigdirLink, Heading } from '@digdir/designsystemet-react';
-import { ArrowLeftIcon } from '@navikt/aksel-icons';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout';
-import { CodesView } from '@/app/(details)/classifications/components/views/CodesView';
-import styles from '@/app/(details)/classifications/components/views/views.module.css';
-import { formatVariantName, mapVariantDetails } from '@/app/(details)/classifications/utils/variants';
-import { DetailsList } from '@/components/details-list';
-import { fetchVariantById } from '@/libs/data/classifications/variantsData';
-import { localization } from '@/libs/language/src/localization';
+import VariantView from '@/app/(details)/classifications/components/views/VariantView';
 
 export default async function VariantPage({ params }: { params: Promise<{ id: string; variantId: string }> }) {
   const { id: classificationIdParam, variantId } = await params;
@@ -16,25 +7,5 @@ export default async function VariantPage({ params }: { params: Promise<{ id: st
   const variantIdNumber = Number(variantId);
   if (Number.isNaN(classificationId) || Number.isNaN(variantIdNumber)) return notFound();
 
-  const variant = await fetchVariantById(variantIdNumber, await getRequestLanguage());
-  if (!variant?.classificationItems) return notFound();
-
-  return (
-    <div className={styles.aboutWrapper}>
-      <DigdirLink asChild>
-        <Link href={`/classifications/${classificationId}/variants`}>
-          <ArrowLeftIcon aria-hidden='true' />
-          {localization.codeTree.back}
-        </Link>
-      </DigdirLink>
-      <Heading className='secondaryHeading' data-size='md' level={2}>
-        {formatVariantName(variant.name)}
-      </Heading>
-      <DetailsList content={mapVariantDetails(variant)} />
-      <Heading className='secondaryHeading' data-size='md' level={2}>
-        {localization.classificationDetails.codes}
-      </Heading>
-      <CodesView version={variant} />
-    </div>
-  );
+  return <VariantView variantId={variantIdNumber} backHref={`/classifications/${classificationId}/variants`} />;
 }

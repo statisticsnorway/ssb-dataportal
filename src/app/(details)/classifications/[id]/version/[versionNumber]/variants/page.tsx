@@ -6,8 +6,14 @@ import VariantsView from '@/app/(details)/classifications/components/views/Varia
 
 export default function VariantsVersion() {
   const { classification, versionResource } = useVersion();
-  if (!versionResource?.classificationVariants) {
+  if (!versionResource?.classificationVariants || versionResource.id === undefined) {
     return notFound();
   }
-  return <VariantsView classificationVersion={versionResource} classificationId={classification.id!} />;
+  return (
+    <VariantsView
+      classificationVersion={versionResource}
+      classificationId={classification.id!}
+      versionId={versionResource.id}
+    />
+  );
 }
