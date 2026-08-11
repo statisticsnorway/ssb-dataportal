@@ -412,6 +412,7 @@ export const en = {
   },
   versions: {
     name: 'Name',
+    invert: 'Invert table',
     validFrom: 'Valid from',
     validTo: 'Valid to',
     now: 'Now',

@@ -3,7 +3,7 @@
 
 ignorePatterns = ["**/data-access/**", "e2e/**", "src/app/reset.css", "envConfig.ts", "__mocks__/svgMock.tsx"]
 ignoreDependencies = ["@axe-core/playwright", "pino-pretty"]
-ignoreDependencyOverrides = [{ package = 'sharp' }]
+ignoreDependencyOverrides = [{ package = 'sharp' }, { package = 'playwright-core' }]
 
 [duplicates]
 minOccurrences = 3
