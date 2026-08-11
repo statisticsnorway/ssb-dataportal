@@ -48,6 +48,28 @@ test.describe('Current variants tab', () => {
       }
     }
   });
+
+  test('keeps the shared tabs mounted when opening and closing a variant', async ({ page }) => {
+    await gotoVariants(page, CURRENT_DETAILS_URL);
+
+    const tabList = page.getByRole('tablist');
+    await tabList.evaluate((element) => element.setAttribute('data-mount-check', 'mounted'));
+
+    const variant = currentVersion!.classificationVariants![0]!;
+    await page.getByRole('link', { name: formatVariantName(variant.name) }).click();
+
+    await expect(page).toHaveURL(`/classifications/2003/variant/${variant.id}`);
+    await expect(page.getByRole('tab', { name: classificationDetailsTabsData.Variants.label })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
+    await expect(page.locator('[data-mount-check="mounted"]')).toBeVisible();
+
+    await page.getByRole('link', { name: localization.codeTree.back }).click();
+
+    await expect(page).toHaveURL(CURRENT_DETAILS_URL);
+    await expect(page.locator('[data-mount-check="mounted"]')).toBeVisible();
+  });
 });
 
 test.describe('Older variants tab', () => {

@@ -1,4 +1,6 @@
-import { Heading, Link } from '@digdir/designsystemet-react';
+import { Link as DigdirLink, Heading } from '@digdir/designsystemet-react';
+import { ArrowLeftIcon } from '@navikt/aksel-icons';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout';
 import { CodesView } from '@/app/(details)/classifications/components/views/CodesView';
@@ -19,7 +21,12 @@ export default async function VariantPage({ params }: { params: Promise<{ id: st
 
   return (
     <div className={styles.aboutWrapper}>
-      <Link href={`/classifications/${classificationId}/variants`}>{localization.codeTree.back}</Link>
+      <DigdirLink asChild>
+        <Link href={`/classifications/${classificationId}/variants`}>
+          <ArrowLeftIcon aria-hidden='true' />
+          {localization.codeTree.back}
+        </Link>
+      </DigdirLink>
       <Heading className='secondaryHeading' data-size='md' level={2}>
         {formatVariantName(variant.name)}
       </Heading>
