@@ -5,18 +5,30 @@ import { notFound } from 'next/navigation';
 import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout';
 import { formatVariantName, mapVariantDetails } from '@/app/(details)/classifications/utils/variants';
 import { DetailsList } from '@/components/details-list';
-import { fetchVariantById } from '@/libs/data/classifications/variantsData';
+import { fetchVariantForClassification } from '@/libs/data/classifications/variantsData';
 import { localization } from '@/libs/language/src/localization';
 import { CodesView } from './CodesView';
 import styles from './views.module.css';
 
 interface VariantViewProps {
+  classificationId: number;
   variantId: number;
+  versionId?: number;
   backHref: string;
 }
 
-export default async function VariantView({ variantId, backHref }: Readonly<VariantViewProps>) {
-  const variant = await fetchVariantById(variantId, await getRequestLanguage());
+export default async function VariantView({
+  classificationId,
+  variantId,
+  versionId,
+  backHref,
+}: Readonly<VariantViewProps>) {
+  const variant = await fetchVariantForClassification(
+    classificationId,
+    variantId,
+    await getRequestLanguage(),
+    versionId,
+  );
   if (!variant?.classificationItems) return notFound();
 
   return (

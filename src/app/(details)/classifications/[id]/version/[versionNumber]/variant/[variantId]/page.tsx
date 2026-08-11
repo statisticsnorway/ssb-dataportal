@@ -14,7 +14,9 @@ export default async function VersionVariantPage({
 
   return (
     <VariantView
+      classificationId={classificationId}
       variantId={variantIdNumber}
+      versionId={versionId}
       backHref={`/classifications/${classificationId}/version/${versionId}/variants`}
     />
   );

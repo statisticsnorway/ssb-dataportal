@@ -10,6 +10,8 @@ import { SupportedLanguage } from '@/libs/language';
 import { createLogger } from '@/libs/logger/server-logger';
 import versionsMock from '@/static-data/versions.json';
 import { getUserAgent } from '@/utils/userAgent';
+import { fetchClassificationById } from './classificationData';
+import { fetchVersionById } from './versionsData';
 
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
 
@@ -53,4 +55,26 @@ export async function fetchVariantById(
     }
     throw error;
   }
+}
+
+export async function fetchVariantForClassification(
+  classificationId: number,
+  variantId: number,
+  language: SupportedLanguage = 'nb',
+  versionId?: number,
+): Promise<ClassificationVariantResource | undefined> {
+  const classification = await fetchClassificationById(classificationId, language);
+  const versions = classification.versions ?? [];
+  const selectedVersion =
+    versionId === undefined
+      ? [...versions].sort((a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0))[0]
+      : versions.find((version) => version.id === versionId);
+
+  if (selectedVersion?.id === undefined) return undefined;
+
+  const version = await fetchVersionById(selectedVersion.id, language);
+  const belongsToVersion = version?.classificationVariants?.some((variant) => variant.id === variantId) ?? false;
+  if (!belongsToVersion) return undefined;
+
+  return fetchVariantById(variantId, language);
 }

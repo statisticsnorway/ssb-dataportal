@@ -7,5 +7,11 @@ export default async function VariantPage({ params }: { params: Promise<{ id: st
   const variantIdNumber = Number(variantId);
   if (Number.isNaN(classificationId) || Number.isNaN(variantIdNumber)) return notFound();
 
-  return <VariantView variantId={variantIdNumber} backHref={`/classifications/${classificationId}/variants`} />;
+  return (
+    <VariantView
+      classificationId={classificationId}
+      variantId={variantIdNumber}
+      backHref={`/classifications/${classificationId}/variants`}
+    />
+  );
 }
