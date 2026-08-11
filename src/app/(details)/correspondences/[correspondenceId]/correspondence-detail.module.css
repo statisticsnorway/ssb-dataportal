@@ -1,0 +1,70 @@
+.page {
+  display: grid;
+  gap: var(--medium-gap);
+  padding-top: var(--large-gap);
+  padding-bottom: var(--large-gap);
+}
+
+.backLink {
+  width: fit-content;
+  border: var(--ds-border-width-default) solid var(--blue-color);
+  color: var(--blue-color);
+  padding: var(--ds-size-1) var(--ds-size-2);
+  text-decoration: none;
+}
+
+.backLink:hover {
+  background-color: var(--main-background-color);
+}
+
+.metadata {
+  display: grid;
+  gap: 0;
+  margin: var(--small-gap) 0;
+}
+
+.metadata > div {
+  display: grid;
+  grid-template-columns: minmax(9rem, 1fr) 3fr;
+  gap: var(--medium-gap);
+  border-bottom: var(--ds-border-width-default) solid var(--border-color);
+  padding: var(--small-gap) 0;
+}
+
+.metadata dt {
+  font-weight: 600;
+}
+
+.metadata dd {
+  margin: 0;
+}
+
+.filterRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--small-gap);
+}
+
+.filterRow input {
+  min-width: min(100%, 22rem);
+  border: var(--ds-border-width-default) solid var(--border-color);
+  padding: var(--small-gap);
+}
+
+.table {
+  width: 100%;
+  background-color: var(--element-background-color);
+  --dsc-table-padding: var(--ds-size-1) var(--ds-size-2);
+}
+
+.table th {
+  background-color: var(--separator-color);
+  color: var(--text-color-primary);
+  font-weight: 600;
+}
+
+.code {
+  font-family: var(--font-family-monospace);
+  font-weight: 600;
+}

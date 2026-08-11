@@ -191,6 +191,16 @@
           "target": "Landkoder (SSB-3) 2009",
           "targetId": 364,
           "changeTable": true,
+          "correspondenceMaps": [
+            { "sourceCode": "NO", "sourceName": "Norge", "targetCode": "NO", "targetName": "Norge" },
+            { "sourceCode": "SE", "sourceName": "Sverige", "targetCode": "SE", "targetName": "Sverige" },
+            {
+              "sourceCode": "AN",
+              "sourceName": "De nederlandske Antiller",
+              "targetCode": "SX",
+              "targetName": "Sint Maarten (NL)"
+            }
+          ],
           "lastModified": "2023-10-27T11:11:09.000+0000",
           "published": ["nb", "nn", "en"],
           "sourceLevel": null,
@@ -223,6 +233,10 @@
           "target": "Landkoder (SSB-3) 2011",
           "targetId": 363,
           "changeTable": true,
+          "correspondenceMaps": [
+            { "sourceCode": "NO", "sourceName": "Norge", "targetCode": "NO", "targetName": "Norge" },
+            { "sourceCode": "SE", "sourceName": "Sverige", "targetCode": "SE", "targetName": "Sverige" }
+          ],
           "lastModified": "2024-01-09T09:15:20.000+0000",
           "published": ["nb", "nn", "en"],
           "sourceLevel": null,

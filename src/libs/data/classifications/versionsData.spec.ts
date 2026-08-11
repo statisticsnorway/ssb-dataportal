@@ -1,6 +1,6 @@
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import versionsMock from '@/static-data/versions.json';
-import { fetchVersionById } from './versionsData';
+import { fetchCorrespondenceTableById, fetchVersionById } from './versionsData';
 
 vi.mock('server-only', () => ({}));
 
@@ -75,4 +75,25 @@ describe('fetchVersion', () => {
 
     await expect(fetchVersionCodes(1)).rejects.toThrow('Network failure');
   });*/
+});
+
+describe('fetchCorrespondenceTableById', () => {
+  it('returns correspondence metadata and maps in static mode', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
+
+    const result = await fetchCorrespondenceTableById(1506);
+
+    expect(result).toMatchObject({
+      id: 1506,
+      source: 'Landkoder (SSB-3) 2011',
+      target: 'Landkoder (SSB-3) 2009',
+      correspondenceMaps: expect.arrayContaining([expect.objectContaining({ sourceCode: 'NO', targetCode: 'NO' })]),
+    });
+  });
+
+  it('returns undefined for an unknown correspondence table in static mode', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
+
+    await expect(fetchCorrespondenceTableById(999)).resolves.toBeUndefined();
+  });
 });

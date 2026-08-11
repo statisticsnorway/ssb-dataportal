@@ -1,28 +1,26 @@
 import { Card, Divider, Heading } from '@digdir/designsystemet-react';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
+import { ReactNode } from 'react';
 import { Item } from '@/types/item';
 import styles from './classificationCards.module.css';
 
 interface ClassificationCardProps {
   content: Item[];
-  title?: string;
+  title?: ReactNode;
 }
 
 /**
  * Renders a Card with column aligned description list
- *
- * @param param0
- * @returns
  */
 const ClassificationCard = ({ content, title }: Readonly<ClassificationCardProps>) => {
   const getColumnKey = (col: Item, index: number) => {
-    return typeof col.label === 'string' && col.label.length > 0 ? col.label : String(index);
+    return `${typeof col.label === 'string' && col.label.length > 0 ? col.label : 'column'}-${index}`;
   };
 
   return (
     <Card>
       {title && (
-        <Heading level={3} className={`${styles.detailsHeading} infoHeadingSecondary`} id={`tableHeading-${title}`}>
+        <Heading level={3} className={`${styles.detailsHeading} infoHeadingSecondary`}>
           <span className={styles.titleText}>{title}</span>
           <ArrowRightIcon className={styles.arrowIcon} aria-hidden='true' focusable='false' />
         </Heading>
