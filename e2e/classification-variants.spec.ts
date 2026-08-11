@@ -66,7 +66,7 @@ test.describe('Current variants tab', () => {
     );
     await expect(page.locator('[data-mount-check="mounted"]')).toBeVisible();
 
-    await page.getByRole('link', { name: localization.codeTree.back }).click();
+    await page.getByRole('link', { name: localization.codeTree.back, exact: true }).click();
 
     await expect(page).toHaveURL(CURRENT_DETAILS_URL);
     await expect(page.locator('[data-mount-check="mounted"]')).toBeVisible();
@@ -105,7 +105,7 @@ test.describe('Explicit version variants tab', () => {
       'true',
     );
 
-    await page.getByRole('link', { name: localization.codeTree.back }).click();
+    await page.getByRole('link', { name: localization.codeTree.back, exact: true }).click();
     await expect(page).toHaveURL(EXPLICIT_CURRENT_VERSION_URL);
   });
 });
