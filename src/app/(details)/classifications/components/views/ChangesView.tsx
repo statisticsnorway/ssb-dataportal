@@ -39,11 +39,14 @@ export default function ChangesView({
     [...(classification.versions ?? [])].toSorted((v1, v2) => sortDatesDescendingSafe(v1.validFrom, v2.validFrom)) ??
     [];
   const previousVersion = sortedVersions[sortedVersions.findIndex((v) => v.id === version.id) + 1];
+  const [inverted, setInverted] = useState(false);
 
   const hasPreviousVersion =
     sortedVersions.length > 1 && previousVersion?.validFrom !== undefined && classification.id !== undefined;
 
   const [changes, setChanges] = useState<CodeChangeItem[] | null>(null);
+
+  const handleInvertTable = () => setInverted((v) => !v);
 
   useEffect(() => {
     if (!hasPreviousVersion || !previousVersion?.validFrom || classification.id === undefined) {
@@ -64,19 +67,17 @@ export default function ChangesView({
   }, [hasPreviousVersion, classification.id, previousVersion?.validFrom, version.validTo]);
 
   const groupedChanges: GroupedChanges[] = (changes ?? []).reduce<GroupedChanges[]>((groups, change) => {
-    const newCodeKey = change.newCode ?? '__undefined_new_code__';
-    const existingGroup = groups.find((group) => group.newCodeKey === newCodeKey);
+    const groupKey = inverted
+      ? (change.oldCode ?? '__undefined_old_code__')
+      : (change.newCode ?? '__undefined_new_code__');
+    const existingGroup = groups.find((group) => group.newCodeKey === groupKey);
 
     if (existingGroup) {
       existingGroup.changes.push(change);
       return groups;
     }
 
-    groups.push({
-      newCodeKey,
-      changes: [change],
-    });
-
+    groups.push({ newCodeKey: groupKey, changes: [change] });
     return groups;
   }, []);
 
@@ -124,7 +125,9 @@ export default function ChangesView({
                 numberOfChanges: changes.length,
               })}
             </span>
-            <Button variant='secondary'>{localization.versions.invert}</Button>
+            <Button variant='secondary' onClick={handleInvertTable}>
+              {localization.versions.invert}
+            </Button>
           </figcaption>
           <Table border={true} zebra={false} hover={false} stickyHeader={true} className={styles.table}>
             <TableHead>
@@ -144,12 +147,19 @@ export default function ChangesView({
             </TableHead>
             <TableBody>
               {groupedChanges.flatMap((group) =>
-                group.changes.map((change, index) => (
-                  <TableRow key={`${group.newCodeKey}-${change.oldCode ?? 'none'}-${index}`}>
-                    {renderCodeAndName(change.oldCode, change.oldName, 1, true)}
-                    {index === 0 ? renderCodeAndName(change.newCode, change.newName, group.changes.length) : null}
-                  </TableRow>
-                )),
+                group.changes.map((change, index) => {
+                  const leftCode = inverted ? change.newCode : change.oldCode;
+                  const leftName = inverted ? change.newName : change.oldName;
+                  const rightCode = inverted ? change.oldCode : change.newCode;
+                  const rightName = inverted ? change.oldName : change.newName;
+
+                  return (
+                    <TableRow key={`${group.newCodeKey}-${leftCode ?? 'none'}-${index}`}>
+                      {renderCodeAndName(leftCode, leftName, 1, true)}
+                      {index === 0 ? renderCodeAndName(rightCode, rightName, group.changes.length) : null}
+                    </TableRow>
+                  );
+                }),
               )}
             </TableBody>
           </Table>
