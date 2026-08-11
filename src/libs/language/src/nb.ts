@@ -411,6 +411,7 @@ export const nb = {
   },
   versions: {
     name: 'Navn',
+    invert: 'Inverter tabell',
     validFrom: 'Gyldig fra',
     validTo: 'Gyldig til',
     now: 'Nå',

@@ -409,6 +409,7 @@ export const nn = {
   },
   versions: {
     name: 'Namn',
+    invert: 'Inverter tabell',
     validFrom: 'Gyldig frå',
     validTo: 'Gyldig til',
     now: 'No',
