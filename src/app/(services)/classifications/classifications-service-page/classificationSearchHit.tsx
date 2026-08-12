@@ -36,7 +36,7 @@ const ClassificationSearchHit = ({ classification, subjectFields }: SearchHitPro
       title={title}
       description={classification?.description ?? ''}
       tagsList={tagsList}
-      fallBackLanguage={classification?.fallbackLanguage ?? undefined}
+      fallbackLanguage={classification?.fallbackLanguage ?? undefined}
     />
   );
 };
