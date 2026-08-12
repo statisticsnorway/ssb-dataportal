@@ -20,7 +20,7 @@ const SearchHit = ({ title, href, description, tagsList, fallbackLanguage }: Sea
         <div className={styles.hasNotValueInSelectedLanguage}>
           <Tooltip content={localization.classification.language.notSelectedLanguage}>
             <Tag data-size='lg' className={styles.languageTag} tabIndex={0}>
-              <GlobeIcon />
+              <GlobeIcon aria-hidden='true' focusable='false' />
               {formatLanguages(fallbackLanguage)}
             </Tag>
           </Tooltip>
