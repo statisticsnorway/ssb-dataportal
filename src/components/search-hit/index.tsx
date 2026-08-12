@@ -10,29 +10,48 @@ interface SearchHitProps {
   href?: string;
   description?: string;
   tagsList?: ReactNode;
-  fallBackLanguage?: SupportedLanguage;
+  fallbackLanguage?: SupportedLanguage;
 }
 
-const SearchHit = ({ title, href, description, tagsList, fallBackLanguage }: SearchHitProps) => {
+const SearchHit = ({ title, href, description, tagsList, fallbackLanguage }: SearchHitProps) => {
   return (
     <Card aria-label={title} role='article'>
-      {fallBackLanguage && (
+      {fallbackLanguage && (
         <div className={styles.hasNotValueInSelectedLanguage}>
           <Tooltip content={localization.classification.language.notSelectedLanguage}>
             <Tag data-size='lg' className={styles.languageTag} tabIndex={0}>
               <GlobeIcon />
-              {formatLanguages(fallBackLanguage)}
+              {formatLanguages(fallbackLanguage)}
             </Tag>
           </Tooltip>
         </div>
       )}
       {href && title ? (
-        <Heading data-size='md' className={styles.headingLink} level={2}>
-          <Link href={href}>{title && <span className='primaryHeading'>{title}</span>}</Link>
-        </Heading>
+        fallbackLanguage ? (
+          <Heading data-size='md' className={styles.headingLink} level={2}>
+            <Link href={href}>
+              {title && (
+                <span className='primaryHeading' lang={fallbackLanguage}>
+                  {title}
+                </span>
+              )}
+            </Link>
+          </Heading>
+        ) : (
+          <Heading data-size='md' className={styles.headingLink} level={2}>
+            <Link href={href}>{title && <span className='primaryHeading'>{title}</span>}</Link>
+          </Heading>
+        )
       ) : undefined}
 
-      {description && <Paragraph className={`${styles.truncateTo3Lines} ingress`}>{description}</Paragraph>}
+      {description &&
+        (fallbackLanguage ? (
+          <Paragraph className={`${styles.truncateTo3Lines} ingress`} lang={fallbackLanguage}>
+            {description}
+          </Paragraph>
+        ) : (
+          <Paragraph className={`${styles.truncateTo3Lines} ingress`}>{description}</Paragraph>
+        ))}
 
       {tagsList && <div className={styles.tagsList}>{tagsList}</div>}
     </Card>
