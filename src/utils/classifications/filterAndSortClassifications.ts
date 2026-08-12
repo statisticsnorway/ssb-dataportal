@@ -31,15 +31,15 @@ import { getLabelForClassificationType, stripTitlePrefix } from './classificatio
  * @param options.language Language to keep when `languageSelector` is provided. Defaults to `'nb'`.
  * @returns Mapped and de-duplicated classifications ordered by descending relevance.
  */
-export function mapSearchResultsToClassifications(
-  classifications: ClassificationResource[],
+export function mapSearchResultsToClassifications<TClassification extends { id?: number | null }>(
+  classifications: TClassification[],
   searchResults: SearchResultResource[],
   options: {
     classificationIdSelector: (item: SearchResultResource) => string | number | null | undefined;
     languageSelector?: (item: SearchResultResource) => string | null | undefined;
     language?: string;
   },
-): ClassificationResource[] {
+): TClassification[] {
   const { classificationIdSelector, languageSelector, language = 'nb' } = options;
 
   const classificationsById = new Map(
@@ -55,7 +55,7 @@ export function mapSearchResultsToClassifications(
     .sort((a, b) => getScore(b) - getScore(a));
 
   const seen = new Set<string>();
-  const mapped: ClassificationResource[] = [];
+  const mapped: TClassification[] = [];
 
   for (const result of sortedSearchResults) {
     const rawId = classificationIdSelector(result);
@@ -127,6 +127,16 @@ export function createTypeFilterItems(classifications: ClassificationResource[])
   }));
 }
 
+/**
+ * Filters and sorts the given list of classifications based on the provided criteria.
+ *
+ * @param classifications - The list of classifications to filter and sort.
+ * @param subjectCodes - The subject codes to filter by.
+ * @param sortOption - The sorting option to apply.
+ * @param classificationTypes - The classification types to filter by.
+ * @param keepInputOrder - Whether to keep the original input order.
+ * @returns The filtered and sorted list of classifications.
+ */
 export function filterAndSortClassifications(
   classifications: ClassificationResource[],
   subjectCodes: string[],
@@ -134,11 +144,22 @@ export function filterAndSortClassifications(
   classificationTypes: ClassificationType[] = [],
   keepInputOrder = false,
 ): ClassificationResource[] {
-  const withoutName = classifications.filter((c) => !c.name);
-  clientLogger.debug(
-    `${withoutName.length} classifications are missing names in this language and will not be viewable: \n[${withoutName.map((c) => c.id)}]`,
-  );
-  const withName = classifications.filter((c) => c.name);
+  const withName: ClassificationResource[] = [];
+  const missingNameIds: (number | null | undefined)[] = [];
+  for (const c of classifications) {
+    if (c.name) {
+      withName.push(c);
+    } else {
+      missingNameIds.push(c.id);
+    }
+  }
+
+  if (missingNameIds.length > 0) {
+    clientLogger.debug(
+      { missingNameIds, count: missingNameIds.length },
+      'Classifications missing a name in all supported languages were filtered out',
+    );
+  }
 
   const familyIds = new Set(subjectCodes.flatMap((code) => SUBJECT_FIELD_BY_CODE[code] ?? []));
   const bySubject =
