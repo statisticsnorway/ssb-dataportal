@@ -3,7 +3,13 @@ import { checkCheckbox } from './utils/commonUtils';
 import { expect, test } from './fixtures/classifications.fixture';
 import classificationsMock from '@/static-data/classifications.json';
 import { stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
-import { CLASSIFICATIONS_URL, REMOVE_STANDARD } from './utils/variables';
+import {
+  CLASSIFICATIONS_URL,
+  hits,
+  REMOVE_STANDARD,
+  STANDARD,
+  totalStandardMockClassifications,
+} from './utils/variables';
 import { ClassificationType } from '@/types/classification';
 import { parseClassification } from '@/utils/mock-data';
 
@@ -16,6 +22,15 @@ const standardPrefix = 'Standard for';
 test('Classifications page renders hits and sort control', async ({ classificationsPage }) => {
   await expect(classificationsPage.getByRole('article').first()).toBeVisible();
   await expect(classificationsPage.getByLabel(localization.search.sort.label)).toBeVisible();
+});
+
+test('Classifications page renders correct number of search hits', async ({ classificationsPage: page }) => {
+  await expect(page.locator('#collapsible-type-panel')).toContainText(
+    `${STANDARD} (${totalStandardMockClassifications})`,
+  );
+  await expect(page.getByLabel('Klassifikasjoner', { exact: true })).toContainText(
+    `${totalStandardMockClassifications} ${hits}`,
+  );
 });
 
 test('Filter by subject field displays tag (listitem) with close button', async ({ classificationsPage }) => {
