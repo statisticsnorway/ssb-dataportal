@@ -5,9 +5,12 @@ import classificationsMock from '@/static-data/classifications.json';
 import { stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
 import {
   CLASSIFICATIONS_URL,
+  CODELIST,
   hits,
+  languageButton,
   REMOVE_STANDARD,
   STANDARD,
+  totalCodelistMockClassifications,
   totalStandardMockClassifications,
 } from './utils/variables';
 import { ClassificationType } from '@/types/classification';
@@ -18,6 +21,57 @@ const bankOgFinans = 'Bank og finansmarked';
 const classifications = classificationsMock.classifications;
 const codeListPrefix = 'Kodeliste for';
 const standardPrefix = 'Standard for';
+
+test.describe('Classifications - fallback language', () => {
+  // Test fixtures only contain Norwegian bokmål (nb) data, so switching toany other language
+  // all classifications are marked with a fallback-language indicator.
+  test.beforeEach(async ({ classificationsPage: page }) => {
+    await page.getByRole('button', { name: languageButton }).click();
+    await page.getByRole('button', { name: 'English' }).click();
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  });
+
+  test('sets html lang to en after switching language', async ({ classificationsPage: page }) => {
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  });
+
+  test('renders fallback language tag on search hit', async ({ classificationsPage: page }) => {
+    const classification = parseClassification(classifications[0]);
+    const firstSearchHit = page.getByRole('article', { name: stripTitlePrefix(classification.name!) });
+    await expect(firstSearchHit).toBeVisible();
+
+    const tag = firstSearchHit.getByText('Norwegian (Bokmål)', { exact: true });
+    await expect(tag).toBeVisible();
+  });
+
+  test('fallback language tag shows tooltip on hover', async ({ classificationsPage: page }) => {
+    const classification = parseClassification(classifications[0]);
+    const firstSearchHit = page.getByRole('article', { name: stripTitlePrefix(classification.name!) });
+    const tag = firstSearchHit.getByText('Norwegian (Bokmål)', { exact: true });
+
+    await tag.hover();
+    await expect(
+      page.getByText('This classification is not available in the selected language', { exact: true }),
+    ).toBeVisible();
+  });
+
+  test('heading is rendered with fallback lang attribute', async ({ classificationsPage: page }) => {
+    const classification = parseClassification(classifications[0]);
+    const firstSearchHit = page.getByRole('article', { name: stripTitlePrefix(classification.name!) });
+
+    const heading = firstSearchHit.getByRole('heading', { name: stripTitlePrefix(classification.name!) });
+    await expect(heading).toBeVisible();
+    await expect(heading.locator('span')).toHaveAttribute('lang', 'nb');
+  });
+
+  test('description is rendered with fallback lang attribute', async ({ classificationsPage: page }) => {
+    const classification = parseClassification(classifications[0]);
+    const firstSearchHit = page.getByRole('article', { name: stripTitlePrefix(classification.name!) });
+
+    const description = firstSearchHit.getByRole('paragraph');
+    await expect(description).toHaveAttribute('lang', 'nb');
+  });
+});
 
 test('Classifications page renders hits and sort control', async ({ classificationsPage }) => {
   await expect(classificationsPage.getByRole('article').first()).toBeVisible();
@@ -30,6 +84,14 @@ test('Classifications page renders correct number of search hits', async ({ clas
   );
   await expect(page.getByLabel('Klassifikasjoner', { exact: true })).toContainText(
     `${totalStandardMockClassifications} ${hits}`,
+  );
+  await page.getByRole('checkbox', { name: localization.classification.standard }).uncheck();
+  await page.getByRole('checkbox', { name: localization.classification.codelist }).check();
+  await expect(page.locator('#collapsible-type-panel')).toContainText(
+    `${CODELIST} (${totalCodelistMockClassifications})`,
+  );
+  await expect(page.getByLabel('Klassifikasjoner', { exact: true })).toContainText(
+    `${totalCodelistMockClassifications} ${hits}`,
   );
 });
 

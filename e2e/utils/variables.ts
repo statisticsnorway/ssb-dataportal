@@ -54,3 +54,4 @@ export const REMOVE_STANDARD = 'Fjern Standard';
 export const totalStandardMockClassifications = '10';
 export const totalCodelistMockClassifications = '2';
 export const hits = 'treff';
+export const languageButton = 'Language/Språk';
