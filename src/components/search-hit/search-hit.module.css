@@ -1,6 +1,7 @@
 .headingLink {
   /* No underline on the link*/
   text-decoration: none;
+  margin-top: 0;
 }
 
 /* Multi-line text clamp.
