@@ -56,6 +56,9 @@ export const nb = {
     labelPlural: 'Klassifikasjoner',
     labelSingular: 'Klassifikasjon',
     label: 'Klassifikasjon',
+    language: {
+      notSelectedLanguage: 'Denne klassifikasjonen er ikke tilgjengelig på valgt språk',
+    },
     view: 'Se klassifikasjon',
     type: 'Type',
     codelist: 'Kodeliste',

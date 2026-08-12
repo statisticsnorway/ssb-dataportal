@@ -56,6 +56,9 @@ export const nn = {
     labelPlural: 'Klassifikasjonar',
     labelSingular: 'Klassifikasjon',
     label: 'Klassifikasjon',
+    language: {
+      notSelectedLanguage: 'Denne klassifikasjonen er ikkje tilgjengeleg på valt språk',
+    },
     view: 'Sjå klassifikasjon',
     type: 'Type',
     codelist: 'Kodeliste',
