@@ -10,6 +10,7 @@ import { ClassificationResource } from '@/libs/data-access/klass/models/Classifi
 import { KlassPagedResourcesClassificationSummaryResourceFromJSON } from '@/libs/data-access/klass/models/KlassPagedResourcesClassificationSummaryResource';
 
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
+import { SupportedLanguages } from '@/libs/data-access/variable-definitions/internal/models/SupportedLanguages';
 import { SupportedLanguage } from '@/libs/language';
 import { createLogger } from '@/libs/logger/server-logger';
 import classificationsMock from '@/static-data/classifications.json';
@@ -18,13 +19,6 @@ import { getClassification, parseClassification } from '@/utils/mock-data';
 import { getUserAgent } from '@/utils/userAgent';
 
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
-
-export type ClassificationWithLanguage = ClassificationResource & {
-  /** Language actually used to populate `name`/`description`. Undefined when it matches the requested language. */
-  fallbackLanguage?: SupportedLanguage;
-};
-
-const FALLBACK_ORDER: SupportedLanguage[] = ['nb', 'nn', 'en'];
 
 async function getKlassClassificationsClient(): Promise<ClassificationsApi> {
   const logger = createLogger('classification-data');
@@ -43,6 +37,13 @@ async function getKlassClassificationsClient(): Promise<ClassificationsApi> {
 
   return new ClassificationsApi(new Configuration(configParams));
 }
+
+export type ClassificationWithLanguage = ClassificationResource & {
+  /** Language actually used to populate `name`/`description`. Undefined when it matches the requested language. */
+  fallbackLanguage?: SupportedLanguage;
+};
+
+const FALLBACK_ORDER: SupportedLanguage[] = [SupportedLanguages.Nb, SupportedLanguages.Nn, SupportedLanguages.En];
 
 /**
  * Fetches all classifications from the Klass API for a single language, paginating
@@ -98,6 +99,51 @@ async function fetchAllClassificationsForLanguage(language: SupportedLanguage): 
   }
 }
 
+/**
+ * Returns true if the candidate should replace the existing classification entry.
+ *
+ * @param existing Current entry.
+ * @param candidate Candidate replacement entry.
+ * @returns Whether the candidate is preferred.
+ */
+function isBetterEntry(existing: ClassificationWithLanguage, candidate: ClassificationWithLanguage): boolean {
+  // Prefer the requested language (no fallback flag) over any fallback entry.
+  if (existing.fallbackLanguage && !candidate.fallbackLanguage && candidate.name) {
+    return true;
+  }
+  // Prefer any named entry over a nameless one.
+  if (!existing.name && candidate.name) {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Converts a classification to the language-aware entry format.
+ *
+ * @param c Classification resource.
+ * @param lang Language of the resource.
+ * @param requested Requested language.
+ * @returns Classification entry with fallback language metadata.
+ */
+function toEntry(
+  c: ClassificationResource,
+  lang: SupportedLanguage,
+  requested: SupportedLanguage,
+): ClassificationWithLanguage {
+  return {
+    ...c,
+    fallbackLanguage: lang === requested ? undefined : lang,
+  };
+}
+
+
+/**
+ * Fetches all classifications, preferring the requested language and falling back as needed.
+ *
+ * @param language Preferred language (defaults to nb).
+ * @returns Classifications with fallback language metadata.
+ */
 export async function fetchAllClassifications(
   language: SupportedLanguage | undefined = 'nb',
 ): Promise<ClassificationWithLanguage[]> {
@@ -105,7 +151,7 @@ export async function fetchAllClassifications(
 
   if (process.env.KLASS_USE_STATIC_DATA === 'true') {
     logger.warn('Using static mock data for classifications');
-    return classificationsMock.classifications.map((c) => parseClassification(c));
+    return classificationsMock.classifications.map((c) => toEntry(parseClassification(c), 'nb', language));
   }
 
   const languages = [language, ...FALLBACK_ORDER.filter((l) => l !== language)] as SupportedLanguage[];
@@ -115,29 +161,13 @@ export async function fetchAllClassifications(
   );
 
   const byId = new Map<number, ClassificationWithLanguage>();
-
   for (const [lang, list] of perLanguage) {
     for (const c of list) {
       if (c.id == null) continue;
+      const candidate = toEntry(c, lang, language);
       const existing = byId.get(c.id);
-      // First time we see this id: record it, marking as fallback if the
-      // content came from a non-requested language.
-      if (!existing) {
-        byId.set(c.id, {
-          ...c,
-          fallbackLanguage: lang === language ? undefined : lang,
-        });
-        continue;
-      }
-      // Upgrade a fallback entry once the requested language actually has a name.
-      if (existing.fallbackLanguage && lang === language && c.name) {
-        byId.set(c.id, { ...c, fallbackLanguage: undefined });
-        continue;
-      }
-      // Replace a nameless entry with any language that has a name
-      // (still flagged as fallback when it isn't the requested language).
-      if (!existing.name && c.name) {
-        byId.set(c.id, { ...c, fallbackLanguage: lang === language ? undefined : lang });
+      if (!existing || isBetterEntry(existing, candidate)) {
+        byId.set(c.id, candidate);
       }
     }
   }
