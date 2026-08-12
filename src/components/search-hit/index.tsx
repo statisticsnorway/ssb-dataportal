@@ -1,7 +1,8 @@
 import { Card, Heading, Link, Paragraph, Tag, Tooltip } from '@digdir/designsystemet-react';
-import { InformationSquareIcon } from '@navikt/aksel-icons';
+import { GlobeIcon } from '@navikt/aksel-icons';
 import { ReactNode } from 'react';
-import { localization } from '@/libs/language';
+import { localization, SupportedLanguage } from '@/libs/language';
+import { formatLanguages } from '@/utils/functions';
 import styles from './search-hit.module.css';
 
 interface SearchHitProps {
@@ -9,24 +10,18 @@ interface SearchHitProps {
   href?: string;
   description?: string;
   tagsList?: ReactNode;
-  notSelectedLanguage?: string;
+  fallBackLanguage?: SupportedLanguage;
 }
 
-const SearchHit = ({ title, href, description, tagsList, notSelectedLanguage }: SearchHitProps) => {
+const SearchHit = ({ title, href, description, tagsList, fallBackLanguage }: SearchHitProps) => {
   return (
     <Card aria-label={title} role='article'>
-      {notSelectedLanguage && (
+      {fallBackLanguage && (
         <div className={styles.hasNotValueInSelectedLanguage}>
-          <Tooltip
-            content={
-              localization.formatString(localization.language.notSelectedLanguage, {
-                item: localization.classification.labelSingular.toLocaleLowerCase(),
-              }) as string
-            }
-          >
-            <Tag data-size='lg' className={styles.languageTag}>
-              <InformationSquareIcon />
-              {notSelectedLanguage}
+          <Tooltip content={localization.classification.language.notSelectedLanguage}>
+            <Tag data-size='lg' className={styles.languageTag} tabIndex={0}>
+              <GlobeIcon />
+              {formatLanguages(fallBackLanguage)}
             </Tag>
           </Tooltip>
         </div>
