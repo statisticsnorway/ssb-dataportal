@@ -137,7 +137,6 @@ function toEntry(
   };
 }
 
-
 /**
  * Fetches all classifications, preferring the requested language and falling back as needed.
  *
