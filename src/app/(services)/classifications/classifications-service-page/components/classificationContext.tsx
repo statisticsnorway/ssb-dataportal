@@ -1,12 +1,12 @@
 import { createContext, ReactNode, useContext } from 'react';
-import { ClassificationResource } from '@/libs/data-access/klass';
+import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { SearchResultResource } from '@/libs/data-access/klass/models';
 import { ClassificationType } from '@/types/classification';
 import { KlassCode } from '@/types/klass-codes';
 import { SortTypes } from '@/types/sort';
 
 interface ClassificationContextValue {
-  classificationsPromise: Promise<{ data: ClassificationResource[]; error: Error | null }>;
+  classificationsPromise: Promise<{ data: ClassificationWithLanguage[]; error: Error | null }>;
   subjectFieldsPromise: Promise<{ data: KlassCode[]; error: Error | null }>;
   searchResultPromise: Promise<{ data: SearchResultResource[]; error: Error | null }>;
   selectedSubjectCodes: string[];

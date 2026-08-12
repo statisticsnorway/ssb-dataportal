@@ -1,14 +1,14 @@
 import { Tag } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
 import { SearchHit } from '@/components/search-hit';
-import { ClassificationResource } from '@/libs/data-access/klass';
+import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { getClassificationTypeFromString } from '@/types/classification';
 import { KlassCode } from '@/types/klass-codes';
 import { getLabelForClassificationType, stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
 import { getSubjectCodeByFamilyId } from '@/utils/subjectFieldsMapping';
 
 interface SearchHitProps {
-  classification?: ClassificationResource;
+  classification: ClassificationWithLanguage;
   subjectFields: KlassCode[];
 }
 
@@ -36,6 +36,7 @@ const ClassificationSearchHit = ({ classification, subjectFields }: SearchHitPro
       title={title}
       description={classification?.description ?? ''}
       tagsList={tagsList}
+      fallBackLanguage={classification?.fallbackLanguage ?? undefined}
     />
   );
 };
