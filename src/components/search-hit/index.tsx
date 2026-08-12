@@ -27,31 +27,25 @@ const SearchHit = ({ title, href, description, tagsList, fallbackLanguage }: Sea
         </div>
       )}
       {href && title ? (
-        fallbackLanguage ? (
-          <Heading data-size='md' className={styles.headingLink} level={2}>
-            <Link href={href}>
-              {title && (
-                <span className='primaryHeading' lang={fallbackLanguage}>
-                  {title}
-                </span>
-              )}
-            </Link>
-          </Heading>
-        ) : (
-          <Heading data-size='md' className={styles.headingLink} level={2}>
-            <Link href={href}>{title && <span className='primaryHeading'>{title}</span>}</Link>
-          </Heading>
-        )
+        <Heading data-size='md' className={styles.headingLink} level={2}>
+          <Link href={href}>
+            {title && (
+              <span className='primaryHeading' {...(fallbackLanguage ? { lang: fallbackLanguage } : {})}>
+                {title}
+              </span>
+            )}
+          </Link>
+        </Heading>
       ) : undefined}
 
-      {description &&
-        (fallbackLanguage ? (
-          <Paragraph className={`${styles.truncateTo3Lines} ingress`} lang={fallbackLanguage}>
-            {description}
-          </Paragraph>
-        ) : (
-          <Paragraph className={`${styles.truncateTo3Lines} ingress`}>{description}</Paragraph>
-        ))}
+      {description && (
+        <Paragraph
+          className={`${styles.truncateTo3Lines} ingress`}
+          {...(fallbackLanguage ? { lang: fallbackLanguage } : {})}
+        >
+          {description}
+        </Paragraph>
+      )}
 
       {tagsList && <div className={styles.tagsList}>{tagsList}</div>}
     </Card>
