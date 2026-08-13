@@ -34,7 +34,7 @@ export default function VariantsView({
           <ClassificationCard
             title={formatVariantName(variant.name)}
             content={mapVariantItems(variant)}
-            href={`${variantsBaseUrl}/variant/${variant.id}`}
+            href={`${variantsBaseUrl}/variants/${variant.id}`}
             key={variant.id}
           />
         ))}

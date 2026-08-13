@@ -59,7 +59,7 @@ test.describe('Current variants tab', () => {
     const variant = currentVersion!.classificationVariants![0]!;
     await page.getByRole('link', { name: formatVariantName(variant.name) }).click();
 
-    await expect(page).toHaveURL(`/classifications/2003/variant/${variant.id}`);
+    await expect(page).toHaveURL(`/classifications/2003/variants/${variant.id}`);
     await expect(page.getByRole('tab', { name: classificationDetailsTabsData.Variants.label })).toHaveAttribute(
       'aria-selected',
       'true',
@@ -99,7 +99,7 @@ test.describe('Explicit version variants tab', () => {
     const variant = currentVersion!.classificationVariants![0]!;
     await page.getByRole('link', { name: formatVariantName(variant.name) }).click();
 
-    await expect(page).toHaveURL(`/classifications/2003/version/${currentVersion!.id}/variant/${variant.id}`);
+    await expect(page).toHaveURL(`/classifications/2003/version/${currentVersion!.id}/variants/${variant.id}`);
     await expect(page.getByRole('tab', { name: classificationDetailsTabsData.Variants.label })).toHaveAttribute(
       'aria-selected',
       'true',

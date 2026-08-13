@@ -4,9 +4,9 @@ import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } fr
 describe('getClassificationDetailsTabForRoute', () => {
   it.each([
     '/classifications/104/variants',
-    '/classifications/104/variant/3453',
+    '/classifications/104/variants/3453',
     '/classifications/104/version/1709/variants',
-    '/classifications/104/version/1709/variant/3452',
+    '/classifications/104/version/1709/variants/3452',
   ])('selects the variants tab for %s', (pathname) => {
     expect(getClassificationDetailsTabForRoute(pathname)).toBe(classificationDetailsTabsData.Variants);
   });

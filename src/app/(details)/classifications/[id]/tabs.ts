@@ -50,7 +50,7 @@ export const classificationDetailsTabsData: Record<keyof typeof Tabs, Classifica
     },
     id: 'variantsTab',
     slug: 'variants',
-    nestedRouteSegments: ['variant'],
+    nestedRouteSegments: ['variants'],
   },
 };
 

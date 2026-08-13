@@ -13,7 +13,7 @@ describe('VariantsView', () => {
   it('links variants without a version when none is selected explicitly', () => {
     render(<VariantsView classificationVersion={version} classificationId={104} />);
 
-    expect(screen.getByRole('link', { name: 'Test' })).toHaveAttribute('href', '/classifications/104/variant/42');
+    expect(screen.getByRole('link', { name: 'Test' })).toHaveAttribute('href', '/classifications/104/variants/42');
     expect(screen.getByText('320')).toBeVisible();
   });
 
@@ -22,7 +22,7 @@ describe('VariantsView', () => {
 
     expect(screen.getByRole('link', { name: 'Test' })).toHaveAttribute(
       'href',
-      '/classifications/104/version/10/variant/42',
+      '/classifications/104/version/10/variants/42',
     );
   });
 
