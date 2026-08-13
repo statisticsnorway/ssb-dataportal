@@ -58,6 +58,9 @@ export const en = {
     labelPlural: 'Classifications',
     labelSingular: 'Classification',
     label: 'Classification',
+    language: {
+      notSelectedLanguage: 'This classification is not available in the selected language',
+    },
     view: 'View classification',
     type: 'Type',
     codelist: 'Codelist',
@@ -263,7 +266,9 @@ export const en = {
     landingPageSubTitle: "Your gateway to Statistics Norway's public data",
     landingPageTitle: 'Welcome to SSB Dataportal',
   },
-
+  language: {
+    notSelectedLanguage: 'This {element} is not available in the selected language',
+  },
   loading: {
     filters: 'Loading filters...',
     results: 'Loading results...',

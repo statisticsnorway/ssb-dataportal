@@ -3,12 +3,21 @@ import { localization } from '@/libs/language/src/localization';
 import { ClassificationType, getClassificationTypeFromString } from '@/types/classification';
 import { SubscribeStatus } from '@/types/subscription';
 
+const ALL_KNOWN_PREFIXES = [
+  // nb / nn
+  'Kodeliste for',
+  'Standard for',
+  // en
+  'Codelist for',
+  'Classification of',
+];
+
 /**
  * Removes known classification prefixes from a title and capitalizes first letter.
  */
 export const stripTitlePrefix = (name?: string) => {
-  const matchedPrefix = [localization.classification.codeListPrefix, localization.classification.standardPrefix].find(
-    (prefix) => name?.toLocaleLowerCase().startsWith(prefix.toLocaleLowerCase()),
+  const matchedPrefix = ALL_KNOWN_PREFIXES.find((prefix) =>
+    name?.toLocaleLowerCase().startsWith(prefix.toLocaleLowerCase()),
   );
   const stripped = (matchedPrefix ? name?.slice(matchedPrefix.length) : name)?.trim() ?? '';
 

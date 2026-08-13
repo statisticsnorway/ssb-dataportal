@@ -1,7 +1,7 @@
 import { use, useMemo } from 'react';
 import { SearchHitContainer } from '@/components/search-page-wrapper/search-hits-container';
 import { ClassificationResource } from '@/libs/data-access/klass';
-import { localization } from '@/libs/language/src/localization';
+import { localization, SupportedLanguage } from '@/libs/language';
 import {
   filterAndSortClassifications,
   mapSearchResultsToClassifications,
@@ -13,9 +13,20 @@ interface ResultsSectionProps {
   currentPage: number;
   pageSize: number;
   onPageChange: (page: number) => void;
+  language: SupportedLanguage;
 }
 
-export const ResultsSection = ({ currentPage, pageSize, onPageChange }: ResultsSectionProps) => {
+/**
+ * Renders the paginated list of classification search hits for the current
+ * page, applying subject/type filters, sort order, and search-hit ordering.
+ *
+ * @param props.currentPage - 1-based current page index.
+ * @param props.pageSize - Hits per page.
+ * @param props.onPageChange - Called with the next page index on pagination.
+ * @param props.language - Active UI language, used to match search hits to
+ *   classifications in the correct language variant.
+ */
+export const ResultsSection = ({ currentPage, pageSize, onPageChange, language }: ResultsSectionProps) => {
   const {
     searchResultPromise,
     classificationsPromise,
@@ -35,13 +46,12 @@ export const ResultsSection = ({ currentPage, pageSize, onPageChange }: ResultsS
    */
   const mappedClassifications = useMemo(() => {
     if (!isSearchActive) return classifications ?? [];
-
     return mapSearchResultsToClassifications(classifications ?? [], searchResults ?? [], {
       classificationIdSelector: (item) => item.id,
       languageSelector: (item) => item.language,
-      language: 'nb',
+      language,
     });
-  }, [classifications, searchResults, isSearchActive]);
+  }, [classifications, searchResults, isSearchActive, language]);
 
   const keepInputOrder = isSearchActive && sortOption === 'titleAsc';
 

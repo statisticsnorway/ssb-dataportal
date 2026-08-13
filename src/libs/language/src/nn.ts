@@ -56,6 +56,9 @@ export const nn = {
     labelPlural: 'Klassifikasjonar',
     labelSingular: 'Klassifikasjon',
     label: 'Klassifikasjon',
+    language: {
+      notSelectedLanguage: 'Denne klassifikasjonen er ikkje tilgjengeleg på valt språk',
+    },
     view: 'Sjå klassifikasjon',
     type: 'Type',
     codelist: 'Kodeliste',
@@ -260,7 +263,9 @@ export const nn = {
     landingPageSubTitle: 'Di inngang til SSBs felles kunnskap om data',
     landingPageTitle: 'Velkomen til SSB Dataportal',
   },
-
+  language: {
+    notSelectedLanguage: 'Dette {elementet} er ikkje tilgjengeleg på valt språk',
+  },
   loading: {
     filters: 'Lastar filter ...',
     results: 'Lastar resultat ...',

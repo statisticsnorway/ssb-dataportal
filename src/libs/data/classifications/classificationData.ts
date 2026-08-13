@@ -10,6 +10,7 @@ import { ClassificationResource } from '@/libs/data-access/klass/models/Classifi
 import { KlassPagedResourcesClassificationSummaryResourceFromJSON } from '@/libs/data-access/klass/models/KlassPagedResourcesClassificationSummaryResource';
 
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
+import { SupportedLanguages } from '@/libs/data-access/variable-definitions/internal/models/SupportedLanguages';
 import { SupportedLanguage } from '@/libs/language';
 import { createLogger } from '@/libs/logger/server-logger';
 import classificationsMock from '@/static-data/classifications.json';
@@ -37,16 +38,20 @@ async function getKlassClassificationsClient(): Promise<ClassificationsApi> {
   return new ClassificationsApi(new Configuration(configParams));
 }
 
-export async function fetchAllClassifications(
-  language: SupportedLanguage | undefined = 'nb',
-): Promise<ClassificationResource[]> {
+export type ClassificationWithLanguage = ClassificationResource & {
+  /** Language actually used to populate `name`/`description`. Undefined when it matches the requested language. */
+  fallbackLanguage?: SupportedLanguage;
+};
+
+const FALLBACK_ORDER: SupportedLanguage[] = [SupportedLanguages.Nb, SupportedLanguages.Nn, SupportedLanguages.En];
+
+/**
+ * Fetches all classifications from the Klass API for a single language, paginating
+ * through `links.next` until exhausted. Returns raw resources (no fallback merging).
+ * Static-data mode is handled by the caller.
+ */
+async function fetchAllClassificationsForLanguage(language: SupportedLanguage): Promise<ClassificationResource[]> {
   const logger = createLogger('classification-data');
-
-  if (process.env.KLASS_USE_STATIC_DATA === 'true') {
-    logger.warn('Using static mock data for classifications');
-    return classificationsMock.classifications.map((classification) => parseClassification(classification));
-  }
-
   const api = await getKlassClassificationsClient();
 
   const params = {
@@ -71,7 +76,7 @@ export async function fetchAllClassifications(
         next: { revalidate: ttlSeconds },
       } as RequestInit);
       if (!res.ok) {
-        logger.error({ statusCode: res.status, url: res.url }, 'Classification fetch failed on pagination');
+        logger.error({ statusCode: res.status, url: res.url, language }, 'Classification fetch failed on pagination');
         throw new Error('Failed to fetch classifications page');
       }
       data = KlassPagedResourcesClassificationSummaryResourceFromJSON(await res.json());
@@ -79,16 +84,94 @@ export async function fetchAllClassifications(
     }
 
     const durationMs = Date.now() - startTime;
-    logger.info({ count: allClassifications.length, durationMs }, 'Fetched classifications from API');
+    logger.info({ count: allClassifications.length, durationMs, language }, 'Fetched classifications from API');
     return allClassifications.map(normalizeClassificationTypes);
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
-      logger.error({ statusCode: error.response.status, url: error.response.url }, 'Classification fetch failed');
+      logger.error(
+        { statusCode: error.response.status, url: error.response.url, language },
+        'Classification fetch failed',
+      );
     } else {
-      logger.error({ error: String(error) }, 'Unexpected error during fetch');
+      logger.error({ error: String(error), language }, 'Unexpected error during fetch');
     }
     throw error;
   }
+}
+
+/**
+ * Returns true if the candidate should replace the existing classification entry.
+ *
+ * @param existing Current entry.
+ * @param candidate Candidate replacement entry.
+ * @returns Whether the candidate is preferred.
+ */
+function isBetterEntry(existing: ClassificationWithLanguage, candidate: ClassificationWithLanguage): boolean {
+  // Prefer the requested language (no fallback flag) over any fallback entry.
+  if (existing.fallbackLanguage && !candidate.fallbackLanguage && candidate.name) {
+    return true;
+  }
+  // Prefer any named entry over a nameless one.
+  if (!existing.name && candidate.name) {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Converts a classification to the language-aware entry format.
+ *
+ * @param c Classification resource.
+ * @param lang Language of the resource.
+ * @param requested Requested language.
+ * @returns Classification entry with fallback language metadata.
+ */
+function toEntry(
+  c: ClassificationResource,
+  lang: SupportedLanguage,
+  requested: SupportedLanguage,
+): ClassificationWithLanguage {
+  return {
+    ...c,
+    fallbackLanguage: lang === requested ? undefined : lang,
+  };
+}
+
+/**
+ * Fetches all classifications, preferring the requested language and falling back as needed.
+ *
+ * @param language Preferred language (defaults to nb).
+ * @returns Classifications with fallback language metadata.
+ */
+export async function fetchAllClassifications(
+  language: SupportedLanguage | undefined = 'nb',
+): Promise<ClassificationWithLanguage[]> {
+  const logger = createLogger('classification-data');
+
+  if (process.env.KLASS_USE_STATIC_DATA === 'true') {
+    logger.warn('Using static mock data for classifications');
+    return classificationsMock.classifications.map((c) => toEntry(parseClassification(c), 'nb', language));
+  }
+
+  const languages = [language, ...FALLBACK_ORDER.filter((l) => l !== language)] as SupportedLanguage[];
+
+  const perLanguage = await Promise.all(
+    languages.map(async (lang) => [lang, await fetchAllClassificationsForLanguage(lang)] as const),
+  );
+
+  const byId = new Map<number, ClassificationWithLanguage>();
+  for (const [lang, list] of perLanguage) {
+    for (const c of list) {
+      if (c.id == null) continue;
+      const candidate = toEntry(c, lang, language);
+      const existing = byId.get(c.id);
+      if (!existing || isBetterEntry(existing, candidate)) {
+        byId.set(c.id, candidate);
+      }
+    }
+  }
+
+  return [...byId.values()];
 }
 
 export async function fetchClassificationById(
