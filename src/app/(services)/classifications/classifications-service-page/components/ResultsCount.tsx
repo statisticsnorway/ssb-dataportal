@@ -1,12 +1,23 @@
 import { use, useMemo } from 'react';
-import { localization } from '@/libs/language';
+import { localization, SupportedLanguage } from '@/libs/language';
 import {
   filterAndSortClassifications,
   mapSearchResultsToClassifications,
 } from '@/utils/classifications/filterAndSortClassifications';
 import { useClassificationContext } from './classificationContext';
 
-export const ResultsCount = () => {
+interface ResultsCountProps {
+  language: SupportedLanguage;
+}
+
+/**
+ * Renders the total number of classification hits after applying the active
+ * search query, subject and type filters, and sort option.
+ *
+ * @param props.language - Active UI language, used to match search hits to
+ *   classifications in the correct language variant.
+ */
+export const ResultsCount = ({ language }: Readonly<ResultsCountProps>) => {
   const {
     classificationsPromise,
     searchResultPromise,
@@ -30,12 +41,12 @@ export const ResultsCount = () => {
       },
       languageSelector: (item) => {
         const rec = item as unknown as Record<string, unknown>;
-        const language = rec.language;
-        return typeof language === 'string' ? language : null;
+        const lang = rec.language;
+        return typeof lang === 'string' ? lang : null;
       },
-      language: 'nb',
+      language,
     });
-  }, [classifications, searchResults, searchQuery]);
+  }, [classifications, searchResults, searchQuery, language]);
 
   const totalHits = useMemo(
     () =>

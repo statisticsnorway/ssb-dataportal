@@ -56,6 +56,9 @@ export const nb = {
     labelPlural: 'Klassifikasjoner',
     labelSingular: 'Klassifikasjon',
     label: 'Klassifikasjon',
+    language: {
+      notSelectedLanguage: 'Denne klassifikasjonen er ikke tilgjengelig på valgt språk',
+    },
     view: 'Se klassifikasjon',
     type: 'Type',
     codelist: 'Kodeliste',
@@ -264,6 +267,9 @@ export const nb = {
     landingPageSubTitle: 'Din inngang til SSBs felles kunnskap om data',
     landingPageTitle: 'Velkommen til SSB Dataportal',
   },
+  language: {
+    notSelectedLanguage: 'Denne {item} er ikke tilgjengelig på valgt språk',
+  },
 
   loading: {
     filters: 'Laster filtere...',
@@ -414,6 +420,7 @@ export const nb = {
   },
   versions: {
     name: 'Navn',
+    invert: 'Inverter tabell',
     validFrom: 'Gyldig fra',
     validTo: 'Gyldig til',
     now: 'Nå',

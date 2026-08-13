@@ -87,8 +87,8 @@ const ClassificationTable = ({ content, sortableField }: ClassificationTableProp
         </TableRow>
       </TableHead>
       <TableBody>
-        {sortedContent.map((row) => (
-          <TableRow key={row.map((item) => String(item.value)).join('-')}>
+        {sortedContent.map((row, rowIndex) => (
+          <TableRow key={`${row.map((item) => String(item.value)).join('-')}-${rowIndex}`}>
             {row.map((item) => (
               <TableCell key={item.label}>
                 {item.value instanceof Date ? item.value.toLocaleDateString('nb-NO') : item.value}

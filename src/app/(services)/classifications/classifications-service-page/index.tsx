@@ -7,9 +7,9 @@ import { FiltersPanel } from '@/components/filters';
 import { FilterTagsSection } from '@/components/filters/filter-tags-section';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortFields } from '@/components/sort-fields';
-import { ClassificationResource } from '@/libs/data-access/klass';
+import type { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { SearchResultResource } from '@/libs/data-access/klass/models';
-import { localization } from '@/libs/language';
+import { localization, SupportedLanguage } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
 import { ClassificationType, getClassificationTypeFromString, isKnownClassificationType } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
@@ -26,10 +26,11 @@ import { ResultsSection } from './components/ResultsSection';
 import { SubjectFiltersSection, SubjectFiltersSectionFallback } from './components/SubjectFiltersSection';
 
 interface ClassificationServicePageProps {
-  classificationsPromise: Promise<{ data: ClassificationResource[]; error: Error | null }>;
+  classificationsPromise: Promise<{ data: ClassificationWithLanguage[]; error: Error | null }>;
   subjectFieldsPromise: Promise<{ data: KlassCode[]; error: Error | null }>;
   searchResultPromise: Promise<{ data: SearchResultResource[]; error: Error | null }>;
   isSearchActive: boolean;
+  language: SupportedLanguage;
 }
 
 const toggleValue = <T extends string>(values: T[], nextValue: T): T[] => {
@@ -45,6 +46,7 @@ const ClassificationsServicePage = ({
   subjectFieldsPromise,
   searchResultPromise,
   isSearchActive,
+  language,
 }: ClassificationServicePageProps) => {
   const pageSize = 8;
   const [queryState, setQueryState] = useQueryStates(
@@ -177,7 +179,7 @@ const ClassificationsServicePage = ({
         }
         totalHits={
           <Suspense fallback={null}>
-            <ResultsCount />
+            <ResultsCount language={language} />
           </Suspense>
         }
         infoContent={
@@ -197,7 +199,12 @@ const ClassificationsServicePage = ({
         }
         searchResult={
           <Suspense fallback={<Spinner aria-label={localization.loading.results} />}>
-            <ResultsSection currentPage={page} pageSize={pageSize} onPageChange={handlePageChange} />
+            <ResultsSection
+              currentPage={page}
+              pageSize={pageSize}
+              onPageChange={handlePageChange}
+              language={language}
+            />
           </Suspense>
         }
       />
