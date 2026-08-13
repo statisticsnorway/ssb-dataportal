@@ -1,7 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { VariantsApi } from '@/libs/data-access/klass/apis/VariantsApi';
+import { ResponseError } from '@/libs/data-access/klass/runtime';
 import { fetchClassificationById } from './classificationData';
-import { fetchVariantForClassification } from './variantsData';
+import { fetchVariantById, fetchVariantForClassification } from './variantsData';
 import { fetchVersionById } from './versionsData';
 
 vi.mock('server-only', () => ({}));
@@ -18,9 +19,23 @@ const classification = {
 
 describe('fetchVariantForClassification', () => {
   beforeEach(() => {
+    vi.restoreAllMocks();
     vi.clearAllMocks();
     vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
     vi.mocked(fetchClassificationById).mockResolvedValue(classification);
+  });
+
+  it('returns undefined when the classification has no selectable version', async () => {
+    vi.mocked(fetchClassificationById).mockResolvedValue({ id: 104, versions: [] });
+
+    await expect(fetchVariantForClassification(104, 200)).resolves.toBeUndefined();
+    expect(fetchVersionById).not.toHaveBeenCalled();
+  });
+
+  it('returns undefined when the selected version cannot be loaded', async () => {
+    vi.mocked(fetchVersionById).mockResolvedValue(undefined);
+
+    await expect(fetchVariantForClassification(104, 200)).resolves.toBeUndefined();
   });
 
   it('returns a variant from the latest version when no version is specified', async () => {
@@ -59,5 +74,55 @@ describe('fetchVariantForClassification', () => {
 
     await expect(fetchVariantForClassification(104, 999)).resolves.toBeUndefined();
     expect(fetchVariant).not.toHaveBeenCalled();
+  });
+});
+
+describe('fetchVariantById', () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+    vi.clearAllMocks();
+  });
+
+  it('returns a variant from static data', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
+
+    await expect(fetchVariantById(3302)).resolves.toMatchObject({
+      id: 3302,
+      classificationItems: expect.any(Array),
+      levels: expect.any(Array),
+    });
+  });
+
+  it('returns undefined when a static variant does not exist', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
+
+    await expect(fetchVariantById(-1)).resolves.toBeUndefined();
+  });
+
+  it('returns a variant from the live API', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
+    vi.spyOn(VariantsApi.prototype, 'variants').mockResolvedValue({ id: 42, classificationItems: [] });
+
+    await expect(fetchVariantById(42, 'en')).resolves.toMatchObject({ id: 42 });
+    expect(VariantsApi.prototype.variants).toHaveBeenCalledWith(
+      { id: 42, language: 'EN' },
+      expect.objectContaining({ cache: 'force-cache' }),
+    );
+  });
+
+  it('rethrows API response errors', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
+    const error = new ResponseError(new Response(null, { status: 500 }), 'Server error');
+    vi.spyOn(VariantsApi.prototype, 'variants').mockRejectedValue(error);
+
+    await expect(fetchVariantById(42)).rejects.toBe(error);
+  });
+
+  it('rethrows unexpected errors', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
+    const error = new Error('Network failure');
+    vi.spyOn(VariantsApi.prototype, 'variants').mockRejectedValue(error);
+
+    await expect(fetchVariantById(42)).rejects.toBe(error);
   });
 });
