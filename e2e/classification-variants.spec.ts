@@ -11,6 +11,7 @@ const olderVersion = versions![1];
 
 const CURRENT_DETAILS_URL = '/classifications/2003/variants';
 const OLDER_DETAILS_URL = `/classifications/2003/version/${olderVersion!.id ?? 2}/variants`;
+const EXPLICIT_CURRENT_VERSION_URL = `/classifications/2003/version/${currentVersion!.id}/variants`;
 
 async function gotoVariants(page: Page, url: string) {
   await page.goto(url, { waitUntil: 'domcontentloaded' });
@@ -48,6 +49,28 @@ test.describe('Current variants tab', () => {
       }
     }
   });
+
+  test('keeps the shared tabs mounted when opening and closing a variant', async ({ page }) => {
+    await gotoVariants(page, CURRENT_DETAILS_URL);
+
+    const tabList = page.getByRole('tablist');
+    await tabList.evaluate((element) => element.setAttribute('data-mount-check', 'mounted'));
+
+    const variant = currentVersion!.classificationVariants![0]!;
+    await page.getByRole('link', { name: formatVariantName(variant.name) }).click();
+
+    await expect(page).toHaveURL(`/classifications/2003/variants/${variant.id}`);
+    await expect(page.getByRole('tab', { name: classificationDetailsTabsData.Variants.label })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
+    await expect(page.locator('[data-mount-check="mounted"]')).toBeVisible();
+
+    await page.getByRole('link', { name: localization.codeTree.back, exact: true }).click();
+
+    await expect(page).toHaveURL(CURRENT_DETAILS_URL);
+    await expect(page.locator('[data-mount-check="mounted"]')).toBeVisible();
+  });
 });
 
 test.describe('Older variants tab', () => {
@@ -66,5 +89,23 @@ test.describe('Older variants tab', () => {
     await expect(
       page.getByRole('status').filter({ hasText: localization.classification.variant.noVariants }),
     ).toBeVisible();
+  });
+});
+
+test.describe('Explicit version variants tab', () => {
+  test('keeps the version in the URL when opening and closing a variant', async ({ page }) => {
+    await gotoVariants(page, EXPLICIT_CURRENT_VERSION_URL);
+
+    const variant = currentVersion!.classificationVariants![0]!;
+    await page.getByRole('link', { name: formatVariantName(variant.name) }).click();
+
+    await expect(page).toHaveURL(`/classifications/2003/version/${currentVersion!.id}/variants/${variant.id}`);
+    await expect(page.getByRole('tab', { name: classificationDetailsTabsData.Variants.label })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
+
+    await page.getByRole('link', { name: localization.codeTree.back, exact: true }).click();
+    await expect(page).toHaveURL(EXPLICIT_CURRENT_VERSION_URL);
   });
 });

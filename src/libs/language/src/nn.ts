@@ -77,8 +77,11 @@ export const nn = {
     variant: {
       name: 'Namn',
       id: 'ID',
+      description: 'Skildring',
+      responsible: 'Ansvarleg',
       owner: 'Eigar',
       ownerSection: 'Eigarseksjon',
+      validFrom: 'Gyldig frå og med',
       noVariants: 'Denne versjonen har ingen variantar',
       variantHeading: 'Variantar',
       variantInfo:

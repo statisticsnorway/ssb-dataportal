@@ -8,7 +8,12 @@ enum Tabs {
   Variants,
 }
 
-export type ClassificationDetailsTabData = { label: string; id: string; slug: string };
+export type ClassificationDetailsTabData = {
+  label: string;
+  id: string;
+  slug: string;
+  nestedRouteSegments?: readonly string[];
+};
 
 export const classificationDetailsTabsData: Record<keyof typeof Tabs, ClassificationDetailsTabData> = {
   Codes: {
@@ -45,11 +50,16 @@ export const classificationDetailsTabsData: Record<keyof typeof Tabs, Classifica
     },
     id: 'variantsTab',
     slug: 'variants',
+    nestedRouteSegments: ['variants'],
   },
 };
 
 export function getClassificationDetailsTabForRoute(pathname: string): ClassificationDetailsTabData | undefined {
-  return Object.values(classificationDetailsTabsData).find((tabData: ClassificationDetailsTabData) =>
-    pathname.endsWith(`/${tabData.slug}`),
+  const routeSegments = pathname.split('/').filter(Boolean);
+
+  return Object.values(classificationDetailsTabsData).find(
+    (tabData: ClassificationDetailsTabData) =>
+      routeSegments.at(-1) === tabData.slug ||
+      tabData.nestedRouteSegments?.some((segment) => routeSegments.includes(segment)),
   );
 }

@@ -5,9 +5,15 @@ import { useVersion } from '@/app/(details)/classifications/components/versionCo
 import VariantsView from '@/app/(details)/classifications/components/views/VariantsView';
 
 export default function VariantsVersion() {
-  const { versionResource } = useVersion();
-  if (!versionResource?.classificationVariants) {
+  const { classification, versionResource } = useVersion();
+  if (!versionResource?.classificationVariants || versionResource.id === undefined) {
     return notFound();
   }
-  return <VariantsView classificationVersion={versionResource} />;
+  return (
+    <VariantsView
+      classificationVersion={versionResource}
+      classificationId={classification.id!}
+      versionId={versionResource.id}
+    />
+  );
 }

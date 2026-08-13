@@ -1,11 +1,13 @@
 import { Card, Divider, Heading } from '@digdir/designsystemet-react';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
+import Link from 'next/link';
 import { Item } from '@/types/item';
 import styles from './classificationCards.module.css';
 
 interface ClassificationCardProps {
   content: Item[];
   title?: string;
+  href?: string;
 }
 
 /**
@@ -14,13 +16,14 @@ interface ClassificationCardProps {
  * @param param0
  * @returns
  */
-const ClassificationCard = ({ content, title }: Readonly<ClassificationCardProps>) => {
+const ClassificationCard = ({ content, title, href }: Readonly<ClassificationCardProps>) => {
   const getColumnKey = (col: Item, index: number) => {
     return typeof col.label === 'string' && col.label.length > 0 ? col.label : String(index);
   };
 
   return (
-    <Card>
+    <Card className={href ? styles.linkedCard : undefined}>
+      {href && <Link className={styles.cardLink} href={href} aria-label={title} />}
       {title && (
         <Heading level={3} className={`${styles.detailsHeading} infoHeadingSecondary`} id={`tableHeading-${title}`}>
           <span className={styles.titleText}>{title}</span>

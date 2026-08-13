@@ -7,10 +7,20 @@ import styles from './views.module.css';
 
 interface VariantsViewProps {
   classificationVersion: ClassificationVersionResource;
+  classificationId: number;
+  versionId?: number;
 }
 
-export default function VariantsView({ classificationVersion }: Readonly<VariantsViewProps>) {
+export default function VariantsView({
+  classificationVersion,
+  classificationId,
+  versionId,
+}: Readonly<VariantsViewProps>) {
   const variants = classificationVersion?.classificationVariants ?? [];
+  const variantsBaseUrl =
+    versionId === undefined
+      ? `/classifications/${classificationId}`
+      : `/classifications/${classificationId}/version/${versionId}`;
   return (
     <div className={styles.aboutWrapper}>
       <header>
@@ -24,6 +34,7 @@ export default function VariantsView({ classificationVersion }: Readonly<Variant
           <ClassificationCard
             title={formatVariantName(variant.name)}
             content={mapVariantItems(variant)}
+            href={`${variantsBaseUrl}/variants/${variant.id}`}
             key={variant.id}
           />
         ))}
