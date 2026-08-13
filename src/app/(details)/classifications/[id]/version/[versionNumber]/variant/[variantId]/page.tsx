@@ -3,9 +3,9 @@ import VariantView from '@/app/(details)/classifications/components/views/Varian
 
 export default async function VersionVariantPage({
   params,
-}: {
+}: Readonly<{
   params: Promise<{ id: string; versionNumber: string; variantId: string }>;
-}) {
+}>) {
   const { id: classificationIdParam, versionNumber, variantId } = await params;
   const classificationId = Number(classificationIdParam);
   const versionId = Number(versionNumber);
