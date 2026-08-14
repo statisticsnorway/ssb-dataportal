@@ -10,13 +10,13 @@ import { ClassificationResource } from '@/libs/data-access/klass/models/Classifi
 import { KlassPagedResourcesClassificationSummaryResourceFromJSON } from '@/libs/data-access/klass/models/KlassPagedResourcesClassificationSummaryResource';
 
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
-import { SupportedLanguages } from '@/libs/data-access/variable-definitions/internal/models/SupportedLanguages';
 import { SupportedLanguage } from '@/libs/language';
 import { createLogger } from '@/libs/logger/server-logger';
 import classificationsMock from '@/static-data/classifications.json';
 import { normalizeClassificationTypes } from '@/utils/classifications/classificationHelpers';
 import { getClassification, parseClassification } from '@/utils/mock-data';
 import { getUserAgent } from '@/utils/userAgent';
+import { FALLBACK_ORDER } from './utils';
 
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
 
@@ -42,8 +42,6 @@ export type ClassificationWithLanguage = ClassificationResource & {
   /** Language actually used to populate `name`/`description`. Undefined when it matches the requested language. */
   fallbackLanguage?: SupportedLanguage;
 };
-
-const FALLBACK_ORDER: SupportedLanguage[] = [SupportedLanguages.Nb, SupportedLanguages.Nn, SupportedLanguages.En];
 
 /**
  * Fetches all classifications from the Klass API for a single language, paginating

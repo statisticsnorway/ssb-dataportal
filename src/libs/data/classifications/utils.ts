@@ -1,4 +1,6 @@
 import { HTTPQuery } from '@/libs/data-access/klass';
+import { SupportedLanguages } from '@/libs/data-access/variable-definitions/internal/models/SupportedLanguages';
+import { SupportedLanguage } from '@/libs/language';
 
 /**
  * Duplicate of the generated function querystring in src/libs/data-access/klass/runtime.ts
@@ -48,3 +50,9 @@ function querystringSingleKey(
   }
   return `${encodeURIComponent(fullKey)}=${encodeURIComponent(String(value))}`;
 }
+
+export const FALLBACK_ORDER: SupportedLanguage[] = [
+  SupportedLanguages.Nb,
+  SupportedLanguages.Nn,
+  SupportedLanguages.En,
+];
