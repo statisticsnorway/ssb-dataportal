@@ -190,7 +190,7 @@ export const nb = {
       notFoundChanges: 'Endringer ikke funnet',
       notFoundVersions: 'Versjoner ikke funnet',
       notFoundCorrespondences: 'Korrespondanser ikke funnet',
-      notFoundVariants: 'Varianter ikke funnet',
+      notFoundVariants: 'Variant ikke funnet',
     },
     somethingWentWrong: 'Beklager, noe gikk galt.',
     unauthorized: 'Beklager, du har ikke tilgang.',

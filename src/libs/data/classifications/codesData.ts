@@ -92,6 +92,11 @@ export async function fetchChanges(
     return data.codeChanges ?? [];
   } catch (error) {
     if (error instanceof ResponseError) {
+      if (error.response.status === 404) {
+        logger.info({ classificationId, url: error.response.url }, 'No changes found for classification');
+        return [];
+      }
+
       logger.error(
         {
           statusCode: error.response.status,

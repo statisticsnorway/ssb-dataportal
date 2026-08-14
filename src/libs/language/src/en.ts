@@ -193,7 +193,7 @@ export const en = {
       notFoundChanges: 'Changes not found',
       notFoundVersions: 'Versions not found',
       notFoundCorrespondences: 'Correspondences not found',
-      notFoundVariants: 'Variants not found',
+      notFoundVariants: 'Variant not found',
     },
     somethingWentWrong: 'Sorry, something went wrong.',
     unauthorized: 'Sorry, you do not have access.',
