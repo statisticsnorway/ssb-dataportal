@@ -38,7 +38,7 @@ export default async function VariantView({
           </Link>
         </DigdirLink>
         <Alert role='status' data-color='info'>
-          {localization.error.classificationDetailsTabs.notFoundVariants}
+          {localization.error.classificationDetailsTabs.notFoundVariant}
         </Alert>
       </div>
     );

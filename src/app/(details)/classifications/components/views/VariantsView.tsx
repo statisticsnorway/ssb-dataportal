@@ -40,7 +40,7 @@ export default function VariantsView({
         ))}
       {variants.length === 0 && (
         <Alert role='status' data-color='info'>
-          {localization.classification.variant.noVariants}
+          {localization.error.classificationDetailsTabs.notFoundVariants}
         </Alert>
       )}
     </div>
