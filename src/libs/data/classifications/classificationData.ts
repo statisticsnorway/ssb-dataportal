@@ -172,10 +172,10 @@ export async function fetchAllClassifications(
   return [...byId.values()];
 }
 
-export async function fetchClassificationById(
+export async function fetchClassificationForLanguage(
   id: number,
   language: SupportedLanguage | undefined = 'nb',
-): Promise<ClassificationResource> {
+): Promise<ClassificationResource | null> {
   let classification: ClassificationResource;
   const logger = createLogger('classification-data');
 
@@ -207,4 +207,35 @@ export async function fetchClassificationById(
     }
   }
   return classification;
+}
+
+export async function fetchClassificationById(
+  id: number,
+  language: SupportedLanguage | undefined = 'nb',
+): Promise<ClassificationWithLanguage> {
+  const logger = createLogger('classification-data');
+
+  if (process.env.KLASS_USE_STATIC_DATA === 'true') {
+    logger.warn('Using static mock data for classifications');
+    return toEntry(getClassification(id), 'nb', language);
+  }
+
+  const languages = [language, ...FALLBACK_ORDER.filter((l) => l !== language)] as SupportedLanguage[];
+
+  const results = await Promise.all(
+    languages.map(async (lang) => {
+      try {
+        const resource = await fetchClassificationForLanguage(id, lang);
+        return resource ? toEntry(resource, lang, language) : null;
+      } catch (error) {
+        logger.warn({ id, lang, error: String(error) }, 'Classification fetch failed for language');
+        return null;
+      }
+    }),
+  );
+
+  const chosen = results.find((r) => r?.name) ?? results.find((r): r is ClassificationWithLanguage => r !== null);
+  if (!chosen) throw new Error(`Classification ${id} not available in any supported language`);
+
+  return chosen;
 }
