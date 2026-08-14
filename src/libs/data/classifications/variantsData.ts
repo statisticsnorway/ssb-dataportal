@@ -11,9 +11,34 @@ import { createLogger } from '@/libs/logger/server-logger';
 import versionsMock from '@/static-data/versions.json';
 import { getUserAgent } from '@/utils/userAgent';
 import { fetchClassificationById } from './classificationData';
+import { FALLBACK_ORDER } from './utils';
 import { fetchVersionById } from './versionsData';
 
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
+
+export type VariantWithLanguage = ClassificationVariantResource & {
+  /** Language actually used to populate `name`/`description`. Undefined when it matches the requested language. */
+  fallbackLanguage?: SupportedLanguage;
+};
+
+/**
+ * Converts a variant to the language-aware entry format.
+ *
+ * @param c Variant resource.
+ * @param lang Language of the resource.
+ * @param requested Requested language.
+ * @returns Variant entry with fallback language metadata.
+ */
+function toEntry(
+  c: ClassificationVariantResource,
+  lang: SupportedLanguage,
+  requested: SupportedLanguage,
+): VariantWithLanguage {
+  return {
+    ...c,
+    fallbackLanguage: lang === requested ? undefined : lang,
+  };
+}
 
 function getVariantsClient(): VariantsApi {
   const config: ConfigurationParameters = {
@@ -24,10 +49,7 @@ function getVariantsClient(): VariantsApi {
   return new VariantsApi(new Configuration(config));
 }
 
-export async function fetchVariantById(
-  id: number,
-  language: SupportedLanguage | undefined = 'nb',
-): Promise<ClassificationVariantResource | undefined> {
+export async function fetchVariantForLanguage(id: number, language: SupportedLanguage | undefined = 'nb') {
   const logger = createLogger('classification-variants-data');
 
   if (process.env.KLASS_USE_STATIC_DATA === 'true') {
@@ -57,12 +79,52 @@ export async function fetchVariantById(
   }
 }
 
+export async function fetchVariantById(
+  id: number,
+  language: SupportedLanguage | undefined = 'nb',
+): Promise<VariantWithLanguage | undefined> {
+  const logger = createLogger('classification-variants-data');
+
+  if (process.env.KLASS_USE_STATIC_DATA === 'true') {
+    const version = versionsMock.versions.find((item) =>
+      item.classificationVariants?.some((variant) => variant.id === id),
+    );
+    const variant = version?.classificationVariants?.find((item) => item.id === id);
+    if (!version || !variant) return undefined;
+    return toEntry(
+      ClassificationVariantResourceFromJSONTyped(
+        { ...variant, levels: version.levels, classificationItems: version.classificationItems },
+        true,
+      ),
+      'nb',
+      language,
+    );
+  }
+  const languages = [language, ...FALLBACK_ORDER.filter((l) => l !== language)] as SupportedLanguage[];
+
+  const results = await Promise.all(
+    languages.map(async (lang) => {
+      try {
+        const resource = await fetchVariantForLanguage(id, lang);
+        return resource ? toEntry(resource, lang, language) : null;
+      } catch (error) {
+        logger.warn({ id, lang, error: String(error) }, 'Variant fetch failed for language');
+        return null;
+      }
+    }),
+  );
+  const chosen = results.find((r) => r?.name) ?? results.find((r): r is VariantWithLanguage => r !== null);
+  if (!chosen) throw new Error(`Variant ${id} not available in any supported language`);
+
+  return chosen;
+}
+
 export async function fetchVariantForClassification(
   classificationId: number,
   variantId: number,
   language: SupportedLanguage = 'nb',
   versionId?: number,
-): Promise<ClassificationVariantResource | undefined> {
+): Promise<VariantWithLanguage | undefined> {
   const classification = await fetchClassificationById(classificationId, language);
   const versions = classification.versions ?? [];
   const selectedVersion =
