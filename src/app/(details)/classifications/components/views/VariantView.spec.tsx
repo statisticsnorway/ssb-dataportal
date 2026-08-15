@@ -4,6 +4,9 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 const mocks = vi.hoisted(() => ({
   fetchVariantForClassification: vi.fn(),
   getRequestLanguage: vi.fn(),
+  notFound: vi.fn(() => {
+    throw new Error('NEXT_NOT_FOUND');
+  }),
 }));
 
 vi.mock('@/app/(details)/classifications/[id]/layout', () => ({
@@ -13,6 +16,8 @@ vi.mock('@/app/(details)/classifications/[id]/layout', () => ({
 vi.mock('@/libs/data/classifications/variantsData', () => ({
   fetchVariantForClassification: mocks.fetchVariantForClassification,
 }));
+
+vi.mock('next/navigation', () => ({ notFound: mocks.notFound }));
 
 vi.mock('@/components/details-list', () => ({
   DetailsList: ({ content }: { content: Array<{ label: string; value: React.ReactNode }> }) => (
@@ -64,13 +69,13 @@ describe('VariantView', () => {
     expect(screen.getByTestId('codes-view')).toBeVisible();
   });
 
-  it('renders a simple informational alert when the variant does not exist', async () => {
+  it('uses the route not-found state when the variant does not exist', async () => {
     mocks.fetchVariantForClassification.mockResolvedValue(undefined);
     const { default: VariantView } = await import('./VariantView');
 
-    render(await VariantView({ classificationId: 2003, variantId: 42, backHref: '/classifications/2003/variants' }));
-
-    expect(screen.getByRole('link', { name: /^Tilbake$/ })).toHaveAttribute('href', '/classifications/2003/variants');
-    expect(screen.getByRole('status')).toHaveTextContent('Variant ikke funnet');
+    await expect(
+      VariantView({ classificationId: 2003, variantId: 42, backHref: '/classifications/2003/variants' }),
+    ).rejects.toThrow('NEXT_NOT_FOUND');
+    expect(mocks.notFound).toHaveBeenCalledTimes(1);
   });
 });

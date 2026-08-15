@@ -1,6 +1,7 @@
-import { Alert, Link as DigdirLink, Heading } from '@digdir/designsystemet-react';
+import { Link as DigdirLink, Heading } from '@digdir/designsystemet-react';
 import { ArrowLeftIcon } from '@navikt/aksel-icons';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout';
 import { formatVariantName, mapVariantDetails } from '@/app/(details)/classifications/utils/variants';
 import { DetailsList } from '@/components/details-list';
@@ -28,21 +29,7 @@ export default async function VariantView({
     await getRequestLanguage(),
     versionId,
   );
-  if (!variant?.classificationItems) {
-    return (
-      <div className={styles.aboutWrapper}>
-        <DigdirLink asChild>
-          <Link href={backHref}>
-            <ArrowLeftIcon aria-hidden='true' />
-            {localization.codeTree.back}
-          </Link>
-        </DigdirLink>
-        <Alert role='status' data-color='info'>
-          {localization.error.classificationDetailsTabs.notFoundVariant}
-        </Alert>
-      </div>
-    );
-  }
+  if (!variant?.classificationItems) return notFound();
 
   return (
     <div className={styles.aboutWrapper}>
