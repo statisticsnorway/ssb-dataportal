@@ -34,6 +34,13 @@ describe('Map versions', () => {
     expect(validTo).toBe(localization.versions.now);
   });
 
+  it('keeps the active tab when linking to another version', () => {
+    const result = mapVersions(version, classification.id, 'changes');
+    const element = result[0]?.value as React.ReactElement<{ href: string }>;
+
+    expect(element?.props?.href).toBe('/classifications/2003/version/2/changes');
+  });
+
   it('Classification id is not defined version', () => {
     const result = mapVersions(version, undefined);
     expect(result[0]?.value).toBe(version?.name);

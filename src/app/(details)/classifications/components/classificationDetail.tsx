@@ -1,12 +1,14 @@
 'use client';
 
 import { Divider, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { usePathname } from 'next/navigation';
 import { SubscribeDialog } from '@/app/(details)/classifications/components/subscribe';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
+import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from '../[id]/tabs';
 import { mapVersions } from '../utils/versions';
 import styles from './classification-page.module.css';
 import { ClassificationTable } from './classification-table';
@@ -23,6 +25,9 @@ export default function ClassificationDetail({
   classificationVersion,
   children,
 }: Readonly<ClassificationDetailProps>) {
+  const pathname = usePathname();
+  const activeTab = getClassificationDetailsTabForRoute(pathname) ?? classificationDetailsTabsData.Codes;
+
   return (
     <div className={`${styles.detailsPage} container`}>
       <DataportalBreadcrumbs
@@ -48,7 +53,7 @@ export default function ClassificationDetail({
           table={
             <ClassificationTable
               sortableField={localization.versions.validFrom}
-              content={(classification.versions ?? []).map((v) => mapVersions(v, classification.id))}
+              content={(classification.versions ?? []).map((v) => mapVersions(v, classification.id, activeTab.slug))}
             />
           }
         />
