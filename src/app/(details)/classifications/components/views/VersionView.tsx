@@ -1,8 +1,9 @@
 'use client';
 
-import { Alert, Heading, Tabs, Tag } from '@digdir/designsystemet-react';
+import { Alert, Divider, Heading, Tabs, Tag } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { AppNotFoundState } from '@/components/app-state';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
@@ -31,10 +32,10 @@ function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): 
 
   if (versionIndex >= 0) {
     const versionId = Number(segments[versionIndex + 1]);
-    if (!Number.isNaN(versionId)) {
-      const version = sorted.find((v) => v.id === versionId);
-      if (version) return { version, isLatest: latest.id === versionId };
-    }
+    if (!Number.isInteger(versionId)) return null;
+
+    const version = sorted.find((v) => v.id === versionId);
+    return version ? { version, isLatest: latest.id === versionId } : null;
   }
 
   return { version: latest, isLatest: true };
@@ -48,7 +49,18 @@ export function VersionView({ classification, classificationVersion, children }:
   const versions = classification.versions ?? [];
   const resolved = resolveVersionFromPath(pathname, versions);
 
-  if (!resolved) return null;
+  if (!resolved) {
+    return (
+      <AppNotFoundState
+        title={localization.error.notFoundTitleVersionDetails}
+        message={localization.error.notFoundMessageVersionDetails}
+        helpList={localization.error.notFoundHelpListVersionDetails}
+        secondaryHref={`/classifications/${classification.id}`}
+        secondaryLabel={localization.classification.labelPlural}
+        showBrokenLinkButton={false}
+      />
+    );
+  }
 
   const tabs = Object.values(classificationDetailsTabsData);
 
@@ -77,6 +89,7 @@ export function VersionView({ classification, classificationVersion, children }:
 
   return (
     <VersionProvider classification={classification} versionSummary={resolved.version} isLatest={resolved.isLatest}>
+      <Divider />
       {!resolved?.isLatest && (
         <Alert data-color={'danger'} role='status'>
           {localization.versions.tags.isNotCurrent}

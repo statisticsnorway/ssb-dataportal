@@ -67,10 +67,10 @@ export default async function ClassificationLayout({
   params,
 }: Readonly<{
   children: ReactNode;
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; versionNumber?: string }>;
 }>) {
   const logger = createLogger('classification-detail-page');
-  const { id } = await params;
+  const { id, versionNumber } = await params;
 
   const { classification, language } = await getPageData(Number(id)).catch((error) => {
     logger.error({ id, error: sanitizeError(error) }, 'Failed to load classification details');
@@ -80,17 +80,34 @@ export default async function ClassificationLayout({
   const hasVersions = (classification.versions ?? []).length > 0;
   if (!hasVersions) return notFound();
 
+  // A version route must never fall back to the latest version when the
+  // requested version is invalid or does not belong to this classification.
+  if (versionNumber !== undefined) {
+    const requestedVersionId = Number(versionNumber);
+    const versionBelongsToClassification = classification.versions?.some(
+      (version) => version.id === requestedVersionId,
+    );
+
+    if (!Number.isInteger(requestedVersionId) || !versionBelongsToClassification) {
+      logger.warn({ id, versionNumber }, 'Version does not belong to classification');
+      return notFound();
+    }
+  }
+
   const latestSummary = [...(classification.versions ?? [])].sort(
     (a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0),
   )[0];
 
   let latestVersionResource;
   try {
-    latestVersionResource = latestSummary?.id != null ? await fetchVersionById(latestSummary.id, language) : null;
+    const resourceId = versionNumber !== undefined ? Number(versionNumber) : latestSummary?.id;
+    latestVersionResource = resourceId != null ? await fetchVersionById(resourceId, language) : null;
   } catch (error) {
     logger.error({ id, error: sanitizeError(error) }, 'Failed to fetch latest version resource');
     return notFound();
   }
+
+  if (versionNumber !== undefined && !latestVersionResource) return notFound();
 
   logger.info({ id }, 'Classification detail page access');
 

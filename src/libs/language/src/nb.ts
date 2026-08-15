@@ -225,6 +225,13 @@ export const nb = {
     notFoundTitleClassificationDetails: 'Klassifikasjon ikke funnet',
     notFoundMessageClassificationDetails:
       'Er det skrivefeil i lenken? Eller har klassifikasjonen blitt slettet eller flyttet?',
+    notFoundTitleVersionDetails: 'Versjon ikke funnet',
+    notFoundMessageVersionDetails: 'Er det skrivefeil i lenken? Eller har versjonen blitt slettet eller flyttet?',
+    notFoundHelpListVersionDetails: [
+      'sjekke at du har riktig versjons-id i lenken',
+      'gå tilbake til klassifikasjonen',
+      'gå til forsiden',
+    ],
     notFoundTitleVariantDetails: 'Variant ikke funnet',
     notFoundMessageVariantDetails: 'Er det skrivefeil i lenken? Eller har varianten blitt slettet eller flyttet?',
     notFoundHelpListVariantDetails: [

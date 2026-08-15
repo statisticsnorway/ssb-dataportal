@@ -1,6 +1,6 @@
 'use client';
 
-import { Divider, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Heading, Paragraph } from '@digdir/designsystemet-react';
 import { SubscribeDialog } from '@/app/(details)/classifications/components/subscribe';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
@@ -52,7 +52,6 @@ export default function ClassificationDetail({
             />
           }
         />
-        <Divider />
         <VersionView classification={classification} classificationVersion={classificationVersion}>
           {children}
         </VersionView>

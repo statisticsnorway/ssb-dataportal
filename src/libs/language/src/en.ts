@@ -228,6 +228,13 @@ export const en = {
     notFoundTitleClassificationDetails: 'Classification not found',
     notFoundMessageClassificationDetails:
       'Is there a typo in the URL? Or has the classification been deleted or moved?',
+    notFoundTitleVersionDetails: 'Version not found',
+    notFoundMessageVersionDetails: 'Is there a typo in the URL? Or has the version been deleted or moved?',
+    notFoundHelpListVersionDetails: [
+      'check that you have the correct version ID in the URL',
+      'go back to the classification',
+      'go to the home page',
+    ],
     notFoundTitleVariantDetails: 'Variant not found',
     notFoundMessageVariantDetails: 'Is there a typo in the URL? Or has the variant been deleted or moved?',
     notFoundHelpListVariantDetails: [
