@@ -56,7 +56,7 @@ export function VersionView({ classification, classificationVersion, children }:
         message={localization.error.notFoundMessageVersionDetails}
         helpList={localization.error.notFoundHelpListVersionDetails}
         secondaryHref={`/classifications/${classification.id}`}
-        secondaryLabel={localization.classification.labelPlural}
+        secondaryLabel={localization.classification.labelSingular}
         showBrokenLinkButton={false}
       />
     );
