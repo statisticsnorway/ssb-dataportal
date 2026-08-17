@@ -18,7 +18,8 @@ interface ClassificationCardProps {
  */
 const ClassificationCard = ({ content, title, href }: Readonly<ClassificationCardProps>) => {
   const getColumnKey = (col: Item, index: number) => {
-    return typeof col.label === 'string' && col.label.length > 0 ? col.label : String(index);
+    const label = typeof col.label === 'string' && col.label.length > 0 ? col.label : 'column';
+    return `${label}-${index}`;
   };
 
   return (
