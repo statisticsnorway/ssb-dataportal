@@ -70,9 +70,15 @@ export function VersionView({ classification, classificationVersion, children }:
       : `/classifications/${classification.id}/version/${resolved.version.id}/${slug}`;
 
   useEffect(() => {
+    const versionPath = `/classifications/${classification.id}/version/${resolved.version.id}`;
+    if (pathname === versionPath) {
+      router.replace(`${versionPath}/${classificationDetailsTabsData.Codes.slug}`);
+      return;
+    }
+
     // Changes can take 6s or more to load in so prefetch this to avoid the user having to wait on tab access
     router.prefetch(getTabUrl(classificationDetailsTabsData.Changes.slug));
-  }, [router, classification.id, resolved.isLatest, resolved.version.id]);
+  }, [router, pathname, classification.id, resolved.isLatest, resolved.version.id]);
 
   const validFromText =
     resolved.version.validFrom?.toLocaleDateString('nb-NO', {
