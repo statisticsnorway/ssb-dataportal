@@ -1,4 +1,5 @@
 import { localization } from '@/libs/language/src/localization';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { Page } from '@playwright/test';
 import { expect, test } from './fixtures/classification.fixture';
 import versionsMock from '@/static-data/versions.json';
@@ -13,7 +14,7 @@ async function openChangesTab(classificationDetailsPage: (id: string | number) =
   const changesTab = page.getByRole('tab', { name: localization.classificationDetails.changes });
   await expect(changesTab).toBeVisible();
   await changesTab.click();
-  await expect(page).toHaveURL(`/classifications/${id}/changes`);
+  await expect(page).toHaveURL(buildUrl({ classificationId: id, tab: 'changes' }));
   return page;
 }
 

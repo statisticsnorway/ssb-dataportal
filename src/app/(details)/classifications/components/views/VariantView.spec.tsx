@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { buildUrl } from '../../utils/urls';
 
 const mocks = vi.hoisted(() => ({
   fetchVariantForClassification: vi.fn(),
@@ -56,14 +57,14 @@ describe('VariantView', () => {
         classificationId: 104,
         variantId: 42,
         versionId: 10,
-        backHref: '/classifications/104/version/10/variants',
+        backHref: buildUrl({ classificationId: 104, versionId: 10, tab: 'variants' }),
       }),
     );
 
     expect(mocks.fetchVariantForClassification).toHaveBeenCalledWith(104, 42, 'nb', 10);
     expect(screen.getByRole('link', { name: /^Tilbake$/ })).toHaveAttribute(
       'href',
-      '/classifications/104/version/10/variants',
+      buildUrl({ classificationId: 104, versionId: 10, tab: 'variants' }),
     );
     expect(screen.getByRole('heading', { name: 'Test' })).toBeVisible();
     expect(screen.getByTestId('codes-view')).toBeVisible();
@@ -74,7 +75,11 @@ describe('VariantView', () => {
     const { default: VariantView } = await import('./VariantView');
 
     await expect(
-      VariantView({ classificationId: 2003, variantId: 42, backHref: '/classifications/2003/variants' }),
+      VariantView({
+        classificationId: 2003,
+        variantId: 42,
+        backHref: buildUrl({ classificationId: 2003, tab: 'variants' }),
+      }),
     ).rejects.toThrow('NEXT_NOT_FOUND');
     expect(mocks.notFound).toHaveBeenCalled();
   });

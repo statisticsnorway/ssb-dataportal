@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language';
 import classificationMock from '@/static-data/classifications.json';
+import { buildUrl } from '../utils/urls';
 import ClassificationDetail from './classificationDetail';
 
 vi.mock('server-only', () => ({}));
@@ -12,7 +13,7 @@ vi.mock('next/link', () => ({
 }));
 
 vi.mock('next/navigation', () => ({
-  usePathname: () => '/classifications/2003',
+  usePathname: () => buildUrl({ classificationId: 2003 }),
   useRouter: () => ({
     push: vi.fn(),
     replace: vi.fn(),
@@ -99,7 +100,7 @@ describe('Classification details page', () => {
       </ClassificationDetail>,
     );
     const link = screen.getByRole('link', { name: localization.classification.labelPlural });
-    expect(link.getAttribute('href')).toBe('/classifications');
+    expect(link.getAttribute('href')).toBe(buildUrl({}));
   });
 
   it('renders the "all versions" expandable section title', () => {

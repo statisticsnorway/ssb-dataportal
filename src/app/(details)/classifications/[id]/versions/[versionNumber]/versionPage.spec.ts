@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { buildUrl } from '../../../utils/urls';
 
 const mocks = vi.hoisted(() => ({
   redirect: vi.fn(() => {
@@ -38,6 +39,6 @@ describe('ClassificationPage', () => {
       { id: '123', versionNumber: '42' },
       'Classification detail version page access',
     );
-    expect(mocks.redirect).toHaveBeenCalledWith('/classifications/123/version/42/codes');
+    expect(mocks.redirect).toHaveBeenCalledWith(buildUrl({ classificationId: 123, versionId: 42, tab: 'codes' }));
   });
 });

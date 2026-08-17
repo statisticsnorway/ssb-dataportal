@@ -1,4 +1,5 @@
 import { localization } from '@/libs/language';
+import { buildUrl } from '../(details)/classifications/utils/urls';
 
 enum Tabs {
   VariableDefinitions,
@@ -20,7 +21,7 @@ export const tabsData: Record<keyof typeof Tabs, TabData> = {
     get label() {
       return localization.tabs.classifications;
     },
-    route: '/classifications',
+    route: buildUrl({}),
     id: 'classificationsTab',
   },
   DataProducts: {

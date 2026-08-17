@@ -1,4 +1,5 @@
 import { test as base, expect } from '@bgotink/playwright-coverage';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { stabilize } from '../utils/commonUtils';
 import { Page, TestInfo } from '@playwright/test';
 
@@ -10,7 +11,7 @@ export const test = base.extend<{
   classificationDetailsPage: async ({ page }, use, testInfo: TestInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
     await use(async (id: string | number) => {
-      await page.goto(`/classifications/${id}`);
+      await page.goto(buildUrl({ classificationId: Number(id) }));
       await stabilize();
       return page;
     });

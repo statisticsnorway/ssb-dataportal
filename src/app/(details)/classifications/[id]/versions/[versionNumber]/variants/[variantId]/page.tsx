@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import VariantView from '@/app/(details)/classifications/components/views/VariantView';
+import { buildUrl } from '../../../../../utils/urls';
 
 export default async function VersionVariantPage({
   params,
@@ -17,7 +18,7 @@ export default async function VersionVariantPage({
       classificationId={classificationId}
       variantId={variantIdNumber}
       versionId={versionId}
-      backHref={`/classifications/${classificationId}/version/${versionId}/variants`}
+      backHref={buildUrl({ classificationId, versionId, tab: 'variants' })}
     />
   );
 }
