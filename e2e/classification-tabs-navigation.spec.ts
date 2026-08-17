@@ -1,6 +1,7 @@
 import { expect, test } from './fixtures/classification.fixture';
 import classificationsMock from '@/static-data/classifications.json';
 import { classificationDetailsTabsData } from '@/app/(details)/classifications/[id]/tabs';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { parseClassification } from '@/utils/mock-data';
 import { Page } from '@playwright/test';
 
@@ -24,24 +25,23 @@ async function navigateAndAssertTabs(page: Page, baseUrl: string, tabs: Array<{ 
 test('Redirects to codes tab by default', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[0]);
   const page = await classificationDetailsPage(classification.id!);
-  const baseUrl = `/classifications/${classification.id}`;
-  await expect(page).toHaveURL(`${baseUrl}/codes`);
+  await expect(page).toHaveURL(buildUrl({ classificationId: classification.id, tab: 'codes' }));
 });
 
 test('Redirects to codes tab by default version', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[0]);
   const page = await classificationDetailsPage(classification.id!);
   const versionId = 364;
-  const baseUrl = `/classifications/${classification.id}/versions/${versionId}`;
+  const baseUrl = buildUrl({ classificationId: classification.id, versionId });
   await page.goto(baseUrl);
-  await expect(page).toHaveURL(`${baseUrl}/codes`);
+  await expect(page).toHaveURL(buildUrl({ classificationId: classification.id, versionId, tab: 'codes' }));
 });
 
 test('Can navigate between tabs - latest version', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[0]);
   const page = await classificationDetailsPage(classification.id!);
-  const baseUrl = `/classifications/${classification.id}`;
-  await page.waitForURL(`${baseUrl}/codes`);
+  const baseUrl = buildUrl({ classificationId: classification.id });
+  await page.waitForURL(buildUrl({ classificationId: classification.id, tab: 'codes' }));
   await navigateAndAssertTabs(page, baseUrl, Object.values(classificationDetailsTabsData));
 });
 
@@ -49,8 +49,8 @@ test('Can navigate between tabs - specific version', async ({ classificationDeta
   const classification = parseClassification(classifications[0]);
   const versionId = 2;
   const page = await classificationDetailsPage(classification.id!);
-  const baseUrl = `/classifications/${classification.id}/versions/${versionId}`;
+  const baseUrl = buildUrl({ classificationId: classification.id, versionId });
   await page.goto(baseUrl);
-  await page.waitForURL(`${baseUrl}/codes`);
+  await page.waitForURL(buildUrl({ classificationId: classification.id, versionId, tab: 'codes' }));
   await navigateAndAssertTabs(page, baseUrl, Object.values(classificationDetailsTabsData));
 });
