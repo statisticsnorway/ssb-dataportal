@@ -1,17 +1,21 @@
 'use client';
 
+import { useParams } from 'next/navigation';
 import { AppNotFoundState } from '@/components/app-state';
 import { localization } from '@/libs/language';
 
 export default function NotFound() {
+  const { id } = useParams<{ id: string }>();
+
   return (
     <AppNotFoundState
       title={localization.error.notFoundTitleVariantDetails}
       message={localization.error.notFoundMessageVariantDetails}
       helpList={localization.error.notFoundHelpListVariantDetails}
-      homeHref='/'
-      secondaryHref='/classifications'
-      secondaryLabel={localization.classification.labelPlural}
+      homeHref='/classifications'
+      homeLabel={localization.classification.labelPlural}
+      secondaryHref={`/classifications/${id}/variants`}
+      secondaryLabel={localization.classificationDetails.variants}
       showBrokenLinkButton={false}
     />
   );

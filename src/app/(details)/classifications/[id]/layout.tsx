@@ -71,8 +71,14 @@ export default async function ClassificationLayout({
 }>) {
   const logger = createLogger('classification-detail-page');
   const { id, versionNumber } = await params;
+  const classificationId = Number(id);
 
-  const { classification, language } = await getPageData(Number(id)).catch((error) => {
+  if (!Number.isInteger(classificationId)) {
+    logger.warn({ id }, 'Invalid classification id param');
+    return notFound();
+  }
+
+  const { classification, language } = await getPageData(classificationId).catch((error) => {
     logger.error({ id, error: sanitizeError(error) }, 'Failed to load classification details');
     return notFound();
   });

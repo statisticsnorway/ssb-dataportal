@@ -7,5 +7,5 @@ export default async function ClassificationPage({
   const { id, versionNumber } = await params;
   const logger = createLogger('classification-details-page');
   logger.info({ id, versionNumber }, 'Classification detail version page access');
-  redirect(`/classifications/${id}/version/${versionNumber}/codes`);
+  return redirect(`/classifications/${id}/version/${versionNumber}/codes`);
 }
