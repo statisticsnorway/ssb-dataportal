@@ -31,7 +31,7 @@ test('Redirects to codes tab by default', async ({ classificationDetailsPage }) 
 test('Redirects to codes tab by default version', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[0]);
   const page = await classificationDetailsPage(classification.id!);
-  const versionId = 364;
+  const versionId = 2;
   const baseUrl = `/classifications/${classification.id}/version/${versionId}`;
   await page.goto(baseUrl);
   await expect(page).toHaveURL(`${baseUrl}/codes`);
