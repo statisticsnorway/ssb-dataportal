@@ -33,21 +33,13 @@ const ClassificationCard = ({ content, title, href }: Readonly<ClassificationCar
       )}
       {content && content.length > 0 ? (
         <dl className={styles.grid}>
-          <div className={styles.row}>
-            {content.map((col, index) => (
-              <dt key={`label-${getColumnKey(col, index)}`} className={`${styles.column} ${styles.key}`}>
-                {col.label}
-              </dt>
-            ))}
-          </div>
-          <Divider className={styles.row} />
-          <div className={styles.row}>
-            {content.map((col, index) => (
-              <dd key={`value-${getColumnKey(col, index)}`} className={`${styles.column} ${styles.value}`}>
-                {col.value}
-              </dd>
-            ))}
-          </div>
+          {content.map((item, index) => (
+            <div key={getColumnKey(item, index)} className={styles.item}>
+              <dt className={styles.key}>{item.label}</dt>
+              <Divider className={styles.divider} />
+              <dd className={styles.value}>{item.value}</dd>
+            </div>
+          ))}
         </dl>
       ) : null}
       <Divider />
