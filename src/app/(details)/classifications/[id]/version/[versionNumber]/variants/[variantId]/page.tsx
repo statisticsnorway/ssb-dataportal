@@ -17,7 +17,7 @@ export default async function VersionVariantPage({
       classificationId={classificationId}
       variantId={variantIdNumber}
       versionId={versionId}
-      backHref={`/classifications/${classificationId}/version/${versionId}/variants`}
+      backHref={`/classifications/${classificationId}/versions/${versionId}/variants`}
     />
   );
 }

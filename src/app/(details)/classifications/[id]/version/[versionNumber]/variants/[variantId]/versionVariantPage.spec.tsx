@@ -20,7 +20,7 @@ describe('VersionVariantPage', () => {
       classificationId: 104,
       versionId: 10,
       variantId: 42,
-      backHref: '/classifications/104/version/10/variants',
+      backHref: '/classifications/104/versions/10/variants',
     });
   });
 

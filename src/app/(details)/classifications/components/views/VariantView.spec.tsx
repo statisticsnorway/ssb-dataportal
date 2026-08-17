@@ -56,14 +56,14 @@ describe('VariantView', () => {
         classificationId: 104,
         variantId: 42,
         versionId: 10,
-        backHref: '/classifications/104/version/10/variants',
+        backHref: '/classifications/104/versions/10/variants',
       }),
     );
 
     expect(mocks.fetchVariantForClassification).toHaveBeenCalledWith(104, 42, 'nb', 10);
     expect(screen.getByRole('link', { name: /^Tilbake$/ })).toHaveAttribute(
       'href',
-      '/classifications/104/version/10/variants',
+      '/classifications/104/versions/10/variants',
     );
     expect(screen.getByRole('heading', { name: 'Test' })).toBeVisible();
     expect(screen.getByTestId('codes-view')).toBeVisible();

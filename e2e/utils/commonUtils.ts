@@ -29,6 +29,6 @@ export const MOCK_CLASSIFICATION_ID = '2003';
 export const MOCK_VERSION_ID = '1';
 
 export const CODES_URL = `/classifications/${MOCK_CLASSIFICATION_ID}/codes`;
-export const CODES_VERSION_URL = `/classifications/${MOCK_CLASSIFICATION_ID}/version/${MOCK_VERSION_ID}/codes`;
-export const CODES_PREV_VERSION_URL = `/classifications/${MOCK_CLASSIFICATION_ID}/version/2`;
-export const CODES_PREV_VERSION_URL_CODES = `/classifications/${MOCK_CLASSIFICATION_ID}/version/2/codes`;
+export const CODES_VERSION_URL = `/classifications/${MOCK_CLASSIFICATION_ID}/versions/${MOCK_VERSION_ID}/codes`;
+export const CODES_PREV_VERSION_URL = `/classifications/${MOCK_CLASSIFICATION_ID}/versions/2`;
+export const CODES_PREV_VERSION_URL_CODES = `/classifications/${MOCK_CLASSIFICATION_ID}/versions/2/codes`;

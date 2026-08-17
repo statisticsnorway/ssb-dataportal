@@ -20,7 +20,7 @@ export default function VariantsView({
   const variantsBaseUrl =
     versionId === undefined
       ? `/classifications/${classificationId}`
-      : `/classifications/${classificationId}/version/${versionId}`;
+      : `/classifications/${classificationId}/versions/${versionId}`;
   return (
     <div className={styles.aboutWrapper}>
       <header>

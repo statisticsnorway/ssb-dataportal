@@ -11,7 +11,7 @@ const olderVersion = versions![1];
 
 const CURRENT_DETAILS_URL = '/classifications/2003/variants';
 const OLDER_DETAILS_URL = `/classifications/2003/version/${olderVersion!.id ?? 2}/variants`;
-const EXPLICIT_CURRENT_VERSION_URL = `/classifications/2003/version/${currentVersion!.id}/variants`;
+const EXPLICIT_CURRENT_VERSION_URL = `/classifications/2003/versions/${currentVersion!.id}/variants`;
 
 async function gotoVariants(page: Page, url: string) {
   await page.goto(url, { waitUntil: 'domcontentloaded' });
@@ -99,7 +99,7 @@ test.describe('Explicit version variants tab', () => {
     const variant = currentVersion!.classificationVariants![0]!;
     await page.getByRole('link', { name: formatVariantName(variant.name) }).click();
 
-    await expect(page).toHaveURL(`/classifications/2003/version/${currentVersion!.id}/variants/${variant.id}`);
+    await expect(page).toHaveURL(`/classifications/2003/versions/${currentVersion!.id}/variants/${variant.id}`);
     await expect(page.getByRole('tab', { name: classificationDetailsTabsData.Variants.label })).toHaveAttribute(
       'aria-selected',
       'true',

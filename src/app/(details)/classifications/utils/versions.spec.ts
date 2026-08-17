@@ -16,7 +16,7 @@ describe('Map versions', () => {
     const element = result[0]?.value as React.ReactElement<{ href: string; children: React.ReactNode }>;
     const validFrom = result[1]?.value;
     const validTo = result[2]?.value;
-    expect(element?.props?.href).toBe('/classifications/2003/version/2/codes');
+    expect(element?.props?.href).toBe('/classifications/2003/versions/2/codes');
     expect(element?.props?.children).toBe('Oppvarmingskilde 1983');
     expect(validFrom).toBe('1983-01-01');
     expect(validTo).toBe('2001-01-01');
@@ -28,7 +28,7 @@ describe('Map versions', () => {
     const element = result[0]?.value as React.ReactElement<{ href: string; children: React.ReactNode }>;
     const validFrom = result[1]?.value;
     const validTo = result[2]?.value;
-    expect(element?.props?.href).toBe('/classifications/2003/version/1/codes');
+    expect(element?.props?.href).toBe('/classifications/2003/versions/1/codes');
     expect(element?.props?.children).toBe('Oppvarmingskilde 2001');
     expect(validFrom).toBe('2001-01-01');
     expect(validTo).toBe(localization.versions.now);

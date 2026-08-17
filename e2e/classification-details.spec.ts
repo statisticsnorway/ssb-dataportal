@@ -11,7 +11,7 @@ const currentVersion = versions![0];
 const olderVersion = versions![1];
 
 const CURRENT_DETAILS_URL = '/classifications/2003/details';
-const OLDER_DETAILS_URL = `/classifications/2003/version/${olderVersion!.id ?? 2}/details`;
+const OLDER_DETAILS_URL = `/classifications/2003/versions/${olderVersion!.id ?? 2}/details`;
 
 async function gotoAbout(page: Page, url: string) {
   await page.goto(url, { waitUntil: 'domcontentloaded' });

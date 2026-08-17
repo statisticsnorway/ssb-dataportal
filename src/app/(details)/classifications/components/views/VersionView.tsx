@@ -27,7 +27,7 @@ function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): 
   if (!latest) return null;
 
   const segments = pathname.split('/').filter(Boolean);
-  const versionIndex = segments.indexOf('version');
+  const versionIndex = segments.indexOf('versions');
 
   if (versionIndex >= 0) {
     const versionId = Number(segments[versionIndex + 1]);
@@ -55,7 +55,7 @@ export function VersionView({ classification, classificationVersion, children }:
   const getTabUrl = (slug: string) =>
     resolved.isLatest
       ? `/classifications/${classification.id}/${slug}`
-      : `/classifications/${classification.id}/version/${resolved.version.id}/${slug}`;
+      : `/classifications/${classification.id}/versions/${resolved.version.id}/${slug}`;
 
   useEffect(() => {
     // Changes can take 6s or more to load in so prefetch this to avoid the user having to wait on tab access

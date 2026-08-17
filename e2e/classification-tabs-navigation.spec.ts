@@ -32,7 +32,7 @@ test('Redirects to codes tab by default version', async ({ classificationDetails
   const classification = parseClassification(classifications[0]);
   const page = await classificationDetailsPage(classification.id!);
   const versionId = 364;
-  const baseUrl = `/classifications/${classification.id}/version/${versionId}`;
+  const baseUrl = `/classifications/${classification.id}/versions/${versionId}`;
   await page.goto(baseUrl);
   await expect(page).toHaveURL(`${baseUrl}/codes`);
 });
@@ -49,7 +49,7 @@ test('Can navigate between tabs - specific version', async ({ classificationDeta
   const classification = parseClassification(classifications[0]);
   const versionId = 2;
   const page = await classificationDetailsPage(classification.id!);
-  const baseUrl = `/classifications/${classification.id}/version/${versionId}`;
+  const baseUrl = `/classifications/${classification.id}/versions/${versionId}`;
   await page.goto(baseUrl);
   await page.waitForURL(`${baseUrl}/codes`);
   await navigateAndAssertTabs(page, baseUrl, Object.values(classificationDetailsTabsData));

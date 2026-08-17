@@ -38,6 +38,6 @@ describe('ClassificationPage', () => {
       { id: '123', versionNumber: '42' },
       'Classification detail version page access',
     );
-    expect(mocks.redirect).toHaveBeenCalledWith('/classifications/123/version/42/codes');
+    expect(mocks.redirect).toHaveBeenCalledWith('/classifications/123/versions/42/codes');
   });
 });
