@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { buildUrl } from './(details)/classifications/utils/urls';
 import sitemap from './sitemap';
 
 describe('sitemap', () => {
@@ -11,7 +12,7 @@ describe('sitemap', () => {
     expect(sitemap().map((entry) => entry.url)).toEqual([
       'https://dataportal.test.ssb.no',
       'https://dataportal.test.ssb.no/variable-definitions',
-      'https://dataportal.test.ssb.no/classifications',
+      `https://dataportal.test.ssb.no${buildUrl({})}`,
       'https://dataportal.test.ssb.no/data-products',
     ]);
   });
@@ -21,7 +22,7 @@ describe('sitemap', () => {
     expect(sitemap().map((entry) => entry.url)).toEqual([
       'https://dataportal.ssb.no',
       'https://dataportal.ssb.no/variable-definitions',
-      'https://dataportal.ssb.no/classifications',
+      `https://dataportal.ssb.no${buildUrl({})}`,
       'https://dataportal.ssb.no/data-products',
     ]);
   });

@@ -1,20 +1,21 @@
 import { describe, expect, it } from 'vitest';
+import { buildUrl } from '../utils/urls';
 import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from './tabs';
 
 describe('getClassificationDetailsTabForRoute', () => {
   it.each([
-    '/classifications/104/variants',
-    '/classifications/104/variants/3453',
-    '/classifications/104/version/1709/variants',
-    '/classifications/104/version/1709/variants/3452',
+    buildUrl({ classificationId: 104, tab: 'variants' }),
+    buildUrl({ classificationId: 104, variantId: 3453 }),
+    buildUrl({ classificationId: 104, versionId: 1709, tab: 'variants' }),
+    buildUrl({ classificationId: 104, versionId: 1709, variantId: 3452 }),
   ])('selects the variants tab for %s', (pathname) => {
     expect(getClassificationDetailsTabForRoute(pathname)).toBe(classificationDetailsTabsData.Variants);
   });
 
   it('selects a tab from its terminal route segment', () => {
-    expect(getClassificationDetailsTabForRoute('/classifications/104/version/1709/details')).toBe(
-      classificationDetailsTabsData.Details,
-    );
+    expect(
+      getClassificationDetailsTabForRoute(buildUrl({ classificationId: 104, versionId: 1709, tab: 'details' })),
+    ).toBe(classificationDetailsTabsData.Details);
   });
 
   it('does not match partial route segment names', () => {

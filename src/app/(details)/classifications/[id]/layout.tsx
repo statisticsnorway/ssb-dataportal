@@ -13,6 +13,7 @@ import { createLogger } from '@/libs/logger/server-logger';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import ClassificationDetail from '../components/classificationDetail';
 import { VersionResourceLayer } from '../components/versionContext';
+import { buildUrl } from '../utils/urls';
 
 const showInfoOnly = process.env.HIDE_CLASSIFICATIONS === 'true';
 
@@ -24,7 +25,7 @@ const renderInfoOnlyPage = () => {
         items={[
           {
             text: localization.classification.labelPlural,
-            href: `/classifications`,
+            href: buildUrl({}),
           },
         ]}
       />

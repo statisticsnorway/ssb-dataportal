@@ -1,4 +1,5 @@
 import { expect } from '@bgotink/playwright-coverage';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { Locator, Page } from '@playwright/test';
 
 export async function checkCheckbox(checkboxLocator: Locator) {
@@ -28,7 +29,15 @@ export const formatDate = (dateStr: string | Date | undefined) => {
 export const MOCK_CLASSIFICATION_ID = '2003';
 export const MOCK_VERSION_ID = '1';
 
-export const CODES_URL = `/classifications/${MOCK_CLASSIFICATION_ID}/codes`;
-export const CODES_VERSION_URL = `/classifications/${MOCK_CLASSIFICATION_ID}/version/${MOCK_VERSION_ID}/codes`;
-export const CODES_PREV_VERSION_URL = `/classifications/${MOCK_CLASSIFICATION_ID}/version/2`;
-export const CODES_PREV_VERSION_URL_CODES = `/classifications/${MOCK_CLASSIFICATION_ID}/version/2/codes`;
+export const CODES_URL = buildUrl({ classificationId: Number(MOCK_CLASSIFICATION_ID), tab: 'codes' });
+export const CODES_VERSION_URL = buildUrl({
+  classificationId: Number(MOCK_CLASSIFICATION_ID),
+  versionId: Number(MOCK_VERSION_ID),
+  tab: 'codes',
+});
+export const CODES_PREV_VERSION_URL = buildUrl({ classificationId: Number(MOCK_CLASSIFICATION_ID), versionId: 2 });
+export const CODES_PREV_VERSION_URL_CODES = buildUrl({
+  classificationId: Number(MOCK_CLASSIFICATION_ID),
+  versionId: 2,
+  tab: 'codes',
+});
