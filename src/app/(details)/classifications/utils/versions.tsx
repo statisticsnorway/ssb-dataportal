@@ -5,7 +5,7 @@ import { VersionItem } from '@/types/item';
 
 const mapVersionName = (v: ClassificationVersionSummaryResource, classificationId: number | undefined) => {
   if (!classificationId) return v.name;
-  return <Link href={`/classifications/${classificationId}/version/${v.id}/codes`}>{v.name}</Link>;
+  return <Link href={`/classifications/${classificationId}/versions/${v.id}/codes`}>{v.name}</Link>;
 };
 
 /**

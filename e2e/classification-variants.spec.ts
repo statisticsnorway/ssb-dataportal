@@ -10,7 +10,7 @@ const currentVersion = versions![0];
 const olderVersion = versions![1];
 
 const CURRENT_DETAILS_URL = '/classifications/2003/variants';
-const OLDER_DETAILS_URL = `/classifications/2003/version/${olderVersion!.id ?? 2}/variants`;
+const OLDER_DETAILS_URL = `/classifications/2003/versions/${olderVersion!.id ?? 2}/variants`;
 const EXPLICIT_CURRENT_VERSION_URL = `/classifications/2003/versions/${currentVersion!.id}/variants`;
 
 async function gotoVariants(page: Page, url: string) {

@@ -22,7 +22,7 @@ describe('VariantsView', () => {
 
     expect(screen.getByRole('link', { name: 'Test' })).toHaveAttribute(
       'href',
-      '/classifications/104/version/10/variants/42',
+      '/classifications/104/versions/10/variants/42',
     );
   });
 
