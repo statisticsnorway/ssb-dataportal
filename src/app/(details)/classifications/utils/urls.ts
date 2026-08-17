@@ -39,6 +39,10 @@ export function buildUrl(props: BuildUrlProps): string {
       return `${CLASSIFICATIONS_PATH}/${props.classificationId}/${VERSIONS_PATH_SEGMENT}/${props.versionId}`;
     }
 
+    if (props.variantId) {
+      return `${CLASSIFICATIONS_PATH}/${props.classificationId}/${VARIANTS_PATH_SEGMENT}/${props.variantId}`;
+    }
+
     if (props.tab) {
       return `${CLASSIFICATIONS_PATH}/${props.classificationId}/${props.tab}`;
     }

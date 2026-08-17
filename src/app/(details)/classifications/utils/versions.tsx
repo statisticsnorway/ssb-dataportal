@@ -2,10 +2,11 @@ import Link from 'next/link';
 import { ClassificationVersionSummaryResource } from '@/libs/data-access/klass/models/ClassificationVersionSummaryResource';
 import { localization } from '@/libs/language/src/localization';
 import { VersionItem } from '@/types/item';
+import { buildUrl } from './urls';
 
 const mapVersionName = (v: ClassificationVersionSummaryResource, classificationId: number | undefined) => {
   if (!classificationId) return v.name;
-  return <Link href={`/classifications/${classificationId}/versions/${v.id}/codes`}>{v.name}</Link>;
+  return <Link href={buildUrl({ classificationId, versionId: v.id, tab: 'codes' })}>{v.name}</Link>;
 };
 
 /**

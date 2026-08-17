@@ -7,6 +7,7 @@ import { ClassificationResource } from '@/libs/data-access/klass/models/Classifi
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
 import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from '../../[id]/tabs';
+import { BuildUrlProps, buildUrl } from '../../utils/urls';
 import { ResolvedVersion, VersionProvider } from '../versionContext';
 import styles from './views.module.css';
 
@@ -20,6 +21,8 @@ type ResolvedVersionResult = {
   version: ResolvedVersion;
   isLatest: boolean;
 };
+
+type TabSlug = NonNullable<BuildUrlProps['tab']>;
 
 function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): ResolvedVersionResult | null {
   const sorted = [...versions].sort((a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0));
@@ -52,14 +55,14 @@ export function VersionView({ classification, classificationVersion, children }:
 
   const tabs = Object.values(classificationDetailsTabsData);
 
-  const getTabUrl = (slug: string) =>
+  const getTabUrl = (tab: TabSlug) =>
     resolved.isLatest
-      ? `/classifications/${classification.id}/${slug}`
-      : `/classifications/${classification.id}/versions/${resolved.version.id}/${slug}`;
+      ? buildUrl({ classificationId: classification.id, tab })
+      : buildUrl({ classificationId: classification.id, versionId: resolved.version.id, tab });
 
   useEffect(() => {
     // Changes can take 6s or more to load in so prefetch this to avoid the user having to wait on tab access
-    router.prefetch(getTabUrl(classificationDetailsTabsData.Changes.slug));
+    router.prefetch(getTabUrl(classificationDetailsTabsData.Changes.slug as TabSlug));
   }, [router, classification.id, resolved.isLatest, resolved.version.id]);
 
   const validFromText =
@@ -92,7 +95,7 @@ export function VersionView({ classification, classificationVersion, children }:
         onChange={(value) => {
           const nextTab = tabs.find((tab) => tab.id === value);
           if (nextTab) {
-            router.push(getTabUrl(nextTab.slug));
+            router.push(getTabUrl(nextTab.slug as TabSlug));
           }
         }}
       >

@@ -1,6 +1,7 @@
 import { Alert, Heading } from '@digdir/designsystemet-react';
 import { ClassificationVersionResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language/src/localization';
+import { buildUrl } from '../../utils/urls';
 import { formatVariantName, mapVariantItems } from '../../utils/variants';
 import { ClassificationCard } from '../classification-cards';
 import styles from './views.module.css';
@@ -18,9 +19,7 @@ export default function VariantsView({
 }: Readonly<VariantsViewProps>) {
   const variants = classificationVersion?.classificationVariants ?? [];
   const variantsBaseUrl =
-    versionId === undefined
-      ? `/classifications/${classificationId}`
-      : `/classifications/${classificationId}/versions/${versionId}`;
+    versionId === undefined ? buildUrl({ classificationId }) : buildUrl({ classificationId, versionId });
   return (
     <div className={styles.aboutWrapper}>
       <header>

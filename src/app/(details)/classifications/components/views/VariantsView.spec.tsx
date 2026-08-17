@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { ClassificationVersionResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
+import { buildUrl } from '../../utils/urls';
 import VariantsView from './VariantsView';
 
 const version = {
@@ -13,7 +14,10 @@ describe('VariantsView', () => {
   it('links variants without a version when none is selected explicitly', () => {
     render(<VariantsView classificationVersion={version} classificationId={104} />);
 
-    expect(screen.getByRole('link', { name: 'Test' })).toHaveAttribute('href', '/classifications/104/variants/42');
+    expect(screen.getByRole('link', { name: 'Test' })).toHaveAttribute(
+      'href',
+      `${buildUrl({ classificationId: 104, tab: 'variants' })}/42`,
+    );
     expect(screen.getByText('320')).toBeVisible();
   });
 
@@ -22,7 +26,7 @@ describe('VariantsView', () => {
 
     expect(screen.getByRole('link', { name: 'Test' })).toHaveAttribute(
       'href',
-      '/classifications/104/versions/10/variants/42',
+      `${buildUrl({ classificationId: 104, versionId: 10, tab: 'variants' })}/42`,
     );
   });
 
