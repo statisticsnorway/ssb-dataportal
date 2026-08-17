@@ -86,14 +86,13 @@ export default async function ClassificationLayout({
   const hasVersions = (classification.versions ?? []).length > 0;
   if (!hasVersions) return notFound();
 
-  // A version route must never fall back to the latest version when the
-  // requested version is invalid. The version resource is validated by the
-  // nested version layout; the classification summary may not contain every
-  // version returned by the version API.
+  // A version route must never fall back to the latest version or load a
+  // version belonging to another classification.
   if (versionNumber !== undefined) {
     const requestedVersionId = Number(versionNumber);
 
-    if (!Number.isInteger(requestedVersionId)) {
+    const belongsToClassification = classification.versions?.some((version) => version.id === requestedVersionId);
+    if (!Number.isInteger(requestedVersionId) || !belongsToClassification) {
       logger.warn({ id, versionNumber }, 'Invalid version id param');
       return notFound();
     }
