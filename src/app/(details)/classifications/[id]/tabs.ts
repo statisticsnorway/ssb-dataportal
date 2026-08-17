@@ -8,10 +8,12 @@ enum Tabs {
   Variants,
 }
 
+export type TabSlug = 'codes' | 'details' | 'changes' | 'correspondences' | 'variants';
+
 export type ClassificationDetailsTabData = {
   label: string;
   id: string;
-  slug: string;
+  slug: TabSlug;
   nestedRouteSegments?: readonly string[];
 };
 

@@ -1,9 +1,11 @@
+import { TabSlug } from '../[id]/tabs';
+
 export interface BuildUrlProps {
-  classificationId?: number | undefined;
-  versionId?: number | undefined;
-  correspondenceId?: number | undefined;
-  variantId?: number | undefined;
-  tab?: 'codes' | 'details' | 'changes' | 'correspondences' | 'variants' | undefined;
+  classificationId?: number;
+  versionId?: number;
+  correspondenceId?: number;
+  variantId?: number;
+  tab?: TabSlug;
 }
 
 const CLASSIFICATIONS_PATH = '/classifications';
