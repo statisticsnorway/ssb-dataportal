@@ -3,6 +3,7 @@
 import { Button, Heading, Paragraph } from '@digdir/designsystemet-react';
 import Link from 'next/link';
 import { ReactNode } from 'react';
+import { localization } from '@/libs/language';
 import styles from './app-state.module.css';
 
 export type ActionVariant = 'primary' | 'secondary' | 'tertiary';
@@ -77,8 +78,16 @@ export function AppState({
       <div className={styles.content}>
         {(statusCode || referenceCode) && (
           <div className={styles.codeBlock}>
-            {statusCode && <Paragraph className={styles.code}>Feilkode: {statusCode}</Paragraph>}
-            {referenceCode && <Paragraph className={styles.code}>Referanse: {referenceCode}</Paragraph>}
+            {statusCode && (
+              <Paragraph className={styles.code}>
+                {localization.error.statusCode}: {statusCode}
+              </Paragraph>
+            )}
+            {referenceCode && (
+              <Paragraph className={styles.code}>
+                {localization.error.referenceCode}: {referenceCode}
+              </Paragraph>
+            )}
           </div>
         )}
         <Heading id={titleId} level={1} data-size='lg'>

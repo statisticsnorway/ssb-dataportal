@@ -5,17 +5,17 @@ import { localization } from '@/libs/language';
 
 export default function ErrorPage({
   error,
-  unstable_retry,
+  reset,
 }: {
   readonly error: Error & { digest?: string };
-  readonly unstable_retry: () => void;
+  readonly reset: () => void;
 }) {
   return (
     <AppErrorState
       title={localization.error.somethingWentWrong}
       message={localization.error.technicalProblemsMessage}
       referenceCode={error.digest}
-      onRetry={unstable_retry}
+      onRetry={reset}
       homeHref='/'
     />
   );

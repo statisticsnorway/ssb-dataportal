@@ -5,7 +5,7 @@ import { useFilteredVariables } from '@/hooks/useFilteredVariables';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
 import { localization } from '@/libs/language';
 import { VardefSearchHit } from '../../components/vardefSearchHit';
-import { isErrorPreviewEnabled, mapErrorMessage } from './utils';
+import { mapErrorMessage } from './utils';
 import { useVariableDefinitionsContext } from './variableDefinitionContext';
 
 interface ResultsSectionProps {
@@ -48,13 +48,11 @@ export const ResultsSection = ({ currentPage, pageSize, handlePageChange }: Resu
     return filteredVariables.slice(start, start + pageSize);
   }, [filteredVariables, currentPage, pageSize]);
 
-  const effectiveError = isErrorPreviewEnabled() ? new Error('Forced error preview') : error;
-
-  if (effectiveError) {
+  if (error) {
     return (
       <AppErrorState
         title={localization.error.technicalProblemsTitle}
-        message={mapErrorMessage(effectiveError)}
+        message={mapErrorMessage(error)}
         statusCode='500'
         homeHref='/'
         homeVariant={'primary'}

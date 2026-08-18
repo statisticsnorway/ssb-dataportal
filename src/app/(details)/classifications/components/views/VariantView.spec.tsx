@@ -70,7 +70,7 @@ describe('VariantView', () => {
     expect(screen.getByTestId('codes-view')).toBeVisible();
   });
 
-  it('returns not found when the variant does not belong to the selected classification', async () => {
+  it('uses the route not-found state when the variant does not exist', async () => {
     mocks.fetchVariantForClassification.mockResolvedValue(undefined);
     const { default: VariantView } = await import('./VariantView');
 
@@ -81,6 +81,6 @@ describe('VariantView', () => {
         backHref: buildUrl({ classificationId: 2003, tab: 'variants' }),
       }),
     ).rejects.toThrow('NEXT_NOT_FOUND');
-    expect(mocks.notFound).toHaveBeenCalled();
+    expect(mocks.notFound).toHaveBeenCalledTimes(1);
   });
 });
