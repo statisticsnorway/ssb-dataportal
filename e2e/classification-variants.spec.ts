@@ -122,7 +122,7 @@ test.describe('Variant not-found routes', () => {
     await page.goto(buildUrl({ classificationId: 2003, variantId: 999999 }));
 
     await expect(page.getByRole('heading', { name: 'Variant ikke funnet' })).toBeVisible();
-    const notFoundState = page.getByRole('region', { name: 'Varianter' });
+    const notFoundState = page.locator('section[aria-labelledby="app-not-found-title"]');
     await expect(notFoundState.getByRole('link', { name: 'Klassifikasjoner' })).toHaveAttribute('href', buildUrl({}));
     await expect(notFoundState.getByRole('link', { name: 'Varianter' })).toHaveAttribute(
       'href',
@@ -134,7 +134,7 @@ test.describe('Variant not-found routes', () => {
     await page.goto(buildUrl({ classificationId: 2003, versionId: 2, variantId: 999999 }));
 
     await expect(page.getByRole('heading', { name: 'Variant ikke funnet' })).toBeVisible();
-    const notFoundState = page.getByRole('region', { name: 'Varianter' });
+    const notFoundState = page.locator('section[aria-labelledby="app-not-found-title"]');
     await expect(notFoundState.getByRole('link', { name: 'Klassifikasjoner' })).toHaveAttribute('href', buildUrl({}));
     await expect(notFoundState.getByRole('link', { name: 'Varianter' })).toHaveAttribute(
       'href',
