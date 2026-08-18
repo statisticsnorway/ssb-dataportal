@@ -4,7 +4,8 @@ import classificationMock from '@/static-data/classifications.json';
 import versionsMock from '@/static-data/versions.json';
 import { parseClassification } from '@/utils/mock-data';
 import { expect, test } from './fixtures/classification.fixture';
-import { CODES_PREV_VERSION_URL, CODES_PREV_VERSION_URL_CODES, formatDate } from './utils/commonUtils';
+import { CODES_PREV_VERSION_URL, CODES_PREV_VERSION_URL_CODES, formatDate, switchLanguage } from './utils/commonUtils';
+import { languageButton } from './utils/variables';
 
 const classifications = classificationMock.classifications;
 const versions = versionsMock.versions;
@@ -147,4 +148,41 @@ test('sorts versions by "valid from" when clicking the column header', async ({ 
   await expect(validFromHeader).toHaveAttribute('aria-sort', 'descending');
   await expect(rows.nth(1)).toContainText(currentVersion!.name!);
   await expect(rows.nth(2)).toContainText(olderVersion!.name!);
+});
+
+test.describe('Classification - fallback language', () => {
+  test('fallback language display tag with fallback language set', async ({ classificationDetailsPage }) => {
+    const classification = parseClassification(classifications[0]);
+    const page = await classificationDetailsPage(classification.id!);
+    await page.getByRole('button', { name: languageButton }).click();
+    await page.getByRole('button', { name: 'English' }).click();
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await expect(page.getByRole('heading', { name: classification.name! })).toHaveAttribute('lang', 'nb');
+    const tag = page.getByText('Norwegian (Bokmål)', { exact: true });
+    await expect(tag).toBeVisible();
+    await tag.hover();
+    await expect(
+      page.getByText('This classification is not available in the selected language', { exact: true }),
+    ).toBeVisible();
+  });
+});
+
+test('displays fallback-language tag when classification is missing in the selected language', async ({
+  classificationDetailsPage,
+}) => {
+  const classification = parseClassification(classifications[0]);
+  const page = await classificationDetailsPage(classification.id!);
+
+  await switchLanguage(page, 'English');
+
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  await expect(page.getByRole('heading', { name: classification.name! })).toHaveAttribute('lang', 'nb');
+
+  const tag = page.getByText('Norwegian (Bokmål)', { exact: true });
+  await expect(tag).toBeVisible();
+
+  await tag.hover();
+  await expect(
+    page.getByText('This classification is not available in the selected language', { exact: true }),
+  ).toBeVisible();
 });

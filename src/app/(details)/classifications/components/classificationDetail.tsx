@@ -1,12 +1,14 @@
 'use client';
 
-import { Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Heading, Paragraph, Tag, Tooltip } from '@digdir/designsystemet-react';
+import { GlobeIcon } from '@navikt/aksel-icons';
 import { SubscribeDialog } from '@/app/(details)/classifications/components/subscribe';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
-import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
+import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
+import { formatLanguages } from '@/utils/functions';
 import { buildUrl } from '../utils/urls';
 import { mapVersions } from '../utils/versions';
 import styles from './classification-page.module.css';
@@ -15,7 +17,7 @@ import { ExpandableTable } from './expandable-table';
 import { VersionView } from './views/VersionView';
 
 interface ClassificationDetailProps {
-  classification: ClassificationResource;
+  classification: ClassificationWithLanguage;
   classificationVersion?: ClassificationVersionResource | null;
   children: React.ReactNode;
 }
@@ -37,11 +39,31 @@ export default function ClassificationDetail({
         currentText={classification.name ?? String(classification.id)}
       />
       <main className={styles.mainContent}>
-        <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='lg' level={1}>
+        {classification.fallbackLanguage && (
+          <div>
+            <Tooltip content={localization.classification.language.notSelectedLanguage}>
+              <Tag data-size='lg' tabIndex={0}>
+                <GlobeIcon aria-hidden='true' focusable='false' />
+                {formatLanguages(classification.fallbackLanguage)}
+              </Tag>
+            </Tooltip>
+          </div>
+        )}
+        <Heading
+          className={`${styles.detailsHeading} primaryHeading`}
+          data-size='lg'
+          level={1}
+          {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
+        >
           {classification.name}
         </Heading>
         {classification.description && (
-          <Paragraph className={`${styles.description} ingress`}>{classification.description}</Paragraph>
+          <Paragraph
+            className={`${styles.description} ingress`}
+            {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
+          >
+            {classification.description}
+          </Paragraph>
         )}
         <SubscribeDialog classificationId={classification.id} />
         <ExpandableTable

@@ -4,7 +4,7 @@ import { Alert, Divider, Heading, Tabs, Tag } from '@digdir/designsystemet-react
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { AppNotFoundState } from '@/components/app-state';
-import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
+import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
 import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from '../../[id]/tabs';
@@ -13,7 +13,7 @@ import { ResolvedVersion, VersionProvider } from '../versionContext';
 import styles from './views.module.css';
 
 interface VersionViewProps {
-  classification: ClassificationResource;
+  classification: ClassificationWithLanguage;
   classificationVersion?: ClassificationVersionResource | null;
   children: React.ReactNode;
 }
@@ -106,11 +106,21 @@ export function VersionView({ classification, classificationVersion, children }:
           {localization.versions.tags.isNotCurrent}
         </Alert>
       )}
-      <Heading className={`${styles.detailsHeading} secondaryHeading`} data-size='md' level={2}>
+      <Heading
+        className={`${styles.detailsHeading} secondaryHeading`}
+        data-size='md'
+        level={2}
+        {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
+      >
         {resolved.version.name ?? '—'}
       </Heading>
       {resolved?.isLatest && versionTag}
-      <p>{classificationVersion?.introduction ?? '—'}</p>
+      <p
+        className={styles.introduction}
+        {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
+      >
+        {classificationVersion?.introduction ?? '—'}
+      </p>
       <Tabs
         value={activeTab.id}
         onChange={(value) => {
