@@ -254,7 +254,7 @@ export const en = {
     notFoundHelpListVariantDetails: [
       'check that you have the correct variant ID in the URL',
       'go to the variants overview',
-      'go to the home page',
+      'go to the classification overview',
     ],
     notFoundTitle: 'Page not found',
     notFoundMessage: 'The page may have been moved, deleted, or the URL may be incorrect.',

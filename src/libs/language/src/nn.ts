@@ -251,7 +251,7 @@ export const nn = {
     notFoundHelpListVariantDetails: [
       'sjekke at du har riktig variant-id i lenkja',
       'gå til oversikta over variantar',
-      'gå til framsida',
+      'gå til oversikta over klassifikasjonar',
     ],
     notFoundTitle: 'Sida finst ikkje',
     notFoundMessage: 'Sida kan vere flytta, sletta eller lenkja kan vere feil.',
