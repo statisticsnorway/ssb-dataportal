@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { VariantsApi } from '@/libs/data-access/klass/apis/VariantsApi';
 import { ResponseError } from '@/libs/data-access/klass/runtime';
 import { fetchClassificationById } from './classificationData';
-import { fetchVariantById, fetchVariantForClassification } from './variantsData';
+import { fetchVariantById, fetchVariantCodesDownload, fetchVariantForClassification } from './variantsData';
 import { fetchVersionById } from './versionsData';
 
 vi.mock('server-only', () => ({}));
@@ -124,5 +124,67 @@ describe('fetchVariantById', () => {
     vi.spyOn(VariantsApi.prototype, 'variants').mockRejectedValue(error);
 
     await expect(fetchVariantById(42)).rejects.toBe(error);
+  });
+});
+
+describe('fetchVariantCodesDownload', () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+    vi.clearAllMocks();
+  });
+
+  it('uses variants/{id} endpoint with language and accept header', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
+    vi.stubEnv('KLASS_BASE_PATH', 'https://data.ssb.no');
+
+    const variantSpy = vi.spyOn(VariantsApi.prototype, 'variantsRaw').mockResolvedValue({
+      raw: new Response('code,name\nA,Alpha', {
+        headers: { 'content-type': 'text/csv' },
+      }),
+      value: vi.fn(),
+    });
+
+    await fetchVariantCodesDownload({
+      variantId: 3302,
+      language: 'NB',
+      format: 'csv',
+    });
+
+    const [params] = variantSpy.mock.calls[0] ?? [];
+    expect(params).toMatchObject({
+      id: 3302,
+      language: 'NB',
+    });
+
+    const [, initOverride] = variantSpy.mock.calls[0] ?? [];
+    expect(typeof initOverride).toBe('function');
+    const overrideResult = await initOverride({
+      init: { method: 'GET', headers: {} },
+      context: {
+        path: '/api/klass/v1/variants/3302',
+        method: 'GET',
+        headers: {},
+        query: { language: 'NB' },
+      },
+    });
+    expect(overrideResult.headers).toMatchObject({ Accept: 'text/csv' });
+  });
+
+  it('returns json content from variants/{id} when requested', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
+    vi.stubEnv('KLASS_BASE_PATH', 'https://data.ssb.no');
+
+    const variantSpy = vi.spyOn(VariantsApi.prototype, 'variantsRaw').mockResolvedValue({
+      raw: new Response('[]', {
+        headers: { 'content-type': 'application/json' },
+      }),
+      value: vi.fn(),
+    });
+
+    const payload = await fetchVariantCodesDownload({ variantId: 3530, language: 'NB', format: 'json' });
+
+    const [params] = variantSpy.mock.calls[0] ?? [];
+    expect(params).toMatchObject({ id: 3530, language: 'NB' });
+    expect(payload.mimeType).toContain('application/json');
   });
 });

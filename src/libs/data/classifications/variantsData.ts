@@ -1,5 +1,6 @@
 'use server';
 
+import type { CodesDownloadFormat } from '@/libs/data/classifications/codesData';
 import { VariantsApi, VariantsLanguageEnum } from '@/libs/data-access/klass/apis/VariantsApi';
 import {
   ClassificationVariantResource,
@@ -14,6 +15,11 @@ import { fetchClassificationById } from './classificationData';
 import { fetchVersionById } from './versionsData';
 
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
+const VARIANT_DOWNLOAD_ACCEPT = {
+  csv: 'text/csv',
+  xml: 'application/xml',
+  json: 'application/json',
+} as const;
 
 function getVariantsClient(): VariantsApi {
   const config: ConfigurationParameters = {
@@ -77,4 +83,48 @@ export async function fetchVariantForClassification(
   if (!belongsToVersion) return undefined;
 
   return fetchVariantById(variantId, language);
+}
+
+export async function fetchVariantCodesDownload({
+  variantId,
+  language,
+  format,
+}: {
+  variantId: number;
+  language: VariantsLanguageEnum;
+  format: CodesDownloadFormat;
+}): Promise<{ content: string; mimeType: string }> {
+  const logger = createLogger('classification-variants-data');
+
+  if (process.env.KLASS_USE_STATIC_DATA === 'true') {
+    const variant = await fetchVariantById(variantId, language.toLowerCase() as SupportedLanguage);
+    return {
+      content: JSON.stringify(variant?.classificationItems ?? [], null, 2),
+      mimeType: VARIANT_DOWNLOAD_ACCEPT.json,
+    };
+  }
+
+  try {
+    const response = await getVariantsClient().variantsRaw({ id: variantId, language }, ({ init }) => ({
+      ...init,
+      cache: 'force-cache',
+      next: { revalidate: ttlSeconds },
+      headers: {
+        ...(init.headers ?? {}),
+        Accept: VARIANT_DOWNLOAD_ACCEPT[format],
+      },
+    }));
+
+    return {
+      content: await response.raw.text(),
+      mimeType: response.raw.headers.get('content-type') ?? VARIANT_DOWNLOAD_ACCEPT[format],
+    };
+  } catch (error: unknown) {
+    if (error instanceof ResponseError) {
+      logger.error({ statusCode: error.response.status, variantId }, 'Variant codes download failed');
+    } else {
+      logger.error({ error: String(error), variantId }, 'Unexpected error during variant codes download');
+    }
+    throw error;
+  }
 }

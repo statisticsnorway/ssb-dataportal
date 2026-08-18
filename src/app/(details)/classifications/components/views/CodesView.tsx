@@ -16,6 +16,7 @@ import styles from './views.module.css';
 interface CodesViewProps {
   version: Pick<ClassificationVersionResource, 'classificationItems' | 'levels' | 'id' | 'validFrom' | 'validTo'>;
   classificationId?: number;
+  variantName?: string;
 }
 
 function toDateString(value?: string | Date | null): string | undefined {
@@ -42,7 +43,7 @@ function toKlassCode(item: ClassificationItemResource): KlassCode {
  * The classification layout already supplies the heading, breadcrumbs and tab chrome;
  * this component is responsible for filter inputs and rendering the filtered tree.
  */
-export function CodesView({ version, classificationId }: Readonly<CodesViewProps>) {
+export function CodesView({ version, classificationId, variantName }: Readonly<CodesViewProps>) {
   const [filterTerm, setFilterTerm] = useState('');
   const codes = version.classificationItems ?? [];
   const mappedCodes = useMemo(() => codes.map(toKlassCode), [codes]);
@@ -96,6 +97,7 @@ export function CodesView({ version, classificationId }: Readonly<CodesViewProps
                   classificationId={classificationId}
                   validFrom={version.validFrom}
                   validTo={version.validTo}
+                  variantName={variantName}
                 />
               ) : null}
             </div>

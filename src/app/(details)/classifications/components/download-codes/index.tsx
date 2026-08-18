@@ -4,7 +4,7 @@ import { Button, Dialog, Field, Label, Select } from '@digdir/designsystemet-rea
 import { useState } from 'react';
 import type { CodesDownloadFormat } from '@/libs/data/classifications/codesData';
 import { localization, type SupportedLanguage, supportedLanguages } from '@/libs/language';
-import { downloadCodesAction } from './actions';
+import { downloadCodesAction, downloadVariantCodesAction } from './actions';
 import styles from './download-codes.module.css';
 
 const FORMAT_OPTIONS = ['csv', 'xml', 'json'] as const satisfies ReadonlyArray<CodesDownloadFormat>;
@@ -26,6 +26,7 @@ interface DownloadCodesDialogProps {
   classificationId?: number;
   validFrom?: Date | string;
   validTo?: Date | string;
+  variantName?: string;
 }
 
 export function DownloadCodesDialog({
@@ -33,6 +34,7 @@ export function DownloadCodesDialog({
   classificationId,
   validFrom,
   validTo,
+  variantName,
 }: Readonly<DownloadCodesDialogProps>) {
   const defaultLanguage = localization.getLanguage() as SupportedLanguage;
   const languageLabels: Record<SupportedLanguage, string> = {
@@ -64,15 +66,25 @@ export function DownloadCodesDialog({
     }
 
     try {
-      const payload = await downloadCodesAction({
-        versionId,
-        classificationId,
-        validFrom: typeof validFrom === 'string' ? validFrom : validFrom.toISOString(),
-        validTo: typeof validTo === 'string' ? validTo : validTo?.toISOString(),
-        language,
-        format,
-      });
-      download(payload.content, payload.mimeType, `classification-codes-${versionId}-${language}.${format}`);
+      const payload = variantName
+        ? await downloadVariantCodesAction({
+            variantId: versionId,
+            language,
+            format,
+          })
+        : await downloadCodesAction({
+            versionId,
+            classificationId,
+            validFrom: typeof validFrom === 'string' ? validFrom : validFrom.toISOString(),
+            validTo: typeof validTo === 'string' ? validTo : validTo?.toISOString(),
+            language,
+            format,
+          });
+
+      const filePrefix = variantName
+        ? `classification-variant-codes-${versionId}`
+        : `classification-codes-${versionId}`;
+      download(payload.content, payload.mimeType, `${filePrefix}-${language}.${format}`);
     } catch {
       setErrorMessage(localization.classification.downloadCodes.error);
     } finally {
