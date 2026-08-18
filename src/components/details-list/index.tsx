@@ -16,12 +16,12 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage }: Detai
     return typeof row.label === 'string' && row.label.length > 0 ? row.label : String(index);
   };
 
-  const setHtmlLang = (value?: React.ReactNode) =>
-    value && value !== localization.classification.about.notRelevant
-      ? fallbackLanguage
-        ? { lang: fallbackLanguage }
-        : {}
-      : {};
+  const setHtmlLang = (value?: React.ReactNode) => {
+    if (value && value !== localization.classification.about.notRelevant) {
+      return fallbackLanguage ? { lang: fallbackLanguage } : {};
+    }
+    return {};
+  };
   return (
     <Card className={styles.tableContainer}>
       {title && (
