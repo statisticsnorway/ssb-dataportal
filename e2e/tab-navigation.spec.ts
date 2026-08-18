@@ -1,4 +1,5 @@
 import { localization } from '@/libs/language';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { expect, test } from './fixtures/variableDefinitions.fixture';
 import { CLASSIFICATIONS_URL } from './utils/variables';
 
@@ -8,7 +9,7 @@ test.describe('Tabs navigation', () => {
 
     await expect(klassTab).toBeEnabled();
 
-    await Promise.all([page.waitForURL('/classifications'), klassTab.click()]);
+    await Promise.all([page.waitForURL(buildUrl({})), klassTab.click()]);
     await expect(page).toHaveURL(CLASSIFICATIONS_URL);
   });
 

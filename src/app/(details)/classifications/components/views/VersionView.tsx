@@ -8,6 +8,7 @@ import { ClassificationResource } from '@/libs/data-access/klass/models/Classifi
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
 import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from '../../[id]/tabs';
+import { BuildUrlProps, buildUrl } from '../../utils/urls';
 import { ResolvedVersion, VersionProvider } from '../versionContext';
 import styles from './views.module.css';
 
@@ -22,13 +23,15 @@ type ResolvedVersionResult = {
   isLatest: boolean;
 };
 
+type TabSlug = NonNullable<BuildUrlProps['tab']>;
+
 function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): ResolvedVersionResult | null {
   const sorted = [...versions].sort((a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0));
   const latest = sorted.at(0);
   if (!latest) return null;
 
   const segments = pathname.split('/').filter(Boolean);
-  const versionIndex = segments.indexOf('version');
+  const versionIndex = segments.indexOf('versions');
 
   if (versionIndex >= 0) {
     const versionId = Number(segments[versionIndex + 1]);
@@ -64,13 +67,13 @@ export function VersionView({ classification, classificationVersion, children }:
 
   const tabs = Object.values(classificationDetailsTabsData);
 
-  const getTabUrl = (slug: string) =>
+  const getTabUrl = (tab: TabSlug) =>
     resolved.isLatest
-      ? `/classifications/${classification.id}/${slug}`
-      : `/classifications/${classification.id}/version/${resolved.version.id}/${slug}`;
+      ? buildUrl({ classificationId: classification.id, tab })
+      : buildUrl({ classificationId: classification.id, versionId: resolved.version.id, tab });
 
   useEffect(() => {
-    const versionPath = `/classifications/${classification.id}/version/${resolved.version.id}`;
+    const versionPath = buildUrl({ classificationId: classification.id, versionId: resolved.version.id });
     if (pathname === versionPath) {
       router.replace(`${versionPath}/${classificationDetailsTabsData.Codes.slug}`);
       return;
@@ -111,7 +114,7 @@ export function VersionView({ classification, classificationVersion, children }:
         onChange={(value) => {
           const nextTab = tabs.find((tab) => tab.id === value);
           if (nextTab) {
-            router.push(getTabUrl(nextTab.slug));
+            router.push(getTabUrl(nextTab.slug as TabSlug));
           }
         }}
       >

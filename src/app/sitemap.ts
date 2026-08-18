@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { buildUrl } from './(details)/classifications/utils/urls';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
     },
     {
-      url: `${siteUrl}/classifications`,
+      url: `${siteUrl}${buildUrl({})}`,
       lastModified: new Date(),
     },
     {

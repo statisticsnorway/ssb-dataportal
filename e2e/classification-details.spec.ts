@@ -1,4 +1,5 @@
 import { classificationDetailsTabsData } from '@/app/(details)/classifications/[id]/tabs';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import versionsMock from '@/static-data/versions.json';
 import { isSupportedLanguage, localization } from '@/libs/language';
 import { formatCustodian, formatLanguages, formatLocaleDate } from '@/utils/functions';
@@ -10,8 +11,8 @@ const versions = versionsMock.versions;
 const currentVersion = versions![0];
 const olderVersion = versions![1];
 
-const CURRENT_DETAILS_URL = '/classifications/2003/details';
-const OLDER_DETAILS_URL = `/classifications/2003/version/${olderVersion!.id ?? 2}/details`;
+const CURRENT_DETAILS_URL = buildUrl({ classificationId: 2003, tab: 'details' });
+const OLDER_DETAILS_URL = buildUrl({ classificationId: 2003, versionId: olderVersion!.id ?? 2, tab: 'details' });
 
 async function gotoAbout(page: Page, url: string) {
   await page.goto(url, { waitUntil: 'domcontentloaded' });

@@ -7,6 +7,7 @@ import { ClassificationResource } from '@/libs/data-access/klass/models/Classifi
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
+import { buildUrl } from '../utils/urls';
 import { mapVersions } from '../utils/versions';
 import styles from './classification-page.module.css';
 import { ClassificationTable } from './classification-table';
@@ -30,7 +31,7 @@ export default function ClassificationDetail({
         items={[
           {
             text: localization.classification.labelPlural,
-            href: `/classifications`,
+            href: buildUrl({}),
           },
         ]}
         currentText={classification.name ?? String(classification.id)}

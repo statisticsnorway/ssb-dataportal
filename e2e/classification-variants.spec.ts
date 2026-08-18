@@ -1,6 +1,7 @@
 import versionsMock from '@/static-data/versions.json';
 import { localization } from '@/libs/language';
 import { formatVariantName } from '@/app/(details)/classifications/utils/variants';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { Page } from '@playwright/test';
 import { test, expect } from '@bgotink/playwright-coverage';
 import { classificationDetailsTabsData } from '@/app/(details)/classifications/[id]/tabs';
@@ -9,9 +10,13 @@ const versions = versionsMock.versions;
 const currentVersion = versions![0];
 const olderVersion = versions![1];
 
-const CURRENT_DETAILS_URL = '/classifications/2003/variants';
-const OLDER_DETAILS_URL = `/classifications/2003/version/${olderVersion!.id ?? 2}/variants`;
-const EXPLICIT_CURRENT_VERSION_URL = `/classifications/2003/version/${currentVersion!.id}/variants`;
+const CURRENT_DETAILS_URL = buildUrl({ classificationId: 2003, tab: 'variants' });
+const OLDER_DETAILS_URL = buildUrl({ classificationId: 2003, versionId: olderVersion!.id ?? 2, tab: 'variants' });
+const EXPLICIT_CURRENT_VERSION_URL = buildUrl({
+  classificationId: 2003,
+  versionId: currentVersion!.id,
+  tab: 'variants',
+});
 
 async function gotoVariants(page: Page, url: string) {
   await page.goto(url, { waitUntil: 'domcontentloaded' });
@@ -59,7 +64,7 @@ test.describe('Current variants tab', () => {
     const variant = currentVersion!.classificationVariants![0]!;
     await page.getByRole('link', { name: formatVariantName(variant.name) }).click();
 
-    await expect(page).toHaveURL(`/classifications/2003/variants/${variant.id}`);
+    await expect(page).toHaveURL(buildUrl({ classificationId: 2003, variantId: variant.id }));
     await expect(page.getByRole('tab', { name: classificationDetailsTabsData.Variants.label })).toHaveAttribute(
       'aria-selected',
       'true',
@@ -99,7 +104,9 @@ test.describe('Explicit version variants tab', () => {
     const variant = currentVersion!.classificationVariants![0]!;
     await page.getByRole('link', { name: formatVariantName(variant.name) }).click();
 
-    await expect(page).toHaveURL(`/classifications/2003/version/${currentVersion!.id}/variants/${variant.id}`);
+    await expect(page).toHaveURL(
+      buildUrl({ classificationId: 2003, versionId: currentVersion!.id, variantId: variant.id }),
+    );
     await expect(page.getByRole('tab', { name: classificationDetailsTabsData.Variants.label })).toHaveAttribute(
       'aria-selected',
       'true',

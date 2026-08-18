@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
+import { buildUrl } from '../../../../../utils/urls';
 
 const mocks = vi.hoisted(() => ({
   notFound: vi.fn(() => {
@@ -20,7 +21,7 @@ describe('VersionVariantPage', () => {
       classificationId: 104,
       versionId: 10,
       variantId: 42,
-      backHref: '/classifications/104/version/10/variants',
+      backHref: buildUrl({ classificationId: 104, versionId: 10, tab: 'variants' }),
     });
   });
 
