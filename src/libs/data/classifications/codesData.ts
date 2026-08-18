@@ -116,7 +116,7 @@ export async function fetchCodesDownload({
   const api = getCodesClient();
   try {
     const params = { id: classificationId, from, to, language } satisfies CodesRequest;
-    const response = await api.codesRaw(params, ({ init }) => ({
+    const response = await api.codesRaw(params, async ({ init }) => ({
       ...init,
       ...fetchInit,
       headers: {

@@ -105,7 +105,7 @@ export async function fetchVariantCodesDownload({
   }
 
   try {
-    const response = await getVariantsClient().variantsRaw({ id: variantId, language }, ({ init }) => ({
+    const response = await getVariantsClient().variantsRaw({ id: variantId, language }, async ({ init }) => ({
       ...init,
       cache: 'force-cache',
       next: { revalidate: ttlSeconds },

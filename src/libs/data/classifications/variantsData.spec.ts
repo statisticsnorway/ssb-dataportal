@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { VariantsApi } from '@/libs/data-access/klass/apis/VariantsApi';
-import { ResponseError } from '@/libs/data-access/klass/runtime';
+import { InitOverrideFunction, ResponseError } from '@/libs/data-access/klass/runtime';
 import { fetchClassificationById } from './classificationData';
 import { fetchVariantById, fetchVariantCodesDownload, fetchVariantForClassification } from './variantsData';
 import { fetchVersionById } from './versionsData';
@@ -158,7 +158,7 @@ describe('fetchVariantCodesDownload', () => {
 
     const [, initOverride] = variantSpy.mock.calls[0] ?? [];
     expect(typeof initOverride).toBe('function');
-    const overrideResult = await initOverride({
+    const overrideResult = await (initOverride as InitOverrideFunction)({
       init: { method: 'GET', headers: {} },
       context: {
         path: '/api/klass/v1/variants/3302',
