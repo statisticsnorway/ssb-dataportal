@@ -60,6 +60,7 @@ export const en = {
     label: 'Classification',
     language: {
       notSelectedLanguage: 'This classification is not available in the selected language',
+      displayedInLanguage: 'This classification is displayed in {language}',
     },
     view: 'View classification',
     type: 'Type',

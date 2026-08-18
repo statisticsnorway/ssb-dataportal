@@ -1,6 +1,7 @@
 import { expect } from '@bgotink/playwright-coverage';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { Locator, Page } from '@playwright/test';
+import { languageButton } from './variables';
 
 export async function checkCheckbox(checkboxLocator: Locator) {
   await expect(checkboxLocator).toBeVisible();
@@ -41,3 +42,8 @@ export const CODES_PREV_VERSION_URL_CODES = buildUrl({
   versionId: 2,
   tab: 'codes',
 });
+
+export async function switchLanguage(page: Page, languageName: string) {
+  await page.getByRole('button', { name: languageButton }).click();
+  await page.getByRole('button', { name: languageName }).click();
+}
