@@ -26,7 +26,7 @@ interface DownloadCodesDialogProps {
   classificationId?: number;
   validFrom?: Date | string;
   validTo?: Date | string;
-  variantName?: string;
+  isVariantDownload?: boolean;
 }
 
 export function DownloadCodesDialog({
@@ -34,7 +34,7 @@ export function DownloadCodesDialog({
   classificationId,
   validFrom,
   validTo,
-  variantName,
+  isVariantDownload,
 }: Readonly<DownloadCodesDialogProps>) {
   const defaultLanguage = localization.getLanguage() as SupportedLanguage;
   const languageLabels: Record<SupportedLanguage, string> = {
@@ -66,7 +66,7 @@ export function DownloadCodesDialog({
     }
 
     try {
-      const payload = variantName
+      const payload = isVariantDownload
         ? await downloadVariantCodesAction({
             variantId: versionId,
             language,
@@ -81,7 +81,7 @@ export function DownloadCodesDialog({
             format,
           });
 
-      const filePrefix = variantName
+      const filePrefix = isVariantDownload
         ? `classification-variant-codes-${versionId}`
         : `classification-codes-${versionId}`;
       download(payload.content, payload.mimeType, `${filePrefix}-${language}.${format}`);
