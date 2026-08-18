@@ -74,6 +74,16 @@ export const nb = {
     subscribeInfo: 'Abonner på oppdateringer for denne klassifikasjonen',
     subscribeMessageSuccess: 'Du vil motta en mail. Følg instruksjonene i mailen for å starte ditt abonnement.',
     subscribeMessageInvalidEmail: 'Skriv inn en gyldig e-postadresse',
+    correspondence: {
+      heading: 'Korrespondanser',
+      info: 'Korrespondansetabeller viser sammenhengen mellom versjoner av to ulike kodeverk, f.eks. sammenhengen mellom Politidistrikt 2016 og Kommuneinndeling 2014 (hvilke kommuner tilhører hvilket politidistrikt). Dersom du ønsker å se forskjellen mellom to påfølgende versjoner av samme kodeliste, f.eks. mellom Kommuneinndeling 2014 og Kommuneinndeling 2013, finner du den under fanen «Endringer».',
+      none: 'Denne versjonen har ingen korrespondanser',
+      from: 'Korrespondanser fra',
+      fromLevel: 'Nivå',
+      to: 'Korrespondanser til',
+      toLevel: 'Nivå',
+      owner: 'Eier',
+    },
     variant: {
       name: 'Navn',
       id: 'ID',
