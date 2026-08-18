@@ -112,7 +112,7 @@ export default async function ClassificationLayout({
     return notFound();
   }
 
-  if (versionNumber !== undefined && (!latestVersionResource || latestVersionResource.id !== Number(versionNumber))) {
+  if (versionNumber !== undefined && latestVersionResource?.id !== Number(versionNumber)) {
     return notFound();
   }
 
