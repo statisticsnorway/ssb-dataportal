@@ -1,9 +1,10 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { buildUrl } from '../../utils/urls';
 import { VersionView } from './VersionView';
 
 const mocks = vi.hoisted(() => ({
-  pathname: '/classifications/104/version/10',
+  pathname: '/classifications/104/versions/10',
   replace: vi.fn(),
   prefetch: vi.fn(),
 }));
@@ -44,7 +45,7 @@ const classification = {
 describe('VersionView', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mocks.pathname = '/classifications/104/version/10';
+    mocks.pathname = buildUrl({ classificationId: 104, versionId: 10 });
   });
 
   it('redirects a bare version route to its codes tab', async () => {
@@ -54,11 +55,13 @@ describe('VersionView', () => {
       </VersionView>,
     );
 
-    await waitFor(() => expect(mocks.replace).toHaveBeenCalledWith('/classifications/104/version/10/codes'));
+    await waitFor(() =>
+      expect(mocks.replace).toHaveBeenCalledWith(buildUrl({ classificationId: 104, versionId: 10, tab: 'codes' })),
+    );
   });
 
   it('renders the version not-found state for an unknown version', () => {
-    mocks.pathname = '/classifications/104/version/999/codes';
+    mocks.pathname = buildUrl({ classificationId: 104, versionId: 999, tab: 'codes' });
 
     render(
       <VersionView classification={classification}>
@@ -71,7 +74,7 @@ describe('VersionView', () => {
   });
 
   it('renders the version not-found state for a malformed version route', () => {
-    mocks.pathname = '/classifications/104/version/invalid/codes';
+    mocks.pathname = '/classifications/104/versions/invalid/codes';
 
     render(
       <VersionView classification={classification}>
@@ -97,7 +100,7 @@ describe('VersionView', () => {
   });
 
   it('prefetches changes for a specific version', async () => {
-    mocks.pathname = '/classifications/104/version/10/codes';
+    mocks.pathname = buildUrl({ classificationId: 104, versionId: 10, tab: 'codes' });
 
     render(
       <VersionView classification={classification}>
@@ -105,7 +108,9 @@ describe('VersionView', () => {
       </VersionView>,
     );
 
-    await waitFor(() => expect(mocks.prefetch).toHaveBeenCalledWith('/classifications/104/version/10/changes'));
+    await waitFor(() =>
+      expect(mocks.prefetch).toHaveBeenCalledWith(buildUrl({ classificationId: 104, versionId: 10, tab: 'changes' })),
+    );
     expect(mocks.replace).not.toHaveBeenCalled();
   });
 
