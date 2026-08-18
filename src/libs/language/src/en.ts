@@ -78,6 +78,16 @@ export const en = {
     subscribeMessageSuccess:
       'You will receive an email. Follow the instructions in the email to start your subscription.',
     subscribeMessageInvalidEmail: 'Enter a valid email address',
+    correspondence: {
+      heading: 'Correspondences',
+      info: 'Correspondence tables show the relationship between versions of two different classifications, for example the relationship between Police District 2016 and Municipality Classification 2014 (which municipalities belong to which police district). If you want to see the difference between two consecutive versions of the same code list, for example between Municipality Classification 2014 and Municipality Classification 2013, you can find it under the “Changes” tab.',
+      none: 'This version has no correspondences',
+      from: 'Correspondences from',
+      fromLevel: 'Level',
+      to: 'Correspondences to',
+      toLevel: 'Level',
+      owner: 'Owner',
+    },
     variant: {
       name: 'Name',
       id: 'ID',
@@ -208,6 +218,8 @@ export const en = {
     helpBack: 'go back to the previous page',
     helpHome: 'go to the home page',
     helpChangeFilters: 'change search or filters',
+    statusCode: 'Error code',
+    referenceCode: 'Reference',
     supportPrefix: 'If the problem has persisted for a while, you can',
     supportLinkText: 'contact us',
     brokenLinkMailSubject: 'Broken link in SSB Dataportal',
@@ -224,9 +236,27 @@ export const en = {
       'go to the classification overview',
       'go to the home page',
     ],
+    notFoundHelpListClassificationId: [
+      'check that you have the correct classification ID in the URL',
+      'go to the classification overview',
+    ],
     notFoundTitleClassificationDetails: 'Classification not found',
     notFoundMessageClassificationDetails:
       'Is there a typo in the URL? Or has the classification been deleted or moved?',
+    notFoundTitleVersionDetails: 'Version not found',
+    notFoundMessageVersionDetails: 'Is there a typo in the URL? Or has the version been deleted or moved?',
+    notFoundHelpListVersionDetails: [
+      'check that you have the correct version ID in the URL',
+      'go back to the classification',
+      'go to the classification overview',
+    ],
+    notFoundTitleVariantDetails: 'Variant not found',
+    notFoundMessageVariantDetails: 'Is there a typo in the URL? Or has the variant been deleted or moved?',
+    notFoundHelpListVariantDetails: [
+      'check that you have the correct variant ID in the URL',
+      'go to the variants overview',
+      'go to the classification overview',
+    ],
     notFoundTitle: 'Page not found',
     notFoundMessage: 'The page may have been moved, deleted, or the URL may be incorrect.',
     notFoundTitleVariableDetails: 'Variable definition not found',

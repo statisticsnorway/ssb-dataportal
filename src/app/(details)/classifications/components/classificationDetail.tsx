@@ -1,6 +1,6 @@
 'use client';
 
-import { Divider, Heading, Paragraph, Tag, Tooltip } from '@digdir/designsystemet-react';
+import { Heading, Paragraph, Tag, Tooltip } from '@digdir/designsystemet-react';
 import { GlobeIcon } from '@navikt/aksel-icons';
 import { SubscribeDialog } from '@/app/(details)/classifications/components/subscribe';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
@@ -75,7 +75,6 @@ export default function ClassificationDetail({
             />
           }
         />
-        <Divider />
         <VersionView classification={classification} classificationVersion={classificationVersion}>
           {children}
         </VersionView>

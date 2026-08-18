@@ -40,6 +40,7 @@ vi.mock('@/libs/logger/server-logger', () => ({
   createLogger: () => ({
     debug: vi.fn(),
     info: vi.fn(),
+    warn: vi.fn(),
     error: vi.fn(),
   }),
 }));
@@ -150,6 +151,47 @@ describe('classification [id] layout', () => {
     expect(screen.getByTestId('version-layer')).toHaveAttribute('data-version-id', '20');
     expect(screen.getByTestId('classification-detail')).toBeInTheDocument();
     expect(screen.getByText('child content')).toBeInTheDocument();
+  });
+
+  it('calls notFound instead of falling back to the latest version for an unknown version', async () => {
+    mocks.fetchClassificationById.mockResolvedValue({
+      name: 'Classification A',
+      versions: [{ id: 10, validFrom: new Date('2020-01-01') }],
+    });
+
+    const mod = await importLayoutModule();
+
+    await expect(
+      mod.default({
+        children: <div>child</div>,
+        params: Promise.resolve({ id: '7', versionNumber: '11551' }),
+      }),
+    ).rejects.toThrow('NEXT_NOT_FOUND');
+
+    expect(mocks.fetchVersionById).not.toHaveBeenCalled();
+    expect(mocks.notFound).toHaveBeenCalled();
+  });
+
+  it('loads the requested version instead of the latest version', async () => {
+    mocks.fetchClassificationById.mockResolvedValue({
+      name: 'Classification A',
+      versions: [
+        { id: 10, validFrom: new Date('2020-01-01') },
+        { id: 20, validFrom: new Date('2025-01-01') },
+      ],
+    });
+    mocks.fetchVersionById.mockResolvedValue({ id: 10 });
+
+    const mod = await importLayoutModule();
+    const element = await mod.default({
+      children: <div>child content</div>,
+      params: Promise.resolve({ id: '7', versionNumber: '10' }),
+    });
+
+    render(element);
+
+    expect(mocks.fetchVersionById).toHaveBeenCalledWith(10, 'nb');
+    expect(screen.getByTestId('version-layer')).toHaveAttribute('data-version-id', '10');
   });
 
   it('calls notFound when classification has no versions', async () => {

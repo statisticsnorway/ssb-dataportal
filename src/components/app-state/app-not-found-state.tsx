@@ -11,6 +11,7 @@ type AppNotFoundStateProps = Readonly<{
   statusCode?: string;
   helpList?: readonly string[];
   homeHref?: string;
+  homeLabel?: string;
   secondaryHref?: string;
   secondaryLabel?: string;
   showBrokenLinkButton?: boolean;
@@ -22,6 +23,7 @@ export function AppNotFoundState({
   statusCode = '404',
   helpList,
   homeHref = '/',
+  homeLabel,
   secondaryHref,
   secondaryLabel,
   showBrokenLinkButton = true,
@@ -37,7 +39,7 @@ export function AppNotFoundState({
   const actions: AppStateAction[] = [
     {
       kind: 'link',
-      label: errorText.goHome,
+      label: homeLabel ?? errorText.goHome,
       href: homeHref,
       variant: 'primary',
     },
