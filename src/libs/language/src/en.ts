@@ -77,6 +77,16 @@ export const en = {
     subscribeMessageSuccess:
       'You will receive an email. Follow the instructions in the email to start your subscription.',
     subscribeMessageInvalidEmail: 'Enter a valid email address',
+    correspondence: {
+      heading: 'Correspondences',
+      info: 'Correspondence tables show the relationship between versions of two different classifications, for example the relationship between Police District 2016 and Municipality Classification 2014 (which municipalities belong to which police district). If you want to see the difference between two consecutive versions of the same code list, for example between Municipality Classification 2014 and Municipality Classification 2013, you can find it under the “Changes” tab.',
+      none: 'This version has no correspondences',
+      from: 'Correspondences from',
+      fromLevel: 'Level',
+      to: 'Correspondences to',
+      toLevel: 'Level',
+      owner: 'Owner',
+    },
     variant: {
       name: 'Name',
       id: 'ID',
