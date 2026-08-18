@@ -25,7 +25,7 @@ describe('DetailsView', () => {
     const dds = within(dl as HTMLElement).getAllByRole('definition');
 
     expect(dts.length).toBeGreaterThan(0);
-    expect(dts.length).toBe(dds.length);
+    expect(dts).toHaveLength(dds.length);
   });
   it('displays not relevant if no content detailslist', () => {
     const sparseVersion = {
