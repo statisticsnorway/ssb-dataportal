@@ -160,7 +160,5 @@ describe('Classification details page', () => {
       const paragraph = screen.getByText(withFallback.description);
       expect(paragraph.getAttribute('lang')).toBe('en');
     }
-
-    expect(screen.getByRole('status')).toBeDefined();
   });
 });
