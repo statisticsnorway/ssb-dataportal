@@ -247,7 +247,7 @@ export const en = {
     notFoundHelpListVersionDetails: [
       'check that you have the correct version ID in the URL',
       'go back to the classification',
-      'go to the home page',
+      'go to the classification overview',
     ],
     notFoundTitleVariantDetails: 'Variant not found',
     notFoundMessageVariantDetails: 'Is there a typo in the URL? Or has the variant been deleted or moved?',

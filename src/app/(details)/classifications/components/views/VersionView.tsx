@@ -58,6 +58,8 @@ export function VersionView({ classification, classificationVersion, children }:
         title={localization.error.notFoundTitleVersionDetails}
         message={localization.error.notFoundMessageVersionDetails}
         helpList={localization.error.notFoundHelpListVersionDetails}
+        homeHref={buildUrl({})}
+        homeLabel={localization.classification.labelPlural}
         secondaryHref={`/classifications/${classification.id}`}
         secondaryLabel={localization.classification.labelSingular}
         showBrokenLinkButton={false}

@@ -244,7 +244,7 @@ export const nn = {
     notFoundHelpListVersionDetails: [
       'sjekke at du har riktig versjons-id i lenkja',
       'gå tilbake til klassifikasjonen',
-      'gå til framsida',
+      'gå til oversikta over klassifikasjonar',
     ],
     notFoundTitleVariantDetails: 'Variant ikkje funnen',
     notFoundMessageVariantDetails: 'Er det skrivefeil i lenkja? Eller har varianten blitt sletta eller flytta?',
