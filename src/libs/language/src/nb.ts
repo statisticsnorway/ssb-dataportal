@@ -102,7 +102,7 @@ export const nb = {
     codes: 'Koder',
     details: 'Detaljer',
     changes: 'Endringer',
-    versions: 'Alle versjoner',
+    versions: 'Velg versjon',
     correspondences: 'Korrespondanser',
     variants: 'Varianter',
   },

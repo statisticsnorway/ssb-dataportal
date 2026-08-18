@@ -102,7 +102,7 @@ export const nn = {
     codes: 'Kodar',
     details: 'Detaljar',
     changes: 'Endringar',
-    versions: 'Versjonar',
+    versions: 'Vel versjon',
     correspondences: 'Korrespondansar',
     variants: 'Variantar',
   },

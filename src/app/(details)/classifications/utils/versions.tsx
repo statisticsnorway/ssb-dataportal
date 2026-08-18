@@ -2,11 +2,28 @@ import Link from 'next/link';
 import { ClassificationVersionSummaryResource } from '@/libs/data-access/klass/models/ClassificationVersionSummaryResource';
 import { localization } from '@/libs/language/src/localization';
 import { VersionItem } from '@/types/item';
+import { TabSlug } from '../[id]/tabs';
 import { buildUrl } from './urls';
 
-const mapVersionName = (v: ClassificationVersionSummaryResource, classificationId: number | undefined) => {
+const mapVersionName = (
+  v: ClassificationVersionSummaryResource,
+  classificationId: number | undefined,
+  tab: TabSlug,
+) => {
   if (!classificationId) return v.name;
-  return <Link href={buildUrl({ classificationId, versionId: v.id, tab: 'codes' })}>{v.name}</Link>;
+  return (
+    <Link
+      href={buildUrl({ classificationId, versionId: v.id, tab })}
+      scroll={false}
+      onClick={(event) => {
+        const details = event.currentTarget.closest('details');
+        details?.removeAttribute('open');
+        document.querySelector('[data-version-divider]')?.scrollIntoView({ block: 'start' });
+      }}
+    >
+      {v.name}
+    </Link>
+  );
 };
 
 /**
@@ -23,10 +40,11 @@ const mapVersionName = (v: ClassificationVersionSummaryResource, classificationI
 export const mapVersions = (
   v: ClassificationVersionSummaryResource | undefined,
   classificationId: number | undefined,
+  tab: TabSlug = 'codes',
 ): VersionItem[] => [
   {
     label: localization.versions.name,
-    value: v ? mapVersionName(v, classificationId) : '',
+    value: v ? mapVersionName(v, classificationId, tab) : '',
   },
   {
     label: localization.versions.validFrom,
