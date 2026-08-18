@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { buildUrl } from '../../utils/urls';
 import { VersionView } from './VersionView';
@@ -7,6 +7,7 @@ const mocks = vi.hoisted(() => ({
   pathname: '/classifications/104/versions/10',
   replace: vi.fn(),
   prefetch: vi.fn(),
+  push: vi.fn(),
 }));
 
 vi.mock('next/navigation', () => ({
@@ -14,7 +15,7 @@ vi.mock('next/navigation', () => ({
   useRouter: () => ({
     replace: mocks.replace,
     prefetch: mocks.prefetch,
-    push: vi.fn(),
+    push: mocks.push,
   }),
 }));
 
@@ -27,11 +28,20 @@ vi.mock('@digdir/designsystemet-react', () => ({
   Divider: () => <hr />,
   Heading: ({ children }: { children: React.ReactNode }) => <h2>{children}</h2>,
   Tag: ({ children }: { children: React.ReactNode }) => <span>{children}</span>,
-  Tabs: Object.assign(({ children }: { children: React.ReactNode }) => <div>{children}</div>, {
-    List: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-    Tab: ({ children }: { children: React.ReactNode }) => <button type='button'>{children}</button>,
-    Panel: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  }),
+  Tabs: Object.assign(
+    ({ children, onChange }: { children: React.ReactNode; onChange?: (value: string) => void }) => (
+      <div>
+        {children}
+        <button type='button' data-testid='select-details' onClick={() => onChange?.('detailsTab')} />
+        <button type='button' data-testid='select-unknown' onClick={() => onChange?.('unknownTab')} />
+      </div>
+    ),
+    {
+      List: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+      Tab: ({ children }: { children: React.ReactNode }) => <button type='button'>{children}</button>,
+      Panel: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+    },
+  ),
 }));
 
 const classification = {
@@ -112,6 +122,34 @@ describe('VersionView', () => {
       expect(mocks.prefetch).toHaveBeenCalledWith(buildUrl({ classificationId: 104, versionId: 10, tab: 'changes' })),
     );
     expect(mocks.replace).not.toHaveBeenCalled();
+  });
+
+  it('pushes the selected tab URL for a specific version', async () => {
+    mocks.pathname = buildUrl({ classificationId: 104, versionId: 10, tab: 'codes' });
+
+    render(
+      <VersionView classification={classification}>
+        <div>Codes</div>
+      </VersionView>,
+    );
+
+    fireEvent.click(screen.getByTestId('select-details'));
+
+    expect(mocks.push).toHaveBeenCalledWith(buildUrl({ classificationId: 104, versionId: 10, tab: 'details' }));
+  });
+
+  it('does not navigate when the selected tab is unknown', () => {
+    mocks.pathname = '/classifications/104/codes';
+
+    render(
+      <VersionView classification={classification}>
+        <div>Codes</div>
+      </VersionView>,
+    );
+
+    fireEvent.click(screen.getByTestId('select-unknown'));
+
+    expect(mocks.push).not.toHaveBeenCalled();
   });
 
   it('renders the version not-found state when there are no versions', () => {
