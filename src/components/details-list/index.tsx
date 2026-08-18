@@ -1,5 +1,6 @@
 import { Card, Divider, Heading, Popover } from '@digdir/designsystemet-react';
 import { QuestionmarkCircleIcon } from '@navikt/aksel-icons';
+import { localization } from '@/libs/language/src/localization';
 import { Item } from '@/types/item';
 import styles from './detailsList.module.css';
 
@@ -7,13 +8,20 @@ interface DetailsListProps {
   title?: string;
   content: Item[];
   popoverContent?: string;
+  fallbackLanguage?: string;
 }
 
-const DetailsList = ({ title, content, popoverContent }: DetailsListProps) => {
+const DetailsList = ({ title, content, popoverContent, fallbackLanguage }: DetailsListProps) => {
   const getRowKey = (row: Item, index: number) => {
     return typeof row.label === 'string' && row.label.length > 0 ? row.label : String(index);
   };
 
+  const setHtmlLang = (value?: React.ReactNode) =>
+    value && value !== localization.classification.about.notRelevant
+      ? fallbackLanguage
+        ? { lang: fallbackLanguage }
+        : {}
+      : {};
   return (
     <Card className={styles.tableContainer}>
       {title && (
@@ -22,6 +30,7 @@ const DetailsList = ({ title, content, popoverContent }: DetailsListProps) => {
           className={`${styles.detailsHeading} infoHeadingSecondary`}
           data-size='md'
           id={`tableHeading-${title}`}
+          {...(fallbackLanguage ? { lang: fallbackLanguage } : {})}
         >
           {title}
         </Heading>
@@ -43,7 +52,9 @@ const DetailsList = ({ title, content, popoverContent }: DetailsListProps) => {
           ) : (
             <dt className={styles.key}>{row.label}</dt>
           )}
-          <dd className={styles.value}>{row.value}</dd>
+          <dd className={styles.value} {...setHtmlLang(row.value)}>
+            {row.value}
+          </dd>
           <Divider />
         </dl>
       ))}
