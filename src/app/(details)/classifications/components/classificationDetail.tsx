@@ -7,13 +7,13 @@ import { ClassificationWithLanguage } from '@/libs/data/classifications/classifi
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
+import { formatLanguages } from '@/utils/functions';
 import { buildUrl } from '../utils/urls';
 import { mapVersions } from '../utils/versions';
 import styles from './classification-page.module.css';
 import { ClassificationTable } from './classification-table';
 import { ExpandableTable } from './expandable-table';
 import { VersionView } from './views/VersionView';
-import { formatLanguages } from '@/utils/functions';
 
 interface ClassificationDetailProps {
   classification: ClassificationWithLanguage;
@@ -47,11 +47,21 @@ export default function ClassificationDetail({
             )}
           </Alert>
         )}
-        <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='lg' level={1}>
+        <Heading
+          className={`${styles.detailsHeading} primaryHeading`}
+          data-size='lg'
+          level={1}
+          {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
+        >
           {classification.name}
         </Heading>
         {classification.description && (
-          <Paragraph className={`${styles.description} ingress`}>{classification.description}</Paragraph>
+          <Paragraph
+            className={`${styles.description} ingress`}
+            {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
+          >
+            {classification.description}
+          </Paragraph>
         )}
         <SubscribeDialog classificationId={classification.id} />
         <ExpandableTable
