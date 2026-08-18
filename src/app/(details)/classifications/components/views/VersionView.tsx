@@ -85,11 +85,19 @@ export function VersionView({ classification, classificationVersion, children }:
           {localization.versions.tags.isNotCurrent}
         </Alert>
       )}
-      <Heading className={`${styles.detailsHeading} secondaryHeading`} data-size='md' level={2} {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}>
+      <Heading
+        className={`${styles.detailsHeading} secondaryHeading`}
+        data-size='md'
+        level={2}
+        {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
+      >
         {resolved.version.name ?? '—'}
       </Heading>
       {resolved?.isLatest && versionTag}
-      <p className={styles.introduction} {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}>
+      <p
+        className={styles.introduction}
+        {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
+      >
         {classificationVersion?.introduction ?? '—'}
       </p>
       <Tabs

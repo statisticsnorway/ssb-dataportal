@@ -13,7 +13,10 @@ interface DetailsViewProps {
 export default function DetailsView({ classification, classificationVersion }: Readonly<DetailsViewProps>) {
   return (
     <div className={styles.aboutWrapper}>
-      <DetailsList content={mapDetailsItems(classificationVersion, classification)} fallbackLanguage={classification.fallbackLanguage} />
+      <DetailsList
+        content={mapDetailsItems(classificationVersion, classification)}
+        fallbackLanguage={classification.fallbackLanguage}
+      />
     </div>
   );
 }
