@@ -8,7 +8,7 @@ export default function NotFound() {
     <AppNotFoundState
       title={localization.error.notFoundTitleClassificationDetails}
       message={localization.error.notFoundMessageClassificationDetails}
-      helpList={localization.error.notFoundHelpListClassificationDetails}
+      helpList={localization.error.notFoundHelpListClassificationId}
       homeHref='/classifications'
       homeLabel={localization.classification.labelPlural}
       showBrokenLinkButton={false}

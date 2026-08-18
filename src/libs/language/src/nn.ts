@@ -232,6 +232,10 @@ export const nn = {
       'gå til oversikta over klassifikasjonar',
       'gå til framsida',
     ],
+    notFoundHelpListClassificationId: [
+      'sjekke at du har riktig klassifikasjon-id i lenkja',
+      'gå til oversikta over klassifikasjonar',
+    ],
     notFoundTitleClassificationDetails: 'Klassifikasjon ikkje funnen',
     notFoundMessageClassificationDetails:
       'Er det skrivefeil i lenkja? Eller har klassifikasjonen blitt sletta eller flytta?',

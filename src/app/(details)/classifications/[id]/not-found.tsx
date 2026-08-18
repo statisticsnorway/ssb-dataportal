@@ -9,10 +9,9 @@ export default function NotFound() {
     <AppNotFoundState
       title={localization.error.notFoundTitleClassificationDetails}
       message={localization.error.notFoundMessageClassificationDetails}
-      helpList={localization.error.notFoundHelpListClassificationDetails}
-      homeHref='/'
-      secondaryHref={buildUrl({})}
-      secondaryLabel={localization.classification.labelPlural}
+      helpList={localization.error.notFoundHelpListClassificationId}
+      homeHref={buildUrl({})}
+      homeLabel={localization.classification.labelPlural}
       showBrokenLinkButton={false}
     />
   );

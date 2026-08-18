@@ -235,6 +235,10 @@ export const en = {
       'go to the classification overview',
       'go to the home page',
     ],
+    notFoundHelpListClassificationId: [
+      'check that you have the correct classification ID in the URL',
+      'go to the classification overview',
+    ],
     notFoundTitleClassificationDetails: 'Classification not found',
     notFoundMessageClassificationDetails:
       'Is there a typo in the URL? Or has the classification been deleted or moved?',

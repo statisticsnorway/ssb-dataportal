@@ -232,6 +232,10 @@ export const nb = {
       'gå til oversikten over klassifikasjoner',
       'gå til forsiden',
     ],
+    notFoundHelpListClassificationId: [
+      'sjekke at du har riktig klassifikasjon-id i lenken',
+      'gå til oversikten over klassifikasjoner',
+    ],
     notFoundTitleClassificationDetails: 'Klassifikasjon ikke funnet',
     notFoundMessageClassificationDetails:
       'Er det skrivefeil i lenken? Eller har klassifikasjonen blitt slettet eller flyttet?',
