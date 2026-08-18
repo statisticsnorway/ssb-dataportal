@@ -1,6 +1,7 @@
 'use client';
 
-import { Alert, Divider, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Divider, Heading, Paragraph, Tag, Tooltip } from '@digdir/designsystemet-react';
+import { GlobeIcon } from '@navikt/aksel-icons';
 import { SubscribeDialog } from '@/app/(details)/classifications/components/subscribe';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
@@ -39,13 +40,14 @@ export default function ClassificationDetail({
       />
       <main className={styles.mainContent}>
         {classification.fallbackLanguage && (
-          <Alert role='status'>
-            {localization.classification.language.notSelectedLanguage}.{' '}
-            {localization.classification.language.displayedInLanguage.replace(
-              '{language}',
-              formatLanguages(classification.fallbackLanguage),
-            )}
-          </Alert>
+          <div>
+            <Tooltip content={localization.classification.language.notSelectedLanguage}>
+              <Tag data-size='lg' tabIndex={0}>
+                <GlobeIcon aria-hidden='true' focusable='false' />
+                {formatLanguages(classification.fallbackLanguage)}
+              </Tag>
+            </Tooltip>
+          </div>
         )}
         <Heading
           className={`${styles.detailsHeading} primaryHeading`}
