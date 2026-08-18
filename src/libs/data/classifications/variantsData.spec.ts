@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { VariantsApi } from '@/libs/data-access/klass/apis/VariantsApi';
-import { InitOverrideFunction, ResponseError } from '@/libs/data-access/klass/runtime';
+import { ResponseError } from '@/libs/data-access/klass/runtime';
 import { fetchClassificationById } from './classificationData';
 import { fetchVariantById, fetchVariantCodesDownload, fetchVariantForClassification } from './variantsData';
 import { fetchVersionById } from './versionsData';
@@ -14,6 +14,23 @@ const classification = {
   versions: [
     { id: 10, validFrom: new Date('2020-01-01') },
     { id: 20, validFrom: new Date('2024-01-01') },
+  ],
+};
+
+const variantResource = {
+  id: 3530,
+  name: 'Canonical Variant Name',
+  classificationItems: [
+    {
+      code: 'A',
+      parentCode: undefined,
+      level: '1',
+      name: 'Alpha',
+      shortName: 'Alpha',
+      notes: 'Note',
+      validFrom: new Date('2025-01-01'),
+      validTo: undefined,
+    },
   ],
 };
 
@@ -131,60 +148,41 @@ describe('fetchVariantCodesDownload', () => {
   beforeEach(() => {
     vi.restoreAllMocks();
     vi.clearAllMocks();
+    vi.spyOn(VariantsApi.prototype, 'variants').mockResolvedValue(variantResource);
   });
 
-  it('uses variants/{id} endpoint with language and accept header', async () => {
+  it('returns csv with same header structure as codes tab', async () => {
     vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
-    vi.stubEnv('KLASS_BASE_PATH', 'https://data.ssb.no');
 
-    const variantSpy = vi.spyOn(VariantsApi.prototype, 'variantsRaw').mockResolvedValue({
-      raw: new Response('code,name\nA,Alpha', {
-        headers: { 'content-type': 'text/csv' },
-      }),
-      value: vi.fn(),
-    });
-
-    await fetchVariantCodesDownload({
-      variantId: 3302,
+    const payload = await fetchVariantCodesDownload({
+      variantId: 3530,
       language: 'NB',
       format: 'csv',
     });
 
-    const [params] = variantSpy.mock.calls[0] ?? [];
-    expect(params).toMatchObject({
-      id: 3302,
-      language: 'NB',
-    });
-
-    const [, initOverride] = variantSpy.mock.calls[0] ?? [];
-    expect(typeof initOverride).toBe('function');
-    const overrideResult = await (initOverride as InitOverrideFunction)({
-      init: { method: 'GET', headers: {} },
-      context: {
-        path: '/api/klass/v1/variants/3302',
-        method: 'GET',
-        headers: {},
-        query: { language: 'NB' },
-      },
-    });
-    expect(overrideResult.headers).toMatchObject({ Accept: 'text/csv' });
+    const firstLine = payload.content.split('\n')[0];
+    expect(firstLine).toBe(
+      '"code","parentCode","level","name","shortName","presentationName","validFrom","validTo","validFromInRequestedRange","validToInRequestedRange","notes"',
+    );
+    expect(payload.mimeType).toContain('text/csv');
   });
 
-  it('returns json content from variants/{id} when requested', async () => {
+  it('returns xml with codeList root and codeItem entries', async () => {
     vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
-    vi.stubEnv('KLASS_BASE_PATH', 'https://data.ssb.no');
 
-    const variantSpy = vi.spyOn(VariantsApi.prototype, 'variantsRaw').mockResolvedValue({
-      raw: new Response('[]', {
-        headers: { 'content-type': 'application/json' },
-      }),
-      value: vi.fn(),
-    });
+    const payload = await fetchVariantCodesDownload({ variantId: 3530, language: 'NB', format: 'xml' });
+
+    expect(payload.content).toContain('<codeList>');
+    expect(payload.content).toContain('<codeItem>');
+    expect(payload.mimeType).toContain('application/xml');
+  });
+
+  it('returns json content with codes wrapper when requested', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
 
     const payload = await fetchVariantCodesDownload({ variantId: 3530, language: 'NB', format: 'json' });
 
-    const [params] = variantSpy.mock.calls[0] ?? [];
-    expect(params).toMatchObject({ id: 3530, language: 'NB' });
+    expect(payload.content).toContain('"codes"');
     expect(payload.mimeType).toContain('application/json');
   });
 });
