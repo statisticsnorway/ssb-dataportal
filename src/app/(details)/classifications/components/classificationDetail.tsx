@@ -1,9 +1,9 @@
 'use client';
 
-import { Divider, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { Alert, Divider, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { SubscribeDialog } from '@/app/(details)/classifications/components/subscribe';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
-import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
+import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
@@ -13,9 +13,10 @@ import styles from './classification-page.module.css';
 import { ClassificationTable } from './classification-table';
 import { ExpandableTable } from './expandable-table';
 import { VersionView } from './views/VersionView';
+import { formatLanguages } from '@/utils/functions';
 
 interface ClassificationDetailProps {
-  classification: ClassificationResource;
+  classification: ClassificationWithLanguage;
   classificationVersion?: ClassificationVersionResource | null;
   children: React.ReactNode;
 }
@@ -37,6 +38,15 @@ export default function ClassificationDetail({
         currentText={classification.name ?? String(classification.id)}
       />
       <main className={styles.mainContent}>
+        {classification.fallbackLanguage && (
+          <Alert role='status'>
+            {localization.classification.language.notSelectedLanguage}.{' '}
+            {localization.classification.language.displayedInLanguage.replace(
+              '{language}',
+              formatLanguages(classification.fallbackLanguage),
+            )}
+          </Alert>
+        )}
         <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='lg' level={1}>
           {classification.name}
         </Heading>
