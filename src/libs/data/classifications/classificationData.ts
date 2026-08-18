@@ -174,7 +174,7 @@ export async function fetchAllClassifications(
   return [...byId.values()];
 }
 
-export async function fetchClassificationForLanguage(
+async function fetchClassificationForLanguage(
   id: number,
   language: SupportedLanguage | undefined = 'nb',
 ): Promise<ClassificationResource | null> {
