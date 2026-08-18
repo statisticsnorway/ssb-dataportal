@@ -9,6 +9,7 @@ import { createLogger } from '@/libs/logger/server-logger';
 import versionsMock from '@/static-data/versions.json';
 import { parseVersion } from '@/utils/mock-data';
 import { getUserAgent } from '@/utils/userAgent';
+import { FALLBACK_ORDER } from './utils';
 
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
 
@@ -68,23 +69,19 @@ export async function fetchVersionForLanguage(
 
   if (process.env.KLASS_USE_STATIC_DATA === 'true') {
     logger.warn({ id }, 'Using static mock data for versions');
-
     const version = versionsMock.versions.find((v) => v.id === id);
-
     if (!version) {
       logger.debug({ id }, 'Version not found in static data');
       return undefined;
     }
-
-    return toEntry(parseVersion(version), 'nb', language);
+    return parseVersion(version); // raw, no tagging
   }
 
   try {
-    const resource = await api.versions(params, {
+    return await api.versions(params, {
       cache: 'force-cache',
       next: { revalidate: ttlSeconds },
     } as RequestInit);
-    return toEntry(resource, language, language);
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
       logger.error({ statusCode: error.response.status, url: error.response.url, id }, 'Version fetch by ID failed');
@@ -95,7 +92,7 @@ export async function fetchVersionForLanguage(
   }
 }
 
-export async function fetchVersionById(
+export async function fetchVersionById2(
   id: number,
   language: SupportedLanguage | undefined = 'nb',
 ): Promise<VersionWithLanguage | undefined> {
@@ -133,4 +130,50 @@ export async function fetchVersionById(
     }
     throw error;
   }
+}
+
+export async function fetchVersionById(
+  id: number,
+  language: SupportedLanguage | undefined = 'nb',
+): Promise<VersionWithLanguage | undefined> {
+  const logger = createLogger('classification-versions-data');
+
+  if (process.env.KLASS_USE_STATIC_DATA === 'true') {
+    logger.warn({ id }, 'Using static mock data for versions');
+    const version = versionsMock.versions.find((v) => v.id === id);
+    if (!version) return undefined;
+    return toEntry(parseVersion(version), 'nb', language ?? 'nb');
+  }
+
+  const requested = language ?? 'nb';
+  const languages = [requested, ...FALLBACK_ORDER.filter((l) => l !== requested)] as SupportedLanguage[];
+
+  const results = await Promise.all(
+    languages.map(async (lang) => {
+      try {
+        const resource = await fetchVersionForLanguage(id, lang);
+        logger.info(
+          { id, lang, hasResource: !!resource, itemCount: resource?.classificationItems?.length, name: resource?.name },
+          'per-language version fetch',
+        );
+        return resource ? toEntry(resource, lang, requested) : null;
+      } catch (error) {
+        logger.warn({ id, lang, error: String(error) }, 'Version fetch failed for language');
+        return null;
+      }
+    }),
+  );
+
+  const hasItems = (r: VersionWithLanguage | null): r is VersionWithLanguage =>
+    !!r && Array.isArray(r.classificationItems) && r.classificationItems.length > 0;
+
+  const chosen =
+    results.find((r) => hasItems(r) && !r.fallbackLanguage) ??
+    results.find(hasItems) ??
+    results.find((r) => r?.name && !r.fallbackLanguage) ??
+    results.find((r) => r?.name) ??
+    results.find((r): r is VersionWithLanguage => r !== null);
+
+  if (!chosen) throw new Error(`Version ${id} not available in any supported language`);
+  return chosen;
 }

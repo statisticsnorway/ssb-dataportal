@@ -1,6 +1,7 @@
-import { HTTPQuery, VersionsLanguageEnum } from '@/libs/data-access/klass';
+import { ClassificationItemResource, HTTPQuery, VersionsLanguageEnum } from '@/libs/data-access/klass';
 import { SupportedLanguages } from '@/libs/data-access/variable-definitions/internal/models/SupportedLanguages';
 import { SupportedLanguage } from '@/libs/language';
+import { KlassCode } from '@/types/klass-codes';
 
 /**
  * Duplicate of the generated function querystring in src/libs/data-access/klass/runtime.ts
@@ -57,8 +58,6 @@ export const FALLBACK_ORDER: SupportedLanguage[] = [
   SupportedLanguages.En,
 ];
 
-
-
 const TO_KLASS: Record<SupportedLanguage, VersionsLanguageEnum> = {
   nb: VersionsLanguageEnum.NB,
   nn: VersionsLanguageEnum.NN,
@@ -79,7 +78,6 @@ export function fromKlassLanguage(lang: VersionsLanguageEnum): SupportedLanguage
   return FROM_KLASS[lang];
 }
 
-
 /**
  * Given the requested language and a set of published-language arrays from each
  * resource on the page, pick the best common language.
@@ -91,9 +89,7 @@ export function resolvePageLanguage(
   requested: SupportedLanguage,
   publishedSets: ReadonlyArray<ReadonlyArray<SupportedLanguage>>,
 ): { effective: SupportedLanguage; fallbackFrom?: SupportedLanguage } {
-  const intersection = FALLBACK_ORDER.filter((lang) =>
-    publishedSets.every((set) => set.includes(lang)),
-  );
+  const intersection = FALLBACK_ORDER.filter((lang) => publishedSets.every((set) => set.includes(lang)));
 
   if (intersection.includes(requested)) return { effective: requested };
 
@@ -101,4 +97,14 @@ export function resolvePageLanguage(
     [requested, ...FALLBACK_ORDER.filter((l) => l !== requested)].find((l) => intersection.includes(l)) ?? 'nb';
 
   return { effective: preferred, fallbackFrom: preferred === requested ? undefined : requested };
+}
+
+export interface KlassCodeWithLanguage extends KlassCode {
+  /** Language actually used to populate `name`/`shortName`. Undefined when it matches the requested language. */
+  fallbackLanguage?: SupportedLanguage;
+}
+
+export interface ClassificationItemWithLanguage extends ClassificationItemResource {
+  /** Language actually used to populate `name`/`shortName`. Undefined when it matches the requested language. */
+  fallbackLanguage?: SupportedLanguage;
 }
