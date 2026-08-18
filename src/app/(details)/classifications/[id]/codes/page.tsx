@@ -5,11 +5,11 @@ import { useVersion } from '@/app/(details)/classifications/components/versionCo
 import { CodesView } from '@/app/(details)/classifications/components/views/CodesView';
 
 export default function CodesVersion() {
-  const { versionResource } = useVersion();
+  const { versionResource, classification } = useVersion();
 
   if (!versionResource) {
     return notFound();
   }
 
-  return <CodesView version={versionResource} />;
+  return <CodesView version={versionResource} classificationId={classification.id} />;
 }
