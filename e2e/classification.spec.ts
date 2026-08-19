@@ -1,16 +1,15 @@
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
-import { isSupportedLanguage, localization } from '@/libs/language/src/localization';
+import { localization } from '@/libs/language/src/localization';
 import classificationMock from '@/static-data/classifications.json';
 import versionsMock from '@/static-data/versions.json';
 import { parseClassification, parseVersion } from '@/utils/mock-data';
 import { expect, test } from './fixtures/classification.fixture';
 import { CODES_PREV_VERSION_URL, CODES_PREV_VERSION_URL_CODES, formatDate, switchLanguage } from './utils/commonUtils';
 import { languageButton } from './utils/variables';
-import { formatCustodian, formatLanguages, formatLocaleDate } from '@/utils/functions';
+import { formatCustodian, formatLocaleDate } from '@/utils/functions';
 import { Page } from '@playwright/test';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { classificationDetailsTabsData } from '@/app/(details)/classifications/[id]/tabs';
-import { SupportedLanguages } from '@/libs/data-access/variable-definitions/internal';
 
 const classifications = classificationMock.classifications;
 const versions = versionsMock.versions;
@@ -236,12 +235,19 @@ test('correct html lang fallback language current', async ({ classificationDetai
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   await assertDetailsList(page, currentVersion!);
 });
-/*
-test('correct html lang fallback language older', async ({ page }) => {
-  await gotoAbout(page, OLDER_DETAILS_URL);
-  await page.waitForLoadState('networkidle');
+
+test('correct html lang fallback language older', async ({ classificationDetailsPage }) => {
+  const classification = parseClassification(classifications[0]);
+  const page = await classificationDetailsPage(classification.id!);
+  await page.goto(
+    buildUrl({
+      classificationId: 2003,
+      versionId: olderVersion!.id ?? 2,
+      tab: classificationDetailsTabsData.Details.slug,
+    }),
+  );
+  await expect(page.locator('dl').first()).toBeVisible();
   await switchLanguage(page, 'English');
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-  await assertDetailsList(page, olderVersion!, 'en');
+  await assertDetailsList(page, olderVersion!);
 });
-*/
