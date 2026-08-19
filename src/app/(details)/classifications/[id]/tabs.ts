@@ -45,6 +45,7 @@ export const classificationDetailsTabsData: Record<keyof typeof Tabs, Classifica
     },
     id: 'correspondencesTab',
     slug: 'correspondences',
+    nestedRouteSegments: ['correspondences'],
   },
   Variants: {
     get label() {
