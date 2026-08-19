@@ -9,11 +9,12 @@ const mocks = vi.hoisted(() => ({
   }),
 }));
 
-vi.mock('next/navigation', () => ({ notFound: mocks.notFound }));
-vi.mock('@/app/(details)/classifications/components/views/VariantView', () => ({ default: vi.fn() }));
-vi.mock('@/app/(details)/classifications/components/views/ServerUtils', () => ({
+vi.mock('@/libs/data/classifications/utils', () => ({
   getRequestLanguage: vi.fn().mockResolvedValue('nb'),
 }));
+
+vi.mock('next/navigation', () => ({ notFound: mocks.notFound }));
+vi.mock('@/app/(details)/classifications/components/views/VariantView', () => ({ default: vi.fn() }));
 vi.mock('@/libs/data/classifications/classificationData', () => ({
   fetchClassificationById: vi.fn().mockResolvedValue({ fallbackLanguage: 'nb' }),
 }));
