@@ -38,7 +38,3 @@
 .table tbody tr:hover {
   background: var(--ds-color-neutral-surface-hover);
 }
-
-.code {
-  font-weight: 600;
-}

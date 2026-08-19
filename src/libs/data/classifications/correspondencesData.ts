@@ -1,11 +1,9 @@
 'use server';
 
 import {
-  CorrespondenceItem,
   CorrespondenceTableResource,
   CorrespondenceTablesApi,
   CorrespondenceTablesLanguageEnum,
-  CorrespondsAtLanguageEnum,
 } from '@/libs/data-access/klass';
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
 import { SupportedLanguage } from '@/libs/language';
@@ -68,51 +66,6 @@ export async function fetchCorrespondenceTable(
       );
     } else {
       logger.error({ id, error: String(error) }, 'Unexpected error fetching correspondence table');
-    }
-    throw error;
-  }
-}
-
-export async function fetchCorrespondenceItemsAt(
-  sourceClassificationId: number,
-  targetClassificationId: number,
-  date: Date,
-  language: SupportedLanguage = 'nb',
-): Promise<CorrespondenceItem[]> {
-  const api = getCorrespondenceTablesClient();
-  try {
-    const response = await api.correspondsAt(
-      {
-        id: sourceClassificationId,
-        targetClassificationId,
-        date,
-        language: toKlassLanguage(language) as CorrespondsAtLanguageEnum,
-      },
-      fetchInit,
-    );
-    return response.correspondenceItems ?? [];
-  } catch (error: unknown) {
-    if (error instanceof ResponseError) {
-      logger.error(
-        {
-          sourceClassificationId,
-          targetClassificationId,
-          date,
-          statusCode: error.response.status,
-          url: error.response.url,
-        },
-        'Failed to fetch correspondence items',
-      );
-    } else {
-      logger.error(
-        {
-          sourceClassificationId,
-          targetClassificationId,
-          date,
-          error: String(error),
-        },
-        'Unexpected error fetching correspondence items',
-      );
     }
     throw error;
   }
