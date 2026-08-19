@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Dialog, Field, Label, Select } from '@digdir/designsystemet-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { FileDownloadFormat } from '@/libs/data/classifications/codesData';
 import { localization, type SupportedLanguage, supportedLanguages } from '@/libs/language';
 import { downloadChangesAction, downloadCodesAction, downloadVariantCodesAction } from './actions';
@@ -27,6 +27,12 @@ interface DownloadCodesDialogProps {
   validFrom?: Date | string;
   validTo?: Date | string;
   isVariantDownload?: boolean;
+  open?: boolean;
+  showTrigger?: boolean;
+  initialFormat?: FileDownloadFormat;
+  initialLanguage?: SupportedLanguage;
+  onDialogClose?: () => void;
+  buildShareUrl?: (args: { language: SupportedLanguage; format: FileDownloadFormat }) => string;
 }
 
 interface DownloadChangesDialogProps {
@@ -34,6 +40,12 @@ interface DownloadChangesDialogProps {
   classificationId: number;
   from: Date | string;
   to?: Date | string;
+  open?: boolean;
+  showTrigger?: boolean;
+  initialFormat?: FileDownloadFormat;
+  initialLanguage?: SupportedLanguage;
+  onDialogClose?: () => void;
+  buildShareUrl?: (args: { language: SupportedLanguage; format: FileDownloadFormat }) => string;
 }
 
 interface DownloadDialogBaseProps {
@@ -46,30 +58,87 @@ interface DownloadDialogBaseProps {
     confirm: string;
     inProgress: string;
     error: string;
+    copyLink: string;
+    linkCopied: string;
   };
   handleAction: (args: {
     language: SupportedLanguage;
     format: FileDownloadFormat;
   }) => Promise<{ content: string; mimeType: string }>;
+  open?: boolean;
+  showTrigger?: boolean;
+  initialFormat?: FileDownloadFormat;
+  initialLanguage?: SupportedLanguage;
+  onDialogClose?: () => void;
+  buildShareUrl?: (args: { language: SupportedLanguage; format: FileDownloadFormat }) => string;
 }
 
-function DownloadDialog({ versionId, filePrefixByLanguage, title, handleAction }: Readonly<DownloadDialogBaseProps>) {
-  const defaultLanguage = localization.getLanguage() as SupportedLanguage;
+function DownloadDialog({
+  versionId,
+  filePrefixByLanguage,
+  title,
+  handleAction,
+  open,
+  showTrigger = true,
+  initialFormat,
+  initialLanguage,
+  onDialogClose,
+  buildShareUrl,
+}: Readonly<DownloadDialogBaseProps>) {
+  const defaultLanguage = initialLanguage ?? (localization.getLanguage() as SupportedLanguage);
+  const defaultFormat = initialFormat ?? 'csv';
   const languageLabels: Record<SupportedLanguage, string> = {
     nb: localization.classification.about.langNB,
     nn: localization.classification.about.langNN,
     en: localization.classification.about.langEN,
   };
-  const [format, setFormat] = useState<FileDownloadFormat>('csv');
+  const [format, setFormat] = useState<FileDownloadFormat>(defaultFormat);
   const [language, setLanguage] = useState<SupportedLanguage>(defaultLanguage);
   const [isDownloading, setIsDownloading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [copyMessage, setCopyMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    setFormat(defaultFormat);
+  }, [defaultFormat]);
+
+  useEffect(() => {
+    setLanguage(defaultLanguage);
+  }, [defaultLanguage]);
+
+  const sharePath = buildShareUrl?.({ language, format }) ?? null;
+
+  useEffect(() => {
+    if (!sharePath) {
+      return;
+    }
+
+    window.history.replaceState(window.history.state, '', sharePath);
+  }, [sharePath]);
 
   const handleClose = () => {
-    setFormat('csv');
-    setLanguage(localization.getLanguage() as SupportedLanguage);
+    setFormat(defaultFormat);
+    setLanguage(defaultLanguage);
     setIsDownloading(false);
     setErrorMessage(null);
+    setCopyMessage(null);
+    onDialogClose?.();
+  };
+
+  const handleCopyLink = async () => {
+    if (!sharePath) {
+      return;
+    }
+
+    setCopyMessage(null);
+    setErrorMessage(null);
+
+    try {
+      await navigator.clipboard.writeText(new URL(sharePath, window.location.origin).toString());
+      setCopyMessage(title.linkCopied);
+    } catch {
+      setErrorMessage(title.error);
+    }
   };
 
   const handleDownload = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -88,47 +157,63 @@ function DownloadDialog({ versionId, filePrefixByLanguage, title, handleAction }
     }
   };
 
-  return (
-    <Dialog.TriggerContext>
-      <Dialog.Trigger variant='secondary'>{title.button}</Dialog.Trigger>
-      <Dialog onClose={handleClose}>
-        <form onSubmit={handleDownload} noValidate>
-          <div className={styles.formFields}>
-            <Field>
-              <Label htmlFor='download-format'>{title.formatLabel}</Label>
-              <Select
-                id='download-format'
-                value={format}
-                onChange={(event) => setFormat(event.target.value as FileDownloadFormat)}
-              >
-                {FORMAT_OPTIONS.map((item) => (
-                  <Select.Option key={item} value={item}>
-                    {item.toUpperCase()}
-                  </Select.Option>
-                ))}
-              </Select>
-            </Field>
-            <Field>
-              <Label htmlFor='download-language'>{title.languageLabel}</Label>
-              <Select
-                id='download-language'
-                value={language}
-                onChange={(event) => setLanguage(event.target.value as SupportedLanguage)}
-              >
-                {supportedLanguages.map((item) => (
-                  <Select.Option key={item} value={item}>
-                    {languageLabels[item]}
-                  </Select.Option>
-                ))}
-              </Select>
-            </Field>
-            {errorMessage ? <p role='alert'>{errorMessage}</p> : null}
-          </div>
+  const content = (
+    <Dialog open={open} onClose={handleClose}>
+      <form onSubmit={handleDownload} noValidate>
+        <div className={styles.formFields}>
+          <Field>
+            <Label htmlFor='download-format'>{title.formatLabel}</Label>
+            <Select
+              id='download-format'
+              value={format}
+              onChange={(event) => setFormat(event.target.value as FileDownloadFormat)}
+            >
+              {FORMAT_OPTIONS.map((item) => (
+                <Select.Option key={item} value={item}>
+                  {item.toUpperCase()}
+                </Select.Option>
+              ))}
+            </Select>
+          </Field>
+          <Field>
+            <Label htmlFor='download-language'>{title.languageLabel}</Label>
+            <Select
+              id='download-language'
+              value={language}
+              onChange={(event) => setLanguage(event.target.value as SupportedLanguage)}
+            >
+              {supportedLanguages.map((item) => (
+                <Select.Option key={item} value={item}>
+                  {languageLabels[item]}
+                </Select.Option>
+              ))}
+            </Select>
+          </Field>
+          {errorMessage ? <p role='alert'>{errorMessage}</p> : null}
+          {copyMessage ? <p role='status'>{copyMessage}</p> : null}
+        </div>
+        <div className={styles.actions}>
+          {sharePath ? (
+            <Button type='button' variant='secondary' onClick={handleCopyLink}>
+              {title.copyLink}
+            </Button>
+          ) : null}
           <Button type='submit' disabled={isDownloading}>
             {isDownloading ? title.inProgress : title.confirm}
           </Button>
-        </form>
-      </Dialog>
+        </div>
+      </form>
+    </Dialog>
+  );
+
+  if (!showTrigger) {
+    return content;
+  }
+
+  return (
+    <Dialog.TriggerContext>
+      <Dialog.Trigger variant='secondary'>{title.button}</Dialog.Trigger>
+      {content}
     </Dialog.TriggerContext>
   );
 }
@@ -139,6 +224,12 @@ export function DownloadCodesDialog({
   validFrom,
   validTo,
   isVariantDownload,
+  open,
+  showTrigger,
+  initialFormat,
+  initialLanguage,
+  onDialogClose,
+  buildShareUrl,
 }: Readonly<DownloadCodesDialogProps>) {
   const filePrefixByLanguage = isVariantDownload
     ? {
@@ -157,6 +248,12 @@ export function DownloadCodesDialog({
       versionId={versionId}
       filePrefixByLanguage={filePrefixByLanguage}
       title={localization.classification.download}
+      open={open}
+      showTrigger={showTrigger}
+      initialFormat={initialFormat}
+      initialLanguage={initialLanguage}
+      onDialogClose={onDialogClose}
+      buildShareUrl={buildShareUrl}
       handleAction={({ language, format }) => {
         if (isVariantDownload) {
           return downloadVariantCodesAction({
@@ -183,7 +280,18 @@ export function DownloadCodesDialog({
   );
 }
 
-export function DownloadChangesDialog({ versionId, classificationId, from, to }: Readonly<DownloadChangesDialogProps>) {
+export function DownloadChangesDialog({
+  versionId,
+  classificationId,
+  from,
+  to,
+  open,
+  showTrigger,
+  initialFormat,
+  initialLanguage,
+  onDialogClose,
+  buildShareUrl,
+}: Readonly<DownloadChangesDialogProps>) {
   return (
     <DownloadDialog
       versionId={versionId}
@@ -193,6 +301,12 @@ export function DownloadChangesDialog({ versionId, classificationId, from, to }:
         en: 'classification-changes',
       }}
       title={localization.classification.download}
+      open={open}
+      showTrigger={showTrigger}
+      initialFormat={initialFormat}
+      initialLanguage={initialLanguage}
+      onDialogClose={onDialogClose}
+      buildShareUrl={buildShareUrl}
       handleAction={({ language, format }) =>
         downloadChangesAction({
           classificationId,

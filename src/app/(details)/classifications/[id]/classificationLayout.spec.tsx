@@ -142,6 +142,7 @@ describe('classification [id] layout', () => {
     const mod = await importLayoutModule();
     const element = await mod.default({
       children: <div>child content</div>,
+      modal: null,
       params: Promise.resolve({ id: '7' }),
     });
 
@@ -164,6 +165,7 @@ describe('classification [id] layout', () => {
     await expect(
       mod.default({
         children: <div>child</div>,
+        modal: null,
         params: Promise.resolve({ id: '7', versionNumber: '11551' }),
       }),
     ).rejects.toThrow('NEXT_NOT_FOUND');
@@ -185,6 +187,7 @@ describe('classification [id] layout', () => {
     const mod = await importLayoutModule();
     const element = await mod.default({
       children: <div>child content</div>,
+      modal: null,
       params: Promise.resolve({ id: '7', versionNumber: '10' }),
     });
 
@@ -205,6 +208,7 @@ describe('classification [id] layout', () => {
     await expect(
       mod.default({
         children: <div>child</div>,
+        modal: null,
         params: Promise.resolve({ id: '9' }),
       }),
     ).rejects.toThrow('NEXT_NOT_FOUND');
@@ -220,6 +224,7 @@ describe('classification [id] layout', () => {
     await expect(
       mod.default({
         children: <div>child</div>,
+        modal: null,
         params: Promise.resolve({ id: '9' }),
       }),
     ).rejects.toThrow('NEXT_NOT_FOUND');

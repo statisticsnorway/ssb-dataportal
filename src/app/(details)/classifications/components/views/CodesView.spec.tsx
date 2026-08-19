@@ -7,6 +7,17 @@ import type { KlassCode } from '@/types/klass-codes';
 import { parseVersion } from '@/utils/mock-data';
 import { CodesView } from './CodesView';
 
+vi.mock('next/navigation', () => ({
+  usePathname: () => '/classifications/2003/codes',
+  useRouter: () => ({
+    push: vi.fn(),
+  }),
+}));
+
+vi.mock('@/app/(details)/classifications/components/download-dialog', () => ({
+  DownloadCodesDialog: () => <div data-testid='download-codes-dialog' />,
+}));
+
 vi.mock('@/components/code-tree', () => ({
   CodeTree: ({
     codes,
@@ -24,10 +35,6 @@ vi.mock('@/components/code-tree', () => ({
       </ul>
     </>
   ),
-}));
-
-vi.mock('@/app/(details)/classifications/components/download-dialog', () => ({
-  DownloadCodesDialog: () => <div data-testid='download-codes-dialog' />,
 }));
 
 const codes: ClassificationItemResource[] = [
@@ -88,9 +95,9 @@ describe('CodesView', () => {
     expect(screen.queryByText(hidden)).not.toBeInTheDocument();
   });
 
-  it('renders download dialog trigger on codes tab when download data is available', () => {
+  it('renders download button on codes tab when classification download data is available', () => {
     render(<CodesView version={version} classificationId={2003} />);
 
-    expect(screen.getByTestId('download-codes-dialog')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Last ned' })).toBeInTheDocument();
   });
 });

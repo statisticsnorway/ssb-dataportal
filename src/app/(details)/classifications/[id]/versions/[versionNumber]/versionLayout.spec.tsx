@@ -63,6 +63,7 @@ describe('VersionLayout', () => {
     await expect(
       VersionLayout({
         children: <div>child</div>,
+        modal: null,
         params: Promise.resolve({ versionNumber: 'abc' }),
       }),
     ).rejects.toThrow('NEXT_NOT_FOUND');
@@ -79,6 +80,7 @@ describe('VersionLayout', () => {
     await expect(
       VersionLayout({
         children: <div>child</div>,
+        modal: null,
         params: Promise.resolve({ versionNumber: '42' }),
       }),
     ).rejects.toThrow('NEXT_NOT_FOUND');
@@ -94,6 +96,7 @@ describe('VersionLayout', () => {
     await expect(
       VersionLayout({
         children: <div>child</div>,
+        modal: null,
         params: Promise.resolve({ versionNumber: '42' }),
       }),
     ).rejects.toThrow('NEXT_NOT_FOUND');
@@ -112,6 +115,7 @@ describe('VersionLayout', () => {
 
     const element = await VersionLayout({
       children: <div>child content</div>,
+      modal: null,
       params: Promise.resolve({ versionNumber: '42' }),
     });
 

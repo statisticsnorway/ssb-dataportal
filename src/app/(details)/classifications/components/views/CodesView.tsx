@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Search } from '@digdir/designsystemet-react';
+import { usePathname, useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { DownloadCodesDialog } from '@/app/(details)/classifications/components/download-dialog';
 import { CodeTree } from '@/components/code-tree';
@@ -9,6 +10,7 @@ import { localization } from '@/libs/language';
 import type { KlassCode } from '@/types/klass-codes';
 import { filterCodesWithAncestors } from '@/utils/classifications/filterCodes';
 import { mapLevels } from '../../utils/details';
+import { buildDownloadHref } from '../../utils/download-urls';
 import { ClassificationTable } from '../classification-table';
 import { ExpandableTable } from '../expandable-table';
 import styles from './views.module.css';
@@ -44,11 +46,18 @@ function toKlassCode(item: ClassificationItemResource): KlassCode {
  * this component is responsible for filter inputs and rendering the filtered tree.
  */
 export function CodesView({ version, classificationId, isVariantDownload }: Readonly<CodesViewProps>) {
+  const pathname = usePathname();
+  const router = useRouter();
   const [filterTerm, setFilterTerm] = useState('');
   const codes = version.classificationItems ?? [];
   const mappedCodes = useMemo(() => codes.map(toKlassCode), [codes]);
   const filteredCodes = useMemo(() => filterCodesWithAncestors(mappedCodes, filterTerm), [mappedCodes, filterTerm]);
   const isClassificationDownloadReady = Boolean(classificationId && version.validFrom);
+
+  const handleOpenDownloadRoute = () => {
+    const language = localization.getLanguage() as 'nb' | 'nn' | 'en';
+    router.push(buildDownloadHref(pathname, { format: 'csv', language }));
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -92,7 +101,7 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
                   {allExpanded ? localization.codeTree.collapseAll : localization.codeTree.expandAll}
                 </Button>
               ) : null}
-              {version.id && (isVariantDownload || isClassificationDownloadReady) ? (
+              {version.id && isVariantDownload ? (
                 <DownloadCodesDialog
                   versionId={version.id}
                   classificationId={classificationId}
@@ -100,6 +109,11 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
                   validTo={version.validTo}
                   isVariantDownload={isVariantDownload}
                 />
+              ) : null}
+              {version.id && !isVariantDownload && isClassificationDownloadReady ? (
+                <Button variant='secondary' onClick={handleOpenDownloadRoute}>
+                  {localization.classification.download.button}
+                </Button>
               ) : null}
             </div>
           </div>

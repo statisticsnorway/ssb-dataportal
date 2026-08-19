@@ -12,7 +12,7 @@ import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import ClassificationDetail from '../components/classificationDetail';
-import { VersionResourceLayer } from '../components/versionContext';
+import { VersionProvider, VersionResourceLayer } from '../components/versionContext';
 import { buildUrl } from '../utils/urls';
 
 const showInfoOnly = process.env.HIDE_CLASSIFICATIONS === 'true';
@@ -65,14 +65,17 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function ClassificationLayout({
   children,
+  modal,
   params,
 }: Readonly<{
   children: ReactNode;
+  modal: ReactNode;
   params: Promise<{ id: string; versionNumber?: string }>;
 }>) {
   const logger = createLogger('classification-detail-page');
   const { id, versionNumber } = await params;
   const classificationId = Number(id);
+  const requestedVersionId = versionNumber !== undefined ? Number(versionNumber) : undefined;
 
   if (!Number.isInteger(classificationId)) {
     logger.warn({ id }, 'Invalid classification id param');
@@ -89,9 +92,7 @@ export default async function ClassificationLayout({
 
   // A version route must never fall back to the latest version or load a
   // version belonging to another classification.
-  if (versionNumber !== undefined) {
-    const requestedVersionId = Number(versionNumber);
-
+  if (requestedVersionId !== undefined) {
     const belongsToClassification = classification.versions?.some((version) => version.id === requestedVersionId);
     if (!Number.isInteger(requestedVersionId) || !belongsToClassification) {
       logger.warn({ id, versionNumber }, 'Invalid version id param');
@@ -103,16 +104,31 @@ export default async function ClassificationLayout({
     (a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0),
   )[0];
 
+  if (!latestSummary) {
+    return notFound();
+  }
+
+  const versionSummary =
+    requestedVersionId !== undefined
+      ? classification.versions?.find((version) => version.id === requestedVersionId)
+      : latestSummary;
+
+  if (!versionSummary) {
+    return notFound();
+  }
+
+  const isLatest = latestSummary.id === versionSummary.id;
+
   let latestVersionResource;
   try {
-    const resourceId = versionNumber !== undefined ? Number(versionNumber) : latestSummary?.id;
+    const resourceId = requestedVersionId ?? latestSummary.id;
     latestVersionResource = resourceId != null ? await fetchVersionById(resourceId, language) : null;
   } catch (error) {
     logger.error({ id, error: sanitizeError(error) }, 'Failed to fetch latest version resource');
     return notFound();
   }
 
-  if (versionNumber !== undefined && latestVersionResource?.id !== Number(versionNumber)) {
+  if (requestedVersionId !== undefined && latestVersionResource?.id !== requestedVersionId) {
     return notFound();
   }
 
@@ -124,10 +140,13 @@ export default async function ClassificationLayout({
   }
 
   return (
-    <VersionResourceLayer versionResource={latestVersionResource ?? undefined}>
-      <ClassificationDetail classification={classification} classificationVersion={latestVersionResource}>
-        {children}
-      </ClassificationDetail>
-    </VersionResourceLayer>
+    <VersionProvider classification={classification} versionSummary={versionSummary} isLatest={isLatest}>
+      <VersionResourceLayer versionResource={latestVersionResource ?? undefined}>
+        <ClassificationDetail classification={classification} classificationVersion={latestVersionResource}>
+          {children}
+        </ClassificationDetail>
+        {modal}
+      </VersionResourceLayer>
+    </VersionProvider>
   );
 }

@@ -10,6 +10,7 @@ import {
   TableHeaderCell,
   TableRow,
 } from '@digdir/designsystemet-react';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { fetchChanges } from '@/libs/data/classifications/codesData';
 import {
@@ -23,8 +24,8 @@ import { getDayBeforeDate } from '@/utils/dates';
 import { sortDatesDescendingSafe } from '@/utils/sort';
 import { groupChanges } from '../../utils/changes';
 import { mapChanges } from '../../utils/details';
+import { buildDownloadHref } from '../../utils/download-urls';
 import { ClassificationTable } from '../classification-table';
-import { DownloadChangesDialog } from '../download-dialog';
 import { ExpandableTable } from '../expandable-table';
 import styles from './views.module.css';
 
@@ -32,6 +33,8 @@ export default function ChangesView({
   classification,
   version,
 }: Readonly<{ classification: ClassificationResource; version: ClassificationVersionResource }>) {
+  const pathname = usePathname();
+  const router = useRouter();
   const sortedVersions =
     [...(classification.versions ?? [])].toSorted((v1, v2) => sortDatesDescendingSafe(v1.validFrom, v2.validFrom)) ??
     [];
@@ -49,6 +52,11 @@ export default function ChangesView({
   }, [hasPreviousVersion, previousVersion?.validFrom]);
 
   const [changes, setChanges] = useState<CodeChangeItem[] | null>(null);
+
+  const handleOpenDownloadRoute = () => {
+    const language = localization.getLanguage() as 'nb' | 'nn' | 'en';
+    router.push(buildDownloadHref(pathname, { format: 'csv', language }));
+  };
 
   const handleInvertTable = () => setInverted((v) => !v);
 
@@ -121,12 +129,9 @@ export default function ChangesView({
                 {localization.versions.invert}
               </Button>
               {classification.id !== undefined && changesFrom && version.id !== undefined ? (
-                <DownloadChangesDialog
-                  versionId={version.id}
-                  classificationId={classification.id}
-                  from={changesFrom}
-                  to={version.validTo}
-                />
+                <Button variant='secondary' onClick={handleOpenDownloadRoute}>
+                  {localization.classification.download.button}
+                </Button>
               ) : null}
             </div>
           </figcaption>
