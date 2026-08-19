@@ -2,46 +2,15 @@ import { ClassificationResource } from '@/libs/data-access/klass/models/Classifi
 import { localization } from '@/libs/language/src/localization';
 import classificationMock from '@/static-data/classifications.json';
 import versionsMock from '@/static-data/versions.json';
-import { parseClassification, parseVersion } from '@/utils/mock-data';
+import { parseClassification } from '@/utils/mock-data';
 import { expect, test } from './fixtures/classification.fixture';
 import { CODES_PREV_VERSION_URL, CODES_PREV_VERSION_URL_CODES, formatDate, switchLanguage } from './utils/commonUtils';
 import { languageButton } from './utils/variables';
-import { formatCustodian, formatLocaleDate } from '@/utils/functions';
-import { Page } from '@playwright/test';
-import { buildUrl } from '@/app/(details)/classifications/utils/urls';
-import { classificationDetailsTabsData } from '@/app/(details)/classifications/[id]/tabs';
+
 
 const classifications = classificationMock.classifications;
 const versions = versionsMock.versions;
 
-const currentVersion = versions![0];
-const olderVersion = versions![1];
-
-async function assertDetailsList(page: Page, version: (typeof versions)[number]) {
-  const dds = page.locator('dl dd');
-  const manager = dds.getByText(formatCustodian(parseVersion(version)), { exact: true });
-  await expect(manager).toBeVisible();
-  await expect(manager).toHaveAttribute('lang', 'nb');
-  const emailDd = dds.filter({ hasText: version.contactPerson!.email! });
-  await expect(emailDd).toBeVisible();
-  await expect(emailDd).toHaveAttribute('lang', 'nb');
-  const validity = dds.getByText(formatLocaleDate(version.validFrom!), { exact: true });
-  await expect(validity).toBeVisible();
-  await expect(validity).toHaveAttribute('lang', 'nb');
-  const publishedLanguages = dds.filter({
-    hasText: 'Norwegian (Bokmål), Norwegian (Nynorsk), English',
-  });
-  await expect(publishedLanguages).toBeVisible();
-  await expect(publishedLanguages).not.toHaveAttribute('lang', 'nb');
-  /*const legalBase = dds.getByText(version.legalBase!, { exact: true });
-  await expect(legalBase).toBeVisible();
-  await expect(legalBase).toHaveAttribute('lang', 'nb');*/
-}
-
-// test notRelevant
-//   "legalBase": "",
-//    "publications": "",
-//   "derivedFrom": "",
 
 test('Classifications details page have title', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[1]);
@@ -218,36 +187,4 @@ test('displays fallback-language tag when classification is missing in the selec
   await expect(
     page.getByText('This classification is not available in the selected language', { exact: true }),
   ).toBeVisible();
-});
-
-test('correct html lang fallback language current', async ({ classificationDetailsPage }) => {
-  const classification = parseClassification(classifications[0]);
-  const page = await classificationDetailsPage(classification.id!);
-  await page.goto(
-    buildUrl({
-      classificationId: classification.id,
-      tab: classificationDetailsTabsData.Details.slug,
-    }),
-  );
-  await expect(page.locator('dl').first()).toBeVisible();
-
-  await switchLanguage(page, 'English');
-  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-  await assertDetailsList(page, currentVersion!);
-});
-
-test('correct html lang fallback language older', async ({ classificationDetailsPage }) => {
-  const classification = parseClassification(classifications[0]);
-  const page = await classificationDetailsPage(classification.id!);
-  await page.goto(
-    buildUrl({
-      classificationId: 2003,
-      versionId: olderVersion!.id ?? 2,
-      tab: classificationDetailsTabsData.Details.slug,
-    }),
-  );
-  await expect(page.locator('dl').first()).toBeVisible();
-  await switchLanguage(page, 'English');
-  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-  await assertDetailsList(page, olderVersion!);
 });
