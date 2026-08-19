@@ -1,9 +1,12 @@
+'use client';
+
 import { Alert, Heading } from '@digdir/designsystemet-react';
 import { ClassificationVersionResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language/src/localization';
 import { buildUrl } from '../../utils/urls';
 import { formatVariantName, mapVariantItems } from '../../utils/variants';
 import { ClassificationCard } from '../classification-cards';
+import { useVersion } from '../versionContext';
 import styles from './views.module.css';
 
 interface VariantsViewProps {
@@ -18,6 +21,7 @@ export default function VariantsView({
   versionId,
 }: Readonly<VariantsViewProps>) {
   const variants = classificationVersion?.classificationVariants ?? [];
+  const { classification } = useVersion();
   const variantsBaseUrl =
     versionId === undefined ? buildUrl({ classificationId }) : buildUrl({ classificationId, versionId });
   return (
@@ -35,6 +39,7 @@ export default function VariantsView({
             content={mapVariantItems(variant)}
             href={`${variantsBaseUrl}/variants/${variant.id}`}
             key={variant.id}
+            fallbackLanguage={classification?.fallbackLanguage}
           />
         ))}
       {variants.length === 0 && (

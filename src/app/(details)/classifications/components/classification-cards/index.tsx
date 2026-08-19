@@ -6,6 +6,7 @@ import styles from './classificationCards.module.css';
 
 interface ClassificationCardProps {
   content: Item[];
+  fallbackLanguage?: string;
   title?: string;
   href?: string;
 }
@@ -16,7 +17,7 @@ interface ClassificationCardProps {
  * @param param0
  * @returns
  */
-const ClassificationCard = ({ content, title, href }: Readonly<ClassificationCardProps>) => {
+const ClassificationCard = ({ content, title, href, fallbackLanguage }: Readonly<ClassificationCardProps>) => {
   const getColumnKey = (col: Item, index: number) => {
     const label = typeof col.label === 'string' && col.label.length > 0 ? col.label : 'column';
     return `${label}-${index}`;
@@ -27,7 +28,9 @@ const ClassificationCard = ({ content, title, href }: Readonly<ClassificationCar
       {href && <Link className={styles.cardLink} href={href} aria-label={title} />}
       {title && (
         <Heading level={3} className={`${styles.detailsHeading} infoHeadingSecondary`} id={`tableHeading-${title}`}>
-          <span className={styles.titleText}>{title}</span>
+          <span className={styles.titleText} {...(fallbackLanguage ? { lang: fallbackLanguage } : {})}>
+            {title}
+          </span>
           <ArrowRightIcon className={styles.arrowIcon} aria-hidden='true' focusable='false' />
         </Heading>
       )}
@@ -37,7 +40,9 @@ const ClassificationCard = ({ content, title, href }: Readonly<ClassificationCar
             <div key={getColumnKey(item, index)} className={styles.item}>
               <dt className={styles.key}>{item.label}</dt>
               <Divider className={styles.divider} />
-              <dd className={styles.value}>{item.value}</dd>
+              <dd className={styles.value} {...(fallbackLanguage ? { lang: fallbackLanguage } : {})}>
+                {item.value}
+              </dd>
             </div>
           ))}
         </dl>

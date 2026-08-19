@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noConsole: <explanation> */
 'use client';
 
 import { Dialog, Heading } from '@digdir/designsystemet-react';
@@ -14,6 +15,7 @@ interface CodeTreeRowProps {
   selectedCode: string | null;
   onToggle: (code: string) => void;
   onChange: (code: KlassCode) => void;
+  fallbackLanguage?: string;
 }
 
 /**
@@ -29,11 +31,14 @@ export function CodeTreeRow({
   selectedCode,
   onToggle,
   onChange,
+  fallbackLanguage,
 }: Readonly<CodeTreeRowProps>) {
   const { code } = node;
   const hasChildren = node.children.length > 0;
   const isExpanded = expandedCodes.has(code.code);
   const isSelected = selectedCode === code.code;
+
+  console.log('Code tree fallbackLanguage:', fallbackLanguage);
 
   return (
     <li role='treeitem' aria-expanded={hasChildren ? isExpanded : undefined} aria-selected={isSelected}>
@@ -44,6 +49,7 @@ export function CodeTreeRow({
       >
         {hasChildren ? (
           <button
+            {...(fallbackLanguage ? { lang: fallbackLanguage } : {})}
             type='button'
             className={styles.chevronButton}
             aria-expanded={isExpanded}
@@ -65,6 +71,7 @@ export function CodeTreeRow({
         )}
 
         <button
+          {...(fallbackLanguage ? { lang: fallbackLanguage } : {})}
           type='button'
           className={styles.rowBody}
           aria-label={`${localization.codeTree.selectCode} ${code.code}: ${code.name}`}
@@ -82,6 +89,7 @@ export function CodeTreeRow({
           <Dialog.TriggerContext>
             <Dialog.Trigger asChild>
               <button
+                {...(fallbackLanguage ? { lang: fallbackLanguage } : {})}
                 type='button'
                 className={styles.infoButton}
                 aria-label={`${localization.codeTree.notesButtonLabel} ${code.name}`}
@@ -91,7 +99,7 @@ export function CodeTreeRow({
             </Dialog.Trigger>
             <Dialog>
               <Dialog.Block>
-                <Heading level={1} data-size='md'>
+                <Heading {...(fallbackLanguage ? { lang: fallbackLanguage } : {})} level={1} data-size='md'>
                   {code.name}
                 </Heading>
               </Dialog.Block>
@@ -99,11 +107,11 @@ export function CodeTreeRow({
                 {parseNotes(code.notes).map((section) => (
                   <div key={section.title ?? section.content} className={styles.notesSection}>
                     {section.title && (
-                      <Heading level={2} data-size='xs'>
+                      <Heading {...(fallbackLanguage ? { lang: fallbackLanguage } : {})} level={2} data-size='xs'>
                         {section.title}
                       </Heading>
                     )}
-                    <p>{section.content}</p>
+                    <p {...(fallbackLanguage ? { lang: fallbackLanguage } : {})}>{section.content}</p>
                   </div>
                 ))}
               </Dialog.Block>
@@ -123,6 +131,7 @@ export function CodeTreeRow({
               selectedCode={selectedCode}
               onToggle={onToggle}
               onChange={onChange}
+              fallbackLanguage={fallbackLanguage}
             />
           ))}
         </ul>

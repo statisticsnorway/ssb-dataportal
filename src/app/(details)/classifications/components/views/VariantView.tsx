@@ -5,9 +5,9 @@ import { notFound } from 'next/navigation';
 import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout';
 import { formatVariantName, mapVariantDetails } from '@/app/(details)/classifications/utils/variants';
 import { DetailsList } from '@/components/details-list';
+import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
 import { fetchVariantForClassification } from '@/libs/data/classifications/variantsData';
 import { localization } from '@/libs/language/src/localization';
-import { useVersion } from '../versionContext';
 import { CodesView } from './CodesView';
 import styles from './views.module.css';
 
@@ -18,22 +18,22 @@ interface VariantViewProps {
   backHref: string;
 }
 
-// Why is request language fetched here??
 export default async function VariantView({
   classificationId,
   variantId,
   versionId,
   backHref,
 }: Readonly<VariantViewProps>) {
-  const { classification } = useVersion();
+  const language = await getRequestLanguage();
+  const classification = await fetchClassificationById(classificationId, language);
+
   const variant = await fetchVariantForClassification(
     classificationId,
     variantId,
-    classification.fallbackLanguage ? classification.fallbackLanguage : await getRequestLanguage(),
+    classification?.fallbackLanguage ? classification.fallbackLanguage : language,
     versionId,
   );
   if (!variant?.classificationItems) return notFound();
-
   return (
     <div className={styles.aboutWrapper}>
       <DigdirLink asChild>
@@ -42,10 +42,10 @@ export default async function VariantView({
           {localization.codeTree.back}
         </Link>
       </DigdirLink>
-      <Heading className='secondaryHeading' data-size='md' level={2}>
+      <Heading lang={classification?.fallbackLanguage} className='secondaryHeading' data-size='md' level={2}>
         {formatVariantName(variant.name)}
       </Heading>
-      <DetailsList content={mapVariantDetails(variant)} />
+      <DetailsList content={mapVariantDetails(variant)} fallbackLanguage={classification?.fallbackLanguage} />
       <Heading className='secondaryHeading' data-size='md' level={2}>
         {localization.classificationDetails.codes}
       </Heading>

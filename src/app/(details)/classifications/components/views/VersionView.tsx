@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noConsole: <explanation> */
 'use client';
 
 import { Alert, Divider, Heading, Tabs, Tag } from '@digdir/designsystemet-react';
@@ -45,6 +46,7 @@ function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): 
 }
 
 export function VersionView({ classification, classificationVersion, children }: Readonly<VersionViewProps>) {
+  console.log(classification?.fallbackLanguage);
   const pathname = usePathname();
   const router = useRouter();
   const activeTab = getClassificationDetailsTabForRoute(pathname) ?? classificationDetailsTabsData.Codes;

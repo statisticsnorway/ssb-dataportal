@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noConsole: <explanation> */
 'use client';
 
 import { Button } from '@digdir/designsystemet-react';
@@ -13,6 +14,7 @@ export interface CodeTreeProps {
   codes: KlassCode[];
   /** Called with the KlassCode the user clicked. Optional. */
   onChange?: (code: KlassCode) => void;
+  fallbackLanguage?: string;
 }
 
 /** Recursively collects the code string of every node that has at least one child. */
@@ -29,7 +31,7 @@ function collectParentCodes(nodes: CodeTreeNode[]): string[] {
  * - Row-body clicks select a code (aria-pressed); chevron clicks toggle expansion.
  * - Purely presentational — no data fetching.
  */
-export function CodeTree({ codes, onChange }: Readonly<CodeTreeProps>) {
+export function CodeTree({ codes, onChange, fallbackLanguage }: Readonly<CodeTreeProps>) {
   const tree = useMemo(() => buildCodeTree(codes), [codes]);
   const allParentCodes = useMemo(() => collectParentCodes(tree), [tree]);
 
@@ -61,6 +63,7 @@ export function CodeTree({ codes, onChange }: Readonly<CodeTreeProps>) {
     return null;
   }
 
+  console.log('Code tree fallbackLanguage:', fallbackLanguage);
   return (
     <div>
       {allParentCodes.length > 0 && (
@@ -73,7 +76,9 @@ export function CodeTree({ codes, onChange }: Readonly<CodeTreeProps>) {
       <div className={styles.treeCard}>
         <div className={styles.treeHeader} aria-hidden='true'>
           <span className={styles.treeHeaderCode}>{localization.codeTree.codeColumn}</span>
-          <span className={styles.treeHeaderName}>{localization.codeTree.nameColumn}</span>
+          <span {...(fallbackLanguage ? { lang: fallbackLanguage } : {})} className={styles.treeHeaderName}>
+            {localization.codeTree.nameColumn}
+          </span>
         </div>
         <ul className={styles.tree} aria-label={localization.codeTree.label} role='tree'>
           {tree.map((node) => (
@@ -85,6 +90,7 @@ export function CodeTree({ codes, onChange }: Readonly<CodeTreeProps>) {
               selectedCode={selectedCode}
               onToggle={handleToggle}
               onChange={handleChange}
+              fallbackLanguage={fallbackLanguage}
             />
           ))}
         </ul>

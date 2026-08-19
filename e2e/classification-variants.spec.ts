@@ -153,8 +153,11 @@ test('displays fallback-language tag when variants are missing in the selected l
 
   const variant = currentVersion!.classificationVariants![0]!;
   await page.getByRole('link', { name: formatVariantName(variant.name) }).click();
-  // check all variants language
-  // card
+  await page.getByRole('link', { name: variant.name }).click();
 });
 
 // check one variant
+// current
+// prev version
+  // check all variants language
+  // card

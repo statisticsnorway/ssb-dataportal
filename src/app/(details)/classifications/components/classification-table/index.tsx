@@ -16,6 +16,7 @@ import styles from './classificationTable.module.css';
 interface ClassificationTableProps {
   content: VersionItem[][];
   sortableField?: string;
+  fallbackLanguage?: string;
 }
 
 const compare = (a: VersionItem['value'], b: VersionItem['value']) => {
@@ -46,7 +47,7 @@ const compare = (a: VersionItem['value'], b: VersionItem['value']) => {
  * @param props.sortableField - Optional header label of the column that should be sortable
  * @returns The rendered classification version table
  */
-const ClassificationTable = ({ content, sortableField }: ClassificationTableProps) => {
+const ClassificationTable = ({ content, sortableField, fallbackLanguage }: ClassificationTableProps) => {
   const headers = content[0]?.map((item) => item.label) ?? [];
   const sortableIndex = sortableField ? headers.indexOf(sortableField) : -1;
 
@@ -90,7 +91,7 @@ const ClassificationTable = ({ content, sortableField }: ClassificationTableProp
         {sortedContent.map((row, rowIndex) => (
           <TableRow key={`${row.map((item) => String(item.value)).join('-')}-${rowIndex}`}>
             {row.map((item) => (
-              <TableCell key={item.label}>
+              <TableCell {...(fallbackLanguage ? { lang: fallbackLanguage } : {})} key={item.label}>
                 {item.value instanceof Date ? item.value.toLocaleDateString('nb-NO') : item.value}
               </TableCell>
             ))}

@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noConsole: <explanation> */
 'use client';
 
 import { Search } from '@digdir/designsystemet-react';
@@ -11,6 +12,7 @@ import { mapLevels } from '../../utils/details';
 import { ClassificationTable } from '../classification-table';
 import { ExpandableTable } from '../expandable-table';
 import styles from './views.module.css';
+import { useVersion } from '../versionContext';
 
 interface CodesViewProps {
   version: Pick<ClassificationVersionResource, 'classificationItems' | 'levels'>;
@@ -46,6 +48,8 @@ export function CodesView({ version }: Readonly<CodesViewProps>) {
   const mappedCodes = useMemo(() => codes.map(toKlassCode), [codes]);
   const filteredCodes = useMemo(() => filterCodesWithAncestors(mappedCodes, filterTerm), [mappedCodes, filterTerm]);
 
+  const {classification} = useVersion()
+  console.log('Codes view fallbackLanguage:', classification.fallbackLanguage);
   return (
     <div className={styles.wrapper}>
       <p>
@@ -62,6 +66,7 @@ export function CodesView({ version }: Readonly<CodesViewProps>) {
             content={
               version.levels?.toSorted((l1, l2) => (l1.levelNumber ?? 1) - (l2.levelNumber ?? 1)).map(mapLevels) ?? []
             }
+            fallbackLanguage={classification.fallbackLanguage}
           />
         }
       />
@@ -78,7 +83,7 @@ export function CodesView({ version }: Readonly<CodesViewProps>) {
           <Search.Button variant='secondary'>{localization.codeTree.filterButton}</Search.Button>
         </Search>
       </div>
-      <CodeTree codes={filteredCodes} />
+      <CodeTree codes={filteredCodes} fallbackLanguage={classification.fallbackLanguage} />
     </div>
   );
 }
