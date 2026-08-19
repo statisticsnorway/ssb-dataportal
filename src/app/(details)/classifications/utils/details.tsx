@@ -61,6 +61,7 @@ export const mapDetailsItems = (
     rows,
     localization.classification.about.publishedLanguages,
     version.published?.filter(isSupportedLanguage).map(formatLanguages).join(', '),
+    { isLocalized: true },
   );
   addRow(rows, localization.classification.about.basedOn, version.derivedFrom);
   addRow(rows, localization.classification.about.legalBasis, version.legalBase);

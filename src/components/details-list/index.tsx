@@ -1,6 +1,5 @@
 import { Card, Divider, Heading, Popover } from '@digdir/designsystemet-react';
 import { QuestionmarkCircleIcon } from '@navikt/aksel-icons';
-import { localization } from '@/libs/language/src/localization';
 import { Item } from '@/types/item';
 import styles from './detailsList.module.css';
 
@@ -16,8 +15,8 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage }: Detai
     return typeof row.label === 'string' && row.label.length > 0 ? row.label : String(index);
   };
 
-  const setHtmlLang = (value?: React.ReactNode) => {
-    if (value && value !== localization.classification.about.notRelevant) {
+  const setHtmlLang = (row: Item) => {
+    if (!row.isLocalized && row.value) {
       return fallbackLanguage ? { lang: fallbackLanguage } : {};
     }
     return {};
@@ -52,7 +51,7 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage }: Detai
           ) : (
             <dt className={styles.key}>{row.label}</dt>
           )}
-          <dd className={styles.value} {...setHtmlLang(row.value)}>
+          <dd className={styles.value} {...setHtmlLang(row)}>
             {row.value}
           </dd>
           <Divider />

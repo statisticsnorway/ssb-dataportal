@@ -4,6 +4,7 @@ export interface Item {
   label: string;
   value?: ReactNode;
   popover?: boolean;
+  isLocalized?: boolean;
 }
 
 export interface VersionItem {
