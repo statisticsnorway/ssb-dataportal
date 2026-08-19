@@ -76,9 +76,9 @@ export function AppErrorState({
       footer={
         supportHref ? (
           <Paragraph className={styles.help}>
-            Har problemet vart en stund, kan du{' '}
+            {errorText.supportPrefix}{' '}
             <Link href={supportHref} target='_blank' rel='noopener noreferrer'>
-              kontakte oss
+              {errorText.supportLinkText}
             </Link>
             .
           </Paragraph>

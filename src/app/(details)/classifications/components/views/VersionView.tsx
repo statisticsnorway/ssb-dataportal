@@ -1,9 +1,10 @@
 'use client';
 
-import { Alert, Heading, Tabs, Tag } from '@digdir/designsystemet-react';
+import { Alert, Divider, Heading, Tabs, Tag } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
+import { AppNotFoundState } from '@/components/app-state';
+import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
 import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from '../../[id]/tabs';
@@ -12,7 +13,7 @@ import { ResolvedVersion, VersionProvider } from '../versionContext';
 import styles from './views.module.css';
 
 interface VersionViewProps {
-  classification: ClassificationResource;
+  classification: ClassificationWithLanguage;
   classificationVersion?: ClassificationVersionResource | null;
   children: React.ReactNode;
 }
@@ -34,10 +35,10 @@ function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): 
 
   if (versionIndex >= 0) {
     const versionId = Number(segments[versionIndex + 1]);
-    if (!Number.isNaN(versionId)) {
-      const version = sorted.find((v) => v.id === versionId);
-      if (version) return { version, isLatest: latest.id === versionId };
-    }
+    if (!Number.isInteger(versionId)) return null;
+
+    const version = sorted.find((v) => v.id === versionId);
+    return version ? { version, isLatest: latest.id === versionId } : null;
   }
 
   return { version: latest, isLatest: true };
@@ -51,7 +52,20 @@ export function VersionView({ classification, classificationVersion, children }:
   const versions = classification.versions ?? [];
   const resolved = resolveVersionFromPath(pathname, versions);
 
-  if (!resolved) return null;
+  if (!resolved) {
+    return (
+      <AppNotFoundState
+        title={localization.error.notFoundTitleVersionDetails}
+        message={localization.error.notFoundMessageVersionDetails}
+        helpList={localization.error.notFoundHelpListVersionDetails}
+        homeHref={buildUrl({})}
+        homeLabel={localization.classification.labelPlural}
+        secondaryHref={`/classifications/${classification.id}`}
+        secondaryLabel={localization.classification.labelSingular}
+        showBrokenLinkButton={false}
+      />
+    );
+  }
 
   const tabs = Object.values(classificationDetailsTabsData);
 
@@ -61,9 +75,15 @@ export function VersionView({ classification, classificationVersion, children }:
       : buildUrl({ classificationId: classification.id, versionId: resolved.version.id, tab });
 
   useEffect(() => {
+    const versionPath = buildUrl({ classificationId: classification.id, versionId: resolved.version.id });
+    if (pathname === versionPath) {
+      router.replace(`${versionPath}/${classificationDetailsTabsData.Codes.slug}`);
+      return;
+    }
+
     // Changes can take 6s or more to load in so prefetch this to avoid the user having to wait on tab access
-    router.prefetch(getTabUrl(classificationDetailsTabsData.Changes.slug as TabSlug));
-  }, [router, classification.id, resolved.isLatest, resolved.version.id]);
+    router.prefetch(getTabUrl(classificationDetailsTabsData.Changes.slug));
+  }, [router, pathname, classification.id, resolved.isLatest, resolved.version.id]);
 
   const validFromText =
     resolved.version.validFrom?.toLocaleDateString('nb-NO', {
@@ -80,16 +100,27 @@ export function VersionView({ classification, classificationVersion, children }:
 
   return (
     <VersionProvider classification={classification} versionSummary={resolved.version} isLatest={resolved.isLatest}>
+      <Divider data-version-divider />
       {!resolved?.isLatest && (
         <Alert data-color={'danger'} role='status'>
           {localization.versions.tags.isNotCurrent}
         </Alert>
       )}
-      <Heading className={`${styles.detailsHeading} secondaryHeading`} data-size='md' level={2}>
+      <Heading
+        className={`${styles.detailsHeading} secondaryHeading`}
+        data-size='md'
+        level={2}
+        {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
+      >
         {resolved.version.name ?? '—'}
       </Heading>
       {resolved?.isLatest && versionTag}
-      <p>{classificationVersion?.introduction ?? '—'}</p>
+      <p
+        className={styles.introduction}
+        {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
+      >
+        {classificationVersion?.introduction ?? '—'}
+      </p>
       <Tabs
         value={activeTab.id}
         onChange={(value) => {

@@ -68,12 +68,18 @@ export default async function ClassificationLayout({
   params,
 }: Readonly<{
   children: ReactNode;
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; versionNumber?: string }>;
 }>) {
   const logger = createLogger('classification-detail-page');
-  const { id } = await params;
+  const { id, versionNumber } = await params;
+  const classificationId = Number(id);
 
-  const { classification, language } = await getPageData(Number(id)).catch((error) => {
+  if (!Number.isInteger(classificationId)) {
+    logger.warn({ id }, 'Invalid classification id param');
+    return notFound();
+  }
+
+  const { classification, language } = await getPageData(classificationId).catch((error) => {
     logger.error({ id, error: sanitizeError(error) }, 'Failed to load classification details');
     return notFound();
   });
@@ -81,15 +87,32 @@ export default async function ClassificationLayout({
   const hasVersions = (classification.versions ?? []).length > 0;
   if (!hasVersions) return notFound();
 
+  // A version route must never fall back to the latest version or load a
+  // version belonging to another classification.
+  if (versionNumber !== undefined) {
+    const requestedVersionId = Number(versionNumber);
+
+    const belongsToClassification = classification.versions?.some((version) => version.id === requestedVersionId);
+    if (!Number.isInteger(requestedVersionId) || !belongsToClassification) {
+      logger.warn({ id, versionNumber }, 'Invalid version id param');
+      return notFound();
+    }
+  }
+
   const latestSummary = [...(classification.versions ?? [])].sort(
     (a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0),
   )[0];
 
   let latestVersionResource;
   try {
-    latestVersionResource = latestSummary?.id != null ? await fetchVersionById(latestSummary.id, language) : null;
+    const resourceId = versionNumber !== undefined ? Number(versionNumber) : latestSummary?.id;
+    latestVersionResource = resourceId != null ? await fetchVersionById(resourceId, language) : null;
   } catch (error) {
     logger.error({ id, error: sanitizeError(error) }, 'Failed to fetch latest version resource');
+    return notFound();
+  }
+
+  if (versionNumber !== undefined && latestVersionResource?.id !== Number(versionNumber)) {
     return notFound();
   }
 

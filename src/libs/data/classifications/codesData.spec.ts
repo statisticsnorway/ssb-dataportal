@@ -94,6 +94,15 @@ describe('fetchChanges', () => {
 
     expect(result).toEqual([]);
   });
+  it('returns empty array when the API has no changes for a classification', async () => {
+    process.env.KLASS_USE_STATIC_DATA = 'false';
+
+    vi.spyOn(CodesApi.prototype, 'changes').mockRejectedValue(
+      new ResponseError(new Response(null, { status: 404 }), 'Not found'),
+    );
+
+    await expect(fetchChanges(7, new Date(), undefined)).resolves.toEqual([]);
+  });
   it('logs and rethrows an unexpected non-response error', async () => {
     process.env.KLASS_USE_STATIC_DATA = 'false';
 

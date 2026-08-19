@@ -141,4 +141,24 @@ describe('Classification details page', () => {
     );
     expect(screen.getByTestId('classification-table').textContent).toBe('rows: 0');
   });
+  it('renders correct html lang when fallback language is used', () => {
+    const withFallback = {
+      ...classification,
+      fallbackLanguage: 'en',
+    } as unknown as ClassificationResource;
+
+    render(
+      <ClassificationDetail classification={withFallback} classificationVersion={null}>
+        {null}
+      </ClassificationDetail>,
+    );
+
+    const heading = screen.getByRole('heading', { level: 1 });
+    expect(heading.getAttribute('lang')).toBe('en');
+
+    if (withFallback.description) {
+      const paragraph = screen.getByText(withFallback.description);
+      expect(paragraph.getAttribute('lang')).toBe('en');
+    }
+  });
 });

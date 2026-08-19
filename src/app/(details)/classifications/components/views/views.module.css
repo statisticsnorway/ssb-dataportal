@@ -91,6 +91,11 @@
   padding-block-end: var(--ds-size-2, 0.5rem);
 }
 
+.introduction {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
 @media (min-width: 400px) {
   .tabsPanel {
     --dsc-tabs-content-padding: var(--dsc-tabs-tab-padding);

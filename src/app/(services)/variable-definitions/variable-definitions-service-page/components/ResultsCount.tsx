@@ -1,4 +1,3 @@
-import { isErrorPreviewEnabled } from '@/app/(services)/variable-definitions/variable-definitions-service-page/components/utils';
 import { useFilteredVariables } from '@/hooks/useFilteredVariables';
 import { localization } from '@/libs/language/src/localization';
 import { useVariableDefinitionsContext } from './variableDefinitionContext';
@@ -24,8 +23,7 @@ export const ResultsCount = () => {
     sortOption,
   });
 
-  const effectiveError = isErrorPreviewEnabled() ? new Error('Forced error preview') : error;
-  if (effectiveError) return null;
+  if (error) return null;
 
   const totalHits = filteredVariables.length;
   if (totalHits === 0) return localization.search.noHits;

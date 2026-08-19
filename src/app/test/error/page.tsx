@@ -1,4 +1,3 @@
-import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { isErrorPreviewEnabled } from '@/app/(services)/variable-definitions/variable-definitions-service-page/components/utils';
 /**
@@ -12,9 +11,7 @@ import { isErrorPreviewEnabled } from '@/app/(services)/variable-definitions/var
  */
 
 export default async function Page() {
-  const h = await headers();
-  const enabledViaTest = h.get('x-playwright-error-test') === 'true';
-  if (!isErrorPreviewEnabled() && !enabledViaTest) {
+  if (!isErrorPreviewEnabled()) {
     notFound();
   }
   throw new Error('E2E_TEST_ERROR');

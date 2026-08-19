@@ -113,6 +113,11 @@ export async function fetchVariantById(
     } as RequestInit);
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
+      if (error.response.status === 404) {
+        logger.info({ id }, 'Variant not found');
+        return undefined;
+      }
+
       logger.error({ statusCode: error.response.status, id }, 'Variant fetch by ID failed');
     } else {
       logger.error({ error: String(error), id }, 'Unexpected error during variant fetch');

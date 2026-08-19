@@ -1,5 +1,5 @@
 import { localization } from '@/libs/language';
-import { checkCheckbox } from './utils/commonUtils';
+import { checkCheckbox, switchLanguage } from './utils/commonUtils';
 import { expect, test } from './fixtures/classifications.fixture';
 import classificationsMock from '@/static-data/classifications.json';
 import { stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
@@ -26,9 +26,7 @@ test.describe('Classifications - fallback language', () => {
   // Test fixtures only contain Norwegian bokmål (nb) data, so switching toany other language
   // all classifications are marked with a fallback-language indicator.
   test.beforeEach(async ({ classificationsPage: page }) => {
-    await page.getByRole('button', { name: languageButton }).click();
-    await page.getByRole('button', { name: 'English' }).click();
-    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await switchLanguage(page, 'English');
   });
 
   test('sets html lang to en after switching language', async ({ classificationsPage: page }) => {

@@ -116,3 +116,29 @@ test.describe('Explicit version variants tab', () => {
     await expect(page).toHaveURL(EXPLICIT_CURRENT_VERSION_URL);
   });
 });
+
+test.describe('Variant not-found routes', () => {
+  test('shows not-found state for an unknown latest-version variant', async ({ page }) => {
+    await page.goto(buildUrl({ classificationId: 2003, variantId: 999999 }));
+
+    await expect(page.getByRole('heading', { name: 'Variant ikke funnet' })).toBeVisible();
+    const notFoundState = page.locator('section[aria-labelledby="app-not-found-title"]');
+    await expect(notFoundState.getByRole('link', { name: 'Klassifikasjoner' })).toHaveAttribute('href', buildUrl({}));
+    await expect(notFoundState.getByRole('link', { name: 'Varianter' })).toHaveAttribute(
+      'href',
+      buildUrl({ classificationId: 2003, tab: 'variants' }),
+    );
+  });
+
+  test('shows not-found state for an unknown versioned variant', async ({ page }) => {
+    await page.goto(buildUrl({ classificationId: 2003, versionId: 2, variantId: 999999 }));
+
+    await expect(page.getByRole('heading', { name: 'Variant ikke funnet' })).toBeVisible();
+    const notFoundState = page.locator('section[aria-labelledby="app-not-found-title"]');
+    await expect(notFoundState.getByRole('link', { name: 'Klassifikasjoner' })).toHaveAttribute('href', buildUrl({}));
+    await expect(notFoundState.getByRole('link', { name: 'Varianter' })).toHaveAttribute(
+      'href',
+      buildUrl({ classificationId: 2003, versionId: 2, tab: 'variants' }),
+    );
+  });
+});

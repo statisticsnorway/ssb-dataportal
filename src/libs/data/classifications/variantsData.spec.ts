@@ -135,6 +135,14 @@ describe('fetchVariantById', () => {
     await expect(fetchVariantById(42)).rejects.toBe(error);
   });
 
+  it('returns undefined when the live API cannot find a variant', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
+    const error = new ResponseError(new Response(null, { status: 404 }), 'Not found');
+    vi.spyOn(VariantsApi.prototype, 'variants').mockRejectedValue(error);
+
+    await expect(fetchVariantById(42)).resolves.toBeUndefined();
+  });
+
   it('rethrows unexpected errors', async () => {
     vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
     const error = new Error('Network failure');

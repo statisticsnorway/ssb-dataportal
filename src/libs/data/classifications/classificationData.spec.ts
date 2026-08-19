@@ -4,7 +4,7 @@ import { ResponseError } from '@/libs/data-access/klass/runtime';
 import classificationsMock from '@/static-data/classifications.json';
 import { ClassificationType } from '@/types/classification';
 import { getClassification as getStaticClassification } from '@/utils/mock-data';
-import { fetchAllClassifications, fetchClassificationById } from './classificationData';
+import { fetchAllClassifications, fetchClassificationById, fetchClassificationForLanguage } from './classificationData';
 
 vi.mock('server-only', () => ({}));
 
@@ -100,7 +100,7 @@ describe('classification data fetching', () => {
         new ResponseError(new Response(null, { status: 404 }), 'Not found'),
       );
 
-      await expect(fetchClassificationById(999)).rejects.toThrow('Not found');
+      await expect(fetchClassificationForLanguage(999)).rejects.toThrow('Not found');
     });
 
     it('throws ResponseError for non-404 status codes', async () => {
@@ -110,7 +110,7 @@ describe('classification data fetching', () => {
         new ResponseError(new Response(null, { status: 500 }), 'Internal Server Error'),
       );
 
-      await expect(fetchClassificationById(1)).rejects.toThrow('Internal Server Error');
+      await expect(fetchClassificationForLanguage(1)).rejects.toThrow('Internal Server Error');
     });
 
     it('mock api call happy path', async () => {
@@ -129,12 +129,14 @@ describe('classification data fetching', () => {
       });
     });
 
-    it('throws unexpected non-response errors when fetching by id', async () => {
+    it('classification is not available in supported languages', async () => {
       process.env.KLASS_USE_STATIC_DATA = 'false';
 
       vi.spyOn(ClassificationsApi.prototype, 'classification').mockRejectedValue(new Error('Unexpected failure'));
 
-      await expect(fetchClassificationById(1)).rejects.toThrow('Unexpected failure');
+      await expect(fetchClassificationById(1)).rejects.toThrow(
+        'Classification 1 not available in any supported language',
+      );
     });
   });
 });
