@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import VariantView from '@/app/(details)/classifications/components/views/VariantView';
-import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
+import { fetchVariantForClassification } from '@/libs/data/classifications/variantsData';
 import { SupportedLanguage } from '@/libs/language/src/localization';
 import { getRequestLanguage } from '../../../components/views/ServerUtils';
 import { buildUrl } from '../../../utils/urls';
@@ -13,14 +13,16 @@ export default async function VariantPage({
   const variantIdNumber = Number(variantId);
   if (Number.isNaN(classificationId) || Number.isNaN(variantIdNumber)) return notFound();
 
-  const language = await getRequestLanguage();
-  const classification = await fetchClassificationById(classificationId, language as SupportedLanguage);
+  const language = (await getRequestLanguage()) as SupportedLanguage;
+  const variant = await fetchVariantForClassification(classificationId, variantIdNumber, language);
+  if (!variant?.classificationItems) return notFound();
+
   return (
     <VariantView
+      variant={variant}
       classificationId={classificationId}
-      variantId={variantIdNumber}
+      fallbackLanguage={language}
       backHref={buildUrl({ classificationId, tab: 'variants' })}
-      fallbackLanguage={classification.fallbackLanguage}
     />
   );
 }

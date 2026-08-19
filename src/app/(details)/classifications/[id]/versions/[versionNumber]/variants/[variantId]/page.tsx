@@ -1,9 +1,9 @@
-'use client';
-
 import { notFound } from 'next/navigation';
-import { useVersion } from '@/app/(details)/classifications/components/versionContext';
+import { getRequestLanguage } from '@/app/(details)/classifications/components/views/ServerUtils';
 import VariantView from '@/app/(details)/classifications/components/views/VariantView';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
+import { fetchVariantForClassification } from '@/libs/data/classifications/variantsData';
+import { SupportedLanguage } from '@/libs/language';
 
 export default async function VersionVariantPage({
   params,
@@ -12,18 +12,21 @@ export default async function VersionVariantPage({
 }>) {
   const { id: classificationIdParam, versionNumber, variantId } = await params;
   const classificationId = Number(classificationIdParam);
-  const { classification } = useVersion();
   const versionId = Number(versionNumber);
   const variantIdNumber = Number(variantId);
   if (Number.isNaN(classificationId) || Number.isNaN(versionId) || Number.isNaN(variantIdNumber)) return notFound();
 
+  const language = (await getRequestLanguage()) as SupportedLanguage;
+  const variant = await fetchVariantForClassification(classificationId, variantIdNumber, language, versionId);
+  if (!variant?.classificationItems) return notFound();
+
   return (
     <VariantView
+      variant={variant}
       classificationId={classificationId}
-      variantId={variantIdNumber}
       versionId={versionId}
+      fallbackLanguage={language}
       backHref={buildUrl({ classificationId, versionId, tab: 'variants' })}
-      fallbackLanguage={classification.fallbackLanguage}
     />
   );
 }

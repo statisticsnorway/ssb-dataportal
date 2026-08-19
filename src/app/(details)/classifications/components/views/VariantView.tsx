@@ -1,40 +1,29 @@
+'use client';
+
 import { Link as DigdirLink, Heading } from '@digdir/designsystemet-react';
 import { ArrowLeftIcon } from '@navikt/aksel-icons';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout';
 import { formatVariantName, mapVariantDetails } from '@/app/(details)/classifications/utils/variants';
 import { DetailsList } from '@/components/details-list';
-import { fetchVariantForClassification } from '@/libs/data/classifications/variantsData';
-import { localization, SupportedLanguage } from '@/libs/language/src/localization';
+import type { ClassificationVariantResource } from '@/libs/data-access/klass';
+import { localization } from '@/libs/language/src/localization';
 import { CodesView } from './CodesView';
 import styles from './views.module.css';
 
 interface VariantViewProps {
+  variant: ClassificationVariantResource;
   classificationId: number;
-  variantId: number;
   versionId?: number;
   backHref: string;
-  fallbackLanguage?: SupportedLanguage;
+  fallbackLanguage: string;
 }
 
-export default async function VariantView({
+export default function VariantView({
+  variant,
   classificationId,
-  variantId,
-  versionId,
   backHref,
   fallbackLanguage,
 }: Readonly<VariantViewProps>) {
-  const language = await getRequestLanguage();
-  //const classification = await fetchClassificationById(classificationId, language);
-
-  const variant = await fetchVariantForClassification(
-    classificationId,
-    variantId,
-    fallbackLanguage ? fallbackLanguage : language,
-    versionId,
-  );
-  if (!variant?.classificationItems) return notFound();
   return (
     <div className={styles.aboutWrapper}>
       <DigdirLink asChild>

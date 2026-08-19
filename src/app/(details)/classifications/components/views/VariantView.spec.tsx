@@ -2,8 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { buildUrl } from '../../utils/urls';
 
-vi.mock('server-only', () => ({}));
-
+// fix tests
 const mocks = vi.hoisted(() => ({
   fetchVariantForClassification: vi.fn(),
   getRequestLanguage: vi.fn(),
@@ -57,7 +56,7 @@ describe('VariantView', () => {
     render(
       await VariantView({
         classificationId: 104,
-        variantId: 42,
+        variant: 42,
         versionId: 10,
         backHref: buildUrl({ classificationId: 104, versionId: 10, tab: 'variants' }),
       }),
@@ -79,7 +78,7 @@ describe('VariantView', () => {
     await expect(
       VariantView({
         classificationId: 2003,
-        variantId: 42,
+        variant: { id: 42 },
         backHref: buildUrl({ classificationId: 2003, tab: 'variants' }),
       }),
     ).rejects.toThrow('NEXT_NOT_FOUND');
