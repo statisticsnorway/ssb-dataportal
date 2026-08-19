@@ -10,6 +10,7 @@ import { formatCustodian, formatLanguages, formatLocaleDate } from '@/utils/func
 import { Page } from '@playwright/test';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { classificationDetailsTabsData } from '@/app/(details)/classifications/[id]/tabs';
+import { SupportedLanguages } from '@/libs/data-access/variable-definitions/internal';
 
 const classifications = classificationMock.classifications;
 const versions = versionsMock.versions;
@@ -17,7 +18,7 @@ const versions = versionsMock.versions;
 const currentVersion = versions![0];
 const olderVersion = versions![1];
 
-async function assertDetailsList(page: Page, version: (typeof versions)[number], selectedLanguage: string) {
+async function assertDetailsList(page: Page, version: (typeof versions)[number]) {
   const dds = page.locator('dl dd');
   const manager = dds.getByText(formatCustodian(parseVersion(version)), { exact: true });
   await expect(manager).toBeVisible();
@@ -25,17 +26,23 @@ async function assertDetailsList(page: Page, version: (typeof versions)[number],
   const emailDd = dds.filter({ hasText: version.contactPerson!.email! });
   await expect(emailDd).toBeVisible();
   await expect(emailDd).toHaveAttribute('lang', 'nb');
-  /*const validity = dl.locator('dd').getByText(formatLocaleDate(version.validFrom!), { exact: true });
+  const validity = dds.getByText(formatLocaleDate(version.validFrom!), { exact: true });
   await expect(validity).toBeVisible();
   await expect(validity).toHaveAttribute('lang', 'nb');
-  const publishedLanguages = dl
-    .locator('dd')
-    .getByText((version.published ?? []).filter(isSupportedLanguage).map(formatLanguages).join(', '), {
-      exact: true,
-    });
+  const publishedLanguages = dds.filter({
+    hasText: 'Norwegian (Bokmål), Norwegian (Nynorsk), English',
+  });
   await expect(publishedLanguages).toBeVisible();
-  await expect(publishedLanguages).toHaveAttribute('lang', selectedLanguage);*/
+  await expect(publishedLanguages).not.toHaveAttribute('lang', 'nb');
+  /*const legalBase = dds.getByText(version.legalBase!, { exact: true });
+  await expect(legalBase).toBeVisible();
+  await expect(legalBase).toHaveAttribute('lang', 'nb');*/
 }
+
+// test notRelevant
+//   "legalBase": "",
+//    "publications": "",
+//   "derivedFrom": "",
 
 test('Classifications details page have title', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[1]);
@@ -227,7 +234,7 @@ test('correct html lang fallback language current', async ({ classificationDetai
 
   await switchLanguage(page, 'English');
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-  await assertDetailsList(page, currentVersion!, 'en');
+  await assertDetailsList(page, currentVersion!);
 });
 /*
 test('correct html lang fallback language older', async ({ page }) => {
