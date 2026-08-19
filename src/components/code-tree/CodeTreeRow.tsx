@@ -37,6 +37,10 @@ export function CodeTreeRow({
   const isExpanded = expandedCodes.has(code.code);
   const isSelected = selectedCode === code.code;
 
+  const setFallbackLanguage = () => {
+    return fallbackLanguage ? { lang: fallbackLanguage } : {};
+  };
+
   return (
     <li role='treeitem' aria-expanded={hasChildren ? isExpanded : undefined} aria-selected={isSelected}>
       <div
@@ -46,7 +50,7 @@ export function CodeTreeRow({
       >
         {hasChildren ? (
           <button
-            {...(fallbackLanguage ? { lang: fallbackLanguage } : {})}
+            {...setFallbackLanguage()}
             type='button'
             className={styles.chevronButton}
             aria-expanded={isExpanded}
@@ -68,7 +72,7 @@ export function CodeTreeRow({
         )}
 
         <button
-          {...(fallbackLanguage ? { lang: fallbackLanguage } : {})}
+          {...setFallbackLanguage()}
           type='button'
           className={styles.rowBody}
           aria-label={`${localization.codeTree.selectCode} ${code.code}: ${code.name}`}
@@ -86,7 +90,7 @@ export function CodeTreeRow({
           <Dialog.TriggerContext>
             <Dialog.Trigger asChild>
               <button
-                {...(fallbackLanguage ? { lang: fallbackLanguage } : {})}
+                {...setFallbackLanguage()}
                 type='button'
                 className={styles.infoButton}
                 aria-label={`${localization.codeTree.notesButtonLabel} ${code.name}`}
@@ -96,7 +100,7 @@ export function CodeTreeRow({
             </Dialog.Trigger>
             <Dialog>
               <Dialog.Block>
-                <Heading {...(fallbackLanguage ? { lang: fallbackLanguage } : {})} level={1} data-size='md'>
+                <Heading {...setFallbackLanguage()} level={1} data-size='md'>
                   {code.name}
                 </Heading>
               </Dialog.Block>
@@ -104,11 +108,11 @@ export function CodeTreeRow({
                 {parseNotes(code.notes).map((section) => (
                   <div key={section.title ?? section.content} className={styles.notesSection}>
                     {section.title && (
-                      <Heading {...(fallbackLanguage ? { lang: fallbackLanguage } : {})} level={2} data-size='xs'>
+                      <Heading {...setFallbackLanguage()} level={2} data-size='xs'>
                         {section.title}
                       </Heading>
                     )}
-                    <p {...(fallbackLanguage ? { lang: fallbackLanguage } : {})}>{section.content}</p>
+                    <p {...setFallbackLanguage()}>{section.content}</p>
                   </div>
                 ))}
               </Dialog.Block>
