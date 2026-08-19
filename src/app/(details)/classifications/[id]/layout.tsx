@@ -93,18 +93,15 @@ export default async function ClassificationLayout({
     (a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0),
   )[0];
 
+  const resolveLanguage = () => {
+    return classification.fallbackLanguage
+      ? (classification.fallbackLanguage as SupportedLanguage)
+      : (language as SupportedLanguage);
+  };
   let latestVersionResource;
   try {
     const resourceId = versionNumber !== undefined ? Number(versionNumber) : latestSummary?.id;
-    latestVersionResource =
-      resourceId != null
-        ? await fetchVersionById(
-            resourceId,
-            classification.fallbackLanguage
-              ? (classification.fallbackLanguage as SupportedLanguage)
-              : (language as SupportedLanguage),
-          )
-        : null;
+    latestVersionResource = resourceId != null ? await fetchVersionById(resourceId, resolveLanguage()) : null;
   } catch (error) {
     logger.error({ id, error: sanitizeError(error) }, 'Failed to fetch latest version resource');
     return notFound();
