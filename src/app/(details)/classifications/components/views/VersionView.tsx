@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/suspicious/noConsole: <explanation> */
 'use client';
 
 import { Alert, Divider, Heading, Tabs, Tag } from '@digdir/designsystemet-react';
@@ -46,13 +45,34 @@ function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): 
 }
 
 export function VersionView({ classification, classificationVersion, children }: Readonly<VersionViewProps>) {
-  console.log(classification?.fallbackLanguage);
   const pathname = usePathname();
   const router = useRouter();
   const activeTab = getClassificationDetailsTabForRoute(pathname) ?? classificationDetailsTabsData.Codes;
 
   const versions = classification.versions ?? [];
   const resolved = resolveVersionFromPath(pathname, versions);
+
+  const resolvedVersionId = resolved?.version.id;
+  const resolvedIsLatest = resolved?.isLatest ?? false;
+
+  useEffect(() => {
+    if (!resolvedVersionId) return;
+
+    const versionPath = buildUrl({ classificationId: classification.id, versionId: resolvedVersionId });
+    if (pathname === versionPath) {
+      router.replace(`${versionPath}/${classificationDetailsTabsData.Codes.slug}`);
+      return;
+    }
+
+    const changesUrl = resolvedIsLatest
+      ? buildUrl({ classificationId: classification.id, tab: classificationDetailsTabsData.Changes.slug })
+      : buildUrl({
+          classificationId: classification.id,
+          versionId: resolvedVersionId,
+          tab: classificationDetailsTabsData.Changes.slug,
+        });
+    router.prefetch(changesUrl);
+  }, [router, pathname, classification.id, resolvedIsLatest, resolvedVersionId]);
 
   if (!resolved) {
     return (
@@ -75,17 +95,6 @@ export function VersionView({ classification, classificationVersion, children }:
     resolved.isLatest
       ? buildUrl({ classificationId: classification.id, tab })
       : buildUrl({ classificationId: classification.id, versionId: resolved.version.id, tab });
-
-  useEffect(() => {
-    const versionPath = buildUrl({ classificationId: classification.id, versionId: resolved.version.id });
-    if (pathname === versionPath) {
-      router.replace(`${versionPath}/${classificationDetailsTabsData.Codes.slug}`);
-      return;
-    }
-
-    // Changes can take 6s or more to load in so prefetch this to avoid the user having to wait on tab access
-    router.prefetch(getTabUrl(classificationDetailsTabsData.Changes.slug));
-  }, [router, pathname, classification.id, resolved.isLatest, resolved.version.id]);
 
   const validFromText =
     resolved.version.validFrom?.toLocaleDateString('nb-NO', {
