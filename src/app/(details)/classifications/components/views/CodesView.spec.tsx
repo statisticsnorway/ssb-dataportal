@@ -26,7 +26,7 @@ vi.mock('@/components/code-tree', () => ({
   ),
 }));
 
-vi.mock('@/app/(details)/classifications/components/download-codes', () => ({
+vi.mock('@/app/(details)/classifications/components/download-dialog', () => ({
   DownloadCodesDialog: () => <div data-testid='download-codes-dialog' />,
 }));
 
