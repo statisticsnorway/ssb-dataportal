@@ -113,7 +113,7 @@ export async function fetchCodesDownload({
 }: CodesDownloadRequest): Promise<{ content: string; mimeType: string }> {
   if (process.env.KLASS_USE_STATIC_DATA === 'true') {
     logger.warn({ versionId }, 'Using static mock data for version code download');
-    const codes = await fetchVersionCodes(versionId, language);
+    const codes = await fetchVersionCodes(versionId, toKlassLanguage(language) as VersionsLanguageEnum);
     return {
       content: JSON.stringify(codes, null, 2),
       mimeType: CODES_DOWNLOAD_ACCEPT.json,
