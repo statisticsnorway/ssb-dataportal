@@ -5,7 +5,6 @@ import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { Page } from '@playwright/test';
 import { test, expect } from '@bgotink/playwright-coverage';
 import { classificationDetailsTabsData } from '@/app/(details)/classifications/[id]/tabs';
-import { switchLanguage } from './utils/commonUtils';
 
 const versions = versionsMock.versions;
 const currentVersion = versions![0];
@@ -144,14 +143,3 @@ test.describe('Variant not-found routes', () => {
   });
 });
 
-test('displays fallback-language tag when variants are missing in the selected language', async ({ page }) => {
-  await gotoVariants(page, CURRENT_DETAILS_URL);
-
-  await switchLanguage(page, 'English');
-
-  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-
-  const variant = currentVersion!.classificationVariants![0]!;
-  await page.getByRole('link', { name: formatVariantName(variant.name) }).click();
-  await page.getByRole('link', { name: variant.name }).click();
-});

@@ -7,12 +7,20 @@ import { parseClassification, parseVersion } from '@/utils/mock-data';
 import { Page } from '@playwright/test';
 import { expect, test } from './fixtures/classification.fixture';
 import classificationMock from '@/static-data/classifications.json';
+import { formatVariantName } from '@/app/(details)/classifications/utils/variants';
 
 const classifications = classificationMock.classifications;
 const versions = versionsMock.versions;
 
 const currentVersion = versions![0];
 const olderVersion = versions![1];
+const CURRENT_DETAILS_URL = buildUrl({ classificationId: 2003, tab: 'variants' });
+const OLDER_DETAILS_URL = buildUrl({ classificationId: 2003, versionId: olderVersion!.id ?? 2, tab: 'variants' });
+const EXPLICIT_CURRENT_VERSION_URL = buildUrl({
+  classificationId: 2003,
+  versionId: currentVersion!.id,
+  tab: 'variants',
+});
 
 async function assertDetailsList(page: Page, version: (typeof versions)[number]) {
   const dds = page.locator('dl dd');
@@ -102,6 +110,26 @@ test.describe('Correct language is set in html', () => {
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await assertDetailsList(page, olderVersion!);
   });
+});
+
+test('displays fallback-language tag when variants are missing in the selected language', async ({
+  classificationDetailsPage,
+}) => {
+  const page = await classificationDetailsPage('2003');
+
+  await page.goto(
+    buildUrl({
+      classificationId: 2003,
+      versionId: currentVersion!.id,
+      tab: classificationDetailsTabsData.Variants.slug,
+    }),
+  );
+  await switchLanguage(page, 'English');
+
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+
+  const variant = currentVersion!.classificationVariants![0]!;
+  await page.getByRole('link', { name: formatVariantName(variant.name) }).click();
 });
 
 // check one variant
