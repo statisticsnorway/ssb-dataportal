@@ -14,6 +14,7 @@ export default function VariantsVersion() {
       classificationVersion={versionResource}
       classificationId={classification.id!}
       versionId={versionResource.id}
+      fallbackLanguage={classification.fallbackLanguage}
     />
   );
 }

@@ -9,5 +9,11 @@ export default function Variants() {
   if (!versionResource?.classificationVariants) {
     return notFound();
   }
-  return <VariantsView classificationVersion={versionResource} classificationId={classification.id!} />;
+  return (
+    <VariantsView
+      classificationVersion={versionResource}
+      classificationId={classification.id!}
+      fallbackLanguage={classification.fallbackLanguage}
+    />
+  );
 }

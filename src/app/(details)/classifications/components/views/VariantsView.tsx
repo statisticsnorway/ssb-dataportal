@@ -1,7 +1,6 @@
 import { Alert, Heading } from '@digdir/designsystemet-react';
-import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass';
-import { localization, SupportedLanguage } from '@/libs/language/src/localization';
+import { localization } from '@/libs/language/src/localization';
 import { buildUrl } from '../../utils/urls';
 import { formatVariantName, mapVariantItems } from '../../utils/variants';
 import { ClassificationCard } from '../classification-cards';
@@ -11,17 +10,16 @@ interface VariantsViewProps {
   classificationVersion: ClassificationVersionResource;
   classificationId: number;
   versionId?: number;
-  language?: SupportedLanguage;
+  fallbackLanguage?: string;
 }
 
-export default async function VariantsView({
+export default function VariantsView({
   classificationVersion,
   classificationId,
   versionId,
-  language,
+  fallbackLanguage,
 }: Readonly<VariantsViewProps>) {
   const variants = classificationVersion?.classificationVariants ?? [];
-  const classification = await fetchClassificationById(classificationId, language);
   const variantsBaseUrl =
     versionId === undefined ? buildUrl({ classificationId }) : buildUrl({ classificationId, versionId });
   return (
@@ -39,7 +37,7 @@ export default async function VariantsView({
             content={mapVariantItems(variant)}
             href={`${variantsBaseUrl}/variants/${variant.id}`}
             key={variant.id}
-            fallbackLanguage={classification?.fallbackLanguage}
+            fallbackLanguage={fallbackLanguage}
           />
         ))}
       {variants.length === 0 && (

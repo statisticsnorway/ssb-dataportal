@@ -1,14 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { ClassificationVersionResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import { buildUrl } from '../../utils/urls';
 import VariantsView from './VariantsView';
-
-vi.mock('server-only', () => ({}));
-vi.mock('@/libs/data/classifications/classificationData', () => ({
-  fetchClassificationById: vi.fn().mockResolvedValue({ fallbackLanguage: 'nb' }),
-}));
 
 const version = {
   id: 10,
