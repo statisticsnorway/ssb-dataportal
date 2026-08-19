@@ -46,4 +46,3 @@ test('displays version details older', async ({ page }) => {
   await gotoAbout(page, OLDER_DETAILS_URL);
   await assertDetailsList(page, olderVersion!);
 });
-

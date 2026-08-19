@@ -107,6 +107,6 @@ test.describe('Correct language is set in html', () => {
 // check one variant
 // current
 // prev version
-  // check all variants language
-  // card
-  // test fallback language
+// check all variants language
+// card
+// test fallback language

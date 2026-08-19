@@ -6,11 +6,8 @@ import { parseClassification } from '@/utils/mock-data';
 import { expect, test } from './fixtures/classification.fixture';
 import { CODES_PREV_VERSION_URL, CODES_PREV_VERSION_URL_CODES, formatDate, switchLanguage } from './utils/commonUtils';
 
-
-
 const classifications = classificationMock.classifications;
 const versions = versionsMock.versions;
-
 
 test('Classifications details page have title', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[1]);
