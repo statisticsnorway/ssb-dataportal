@@ -38,7 +38,7 @@ interface DownloadChangesDialogProps {
 
 interface DownloadDialogBaseProps {
   versionId: number;
-  filePrefix: string;
+  filePrefixByLanguage: Record<SupportedLanguage, string>;
   title: {
     button: string;
     formatLabel: string;
@@ -53,7 +53,7 @@ interface DownloadDialogBaseProps {
   }) => Promise<{ content: string; mimeType: string }>;
 }
 
-function DownloadDialog({ versionId, filePrefix, title, handleAction }: Readonly<DownloadDialogBaseProps>) {
+function DownloadDialog({ versionId, filePrefixByLanguage, title, handleAction }: Readonly<DownloadDialogBaseProps>) {
   const defaultLanguage = localization.getLanguage() as SupportedLanguage;
   const languageLabels: Record<SupportedLanguage, string> = {
     nb: localization.classification.about.langNB,
@@ -79,6 +79,7 @@ function DownloadDialog({ versionId, filePrefix, title, handleAction }: Readonly
 
     try {
       const payload = await handleAction({ language, format });
+      const filePrefix = filePrefixByLanguage[language];
       download(payload.content, payload.mimeType, `${filePrefix}-${versionId}-${language}.${format}`);
     } catch {
       setErrorMessage(title.error);
@@ -139,10 +140,22 @@ export function DownloadCodesDialog({
   validTo,
   isVariantDownload,
 }: Readonly<DownloadCodesDialogProps>) {
+  const filePrefixByLanguage = isVariantDownload
+    ? {
+        nb: 'klassifikasjon-variant-koder',
+        nn: 'klassifikasjon-variant-kodar',
+        en: 'classification-variant-codes',
+      }
+    : {
+        nb: 'klassifikasjon-koder',
+        nn: 'klassifikasjon-kodar',
+        en: 'classification-codes',
+      };
+
   return (
     <DownloadDialog
       versionId={versionId}
-      filePrefix={isVariantDownload ? 'classification-variant-codes' : 'classification-codes'}
+      filePrefixByLanguage={filePrefixByLanguage}
       title={localization.classification.download}
       handleAction={({ language, format }) => {
         if (isVariantDownload) {
@@ -174,7 +187,11 @@ export function DownloadChangesDialog({ versionId, classificationId, from, to }:
   return (
     <DownloadDialog
       versionId={versionId}
-      filePrefix='classification-changes'
+      filePrefixByLanguage={{
+        nb: 'klassifikasjon-endringer',
+        nn: 'klassifikasjon-endringar',
+        en: 'classification-changes',
+      }}
       title={localization.classification.download}
       handleAction={({ language, format }) =>
         downloadChangesAction({
