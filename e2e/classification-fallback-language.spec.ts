@@ -44,7 +44,7 @@ test.describe('Classifications displays fallback language', () => {
     await switchLanguage(page, 'English');
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await expect(page.getByRole('heading', { name: classification.name! })).toHaveAttribute('lang', 'nb');
-    const tag = page.getByText('Norwegian (Bokmål)', { exact: true });
+    const tag = page.locator('span.ds-tag', { hasText: 'Norwegian (Bokmål)' });
     await expect(tag).toBeVisible();
     await tag.hover();
     await expect(
@@ -63,7 +63,7 @@ test.describe('Classifications displays fallback language', () => {
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await expect(page.getByRole('heading', { name: classification.name! })).toHaveAttribute('lang', 'nb');
 
-    const tag = page.getByText('Norwegian (Bokmål)', { exact: true });
+    const tag = page.locator('span.ds-tag', { hasText: 'Norwegian (Bokmål)' });
     await expect(tag).toBeVisible();
 
     await tag.hover();
