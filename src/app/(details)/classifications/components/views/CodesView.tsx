@@ -48,6 +48,7 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
   const codes = version.classificationItems ?? [];
   const mappedCodes = useMemo(() => codes.map(toKlassCode), [codes]);
   const filteredCodes = useMemo(() => filterCodesWithAncestors(mappedCodes, filterTerm), [mappedCodes, filterTerm]);
+  const isClassificationDownloadReady = Boolean(classificationId && version.validFrom);
 
   return (
     <div className={styles.wrapper}>
@@ -91,7 +92,7 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
                   {allExpanded ? localization.codeTree.collapseAll : localization.codeTree.expandAll}
                 </Button>
               ) : null}
-              {version.id && classificationId && version.validFrom ? (
+              {version.id && (isVariantDownload || isClassificationDownloadReady) ? (
                 <DownloadCodesDialog
                   versionId={version.id}
                   classificationId={classificationId}

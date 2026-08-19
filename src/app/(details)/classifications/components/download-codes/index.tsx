@@ -59,12 +59,6 @@ export function DownloadCodesDialog({
     setErrorMessage(null);
     setIsDownloading(true);
 
-    if (!classificationId || !validFrom) {
-      setErrorMessage(localization.classification.downloadCodes.error);
-      setIsDownloading(false);
-      return;
-    }
-
     try {
       const payload = isVariantDownload
         ? await downloadVariantCodesAction({
@@ -72,14 +66,20 @@ export function DownloadCodesDialog({
             language,
             format,
           })
-        : await downloadCodesAction({
-            versionId,
-            classificationId,
-            validFrom: typeof validFrom === 'string' ? validFrom : validFrom.toISOString(),
-            validTo: typeof validTo === 'string' ? validTo : validTo?.toISOString(),
-            language,
-            format,
-          });
+        : await (async () => {
+            if (!classificationId || !validFrom) {
+              throw new Error('Missing classification download parameters');
+            }
+
+            return downloadCodesAction({
+              versionId,
+              classificationId,
+              validFrom: typeof validFrom === 'string' ? validFrom : validFrom.toISOString(),
+              validTo: typeof validTo === 'string' ? validTo : validTo?.toISOString(),
+              language,
+              format,
+            });
+          })();
 
       const filePrefix = isVariantDownload
         ? `classification-variant-codes-${versionId}`
