@@ -37,11 +37,7 @@ function getCodesClient(): CodesApi {
   return new CodesApi(new Configuration(buildKlassClientConfig()));
 }
 
-/**
- * Fetches codes for a specific classification version by its version ID.
- * Uses `VersionsApi.versions` and extracts `classificationItems`.
- * Falls back to static mock data when `KLASS_USE_STATIC_DATA=true`.
- */
+// only used in fetchSubjectFieldFilterValues and tests
 export async function fetchVersionCodes(
   versionId: number,
   language: VersionsLanguageEnum | undefined = VersionsLanguageEnum.NB,

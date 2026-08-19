@@ -32,6 +32,7 @@ describe('fetchVersion', () => {
     expect(result).toBeUndefined();
   });
 
+  // rewrite tests
   /*
   it('maps classificationItems from the API on the happy path', async () => {
     process.env.KLASS_USE_STATIC_DATA = 'false';
