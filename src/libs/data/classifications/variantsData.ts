@@ -24,6 +24,7 @@ function getVariantsClient(): VariantsApi {
   return new VariantsApi(new Configuration(config));
 }
 
+// unused??
 export async function fetchVariantById(
   id: number,
   language: SupportedLanguage | undefined = 'nb',

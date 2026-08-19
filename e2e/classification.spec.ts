@@ -186,3 +186,5 @@ test('displays fallback-language tag when classification is missing in the selec
     page.getByText('This classification is not available in the selected language', { exact: true }),
   ).toBeVisible();
 });
+
+// add test for version

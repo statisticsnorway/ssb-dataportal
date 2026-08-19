@@ -91,3 +91,5 @@ test('changes tab renders deleted codes', async ({ classificationDetailsPage }) 
   await expect(deletedRow.getByRole('cell', { name: 'Utgatt kode' })).toBeVisible();
   await expect(deletedRow.getByRole('cell', { name: '-' }).first()).toBeVisible();
 });
+
+// test fallback language

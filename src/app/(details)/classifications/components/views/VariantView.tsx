@@ -7,6 +7,7 @@ import { formatVariantName, mapVariantDetails } from '@/app/(details)/classifica
 import { DetailsList } from '@/components/details-list';
 import { fetchVariantForClassification } from '@/libs/data/classifications/variantsData';
 import { localization } from '@/libs/language/src/localization';
+import { useVersion } from '../versionContext';
 import { CodesView } from './CodesView';
 import styles from './views.module.css';
 
@@ -17,16 +18,18 @@ interface VariantViewProps {
   backHref: string;
 }
 
+// Why is request language fetched here??
 export default async function VariantView({
   classificationId,
   variantId,
   versionId,
   backHref,
 }: Readonly<VariantViewProps>) {
+  const { classification } = useVersion();
   const variant = await fetchVariantForClassification(
     classificationId,
     variantId,
-    await getRequestLanguage(),
+    classification.fallbackLanguage ? classification.fallbackLanguage : await getRequestLanguage(),
     versionId,
   );
   if (!variant?.classificationItems) return notFound();
