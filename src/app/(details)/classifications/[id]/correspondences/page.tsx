@@ -6,7 +6,7 @@ import CorrespondencesView from '../../components/views/CorrespondencesView';
 
 export default function Correspondences() {
   const { classification, versionResource } = useVersion();
-  if (!versionResource) {
+  if (!versionResource || classification.id === undefined) {
     return notFound();
   }
   return <CorrespondencesView classificationId={classification.id} classificationVersion={versionResource} />;
