@@ -3,10 +3,12 @@ import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { classificationDetailsTabsData } from '@/app/(details)/classifications/[id]/tabs';
 import { switchLanguage } from './utils/commonUtils';
 import { formatCustodian, formatLocaleDate } from '@/utils/functions';
-import { parseVersion } from '@/utils/mock-data';
+import { parseClassification, parseVersion } from '@/utils/mock-data';
 import { Page } from '@playwright/test';
 import { expect, test } from './fixtures/classification.fixture';
+import classificationMock from '@/static-data/classifications.json';
 
+const classifications = classificationMock.classifications;
 const versions = versionsMock.versions;
 
 const currentVersion = versions![0];
@@ -29,37 +31,75 @@ async function assertDetailsList(page: Page, version: (typeof versions)[number])
   await expect(publishedLanguages).toBeVisible();
   await expect(publishedLanguages).not.toHaveAttribute('lang', 'nb');
   const noData = dds.getByText('Not relevant', { exact: true });
-  for (let i = 0; i < await noData.count(); i++) {
+  for (let i = 0; i < (await noData.count()); i++) {
     await expect(noData.nth(i)).toBeVisible();
     await expect(noData.nth(i)).not.toHaveAttribute('lang', 'nb');
   }
 }
 
-test('correct html lang fallback language current', async ({ classificationDetailsPage }) => {
-  const page = await classificationDetailsPage('2003');
-  await page.goto(
-    buildUrl({
-      classificationId: 2003,
-      tab: classificationDetailsTabsData.Details.slug,
-    }),
-  );
-  await expect(page.locator('dl').first()).toBeVisible();
+test.describe('Classifications displays fallback language', () => {
+  test('fallback language display tag with fallback language set', async ({ classificationDetailsPage }) => {
+    const classification = parseClassification(classifications[0]);
+    const page = await classificationDetailsPage(classification.id!);
+    await switchLanguage(page, 'English');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await expect(page.getByRole('heading', { name: classification.name! })).toHaveAttribute('lang', 'nb');
+    const tag = page.getByText('Norwegian (Bokmål)', { exact: true });
+    await expect(tag).toBeVisible();
+    await tag.hover();
+    await expect(
+      page.getByText('This classification is not available in the selected language', { exact: true }),
+    ).toBeVisible();
+  });
 
-  await switchLanguage(page, 'English');
-  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-  await assertDetailsList(page, currentVersion!);
+  test('displays fallback-language tag when classification is missing in the selected language', async ({
+    classificationDetailsPage,
+  }) => {
+    const classification = parseClassification(classifications[0]);
+    const page = await classificationDetailsPage(classification.id!);
+
+    await switchLanguage(page, 'English');
+
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await expect(page.getByRole('heading', { name: classification.name! })).toHaveAttribute('lang', 'nb');
+
+    const tag = page.getByText('Norwegian (Bokmål)', { exact: true });
+    await expect(tag).toBeVisible();
+
+    await tag.hover();
+    await expect(
+      page.getByText('This classification is not available in the selected language', { exact: true }),
+    ).toBeVisible();
+  });
 });
 
-test('correct html lang fallback language older', async ({ classificationDetailsPage }) => {
-  const page = await classificationDetailsPage('2003');
-  await page.goto(
-    buildUrl({
-      classificationId: 2003,
-      versionId: olderVersion!.id,
-      tab: classificationDetailsTabsData.Details.slug,
-    }),
-  );
-  await switchLanguage(page, 'English');
-  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-  await assertDetailsList(page, olderVersion!);
+test.describe('Correct language is set in html', () => {
+  test('correct html lang fallback language current details', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage('2003');
+    await page.goto(
+      buildUrl({
+        classificationId: 2003,
+        tab: classificationDetailsTabsData.Details.slug,
+      }),
+    );
+    await expect(page.locator('dl').first()).toBeVisible();
+
+    await switchLanguage(page, 'English');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await assertDetailsList(page, currentVersion!);
+  });
+
+  test('correct html lang fallback language older details', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage('2003');
+    await page.goto(
+      buildUrl({
+        classificationId: 2003,
+        versionId: olderVersion!.id,
+        tab: classificationDetailsTabsData.Details.slug,
+      }),
+    );
+    await switchLanguage(page, 'English');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await assertDetailsList(page, olderVersion!);
+  });
 });
