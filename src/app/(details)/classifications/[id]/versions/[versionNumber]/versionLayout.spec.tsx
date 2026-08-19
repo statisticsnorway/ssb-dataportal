@@ -5,10 +5,15 @@ vi.mock('server-only', () => ({}));
 const mocks = vi.hoisted(() => ({
   fetchClassificationById: vi.fn(),
   fetchVersionById: vi.fn(),
+  getRequestLanguage: vi.fn().mockResolvedValue('nb'),
   notFound: vi.fn(() => {
     throw new Error('NEXT_NOT_FOUND');
   }),
   logger: { error: vi.fn(), warn: vi.fn(), info: vi.fn(), debug: vi.fn() },
+}));
+
+vi.mock('@/libs/data/classifications/utils', () => ({
+  getRequestLanguage: vi.fn().mockResolvedValue('nb'),
 }));
 
 vi.mock('next/navigation', () => ({ notFound: mocks.notFound }));
@@ -23,11 +28,6 @@ vi.mock('@/libs/data/classifications/versionsData', () => ({
 
 vi.mock('@/libs/logger/server-logger', () => ({
   createLogger: () => mocks.logger,
-}));
-
-// The layout file itself exports getRequestLanguage — mock it there.
-vi.mock('../../layout', () => ({
-  getRequestLanguage: vi.fn().mockResolvedValue('nb'),
 }));
 
 const baseClassification = {
