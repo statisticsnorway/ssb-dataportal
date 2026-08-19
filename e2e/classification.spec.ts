@@ -148,4 +148,3 @@ test('sorts versions by "valid from" when clicking the column header', async ({ 
   await expect(rows.nth(1)).toContainText(currentVersion!.name!);
   await expect(rows.nth(2)).toContainText(olderVersion!.name!);
 });
-
