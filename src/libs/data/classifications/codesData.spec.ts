@@ -3,7 +3,7 @@ import { CodesApi } from '@/libs/data-access/klass';
 import { VersionsApi } from '@/libs/data-access/klass/apis/VersionsApi';
 import { ResponseError } from '@/libs/data-access/klass/runtime';
 import codesMock from '@/static-data/codes-mock.json';
-import { fetchChanges, fetchVersionCodes } from './codesData';
+import { fetchChanges, fetchChangesDownload, fetchVersionCodes } from './codesData';
 
 vi.mock('server-only', () => ({}));
 
@@ -109,5 +109,22 @@ describe('fetchChanges', () => {
     vi.spyOn(CodesApi.prototype, 'changes').mockRejectedValue(new Error('Network failure'));
 
     await expect(fetchChanges(646, new Date(), undefined)).rejects.toThrow('Network failure');
+  });
+});
+
+describe('fetchChangesDownload', () => {
+  it('returns static mock data as json when KLASS_USE_STATIC_DATA is true', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
+
+    const result = await fetchChangesDownload({
+      classificationId: 91,
+      from: new Date('2020-01-01'),
+      to: undefined,
+      language: 'nb',
+      format: 'csv',
+    });
+
+    expect(result.mimeType).toBe('application/json');
+    expect(result.content).toContain('Belarus');
   });
 });

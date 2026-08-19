@@ -91,3 +91,24 @@ test('changes tab renders deleted codes', async ({ classificationDetailsPage }) 
   await expect(deletedRow.getByRole('cell', { name: 'Utgatt kode' })).toBeVisible();
   await expect(deletedRow.getByRole('cell', { name: '-' }).first()).toBeVisible();
 });
+
+test('changes tab supports downloading changes', async ({ classificationDetailsPage }) => {
+  const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID);
+
+  const openDownloadDialog = page.getByRole('button', {
+    name: localization.classification.download.button,
+  });
+  await openDownloadDialog.click();
+
+  const dialog = page.getByRole('dialog');
+  await expect(dialog).toBeVisible();
+  await dialog.getByLabel(localization.classification.download.formatLabel).selectOption('xml');
+  await dialog.getByLabel(localization.classification.download.languageLabel).selectOption('en');
+
+  const [download] = await Promise.all([
+    page.waitForEvent('download'),
+    dialog.getByRole('button', { name: localization.classification.download.confirm }).click(),
+  ]);
+
+  expect(download.suggestedFilename()).toMatch(/^classification-changes-\d+-en\.xml$/);
+});

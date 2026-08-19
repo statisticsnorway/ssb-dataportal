@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { VariantsApi } from '@/libs/data-access/klass/apis/VariantsApi';
 import { ResponseError } from '@/libs/data-access/klass/runtime';
 import { fetchClassificationById } from './classificationData';
-import { fetchVariantById, fetchVariantForClassification } from './variantsData';
+import { fetchVariantById, fetchVariantCodesDownload, fetchVariantForClassification } from './variantsData';
 import { fetchVersionById } from './versionsData';
 
 vi.mock('server-only', () => ({}));
@@ -14,6 +14,23 @@ const classification = {
   versions: [
     { id: 10, validFrom: new Date('2020-01-01') },
     { id: 20, validFrom: new Date('2024-01-01') },
+  ],
+};
+
+const variantResource = {
+  id: 3530,
+  name: 'Canonical Variant Name',
+  classificationItems: [
+    {
+      code: 'A',
+      parentCode: undefined,
+      level: '1',
+      name: 'Alpha',
+      shortName: 'Alpha',
+      notes: 'Note',
+      validFrom: new Date('2025-01-01'),
+      validTo: undefined,
+    },
   ],
 };
 
@@ -132,5 +149,48 @@ describe('fetchVariantById', () => {
     vi.spyOn(VariantsApi.prototype, 'variants').mockRejectedValue(error);
 
     await expect(fetchVariantById(42)).rejects.toBe(error);
+  });
+});
+
+describe('fetchVariantCodesDownload', () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+    vi.clearAllMocks();
+    vi.spyOn(VariantsApi.prototype, 'variants').mockResolvedValue(variantResource);
+  });
+
+  it('returns csv with same header structure as codes tab', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
+
+    const payload = await fetchVariantCodesDownload({
+      variantId: 3530,
+      language: 'nb',
+      format: 'csv',
+    });
+
+    const firstLine = payload.content.split('\n')[0];
+    expect(firstLine).toBe(
+      '"code","parentCode","level","name","shortName","presentationName","validFrom","validTo","validFromInRequestedRange","validToInRequestedRange","notes"',
+    );
+    expect(payload.mimeType).toContain('text/csv');
+  });
+
+  it('returns xml with codeList root and codeItem entries', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
+
+    const payload = await fetchVariantCodesDownload({ variantId: 3530, language: 'nb', format: 'xml' });
+
+    expect(payload.content).toContain('<codeList>');
+    expect(payload.content).toContain('<codeItem>');
+    expect(payload.mimeType).toContain('application/xml');
+  });
+
+  it('returns json content with codes wrapper when requested', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
+
+    const payload = await fetchVariantCodesDownload({ variantId: 3530, language: 'nb', format: 'json' });
+
+    expect(payload.content).toContain('"codes"');
+    expect(payload.mimeType).toContain('application/json');
   });
 });

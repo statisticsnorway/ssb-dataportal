@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@digdir/designsystemet-react';
+import type { ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 import { localization } from '@/libs/language';
 import type { CodeTreeNode, KlassCode } from '@/types/klass-codes';
@@ -13,6 +14,7 @@ export interface CodeTreeProps {
   codes: KlassCode[];
   /** Called with the KlassCode the user clicked. Optional. */
   onChange?: (code: KlassCode) => void;
+  toolbar?: (controls: { allExpanded: boolean; hasExpandableNodes: boolean; toggleAll: () => void }) => ReactNode;
   fallbackLanguage?: string;
 }
 
@@ -30,7 +32,7 @@ function collectParentCodes(nodes: CodeTreeNode[]): string[] {
  * - Row-body clicks select a code (aria-pressed); chevron clicks toggle expansion.
  * - Purely presentational — no data fetching.
  */
-export function CodeTree({ codes, onChange, fallbackLanguage }: Readonly<CodeTreeProps>) {
+export function CodeTree({ codes, onChange, toolbar, fallbackLanguage }: Readonly<CodeTreeProps>) {
   const tree = useMemo(() => buildCodeTree(codes), [codes]);
   const allParentCodes = useMemo(() => collectParentCodes(tree), [tree]);
 
@@ -64,11 +66,15 @@ export function CodeTree({ codes, onChange, fallbackLanguage }: Readonly<CodeTre
 
   return (
     <div>
-      {allParentCodes.length > 0 && (
+      {(allParentCodes.length > 0 || toolbar) && (
         <div className={styles.toolbar}>
-          <Button variant='secondary' onClick={handleToggleAll} aria-expanded={allExpanded}>
-            {allExpanded ? localization.codeTree.collapseAll : localization.codeTree.expandAll}
-          </Button>
+          {toolbar ? (
+            toolbar({ allExpanded, hasExpandableNodes: allParentCodes.length > 0, toggleAll: handleToggleAll })
+          ) : (
+            <Button variant='secondary' onClick={handleToggleAll} aria-expanded={allExpanded}>
+              {allExpanded ? localization.codeTree.collapseAll : localization.codeTree.expandAll}
+            </Button>
+          )}
         </div>
       )}
       <div className={styles.treeCard}>

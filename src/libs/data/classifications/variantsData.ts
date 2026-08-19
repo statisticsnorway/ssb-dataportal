@@ -1,12 +1,14 @@
 'use server';
 
-import { VariantsApi, VariantsLanguageEnum } from '@/libs/data-access/klass/apis/VariantsApi';
+import type { FileDownloadFormat } from '@/libs/data/classifications/codesData';
+import { VariantsApi } from '@/libs/data-access/klass/apis/VariantsApi';
+import type { ClassificationItemResource } from '@/libs/data-access/klass/models';
 import {
   ClassificationVariantResource,
   ClassificationVariantResourceFromJSONTyped,
 } from '@/libs/data-access/klass/models';
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
-import { SupportedLanguage } from '@/libs/language';
+import { SupportedLanguage, toKlassLanguage } from '@/libs/language';
 import { createLogger } from '@/libs/logger/server-logger';
 import versionsMock from '@/static-data/versions.json';
 import { getUserAgent } from '@/utils/userAgent';
@@ -14,6 +16,68 @@ import { fetchClassificationById } from './classificationData';
 import { fetchVersionById } from './versionsData';
 
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
+const VARIANT_DOWNLOAD_ACCEPT = {
+  csv: 'text/csv',
+  xml: 'application/xml',
+  json: 'application/json',
+} as const;
+
+function toDateString(value?: Date): string {
+  if (!value) return '';
+  return value.toISOString().slice(0, 10);
+}
+
+function escapeCsv(value: string): string {
+  return `"${value.replaceAll('"', '""')}"`;
+}
+
+function toCodesCsv(codes: ClassificationItemResource[]): string {
+  const header =
+    '"code","parentCode","level","name","shortName","presentationName","validFrom","validTo","validFromInRequestedRange","validToInRequestedRange","notes"';
+
+  const rows = codes.map((code) => {
+    const validFrom = toDateString(code.validFrom);
+    const validTo = toDateString(code.validTo);
+    return [
+      code.code ?? '',
+      code.parentCode ?? '',
+      code.level ?? '',
+      code.name ?? '',
+      code.shortName ?? '',
+      '',
+      validFrom,
+      validTo,
+      validFrom,
+      validTo,
+      code.notes ?? '',
+    ]
+      .map(escapeCsv)
+      .join(',');
+  });
+
+  return [header, ...rows].join('\n');
+}
+
+function escapeXml(value: string): string {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&apos;');
+}
+
+function toCodesXml(codes: ClassificationItemResource[]): string {
+  const body = codes
+    .map((code) => {
+      const validFrom = toDateString(code.validFrom);
+      const validTo = toDateString(code.validTo);
+      return `<codeItem><code>${escapeXml(code.code ?? '')}</code><parentCode>${escapeXml(code.parentCode ?? '')}</parentCode><level>${escapeXml(code.level ?? '')}</level><name>${escapeXml(code.name ?? '')}</name><shortName>${escapeXml(code.shortName ?? '')}</shortName><presentationName></presentationName><validFrom>${escapeXml(validFrom)}</validFrom><validTo>${escapeXml(validTo)}</validTo><validFromInRequestedRange>${escapeXml(validFrom)}</validFromInRequestedRange><validToInRequestedRange>${escapeXml(validTo)}</validToInRequestedRange><notes>${escapeXml(code.notes ?? '')}</notes></codeItem>`;
+    })
+    .join('');
+
+  return `<codeList>${body}</codeList>`;
+}
 
 function getVariantsClient(): VariantsApi {
   const config: ConfigurationParameters = {
@@ -43,7 +107,7 @@ export async function fetchVariantById(
   }
 
   try {
-    return await getVariantsClient().variants({ id, language: language?.toUpperCase() as VariantsLanguageEnum }, {
+    return await getVariantsClient().variants({ id, language: toKlassLanguage(language) }, {
       cache: 'force-cache',
       next: { revalidate: ttlSeconds },
     } as RequestInit);
@@ -82,4 +146,47 @@ export async function fetchVariantForClassification(
   if (!belongsToVersion) return undefined;
 
   return fetchVariantById(variantId, language);
+}
+
+export async function fetchVariantCodesDownload({
+  variantId,
+  language,
+  format,
+}: {
+  variantId: number;
+  language: SupportedLanguage;
+  format: FileDownloadFormat;
+}): Promise<{ content: string; mimeType: string }> {
+  const logger = createLogger('classification-variants-data');
+
+  try {
+    const variant = await fetchVariantById(variantId, language);
+    const codes = variant?.classificationItems ?? [];
+
+    if (format === 'json') {
+      return {
+        content: JSON.stringify({ codes }, null, 2),
+        mimeType: VARIANT_DOWNLOAD_ACCEPT.json,
+      };
+    }
+
+    if (format === 'xml') {
+      return {
+        content: toCodesXml(codes),
+        mimeType: VARIANT_DOWNLOAD_ACCEPT.xml,
+      };
+    }
+
+    return {
+      content: toCodesCsv(codes),
+      mimeType: VARIANT_DOWNLOAD_ACCEPT.csv,
+    };
+  } catch (error: unknown) {
+    if (error instanceof ResponseError) {
+      logger.error({ statusCode: error.response.status, variantId }, 'Variant codes download failed');
+    } else {
+      logger.error({ error: String(error), variantId }, 'Unexpected error during variant codes download');
+    }
+    throw error;
+  }
 }

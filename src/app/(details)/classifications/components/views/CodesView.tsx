@@ -1,7 +1,8 @@
 'use client';
 
-import { Search } from '@digdir/designsystemet-react';
+import { Button, Search } from '@digdir/designsystemet-react';
 import { useMemo, useState } from 'react';
+import { DownloadCodesDialog } from '@/app/(details)/classifications/components/download-dialog';
 import { CodeTree } from '@/components/code-tree';
 import { ClassificationItemResource, ClassificationVersionResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
@@ -14,7 +15,9 @@ import { useVersion } from '../versionContext';
 import styles from './views.module.css';
 
 interface CodesViewProps {
-  version: Pick<ClassificationVersionResource, 'classificationItems' | 'levels'>;
+  version: Pick<ClassificationVersionResource, 'classificationItems' | 'levels' | 'id' | 'validFrom' | 'validTo'>;
+  classificationId?: number;
+  isVariantDownload?: boolean;
 }
 
 function toDateString(value?: string | Date | null): string | undefined {
@@ -41,11 +44,12 @@ function toKlassCode(item: ClassificationItemResource): KlassCode {
  * The classification layout already supplies the heading, breadcrumbs and tab chrome;
  * this component is responsible for filter inputs and rendering the filtered tree.
  */
-export function CodesView({ version }: Readonly<CodesViewProps>) {
+export function CodesView({ version, classificationId, isVariantDownload }: Readonly<CodesViewProps>) {
   const [filterTerm, setFilterTerm] = useState('');
   const codes = version.classificationItems ?? [];
   const mappedCodes = useMemo(() => codes.map(toKlassCode), [codes]);
   const filteredCodes = useMemo(() => filterCodesWithAncestors(mappedCodes, filterTerm), [mappedCodes, filterTerm]);
+  const isClassificationDownloadReady = Boolean(classificationId && version.validFrom);
 
   const { classification } = useVersion();
   return (
@@ -68,20 +72,42 @@ export function CodesView({ version }: Readonly<CodesViewProps>) {
           />
         }
       />
-      <div className={styles.searchScope}>
-        <Search>
-          <Search.Input
-            id='codes-filter-input'
-            aria-label={localization.codeTree.filterLabel}
-            placeholder={localization.codeTree.filterPlaceholder}
-            value={filterTerm}
-            onChange={(event) => setFilterTerm(event.target.value)}
-          />
-          <Search.Clear aria-label={localization.codeTree.clearFilter} onClick={() => setFilterTerm('')} />
-          <Search.Button variant='secondary'>{localization.codeTree.filterButton}</Search.Button>
-        </Search>
-      </div>
-      <CodeTree codes={filteredCodes} fallbackLanguage={classification.fallbackLanguage} />
+      <CodeTree
+        codes={filteredCodes}
+        toolbar={({ allExpanded, hasExpandableNodes, toggleAll }) => (
+          <div className={styles.codesTools}>
+            <div className={styles.searchScope}>
+              <Search>
+                <Search.Input
+                  id='codes-filter-input'
+                  aria-label={localization.codeTree.filterLabel}
+                  placeholder={localization.codeTree.filterPlaceholder}
+                  value={filterTerm}
+                  onChange={(event) => setFilterTerm(event.target.value)}
+                />
+                <Search.Clear aria-label={localization.codeTree.clearFilter} onClick={() => setFilterTerm('')} />
+                <Search.Button variant='secondary'>{localization.codeTree.filterButton}</Search.Button>
+              </Search>
+            </div>
+            <div className={styles.codeTreeToolbar}>
+              {hasExpandableNodes ? (
+                <Button variant='secondary' onClick={toggleAll} aria-expanded={allExpanded}>
+                  {allExpanded ? localization.codeTree.collapseAll : localization.codeTree.expandAll}
+                </Button>
+              ) : null}
+              {version.id && (isVariantDownload || isClassificationDownloadReady) ? (
+                <DownloadCodesDialog
+                  versionId={version.id}
+                  classificationId={classificationId}
+                  validFrom={version.validFrom}
+                  validTo={version.validTo}
+                  isVariantDownload={isVariantDownload}
+                />
+              ) : null}
+            </div>
+          </div>
+        )}
+      />
     </div>
   );
 }

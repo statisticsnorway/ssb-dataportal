@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import type { ReactNode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { ClassificationItemResource } from '@/libs/data-access/klass/models/ClassificationItemResource';
 import versionsMock from '@/static-data/versions.json';
@@ -7,13 +8,26 @@ import { parseVersion } from '@/utils/mock-data';
 import { CodesView } from './CodesView';
 
 vi.mock('@/components/code-tree', () => ({
-  CodeTree: ({ codes }: { codes: KlassCode[] }) => (
-    <ul aria-label='filtered-codes'>
-      {codes.map((code) => (
-        <li key={code.code}>{`${code.code}:${code.name}`}</li>
-      ))}
-    </ul>
+  CodeTree: ({
+    codes,
+    toolbar,
+  }: {
+    codes: KlassCode[];
+    toolbar?: (controls: { allExpanded: boolean; hasExpandableNodes: boolean; toggleAll: () => void }) => ReactNode;
+  }) => (
+    <>
+      {toolbar ? toolbar({ allExpanded: false, hasExpandableNodes: true, toggleAll: vi.fn() }) : null}
+      <ul aria-label='filtered-codes'>
+        {codes.map((code) => (
+          <li key={code.code}>{`${code.code}:${code.name}`}</li>
+        ))}
+      </ul>
+    </>
   ),
+}));
+
+vi.mock('@/app/(details)/classifications/components/download-dialog', () => ({
+  DownloadCodesDialog: () => <div data-testid='download-codes-dialog' />,
 }));
 
 const codes: ClassificationItemResource[] = [
@@ -72,5 +86,11 @@ describe('CodesView', () => {
 
     expect(screen.getByText(visible)).toBeInTheDocument();
     expect(screen.queryByText(hidden)).not.toBeInTheDocument();
+  });
+
+  it('renders download dialog trigger on codes tab when download data is available', () => {
+    render(<CodesView version={version} classificationId={2003} />);
+
+    expect(screen.getByTestId('download-codes-dialog')).toBeInTheDocument();
   });
 });

@@ -7,6 +7,19 @@
   max-width: 30rem;
 }
 
+.codesTools {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.codeTreeToolbar {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
 .tabsPanel {
   --dsc-tabs-content-padding: 0;
   padding-top: 1rem;
@@ -78,6 +91,13 @@
   padding-block-end: var(--ds-size-2, 0.5rem);
 }
 
+.tableActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--ds-size-2, 0.5rem);
+}
+
 .introduction {
   overflow-wrap: break-word;
   hyphens: auto;
@@ -94,6 +114,20 @@
 }
 
 @media (min-width: 768px) {
+  .codesTools {
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .searchScope {
+    flex: 1;
+  }
+
+  .codeTreeToolbar {
+    justify-content: flex-end;
+  }
+
   .table {
     --dsc-table-padding: var(--ds-size-2) var(--ds-size-3);
   }

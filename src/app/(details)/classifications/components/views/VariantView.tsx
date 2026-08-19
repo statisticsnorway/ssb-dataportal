@@ -49,7 +49,7 @@ export default async function VariantView({
       <Heading className='secondaryHeading' data-size='md' level={2}>
         {localization.classificationDetails.codes}
       </Heading>
-      <CodesView version={variant} />
+      <CodesView version={variant} classificationId={classificationId} isVariantDownload={true} />
     </div>
   );
 }
