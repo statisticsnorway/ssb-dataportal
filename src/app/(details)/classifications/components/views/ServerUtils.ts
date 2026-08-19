@@ -2,7 +2,7 @@
 
 import { cookies, headers } from 'next/headers';
 import { languageCookieName, resolveLanguage } from '@/libs/language';
-
+// move to libs
 export async function getRequestLanguage(): Promise<string> {
   const cookieStore = await cookies();
   const requestHeaders = await headers();
