@@ -10,7 +10,7 @@ import {
   TableHeaderCell,
   TableRow,
 } from '@digdir/designsystemet-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { fetchChanges } from '@/libs/data/classifications/codesData';
 import {
   ClassificationResource,
@@ -39,13 +39,20 @@ export default function ChangesView({
 
   const hasPreviousVersion =
     sortedVersions.length > 1 && previousVersion?.validFrom !== undefined && classification.id !== undefined;
+  const changesFrom = useMemo(() => {
+    if (!hasPreviousVersion || !previousVersion?.validFrom) {
+      return null;
+    }
+
+    return getDayBeforeDate(previousVersion.validFrom as Date);
+  }, [hasPreviousVersion, previousVersion?.validFrom]);
 
   const [changes, setChanges] = useState<CodeChangeItem[] | null>(null);
 
   const handleInvertTable = () => setInverted((v) => !v);
 
   useEffect(() => {
-    if (!hasPreviousVersion || !previousVersion?.validFrom || classification.id === undefined) {
+    if (!hasPreviousVersion || !changesFrom || classification.id === undefined) {
       return;
     }
 
@@ -53,14 +60,14 @@ export default function ChangesView({
       setChanges(
         await fetchChanges(
           classification.id as number,
-          getDayBeforeDate(previousVersion.validFrom as Date),
+          changesFrom,
           version.validTo,
           localization.getLanguage().toUpperCase() as VersionsLanguageEnum,
         ),
       );
     };
     getChanges();
-  }, [hasPreviousVersion, classification.id, previousVersion?.validFrom, version.validTo]);
+  }, [hasPreviousVersion, classification.id, changesFrom?.getTime(), version.validTo?.getTime()]);
 
   const groupedChanges = groupChanges(changes ?? [], inverted);
 
