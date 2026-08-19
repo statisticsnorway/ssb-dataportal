@@ -1,4 +1,7 @@
+'use client';
+
 import { notFound } from 'next/navigation';
+import { useVersion } from '@/app/(details)/classifications/components/versionContext';
 import VariantView from '@/app/(details)/classifications/components/views/VariantView';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 
@@ -9,6 +12,7 @@ export default async function VersionVariantPage({
 }>) {
   const { id: classificationIdParam, versionNumber, variantId } = await params;
   const classificationId = Number(classificationIdParam);
+  const { classification } = useVersion();
   const versionId = Number(versionNumber);
   const variantIdNumber = Number(variantId);
   if (Number.isNaN(classificationId) || Number.isNaN(versionId) || Number.isNaN(variantIdNumber)) return notFound();
@@ -19,6 +23,7 @@ export default async function VersionVariantPage({
       variantId={variantIdNumber}
       versionId={versionId}
       backHref={buildUrl({ classificationId, versionId, tab: 'variants' })}
+      fallbackLanguage={classification.fallbackLanguage}
     />
   );
 }
