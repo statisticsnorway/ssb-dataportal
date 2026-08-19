@@ -7,6 +7,13 @@ import type { KlassCode } from '@/types/klass-codes';
 import { parseVersion } from '@/utils/mock-data';
 import { CodesView } from './CodesView';
 
+vi.mock('../versionContext', () => ({
+  useVersion: () => ({
+    classification: { id: 2003, fallbackLanguage: 'nb' },
+    versionResource: undefined,
+  }),
+}));
+
 vi.mock('@/components/code-tree', () => ({
   CodeTree: ({
     codes,
