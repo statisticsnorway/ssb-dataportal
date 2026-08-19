@@ -1,7 +1,7 @@
 'use server';
 
 import {
-  type CodesDownloadFormat,
+  type FileDownloadFormat,
   fetchChangesDownload,
   fetchCodesDownload,
 } from '@/libs/data/classifications/codesData';
@@ -21,7 +21,7 @@ export async function downloadCodesAction({
   validFrom: string;
   validTo?: string;
   language: SupportedLanguage;
-  format: CodesDownloadFormat;
+  format: FileDownloadFormat;
 }) {
   return fetchCodesDownload({
     versionId,
@@ -40,7 +40,7 @@ export async function downloadVariantCodesAction({
 }: {
   variantId: number;
   language: SupportedLanguage;
-  format: CodesDownloadFormat;
+  format: FileDownloadFormat;
 }) {
   return fetchVariantCodesDownload({
     variantId,
@@ -60,7 +60,7 @@ export async function downloadChangesAction({
   from: string;
   to?: string;
   language: SupportedLanguage;
-  format: CodesDownloadFormat;
+  format: FileDownloadFormat;
 }) {
   return fetchChangesDownload({
     classificationId,

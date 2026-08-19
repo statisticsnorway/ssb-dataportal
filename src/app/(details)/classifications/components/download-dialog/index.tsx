@@ -2,12 +2,12 @@
 
 import { Button, Dialog, Field, Label, Select } from '@digdir/designsystemet-react';
 import { useState } from 'react';
-import type { CodesDownloadFormat } from '@/libs/data/classifications/codesData';
+import type { FileDownloadFormat } from '@/libs/data/classifications/codesData';
 import { localization, type SupportedLanguage, supportedLanguages } from '@/libs/language';
 import { downloadChangesAction, downloadCodesAction, downloadVariantCodesAction } from './actions';
 import styles from './download-dialog.module.css';
 
-const FORMAT_OPTIONS = ['csv', 'xml', 'json'] as const satisfies ReadonlyArray<CodesDownloadFormat>;
+const FORMAT_OPTIONS = ['csv', 'xml', 'json'] as const satisfies ReadonlyArray<FileDownloadFormat>;
 
 function download(content: string, mimeType: string, fileName: string) {
   const blob = new Blob([content], { type: mimeType });
@@ -49,7 +49,7 @@ interface DownloadDialogBaseProps {
   };
   handleAction: (args: {
     language: SupportedLanguage;
-    format: CodesDownloadFormat;
+    format: FileDownloadFormat;
   }) => Promise<{ content: string; mimeType: string }>;
 }
 
@@ -60,7 +60,7 @@ function DownloadDialog({ versionId, filePrefixByLanguage, title, handleAction }
     nn: localization.classification.about.langNN,
     en: localization.classification.about.langEN,
   };
-  const [format, setFormat] = useState<CodesDownloadFormat>('csv');
+  const [format, setFormat] = useState<FileDownloadFormat>('csv');
   const [language, setLanguage] = useState<SupportedLanguage>(defaultLanguage);
   const [isDownloading, setIsDownloading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -99,7 +99,7 @@ function DownloadDialog({ versionId, filePrefixByLanguage, title, handleAction }
               <Select
                 id='download-format'
                 value={format}
-                onChange={(event) => setFormat(event.target.value as CodesDownloadFormat)}
+                onChange={(event) => setFormat(event.target.value as FileDownloadFormat)}
               >
                 {FORMAT_OPTIONS.map((item) => (
                   <Select.Option key={item} value={item}>

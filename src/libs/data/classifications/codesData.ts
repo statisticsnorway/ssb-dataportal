@@ -23,13 +23,13 @@ import { querystringFormatDates } from './utils';
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
 const logger = createLogger('codes-data');
 const fetchInit = { cache: 'force-cache', next: { revalidate: ttlSeconds } } as RequestInit;
-const CODES_DOWNLOAD_ACCEPT = {
+const FILE_DOWNLOAD_ACCEPT = {
   csv: 'text/csv',
   xml: 'application/xml',
   json: 'application/json',
 } as const;
 
-export type CodesDownloadFormat = keyof typeof CODES_DOWNLOAD_ACCEPT;
+export type FileDownloadFormat = keyof typeof FILE_DOWNLOAD_ACCEPT;
 
 interface CodesDownloadRequest {
   versionId: number;
@@ -37,7 +37,7 @@ interface CodesDownloadRequest {
   from: Date;
   to?: Date;
   language: SupportedLanguage;
-  format: CodesDownloadFormat;
+  format: FileDownloadFormat;
 }
 
 interface ChangesDownloadRequest {
@@ -45,7 +45,7 @@ interface ChangesDownloadRequest {
   from: Date;
   to?: Date;
   language: SupportedLanguage;
-  format: CodesDownloadFormat;
+  format: FileDownloadFormat;
 }
 
 function buildKlassClientConfig(): ConfigurationParameters {
@@ -116,7 +116,7 @@ export async function fetchCodesDownload({
     const codes = await fetchVersionCodes(versionId, toKlassLanguage(language) as VersionsLanguageEnum);
     return {
       content: JSON.stringify(codes, null, 2),
-      mimeType: CODES_DOWNLOAD_ACCEPT.json,
+      mimeType: FILE_DOWNLOAD_ACCEPT.json,
     };
   }
 
@@ -128,11 +128,11 @@ export async function fetchCodesDownload({
       ...fetchInit,
       headers: {
         ...(init.headers ?? {}),
-        Accept: CODES_DOWNLOAD_ACCEPT[format],
+        Accept: FILE_DOWNLOAD_ACCEPT[format],
       },
     }));
     const content = await response.raw.text();
-    const mimeType = response.raw.headers.get('content-type') ?? CODES_DOWNLOAD_ACCEPT[format];
+    const mimeType = response.raw.headers.get('content-type') ?? FILE_DOWNLOAD_ACCEPT[format];
     return { content, mimeType };
   } catch (error) {
     if (error instanceof ResponseError) {
@@ -204,7 +204,7 @@ export async function fetchChangesDownload({
     const changes = await fetchChanges(classificationId, from, to, changeLanguage);
     return {
       content: JSON.stringify(changes, null, 2),
-      mimeType: CODES_DOWNLOAD_ACCEPT.json,
+      mimeType: FILE_DOWNLOAD_ACCEPT.json,
     };
   }
 
@@ -216,11 +216,11 @@ export async function fetchChangesDownload({
       ...fetchInit,
       headers: {
         ...(init.headers ?? {}),
-        Accept: CODES_DOWNLOAD_ACCEPT[format],
+        Accept: FILE_DOWNLOAD_ACCEPT[format],
       },
     }));
     const content = await response.raw.text();
-    const mimeType = response.raw.headers.get('content-type') ?? CODES_DOWNLOAD_ACCEPT[format];
+    const mimeType = response.raw.headers.get('content-type') ?? FILE_DOWNLOAD_ACCEPT[format];
     return { content, mimeType };
   } catch (error) {
     if (error instanceof ResponseError) {

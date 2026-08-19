@@ -1,6 +1,6 @@
 'use server';
 
-import type { CodesDownloadFormat } from '@/libs/data/classifications/codesData';
+import type { FileDownloadFormat } from '@/libs/data/classifications/codesData';
 import { VariantsApi } from '@/libs/data-access/klass/apis/VariantsApi';
 import type { ClassificationItemResource } from '@/libs/data-access/klass/models';
 import {
@@ -155,7 +155,7 @@ export async function fetchVariantCodesDownload({
 }: {
   variantId: number;
   language: SupportedLanguage;
-  format: CodesDownloadFormat;
+  format: FileDownloadFormat;
 }): Promise<{ content: string; mimeType: string }> {
   const logger = createLogger('classification-variants-data');
 
