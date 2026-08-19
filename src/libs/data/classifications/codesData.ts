@@ -68,7 +68,6 @@ function getCodesClient(): CodesApi {
   return new CodesApi(new Configuration(buildKlassClientConfig()));
 }
 
-// only used in fetchSubjectFieldFilterValues and tests
 export async function fetchVersionCodes(
   versionId: number,
   language: VersionsLanguageEnum | undefined = VersionsLanguageEnum.NB,
