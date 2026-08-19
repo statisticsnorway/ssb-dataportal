@@ -72,8 +72,8 @@ describe('mapLevels', () => {
     const rows = mapLevels(level);
 
     expect(rows).toEqual([
-      { label: localization.classification.about.number, value: '2' },
-      { label: localization.classification.about.name, value: 'Group' },
+      { isLocalized: false, label: localization.classification.about.number, value: '2' },
+      { isLocalized: false, label: localization.classification.about.name, value: 'Group' },
     ]);
   });
 
