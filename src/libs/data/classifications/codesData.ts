@@ -1,7 +1,15 @@
 'use server';
 
-import { ChangesRequest, CodeChangeItem, CodeChangeItemFromJSON, CodesApi } from '@/libs/data-access/klass';
-import { VersionsApi, VersionsLanguageEnum } from '@/libs/data-access/klass/apis/VersionsApi';
+import {
+  ChangesRequest,
+  CodeChangeItem,
+  CodeChangeItemFromJSON,
+  CodesApi,
+  CodesLanguageEnum,
+  CodesRequest,
+  VersionsLanguageEnum,
+} from '@/libs/data-access/klass';
+import { VersionsApi } from '@/libs/data-access/klass/apis/VersionsApi';
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
 import { SupportedLanguage } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
@@ -16,6 +24,22 @@ import { querystringFormatDates } from './utils';
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
 const logger = createLogger('codes-data');
 const fetchInit = { cache: 'force-cache', next: { revalidate: ttlSeconds } } as RequestInit;
+const CODES_DOWNLOAD_ACCEPT = {
+  csv: 'text/csv',
+  xml: 'application/xml',
+  json: 'application/json',
+} as const;
+
+export type CodesDownloadFormat = keyof typeof CODES_DOWNLOAD_ACCEPT;
+
+interface CodesDownloadRequest {
+  versionId: number;
+  classificationId: number;
+  from: Date;
+  to?: Date;
+  language: CodesLanguageEnum;
+  format: CodesDownloadFormat;
+}
 
 function buildKlassClientConfig(): ConfigurationParameters {
   const config: ConfigurationParameters = {
@@ -67,6 +91,53 @@ export async function fetchVersionCodes(
       );
     } else {
       logger.error({ error: sanitizeError(error) }, 'Unexpected error fetching version codes');
+    }
+    throw error;
+  }
+}
+
+export async function fetchCodesDownload({
+  versionId,
+  classificationId,
+  from,
+  to,
+  language,
+  format,
+}: CodesDownloadRequest): Promise<{ content: string; mimeType: string }> {
+  if (process.env.KLASS_USE_STATIC_DATA === 'true') {
+    logger.warn({ versionId }, 'Using static mock data for version code download');
+    const codes = await fetchVersionCodes(versionId, language);
+    return {
+      content: JSON.stringify(codes, null, 2),
+      mimeType: CODES_DOWNLOAD_ACCEPT.json,
+    };
+  }
+
+  const api = getCodesClient();
+  try {
+    const params = { id: classificationId, from, to, language } satisfies CodesRequest;
+    const response = await api.codesRaw(params, async ({ init }) => ({
+      ...init,
+      ...fetchInit,
+      headers: {
+        ...(init.headers ?? {}),
+        Accept: CODES_DOWNLOAD_ACCEPT[format],
+      },
+    }));
+    const content = await response.raw.text();
+    const mimeType = response.raw.headers.get('content-type') ?? CODES_DOWNLOAD_ACCEPT[format];
+    return { content, mimeType };
+  } catch (error) {
+    if (error instanceof ResponseError) {
+      logger.error(
+        { statusCode: error.response.status, url: error.response.url, classificationId, versionId, format },
+        'Failed to fetch codes download',
+      );
+    } else {
+      logger.error(
+        { error: sanitizeError(error), classificationId, versionId, format },
+        'Unexpected error fetching codes download',
+      );
     }
     throw error;
   }

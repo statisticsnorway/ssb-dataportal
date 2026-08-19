@@ -1,6 +1,8 @@
 'use server';
 
+import type { CodesDownloadFormat } from '@/libs/data/classifications/codesData';
 import { VariantsApi, VariantsLanguageEnum } from '@/libs/data-access/klass/apis/VariantsApi';
+import type { ClassificationItemResource } from '@/libs/data-access/klass/models';
 import {
   ClassificationVariantResource,
   ClassificationVariantResourceFromJSONTyped,
@@ -14,6 +16,68 @@ import { fetchClassificationById } from './classificationData';
 import { fetchVersionById } from './versionsData';
 
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
+const VARIANT_DOWNLOAD_ACCEPT = {
+  csv: 'text/csv',
+  xml: 'application/xml',
+  json: 'application/json',
+} as const;
+
+function toDateString(value?: Date): string {
+  if (!value) return '';
+  return value.toISOString().slice(0, 10);
+}
+
+function escapeCsv(value: string): string {
+  return `"${value.replaceAll('"', '""')}"`;
+}
+
+function toCodesCsv(codes: ClassificationItemResource[]): string {
+  const header =
+    '"code","parentCode","level","name","shortName","presentationName","validFrom","validTo","validFromInRequestedRange","validToInRequestedRange","notes"';
+
+  const rows = codes.map((code) => {
+    const validFrom = toDateString(code.validFrom);
+    const validTo = toDateString(code.validTo);
+    return [
+      code.code ?? '',
+      code.parentCode ?? '',
+      code.level ?? '',
+      code.name ?? '',
+      code.shortName ?? '',
+      '',
+      validFrom,
+      validTo,
+      validFrom,
+      validTo,
+      code.notes ?? '',
+    ]
+      .map(escapeCsv)
+      .join(',');
+  });
+
+  return [header, ...rows].join('\n');
+}
+
+function escapeXml(value: string): string {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&apos;');
+}
+
+function toCodesXml(codes: ClassificationItemResource[]): string {
+  const body = codes
+    .map((code) => {
+      const validFrom = toDateString(code.validFrom);
+      const validTo = toDateString(code.validTo);
+      return `<codeItem><code>${escapeXml(code.code ?? '')}</code><parentCode>${escapeXml(code.parentCode ?? '')}</parentCode><level>${escapeXml(code.level ?? '')}</level><name>${escapeXml(code.name ?? '')}</name><shortName>${escapeXml(code.shortName ?? '')}</shortName><presentationName></presentationName><validFrom>${escapeXml(validFrom)}</validFrom><validTo>${escapeXml(validTo)}</validTo><validFromInRequestedRange>${escapeXml(validFrom)}</validFromInRequestedRange><validToInRequestedRange>${escapeXml(validTo)}</validToInRequestedRange><notes>${escapeXml(code.notes ?? '')}</notes></codeItem>`;
+    })
+    .join('');
+
+  return `<codeList>${body}</codeList>`;
+}
 
 function getVariantsClient(): VariantsApi {
   const config: ConfigurationParameters = {
@@ -82,4 +146,48 @@ export async function fetchVariantForClassification(
   if (!belongsToVersion) return undefined;
 
   return fetchVariantById(variantId, language);
+}
+
+export async function fetchVariantCodesDownload({
+  variantId,
+  language,
+  format,
+}: {
+  variantId: number;
+  language: VariantsLanguageEnum;
+  format: CodesDownloadFormat;
+}): Promise<{ content: string; mimeType: string }> {
+  const logger = createLogger('classification-variants-data');
+  const resolvedLanguage = language.toLowerCase() as SupportedLanguage;
+
+  try {
+    const variant = await fetchVariantById(variantId, resolvedLanguage);
+    const codes = variant?.classificationItems ?? [];
+
+    if (format === 'json') {
+      return {
+        content: JSON.stringify({ codes }, null, 2),
+        mimeType: VARIANT_DOWNLOAD_ACCEPT.json,
+      };
+    }
+
+    if (format === 'xml') {
+      return {
+        content: toCodesXml(codes),
+        mimeType: VARIANT_DOWNLOAD_ACCEPT.xml,
+      };
+    }
+
+    return {
+      content: toCodesCsv(codes),
+      mimeType: VARIANT_DOWNLOAD_ACCEPT.csv,
+    };
+  } catch (error: unknown) {
+    if (error instanceof ResponseError) {
+      logger.error({ statusCode: error.response.status, variantId }, 'Variant codes download failed');
+    } else {
+      logger.error({ error: String(error), variantId }, 'Unexpected error during variant codes download');
+    }
+    throw error;
+  }
 }
