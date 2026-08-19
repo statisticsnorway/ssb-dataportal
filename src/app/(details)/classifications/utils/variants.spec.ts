@@ -25,8 +25,8 @@ describe('variant details', () => {
 
   it('maps summary fields', () => {
     expect(mapVariantItems(variant)).toEqual([
-      { label: localization.classification.variant.id, value: 42 },
-      { label: localization.classification.variant.ownerSection, value: '320' },
+      { isLocalized: false, label: localization.classification.variant.id, value: 42 },
+      { isLocalized: false, label: localization.classification.variant.ownerSection, value: '320' },
     ]);
   });
 
@@ -34,11 +34,11 @@ describe('variant details', () => {
     const details = mapVariantDetails(variant);
 
     expect(details).toEqual([
-      { label: localization.classification.variant.id, value: 42 },
-      { label: localization.classification.variant.ownerSection, value: '320' },
-      { label: localization.classification.variant.responsible, value: 'Ada Lovelace' },
-      { label: localization.classification.variant.validFrom, value: '2.1.2024' },
-      { label: localization.classification.variant.description, value: 'Alternative grouping' },
+      { isLocalized: false, label: localization.classification.variant.id, value: 42 },
+      { isLocalized: false, label: localization.classification.variant.ownerSection, value: '320' },
+      { isLocalized: false, label: localization.classification.variant.responsible, value: 'Ada Lovelace' },
+      { isLocalized: false, label: localization.classification.variant.validFrom, value: '2.1.2024' },
+      { isLocalized: false, label: localization.classification.variant.description, value: 'Alternative grouping' },
     ]);
   });
 });
