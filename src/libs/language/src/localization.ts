@@ -8,7 +8,7 @@ export const cookieBannerDismissedCookieName = 'ssb-dataportal-cookie-banner-dis
 const preferenceCookieMaxAge = 31536000;
 
 export const supportedLanguages = ['nb', 'nn', 'en'] as const;
-export const klassLanguages = ['NB', 'NN', 'EN'] as const;
+const klassLanguages = ['NB', 'NN', 'EN'] as const;
 
 export type SupportedLanguage = (typeof supportedLanguages)[number];
 export type KlassLanguage = (typeof klassLanguages)[number];
