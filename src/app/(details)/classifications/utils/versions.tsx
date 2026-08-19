@@ -1,9 +1,9 @@
 import Link from 'next/link';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { ClassificationVersionSummaryResource } from '@/libs/data-access/klass/models/ClassificationVersionSummaryResource';
 import { localization } from '@/libs/language/src/localization';
 import { VersionItem } from '@/types/item';
 import { TabSlug } from '../[id]/tabs';
-import { buildUrl } from './urls';
 
 const mapVersionName = (
   v: ClassificationVersionSummaryResource,

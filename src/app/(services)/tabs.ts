@@ -1,5 +1,5 @@
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { localization } from '@/libs/language';
-import { buildUrl } from '../(details)/classifications/utils/urls';
 
 enum Tabs {
   VariableDefinitions,

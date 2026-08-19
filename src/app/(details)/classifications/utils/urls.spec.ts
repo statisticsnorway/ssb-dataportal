@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildUrl } from './urls';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 
 describe('build url', () => {
   describe('classification', () => {

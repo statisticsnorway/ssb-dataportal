@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language';
 import classificationMock from '@/static-data/classifications.json';
-import { buildUrl } from '../utils/urls';
 import ClassificationDetail from './classificationDetail';
 
 vi.mock('server-only', () => ({}));

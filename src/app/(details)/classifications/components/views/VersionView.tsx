@@ -3,12 +3,12 @@
 import { Alert, Divider, Heading, Tabs, Tag } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { BuildUrlProps, buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { AppNotFoundState } from '@/components/app-state';
 import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
 import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from '../../[id]/tabs';
-import { BuildUrlProps, buildUrl } from '../../utils/urls';
 import { ResolvedVersion, VersionProvider } from '../versionContext';
 import styles from './views.module.css';
 

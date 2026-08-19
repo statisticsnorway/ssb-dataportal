@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language';
 import classificationMock from '@/static-data/classifications.json';
-import { buildUrl } from './urls';
 import { mapVersions } from './versions';
 
 const classification = classificationMock.classifications[0] as unknown as ClassificationResource;

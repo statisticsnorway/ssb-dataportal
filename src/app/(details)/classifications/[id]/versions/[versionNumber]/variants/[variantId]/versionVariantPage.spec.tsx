@@ -1,5 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
-import { buildUrl } from '../../../../../utils/urls';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
+
+vi.mock('server-only', () => ({}));
 
 const mocks = vi.hoisted(() => ({
   notFound: vi.fn(() => {
@@ -9,6 +11,12 @@ const mocks = vi.hoisted(() => ({
 
 vi.mock('next/navigation', () => ({ notFound: mocks.notFound }));
 vi.mock('@/app/(details)/classifications/components/views/VariantView', () => ({ default: vi.fn() }));
+vi.mock('@/app/(details)/classifications/components/views/ServerUtils', () => ({
+  getRequestLanguage: vi.fn().mockResolvedValue('nb'),
+}));
+vi.mock('@/libs/data/classifications/variantsData', () => ({
+  fetchVariantForClassification: vi.fn().mockResolvedValue({ id: 42, name: 'Test', classificationItems: [] }),
+}));
 
 describe('VersionVariantPage', () => {
   it('passes parsed route parameters and a versioned back link to the variant view', async () => {
@@ -20,8 +28,9 @@ describe('VersionVariantPage', () => {
     expect(element.props).toMatchObject({
       classificationId: 104,
       versionId: 10,
-      variantId: 42,
+      fallbackLanguage: 'nb',
       backHref: buildUrl({ classificationId: 104, versionId: 10, tab: 'variants' }),
+      variant: expect.objectContaining({ id: 42 }),
     });
   });
 

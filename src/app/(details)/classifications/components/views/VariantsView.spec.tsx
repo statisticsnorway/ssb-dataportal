@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { ClassificationVersionResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
-import { buildUrl } from '../../utils/urls';
 import VariantsView from './VariantsView';
 
 const version = {

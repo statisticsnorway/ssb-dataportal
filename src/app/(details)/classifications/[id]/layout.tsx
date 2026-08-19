@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { cookies, headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { cache, ReactNode } from 'react';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
@@ -13,7 +14,6 @@ import { createLogger } from '@/libs/logger/server-logger';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import ClassificationDetail from '../components/classificationDetail';
 import { VersionResourceLayer } from '../components/versionContext';
-import { buildUrl } from '../utils/urls';
 
 const showInfoOnly = process.env.HIDE_CLASSIFICATIONS === 'true';
 

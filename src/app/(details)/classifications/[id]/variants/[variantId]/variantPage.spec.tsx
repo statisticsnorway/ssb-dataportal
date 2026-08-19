@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { buildUrl } from '../../../utils/urls';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 
 vi.mock('server-only', () => ({}));
 

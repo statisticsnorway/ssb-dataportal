@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import type { ClassificationVariantResource } from '@/libs/data-access/klass';
-import { buildUrl } from '../../utils/urls';
 import VariantView from './VariantView';
 
 vi.mock('@/components/details-list', () => ({
