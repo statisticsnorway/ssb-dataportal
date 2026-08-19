@@ -63,7 +63,7 @@ describe('VersionLayout', () => {
     await expect(
       VersionLayout({
         children: <div>child</div>,
-        params: Promise.resolve({ versionNumber: 'abc' }),
+        params: Promise.resolve({ id: '2003', versionNumber: 'abc' }),
       }),
     ).rejects.toThrow('NEXT_NOT_FOUND');
 
@@ -79,7 +79,7 @@ describe('VersionLayout', () => {
     await expect(
       VersionLayout({
         children: <div>child</div>,
-        params: Promise.resolve({ versionNumber: '42' }),
+        params: Promise.resolve({ id: '2003', versionNumber: '42' }),
       }),
     ).rejects.toThrow('NEXT_NOT_FOUND');
 
@@ -94,7 +94,7 @@ describe('VersionLayout', () => {
     await expect(
       VersionLayout({
         children: <div>child</div>,
-        params: Promise.resolve({ versionNumber: '42' }),
+        params: Promise.resolve({ id: '2003', versionNumber: '42' }),
       }),
     ).rejects.toThrow('NEXT_NOT_FOUND');
 
@@ -112,7 +112,7 @@ describe('VersionLayout', () => {
 
     const element = await VersionLayout({
       children: <div>child content</div>,
-      params: Promise.resolve({ versionNumber: '42' }),
+      params: Promise.resolve({ id: '2003', versionNumber: '42' }),
     });
 
     render(element);
