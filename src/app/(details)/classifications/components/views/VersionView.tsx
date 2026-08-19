@@ -100,7 +100,7 @@ export function VersionView({ classification, classificationVersion, children }:
 
   return (
     <VersionProvider classification={classification} versionSummary={resolved.version} isLatest={resolved.isLatest}>
-      <Divider />
+      <Divider data-version-divider />
       {!resolved?.isLatest && (
         <Alert data-color={'danger'} role='status'>
           {localization.versions.tags.isNotCurrent}

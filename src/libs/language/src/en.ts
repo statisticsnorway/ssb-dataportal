@@ -106,7 +106,7 @@ export const en = {
     codes: 'Codes',
     details: 'Details',
     changes: 'Changes',
-    versions: 'Versions',
+    versions: 'Select version',
     correspondences: 'Correspondences',
     variants: 'Variants',
   },

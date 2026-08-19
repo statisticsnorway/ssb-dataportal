@@ -2,6 +2,7 @@
 
 import { Heading, Paragraph, Tag, Tooltip } from '@digdir/designsystemet-react';
 import { GlobeIcon } from '@navikt/aksel-icons';
+import { usePathname } from 'next/navigation';
 import { SubscribeDialog } from '@/app/(details)/classifications/components/subscribe';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
@@ -9,6 +10,7 @@ import { ClassificationVersionResource } from '@/libs/data-access/klass/models/C
 import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { formatLanguages } from '@/utils/functions';
+import { getClassificationDetailsTabForRoute } from '../[id]/tabs';
 import { buildUrl } from '../utils/urls';
 import { mapVersions } from '../utils/versions';
 import styles from './classification-page.module.css';
@@ -26,6 +28,9 @@ export default function ClassificationDetail({
   classificationVersion,
   children,
 }: Readonly<ClassificationDetailProps>) {
+  const pathname = usePathname();
+  const activeTab = getClassificationDetailsTabForRoute(pathname)?.slug ?? 'codes';
+
   return (
     <div className={`${styles.detailsPage} container`}>
       <DataportalBreadcrumbs
@@ -71,7 +76,7 @@ export default function ClassificationDetail({
           table={
             <ClassificationTable
               sortableField={localization.versions.validFrom}
-              content={(classification.versions ?? []).map((v) => mapVersions(v, classification.id))}
+              content={(classification.versions ?? []).map((v) => mapVersions(v, classification.id, activeTab))}
             />
           }
         />
