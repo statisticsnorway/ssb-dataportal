@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation';
 import VariantView from '@/app/(details)/classifications/components/views/VariantView';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
+import { getRequestLanguage } from '@/libs/data/classifications/utils';
 import { fetchVariantForClassification } from '@/libs/data/classifications/variantsData';
 import { SupportedLanguage } from '@/libs/language/src/localization';
-import { getRequestLanguage } from '../../../components/views/ServerUtils';
 
 export default async function VariantPage({
   params,

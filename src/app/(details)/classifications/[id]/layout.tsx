@@ -1,14 +1,13 @@
 import { Alert } from '@digdir/designsystemet-react';
 import { Metadata } from 'next';
-import { cookies, headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { cache, ReactNode } from 'react';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
+import { getRequestLanguage } from '@/libs/data/classifications/utils';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
-import { languageCookieName, resolveLanguage } from '@/libs/language';
-import { localization } from '@/libs/language/src/localization';
+import { localization, SupportedLanguage } from '@/libs/language/src/localization';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
@@ -37,19 +36,10 @@ const renderInfoOnlyPage = () => {
   );
 };
 
-export const getRequestLanguage = cache(async () => {
-  const cookieStore = await cookies();
-  const requestHeaders = await headers();
-  return resolveLanguage(
-    cookieStore.get(languageCookieName)?.value,
-    requestHeaders.get('accept-language') ?? undefined,
-  );
-});
-
 const getPageData = cache(async (id: number) => {
   const logger = createLogger('classification-detail-page');
   const language = await getRequestLanguage();
-  const classification = await fetchClassificationById(id, language);
+  const classification = await fetchClassificationById(id, language as SupportedLanguage);
   logger.debug(`Fetched classification ${classification.name}`);
   return { classification, language };
 });
@@ -110,7 +100,9 @@ export default async function ClassificationLayout({
       resourceId != null
         ? await fetchVersionById(
             resourceId,
-            classification.fallbackLanguage ? classification.fallbackLanguage : language,
+            classification.fallbackLanguage
+              ? (classification.fallbackLanguage as SupportedLanguage)
+              : (language as SupportedLanguage),
           )
         : null;
   } catch (error) {

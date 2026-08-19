@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation';
 import { ReactNode } from 'react';
-import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout';
 import { VersionResourceLayer } from '@/app/(details)/classifications/components/versionContext';
 import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
+import { getRequestLanguage } from '@/libs/data/classifications/utils';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
+import { SupportedLanguage } from '@/libs/language/src/localization';
 import { createLogger } from '@/libs/logger/server-logger';
 
 export default async function VersionLayout({
@@ -22,8 +23,8 @@ export default async function VersionLayout({
 
   let versionResource;
   try {
-    const classification = await fetchClassificationById(classificationId, language);
-    const resolvedLanguage = classification?.fallbackLanguage ?? language;
+    const classification = await fetchClassificationById(classificationId, language as SupportedLanguage);
+    const resolvedLanguage = (classification?.fallbackLanguage as SupportedLanguage) ?? language;
     versionResource = await fetchVersionById(versionId, resolvedLanguage);
   } catch (error) {
     logger.error({ error, versionId }, 'Failed to fetch version by id');

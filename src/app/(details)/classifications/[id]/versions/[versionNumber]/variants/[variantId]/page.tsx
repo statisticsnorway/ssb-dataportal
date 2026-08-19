@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
-import { getRequestLanguage } from '@/app/(details)/classifications/components/views/ServerUtils';
 import VariantView from '@/app/(details)/classifications/components/views/VariantView';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
+import { getRequestLanguage } from '@/libs/data/classifications/utils';
 import { fetchVariantForClassification } from '@/libs/data/classifications/variantsData';
 import { SupportedLanguage } from '@/libs/language';
 
