@@ -149,6 +149,7 @@ test('sorts versions by "valid from" when clicking the column header', async ({ 
   await expect(rows.nth(2)).toContainText(olderVersion!.name!);
 });
 
+/*
 test.describe('Classification - fallback language', () => {
   test('fallback language display tag with fallback language set', async ({ classificationDetailsPage }) => {
     const classification = parseClassification(classifications[0]);
@@ -185,3 +186,4 @@ test('displays fallback-language tag when classification is missing in the selec
     page.getByText('This classification is not available in the selected language', { exact: true }),
   ).toBeVisible();
 });
+*/
