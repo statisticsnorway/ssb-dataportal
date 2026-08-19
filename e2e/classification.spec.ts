@@ -22,10 +22,10 @@ async function assertDetailsList(page: Page, version: (typeof versions)[number],
   const manager = dds.getByText(formatCustodian(parseVersion(version)), { exact: true });
   await expect(manager).toBeVisible();
   await expect(manager).toHaveAttribute('lang', 'nb');
-  /*const email = dl.locator('dd').getByText(version.contactPerson!.email!, { exact: true });
-  await expect(email).toBeVisible();
-  await expect(email).toHaveAttribute('lang', 'nb');
-  const validity = dl.locator('dd').getByText(formatLocaleDate(version.validFrom!), { exact: true });
+  const emailDd = dds.filter({ hasText: version.contactPerson!.email! });
+  await expect(emailDd).toBeVisible();
+  await expect(emailDd).toHaveAttribute('lang', 'nb');
+  /*const validity = dl.locator('dd').getByText(formatLocaleDate(version.validFrom!), { exact: true });
   await expect(validity).toBeVisible();
   await expect(validity).toHaveAttribute('lang', 'nb');
   const publishedLanguages = dl
