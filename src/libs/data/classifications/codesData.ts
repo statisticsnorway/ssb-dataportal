@@ -1,18 +1,16 @@
 'use server';
 
 import {
-  ChangesLanguageEnum,
   ChangesRequest,
   CodeChangeItem,
   CodeChangeItemFromJSON,
   CodesApi,
-  CodesLanguageEnum,
   CodesRequest,
   VersionsLanguageEnum,
 } from '@/libs/data-access/klass';
 import { VersionsApi } from '@/libs/data-access/klass/apis/VersionsApi';
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
-import { SupportedLanguage } from '@/libs/language';
+import { SupportedLanguage, toKlassLanguage } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import changesMock from '@/static-data/classification-changes.json';
@@ -38,7 +36,7 @@ interface CodesDownloadRequest {
   classificationId: number;
   from: Date;
   to?: Date;
-  language: CodesLanguageEnum;
+  language: SupportedLanguage;
   format: CodesDownloadFormat;
 }
 
@@ -46,7 +44,7 @@ interface ChangesDownloadRequest {
   classificationId: number;
   from: Date;
   to?: Date;
-  language: ChangesLanguageEnum;
+  language: SupportedLanguage;
   format: CodesDownloadFormat;
 }
 
@@ -124,7 +122,7 @@ export async function fetchCodesDownload({
 
   const api = getCodesClient();
   try {
-    const params = { id: classificationId, from, to, language } satisfies CodesRequest;
+    const params = { id: classificationId, from, to, language: toKlassLanguage(language) } satisfies CodesRequest;
     const response = await api.codesRaw(params, async ({ init }) => ({
       ...init,
       ...fetchInit,
@@ -202,12 +200,7 @@ export async function fetchChangesDownload({
 }: ChangesDownloadRequest): Promise<{ content: string; mimeType: string }> {
   if (process.env.KLASS_USE_STATIC_DATA === 'true') {
     logger.warn({ classificationId }, 'Using static mock data for changes download');
-    const changeLanguage =
-      language === ChangesLanguageEnum.EN
-        ? VersionsLanguageEnum.EN
-        : language === ChangesLanguageEnum.NN
-          ? VersionsLanguageEnum.NN
-          : VersionsLanguageEnum.NB;
+    const changeLanguage = toKlassLanguage(language) as VersionsLanguageEnum;
     const changes = await fetchChanges(classificationId, from, to, changeLanguage);
     return {
       content: JSON.stringify(changes, null, 2),
@@ -217,7 +210,7 @@ export async function fetchChangesDownload({
 
   const api = getCodesClient();
   try {
-    const params = { id: classificationId, from, to, language } satisfies ChangesRequest;
+    const params = { id: classificationId, from, to, language: toKlassLanguage(language) } satisfies ChangesRequest;
     const response = await api.changesRaw(params, async ({ init }) => ({
       ...init,
       ...fetchInit,
@@ -252,7 +245,7 @@ export async function fetchSubjectFieldFilterValues(
   if (!id) {
     throw new Error('Necessary data not provided');
   }
-  return (await fetchVersionCodes(Number(id), language.toUpperCase() as VersionsLanguageEnum)).filter(
+  return (await fetchVersionCodes(Number(id), toKlassLanguage(language) as VersionsLanguageEnum)).filter(
     (code) => code.level == '1',
   );
 }

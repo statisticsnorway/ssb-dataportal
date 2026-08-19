@@ -1,5 +1,5 @@
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ChangesLanguageEnum, CodesApi } from '@/libs/data-access/klass';
+import { CodesApi } from '@/libs/data-access/klass';
 import { VersionsApi } from '@/libs/data-access/klass/apis/VersionsApi';
 import { ResponseError } from '@/libs/data-access/klass/runtime';
 import codesMock from '@/static-data/codes-mock.json';
@@ -120,7 +120,7 @@ describe('fetchChangesDownload', () => {
       classificationId: 91,
       from: new Date('2020-01-01'),
       to: undefined,
-      language: ChangesLanguageEnum.NB,
+      language: 'nb',
       format: 'csv',
     });
 

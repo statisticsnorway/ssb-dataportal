@@ -1,14 +1,14 @@
 'use server';
 
 import type { CodesDownloadFormat } from '@/libs/data/classifications/codesData';
-import { VariantsApi, VariantsLanguageEnum } from '@/libs/data-access/klass/apis/VariantsApi';
+import { VariantsApi } from '@/libs/data-access/klass/apis/VariantsApi';
 import type { ClassificationItemResource } from '@/libs/data-access/klass/models';
 import {
   ClassificationVariantResource,
   ClassificationVariantResourceFromJSONTyped,
 } from '@/libs/data-access/klass/models';
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
-import { SupportedLanguage } from '@/libs/language';
+import { SupportedLanguage, toKlassLanguage } from '@/libs/language';
 import { createLogger } from '@/libs/logger/server-logger';
 import versionsMock from '@/static-data/versions.json';
 import { getUserAgent } from '@/utils/userAgent';
@@ -107,7 +107,7 @@ export async function fetchVariantById(
   }
 
   try {
-    return await getVariantsClient().variants({ id, language: language?.toUpperCase() as VariantsLanguageEnum }, {
+    return await getVariantsClient().variants({ id, language: toKlassLanguage(language) }, {
       cache: 'force-cache',
       next: { revalidate: ttlSeconds },
     } as RequestInit);
@@ -154,14 +154,13 @@ export async function fetchVariantCodesDownload({
   format,
 }: {
   variantId: number;
-  language: VariantsLanguageEnum;
+  language: SupportedLanguage;
   format: CodesDownloadFormat;
 }): Promise<{ content: string; mimeType: string }> {
   const logger = createLogger('classification-variants-data');
-  const resolvedLanguage = language.toLowerCase() as SupportedLanguage;
 
   try {
-    const variant = await fetchVariantById(variantId, resolvedLanguage);
+    const variant = await fetchVariantById(variantId, language);
     const codes = variant?.classificationItems ?? [];
 
     if (format === 'json') {

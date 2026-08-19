@@ -8,8 +8,14 @@ export const cookieBannerDismissedCookieName = 'ssb-dataportal-cookie-banner-dis
 const preferenceCookieMaxAge = 31536000;
 
 export const supportedLanguages = ['nb', 'nn', 'en'] as const;
+export const klassLanguages = ['NB', 'NN', 'EN'] as const;
 
 export type SupportedLanguage = (typeof supportedLanguages)[number];
+export type KlassLanguage = (typeof klassLanguages)[number];
+
+export function toKlassLanguage(language: SupportedLanguage): KlassLanguage {
+  return language.toUpperCase() as KlassLanguage;
+}
 
 export const isSupportedLanguage = (value: string): value is SupportedLanguage => {
   return supportedLanguages.includes(value as SupportedLanguage);
