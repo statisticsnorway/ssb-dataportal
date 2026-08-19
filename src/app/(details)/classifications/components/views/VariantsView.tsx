@@ -1,27 +1,27 @@
-'use client';
-
 import { Alert, Heading } from '@digdir/designsystemet-react';
+import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass';
-import { localization } from '@/libs/language/src/localization';
+import { localization, SupportedLanguage } from '@/libs/language/src/localization';
 import { buildUrl } from '../../utils/urls';
 import { formatVariantName, mapVariantItems } from '../../utils/variants';
 import { ClassificationCard } from '../classification-cards';
-import { useVersion } from '../versionContext';
 import styles from './views.module.css';
 
 interface VariantsViewProps {
   classificationVersion: ClassificationVersionResource;
   classificationId: number;
   versionId?: number;
+  language?: SupportedLanguage;
 }
 
-export default function VariantsView({
+export default async function VariantsView({
   classificationVersion,
   classificationId,
   versionId,
+  language,
 }: Readonly<VariantsViewProps>) {
   const variants = classificationVersion?.classificationVariants ?? [];
-  const { classification } = useVersion();
+  const classification = await fetchClassificationById(classificationId, language);
   const variantsBaseUrl =
     versionId === undefined ? buildUrl({ classificationId }) : buildUrl({ classificationId, versionId });
   return (
