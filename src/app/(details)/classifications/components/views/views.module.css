@@ -91,6 +91,13 @@
   padding-block-end: var(--ds-size-2, 0.5rem);
 }
 
+.tableActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--ds-size-2, 0.5rem);
+}
+
 .introduction {
   overflow-wrap: break-word;
   hyphens: auto;

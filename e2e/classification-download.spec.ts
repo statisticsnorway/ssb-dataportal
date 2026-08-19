@@ -10,7 +10,7 @@ const CURRENT_VARIANT_URL = buildUrl({ classificationId: 2003, variantId: curren
 test.describe('classification code download', () => {
   test('download dialog shows format and language selectors with defaults', async ({ codesPage }) => {
     const openDownloadDialog = codesPage.getByRole('button', {
-      name: localization.classification.downloadCodes.button,
+      name: localization.classification.download.button,
     });
     await expect(openDownloadDialog).toBeVisible();
     await openDownloadDialog.click();
@@ -18,8 +18,8 @@ test.describe('classification code download', () => {
     const dialog = codesPage.getByRole('dialog');
     await expect(dialog).toBeVisible();
 
-    const formatSelect = dialog.getByLabel(localization.classification.downloadCodes.formatLabel);
-    const languageSelect = dialog.getByLabel(localization.classification.downloadCodes.languageLabel);
+    const formatSelect = dialog.getByLabel(localization.classification.download.formatLabel);
+    const languageSelect = dialog.getByLabel(localization.classification.download.languageLabel);
 
     await expect(formatSelect).toBeVisible();
     await expect(languageSelect).toBeVisible();
@@ -29,19 +29,19 @@ test.describe('classification code download', () => {
 
   test('download dialog triggers file download with selected format and language', async ({ codesVersionPage }) => {
     const openDownloadDialog = codesVersionPage.getByRole('button', {
-      name: localization.classification.downloadCodes.button,
+      name: localization.classification.download.button,
     });
     await openDownloadDialog.click();
 
     const dialog = codesVersionPage.getByRole('dialog');
     await expect(dialog).toBeVisible();
 
-    await dialog.getByLabel(localization.classification.downloadCodes.formatLabel).selectOption('xml');
-    await dialog.getByLabel(localization.classification.downloadCodes.languageLabel).selectOption('en');
+    await dialog.getByLabel(localization.classification.download.formatLabel).selectOption('xml');
+    await dialog.getByLabel(localization.classification.download.languageLabel).selectOption('en');
 
     const [download] = await Promise.all([
       codesVersionPage.waitForEvent('download'),
-      dialog.getByRole('button', { name: localization.classification.downloadCodes.confirm }).click(),
+      dialog.getByRole('button', { name: localization.classification.download.confirm }).click(),
     ]);
 
     expect(download.suggestedFilename()).toBe('classification-codes-1-en.xml');
@@ -52,17 +52,17 @@ test.describe('classification code download', () => {
     await page.goto(CURRENT_VARIANT_URL);
 
     const openDownloadDialog = page.getByRole('button', {
-      name: localization.classification.downloadCodes.button,
+      name: localization.classification.download.button,
     });
     await openDownloadDialog.click();
 
     const dialog = page.getByRole('dialog');
     await expect(dialog).toBeVisible();
-    await dialog.getByLabel(localization.classification.downloadCodes.languageLabel).selectOption('en');
+    await dialog.getByLabel(localization.classification.download.languageLabel).selectOption('en');
 
     const [download] = await Promise.all([
       page.waitForEvent('download'),
-      dialog.getByRole('button', { name: localization.classification.downloadCodes.confirm }).click(),
+      dialog.getByRole('button', { name: localization.classification.download.confirm }).click(),
     ]);
 
     expect(download.suggestedFilename()).toBe(`classification-variant-codes-${currentVariantId}-en.csv`);

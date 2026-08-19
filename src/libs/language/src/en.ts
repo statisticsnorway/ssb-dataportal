@@ -78,13 +78,13 @@ export const en = {
     subscribeMessageSuccess:
       'You will receive an email. Follow the instructions in the email to start your subscription.',
     subscribeMessageInvalidEmail: 'Enter a valid email address',
-    downloadCodes: {
+    download: {
       button: 'Download',
       formatLabel: 'Format',
       languageLabel: 'Language',
       confirm: 'Download file',
       inProgress: 'Downloading ...',
-      error: 'Could not download codes. Please try again.',
+      error: 'Could not download the file. Please try again.',
     },
     correspondence: {
       heading: 'Correspondences',

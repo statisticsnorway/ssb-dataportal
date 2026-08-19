@@ -164,7 +164,7 @@ describe('fetchVariantCodesDownload', () => {
 
     const payload = await fetchVariantCodesDownload({
       variantId: 3530,
-      language: 'NB',
+      language: 'nb',
       format: 'csv',
     });
 
@@ -178,7 +178,7 @@ describe('fetchVariantCodesDownload', () => {
   it('returns xml with codeList root and codeItem entries', async () => {
     vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
 
-    const payload = await fetchVariantCodesDownload({ variantId: 3530, language: 'NB', format: 'xml' });
+    const payload = await fetchVariantCodesDownload({ variantId: 3530, language: 'nb', format: 'xml' });
 
     expect(payload.content).toContain('<codeList>');
     expect(payload.content).toContain('<codeItem>');
@@ -188,7 +188,7 @@ describe('fetchVariantCodesDownload', () => {
   it('returns json content with codes wrapper when requested', async () => {
     vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
 
-    const payload = await fetchVariantCodesDownload({ variantId: 3530, language: 'NB', format: 'json' });
+    const payload = await fetchVariantCodesDownload({ variantId: 3530, language: 'nb', format: 'json' });
 
     expect(payload.content).toContain('"codes"');
     expect(payload.mimeType).toContain('application/json');

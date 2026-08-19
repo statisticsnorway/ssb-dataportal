@@ -5,13 +5,12 @@ import {
   CodeChangeItem,
   CodeChangeItemFromJSON,
   CodesApi,
-  CodesLanguageEnum,
   CodesRequest,
   VersionsLanguageEnum,
 } from '@/libs/data-access/klass';
 import { VersionsApi } from '@/libs/data-access/klass/apis/VersionsApi';
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
-import { SupportedLanguage } from '@/libs/language';
+import { SupportedLanguage, toKlassLanguage } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import changesMock from '@/static-data/classification-changes.json';
@@ -24,21 +23,29 @@ import { querystringFormatDates } from './utils';
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
 const logger = createLogger('codes-data');
 const fetchInit = { cache: 'force-cache', next: { revalidate: ttlSeconds } } as RequestInit;
-const CODES_DOWNLOAD_ACCEPT = {
+const FILE_DOWNLOAD_ACCEPT = {
   csv: 'text/csv',
   xml: 'application/xml',
   json: 'application/json',
 } as const;
 
-export type CodesDownloadFormat = keyof typeof CODES_DOWNLOAD_ACCEPT;
+export type FileDownloadFormat = keyof typeof FILE_DOWNLOAD_ACCEPT;
 
 interface CodesDownloadRequest {
   versionId: number;
   classificationId: number;
   from: Date;
   to?: Date;
-  language: CodesLanguageEnum;
-  format: CodesDownloadFormat;
+  language: SupportedLanguage;
+  format: FileDownloadFormat;
+}
+
+interface ChangesDownloadRequest {
+  classificationId: number;
+  from: Date;
+  to?: Date;
+  language: SupportedLanguage;
+  format: FileDownloadFormat;
 }
 
 function buildKlassClientConfig(): ConfigurationParameters {
@@ -106,26 +113,26 @@ export async function fetchCodesDownload({
 }: CodesDownloadRequest): Promise<{ content: string; mimeType: string }> {
   if (process.env.KLASS_USE_STATIC_DATA === 'true') {
     logger.warn({ versionId }, 'Using static mock data for version code download');
-    const codes = await fetchVersionCodes(versionId, language);
+    const codes = await fetchVersionCodes(versionId, toKlassLanguage(language) as VersionsLanguageEnum);
     return {
       content: JSON.stringify(codes, null, 2),
-      mimeType: CODES_DOWNLOAD_ACCEPT.json,
+      mimeType: FILE_DOWNLOAD_ACCEPT.json,
     };
   }
 
   const api = getCodesClient();
   try {
-    const params = { id: classificationId, from, to, language } satisfies CodesRequest;
+    const params = { id: classificationId, from, to, language: toKlassLanguage(language) } satisfies CodesRequest;
     const response = await api.codesRaw(params, async ({ init }) => ({
       ...init,
       ...fetchInit,
       headers: {
         ...(init.headers ?? {}),
-        Accept: CODES_DOWNLOAD_ACCEPT[format],
+        Accept: FILE_DOWNLOAD_ACCEPT[format],
       },
     }));
     const content = await response.raw.text();
-    const mimeType = response.raw.headers.get('content-type') ?? CODES_DOWNLOAD_ACCEPT[format];
+    const mimeType = response.raw.headers.get('content-type') ?? FILE_DOWNLOAD_ACCEPT[format];
     return { content, mimeType };
   } catch (error) {
     if (error instanceof ResponseError) {
@@ -184,6 +191,53 @@ export async function fetchChanges(
   }
 }
 
+export async function fetchChangesDownload({
+  classificationId,
+  from,
+  to,
+  language,
+  format,
+}: ChangesDownloadRequest): Promise<{ content: string; mimeType: string }> {
+  if (process.env.KLASS_USE_STATIC_DATA === 'true') {
+    logger.warn({ classificationId }, 'Using static mock data for changes download');
+    const changeLanguage = toKlassLanguage(language) as VersionsLanguageEnum;
+    const changes = await fetchChanges(classificationId, from, to, changeLanguage);
+    return {
+      content: JSON.stringify(changes, null, 2),
+      mimeType: FILE_DOWNLOAD_ACCEPT.json,
+    };
+  }
+
+  const api = getCodesClient();
+  try {
+    const params = { id: classificationId, from, to, language: toKlassLanguage(language) } satisfies ChangesRequest;
+    const response = await api.changesRaw(params, async ({ init }) => ({
+      ...init,
+      ...fetchInit,
+      headers: {
+        ...(init.headers ?? {}),
+        Accept: FILE_DOWNLOAD_ACCEPT[format],
+      },
+    }));
+    const content = await response.raw.text();
+    const mimeType = response.raw.headers.get('content-type') ?? FILE_DOWNLOAD_ACCEPT[format];
+    return { content, mimeType };
+  } catch (error) {
+    if (error instanceof ResponseError) {
+      logger.error(
+        { statusCode: error.response.status, url: error.response.url, classificationId, format },
+        'Failed to fetch changes download',
+      );
+    } else {
+      logger.error(
+        { error: sanitizeError(error), classificationId, format },
+        'Unexpected error fetching changes download',
+      );
+    }
+    throw error;
+  }
+}
+
 export async function fetchSubjectFieldFilterValues(
   language: SupportedLanguage | undefined = 'nb',
 ): Promise<KlassCode[]> {
@@ -191,7 +245,7 @@ export async function fetchSubjectFieldFilterValues(
   if (!id) {
     throw new Error('Necessary data not provided');
   }
-  return (await fetchVersionCodes(Number(id), language.toUpperCase() as VersionsLanguageEnum)).filter(
+  return (await fetchVersionCodes(Number(id), toKlassLanguage(language) as VersionsLanguageEnum)).filter(
     (code) => code.level == '1',
   );
 }
