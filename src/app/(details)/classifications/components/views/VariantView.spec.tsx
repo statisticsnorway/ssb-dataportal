@@ -2,6 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { buildUrl } from '../../utils/urls';
 
+vi.mock('server-only', () => ({}));
+
 const mocks = vi.hoisted(() => ({
   fetchVariantForClassification: vi.fn(),
   getRequestLanguage: vi.fn(),
