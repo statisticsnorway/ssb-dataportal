@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noConsole: <explanation> */
 'use client';
 
 import { mapDetailsItems } from '@/app/(details)/classifications/utils/details';
@@ -11,6 +12,7 @@ interface DetailsViewProps {
   classificationVersion: ClassificationVersionResource;
 }
 export default function DetailsView({ classification, classificationVersion }: Readonly<DetailsViewProps>) {
+  console.log('DetailsView rendered with classification:', classification);
   return (
     <div className={styles.aboutWrapper}>
       <DetailsList
