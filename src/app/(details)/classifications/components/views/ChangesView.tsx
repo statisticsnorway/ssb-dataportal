@@ -24,6 +24,7 @@ import { sortDatesDescendingSafe } from '@/utils/sort';
 import { groupChanges } from '../../utils/changes';
 import { mapChanges } from '../../utils/details';
 import { ClassificationTable } from '../classification-table';
+import { DownloadChangesDialog } from '../download-dialog';
 import { ExpandableTable } from '../expandable-table';
 import styles from './views.module.css';
 
@@ -115,9 +116,19 @@ export default function ChangesView({
                 numberOfChanges: changes.length,
               })}
             </span>
-            <Button variant='secondary' onClick={handleInvertTable}>
-              {localization.versions.invert}
-            </Button>
+            <div className={styles.tableActions}>
+              <Button variant='secondary' onClick={handleInvertTable}>
+                {localization.versions.invert}
+              </Button>
+              {classification.id !== undefined && changesFrom && version.id !== undefined ? (
+                <DownloadChangesDialog
+                  versionId={version.id}
+                  classificationId={classification.id}
+                  from={changesFrom}
+                  to={version.validTo}
+                />
+              ) : null}
+            </div>
           </figcaption>
           <Table border={true} zebra={false} hover={false} stickyHeader={true} className={styles.table}>
             <TableHead>

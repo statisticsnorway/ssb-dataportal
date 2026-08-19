@@ -75,13 +75,13 @@ export const nb = {
     subscribeInfo: 'Abonner på oppdateringer for denne klassifikasjonen',
     subscribeMessageSuccess: 'Du vil motta en mail. Følg instruksjonene i mailen for å starte ditt abonnement.',
     subscribeMessageInvalidEmail: 'Skriv inn en gyldig e-postadresse',
-    downloadCodes: {
+    download: {
       button: 'Last ned',
       formatLabel: 'Format',
       languageLabel: 'Språk',
       confirm: 'Last ned fil',
       inProgress: 'Laster ned ...',
-      error: 'Kunne ikke laste ned koder. Prøv igjen.',
+      error: 'Kunne ikke laste ned filen. Prøv igjen.',
     },
     correspondence: {
       heading: 'Korrespondanser',

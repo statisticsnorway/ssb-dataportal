@@ -1,8 +1,12 @@
 'use server';
 
-import { type CodesDownloadFormat, fetchCodesDownload } from '@/libs/data/classifications/codesData';
+import {
+  type CodesDownloadFormat,
+  fetchChangesDownload,
+  fetchCodesDownload,
+} from '@/libs/data/classifications/codesData';
 import { fetchVariantCodesDownload } from '@/libs/data/classifications/variantsData';
-import { CodesLanguageEnum } from '@/libs/data-access/klass';
+import { ChangesLanguageEnum, CodesLanguageEnum } from '@/libs/data-access/klass';
 import { VariantsLanguageEnum } from '@/libs/data-access/klass/apis/VariantsApi';
 import { type SupportedLanguage } from '@/libs/language';
 
@@ -43,6 +47,12 @@ function toVariantLanguage(language: SupportedLanguage): VariantsLanguageEnum {
   return VariantsLanguageEnum.NB;
 }
 
+function toChangesLanguage(language: SupportedLanguage): ChangesLanguageEnum {
+  if (language === 'nn') return ChangesLanguageEnum.NN;
+  if (language === 'en') return ChangesLanguageEnum.EN;
+  return ChangesLanguageEnum.NB;
+}
+
 export async function downloadVariantCodesAction({
   variantId,
   language,
@@ -55,6 +65,28 @@ export async function downloadVariantCodesAction({
   return fetchVariantCodesDownload({
     variantId,
     language: toVariantLanguage(language),
+    format,
+  });
+}
+
+export async function downloadChangesAction({
+  classificationId,
+  from,
+  to,
+  language,
+  format,
+}: {
+  classificationId: number;
+  from: string;
+  to?: string;
+  language: SupportedLanguage;
+  format: CodesDownloadFormat;
+}) {
+  return fetchChangesDownload({
+    classificationId,
+    from: new Date(from),
+    to: to ? new Date(to) : undefined,
+    language: toChangesLanguage(language),
     format,
   });
 }

@@ -4,8 +4,8 @@ import { Button, Dialog, Field, Label, Select } from '@digdir/designsystemet-rea
 import { useState } from 'react';
 import type { CodesDownloadFormat } from '@/libs/data/classifications/codesData';
 import { localization, type SupportedLanguage, supportedLanguages } from '@/libs/language';
-import { downloadCodesAction, downloadVariantCodesAction } from './actions';
-import styles from './download-codes.module.css';
+import { downloadChangesAction, downloadCodesAction, downloadVariantCodesAction } from './actions';
+import styles from './download-dialog.module.css';
 
 const FORMAT_OPTIONS = ['csv', 'xml', 'json'] as const satisfies ReadonlyArray<CodesDownloadFormat>;
 
@@ -29,13 +29,31 @@ interface DownloadCodesDialogProps {
   isVariantDownload?: boolean;
 }
 
-export function DownloadCodesDialog({
-  versionId,
-  classificationId,
-  validFrom,
-  validTo,
-  isVariantDownload,
-}: Readonly<DownloadCodesDialogProps>) {
+interface DownloadChangesDialogProps {
+  versionId: number;
+  classificationId: number;
+  from: Date | string;
+  to?: Date | string;
+}
+
+interface DownloadDialogBaseProps {
+  versionId: number;
+  filePrefix: string;
+  title: {
+    button: string;
+    formatLabel: string;
+    languageLabel: string;
+    confirm: string;
+    inProgress: string;
+    error: string;
+  };
+  handleAction: (args: {
+    language: SupportedLanguage;
+    format: CodesDownloadFormat;
+  }) => Promise<{ content: string; mimeType: string }>;
+}
+
+function DownloadDialog({ versionId, filePrefix, title, handleAction }: Readonly<DownloadDialogBaseProps>) {
   const defaultLanguage = localization.getLanguage() as SupportedLanguage;
   const languageLabels: Record<SupportedLanguage, string> = {
     nb: localization.classification.about.langNB,
@@ -60,33 +78,10 @@ export function DownloadCodesDialog({
     setIsDownloading(true);
 
     try {
-      const payload = isVariantDownload
-        ? await downloadVariantCodesAction({
-            variantId: versionId,
-            language,
-            format,
-          })
-        : await (async () => {
-            if (!classificationId || !validFrom) {
-              throw new Error('Missing classification download parameters');
-            }
-
-            return downloadCodesAction({
-              versionId,
-              classificationId,
-              validFrom: typeof validFrom === 'string' ? validFrom : validFrom.toISOString(),
-              validTo: typeof validTo === 'string' ? validTo : validTo?.toISOString(),
-              language,
-              format,
-            });
-          })();
-
-      const filePrefix = isVariantDownload
-        ? `classification-variant-codes-${versionId}`
-        : `classification-codes-${versionId}`;
-      download(payload.content, payload.mimeType, `${filePrefix}-${language}.${format}`);
+      const payload = await handleAction({ language, format });
+      download(payload.content, payload.mimeType, `${filePrefix}-${versionId}-${language}.${format}`);
     } catch {
-      setErrorMessage(localization.classification.downloadCodes.error);
+      setErrorMessage(title.error);
     } finally {
       setIsDownloading(false);
     }
@@ -94,14 +89,14 @@ export function DownloadCodesDialog({
 
   return (
     <Dialog.TriggerContext>
-      <Dialog.Trigger variant='secondary'>{localization.classification.downloadCodes.button}</Dialog.Trigger>
+      <Dialog.Trigger variant='secondary'>{title.button}</Dialog.Trigger>
       <Dialog onClose={handleClose}>
         <form onSubmit={handleDownload} noValidate>
           <div className={styles.formFields}>
             <Field>
-              <Label htmlFor='download-codes-format'>{localization.classification.downloadCodes.formatLabel}</Label>
+              <Label htmlFor='download-format'>{title.formatLabel}</Label>
               <Select
-                id='download-codes-format'
+                id='download-format'
                 value={format}
                 onChange={(event) => setFormat(event.target.value as CodesDownloadFormat)}
               >
@@ -113,9 +108,9 @@ export function DownloadCodesDialog({
               </Select>
             </Field>
             <Field>
-              <Label htmlFor='download-codes-language'>{localization.classification.downloadCodes.languageLabel}</Label>
+              <Label htmlFor='download-language'>{title.languageLabel}</Label>
               <Select
-                id='download-codes-language'
+                id='download-language'
                 value={language}
                 onChange={(event) => setLanguage(event.target.value as SupportedLanguage)}
               >
@@ -129,12 +124,67 @@ export function DownloadCodesDialog({
             {errorMessage ? <p role='alert'>{errorMessage}</p> : null}
           </div>
           <Button type='submit' disabled={isDownloading}>
-            {isDownloading
-              ? localization.classification.downloadCodes.inProgress
-              : localization.classification.downloadCodes.confirm}
+            {isDownloading ? title.inProgress : title.confirm}
           </Button>
         </form>
       </Dialog>
     </Dialog.TriggerContext>
+  );
+}
+
+export function DownloadCodesDialog({
+  versionId,
+  classificationId,
+  validFrom,
+  validTo,
+  isVariantDownload,
+}: Readonly<DownloadCodesDialogProps>) {
+  return (
+    <DownloadDialog
+      versionId={versionId}
+      filePrefix={isVariantDownload ? 'classification-variant-codes' : 'classification-codes'}
+      title={localization.classification.download}
+      handleAction={({ language, format }) => {
+        if (isVariantDownload) {
+          return downloadVariantCodesAction({
+            variantId: versionId,
+            language,
+            format,
+          });
+        }
+
+        if (!classificationId || !validFrom) {
+          throw new Error('Missing classification download parameters');
+        }
+
+        return downloadCodesAction({
+          versionId,
+          classificationId,
+          validFrom: typeof validFrom === 'string' ? validFrom : validFrom.toISOString(),
+          validTo: typeof validTo === 'string' ? validTo : validTo?.toISOString(),
+          language,
+          format,
+        });
+      }}
+    />
+  );
+}
+
+export function DownloadChangesDialog({ versionId, classificationId, from, to }: Readonly<DownloadChangesDialogProps>) {
+  return (
+    <DownloadDialog
+      versionId={versionId}
+      filePrefix='classification-changes'
+      title={localization.classification.download}
+      handleAction={({ language, format }) =>
+        downloadChangesAction({
+          classificationId,
+          from: typeof from === 'string' ? from : from.toISOString(),
+          to: typeof to === 'string' ? to : to?.toISOString(),
+          language,
+          format,
+        })
+      }
+    />
   );
 }

@@ -1,6 +1,7 @@
 'use server';
 
 import {
+  ChangesLanguageEnum,
   ChangesRequest,
   CodeChangeItem,
   CodeChangeItemFromJSON,
@@ -38,6 +39,14 @@ interface CodesDownloadRequest {
   from: Date;
   to?: Date;
   language: CodesLanguageEnum;
+  format: CodesDownloadFormat;
+}
+
+interface ChangesDownloadRequest {
+  classificationId: number;
+  from: Date;
+  to?: Date;
+  language: ChangesLanguageEnum;
   format: CodesDownloadFormat;
 }
 
@@ -179,6 +188,58 @@ export async function fetchChanges(
       );
     } else {
       logger.error({ error: sanitizeError(error) }, 'Unexpected error fetching changes');
+    }
+    throw error;
+  }
+}
+
+export async function fetchChangesDownload({
+  classificationId,
+  from,
+  to,
+  language,
+  format,
+}: ChangesDownloadRequest): Promise<{ content: string; mimeType: string }> {
+  if (process.env.KLASS_USE_STATIC_DATA === 'true') {
+    logger.warn({ classificationId }, 'Using static mock data for changes download');
+    const changeLanguage =
+      language === ChangesLanguageEnum.EN
+        ? VersionsLanguageEnum.EN
+        : language === ChangesLanguageEnum.NN
+          ? VersionsLanguageEnum.NN
+          : VersionsLanguageEnum.NB;
+    const changes = await fetchChanges(classificationId, from, to, changeLanguage);
+    return {
+      content: JSON.stringify(changes, null, 2),
+      mimeType: CODES_DOWNLOAD_ACCEPT.json,
+    };
+  }
+
+  const api = getCodesClient();
+  try {
+    const params = { id: classificationId, from, to, language } satisfies ChangesRequest;
+    const response = await api.changesRaw(params, async ({ init }) => ({
+      ...init,
+      ...fetchInit,
+      headers: {
+        ...(init.headers ?? {}),
+        Accept: CODES_DOWNLOAD_ACCEPT[format],
+      },
+    }));
+    const content = await response.raw.text();
+    const mimeType = response.raw.headers.get('content-type') ?? CODES_DOWNLOAD_ACCEPT[format];
+    return { content, mimeType };
+  } catch (error) {
+    if (error instanceof ResponseError) {
+      logger.error(
+        { statusCode: error.response.status, url: error.response.url, classificationId, format },
+        'Failed to fetch changes download',
+      );
+    } else {
+      logger.error(
+        { error: sanitizeError(error), classificationId, format },
+        'Unexpected error fetching changes download',
+      );
     }
     throw error;
   }

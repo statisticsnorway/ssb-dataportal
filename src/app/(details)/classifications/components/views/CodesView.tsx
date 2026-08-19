@@ -2,7 +2,7 @@
 
 import { Button, Search } from '@digdir/designsystemet-react';
 import { useMemo, useState } from 'react';
-import { DownloadCodesDialog } from '@/app/(details)/classifications/components/download-codes';
+import { DownloadCodesDialog } from '@/app/(details)/classifications/components/download-dialog';
 import { CodeTree } from '@/components/code-tree';
 import { ClassificationItemResource, ClassificationVersionResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
