@@ -11,11 +11,11 @@ describe('correspondence', () => {
       owningSection: '320',
     };
     expect(mapCorrespondenceItems(table)).toEqual([
-      { label: 'Korrespondanser fra', value: 'SN2007' },
-      { label: 'Nivå', value: 'Nivå 1' },
-      { label: 'Korrespondanser til', value: 'SN2015' },
-      { label: 'Nivå', value: 'Nivå 2' },
-      { label: 'Eier', value: '320' },
+      { isLocalized: false, label: 'Korrespondanser fra', value: 'SN2007' },
+      { isLocalized: false, label: 'Nivå', value: 'Nivå 1' },
+      { isLocalized: false, label: 'Korrespondanser til', value: 'SN2015' },
+      { isLocalized: false, label: 'Nivå', value: 'Nivå 2' },
+      { isLocalized: false, label: 'Eier', value: '320' },
     ]);
   });
 });
