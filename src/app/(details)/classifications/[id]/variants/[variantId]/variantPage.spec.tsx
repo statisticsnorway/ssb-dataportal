@@ -1,6 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 import { buildUrl } from '../../../utils/urls';
 
+vi.mock('server-only', () => ({}));
+
 const mocks = vi.hoisted(() => ({
   notFound: vi.fn(() => {
     throw new Error('NEXT_NOT_FOUND');
@@ -9,6 +11,12 @@ const mocks = vi.hoisted(() => ({
 
 vi.mock('next/navigation', () => ({ notFound: mocks.notFound }));
 vi.mock('@/app/(details)/classifications/components/views/VariantView', () => ({ default: vi.fn() }));
+vi.mock('@/app/(details)/classifications/components/views/ServerUtils', () => ({
+  getRequestLanguage: vi.fn().mockResolvedValue('nb'),
+}));
+vi.mock('@/libs/data/classifications/classificationData', () => ({
+  fetchClassificationById: vi.fn().mockResolvedValue({ fallbackLanguage: 'nb' }),
+}));
 
 describe('VariantPage', () => {
   it('passes parsed route parameters to the variant view', async () => {
