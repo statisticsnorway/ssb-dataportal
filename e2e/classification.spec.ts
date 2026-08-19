@@ -1,14 +1,41 @@
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
-import { localization } from '@/libs/language/src/localization';
+import { isSupportedLanguage, localization } from '@/libs/language/src/localization';
 import classificationMock from '@/static-data/classifications.json';
 import versionsMock from '@/static-data/versions.json';
-import { parseClassification } from '@/utils/mock-data';
+import { parseClassification, parseVersion } from '@/utils/mock-data';
 import { expect, test } from './fixtures/classification.fixture';
 import { CODES_PREV_VERSION_URL, CODES_PREV_VERSION_URL_CODES, formatDate, switchLanguage } from './utils/commonUtils';
 import { languageButton } from './utils/variables';
+import { formatCustodian, formatLanguages, formatLocaleDate } from '@/utils/functions';
+import { Page } from '@playwright/test';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
+import { classificationDetailsTabsData } from '@/app/(details)/classifications/[id]/tabs';
 
 const classifications = classificationMock.classifications;
 const versions = versionsMock.versions;
+
+const currentVersion = versions![0];
+const olderVersion = versions![1];
+
+async function assertDetailsList(page: Page, version: (typeof versions)[number], selectedLanguage: string) {
+  const dl = page.locator('dl').first();
+  const manager = dl.locator('dd').getByText(formatCustodian(parseVersion(version)), { exact: true });
+  await expect(manager).toBeVisible();
+  await expect(manager).toHaveAttribute('lang', 'nb');
+  const email = dl.locator('dd').getByText(version.contactPerson!.email!, { exact: true });
+  await expect(email).toBeVisible();
+  await expect(email).toHaveAttribute('lang', 'nb');
+  const validity = dl.locator('dd').getByText(formatLocaleDate(version.validFrom!), { exact: true });
+  await expect(validity).toBeVisible();
+  await expect(validity).toHaveAttribute('lang', 'nb');
+  const publishedLanguages = dl
+    .locator('dd')
+    .getByText((version.published ?? []).filter(isSupportedLanguage).map(formatLanguages).join(', '), {
+      exact: true,
+    });
+  await expect(publishedLanguages).toBeVisible();
+  await expect(publishedLanguages).toHaveAttribute('lang', selectedLanguage);
+}
 
 test('Classifications details page have title', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[1]);
@@ -187,4 +214,27 @@ test('displays fallback-language tag when classification is missing in the selec
   ).toBeVisible();
 });
 
-// add test for version
+test('correct html lang fallback language current', async ({ classificationDetailsPage }) => {
+  const classification = parseClassification(classifications[0]);
+  const page = await classificationDetailsPage(classification.id!);
+  await page.goto(
+    buildUrl({
+      classificationId: classification.id,
+      tab: classificationDetailsTabsData.Details.slug,
+    }),
+  );
+  await expect(page.locator('dl').first()).toBeVisible();
+
+  await switchLanguage(page, 'English');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  await assertDetailsList(page, currentVersion!, 'en');
+});
+/*
+test('correct html lang fallback language older', async ({ page }) => {
+  await gotoAbout(page, OLDER_DETAILS_URL);
+  await page.waitForLoadState('networkidle');
+  await switchLanguage(page, 'English');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  await assertDetailsList(page, olderVersion!, 'en');
+});
+*/

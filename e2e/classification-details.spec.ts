@@ -47,4 +47,3 @@ test('displays version details older', async ({ page }) => {
   await assertDetailsList(page, olderVersion!);
 });
 
-// test fallback language
