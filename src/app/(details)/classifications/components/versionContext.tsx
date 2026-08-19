@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useMemo } from 'react';
+import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import {
   ClassificationResource,
   ClassificationVersionResource,
@@ -10,7 +11,7 @@ import {
 export type ResolvedVersion = NonNullable<ClassificationResource['versions']>[number];
 
 type BaseVersionContextType = {
-  classification: ClassificationResource;
+  classification: ClassificationWithLanguage;
   versionSummary: ClassificationVersionSummaryResource;
   isLatest: boolean;
 };
@@ -28,7 +29,7 @@ export function VersionProvider({
   isLatest,
   children,
 }: Readonly<{
-  classification: ClassificationResource;
+  classification: ClassificationWithLanguage;
   versionSummary: ClassificationVersionSummaryResource;
   isLatest: boolean;
   children: React.ReactNode;

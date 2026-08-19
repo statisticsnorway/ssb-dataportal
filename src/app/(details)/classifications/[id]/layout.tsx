@@ -106,7 +106,13 @@ export default async function ClassificationLayout({
   let latestVersionResource;
   try {
     const resourceId = versionNumber !== undefined ? Number(versionNumber) : latestSummary?.id;
-    latestVersionResource = resourceId != null ? await fetchVersionById(resourceId, language) : null;
+    latestVersionResource =
+      resourceId != null
+        ? await fetchVersionById(
+            resourceId,
+            classification.fallbackLanguage ? classification.fallbackLanguage : language,
+          )
+        : null;
   } catch (error) {
     logger.error({ id, error: sanitizeError(error) }, 'Failed to fetch latest version resource');
     return notFound();
