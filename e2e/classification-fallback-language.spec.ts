@@ -24,19 +24,16 @@ async function assertDetailsList(page: Page, version: (typeof versions)[number])
   await expect(validity).toBeVisible();
   await expect(validity).toHaveAttribute('lang', 'nb');
   const publishedLanguages = dds.filter({
-    hasText: 'Norwegian (Bokmål), Norwegian (Nynorsk), English',
+    hasText: 'Norwegian (Bokmål), Norwegian (Nynorsk)',
   });
   await expect(publishedLanguages).toBeVisible();
   await expect(publishedLanguages).not.toHaveAttribute('lang', 'nb');
-  /*const legalBase = dds.getByText(version.legalBase!, { exact: true });
-  await expect(legalBase).toBeVisible();
-  await expect(legalBase).toHaveAttribute('lang', 'nb');*/
+  const noData = dds.getByText('Not relevant', { exact: true });
+  for (let i = 0; i < await noData.count(); i++) {
+    await expect(noData.nth(i)).toBeVisible();
+    await expect(noData.nth(i)).not.toHaveAttribute('lang', 'nb');
+  }
 }
-
-// test notRelevant
-//   "legalBase": "",
-//    "publications": "",
-//   "derivedFrom": "",
 
 test('correct html lang fallback language current', async ({ classificationDetailsPage }) => {
   const page = await classificationDetailsPage('2003');
@@ -62,8 +59,7 @@ test('correct html lang fallback language older', async ({ classificationDetails
       tab: classificationDetailsTabsData.Details.slug,
     }),
   );
-  console.log(page.url());
-  await switchLanguage(page, 'Norsk nynorsk');
-  await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
+  await switchLanguage(page, 'English');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   await assertDetailsList(page, olderVersion!);
 });
