@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/suspicious/noConsole: <explanation> */
 'use client';
 
 import { Button } from '@digdir/designsystemet-react';
@@ -63,7 +62,6 @@ export function CodeTree({ codes, onChange, fallbackLanguage }: Readonly<CodeTre
     return null;
   }
 
-  console.log('Code tree fallbackLanguage:', fallbackLanguage);
   return (
     <div>
       {allParentCodes.length > 0 && (

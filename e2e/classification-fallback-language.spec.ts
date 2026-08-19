@@ -103,3 +103,10 @@ test.describe('Correct language is set in html', () => {
     await assertDetailsList(page, olderVersion!);
   });
 });
+
+// check one variant
+// current
+// prev version
+  // check all variants language
+  // card
+  // test fallback language

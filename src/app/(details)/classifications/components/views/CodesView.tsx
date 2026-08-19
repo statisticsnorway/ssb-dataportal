@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/suspicious/noConsole: <explanation> */
 'use client';
 
 import { Search } from '@digdir/designsystemet-react';
@@ -11,8 +10,8 @@ import { filterCodesWithAncestors } from '@/utils/classifications/filterCodes';
 import { mapLevels } from '../../utils/details';
 import { ClassificationTable } from '../classification-table';
 import { ExpandableTable } from '../expandable-table';
-import styles from './views.module.css';
 import { useVersion } from '../versionContext';
+import styles from './views.module.css';
 
 interface CodesViewProps {
   version: Pick<ClassificationVersionResource, 'classificationItems' | 'levels'>;
@@ -48,8 +47,7 @@ export function CodesView({ version }: Readonly<CodesViewProps>) {
   const mappedCodes = useMemo(() => codes.map(toKlassCode), [codes]);
   const filteredCodes = useMemo(() => filterCodesWithAncestors(mappedCodes, filterTerm), [mappedCodes, filterTerm]);
 
-  const {classification} = useVersion()
-  console.log('Codes view fallbackLanguage:', classification.fallbackLanguage);
+  const { classification } = useVersion();
   return (
     <div className={styles.wrapper}>
       <p>

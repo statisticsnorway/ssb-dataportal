@@ -155,9 +155,3 @@ test('displays fallback-language tag when variants are missing in the selected l
   await page.getByRole('link', { name: formatVariantName(variant.name) }).click();
   await page.getByRole('link', { name: variant.name }).click();
 });
-
-// check one variant
-// current
-// prev version
-  // check all variants language
-  // card

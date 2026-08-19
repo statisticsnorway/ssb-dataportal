@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/suspicious/noConsole: <explanation> */
 'use client';
 
 import { Dialog, Heading } from '@digdir/designsystemet-react';
@@ -37,8 +36,6 @@ export function CodeTreeRow({
   const hasChildren = node.children.length > 0;
   const isExpanded = expandedCodes.has(code.code);
   const isSelected = selectedCode === code.code;
-
-  console.log('Code tree fallbackLanguage:', fallbackLanguage);
 
   return (
     <li role='treeitem' aria-expanded={hasChildren ? isExpanded : undefined} aria-selected={isSelected}>

@@ -32,5 +32,3 @@ test('Page follows wcag standard', async ({ classificationDetailsPage }) => {
   const results = await new AxeBuilder({ page }).withTags(['wcag21a', 'wcag21aa']).analyze();
   expect(results.violations).toEqual([]);
 });
-
-// test fallback language
