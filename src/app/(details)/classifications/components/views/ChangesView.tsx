@@ -142,12 +142,17 @@ export default function ChangesView({
                   colSpan={2}
                   scope='col'
                   className={`${styles.tableHeader} ${styles.tableCentralDivider}`}
-                  key={previousVersion.name ?? 'previous'}
+                  key={(inverted ? version.name : previousVersion.name) ?? 'left-version'}
                 >
-                  {previousVersion.name ?? '-'}
+                  {(inverted ? version.name : previousVersion.name) ?? '-'}
                 </TableHeaderCell>
-                <TableHeaderCell colSpan={2} scope='col' className={styles.tableHeader} key={version.name ?? 'current'}>
-                  {version.name ?? '-'}
+                <TableHeaderCell
+                  colSpan={2}
+                  scope='col'
+                  className={styles.tableHeader}
+                  key={(inverted ? previousVersion.name : version.name) ?? 'right-version'}
+                >
+                  {(inverted ? previousVersion.name : version.name) ?? '-'}
                 </TableHeaderCell>
               </TableRow>
             </TableHead>
