@@ -85,3 +85,27 @@ export function DownloadChangesRouteDialog() {
     />
   );
 }
+
+export function DownloadVariantCodesRouteDialog({ variantId }: Readonly<{ variantId: number }>) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const basePath = getBasePathFromDownloadPath(pathname);
+
+  const config = parseDownloadConfig(searchParams, localization.getLanguage() as 'nb' | 'nn' | 'en');
+  const closePath = basePath;
+
+  return (
+    <DownloadCodesDialog
+      versionId={variantId}
+      isVariantDownload={true}
+      open={true}
+      showTrigger={false}
+      initialFormat={config.format}
+      initialLanguage={config.language}
+      onDialogClose={() => router.push(closePath)}
+      buildShareUrl={({ language, format }) => buildSharePath(pathname, format, language)}
+    />
+  );
+}

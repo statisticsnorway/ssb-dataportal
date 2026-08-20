@@ -5,7 +5,14 @@ import { expect, test } from './fixtures/codesPage.fixture';
 
 const versions = versionsMock.versions;
 const currentVariantId = versions?.[0]?.classificationVariants?.[0]?.id ?? 0;
+const currentVersionId = versions?.[0]?.id ?? 1;
 const CURRENT_VARIANT_URL = buildUrl({ classificationId: 2003, variantId: currentVariantId });
+const CURRENT_VARIANT_DOWNLOAD_URL = `${CURRENT_VARIANT_URL}/download?v=1&format=csv&language=nb`;
+const VERSIONED_VARIANT_DOWNLOAD_URL = `${buildUrl({
+  classificationId: 2003,
+  versionId: currentVersionId,
+  variantId: currentVariantId,
+})}/download?v=1&format=csv&language=nb`;
 
 test.describe('classification code download', () => {
   test('download dialog shows format and language selectors with defaults', async ({ codesPage }) => {
@@ -66,5 +73,29 @@ test.describe('classification code download', () => {
     ]);
 
     expect(download.suggestedFilename()).toBe(`classification-variant-codes-${currentVariantId}-en.csv`);
+  });
+
+  test('direct visit to latest variant download URL opens modal', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name === 'chrome-unauth');
+    await page.goto(CURRENT_VARIANT_DOWNLOAD_URL);
+
+    await expect(page).toHaveURL(CURRENT_VARIANT_DOWNLOAD_URL);
+
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByLabel(localization.classification.download.formatLabel)).toHaveValue('csv');
+    await expect(dialog.getByLabel(localization.classification.download.languageLabel)).toHaveValue('nb');
+  });
+
+  test('direct visit to versioned variant download URL opens modal', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name === 'chrome-unauth');
+    await page.goto(VERSIONED_VARIANT_DOWNLOAD_URL);
+
+    await expect(page).toHaveURL(VERSIONED_VARIANT_DOWNLOAD_URL);
+
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByLabel(localization.classification.download.formatLabel)).toHaveValue('csv');
+    await expect(dialog.getByLabel(localization.classification.download.languageLabel)).toHaveValue('nb');
   });
 });

@@ -3,7 +3,6 @@
 import { Button, Search } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
-import { DownloadCodesDialog } from '@/app/(details)/classifications/components/download-dialog';
 import { CodeTree } from '@/components/code-tree';
 import { ClassificationItemResource, ClassificationVersionResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
@@ -102,13 +101,9 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
                 </Button>
               ) : null}
               {version.id && isVariantDownload ? (
-                <DownloadCodesDialog
-                  versionId={version.id}
-                  classificationId={classificationId}
-                  validFrom={version.validFrom}
-                  validTo={version.validTo}
-                  isVariantDownload={isVariantDownload}
-                />
+                <Button variant='secondary' onClick={handleOpenDownloadRoute}>
+                  {localization.classification.download.button}
+                </Button>
               ) : null}
               {version.id && !isVariantDownload && isClassificationDownloadReady ? (
                 <Button variant='secondary' onClick={handleOpenDownloadRoute}>

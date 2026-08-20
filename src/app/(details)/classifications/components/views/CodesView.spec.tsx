@@ -9,6 +9,7 @@ import { CodesView } from './CodesView';
 
 vi.mock('next/navigation', () => ({
   usePathname: () => '/classifications/2003/codes',
+  useSearchParams: () => new URLSearchParams(),
   useRouter: () => ({
     push: vi.fn(),
   }),

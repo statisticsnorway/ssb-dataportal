@@ -113,6 +113,11 @@ function DownloadDialog({
       return;
     }
 
+    const currentPathWithQuery = `${window.location.pathname}${window.location.search}`;
+    if (currentPathWithQuery === sharePath) {
+      return;
+    }
+
     window.history.replaceState(window.history.state, '', sharePath);
   }, [sharePath]);
 
