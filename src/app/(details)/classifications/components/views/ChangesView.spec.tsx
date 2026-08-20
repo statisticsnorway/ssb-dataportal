@@ -85,8 +85,6 @@ describe('ChangesView', () => {
   it('fetches changes only once for stable inputs', async () => {
     fetchChangesMock.mockResolvedValue([]);
 
-    fetchChangesMock.mockResolvedValue([]);
-
     const previousVersion: ClassificationVersionResource = {
       id: 30,
       name: 'v30',
