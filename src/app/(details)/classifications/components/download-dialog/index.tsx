@@ -6,11 +6,12 @@ import type { FileDownloadFormat } from '@/libs/data/classifications/codesData';
 import { localization, type SupportedLanguage, supportedLanguages } from '@/libs/language';
 import { downloadChangesAction, downloadCodesAction, downloadVariantCodesAction } from './actions';
 import styles from './download-dialog.module.css';
+import { createDownloadBlob } from './download-utils';
 
 const FORMAT_OPTIONS = ['csv', 'xml', 'json'] as const satisfies ReadonlyArray<FileDownloadFormat>;
 
 function download(content: string, mimeType: string, fileName: string) {
-  const blob = new Blob([content], { type: mimeType });
+  const blob = createDownloadBlob(content, mimeType, fileName);
   const objectUrl = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = objectUrl;
