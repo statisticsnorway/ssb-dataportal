@@ -54,6 +54,29 @@ test.describe('classification code download', () => {
     expect(download.suggestedFilename()).toBe('classification-codes-1-en.xml');
   });
 
+  test('download dialog can copy shareable download link', async ({ codesPage }, testInfo) => {
+    test.skip(testInfo.project.name !== 'firefox');
+    const openDownloadDialog = codesPage.getByRole('button', {
+      name: localization.classification.download.button,
+    });
+    await openDownloadDialog.click();
+
+    const dialog = codesPage.getByRole('dialog');
+    await expect(dialog).toBeVisible();
+
+    await dialog.getByLabel(localization.classification.download.formatLabel).selectOption('xml');
+    await dialog.getByLabel(localization.classification.download.languageLabel).selectOption('en');
+
+    await expect(codesPage).toHaveURL(/\/download\?v=1&format=xml&language=en$/);
+
+    await dialog.getByRole('button', { name: localization.classification.download.copyLink }).click();
+
+    await expect(dialog.getByRole('status')).toHaveText(localization.classification.download.linkCopied);
+
+    const clipboardText = await codesPage.evaluate(() => navigator.clipboard.readText());
+    expect(clipboardText).toBe(codesPage.url());
+  });
+
   test('download works for variant codes page', async ({ page }, testInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
     await page.goto(CURRENT_VARIANT_URL);
