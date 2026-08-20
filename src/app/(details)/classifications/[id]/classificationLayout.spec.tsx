@@ -76,6 +76,7 @@ vi.mock('../components/classificationDetail', () => ({
 }));
 
 vi.mock('../components/versionContext', () => ({
+  VersionProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
   VersionResourceLayer: ({
     versionResource,
     children,
