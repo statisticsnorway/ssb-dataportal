@@ -1,5 +1,6 @@
 'use server';
 
+import { cache } from 'react';
 import { ClassificationsLanguageEnum } from '@/libs/data-access/klass/apis/ClassificationsApi';
 import { VersionsApi } from '@/libs/data-access/klass/apis/VersionsApi';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
@@ -30,7 +31,7 @@ async function getKlassVersionsClient(): Promise<VersionsApi> {
   return new VersionsApi(new Configuration(configParams));
 }
 
-export async function fetchVersionById(
+const fetchVersionByIdCached = cache(async function fetchVersionByIdCached(
   id: number,
   language: SupportedLanguage | undefined = 'nb',
 ): Promise<ClassificationVersionResource | undefined> {
@@ -68,4 +69,11 @@ export async function fetchVersionById(
     }
     throw error;
   }
+});
+
+export async function fetchVersionById(
+  id: number,
+  language: SupportedLanguage | undefined = 'nb',
+): Promise<ClassificationVersionResource | undefined> {
+  return fetchVersionByIdCached(id, language);
 }

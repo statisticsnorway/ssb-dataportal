@@ -58,11 +58,14 @@ export const classificationDetailsTabsData: Record<keyof typeof Tabs, Classifica
 };
 
 export function getClassificationDetailsTabForRoute(pathname: string): ClassificationDetailsTabData | undefined {
-  const routeSegments = pathname.split('/').filter(Boolean);
+  const routePath = pathname.split('?')[0] ?? pathname;
+  const routeSegments = routePath.split('/').filter(Boolean);
+
+  const effectiveLastSegment = routeSegments.at(-1) === 'download' ? routeSegments.at(-2) : routeSegments.at(-1);
 
   return Object.values(classificationDetailsTabsData).find(
     (tabData: ClassificationDetailsTabData) =>
-      routeSegments.at(-1) === tabData.slug ||
+      effectiveLastSegment === tabData.slug ||
       tabData.nestedRouteSegments?.some((segment) => routeSegments.includes(segment)),
   );
 }

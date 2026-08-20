@@ -112,3 +112,28 @@ test('changes tab supports downloading changes', async ({ classificationDetailsP
 
   expect(download.suggestedFilename()).toMatch(/^classification-changes-\d+-en\.xml$/);
 });
+
+test('changes download dialog can copy shareable link', async ({ classificationDetailsPage }, testInfo) => {
+  test.skip(testInfo.project.name !== 'firefox');
+  const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID);
+
+  const openDownloadDialog = page.getByRole('button', {
+    name: localization.classification.download.button,
+  });
+  await openDownloadDialog.click();
+
+  const dialog = page.getByRole('dialog');
+  await expect(dialog).toBeVisible();
+
+  await dialog.getByLabel(localization.classification.download.formatLabel).selectOption('json');
+  await dialog.getByLabel(localization.classification.download.languageLabel).selectOption('en');
+
+  await expect(page).toHaveURL(/\/changes\/download\?v=1&format=json&language=en$/);
+
+  await dialog.getByRole('button', { name: localization.classification.download.copyLink }).click();
+
+  await expect(dialog.getByText(localization.classification.download.linkCopied)).toBeVisible();
+
+  const clipboardText = await page.evaluate(() => navigator.clipboard.readText());
+  expect(clipboardText).toBe(page.url());
+});

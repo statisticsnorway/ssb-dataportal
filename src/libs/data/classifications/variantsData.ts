@@ -1,5 +1,6 @@
 'use server';
 
+import { cache } from 'react';
 import type { FileDownloadFormat } from '@/libs/data/classifications/codesData';
 import { VariantsApi } from '@/libs/data-access/klass/apis/VariantsApi';
 import type { ClassificationItemResource } from '@/libs/data-access/klass/models';
@@ -88,7 +89,7 @@ function getVariantsClient(): VariantsApi {
   return new VariantsApi(new Configuration(config));
 }
 
-export async function fetchVariantById(
+const fetchVariantByIdCached = cache(async function fetchVariantByIdCached(
   id: number,
   language: SupportedLanguage | undefined = 'nb',
 ): Promise<ClassificationVariantResource | undefined> {
@@ -124,6 +125,13 @@ export async function fetchVariantById(
     }
     throw error;
   }
+});
+
+export async function fetchVariantById(
+  id: number,
+  language: SupportedLanguage | undefined = 'nb',
+): Promise<ClassificationVariantResource | undefined> {
+  return fetchVariantByIdCached(id, language);
 }
 
 export async function fetchVariantForClassification(

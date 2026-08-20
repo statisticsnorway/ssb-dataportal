@@ -3,6 +3,13 @@ import { describe, expect, it, vi } from 'vitest';
 import type { ClassificationResource, ClassificationVersionResource, CodeChangeItem } from '@/libs/data-access/klass';
 import ChangesView from './ChangesView';
 
+vi.mock('next/navigation', () => ({
+  usePathname: () => '/classifications/2003/changes',
+  useRouter: () => ({
+    push: vi.fn(),
+  }),
+}));
+
 const fetchChangesMock = vi.hoisted(() => vi.fn<() => Promise<CodeChangeItem[]>>());
 
 vi.mock('@/libs/data/classifications/codesData', () => ({
@@ -32,10 +39,6 @@ vi.mock('../classification-table', () => ({
 
 vi.mock('../expandable-table', () => ({
   ExpandableTable: () => <div data-testid='expandable-table' />,
-}));
-
-vi.mock('@/app/(details)/classifications/components/download-dialog', () => ({
-  DownloadChangesDialog: () => <div data-testid='download-dialog' />,
 }));
 
 describe('ChangesView', () => {
