@@ -77,6 +77,28 @@ test.describe('classification code download', () => {
     expect(clipboardText).toBe(codesPage.url());
   });
 
+  test('download dialog closes back to codes route and can be reopened', async ({ codesPage }) => {
+    const openDownloadDialog = codesPage.getByRole('button', {
+      name: localization.classification.download.button,
+    });
+
+    await openDownloadDialog.click();
+
+    const dialog = codesPage.getByRole('dialog');
+    await expect(dialog).toBeVisible();
+    await expect(codesPage).toHaveURL(/\/codes\/download\?v=1&format=csv&language=nb$/);
+
+    await dialog.getByRole('button', { name: 'Lukk dialogvindu' }).click();
+
+    await expect(dialog).not.toBeVisible();
+    await expect(codesPage).toHaveURL(/\/codes$/);
+
+    await openDownloadDialog.click();
+
+    await expect(codesPage.getByRole('dialog')).toBeVisible();
+    await expect(codesPage).toHaveURL(/\/codes\/download\?v=1&format=csv&language=nb$/);
+  });
+
   test('download works for variant codes page', async ({ page }, testInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
     await page.goto(CURRENT_VARIANT_URL);
