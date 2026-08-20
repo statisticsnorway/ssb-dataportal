@@ -11,7 +11,10 @@ import {
 } from '../../utils/download-urls';
 import { DownloadChangesDialog, DownloadCodesDialog } from './index';
 
-function buildSharePath(pathname: string, format: 'csv' | 'xml' | 'json', language: 'nb' | 'nn' | 'en') {
+type DownloadFormat = 'csv' | 'xml' | 'json';
+type DownloadLanguage = 'nb' | 'nn' | 'en';
+
+function buildSharePath(pathname: string, format: DownloadFormat, language: DownloadLanguage) {
   return `${getDownloadPath(getBasePathFromDownloadPath(pathname))}?${buildDownloadQuery({ format, language })}`;
 }
 

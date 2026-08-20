@@ -195,7 +195,7 @@ function DownloadDialog({
             </Select>
           </Field>
           {errorMessage ? <p role='alert'>{errorMessage}</p> : null}
-          {copyMessage ? <p role='status'>{copyMessage}</p> : null}
+          {copyMessage ? <output>{copyMessage}</output> : null}
         </div>
         <div className={styles.actions}>
           {sharePath ? (

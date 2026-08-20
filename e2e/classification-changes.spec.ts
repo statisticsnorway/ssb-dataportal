@@ -132,7 +132,7 @@ test('changes download dialog can copy shareable link', async ({ classificationD
 
   await dialog.getByRole('button', { name: localization.classification.download.copyLink }).click();
 
-  await expect(dialog.getByRole('status')).toHaveText(localization.classification.download.linkCopied);
+  await expect(dialog.getByText(localization.classification.download.linkCopied)).toBeVisible();
 
   const clipboardText = await page.evaluate(() => navigator.clipboard.readText());
   expect(clipboardText).toBe(page.url());

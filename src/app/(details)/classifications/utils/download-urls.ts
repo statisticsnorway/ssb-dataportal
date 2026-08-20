@@ -4,8 +4,8 @@ import type { SupportedLanguage } from '@/libs/language';
 const DOWNLOAD_PATH_SEGMENT = 'download';
 const DOWNLOAD_SCHEMA_VERSION = '1';
 
-const FORMAT_OPTIONS: ReadonlyArray<FileDownloadFormat> = ['csv', 'xml', 'json'];
-const LANGUAGE_OPTIONS: ReadonlyArray<SupportedLanguage> = ['nb', 'nn', 'en'];
+const FORMAT_OPTIONS = new Set<FileDownloadFormat>(['csv', 'xml', 'json']);
+const LANGUAGE_OPTIONS = new Set<SupportedLanguage>(['nb', 'nn', 'en']);
 
 export interface DownloadConfig {
   format: FileDownloadFormat;
@@ -14,12 +14,12 @@ export interface DownloadConfig {
 
 function isFormat(value: string | null): value is FileDownloadFormat {
   if (!value) return false;
-  return FORMAT_OPTIONS.includes(value as FileDownloadFormat);
+  return FORMAT_OPTIONS.has(value as FileDownloadFormat);
 }
 
 function isLanguage(value: string | null): value is SupportedLanguage {
   if (!value) return false;
-  return LANGUAGE_OPTIONS.includes(value as SupportedLanguage);
+  return LANGUAGE_OPTIONS.has(value as SupportedLanguage);
 }
 
 export function parseDownloadConfig(
