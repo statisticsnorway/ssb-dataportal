@@ -65,11 +65,11 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function ClassificationLayout({
   children,
-  modal,
+  download,
   params,
 }: Readonly<{
   children: ReactNode;
-  modal: ReactNode;
+  download: ReactNode;
   params: Promise<{ id: string; versionNumber?: string }>;
 }>) {
   const logger = createLogger('classification-detail-page');
@@ -145,7 +145,7 @@ export default async function ClassificationLayout({
         <ClassificationDetail classification={classification} classificationVersion={latestVersionResource}>
           {children}
         </ClassificationDetail>
-        {modal}
+        {download}
       </VersionResourceLayer>
     </VersionProvider>
   );
