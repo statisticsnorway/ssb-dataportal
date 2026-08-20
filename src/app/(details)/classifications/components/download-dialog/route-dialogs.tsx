@@ -34,7 +34,7 @@ export function DownloadCodesRouteDialog() {
     return null;
   }
 
-  const config = parseDownloadConfig(searchParams, localization.getLanguage() as 'nb' | 'nn' | 'en');
+  const config = parseDownloadConfig(searchParams, localization.getLanguage() as DownloadLanguage);
   const closePath = getBasePathFromDownloadPath(pathname);
 
   return (
@@ -69,7 +69,7 @@ export function DownloadChangesRouteDialog() {
     return null;
   }
 
-  const config = parseDownloadConfig(searchParams, localization.getLanguage() as 'nb' | 'nn' | 'en');
+  const config = parseDownloadConfig(searchParams, localization.getLanguage() as DownloadLanguage);
   const closePath = getBasePathFromDownloadPath(pathname);
   const from = getDateBefore(previousVersion.validFrom);
 
@@ -96,7 +96,7 @@ export function DownloadVariantCodesRouteDialog({ variantId }: Readonly<{ varian
 
   const basePath = getBasePathFromDownloadPath(pathname);
 
-  const config = parseDownloadConfig(searchParams, localization.getLanguage() as 'nb' | 'nn' | 'en');
+  const config = parseDownloadConfig(searchParams, localization.getLanguage() as DownloadLanguage);
   const closePath = basePath;
 
   return (
