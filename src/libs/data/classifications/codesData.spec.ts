@@ -3,7 +3,7 @@ import { CodesApi } from '@/libs/data-access/klass';
 import { VersionsApi } from '@/libs/data-access/klass/apis/VersionsApi';
 import { ResponseError } from '@/libs/data-access/klass/runtime';
 import codesMock from '@/static-data/codes-mock.json';
-import { fetchChanges, fetchChangesDownload, fetchVersionCodes } from './codesData';
+import { fetchChanges, fetchChangesDownload, fetchCodesDownload, fetchVersionCodes } from './codesData';
 
 vi.mock('server-only', () => ({}));
 
@@ -126,5 +126,41 @@ describe('fetchChangesDownload', () => {
 
     expect(result.mimeType).toBe('application/json');
     expect(result.content).toContain('Belarus');
+  });
+});
+
+describe('fetchCodesDownload', () => {
+  it('builds csv from json codes to preserve unicode characters', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
+
+    const codesSpy = vi.spyOn(CodesApi.prototype, 'codes').mockResolvedValue({
+      codes: [
+        {
+          code: '1853',
+          parentCode: undefined,
+          level: '1',
+          name: 'Evenes - Evenášši',
+          shortName: '',
+          presentationName: '',
+          validFrom: undefined,
+          validTo: undefined,
+          notes: '',
+        },
+      ],
+    });
+    const codesRawSpy = vi.spyOn(CodesApi.prototype, 'codesRaw');
+
+    const result = await fetchCodesDownload({
+      versionId: 1,
+      classificationId: 131,
+      from: new Date('2020-01-01'),
+      language: 'nb',
+      format: 'csv',
+    });
+
+    expect(result.mimeType).toContain('text/csv');
+    expect(codesSpy).toHaveBeenCalledOnce();
+    expect(codesRawSpy).not.toHaveBeenCalled();
+    expect(result.content).toContain('Evenes - Evenášši');
   });
 });
