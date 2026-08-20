@@ -74,12 +74,12 @@ describe('ChangesView', () => {
       <ChangesView classification={{ id: 6, versions: [previousVersion, currentVersion] }} version={currentVersion} />,
     );
 
-    await waitFor(() => expect(screen.getByText('v30')).toBeInTheDocument());
-    expect(screen.getAllByRole('columnheader').map((header) => header.textContent)).toEqual(['v30', 'v31']);
+    await screen.findByText('v30');
+    expect((await screen.findAllByRole('columnheader')).map((header) => header.textContent)).toEqual(['v30', 'v31']);
 
-    fireEvent.click(screen.getAllByRole('button')[0] as HTMLButtonElement);
+    fireEvent.click(screen.getByRole('button', { name: /inverter/i }));
 
-    expect(screen.getAllByRole('columnheader').map((header) => header.textContent)).toEqual(['v31', 'v30']);
+    expect((await screen.findAllByRole('columnheader')).map((header) => header.textContent)).toEqual(['v31', 'v30']);
   });
 
   it('fetches changes only once for stable inputs', async () => {
