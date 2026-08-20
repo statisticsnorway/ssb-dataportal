@@ -4,6 +4,8 @@ import CorrespondencesView from '@/app/(details)/classifications/components/view
 import { ClassificationVersionResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 
+const classificationId = 104;
+
 const versionWithoutCorrespondences: ClassificationVersionResource = {
   correspondenceTables: [],
 };
@@ -37,15 +39,19 @@ const varsionWithTwoCorrespondences: ClassificationVersionResource = {
 
 describe('CorrespondencesView', () => {
   it('shows informational alert when correspondences are missing', () => {
-    render(<CorrespondencesView classificationVersion={{}} />);
+    render(<CorrespondencesView classificationId={classificationId} classificationVersion={{}} />);
     expect(screen.getByRole('status')).toHaveTextContent(localization.classification.correspondence.none);
   });
   it('shows informational alert when correspondences are empty', () => {
-    render(<CorrespondencesView classificationVersion={versionWithoutCorrespondences} />);
+    render(
+      <CorrespondencesView classificationId={classificationId} classificationVersion={versionWithoutCorrespondences} />,
+    );
     expect(screen.getByRole('status')).toHaveTextContent(localization.classification.correspondence.none);
   });
   it('renders the correspondence table in a card', () => {
-    render(<CorrespondencesView classificationVersion={versionWithOneCorrespondence} />);
+    render(
+      <CorrespondencesView classificationId={classificationId} classificationVersion={versionWithOneCorrespondence} />,
+    );
     expect(screen.getByRole('heading', { name: localization.classification.correspondence.heading })).toBeVisible();
     expect(screen.getByRole('heading', { level: 3, name: 'Korrespondansetabell' })).toBeVisible();
     expect(screen.getByText(localization.classification.correspondence.from)).toBeVisible();
@@ -58,7 +64,9 @@ describe('CorrespondencesView', () => {
     expect(screen.getByText('320')).toBeVisible();
   });
   it('renders multiple correspondence tables in cards', () => {
-    render(<CorrespondencesView classificationVersion={varsionWithTwoCorrespondences} />);
+    render(
+      <CorrespondencesView classificationId={classificationId} classificationVersion={varsionWithTwoCorrespondences} />,
+    );
     expect(screen.getByRole('heading', { name: localization.classification.correspondence.heading })).toBeVisible();
     expect(screen.getByRole('heading', { level: 3, name: 'Korrespondansetabell 1' })).toBeVisible();
     expect(screen.getByRole('heading', { level: 3, name: 'Korrespondansetabell 2' })).toBeVisible();
