@@ -96,6 +96,15 @@ describe('CodesView', () => {
     expect(screen.queryByText(hidden)).not.toBeInTheDocument();
   });
 
+  it('keeps the codes table visible and shows no rows when filter has no matches', () => {
+    render(<CodesView version={version} />);
+
+    fireEvent.change(screen.getByLabelText('Filtrer på kode eller navn'), { target: { value: 'no-match' } });
+
+    expect(screen.getByLabelText('filtered-codes')).toBeInTheDocument();
+    expect(screen.queryByRole('listitem')).not.toBeInTheDocument();
+  });
+
   it('renders download button on codes tab when classification download data is available', () => {
     render(<CodesView version={version} classificationId={2003} />);
 
