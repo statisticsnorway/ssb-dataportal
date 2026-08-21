@@ -21,7 +21,7 @@ const FILE_DOWNLOAD_ACCEPT = {
 } as const;
 const DEFAULT_TEXT_CHARSET = 'utf-8';
 
-export type CorrespondenceDownloadFormat = keyof typeof FILE_DOWNLOAD_ACCEPT;
+type CorrespondenceDownloadFormat = keyof typeof FILE_DOWNLOAD_ACCEPT;
 
 interface CorrespondenceDownloadRequest {
   tableId: number;
