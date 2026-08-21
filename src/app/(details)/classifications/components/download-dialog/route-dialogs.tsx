@@ -9,7 +9,7 @@ import {
   getDownloadPath,
   parseDownloadConfig,
 } from '../../utils/download-urls';
-import { DownloadChangesDialog, DownloadCodesDialog } from './index';
+import { DownloadChangesDialog, DownloadCodesDialog, DownloadCorrespondenceDialog } from './index';
 
 type DownloadFormat = 'csv' | 'xml' | 'json';
 type DownloadLanguage = 'nb' | 'nn' | 'en';
@@ -103,6 +103,42 @@ export function DownloadVariantCodesRouteDialog({ variantId }: Readonly<{ varian
     <DownloadCodesDialog
       versionId={variantId}
       isVariantDownload={true}
+      open={true}
+      showTrigger={false}
+      initialFormat={config.format}
+      initialLanguage={config.language}
+      onDialogClose={() => router.push(closePath)}
+      buildShareUrl={({ language, format }) => buildSharePath(pathname, format, language)}
+    />
+  );
+}
+
+export function DownloadCorrespondenceRouteDialog() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { versionResource } = useVersion();
+
+  const routeSegments = pathname.split('/').filter(Boolean);
+  const correspondenceIdSegment = routeSegments.at(-2);
+  const correspondenceId = correspondenceIdSegment ? Number(correspondenceIdSegment) : Number.NaN;
+
+  if (!Number.isInteger(correspondenceId)) {
+    return null;
+  }
+
+  const correspondenceTable = versionResource?.correspondenceTables?.find((table) => table.id === correspondenceId);
+
+  if (correspondenceTable?.id == null) {
+    return null;
+  }
+
+  const config = parseDownloadConfig(searchParams, localization.getLanguage() as DownloadLanguage);
+  const closePath = getBasePathFromDownloadPath(pathname);
+
+  return (
+    <DownloadCorrespondenceDialog
+      tableId={correspondenceTable.id}
       open={true}
       showTrigger={false}
       initialFormat={config.format}

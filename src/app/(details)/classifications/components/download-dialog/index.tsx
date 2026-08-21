@@ -4,7 +4,12 @@ import { Button, Dialog, Field, Label, Select } from '@digdir/designsystemet-rea
 import { useEffect, useState } from 'react';
 import type { FileDownloadFormat } from '@/libs/data/classifications/codesData';
 import { localization, type SupportedLanguage, supportedLanguages } from '@/libs/language';
-import { downloadChangesAction, downloadCodesAction, downloadVariantCodesAction } from './actions';
+import {
+  downloadChangesAction,
+  downloadCodesAction,
+  downloadCorrespondenceAction,
+  downloadVariantCodesAction,
+} from './actions';
 import styles from './download-dialog.module.css';
 import { createDownloadBlob } from './download-utils';
 
@@ -41,6 +46,16 @@ interface DownloadChangesDialogProps {
   classificationId: number;
   from: Date | string;
   to?: Date | string;
+  open?: boolean;
+  showTrigger?: boolean;
+  initialFormat?: FileDownloadFormat;
+  initialLanguage?: SupportedLanguage;
+  onDialogClose?: () => void;
+  buildShareUrl?: (args: { language: SupportedLanguage; format: FileDownloadFormat }) => string;
+}
+
+interface DownloadCorrespondenceDialogProps {
+  tableId: number;
   open?: boolean;
   showTrigger?: boolean;
   initialFormat?: FileDownloadFormat;
@@ -318,6 +333,41 @@ export function DownloadChangesDialog({
           classificationId,
           from: typeof from === 'string' ? from : from.toISOString(),
           to: typeof to === 'string' ? to : to?.toISOString(),
+          language,
+          format,
+        })
+      }
+    />
+  );
+}
+
+export function DownloadCorrespondenceDialog({
+  tableId,
+  open,
+  showTrigger,
+  initialFormat,
+  initialLanguage,
+  onDialogClose,
+  buildShareUrl,
+}: Readonly<DownloadCorrespondenceDialogProps>) {
+  return (
+    <DownloadDialog
+      versionId={tableId}
+      filePrefixByLanguage={{
+        nb: 'klassifikasjon-korrespondansetabell',
+        nn: 'klassifikasjon-korrespondansetabell',
+        en: 'classification-correspondence-table',
+      }}
+      title={localization.classification.download}
+      open={open}
+      showTrigger={showTrigger}
+      initialFormat={initialFormat}
+      initialLanguage={initialLanguage}
+      onDialogClose={onDialogClose}
+      buildShareUrl={buildShareUrl}
+      handleAction={({ language, format }) =>
+        downloadCorrespondenceAction({
+          tableId,
           language,
           format,
         })
