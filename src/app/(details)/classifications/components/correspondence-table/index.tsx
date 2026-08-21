@@ -2,6 +2,7 @@
 
 import {
   Button,
+  Search,
   Table,
   TableBody,
   TableCell,
@@ -55,6 +56,19 @@ function groupMappings(mappings: CorrespondenceMapResource[], inverted: boolean)
   return [...groups.values()];
 }
 
+function countDistinctCodes(mappings: CorrespondenceMapResource[], side: 'source' | 'target'): number {
+  const codes = new Set<string>();
+
+  for (const mapping of mappings) {
+    const code = side === 'source' ? mapping.sourceCode : mapping.targetCode;
+    if (code?.trim()) {
+      codes.add(code.trim());
+    }
+  }
+
+  return codes.size;
+}
+
 function renderCodeAndName(
   code?: string | null,
   name?: string | null,
@@ -93,19 +107,64 @@ export function CorrespondenceTable({
   downloadHref,
 }: Readonly<CorrespondenceTableProps>) {
   const [inverted, setInverted] = useState(false);
-  const displayedSourceName = inverted ? targetName : sourceName;
-  const displayedTargetName = inverted ? sourceName : targetName;
-  const groupedMappings = useMemo(() => groupMappings(mappings, inverted), [mappings, inverted]);
+  const [filterTerm, setFilterTerm] = useState('');
+  const normalizedSourceName = sourceName.trim();
+  const normalizedTargetName = targetName.trim();
+  const displayedSourceName = inverted ? normalizedTargetName : normalizedSourceName;
+  const displayedTargetName = inverted ? normalizedSourceName : normalizedTargetName;
+  const codeCounts = useMemo(
+    () => ({
+      source: countDistinctCodes(mappings, 'source'),
+      target: countDistinctCodes(mappings, 'target'),
+    }),
+    [mappings],
+  );
+  const filteredMappings = useMemo(() => {
+    const normalizedTerm = filterTerm.trim().toLocaleLowerCase();
+    if (!normalizedTerm) {
+      return mappings;
+    }
+
+    return mappings.filter((mapping) =>
+      [mapping.sourceCode, mapping.sourceName, mapping.targetCode, mapping.targetName].some((value) =>
+        value?.toLocaleLowerCase().includes(normalizedTerm),
+      ),
+    );
+  }, [filterTerm, mappings]);
+  const groupedMappings = useMemo(() => groupMappings(filteredMappings, inverted), [filteredMappings, inverted]);
 
   return (
     <section>
+      <p className={styles.codeSummary}>
+        {localization.formatString(localization.classification.correspondence.codeSummary, {
+          sourceCount: codeCounts.source,
+          sourceName: normalizedSourceName,
+          targetCount: codeCounts.target,
+          targetName: normalizedTargetName,
+        })}
+      </p>
       <div className={styles.toolbar}>
-        <Button variant='secondary' onClick={() => setInverted((current) => !current)}>
-          {localization.versions.invert}
-        </Button>
-        <Button asChild variant='secondary'>
-          <Link href={downloadHref}>{localization.classification.download.button}</Link>
-        </Button>
+        <div className={styles.searchScope}>
+          <Search>
+            <Search.Input
+              id='correspondence-filter-input'
+              aria-label={localization.codeTree.filterLabel}
+              placeholder={localization.codeTree.filterPlaceholder}
+              value={filterTerm}
+              onChange={(event) => setFilterTerm(event.target.value)}
+            />
+            <Search.Clear aria-label={localization.codeTree.clearFilter} onClick={() => setFilterTerm('')} />
+            <Search.Button variant='secondary'>{localization.codeTree.filterButton}</Search.Button>
+          </Search>
+        </div>
+        <div className={styles.actions}>
+          <Button variant='secondary' onClick={() => setInverted((current) => !current)}>
+            {localization.versions.invert}
+          </Button>
+          <Button asChild variant='secondary'>
+            <Link href={downloadHref}>{localization.classification.download.button}</Link>
+          </Button>
+        </div>
       </div>
 
       <div className={styles.tableWrapper}>

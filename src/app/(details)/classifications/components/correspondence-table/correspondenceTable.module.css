@@ -1,8 +1,28 @@
 .toolbar {
   display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-block-end: 0.5rem;
+}
+
+.codeSummary {
+  margin-block-end: 2rem;
+}
+
+.searchScope {
+  max-width: 30rem;
+}
+
+.searchScope :global(.ds-search) > input,
+.searchScope :global(.ds-search) > button:not([type="reset"]) {
+  height: var(--ds-size-12);
+  min-height: var(--ds-size-12);
+}
+
+.actions {
+  display: flex;
   justify-content: flex-end;
   gap: var(--ds-size-2);
-  padding-block-end: 0.5rem;
 }
 
 .tableWrapper {
@@ -14,7 +34,7 @@
   background-color: var(--element-background-color);
   --dsc-table-padding: var(--ds-size-1) var(--ds-size-2);
   word-break: break-all;
-  font-size: var(--ds-font-size-sm);
+  font-size: var(--font-size-md);
 }
 
 .tableHeader {
@@ -59,12 +79,21 @@
 
 @media (min-width: 400px) {
   .table {
-    font-size: var(--ds-font-size-md);
     word-break: normal;
   }
 }
 
 @media (min-width: 768px) {
+  .toolbar {
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .searchScope {
+    flex: 1;
+  }
+
   .table {
     --dsc-table-padding: var(--ds-size-2) var(--ds-size-3);
   }

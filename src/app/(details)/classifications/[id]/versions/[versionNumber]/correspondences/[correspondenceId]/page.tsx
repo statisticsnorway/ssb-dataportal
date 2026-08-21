@@ -1,12 +1,14 @@
-import { Link as DigdirLink } from '@digdir/designsystemet-react';
+import { Link as DigdirLink, Heading } from '@digdir/designsystemet-react';
 import { ArrowLeftIcon } from '@navikt/aksel-icons';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout';
 import { CorrespondenceTable } from '@/app/(details)/classifications/components/correspondence-table';
+import { mapCorrespondenceDetails } from '@/app/(details)/classifications/utils/correspondences';
 import { buildDownloadHref } from '@/app/(details)/classifications/utils/download-urls';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
+import { DetailsList } from '@/components/details-list';
 import { fetchCorrespondenceTable } from '@/libs/data/classifications/correspondencesData';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
 import { localization } from '@/libs/language';
@@ -55,6 +57,10 @@ export default async function CorrespondencePage({ params }: Readonly<Correspond
         </Link>
       </DigdirLink>
       <h1 className={styles.title}>{table.name}</h1>
+      <DetailsList content={mapCorrespondenceDetails(table)} />
+      <Heading className='secondaryHeading' data-size='md' level={2}>
+        {localization.classificationDetails.codes}
+      </Heading>
       <CorrespondenceTable
         sourceName={table.source ?? ''}
         targetName={table.target ?? ''}

@@ -63,6 +63,7 @@ describe('CorrespondencesView', () => {
       <CorrespondencesView classificationId={classificationId} classificationVersion={versionWithOneCorrespondence} />,
     );
     expect(screen.getByRole('heading', { name: localization.classification.correspondence.heading })).toBeVisible();
+    expect(screen.getByText('Korrespondansetabeller viser sammenhengen mellom to ulike kodeverk.')).toBeVisible();
     expect(screen.getByRole('heading', { level: 3, name: 'Korrespondansetabell' })).toBeVisible();
     expect(screen.getByText(localization.classification.correspondence.from)).toBeVisible();
     expect(screen.getByText('Kommuneinndeling 2026')).toBeVisible();

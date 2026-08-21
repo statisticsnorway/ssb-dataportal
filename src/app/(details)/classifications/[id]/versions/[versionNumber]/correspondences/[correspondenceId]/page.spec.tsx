@@ -29,9 +29,13 @@ describe('CorrespondencePage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mocks.getRequestLanguage.mockResolvedValue('nb');
-    mocks.fetchVersionById.mockResolvedValue({ id: 3218 });
+    mocks.fetchVersionById.mockResolvedValue({ id: 3218, validFrom: new Date('2025-01-01') });
     mocks.fetchCorrespondenceTable.mockResolvedValue({
       name: 'Testkorrespondanse',
+      id: 2919,
+      owningSection: '320',
+      contactPerson: { name: 'Ola Nordmann' },
+      description: 'Testbeskrivelse',
       source: 'Fra-kodeliste',
       target: 'Til-kodeliste',
       correspondenceMaps: [],
@@ -52,6 +56,15 @@ describe('CorrespondencePage', () => {
       buildUrl({ classificationId: 6, versionId: 3218, tab: 'correspondences' }),
     );
     expect(screen.getByRole('heading', { name: 'Testkorrespondanse' })).toBeVisible();
+    expect(screen.getByText('ID')).toBeVisible();
+    expect(screen.getByText('2919')).toBeVisible();
+    expect(screen.getByText('Eierseksjon')).toBeVisible();
+    expect(screen.getByText('320')).toBeVisible();
+    expect(screen.getByText('Ansvarlig')).toBeVisible();
+    expect(screen.getByText('Ola Nordmann')).toBeVisible();
+    expect(screen.queryByText('Gyldig fra og med')).not.toBeInTheDocument();
+    expect(screen.queryByText('Beskrivelse')).not.toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: 'Koder' })).toBeVisible();
     expect(screen.getByTestId('correspondence-table')).toHaveAttribute(
       'data-download-href',
       '/classifications/6/versions/3218/correspondences/2919/download?v=1&format=csv&language=nb',
