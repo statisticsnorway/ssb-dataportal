@@ -2,9 +2,13 @@
 
 import { Button, Search } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CodeTree } from '@/components/code-tree';
-import { ClassificationItemResource, ClassificationVersionResource } from '@/libs/data-access/klass/models';
+import {
+  ClassificationItemResource,
+  ClassificationVersionResource,
+  LevelResource,
+} from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import type { KlassCode } from '@/types/klass-codes';
 import { filterCodesWithAncestors } from '@/utils/classifications/filterCodes';
@@ -48,6 +52,38 @@ function toKlassCode(item: ClassificationItemResource): KlassCode {
     validTo: toDateString(item.validTo),
     notes: item.notes ?? '',
   };
+}
+
+function getLevelValue(level: Pick<LevelResource, 'levelNumber'>, index: number): string {
+  return level.levelNumber?.toString() ?? `missing-level-${index + 1}`;
+}
+
+function filterCodesBySelectedLevels(
+  codes: KlassCode[],
+  selectedLevels: string[],
+  allLevelValues: string[],
+): KlassCode[] {
+  if (allLevelValues.length === 0) {
+    return codes;
+  }
+
+  const selectedLevelsSet = new Set(selectedLevels);
+  const selectedCodes = codes.filter((code) => selectedLevelsSet.has(code.level));
+  const selectedCodeValues = new Set(selectedCodes.map((code) => code.code));
+  const allCodesByCode = new Map(codes.map((code) => [code.code, code]));
+
+  return selectedCodes.map((code) => {
+    let parentCode = code.parentCode;
+
+    while (parentCode && !selectedCodeValues.has(parentCode)) {
+      parentCode = allCodesByCode.get(parentCode)?.parentCode ?? null;
+    }
+
+    return {
+      ...code,
+      parentCode,
+    };
+  });
 }
 
 function CodesToolbar({
@@ -101,8 +137,26 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
   const router = useRouter();
   const [filterTerm, setFilterTerm] = useState('');
   const codes = version.classificationItems ?? [];
+  const sortedLevels = useMemo(
+    () => version.levels?.toSorted((l1, l2) => (l1.levelNumber ?? 1) - (l2.levelNumber ?? 1)) ?? [],
+    [version.levels],
+  );
+  const allLevelValues = useMemo(() => sortedLevels.map((level, index) => getLevelValue(level, index)), [sortedLevels]);
+  const [selectedLevels, setSelectedLevels] = useState<string[]>(allLevelValues);
+
+  useEffect(() => {
+    setSelectedLevels(allLevelValues);
+  }, [allLevelValues]);
+
   const mappedCodes = useMemo(() => codes.map(toKlassCode), [codes]);
-  const filteredCodes = useMemo(() => filterCodesWithAncestors(mappedCodes, filterTerm), [mappedCodes, filterTerm]);
+  const levelFilteredCodes = useMemo(
+    () => filterCodesBySelectedLevels(mappedCodes, selectedLevels, allLevelValues),
+    [allLevelValues, mappedCodes, selectedLevels],
+  );
+  const filteredCodes = useMemo(
+    () => filterCodesWithAncestors(levelFilteredCodes, filterTerm),
+    [levelFilteredCodes, filterTerm],
+  );
   const isClassificationDownloadReady = Boolean(classificationId && version.validFrom);
   const showDownloadButton = Boolean(
     version.id && (isVariantDownload || (!isVariantDownload && isClassificationDownloadReady)),
@@ -112,6 +166,40 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
     const language = localization.getLanguage() as 'nb' | 'nn' | 'en';
     router.push(buildDownloadHref(pathname, { format: 'csv', language }));
   };
+
+  const handleLevelToggle = (levelValue: string) => {
+    setSelectedLevels((currentSelectedLevels) =>
+      currentSelectedLevels.includes(levelValue)
+        ? currentSelectedLevels.filter((currentLevelValue) => currentLevelValue !== levelValue)
+        : [...currentSelectedLevels, levelValue],
+    );
+  };
+
+  const levelsTableContent = useMemo(
+    () =>
+      sortedLevels.map((level, index) => {
+        const levelValue = getLevelValue(level, index);
+        const levelLabel = level.levelNumber?.toString() ?? (index + 1).toString();
+
+        return [
+          {
+            label: localization.versions.include,
+            value: (
+              <input
+                type='checkbox'
+                aria-label={localization.formatString(localization.versions.includeLevel, {
+                  level: levelLabel,
+                })}
+                checked={selectedLevels.includes(levelValue)}
+                onChange={() => handleLevelToggle(levelValue)}
+              />
+            ),
+          },
+          ...mapLevels(level),
+        ];
+      }),
+    [handleLevelToggle, selectedLevels, sortedLevels],
+  );
 
   const renderToolbar = useCallback(
     ({
@@ -148,13 +236,7 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
       </p>
       <ExpandableTable
         title={localization.classification.about.levels}
-        table={
-          <ClassificationTable
-            content={
-              version.levels?.toSorted((l1, l2) => (l1.levelNumber ?? 1) - (l2.levelNumber ?? 1)).map(mapLevels) ?? []
-            }
-          />
-        }
+        table={<ClassificationTable content={levelsTableContent} />}
       />
       <CodeTree codes={filteredCodes} toolbar={renderToolbar} autoExpandAll={filterTerm.trim().length > 0} />
     </div>

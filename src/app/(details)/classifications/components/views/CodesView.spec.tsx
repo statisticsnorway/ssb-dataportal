@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { ClassificationItemResource } from '@/libs/data-access/klass/models/ClassificationItemResource';
+import { LevelResource } from '@/libs/data-access/klass/models/LevelResource';
 import versionsMock from '@/static-data/versions.json';
 import type { KlassCode } from '@/types/klass-codes';
 import { parseVersion } from '@/utils/mock-data';
@@ -31,7 +32,7 @@ vi.mock('@/components/code-tree', () => ({
       {toolbar ? toolbar({ allExpanded: false, hasExpandableNodes: true, toggleAll: vi.fn() }) : null}
       <ul aria-label='filtered-codes'>
         {codes.map((code) => (
-          <li key={code.code}>{`${code.code}:${code.name}`}</li>
+          <li key={code.code} data-parent-code={code.parentCode ?? ''}>{`${code.code}:${code.name}`}</li>
         ))}
       </ul>
     </>
@@ -73,6 +74,16 @@ const codes: ClassificationItemResource[] = [
 
 const version = parseVersion(versionsMock.versions[0]);
 version.classificationItems = codes;
+version.levels = [
+  {
+    levelNumber: 1,
+    levelName: 'Main level',
+  },
+  {
+    levelNumber: 2,
+    levelName: 'Sub level',
+  },
+] as LevelResource[];
 
 describe('CodesView', () => {
   it('renders all codes before filters are applied', () => {
@@ -109,5 +120,63 @@ describe('CodesView', () => {
     render(<CodesView version={version} classificationId={2003} />);
 
     expect(screen.getByRole('button', { name: 'Last ned' })).toBeInTheDocument();
+  });
+
+  it('filters visible codes when levels are unchecked', () => {
+    render(<CodesView version={version} />);
+
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Inkluder nivå 2' }));
+
+    expect(screen.getByText('01:Agriculture')).toBeInTheDocument();
+    expect(screen.getByText('02:Forestry')).toBeInTheDocument();
+    expect(screen.queryByText('01.1:Crop production')).not.toBeInTheDocument();
+  });
+
+  it('keeps selected deep levels attached to nearest selected ancestor', () => {
+    const sparseLevelVersion = parseVersion(versionsMock.versions[0]);
+    sparseLevelVersion.classificationItems = [
+      {
+        code: '01',
+        name: 'Agriculture',
+        level: '1',
+        parentCode: undefined,
+        validFrom: new Date('2020-01-01'),
+        validTo: undefined,
+        shortName: undefined,
+        notes: '',
+      },
+      {
+        code: '01.1',
+        name: 'Crop production',
+        level: '2',
+        parentCode: '01',
+        validFrom: new Date('2020-01-01'),
+        validTo: undefined,
+        shortName: undefined,
+        notes: '',
+      },
+      {
+        code: '01.1.001',
+        name: 'Specialized crops',
+        level: '5',
+        parentCode: '01.1',
+        validFrom: new Date('2020-01-01'),
+        validTo: undefined,
+        shortName: undefined,
+        notes: '',
+      },
+    ];
+    sparseLevelVersion.levels = [
+      { levelNumber: 1, levelName: 'Main level' },
+      { levelNumber: 2, levelName: 'Sub level' },
+      { levelNumber: 5, levelName: 'Deep level' },
+    ];
+
+    render(<CodesView version={sparseLevelVersion} />);
+
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Inkluder nivå 2' }));
+
+    const deepLevelCode = screen.getByText('01.1.001:Specialized crops').closest('li');
+    expect(deepLevelCode).toHaveAttribute('data-parent-code', '01');
   });
 });

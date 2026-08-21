@@ -461,6 +461,8 @@ export const en = {
   },
   versions: {
     name: 'Name',
+    include: 'Include',
+    includeLevel: 'Include level {level}',
     invert: 'Invert table',
     validFrom: 'Valid from',
     validTo: 'Valid to',

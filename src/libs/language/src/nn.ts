@@ -458,6 +458,8 @@ export const nn = {
   },
   versions: {
     name: 'Namn',
+    include: 'Inkluder',
+    includeLevel: 'Inkluder nivå {level}',
     invert: 'Inverter tabell',
     validFrom: 'Gyldig frå',
     validTo: 'Gyldig til',

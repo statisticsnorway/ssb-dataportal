@@ -461,6 +461,8 @@ export const nb = {
   },
   versions: {
     name: 'Navn',
+    include: 'Inkluder',
+    includeLevel: 'Inkluder nivå {level}',
     invert: 'Inverter tabell',
     validFrom: 'Gyldig fra',
     validTo: 'Gyldig til',
