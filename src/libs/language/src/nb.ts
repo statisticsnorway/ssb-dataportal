@@ -94,6 +94,8 @@ export const nb = {
       to: 'Korrespondanser til',
       toLevel: 'Nivå',
       owner: 'Eier',
+      tableLabel: 'Korrespondansetabell',
+      noTarget: 'Ingen tilsvarende kode',
     },
     variant: {
       name: 'Navn',

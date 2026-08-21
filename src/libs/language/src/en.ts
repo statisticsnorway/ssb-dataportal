@@ -97,6 +97,8 @@ export const en = {
       to: 'Correspondences to',
       toLevel: 'Level',
       owner: 'Owner',
+      tableLabel: 'Correspondence table',
+      noTarget: 'No corresponding code',
     },
     variant: {
       name: 'Name',

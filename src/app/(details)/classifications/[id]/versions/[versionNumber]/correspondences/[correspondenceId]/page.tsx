@@ -1,8 +1,14 @@
+import { Link as DigdirLink } from '@digdir/designsystemet-react';
+import { ArrowLeftIcon } from '@navikt/aksel-icons';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout';
+import { CorrespondenceTable } from '@/app/(details)/classifications/components/correspondence-table';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { fetchCorrespondenceTable } from '@/libs/data/classifications/correspondencesData';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
+import { localization } from '@/libs/language';
 import styles from './correspondences.module.css';
 
 interface CorrespondencePageProps {
@@ -13,11 +19,16 @@ interface CorrespondencePageProps {
   }>;
 }
 
-export default async function CorrespondencePage({ params }: CorrespondencePageProps) {
-  const { versionNumber, correspondenceId } = await params;
+export default async function CorrespondencePage({ params }: Readonly<CorrespondencePageProps>) {
+  const { id, versionNumber, correspondenceId } = await params;
 
+  const classificationId = Number(id);
   const versionId = Number(versionNumber);
   const tableId = Number(correspondenceId);
+
+  if (Number.isNaN(classificationId) || Number.isNaN(versionId) || Number.isNaN(tableId)) {
+    return notFound();
+  }
 
   const language = await getRequestLanguage();
 
@@ -31,31 +42,18 @@ export default async function CorrespondencePage({ params }: CorrespondencePageP
 
   return (
     <main className={styles.page}>
-      <h1 className={styles.title}>{table.source}</h1>
-      <h2 className={styles.subtitle}>{table.target}</h2>
-      <div className={styles.tableWrapper}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>Fra</th>
-              <th>Til</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {table.correspondenceMaps?.map((item, index) => (
-              <tr key={index}>
-                <td>
-                  {item.sourceCode} - {item.sourceName}
-                </td>
-                <td>
-                  {item.targetCode} - {item.targetName}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <DigdirLink asChild>
+        <Link href={buildUrl({ classificationId, versionId, tab: 'correspondences' })}>
+          <ArrowLeftIcon aria-hidden='true' />
+          {localization.codeTree.back}
+        </Link>
+      </DigdirLink>
+      <h1 className={styles.title}>{table.name}</h1>
+      <CorrespondenceTable
+        sourceName={table.source ?? ''}
+        targetName={table.target ?? ''}
+        mappings={table.correspondenceMaps ?? []}
+      />
     </main>
   );
 }
