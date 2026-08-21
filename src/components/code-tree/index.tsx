@@ -2,7 +2,7 @@
 
 import { Button } from '@digdir/designsystemet-react';
 import type { ReactNode } from 'react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { localization } from '@/libs/language';
 import type { CodeTreeNode, KlassCode } from '@/types/klass-codes';
 import { buildCodeTree } from '@/utils/classifications/buildCodeTree';
@@ -15,6 +15,7 @@ export interface CodeTreeProps {
   /** Called with the KlassCode the user clicked. Optional. */
   onChange?: (code: KlassCode) => void;
   toolbar?: (controls: { allExpanded: boolean; hasExpandableNodes: boolean; toggleAll: () => void }) => ReactNode;
+  autoExpandAll?: boolean;
 }
 
 /** Recursively collects the code string of every node that has at least one child. */
@@ -31,13 +32,21 @@ function collectParentCodes(nodes: CodeTreeNode[]): string[] {
  * - Row-body clicks select a code (aria-pressed); chevron clicks toggle expansion.
  * - Purely presentational — no data fetching.
  */
-export function CodeTree({ codes, onChange, toolbar }: Readonly<CodeTreeProps>) {
+export function CodeTree({ codes, onChange, toolbar, autoExpandAll = false }: Readonly<CodeTreeProps>) {
   const tree = useMemo(() => buildCodeTree(codes), [codes]);
   const allParentCodes = useMemo(() => collectParentCodes(tree), [tree]);
 
   const [expandedCodes, setExpandedCodes] = useState<Set<string>>(() => new Set());
 
   const [selectedCode, setSelectedCode] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!autoExpandAll) {
+      return;
+    }
+
+    setExpandedCodes(new Set(allParentCodes));
+  }, [autoExpandAll, allParentCodes]);
 
   const allExpanded = allParentCodes.length > 0 && allParentCodes.every((c) => expandedCodes.has(c));
 
@@ -57,10 +66,6 @@ export function CodeTree({ codes, onChange, toolbar }: Readonly<CodeTreeProps>) 
 
   function handleToggleAll() {
     setExpandedCodes(allExpanded ? new Set() : new Set(allParentCodes));
-  }
-
-  if (tree.length === 0) {
-    return null;
   }
 
   return (

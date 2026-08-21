@@ -5,6 +5,7 @@ import {
   fetchChangesDownload,
   fetchCodesDownload,
 } from '@/libs/data/classifications/codesData';
+import { fetchCorrespondenceDownload } from '@/libs/data/classifications/correspondencesData';
 import { fetchVariantCodesDownload } from '@/libs/data/classifications/variantsData';
 import { type SupportedLanguage } from '@/libs/language';
 
@@ -66,6 +67,22 @@ export async function downloadChangesAction({
     classificationId,
     from: new Date(from),
     to: to ? new Date(to) : undefined,
+    language,
+    format,
+  });
+}
+
+export async function downloadCorrespondenceAction({
+  tableId,
+  language,
+  format,
+}: {
+  tableId: number;
+  language: SupportedLanguage;
+  format: FileDownloadFormat;
+}) {
+  return fetchCorrespondenceDownload({
+    tableId,
     language,
     format,
   });

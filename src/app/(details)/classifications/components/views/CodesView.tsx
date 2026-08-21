@@ -156,7 +156,7 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
           />
         }
       />
-      <CodeTree codes={filteredCodes} toolbar={renderToolbar} />
+      <CodeTree codes={filteredCodes} toolbar={renderToolbar} autoExpandAll={filterTerm.trim().length > 0} />
     </div>
   );
 }

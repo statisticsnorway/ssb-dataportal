@@ -9,6 +9,7 @@ import {
   TableHeaderCell,
   TableRow,
 } from '@digdir/designsystemet-react';
+import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import type { CorrespondenceMapResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
@@ -18,6 +19,7 @@ interface CorrespondenceTableProps {
   sourceName: string;
   targetName: string;
   mappings: CorrespondenceMapResource[];
+  downloadHref: string;
 }
 
 interface MappingGroup {
@@ -84,7 +86,12 @@ function renderCodeAndName(
   );
 }
 
-export function CorrespondenceTable({ sourceName, targetName, mappings }: Readonly<CorrespondenceTableProps>) {
+export function CorrespondenceTable({
+  sourceName,
+  targetName,
+  mappings,
+  downloadHref,
+}: Readonly<CorrespondenceTableProps>) {
   const [inverted, setInverted] = useState(false);
   const displayedSourceName = inverted ? targetName : sourceName;
   const displayedTargetName = inverted ? sourceName : targetName;
@@ -95,6 +102,9 @@ export function CorrespondenceTable({ sourceName, targetName, mappings }: Readon
       <div className={styles.toolbar}>
         <Button variant='secondary' onClick={() => setInverted((current) => !current)}>
           {localization.versions.invert}
+        </Button>
+        <Button asChild variant='secondary'>
+          <Link href={downloadHref}>{localization.classification.download.button}</Link>
         </Button>
       </div>
 

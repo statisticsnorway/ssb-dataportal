@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { CorrespondenceTable } from './index';
 
 vi.mock('@digdir/designsystemet-react', () => ({
-  Button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
+  Button: ({ asChild, children, ...props }: any) => (asChild ? children : <button {...props}>{children}</button>),
   Table: ({ children, ...props }: any) => <table {...props}>{children}</table>,
   TableBody: ({ children, ...props }: any) => <tbody {...props}>{children}</tbody>,
   TableCell: ({ children, ...props }: any) => <td {...props}>{children}</td>,
@@ -37,7 +37,12 @@ const mappings = [
 
 function renderTable() {
   return render(
-    <CorrespondenceTable sourceName='Næringsgruppering 2025' targetName='Næringsgruppering 2007' mappings={mappings} />,
+    <CorrespondenceTable
+      sourceName='Næringsgruppering 2025'
+      targetName='Næringsgruppering 2007'
+      mappings={mappings}
+      downloadHref='/classifications/6/versions/3218/correspondences/2919/download?v=1&format=csv&language=nb'
+    />,
   );
 }
 
@@ -51,6 +56,10 @@ describe('CorrespondenceTable', () => {
     expect(screen.getAllByText('01.490')).toHaveLength(2);
     expect(screen.getByText('01.620')).toBeInTheDocument();
     expect(screen.getAllByRole('rowgroup')).toHaveLength(3);
+    expect(screen.getByRole('link', { name: 'Last ned' })).toHaveAttribute(
+      'href',
+      '/classifications/6/versions/3218/correspondences/2919/download?v=1&format=csv&language=nb',
+    );
     expect(screen.queryByRole('button', { name: 'Åpne hierarkiet' })).not.toBeInTheDocument();
   });
 

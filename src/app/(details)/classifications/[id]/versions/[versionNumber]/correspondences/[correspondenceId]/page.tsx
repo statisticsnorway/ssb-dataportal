@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 
 import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout';
 import { CorrespondenceTable } from '@/app/(details)/classifications/components/correspondence-table';
+import { buildDownloadHref } from '@/app/(details)/classifications/utils/download-urls';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { fetchCorrespondenceTable } from '@/libs/data/classifications/correspondencesData';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
@@ -40,6 +41,11 @@ export default async function CorrespondencePage({ params }: Readonly<Correspond
 
   const table = await fetchCorrespondenceTable(tableId, language);
 
+  const downloadHref = buildDownloadHref(
+    `/classifications/${id}/versions/${versionNumber}/correspondences/${correspondenceId}`,
+    { format: 'csv', language },
+  );
+
   return (
     <main className={styles.page}>
       <DigdirLink asChild>
@@ -53,6 +59,7 @@ export default async function CorrespondencePage({ params }: Readonly<Correspond
         sourceName={table.source ?? ''}
         targetName={table.target ?? ''}
         mappings={table.correspondenceMaps ?? []}
+        downloadHref={downloadHref}
       />
     </main>
   );

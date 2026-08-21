@@ -20,7 +20,9 @@ vi.mock('@/libs/data/classifications/correspondencesData', () => ({
 }));
 vi.mock('@/libs/data/classifications/versionsData', () => ({ fetchVersionById: mocks.fetchVersionById }));
 vi.mock('@/app/(details)/classifications/components/correspondence-table', () => ({
-  CorrespondenceTable: () => <div data-testid='correspondence-table' />,
+  CorrespondenceTable: ({ downloadHref }: { downloadHref: string }) => (
+    <div data-testid='correspondence-table' data-download-href={downloadHref} />
+  ),
 }));
 
 describe('CorrespondencePage', () => {
@@ -50,7 +52,10 @@ describe('CorrespondencePage', () => {
       buildUrl({ classificationId: 6, versionId: 3218, tab: 'correspondences' }),
     );
     expect(screen.getByRole('heading', { name: 'Testkorrespondanse' })).toBeVisible();
-    expect(screen.getByTestId('correspondence-table')).toBeVisible();
+    expect(screen.getByTestId('correspondence-table')).toHaveAttribute(
+      'data-download-href',
+      '/classifications/6/versions/3218/correspondences/2919/download?v=1&format=csv&language=nb',
+    );
   });
 
   it.each([

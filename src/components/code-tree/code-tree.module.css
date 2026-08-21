@@ -118,14 +118,12 @@
   flex: 0 0 5rem;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
   color: var(--ds-color-neutral-text-default);
 }
 
 .nameLabel {
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
   min-width: 0;
   flex: 1;
 }
