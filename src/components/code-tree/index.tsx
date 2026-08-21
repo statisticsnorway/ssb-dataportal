@@ -59,10 +59,6 @@ export function CodeTree({ codes, onChange, toolbar }: Readonly<CodeTreeProps>) 
     setExpandedCodes(allExpanded ? new Set() : new Set(allParentCodes));
   }
 
-  if (tree.length === 0) {
-    return null;
-  }
-
   return (
     <div>
       {(allParentCodes.length > 0 || toolbar) && (

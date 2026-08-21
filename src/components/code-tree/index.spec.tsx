@@ -37,9 +37,11 @@ const NESTED_CODES: KlassCode[] = [
 ];
 
 describe('CodeTree', () => {
-  it('renders nothing when codes is empty', () => {
-    const { container } = render(<CodeTree codes={[]} />);
-    expect(container).toBeEmptyDOMElement();
+  it('renders an empty tree when codes is empty', () => {
+    render(<CodeTree codes={[]} />);
+
+    expect(screen.getByRole('tree')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Velg kode/ })).not.toBeInTheDocument();
   });
 
   it('renders leaf codes without a toolbar', () => {
