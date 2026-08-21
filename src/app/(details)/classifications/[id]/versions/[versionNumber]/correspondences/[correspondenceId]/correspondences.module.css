@@ -12,6 +12,12 @@
   color: var(--ds-color-neutral-text-subtle);
 }
 
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.5rem;
+}
+
 .tableWrapper {
   overflow-x: auto;
 }
