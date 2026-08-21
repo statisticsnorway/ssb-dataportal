@@ -13,8 +13,8 @@
   max-width: 30rem;
 }
 
-.searchScope :global(.ds-search) > input,
-.searchScope :global(.ds-search) > button:not([type="reset"]) {
+.searchScope input,
+.searchScope button:not([type="reset"]) {
   height: var(--ds-size-12);
   min-height: var(--ds-size-12);
 }
