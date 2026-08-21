@@ -79,6 +79,8 @@ export default function ChangesView({
   }, [hasPreviousVersion, classification.id, changesFrom?.getTime(), version.validTo?.getTime()]);
 
   const groupedChanges = groupChanges(changes ?? [], inverted);
+  const leftVersionName = (inverted ? version : previousVersion)?.name;
+  const rightVersionName = (inverted ? previousVersion : version)?.name;
 
   const renderCodeAndName = (code?: string, name?: string, rowSpan?: number, addDivider = false) => (
     <>
@@ -142,12 +144,11 @@ export default function ChangesView({
                   colSpan={2}
                   scope='col'
                   className={`${styles.tableHeader} ${styles.tableCentralDivider}`}
-                  key={previousVersion.name ?? 'previous'}
                 >
-                  {previousVersion.name ?? '-'}
+                  {leftVersionName ?? '-'}
                 </TableHeaderCell>
-                <TableHeaderCell colSpan={2} scope='col' className={styles.tableHeader} key={version.name ?? 'current'}>
-                  {version.name ?? '-'}
+                <TableHeaderCell colSpan={2} scope='col' className={styles.tableHeader}>
+                  {rightVersionName ?? '-'}
                 </TableHeaderCell>
               </TableRow>
             </TableHead>
