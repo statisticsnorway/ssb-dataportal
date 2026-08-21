@@ -136,7 +136,10 @@ test.describe('/classifications/[id]/codes', () => {
       codesPage.getByRole('button', { name: rowBodyLabel('B', 'Bergverksdrift og utvinning') }),
     ).not.toBeVisible();
 
-    await codesPage.getByRole('button', { name: expandLabel(codeA.name) }).click();
+    await expect(codesPage.getByRole('button', { name: collapseLabel(codeA.name) })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    );
     await expect(codesPage.getByRole('button', { name: rowBodyLabel(code01.code, code01.name) })).toBeVisible();
   });
 

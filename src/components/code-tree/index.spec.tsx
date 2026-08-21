@@ -61,6 +61,13 @@ describe('CodeTree', () => {
     expect(screen.getByRole('button', { name: 'Åpne alle' })).toBeInTheDocument();
   });
 
+  it('auto-expands parent nodes when autoExpandAll is true', () => {
+    render(<CodeTree codes={NESTED_CODES} autoExpandAll />);
+
+    expect(screen.getByRole('button', { name: /Velg kode A1/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Velg kode A2/ })).toBeInTheDocument();
+  });
+
   it('clicking expand-all expands all parent nodes', async () => {
     const user = userEvent.setup();
     render(<CodeTree codes={NESTED_CODES} />);
