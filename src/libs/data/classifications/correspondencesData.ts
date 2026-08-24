@@ -141,7 +141,7 @@ export async function fetchCorrespondenceDownload({
       ...init,
       ...fetchInit,
       headers: {
-        ...(init.headers ?? {}),
+        ...init.headers,
         Accept: FILE_DOWNLOAD_ACCEPT[format],
       },
     }));
