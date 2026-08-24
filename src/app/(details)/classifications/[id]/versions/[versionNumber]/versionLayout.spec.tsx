@@ -17,7 +17,18 @@ vi.mock('@/libs/data/classifications/utils', () => ({
   getRequestLanguage: vi.fn().mockResolvedValue('nb'),
 }));
 
-vi.mock('next/navigation', () => ({ notFound: mocks.notFound }));
+vi.mock('next/navigation', () => ({
+  notFound: mocks.notFound,
+  usePathname: () => '/classifications/42/versions/42',
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    refresh: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    prefetch: vi.fn(),
+  }),
+}));
 
 vi.mock('@/libs/data/classifications/classificationData', () => ({
   fetchClassificationById: mocks.fetchClassificationById,
@@ -37,6 +48,21 @@ const baseClassification = {
   fallbackLanguage: undefined,
   versions: [{ id: 42, validFrom: new Date('2024-01-01') }],
 } as never;
+
+vi.mock('@/app/(details)/classifications/components/versionContext', () => ({
+  VersionProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+  VersionResourceLayer: ({
+    versionResource,
+    children,
+  }: {
+    versionResource: { id?: number };
+    children: React.ReactNode;
+  }) => (
+    <div data-testid='version-layer' data-version-id={versionResource?.id ?? ''}>
+      {children}
+    </div>
+  ),
+}));
 
 describe('VersionLayout', () => {
   it('calls notFound when versionNumber is not a number', async () => {
@@ -103,8 +129,5 @@ describe('VersionLayout', () => {
 
     expect(screen.getByTestId('version-layer')).toHaveAttribute('data-version-id', '42');
     expect(screen.getByText('child content')).toBeInTheDocument();
-
-    //expect(result).toBeTruthy();
-    //expect(mocks.fetchVersionById).toHaveBeenCalledWith(42, 'nb');
   });
 });

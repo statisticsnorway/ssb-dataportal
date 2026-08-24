@@ -33,7 +33,13 @@ function collectParentCodes(nodes: CodeTreeNode[]): string[] {
  * - Row-body clicks select a code (aria-pressed); chevron clicks toggle expansion.
  * - Purely presentational — no data fetching.
  */
-export function CodeTree({ codes, onChange, toolbar, autoExpandAll = false, fallbackLanguage }: Readonly<CodeTreeProps>) {
+export function CodeTree({
+  codes,
+  onChange,
+  toolbar,
+  autoExpandAll = false,
+  fallbackLanguage,
+}: Readonly<CodeTreeProps>) {
   const tree = useMemo(() => buildCodeTree(codes), [codes]);
   const allParentCodes = useMemo(() => collectParentCodes(tree), [tree]);
 
