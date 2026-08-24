@@ -14,9 +14,9 @@ describe('correspondence', () => {
       owningSection: '320',
     };
     expect(mapCorrespondenceItems(table)).toEqual([
-      { label: 'Korrespondanser fra', value: 'SN2007' },
+      { label: 'Fra', value: 'SN2007' },
       { label: 'Nivå', value: 'Nivå 1' },
-      { label: 'Korrespondanser til', value: 'SN2015' },
+      { label: 'Til', value: 'SN2015' },
       { label: 'Nivå', value: 'Nivå 2' },
       { label: 'Eier', value: '320' },
     ]);
@@ -39,9 +39,9 @@ describe('correspondence', () => {
 
   it('uses the common fallback for missing correspondence details', () => {
     expect(mapCorrespondenceDetails({})).toEqual([
-      { label: 'ID', value: 'Ikke relevant' },
-      { label: 'Eierseksjon', value: 'Ikke relevant' },
-      { label: 'Ansvarlig', value: 'Ikke relevant' },
+      { label: 'ID', value: '—' },
+      { label: 'Eierseksjon', value: '—' },
+      { label: 'Ansvarlig', value: '—' },
     ]);
   });
 });

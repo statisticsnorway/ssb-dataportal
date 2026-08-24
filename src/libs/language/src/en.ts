@@ -108,7 +108,6 @@ export const en = {
       responsible: 'Responsible',
       owner: 'Owner',
       ownerSection: 'Owner section',
-      validFrom: 'Valid from and including',
       noVariants: 'This version has no variants',
       variantHeading: 'Variants',
       variantInfo:
