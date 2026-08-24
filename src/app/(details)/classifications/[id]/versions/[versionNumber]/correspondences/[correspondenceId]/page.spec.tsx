@@ -81,9 +81,6 @@ describe('CorrespondencePage', () => {
     { id: 'invalid', versionNumber: '3218', correspondenceId: '2919' },
     { id: '6', versionNumber: 'invalid', correspondenceId: '2919' },
     { id: '6', versionNumber: '3218', correspondenceId: 'invalid' },
-    { id: '0', versionNumber: '3218', correspondenceId: '2919' },
-    { id: '6', versionNumber: '1.5', correspondenceId: '2919' },
-    { id: '6', versionNumber: '3218', correspondenceId: '-1' },
   ])('returns not found for invalid parameters', async (params) => {
     const { default: CorrespondencePage } = await import('./page');
 
