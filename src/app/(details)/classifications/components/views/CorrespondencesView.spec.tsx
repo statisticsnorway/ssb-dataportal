@@ -65,11 +65,11 @@ describe('CorrespondencesView', () => {
     expect(screen.getByRole('heading', { name: localization.classification.correspondence.heading })).toBeVisible();
     expect(screen.getByText('Korrespondansetabeller viser sammenhengen mellom to ulike kodeverk.')).toBeVisible();
     expect(screen.getByRole('heading', { level: 3, name: 'Korrespondansetabell' })).toBeVisible();
-    expect(screen.getByText(localization.classification.correspondence.from)).toBeVisible();
+    expect(screen.getByText(localization.from)).toBeVisible();
     expect(screen.getByText('Kommuneinndeling 2026')).toBeVisible();
     expect(screen.getAllByText(localization.classification.correspondence.fromLevel)).toHaveLength(2);
     expect(screen.getAllByText('Alle')).toHaveLength(2);
-    expect(screen.getByText(localization.classification.correspondence.to)).toBeVisible();
+    expect(screen.getByText(localization.to)).toBeVisible();
     expect(screen.getByText('Delområde- og grunnkretsinndeling 2026')).toBeVisible();
     expect(screen.getByText(localization.classification.correspondence.owner)).toBeVisible();
     expect(screen.getByText('320')).toBeVisible();

@@ -90,11 +90,11 @@ export const mapAboutVariableItems = (v: RenderedView, isAuthenticated: boolean,
     label: localization.subjectFields,
     value: <TagsGroup tagData={buildItemMaps(v.subject_fields)} />,
   },
-  { label: localization.variableDefinition.validFrom, value: formatDate(v.valid_from) },
+  { label: localization.validity.validFrom, value: formatDate(v.valid_from) },
   ...(v.valid_until
     ? [
         {
-          label: localization.variableDefinition.validTo,
+          label: localization.validity.validTo,
           value: formatDate(v.valid_until),
         } satisfies Item,
       ]

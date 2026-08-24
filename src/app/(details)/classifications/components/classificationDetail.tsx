@@ -77,7 +77,7 @@ export default function ClassificationDetail({
           title={localization.classificationDetails.versions}
           table={
             <ClassificationTable
-              sortableField={localization.versions.validFrom}
+              sortableField={localization.validity.validFrom}
               content={(classification.versions ?? []).map((v) => mapVersions(v, classification.id, activeTab))}
             />
           }
