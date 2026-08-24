@@ -17,6 +17,7 @@ import styles from './views.module.css';
 interface VersionViewProps {
   classification: ClassificationWithLanguage;
   classificationVersion?: ClassificationVersionResource | null;
+  missingInSelectedLanguage?: boolean;
   children: React.ReactNode;
 }
 
@@ -49,6 +50,7 @@ function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): 
 export function VersionView({
   classification,
   classificationVersion: versionOnEntry,
+  missingInSelectedLanguage,
   children,
 }: Readonly<VersionViewProps>) {
   const pathname = usePathname();
@@ -114,6 +116,11 @@ export function VersionView({
         ]}
         fallbackLanguage={classification.fallbackLanguage}
       />
+      {missingInSelectedLanguage && (
+        <Alert data-color={'warning'} role='alert'>
+          {localization.classification.language.missingInSelectedLanguage}
+        </Alert>
+      )}
       <p
         className={styles.introduction}
         {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}

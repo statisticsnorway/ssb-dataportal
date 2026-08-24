@@ -58,6 +58,7 @@ export const nn = {
     language: {
       notSelectedLanguage: 'Denne klassifikasjonen er ikkje tilgjengeleg på valt språk',
       displayedInLanguage: 'Denne klassifikasjonen viser innhald på {language}',
+      missingInSelectedLanguage: 'Denne klassifikasjonen manglar innhald på valt språk, vel eit anna språk.',
     },
     view: 'Sjå klassifikasjon',
     type: 'Type',

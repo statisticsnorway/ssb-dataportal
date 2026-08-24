@@ -1,7 +1,7 @@
 import { Alert, Heading } from '@digdir/designsystemet-react';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { ClassificationVersionResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language/src/localization';
-import { buildUrl } from '../../utils/urls';
 import { formatVariantName, mapVariantItems } from '../../utils/variants';
 import { ClassificationCard } from '../classification-cards';
 import styles from './views.module.css';
