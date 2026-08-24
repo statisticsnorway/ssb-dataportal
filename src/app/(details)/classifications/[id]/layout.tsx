@@ -5,7 +5,6 @@ import { cache, ReactNode } from 'react';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
-import { getRequestLanguage } from '@/libs/data/classifications/utils';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
 import { localization, SupportedLanguage } from '@/libs/language/src/localization';
 import { sanitizeError } from '@/libs/logger/sanitize';
@@ -13,6 +12,7 @@ import { createLogger } from '@/libs/logger/server-logger';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import ClassificationDetail from '../components/classificationDetail';
 import { VersionProvider, VersionResourceLayer } from '../components/versionContext';
+import { getRequestLanguageCached } from '../utils/languageUtils';
 
 const showInfoOnly = process.env.HIDE_CLASSIFICATIONS === 'true';
 
@@ -38,7 +38,8 @@ const renderInfoOnlyPage = () => {
 
 const getPageData = cache(async (id: number) => {
   const logger = createLogger('classification-detail-page');
-  const language = await getRequestLanguage();
+  const language = await getRequestLanguageCached();
+
   const classification = await fetchClassificationById(id, language as SupportedLanguage);
   logger.debug(`Fetched classification ${classification.name}`);
   return { classification, language };

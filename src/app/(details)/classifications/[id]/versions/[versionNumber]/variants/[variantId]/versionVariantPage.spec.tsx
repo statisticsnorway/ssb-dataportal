@@ -3,15 +3,16 @@ import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 
 vi.mock('server-only', () => ({}));
 
+vi.mock('@/app/(details)/classifications/utils/languageUtils', () => ({
+  getRequestLanguageCached: vi.fn().mockResolvedValue('nb'),
+}));
+
 const mocks = vi.hoisted(() => ({
   notFound: vi.fn(() => {
     throw new Error('NEXT_NOT_FOUND');
   }),
 }));
 
-vi.mock('@/libs/data/classifications/utils', () => ({
-  getRequestLanguage: vi.fn().mockResolvedValue('nb'),
-}));
 vi.mock('next/navigation', () => ({ notFound: mocks.notFound }));
 vi.mock('@/app/(details)/classifications/components/views/VariantView', () => ({ default: vi.fn() }));
 vi.mock('@/libs/data/classifications/variantsData', () => ({

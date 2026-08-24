@@ -6,15 +6,15 @@ vi.mock('server-only', () => ({}));
 const mocks = vi.hoisted(() => ({
   fetchClassificationById: vi.fn(),
   fetchVersionById: vi.fn(),
-  getRequestLanguage: vi.fn().mockResolvedValue('nb'),
+  getRequestLanguageCached: vi.fn().mockResolvedValue('nb'),
   notFound: vi.fn(() => {
     throw new Error('NEXT_NOT_FOUND');
   }),
   logger: { error: vi.fn(), warn: vi.fn(), info: vi.fn(), debug: vi.fn() },
 }));
 
-vi.mock('@/libs/data/classifications/utils', () => ({
-  getRequestLanguage: vi.fn().mockResolvedValue('nb'),
+vi.mock('@/app/(details)/classifications/utils/languageUtils', () => ({
+  getRequestLanguageCached: vi.fn().mockResolvedValue('nb'),
 }));
 
 vi.mock('next/navigation', () => ({

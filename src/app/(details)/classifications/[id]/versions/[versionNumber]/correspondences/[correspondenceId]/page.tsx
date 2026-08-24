@@ -1,11 +1,11 @@
 import { Button } from '@digdir/designsystemet-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout';
 import { buildDownloadHref } from '@/app/(details)/classifications/utils/download-urls';
+import { getRequestLanguageCached } from '@/app/(details)/classifications/utils/languageUtils';
 import { fetchCorrespondenceTable } from '@/libs/data/classifications/correspondencesData';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
-import { localization } from '@/libs/language';
+import { localization, SupportedLanguage } from '@/libs/language';
 import styles from './correspondences.module.css';
 
 interface CorrespondencePageProps {
@@ -22,19 +22,19 @@ export default async function CorrespondencePage({ params }: CorrespondencePageP
   const versionId = Number(versionNumber);
   const tableId = Number(correspondenceId);
 
-  const language = await getRequestLanguage();
+  const language = await getRequestLanguageCached();
 
-  const version = await fetchVersionById(versionId, language);
+  const version = await fetchVersionById(versionId, language as SupportedLanguage);
 
   if (!version) {
     return notFound();
   }
 
-  const table = await fetchCorrespondenceTable(tableId, language);
+  const table = await fetchCorrespondenceTable(tableId, language as SupportedLanguage);
 
   const downloadHref = buildDownloadHref(
     `/classifications/${id}/versions/${versionNumber}/correspondences/${correspondenceId}`,
-    { format: 'csv', language },
+    { format: 'csv', language: language as SupportedLanguage },
   );
 
   return (

@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 import { ReactNode } from 'react';
 import { VersionResourceLayer } from '@/app/(details)/classifications/components/versionContext';
+import { getRequestLanguageCached } from '@/app/(details)/classifications/utils/languageUtils';
 import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
-import { getRequestLanguage } from '@/libs/data/classifications/utils';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
 import { SupportedLanguage } from '@/libs/language/src/localization';
 import { createLogger } from '@/libs/logger/server-logger';
@@ -16,7 +16,7 @@ export default async function VersionLayout({
   const { id, versionNumber } = await params;
   const versionId = Number(versionNumber);
   const classificationId = Number(id);
-  const language = await getRequestLanguage();
+  const language = await getRequestLanguageCached();
   if (Number.isNaN(versionId)) {
     logger.warn({ versionNumber }, 'Invalid versionNumber param');
     return notFound();

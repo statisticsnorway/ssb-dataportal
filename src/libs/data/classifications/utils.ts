@@ -1,6 +1,4 @@
-import { cookies, headers } from 'next/headers';
 import { HTTPQuery } from '@/libs/data-access/klass';
-import { languageCookieName, resolveLanguage } from '@/libs/language';
 
 /**
  * Duplicate of the generated function querystring in src/libs/data-access/klass/runtime.ts
@@ -49,13 +47,4 @@ function querystringSingleKey(
     return querystringFormatDates(value as HTTPQuery, fullKey);
   }
   return `${encodeURIComponent(fullKey)}=${encodeURIComponent(String(value))}`;
-}
-
-export async function getRequestLanguage(): Promise<string> {
-  const cookieStore = await cookies();
-  const requestHeaders = await headers();
-  return resolveLanguage(
-    cookieStore.get(languageCookieName)?.value,
-    requestHeaders.get('accept-language') ?? undefined,
-  );
 }

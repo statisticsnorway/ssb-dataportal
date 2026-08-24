@@ -9,8 +9,8 @@ const mocks = vi.hoisted(() => ({
   }),
 }));
 
-vi.mock('@/libs/data/classifications/utils', () => ({
-  getRequestLanguage: vi.fn().mockResolvedValue('nb'),
+vi.mock('@/app/(details)/classifications/utils/languageUtils', () => ({
+  getRequestLanguageCached: vi.fn().mockResolvedValue('nb'),
 }));
 
 vi.mock('next/navigation', () => ({ notFound: mocks.notFound }));
