@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildUrl } from '../utils/urls';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from './tabs';
 
 describe('getClassificationDetailsTabForRoute', () => {
