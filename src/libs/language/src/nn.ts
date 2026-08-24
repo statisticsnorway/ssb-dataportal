@@ -98,6 +98,7 @@ export const nn = {
         'Korrespondansen koplar {sourceCount} kodar frå «{sourceName}» til {targetCount} kodar frå «{targetName}».',
       tableLabel: 'Korrespondansetabell',
       noTarget: 'Ingen tilsvarande kode',
+      noFilterResults: 'Ingen korrespondansar samsvarar med filteret (0 treff).',
     },
     variant: {
       name: 'Namn',

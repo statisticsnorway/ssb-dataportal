@@ -20,16 +20,23 @@ export default function CorrespondenceDetailView({
   downloadHref,
 }: Readonly<CorrespondenceDetailViewProps>) {
   return (
-    <main className={styles.detailPage}>
+    <section className={styles.detailPage} aria-labelledby='correspondence-title'>
       <DigdirLink asChild>
         <Link href={backHref}>
           <ArrowLeftIcon aria-hidden='true' />
           {localization.codeTree.back}
         </Link>
       </DigdirLink>
-      <h1 className={styles.detailsHeading}>{table.name}</h1>
+      <Heading
+        id='correspondence-title'
+        className={`${styles.detailsHeading} secondaryHeading`}
+        data-size='lg'
+        level={3}
+      >
+        {table.name}
+      </Heading>
       <DetailsList content={mapCorrespondenceDetails(table)} />
-      <Heading className='secondaryHeading' data-size='md' level={2}>
+      <Heading className='secondaryHeading' data-size='md' level={4}>
         {localization.classificationDetails.codes}
       </Heading>
       <CorrespondenceTable
@@ -38,6 +45,6 @@ export default function CorrespondenceDetailView({
         mappings={table.correspondenceMaps ?? []}
         downloadHref={downloadHref}
       />
-    </main>
+    </section>
   );
 }

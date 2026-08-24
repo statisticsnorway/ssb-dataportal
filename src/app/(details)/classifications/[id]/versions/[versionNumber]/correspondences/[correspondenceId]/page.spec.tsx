@@ -29,7 +29,11 @@ describe('CorrespondencePage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mocks.getRequestLanguage.mockResolvedValue('nb');
-    mocks.fetchVersionById.mockResolvedValue({ id: 3218, validFrom: new Date('2025-01-01') });
+    mocks.fetchVersionById.mockResolvedValue({
+      id: 3218,
+      validFrom: new Date('2025-01-01'),
+      correspondenceTables: [{ id: 2919 }],
+    });
     mocks.fetchCorrespondenceTable.mockResolvedValue({
       name: 'Testkorrespondanse',
       id: 2919,
@@ -55,7 +59,9 @@ describe('CorrespondencePage', () => {
       'href',
       buildUrl({ classificationId: 6, versionId: 3218, tab: 'correspondences' }),
     );
-    expect(screen.getByRole('heading', { name: 'Testkorrespondanse' })).toBeVisible();
+    expect(screen.getByRole('heading', { level: 3, name: 'Testkorrespondanse' })).toBeVisible();
+    expect(screen.getByRole('region', { name: 'Testkorrespondanse' })).toBeVisible();
+    expect(screen.queryByRole('main')).not.toBeInTheDocument();
     expect(screen.getByText('ID')).toBeVisible();
     expect(screen.getByText('2919')).toBeVisible();
     expect(screen.getByText('Eierseksjon')).toBeVisible();
@@ -64,7 +70,7 @@ describe('CorrespondencePage', () => {
     expect(screen.getByText('Ola Nordmann')).toBeVisible();
     expect(screen.queryByText('Gyldig fra og med')).not.toBeInTheDocument();
     expect(screen.queryByText('Beskrivelse')).not.toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 2, name: 'Koder' })).toBeVisible();
+    expect(screen.getByRole('heading', { level: 4, name: 'Koder' })).toBeVisible();
     expect(screen.getByTestId('correspondence-table')).toHaveAttribute(
       'data-download-href',
       '/classifications/6/versions/3218/correspondences/2919/download?v=1&format=csv&language=nb',
@@ -75,6 +81,9 @@ describe('CorrespondencePage', () => {
     { id: 'invalid', versionNumber: '3218', correspondenceId: '2919' },
     { id: '6', versionNumber: 'invalid', correspondenceId: '2919' },
     { id: '6', versionNumber: '3218', correspondenceId: 'invalid' },
+    { id: '0', versionNumber: '3218', correspondenceId: '2919' },
+    { id: '6', versionNumber: '1.5', correspondenceId: '2919' },
+    { id: '6', versionNumber: '3218', correspondenceId: '-1' },
   ])('returns not found for invalid parameters', async (params) => {
     const { default: CorrespondencePage } = await import('./page');
 
@@ -90,5 +99,16 @@ describe('CorrespondencePage', () => {
         params: Promise.resolve({ id: '6', versionNumber: '3218', correspondenceId: '2919' }),
       }),
     ).rejects.toThrow('NEXT_NOT_FOUND');
+  });
+
+  it('returns not found without fetching details when the correspondence does not belong to the version', async () => {
+    const { default: CorrespondencePage } = await import('./page');
+
+    await expect(
+      CorrespondencePage({
+        params: Promise.resolve({ id: '6', versionNumber: '3218', correspondenceId: '1253' }),
+      }),
+    ).rejects.toThrow('NEXT_NOT_FOUND');
+    expect(mocks.fetchCorrespondenceTable).not.toHaveBeenCalled();
   });
 });

@@ -5,6 +5,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { CorrespondenceTable } from './index';
 
 vi.mock('@digdir/designsystemet-react', () => ({
+  Alert: ({ children, ...props }: any) => <div {...props}>{children}</div>,
   Button: ({ asChild, children, ...props }: any) => (asChild ? children : <button {...props}>{children}</button>),
   Search: Object.assign(({ children, ...props }: any) => <div {...props}>{children}</div>, {
     Input: (props: any) => <input {...props} />,
@@ -66,6 +67,9 @@ describe('CorrespondenceTable', () => {
       '/classifications/6/versions/3218/correspondences/2919/download?v=1&format=csv&language=nb',
     );
     expect(screen.queryByRole('button', { name: 'Åpne hierarkiet' })).not.toBeInTheDocument();
+    expect(screen.getAllByRole('columnheader')).toHaveLength(2);
+    expect(screen.getAllByRole('columnheader')[0]).toHaveAttribute('scope', 'colgroup');
+    expect(screen.getAllByRole('columnheader')[1]).toHaveAttribute('scope', 'colgroup');
   });
 
   it('inverts the columns and mapping direction', async () => {
@@ -135,5 +139,15 @@ describe('CorrespondenceTable', () => {
 
     expect(screen.getByText('02.110')).toBeInTheDocument();
     expect(screen.getAllByText('01.490')).toHaveLength(2);
+  });
+
+  it('shows a status message when the filter has no matches', async () => {
+    const user = userEvent.setup();
+    renderTable();
+
+    await user.type(screen.getByRole('textbox', { name: 'Filtrer på kode eller navn' }), 'finnes ikke');
+
+    expect(screen.getByRole('status')).toHaveTextContent('Ingen korrespondanser samsvarer med filteret (0 treff).');
+    expect(screen.queryByRole('table', { name: 'Korrespondansetabell' })).not.toBeInTheDocument();
   });
 });

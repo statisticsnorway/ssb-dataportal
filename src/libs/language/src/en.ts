@@ -102,6 +102,7 @@ export const en = {
         'The correspondence links {sourceCount} codes from “{sourceName}” to {targetCount} codes from “{targetName}”.',
       tableLabel: 'Correspondence table',
       noTarget: 'No corresponding code',
+      noFilterResults: 'No correspondences match the filter (0 results).',
     },
     variant: {
       name: 'Name',
