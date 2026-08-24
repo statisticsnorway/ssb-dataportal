@@ -35,7 +35,6 @@ export const en = {
     about: {
       custodian: 'Maintainer',
       mail: 'Mail',
-      validity: 'Valid from',
       publishedLanguages: 'Published languages',
       basedOn: 'Based on',
       langEN: 'English',
@@ -436,6 +435,8 @@ export const en = {
 
   validity: {
     label: 'Validity',
+    validFrom: 'Valid from',
+    validTo: 'Valid to',
   },
 
   variableDefinition: {
@@ -458,20 +459,15 @@ export const en = {
       'A unit type is the type of objects (units) that statistics are produced for, for example person, enterprise, and election',
     relevant: 'Relevant variable definitions',
     shortName: 'Short name',
-    validFrom: 'Valid from',
-    validTo: 'Valid to',
     viewExternalReference: 'View external reference',
     viewRelevant: 'View relevant variable definition',
   },
   versions: {
     name: 'Name',
     invert: 'Invert table',
-    validFrom: 'Valid from',
-    validTo: 'Valid to',
     now: 'Now',
     tags: {
       isLatest: 'Current version:',
-      validFrom: 'Valid from and including',
       isNotCurrent: 'This is not the current version of the classification',
     },
     noChanges: 'No changes to codes for this version',

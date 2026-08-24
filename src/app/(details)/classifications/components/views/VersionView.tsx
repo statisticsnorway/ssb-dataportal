@@ -105,8 +105,8 @@ export function VersionView({ classification, classificationVersion, children }:
       </Heading>
       <DetailsList
         content={[
-          { label: localization.versions.validFrom, value: formatLocaleDate(classificationVersion?.validFrom) || '—' },
-          { label: localization.versions.validTo, value: formatLocaleDate(classificationVersion?.validTo) || '—' },
+          { label: localization.validity.validFrom, value: formatLocaleDate(classificationVersion?.validFrom) || '—' },
+          { label: localization.validity.validTo, value: formatLocaleDate(classificationVersion?.validTo) || '—' },
         ]}
         fallbackLanguage={classification.fallbackLanguage}
       />

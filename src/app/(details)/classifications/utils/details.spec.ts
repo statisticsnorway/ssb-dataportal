@@ -28,7 +28,7 @@ describe('mapAboutItems', () => {
     expect(labels).toEqual([
       localization.classification.about.custodian,
       localization.classification.about.mail,
-      localization.classification.about.validity,
+      localization.validity.validFrom,
       localization.classification.about.publishedLanguages,
       localization.classification.about.basedOn,
       localization.classification.about.legalBasis,
@@ -50,7 +50,7 @@ describe('mapAboutItems', () => {
     const rows = mapDetailsItems(emptyVersion, emptyClassification);
     const fallbackLabels = rows.filter((r) => r.value === notRelevant).map((r) => r.label);
 
-    expect(fallbackLabels).toContain(localization.classification.about.validity);
+    expect(fallbackLabels).toContain(localization.validity.validFrom);
     expect(fallbackLabels).toContain(localization.classification.about.basedOn);
     expect(fallbackLabels).toContain(localization.classification.about.legalBasis);
     expect(fallbackLabels).toContain(localization.classification.about.publications);

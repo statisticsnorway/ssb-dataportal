@@ -33,7 +33,6 @@ export const nb = {
     about: {
       custodian: 'Ansvarlig',
       mail: 'E-post',
-      validity: 'Gyldig fra',
       publishedLanguages: 'Publiserte språk',
       basedOn: 'Basert på',
       langEN: 'Engelsk',
@@ -106,7 +105,6 @@ export const nb = {
       responsible: 'Ansvarlig',
       owner: 'Eier',
       ownerSection: 'Eierseksjon',
-      validFrom: 'Gyldig fra og med',
       noVariants: 'Denne versjonen har ingen varianter',
       variantHeading: 'Varianter',
       variantInfo:
@@ -435,6 +433,8 @@ export const nb = {
 
   validity: {
     label: 'Gyldighet',
+    validFrom: 'Gyldig fra',
+    validTo: 'Gyldig til',
   },
 
   // Labels specific to variable definitions
@@ -458,20 +458,15 @@ export const nb = {
       'En enhetstype er typen av objekter (enheter) som det lages statistikk om, f.eks. person, foretak og valg',
     relevant: 'Relevante variabeldefinisjoner',
     shortName: 'Kortnavn',
-    validFrom: 'Gyldig fra',
-    validTo: 'Gyldig til',
     viewExternalReference: 'Se ekstern referanse',
     viewRelevant: 'Se relevant variabeldefinisjon',
   },
   versions: {
     name: 'Navn',
     invert: 'Inverter tabell',
-    validFrom: 'Gyldig fra',
-    validTo: 'Gyldig til',
     now: 'Nå',
     tags: {
       isLatest: 'Gjeldende versjon:',
-      validFrom: 'Gyldig fra og med',
       isNotCurrent: 'Dette er ikke dagens versjon av klassifikasjonen',
     },
     noChanges: 'Ingen kodeendringer finnes for den aktuelle versjonen.',
