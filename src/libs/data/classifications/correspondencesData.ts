@@ -63,7 +63,6 @@ function getCharsetFromMimeType(mimeType: string): string {
 
 function decodeTextResponse(buffer: ArrayBuffer, mimeType: string): string {
   const charset = getCharsetFromMimeType(mimeType);
-
   try {
     return new TextDecoder(charset).decode(buffer);
   } catch {
@@ -74,7 +73,7 @@ function decodeTextResponse(buffer: ArrayBuffer, mimeType: string): string {
 export async function fetchCorrespondenceTable(
   id: number,
   language: SupportedLanguage = 'nb',
-): Promise<CorrespondenceTableResource> {
+): Promise<CorrespondenceTableResource | undefined> {
   const api = getCorrespondenceTablesClient();
   try {
     return await api.correspondenceTables(
@@ -86,6 +85,10 @@ export async function fetchCorrespondenceTable(
     );
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
+      if (error.response.status === 404) {
+        logger.info({ id }, 'Correspondence table not found');
+        return undefined;
+      }
       logger.error(
         {
           id,
@@ -121,7 +124,6 @@ export async function fetchCorrespondenceDownload({
       id: tableId,
       language: toKlassLanguage(language),
     };
-
     const response = await api.correspondenceTablesRaw(params, async ({ init }) => ({
       ...init,
       ...fetchInit,
@@ -130,7 +132,6 @@ export async function fetchCorrespondenceDownload({
         Accept: FILE_DOWNLOAD_ACCEPT[format],
       },
     }));
-
     const mimeType = response.raw.headers.get('content-type') ?? FILE_DOWNLOAD_ACCEPT[format];
     const buffer = await response.raw.arrayBuffer();
     const content = decodeTextResponse(buffer, mimeType);

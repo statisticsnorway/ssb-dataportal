@@ -102,6 +102,7 @@ export const en = {
         'The correspondence links {sourceCount} codes from “{sourceName}” to {targetCount} codes from “{targetName}”.',
       tableLabel: 'Correspondence table',
       noTarget: 'No corresponding code',
+      noFilterResults: 'No correspondences match the filter.',
     },
     variant: {
       name: 'Name',
@@ -269,6 +270,14 @@ export const en = {
     notFoundHelpListVariantDetails: [
       'check that you have the correct variant ID in the URL',
       'go to the variants overview',
+      'go to the classification overview',
+    ],
+    notFoundTitleCorrespondenceDetails: 'Correspondence not found',
+    notFoundMessageCorrespondenceDetails:
+      'Is there a typo in the URL? Or has the correspondence been deleted or moved?',
+    notFoundHelpListCorrespondenceDetails: [
+      'check that you have the correct correspondence ID in the URL',
+      'go to the correspondences overview',
       'go to the classification overview',
     ],
     notFoundTitle: 'Page not found',

@@ -1,7 +1,7 @@
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CorrespondenceTablesApi } from '@/libs/data-access/klass';
 import { ResponseError } from '@/libs/data-access/klass/runtime';
-import { fetchCorrespondenceDownload } from './correspondencesData';
+import { fetchCorrespondenceDownload, fetchCorrespondenceTable } from './correspondencesData';
 
 vi.mock('server-only', () => ({}));
 
@@ -20,20 +20,17 @@ afterAll(() => {
 describe('fetchCorrespondenceDownload', () => {
   it('returns static mock data as json when KLASS_USE_STATIC_DATA is true', async () => {
     vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
-
     const result = await fetchCorrespondenceDownload({
       tableId: 1506,
       language: 'nb',
       format: 'csv',
     });
-
     expect(result.mimeType).toBe('application/json');
     expect(result.content).toBe('[]');
   });
 
   it('uses correspondsRaw with requested format', async () => {
     vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
-
     const correspondenceTablesRawSpy = vi
       .spyOn(CorrespondenceTablesApi.prototype, 'correspondenceTablesRaw')
       .mockResolvedValue({
@@ -42,13 +39,11 @@ describe('fetchCorrespondenceDownload', () => {
         }),
         value: async () => ({}),
       });
-
     const result = await fetchCorrespondenceDownload({
       tableId: 1506,
       language: 'en',
       format: 'csv',
     });
-
     expect(correspondenceTablesRawSpy).toHaveBeenCalledOnce();
     expect(result.mimeType).toContain('text/csv');
     expect(result.content).toContain('source,target');
@@ -56,11 +51,9 @@ describe('fetchCorrespondenceDownload', () => {
 
   it('rethrows response errors', async () => {
     vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
-
     vi.spyOn(CorrespondenceTablesApi.prototype, 'correspondenceTablesRaw').mockRejectedValue(
       new ResponseError(new Response(null, { status: 500 }), 'Failed'),
     );
-
     await expect(
       fetchCorrespondenceDownload({
         tableId: 1506,
@@ -68,5 +61,25 @@ describe('fetchCorrespondenceDownload', () => {
         format: 'json',
       }),
     ).rejects.toThrow('Failed');
+  });
+});
+
+describe('fetchCorrespondenceTable', () => {
+  it('returns correspondence details', async () => {
+    vi.spyOn(CorrespondenceTablesApi.prototype, 'correspondenceTables').mockResolvedValue({
+      id: 1506,
+      name: 'Test correspondence',
+    });
+    await expect(fetchCorrespondenceTable(1506, 'en')).resolves.toMatchObject({
+      id: 1506,
+      name: 'Test correspondence',
+    });
+  });
+
+  it('returns undefined when the correspondence does not exist', async () => {
+    vi.spyOn(CorrespondenceTablesApi.prototype, 'correspondenceTables').mockRejectedValue(
+      new ResponseError(new Response(null, { status: 404 }), 'Not found'),
+    );
+    await expect(fetchCorrespondenceTable(999999, 'nb')).resolves.toBeUndefined();
   });
 });

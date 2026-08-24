@@ -98,6 +98,7 @@ export const nn = {
         'Korrespondansen koplar {sourceCount} kodar frå «{sourceName}» til {targetCount} kodar frå «{targetName}».',
       tableLabel: 'Korrespondansetabell',
       noTarget: 'Ingen tilsvarande kode',
+      noFilterResults: 'Ingen korrespondansar samsvarar med filteret.',
     },
     variant: {
       name: 'Namn',
@@ -265,6 +266,14 @@ export const nn = {
     notFoundHelpListVariantDetails: [
       'sjekke at du har riktig variant-id i lenkja',
       'gå til oversikta over variantar',
+      'gå til oversikta over klassifikasjonar',
+    ],
+    notFoundTitleCorrespondenceDetails: 'Korrespondanse ikkje funnen',
+    notFoundMessageCorrespondenceDetails:
+      'Er det skrivefeil i lenkja? Eller har korrespondansen blitt sletta eller flytta?',
+    notFoundHelpListCorrespondenceDetails: [
+      'sjekke at du har riktig korrespondanse-id i lenkja',
+      'gå til oversikta over korrespondansar',
       'gå til oversikta over klassifikasjonar',
     ],
     notFoundTitle: 'Sida finst ikkje',

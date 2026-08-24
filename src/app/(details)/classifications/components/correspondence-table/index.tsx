@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  Alert,
   Button,
   Search,
   Table,
@@ -35,7 +36,6 @@ interface MappingGroup {
 
 function groupMappings(mappings: CorrespondenceMapResource[], inverted: boolean): MappingGroup[] {
   const groups = new Map<string, MappingGroup>();
-
   for (const mapping of mappings) {
     const sourceCode = inverted ? mapping.targetCode : mapping.sourceCode;
     const sourceName = inverted ? mapping.targetName : mapping.sourceName;
@@ -45,27 +45,23 @@ function groupMappings(mappings: CorrespondenceMapResource[], inverted: boolean)
     };
     const key = JSON.stringify([sourceCode ?? null, sourceName ?? null]);
     const existingGroup = groups.get(key);
-
     if (existingGroup) {
       existingGroup.targets.push(target);
     } else {
       groups.set(key, { key, sourceCode, sourceName, targets: [target] });
     }
   }
-
   return [...groups.values()];
 }
 
 function countDistinctCodes(mappings: CorrespondenceMapResource[], side: 'source' | 'target'): number {
   const codes = new Set<string>();
-
   for (const mapping of mappings) {
     const code = side === 'source' ? mapping.sourceCode : mapping.targetCode;
     if (code?.trim()) {
       codes.add(code.trim());
     }
   }
-
   return codes.size;
 }
 
@@ -87,7 +83,6 @@ function renderCodeAndName(
   ]
     .filter(Boolean)
     .join(' ');
-
   return (
     <>
       <TableCell rowSpan={rowSpan} className={codeClassName}>
@@ -124,7 +119,6 @@ export function CorrespondenceTable({
     if (!normalizedTerm) {
       return mappings;
     }
-
     return mappings.filter((mapping) =>
       [mapping.sourceCode, mapping.sourceName, mapping.targetCode, mapping.targetName].some((value) =>
         value?.toLocaleLowerCase().includes(normalizedTerm),
@@ -132,9 +126,9 @@ export function CorrespondenceTable({
     );
   }, [filterTerm, mappings]);
   const groupedMappings = useMemo(() => groupMappings(filteredMappings, inverted), [filteredMappings, inverted]);
-
+  const hasNoFilterResults = filterTerm.trim().length > 0 && groupedMappings.length === 0;
   return (
-    <section>
+    <div>
       <p className={styles.codeSummary}>
         {localization.formatString(localization.classification.correspondence.codeSummary, {
           sourceCount: codeCounts.source,
@@ -166,49 +160,52 @@ export function CorrespondenceTable({
           </Button>
         </div>
       </div>
-
-      <div className={styles.tableWrapper}>
-        <Table
-          border={true}
-          zebra={false}
-          hover={true}
-          stickyHeader={true}
-          className={styles.table}
-          aria-label={localization.classification.correspondence.tableLabel}
-        >
-          <TableHead>
-            <TableRow>
-              <TableHeaderCell
-                colSpan={2}
-                scope='col'
-                className={`${styles.tableHeader} ${styles.tableCentralDivider}`}
-              >
-                {displayedSourceName}
-              </TableHeaderCell>
-              <TableHeaderCell colSpan={2} scope='col' className={styles.tableHeader}>
-                {displayedTargetName}
-              </TableHeaderCell>
-            </TableRow>
-          </TableHead>
-
-          {groupedMappings.map((group, groupIndex) => {
-            const isLastGroup = groupIndex === groupedMappings.length - 1;
-
-            return (
-              <TableBody key={group.key} className={styles.mappingGroup}>
-                {group.targets.map((target, index) => (
-                  <TableRow key={`${group.key}-${target.code ?? 'missing'}-${index}`}>
-                    {index === 0
-                      ? renderCodeAndName(group.sourceCode, group.sourceName, group.targets.length, true, isLastGroup)
-                      : null}
-                    {renderCodeAndName(target.code, target.name)}
-                  </TableRow>
-                ))}
-              </TableBody>
-            );
-          })}
-        </Table>
-      </div>
-    </section>
+      {hasNoFilterResults ? (
+        <Alert role='status' data-color='info'>
+          {localization.classification.correspondence.noFilterResults}
+        </Alert>
+      ) : (
+        <div className={styles.tableWrapper}>
+          <Table
+            border={true}
+            zebra={false}
+            hover={true}
+            stickyHeader={true}
+            className={styles.table}
+            aria-label={localization.classification.correspondence.tableLabel}
+          >
+            <TableHead>
+              <TableRow>
+                <TableHeaderCell
+                  colSpan={2}
+                  scope='colgroup'
+                  className={`${styles.tableHeader} ${styles.tableCentralDivider}`}
+                >
+                  {displayedSourceName}
+                </TableHeaderCell>
+                <TableHeaderCell colSpan={2} scope='colgroup' className={styles.tableHeader}>
+                  {displayedTargetName}
+                </TableHeaderCell>
+              </TableRow>
+            </TableHead>
+            {groupedMappings.map((group, groupIndex) => {
+              const isLastGroup = groupIndex === groupedMappings.length - 1;
+              return (
+                <TableBody key={group.key} className={styles.mappingGroup}>
+                  {group.targets.map((target, index) => (
+                    <TableRow key={`${group.key}-${target.code ?? 'missing'}-${index}`}>
+                      {index === 0
+                        ? renderCodeAndName(group.sourceCode, group.sourceName, group.targets.length, true, isLastGroup)
+                        : null}
+                      {renderCodeAndName(target.code, target.name)}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              );
+            })}
+          </Table>
+        </div>
+      )}
+    </div>
   );
 }

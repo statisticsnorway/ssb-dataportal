@@ -29,7 +29,14 @@ export default async function CorrespondencePage({ params }: Readonly<Correspond
   const versionId = Number(versionNumber);
   const tableId = Number(correspondenceId);
 
-  if (Number.isNaN(classificationId) || Number.isNaN(versionId) || Number.isNaN(tableId)) {
+  if (
+    !Number.isInteger(classificationId) ||
+    classificationId <= 0 ||
+    !Number.isInteger(versionId) ||
+    versionId <= 0 ||
+    !Number.isInteger(tableId) ||
+    tableId <= 0
+  ) {
     return notFound();
   }
 
@@ -37,11 +44,17 @@ export default async function CorrespondencePage({ params }: Readonly<Correspond
 
   const version = await fetchVersionById(versionId, language);
 
-  if (!version) {
+  const belongsToVersion = version?.correspondenceTables?.some((summary) => summary.id === tableId);
+
+  if (!version || !belongsToVersion) {
     return notFound();
   }
 
   const table = await fetchCorrespondenceTable(tableId, language);
+
+  if (table?.id !== tableId) {
+    return notFound();
+  }
 
   const downloadHref = buildDownloadHref(
     `/classifications/${id}/versions/${versionNumber}/correspondences/${correspondenceId}`,
@@ -49,16 +62,18 @@ export default async function CorrespondencePage({ params }: Readonly<Correspond
   );
 
   return (
-    <main className={styles.page}>
+    <section className={styles.page} aria-labelledby='correspondence-title'>
       <DigdirLink asChild>
         <Link href={buildUrl({ classificationId, versionId, tab: 'correspondences' })}>
           <ArrowLeftIcon aria-hidden='true' />
           {localization.codeTree.back}
         </Link>
       </DigdirLink>
-      <h1 className={styles.title}>{table.name}</h1>
+      <Heading id='correspondence-title' className={`${styles.title} secondaryHeading`} data-size='lg' level={3}>
+        {table.name}
+      </Heading>
       <DetailsList content={mapCorrespondenceDetails(table)} />
-      <Heading className='secondaryHeading' data-size='md' level={2}>
+      <Heading className='secondaryHeading' data-size='md' level={4}>
         {localization.classificationDetails.codes}
       </Heading>
       <CorrespondenceTable
@@ -67,6 +82,6 @@ export default async function CorrespondencePage({ params }: Readonly<Correspond
         mappings={table.correspondenceMaps ?? []}
         downloadHref={downloadHref}
       />
-    </main>
+    </section>
   );
 }

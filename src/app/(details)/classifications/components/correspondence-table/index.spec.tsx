@@ -5,6 +5,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { CorrespondenceTable } from './index';
 
 vi.mock('@digdir/designsystemet-react', () => ({
+  Alert: ({ children, ...props }: any) => <div {...props}>{children}</div>,
   Button: ({ asChild, children, ...props }: any) => (asChild ? children : <button {...props}>{children}</button>),
   Search: Object.assign(({ children, ...props }: any) => <div {...props}>{children}</div>, {
     Input: (props: any) => <input {...props} />,
@@ -54,8 +55,11 @@ function renderTable(tableMappings = mappings) {
 describe('CorrespondenceTable', () => {
   it('shows every mapping in a flat table without hierarchy controls', () => {
     renderTable();
-
     expect(screen.getByRole('table', { name: 'Korrespondansetabell' })).toBeInTheDocument();
+    const headers = screen.getAllByRole('columnheader');
+    expect(headers).toHaveLength(2);
+    expect(headers[0]).toHaveAttribute('scope', 'colgroup');
+    expect(headers[1]).toHaveAttribute('scope', 'colgroup');
     expect(screen.getByText('01.479')).toBeInTheDocument();
     expect(screen.getByText('01.479').closest('td')).toHaveAttribute('rowspan', '2');
     expect(screen.getAllByText('01.490')).toHaveLength(2);
@@ -71,9 +75,7 @@ describe('CorrespondenceTable', () => {
   it('inverts the columns and mapping direction', async () => {
     const user = userEvent.setup();
     renderTable();
-
     await user.click(screen.getByRole('button', { name: 'Inverter tabell' }));
-
     const headers = screen.getAllByRole('columnheader');
     expect(headers[0]).toHaveTextContent('Næringsgruppering 2007');
     expect(headers[1]).toHaveTextContent('Næringsgruppering 2025');
@@ -96,15 +98,12 @@ describe('CorrespondenceTable', () => {
         targetName: 'Husdyrhold ellers',
       },
     ]);
-
     expect(
       screen.getByText(
         'Korrespondansen kobler 3 koder fra «Næringsgruppering 2025» til 2 koder fra «Næringsgruppering 2007».',
       ),
     ).toBeVisible();
-
     await user.click(screen.getByRole('button', { name: 'Inverter tabell' }));
-
     expect(
       screen.getByText(
         'Korrespondansen kobler 3 koder fra «Næringsgruppering 2025» til 2 koder fra «Næringsgruppering 2007».',
@@ -115,25 +114,27 @@ describe('CorrespondenceTable', () => {
   it('filters mappings by code or name on either side', async () => {
     const user = userEvent.setup();
     renderTable();
-
     const filter = screen.getByRole('textbox', { name: 'Filtrer på kode eller navn' });
     await user.type(filter, 'skog');
-
     expect(screen.getByText('02.110')).toBeInTheDocument();
     expect(screen.getByText('Skogskjøtsel')).toBeInTheDocument();
     expect(screen.queryByText('01.479')).not.toBeInTheDocument();
     expect(screen.queryByText('01.620')).not.toBeInTheDocument();
-
     await user.clear(filter);
     await user.type(filter, '01.620');
-
     expect(screen.getByText('01.479')).toBeInTheDocument();
     expect(screen.getByText('01.620')).toBeInTheDocument();
     expect(screen.queryByText('02.110')).not.toBeInTheDocument();
-
     await user.click(screen.getByRole('button', { name: 'Fjern filter' }));
-
     expect(screen.getByText('02.110')).toBeInTheDocument();
     expect(screen.getAllByText('01.490')).toHaveLength(2);
+  });
+
+  it('shows a status message instead of an empty table when the filter has no matches', async () => {
+    const user = userEvent.setup();
+    renderTable();
+    await user.type(screen.getByRole('textbox', { name: 'Filtrer på kode eller navn' }), 'finnes ikke');
+    expect(screen.getByRole('status')).toHaveTextContent('Ingen korrespondanser samsvarer med filteret.');
+    expect(screen.queryByRole('table', { name: 'Korrespondansetabell' })).not.toBeInTheDocument();
   });
 });

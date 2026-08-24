@@ -98,6 +98,7 @@ export const nb = {
         'Korrespondansen kobler {sourceCount} koder fra «{sourceName}» til {targetCount} koder fra «{targetName}».',
       tableLabel: 'Korrespondansetabell',
       noTarget: 'Ingen tilsvarende kode',
+      noFilterResults: 'Ingen korrespondanser samsvarer med filteret.',
     },
     variant: {
       name: 'Navn',
@@ -265,6 +266,14 @@ export const nb = {
     notFoundHelpListVariantDetails: [
       'sjekke at du har riktig variant-id i lenken',
       'gå til oversikten over varianter',
+      'gå til oversikten over klassifikasjoner',
+    ],
+    notFoundTitleCorrespondenceDetails: 'Korrespondanse ikke funnet',
+    notFoundMessageCorrespondenceDetails:
+      'Er det skrivefeil i lenken? Eller har korrespondansen blitt slettet eller flyttet?',
+    notFoundHelpListCorrespondenceDetails: [
+      'sjekke at du har riktig korrespondanse-id i lenken',
+      'gå til oversikten over korrespondanser',
       'gå til oversikten over klassifikasjoner',
     ],
     notFoundTitle: 'Siden finnes ikke',
