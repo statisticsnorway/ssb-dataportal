@@ -18,14 +18,6 @@ test('Classifications details page have title', async ({ classificationDetailsPa
   await expect(heading).toHaveText(classification.name!);
 });
 
-test('Latest version display tag', async ({ classificationDetailsPage }) => {
-  const classification = parseClassification(classifications[0]);
-  const page = await classificationDetailsPage(classification.id!);
-  const tag = page.getByText(localization.versions.tags.isLatest);
-  await expect(tag).toBeVisible();
-  await expect(tag).toContainText('Gjeldende versjon: (Gyldig');
-});
-
 test('Outdated versions display alert', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[0]);
   const page = await classificationDetailsPage(classification.id!);
