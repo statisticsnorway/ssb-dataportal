@@ -6,6 +6,7 @@ import { parseClassification } from '@/utils/mock-data';
 import { expect, test } from './fixtures/classification.fixture';
 import { CODES_PREV_VERSION_URL, CODES_PREV_VERSION_URL_CODES, formatDate, switchLanguage } from './utils/commonUtils';
 import { languageButton } from './utils/variables';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 
 const classifications = classificationMock.classifications;
 const versions = versionsMock.versions;
@@ -184,5 +185,33 @@ test('displays fallback-language tag when classification is missing in the selec
   await tag.hover();
   await expect(
     page.getByText('This classification is not available in the selected language', { exact: true }),
+  ).toBeVisible();
+});
+
+test('display alert content is missing in selected language - latest version', async ({
+  classificationDetailsPage,
+}) => {
+  const classification = parseClassification(classifications[0]);
+  const page = await classificationDetailsPage(classification.id!);
+
+  await switchLanguage(page, 'Norsk nynorsk');
+
+  await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
+  await expect(
+    page.getByText('Denne klassifikasjonen manglar innhald på valt språk, vel eit anna språk.', { exact: true }),
+  ).toBeVisible();
+});
+
+test('display alert content is missing in selected language - older version', async ({ classificationDetailsPage }) => {
+  const classification = parseClassification(classifications[0]);
+  const page = await classificationDetailsPage(classification.id!);
+  await page.goto(buildUrl({ classificationId: classification.id!, versionId: 2 }));
+
+  await page.waitForLoadState('networkidle');
+  await switchLanguage(page, 'Norsk nynorsk');
+
+  await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
+  await expect(
+    page.getByText('Denne klassifikasjonen manglar innhald på valt språk, vel eit anna språk.', { exact: true }),
   ).toBeVisible();
 });
