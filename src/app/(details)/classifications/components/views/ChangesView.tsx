@@ -61,13 +61,20 @@ export default function ChangesView({
   const mappings = useMemo<CorrespondenceMapResource[]>(
     () =>
       (changes ?? []).map((change) => ({
-        sourceCode: change.oldCode,
-        sourceName: change.oldName,
-        targetCode: change.newCode,
-        targetName: change.newName,
+        sourceCode: change.newCode ?? '-',
+        sourceName: change.newName ?? '-',
+        targetCode: change.oldCode ?? '-',
+        targetName: change.oldName ?? '-',
       })),
     [changes],
   );
+
+  const handleOpenDownloadRoute = () => {
+    window.location.href = buildDownloadHref(pathname, {
+      format: 'csv',
+      language: localization.getLanguage() as 'nb' | 'nn' | 'en',
+    });
+  };
 
   const renderCodeChanges = () => {
     if (!hasPreviousVersion || !previousVersion) {
@@ -99,6 +106,7 @@ export default function ChangesView({
           format: 'csv',
           language: localization.getLanguage() as 'nb' | 'nn' | 'en',
         })}
+        onDownloadClick={handleOpenDownloadRoute}
       />
     );
   };

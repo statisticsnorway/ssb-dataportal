@@ -5,6 +5,9 @@ import ChangesView from './ChangesView';
 
 vi.mock('next/navigation', () => ({
   usePathname: () => '/classifications/2003/changes',
+  useRouter: () => ({
+    push: vi.fn(),
+  }),
 }));
 
 const fetchChangesMock = vi.hoisted(() => vi.fn<() => Promise<CodeChangeItem[]>>());
@@ -86,13 +89,14 @@ describe('ChangesView', () => {
       targetName: 'v31',
       mappings: [
         {
-          sourceCode: 'old-code',
-          sourceName: 'Old name',
-          targetCode: 'new-code',
-          targetName: 'New name',
+          sourceCode: 'new-code',
+          sourceName: 'New name',
+          targetCode: 'old-code',
+          targetName: 'Old name',
         },
       ],
       downloadHref: '/classifications/2003/changes/download?v=1&format=csv&language=nb',
+      onDownloadClick: expect.any(Function),
     });
   });
 

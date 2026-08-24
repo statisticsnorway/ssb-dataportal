@@ -21,6 +21,7 @@ interface CorrespondenceTableProps {
   targetName: string;
   mappings: CorrespondenceMapResource[];
   downloadHref: string;
+  onDownloadClick?: () => void;
 }
 
 interface MappingGroup {
@@ -91,6 +92,7 @@ export function CorrespondenceTable({
   targetName,
   mappings,
   downloadHref,
+  onDownloadClick,
 }: Readonly<CorrespondenceTableProps>) {
   const [inverted, setInverted] = useState(false);
   const [filterTerm, setFilterTerm] = useState('');
@@ -133,9 +135,15 @@ export function CorrespondenceTable({
           <Button variant='secondary' onClick={() => setInverted((current) => !current)}>
             {localization.versions.invert}
           </Button>
-          <Button asChild variant='secondary'>
-            <Link href={downloadHref}>{localization.classification.download.button}</Link>
-          </Button>
+          {onDownloadClick ? (
+            <Button variant='secondary' onClick={onDownloadClick}>
+              {localization.classification.download.button}
+            </Button>
+          ) : (
+            <Button asChild variant='secondary'>
+              <Link href={downloadHref}>{localization.classification.download.button}</Link>
+            </Button>
+          )}
         </div>
       </div>
 
