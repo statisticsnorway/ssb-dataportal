@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { buildUrl } from '../../utils/urls';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { VersionView } from './VersionView';
 
 const mocks = vi.hoisted(() => ({

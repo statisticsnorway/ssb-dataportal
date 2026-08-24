@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import VariantView from '@/app/(details)/classifications/components/views/VariantView';
-import { buildUrl } from '../../../../../utils/urls';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 
 export default async function VersionVariantPage({
   params,
