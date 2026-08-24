@@ -122,7 +122,7 @@ export function VersionView({
       </Heading>
       {resolved?.isLatest && versionTag}
       {missingInSelectedLanguage && (
-        <Alert data-color={'warning'} role='status'>
+        <Alert data-color={'warning'} role='warning'>
           {localization.classification.language.missingInSelectedLanguage}
         </Alert>
       )}
