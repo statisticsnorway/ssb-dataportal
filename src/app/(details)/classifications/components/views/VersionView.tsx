@@ -1,12 +1,14 @@
 'use client';
 
-import { Alert, Divider, Heading, Tabs, Tag } from '@digdir/designsystemet-react';
+import { Alert, Divider, Heading, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { AppNotFoundState } from '@/components/app-state';
+import { DetailsList } from '@/components/details-list';
 import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
+import { formatLocaleDate } from '@/utils/functions';
 import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from '../../[id]/tabs';
 import { BuildUrlProps, buildUrl } from '../../utils/urls';
 import { ResolvedVersion, VersionProvider } from '../versionContext';
@@ -47,7 +49,7 @@ function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): 
 
 export function VersionView({
   classification,
-  classificationVersion,
+  classificationVersion: versionOnEntry,
   missingInSelectedLanguage,
   children,
 }: Readonly<VersionViewProps>) {
@@ -91,19 +93,6 @@ export function VersionView({
     router.prefetch(getTabUrl(classificationDetailsTabsData.Changes.slug));
   }, [router, pathname, classification.id, resolved.isLatest, resolved.version.id]);
 
-  const validFromText =
-    resolved.version.validFrom?.toLocaleDateString('nb-NO', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    }) ?? '—';
-
-  const versionTag = (
-    <Tag data-color={'info'} className={styles.versionTag}>
-      {`${localization.versions.tags.isLatest} (${localization.versions.tags.validFrom}: ${validFromText})`}
-    </Tag>
-  );
-
   return (
     <VersionProvider classification={classification} versionSummary={resolved.version} isLatest={resolved.isLatest}>
       <Divider data-version-divider />
@@ -120,7 +109,13 @@ export function VersionView({
       >
         {resolved.version.name ?? '—'}
       </Heading>
-      {resolved?.isLatest && versionTag}
+      <DetailsList
+        content={[
+          { label: localization.validity.validFrom, value: formatLocaleDate(resolved.version.validFrom) || '—' },
+          { label: localization.validity.validTo, value: formatLocaleDate(resolved.version.validTo) || '—' },
+        ]}
+        fallbackLanguage={classification.fallbackLanguage}
+      />
       {missingInSelectedLanguage && (
         <Alert data-color={'warning'} role='alert'>
           {localization.classification.language.missingInSelectedLanguage}
@@ -130,7 +125,7 @@ export function VersionView({
         className={styles.introduction}
         {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
       >
-        {classificationVersion?.introduction ?? '—'}
+        {versionOnEntry?.introduction ?? '—'}
       </p>
       <Tabs
         value={activeTab.id}

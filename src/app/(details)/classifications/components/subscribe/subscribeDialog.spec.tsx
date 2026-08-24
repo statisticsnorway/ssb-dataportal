@@ -15,7 +15,7 @@ vi.mock('@/libs/logger/client-logger', () => ({
 describe('SubscribeDialog', () => {
   it('renders the trigger button', () => {
     render(<SubscribeDialog classificationId={1} />);
-    expect(screen.getByText(localization.classification.subscribe)).toBeInTheDocument();
+    expect(screen.getByText(localization.classification.subscribeSubmit)).toBeInTheDocument();
   });
 
   it('dialog is present in DOM on render', () => {

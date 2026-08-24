@@ -19,14 +19,6 @@ test('Classifications details page have title', async ({ classificationDetailsPa
   await expect(heading).toHaveText(classification.name!);
 });
 
-test('Latest version display tag', async ({ classificationDetailsPage }) => {
-  const classification = parseClassification(classifications[0]);
-  const page = await classificationDetailsPage(classification.id!);
-  const tag = page.getByText(localization.versions.tags.isLatest);
-  await expect(tag).toBeVisible();
-  await expect(tag).toContainText('Gjeldende versjon: (Gyldig');
-});
-
 test('Outdated versions display alert', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[0]);
   const page = await classificationDetailsPage(classification.id!);
@@ -98,8 +90,8 @@ test.describe('All versions table on classification page', () => {
     await page.getByText(localization.classificationDetails.versions).click();
 
     await expect(page.getByRole('columnheader', { name: localization.versions.name })).toBeVisible();
-    await expect(page.getByRole('columnheader', { name: localization.versions.validFrom })).toBeVisible();
-    await expect(page.getByRole('columnheader', { name: localization.versions.validTo })).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: localization.validity.validFrom })).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: localization.validity.validTo })).toBeVisible();
 
     await expect(page.getByRole('cell', { name: olderVersion?.name })).toBeVisible();
     await expect(page.getByRole('cell', { name: currentVersion?.name })).toBeVisible();
@@ -131,7 +123,7 @@ test('sorts versions by "valid from" when clicking the column header', async ({ 
   await page.getByText(localization.classificationDetails.versions).click();
   const currentVersion = classification.versions![0];
   const olderVersion = classification.versions![1];
-  const validFromHeader = page.getByRole('columnheader', { name: localization.versions.validFrom });
+  const validFromHeader = page.getByRole('columnheader', { name: localization.validity.validFrom });
   const rows = page.getByRole('table').getByRole('row');
 
   // Default order (unsorted): current version first, older version second

@@ -33,7 +33,6 @@ export const nb = {
     about: {
       custodian: 'Ansvarlig',
       mail: 'E-post',
-      validity: 'Gyldig fra',
       publishedLanguages: 'Publiserte språk',
       basedOn: 'Basert på',
       langEN: 'Engelsk',
@@ -46,7 +45,7 @@ export const nb = {
       number: 'Nummer',
       name: 'Navn',
       notRelevant: 'Ikke relevant',
-      noChanges: 'Ingen beskrivelser i endringsloggen.',
+      noChanges: 'Ingen beskrivelse av endringer innenfor denne versjonen.',
       description: 'Beskrivelse',
       changelog: 'Endringslogg',
       date: 'Dato',
@@ -69,10 +68,9 @@ export const nb = {
     standardPrefix: 'Standard for',
     emailPlaceholder: 'Din e-postadresse',
     subscribe: 'Abonner',
-    subscription: 'Abonnement',
     subscribeMessageError: 'Det oppstod en feil under registering',
     subscribeMessageAlready: 'Du er allerede abonnent',
-    subscribeConfirm: 'Bekreft abonnement',
+    subscribeSubmit: 'Send inn',
     subscribeInfo: 'Abonner på oppdateringer for denne klassifikasjonen',
     subscribeMessageSuccess: 'Du vil motta en mail. Følg instruksjonene i mailen for å starte ditt abonnement.',
     subscribeMessageInvalidEmail: 'Skriv inn en gyldig e-postadresse',
@@ -90,9 +88,7 @@ export const nb = {
       heading: 'Korrespondanser',
       info: 'Korrespondansetabeller viser sammenhengen mellom to ulike kodeverk.',
       none: 'Denne versjonen har ingen korrespondanser',
-      from: 'Korrespondanser fra',
       fromLevel: 'Nivå',
-      to: 'Korrespondanser til',
       toLevel: 'Nivå',
       owner: 'Eier',
       id: 'ID',
@@ -110,11 +106,10 @@ export const nb = {
       responsible: 'Ansvarlig',
       owner: 'Eier',
       ownerSection: 'Eierseksjon',
-      validFrom: 'Gyldig fra og med',
       noVariants: 'Denne versjonen har ingen varianter',
       variantHeading: 'Varianter',
       variantInfo:
-        'En variant baserer seg på en klassifikasjonsversjon, og representerer en alternativ gruppering av denne (grupperingen KAN gå på tvers av strukturen i den opprinnelige klassifikasjonen). Varianter brukes ofte for å oppfylle krav til spesifikke statistikker, f.eks. brukes en variant av Standard for næringsgruppering for å lage Miljøregnskap.',
+        'En variant baserer seg på en klassifikasjonsversjon, og innebærer en omgruppering, utvidelse eller reduksjon av elementene i denne.',
     },
   },
   classificationDetails: {
@@ -447,6 +442,8 @@ export const nb = {
 
   validity: {
     label: 'Gyldighet',
+    validFrom: 'Gyldig fra',
+    validTo: 'Gyldig til',
   },
 
   // Labels specific to variable definitions
@@ -470,20 +467,15 @@ export const nb = {
       'En enhetstype er typen av objekter (enheter) som det lages statistikk om, f.eks. person, foretak og valg',
     relevant: 'Relevante variabeldefinisjoner',
     shortName: 'Kortnavn',
-    validFrom: 'Gyldig fra',
-    validTo: 'Gyldig til',
     viewExternalReference: 'Se ekstern referanse',
     viewRelevant: 'Se relevant variabeldefinisjon',
   },
   versions: {
     name: 'Navn',
     invert: 'Inverter tabell',
-    validFrom: 'Gyldig fra',
-    validTo: 'Gyldig til',
     now: 'Nå',
     tags: {
       isLatest: 'Gjeldende versjon:',
-      validFrom: 'Gyldig fra og med',
       isNotCurrent: 'Dette er ikke dagens versjon av klassifikasjonen',
     },
     noChanges: 'Ingen kodeendringer finnes for den aktuelle versjonen.',

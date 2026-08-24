@@ -4,8 +4,6 @@ import { ClassificationResource } from '@/libs/data-access/klass/models/Classifi
 import { localization } from '@/libs/language/src/localization';
 import { mapChanges, mapDetailsItems, mapLevels } from './details';
 
-const notRelevant = localization.classification.about.notRelevant;
-
 const baseVersion: ClassificationVersionResource = {
   name: 'Version 1',
   contactPerson: { email: 'test@ssb.no', name: 'Test', phone: '' },
@@ -28,7 +26,6 @@ describe('mapAboutItems', () => {
     expect(labels).toEqual([
       localization.classification.about.custodian,
       localization.classification.about.mail,
-      localization.classification.about.validity,
       localization.classification.about.publishedLanguages,
       localization.classification.about.basedOn,
       localization.classification.about.legalBasis,
@@ -37,10 +34,10 @@ describe('mapAboutItems', () => {
     ]);
 
     // No row should fall back to "not relevant" when all fields are set
-    expect(rows.every((r) => r.value !== notRelevant)).toBe(true);
+    expect(rows.every((r) => r.value !== '—')).toBe(true);
   });
 
-  it('falls back to "not relevant" for missing/empty fields', () => {
+  it('display for missing/empty fields', () => {
     const emptyVersion = {
       contactPerson: { email: '' },
       published: [],
@@ -48,9 +45,8 @@ describe('mapAboutItems', () => {
     const emptyClassification = { statisticalUnits: [] } as unknown as ClassificationResource;
 
     const rows = mapDetailsItems(emptyVersion, emptyClassification);
-    const fallbackLabels = rows.filter((r) => r.value === notRelevant).map((r) => r.label);
+    const fallbackLabels = rows.filter((r) => r.value === '—').map((r) => r.label);
 
-    expect(fallbackLabels).toContain(localization.classification.about.validity);
     expect(fallbackLabels).toContain(localization.classification.about.basedOn);
     expect(fallbackLabels).toContain(localization.classification.about.legalBasis);
     expect(fallbackLabels).toContain(localization.classification.about.publications);
@@ -147,8 +143,8 @@ describe('mapAboutItems edge cases', () => {
 
     const rows = mapDetailsItems(version, { statisticalUnits: [] } as unknown as ClassificationResource);
 
-    expect(rows.find((r) => r.label === localization.classification.about.basedOn)?.value).toBe(notRelevant);
-    expect(rows.find((r) => r.label === localization.classification.about.legalBasis)?.value).toBe(notRelevant);
-    expect(rows.find((r) => r.label === localization.classification.about.publications)?.value).toBe(notRelevant);
+    expect(rows.find((r) => r.label === localization.classification.about.basedOn)?.value).toBe('—');
+    expect(rows.find((r) => r.label === localization.classification.about.legalBasis)?.value).toBe('—');
+    expect(rows.find((r) => r.label === localization.classification.about.publications)?.value).toBe('—');
   });
 });

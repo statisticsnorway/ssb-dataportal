@@ -35,7 +35,6 @@ export const en = {
     about: {
       custodian: 'Maintainer',
       mail: 'Mail',
-      validity: 'Valid from',
       publishedLanguages: 'Published languages',
       basedOn: 'Based on',
       langEN: 'English',
@@ -45,7 +44,7 @@ export const en = {
       publications: 'Publications',
       unitTypes: 'Unit types',
       levels: 'Levels',
-      noChanges: 'No descriptions available in the changelog.',
+      noChanges: 'No descriptions for changes within this version.',
       notRelevant: 'Not relevant',
       number: 'Number',
       name: 'Name',
@@ -72,13 +71,12 @@ export const en = {
     standardPrefix: 'Classification of',
     emailPlaceholder: 'Your email address',
     subscribe: 'Subscribe',
-    subscription: 'Subscription',
     subscribeMessageError: 'An error occurred during registration',
     subscribeMessageAlready: 'You are already subscribed',
-    subscribeConfirm: 'Confirm subscription',
+    subscribeSubmit: 'Submit',
     subscribeInfo: 'Subscribe to updates for this classification',
     subscribeMessageSuccess:
-      'You will receive an email. Follow the instructions in the email to start your subscription.',
+      'You will receive an email. Follow the instructions in the email to confirm your subscription.',
     subscribeMessageInvalidEmail: 'Enter a valid email address',
     download: {
       button: 'Download',
@@ -94,9 +92,7 @@ export const en = {
       heading: 'Correspondences',
       info: 'Correspondence tables show the relationship between two different code lists.',
       none: 'This version has no correspondences',
-      from: 'Correspondences from',
       fromLevel: 'Level',
-      to: 'Correspondences to',
       toLevel: 'Level',
       owner: 'Owner',
       id: 'ID',
@@ -114,11 +110,10 @@ export const en = {
       responsible: 'Responsible',
       owner: 'Owner',
       ownerSection: 'Owner section',
-      validFrom: 'Valid from and including',
       noVariants: 'This version has no variants',
       variantHeading: 'Variants',
       variantInfo:
-        'A variant is based on a classification version and represents an alternative grouping of it (the grouping MAY go across the structure of the original classification). Variants are often used to meet the requirements of specific statistics, e.g., a variant of the Standard for industry classification is used to create Environmental Accounts.',
+        "A variant is based on a classification version and represents an alternative grouping, an expansion, or a reduction of it's codes.",
     },
   },
   classificationDetails: {
@@ -449,6 +444,8 @@ export const en = {
 
   validity: {
     label: 'Validity',
+    validFrom: 'Valid from',
+    validTo: 'Valid to',
   },
 
   variableDefinition: {
@@ -471,20 +468,15 @@ export const en = {
       'A unit type is the type of objects (units) that statistics are produced for, for example person, enterprise, and election',
     relevant: 'Relevant variable definitions',
     shortName: 'Short name',
-    validFrom: 'Valid from',
-    validTo: 'Valid to',
     viewExternalReference: 'View external reference',
     viewRelevant: 'View relevant variable definition',
   },
   versions: {
     name: 'Name',
     invert: 'Invert table',
-    validFrom: 'Valid from',
-    validTo: 'Valid to',
     now: 'Now',
     tags: {
       isLatest: 'Current version:',
-      validFrom: 'Valid from and including',
       isNotCurrent: 'This is not the current version of the classification',
     },
     noChanges: 'No changes to codes for this version',

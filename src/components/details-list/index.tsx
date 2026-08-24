@@ -55,7 +55,7 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage }: Detai
           <dd className={styles.value} {...setHtmlLang(row.value)}>
             {row.value}
           </dd>
-          <Divider />
+          {index != content.length - 1 && <Divider />}
         </dl>
       ))}
     </Card>

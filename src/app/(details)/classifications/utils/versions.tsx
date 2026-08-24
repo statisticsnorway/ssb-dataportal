@@ -47,11 +47,11 @@ export const mapVersions = (
     value: v ? mapVersionName(v, classificationId, tab) : '',
   },
   {
-    label: localization.versions.validFrom,
+    label: localization.validity.validFrom,
     value: v?.validFrom ?? '',
   },
   {
-    label: localization.versions.validTo,
+    label: localization.validity.validTo,
     value: v ? (v.validTo ?? localization.versions.now) : '',
   },
 ];

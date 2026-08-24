@@ -67,11 +67,11 @@ test.describe('Definition and comment', () => {
 
 const expectedAboutVariable = [
   {
-    title: localization.variableDefinition.validFrom,
+    title: localization.validity.validFrom,
     values: [formatDate(variable_org!.valid_from!)],
   },
   {
-    title: localization.variableDefinition.validTo,
+    title: localization.validity.validTo,
     values: [formatDate(variable_org!.valid_until!)],
   },
   {

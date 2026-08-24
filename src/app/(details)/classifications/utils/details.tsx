@@ -56,7 +56,6 @@ export const mapDetailsItems = (
   const rows: Item[] = [];
   addRow(rows, localization.classification.about.custodian, formatCustodian(version));
   addRow(rows, localization.classification.about.mail, <EmailLink email={version.contactPerson?.email!} />);
-  addRow(rows, localization.classification.about.validity, formatLocaleDate(version.validFrom));
   addRow(
     rows,
     localization.classification.about.publishedLanguages,

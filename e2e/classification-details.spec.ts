@@ -27,7 +27,7 @@ async function assertDetailsList(page: Page, version: (typeof versions)[number])
   await expect(dl.locator('dd').getByText(formatCustodian(parseVersion(version)), { exact: true })).toBeVisible();
   await expect(dl.getByText(localization.classification.about.mail, { exact: true })).toBeVisible();
   await expect(dl.locator('dd').getByText(version.contactPerson!.email!, { exact: true })).toBeVisible();
-  await expect(dl.getByText(localization.classification.about.validity, { exact: true })).toBeVisible();
+  await expect(dl.getByText(localization.validity.validFrom, { exact: true })).toBeVisible();
   await expect(dl.locator('dd').getByText(formatLocaleDate(version.validFrom!), { exact: true })).toBeVisible();
   await expect(dl.getByText(localization.classification.about.publishedLanguages, { exact: true })).toBeVisible();
   await expect(
