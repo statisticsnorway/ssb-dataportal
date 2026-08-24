@@ -2,6 +2,7 @@
 
 import {
   CorrespondenceTableResource,
+  CorrespondenceTableResourceFromJSONTyped,
   CorrespondenceTablesApi,
   CorrespondenceTablesLanguageEnum,
 } from '@/libs/data-access/klass';
@@ -9,6 +10,7 @@ import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/da
 import { SupportedLanguage } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
+import versionsMock from '@/static-data/versions.json';
 import { getUserAgent } from '@/utils/userAgent';
 import { querystringFormatDates } from './utils';
 
@@ -75,6 +77,14 @@ export async function fetchCorrespondenceTable(
   id: number,
   language: SupportedLanguage = 'nb',
 ): Promise<CorrespondenceTableResource | undefined> {
+  if (process.env.KLASS_USE_STATIC_DATA === 'true') {
+    const table = versionsMock.versions
+      .flatMap((version) => version.correspondenceTables ?? [])
+      .find((correspondence) => correspondence.id === id);
+
+    return table ? CorrespondenceTableResourceFromJSONTyped(table, true) : undefined;
+  }
+
   const api = getCorrespondenceTablesClient();
   try {
     return await api.correspondenceTables(
