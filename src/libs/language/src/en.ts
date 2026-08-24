@@ -90,13 +90,20 @@ export const en = {
     },
     correspondence: {
       heading: 'Correspondences',
-      info: 'Correspondence tables show the relationship between versions of two different classifications, for example the relationship between Police District 2016 and Municipality Classification 2014 (which municipalities belong to which police district). If you want to see the difference between two consecutive versions of the same code list, for example between Municipality Classification 2014 and Municipality Classification 2013, you can find it under the “Changes” tab.',
+      info: 'Correspondence tables show the relationship between two different code lists.',
       none: 'This version has no correspondences',
       from: 'Correspondences from',
       fromLevel: 'Level',
       to: 'Correspondences to',
       toLevel: 'Level',
       owner: 'Owner',
+      id: 'ID',
+      ownerSection: 'Owner section',
+      responsible: 'Responsible',
+      codeSummary:
+        'The correspondence links {sourceCount} codes from “{sourceName}” to {targetCount} codes from “{targetName}”.',
+      tableLabel: 'Correspondence table',
+      noTarget: 'No corresponding code',
     },
     variant: {
       name: 'Name',

@@ -1,8 +1,14 @@
-import { Button } from '@digdir/designsystemet-react';
+import { Link as DigdirLink, Heading } from '@digdir/designsystemet-react';
+import { ArrowLeftIcon } from '@navikt/aksel-icons';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+
 import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout';
+import { CorrespondenceTable } from '@/app/(details)/classifications/components/correspondence-table';
+import { mapCorrespondenceDetails } from '@/app/(details)/classifications/utils/correspondences';
 import { buildDownloadHref } from '@/app/(details)/classifications/utils/download-urls';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
+import { DetailsList } from '@/components/details-list';
 import { fetchCorrespondenceTable } from '@/libs/data/classifications/correspondencesData';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
 import { localization } from '@/libs/language';
@@ -16,11 +22,16 @@ interface CorrespondencePageProps {
   }>;
 }
 
-export default async function CorrespondencePage({ params }: CorrespondencePageProps) {
+export default async function CorrespondencePage({ params }: Readonly<CorrespondencePageProps>) {
   const { id, versionNumber, correspondenceId } = await params;
 
+  const classificationId = Number(id);
   const versionId = Number(versionNumber);
   const tableId = Number(correspondenceId);
+
+  if (Number.isNaN(classificationId) || Number.isNaN(versionId) || Number.isNaN(tableId)) {
+    return notFound();
+  }
 
   const language = await getRequestLanguage();
 
@@ -39,36 +50,23 @@ export default async function CorrespondencePage({ params }: CorrespondencePageP
 
   return (
     <main className={styles.page}>
-      <h1 className={styles.title}>{table.source}</h1>
-      <h2 className={styles.subtitle}>{table.target}</h2>
-      <div className={styles.actions}>
-        <Button asChild variant='secondary'>
-          <Link href={downloadHref}>{localization.classification.download.button}</Link>
-        </Button>
-      </div>
-      <div className={styles.tableWrapper}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>Fra</th>
-              <th>Til</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {table.correspondenceMaps?.map((item, index) => (
-              <tr key={index}>
-                <td>
-                  {item.sourceCode} - {item.sourceName}
-                </td>
-                <td>
-                  {item.targetCode} - {item.targetName}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <DigdirLink asChild>
+        <Link href={buildUrl({ classificationId, versionId, tab: 'correspondences' })}>
+          <ArrowLeftIcon aria-hidden='true' />
+          {localization.codeTree.back}
+        </Link>
+      </DigdirLink>
+      <h1 className={styles.title}>{table.name}</h1>
+      <DetailsList content={mapCorrespondenceDetails(table)} />
+      <Heading className='secondaryHeading' data-size='md' level={2}>
+        {localization.classificationDetails.codes}
+      </Heading>
+      <CorrespondenceTable
+        sourceName={table.source ?? ''}
+        targetName={table.target ?? ''}
+        mappings={table.correspondenceMaps ?? []}
+        downloadHref={downloadHref}
+      />
     </main>
   );
 }

@@ -87,13 +87,20 @@ export const nn = {
     },
     correspondence: {
       heading: 'Korrespondansar',
-      info: 'Korrespondansetabellar viser samanhengen mellom versjonar av to ulike kodeverk, til dømes samanhengen mellom Politidistrikt 2016 og Kommuneinndeling 2014 (kva kommunar høyrer til kva politidistrikt). Dersom du ønskjer å sjå skilnaden mellom to påfølgjande versjonar av den same kodelista, til dømes mellom Kommuneinndeling 2014 og Kommuneinndeling 2013, finn du han under fana «Endringar».',
+      info: 'Korrespondansetabellar viser samanhengen mellom to ulike kodeverk.',
       none: 'Denne versjonen har ingen korrespondansar',
       from: 'Korrespondansar frå',
       fromLevel: 'Nivå',
       to: 'Korrespondansar til',
       toLevel: 'Nivå',
       owner: 'Eigar',
+      id: 'ID',
+      ownerSection: 'Eigarseksjon',
+      responsible: 'Ansvarleg',
+      codeSummary:
+        'Korrespondansen koplar {sourceCount} kodar frå «{sourceName}» til {targetCount} kodar frå «{targetName}».',
+      tableLabel: 'Korrespondansetabell',
+      noTarget: 'Ingen tilsvarande kode',
     },
     variant: {
       name: 'Namn',

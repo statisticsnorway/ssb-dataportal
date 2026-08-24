@@ -15,7 +15,9 @@ export default function CorrespondencesView({
   classificationId,
   classificationVersion,
 }: Readonly<CorrespondencesViewProps>) {
-  const correspondences = classificationVersion?.correspondenceTables ?? [];
+  const correspondences = (classificationVersion?.correspondenceTables ?? []).filter(
+    (correspondence) => correspondence.changeTable !== true,
+  );
   const versionId = classificationVersion.id;
   return (
     <div className={styles.aboutWrapper}>
