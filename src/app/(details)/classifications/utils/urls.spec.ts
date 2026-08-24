@@ -9,6 +9,9 @@ describe('build url', () => {
     it('classification ID', () => {
       expect(buildUrl({ classificationId: 2 })).toBe('/classifications/2');
     });
+    it('correspondence ID', () => {
+      expect(buildUrl({ classificationId: 2, correspondenceId: 547 })).toBe('/classifications/2/correspondences/547');
+    });
     it.each([
       ['codes', '/classifications/2/codes'],
       ['details', '/classifications/2/details'],
