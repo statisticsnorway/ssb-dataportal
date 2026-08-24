@@ -15,7 +15,7 @@ import styles from './views.module.css';
 interface VersionViewProps {
   classification: ClassificationWithLanguage;
   classificationVersion?: ClassificationVersionResource | null;
-  missingInSelectedLanguage?: Boolean;
+  missingInSelectedLanguage?: boolean;
   children: React.ReactNode;
 }
 
