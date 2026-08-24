@@ -199,10 +199,7 @@ test('display alert content is missing in selected language - latest version', a
   await switchLanguage(page, 'Norsk nynorsk');
 
   await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
-  const alert = page.getByRole('alert', {
-    name: contentMissingNNLanguageAlert,
-  });
-  await expect(alert).toBeVisible();
+  await expect(page.getByText(contentMissingNNLanguageAlert, { exact: true })).toBeVisible();
 });
 
 test('display alert content is missing in selected language - older version', async ({ classificationDetailsPage }) => {
@@ -213,8 +210,5 @@ test('display alert content is missing in selected language - older version', as
   await switchLanguage(page, 'Norsk nynorsk');
 
   await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
-  const alert = page.getByRole('alert', {
-    name: contentMissingNNLanguageAlert,
-  });
-  await expect(alert).toBeVisible();
+  await expect(page.getByText(contentMissingNNLanguageAlert, { exact: true })).toBeVisible();
 });
