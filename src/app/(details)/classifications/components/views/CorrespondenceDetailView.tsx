@@ -20,23 +20,18 @@ export default function CorrespondenceDetailView({
   downloadHref,
 }: Readonly<CorrespondenceDetailViewProps>) {
   return (
-    <section className={styles.detailPage} aria-labelledby='correspondence-title'>
+    <section className={styles.aboutWrapper} aria-labelledby='correspondence-title'>
       <DigdirLink asChild>
         <Link href={backHref}>
           <ArrowLeftIcon aria-hidden='true' />
           {localization.codeTree.back}
         </Link>
       </DigdirLink>
-      <Heading
-        id='correspondence-title'
-        className={`${styles.detailsHeading} secondaryHeading`}
-        data-size='lg'
-        level={3}
-      >
+      <Heading id='correspondence-title' className='secondaryHeading' data-size='md' level={3}>
         {table.name}
       </Heading>
       <DetailsList content={mapCorrespondenceDetails(table)} />
-      <Heading className='secondaryHeading' data-size='md' level={4}>
+      <Heading className='secondaryHeading' data-size='sm' level={4}>
         {localization.classificationDetails.codes}
       </Heading>
       <CorrespondenceTable
