@@ -146,7 +146,11 @@ export default async function ClassificationLayout({
   return (
     <VersionProvider classification={classification} versionSummary={versionSummary} isLatest={isLatest}>
       <VersionResourceLayer versionResource={latestVersionResource ?? undefined}>
-        <ClassificationDetail classification={classification} classificationVersion={latestVersionResource} missingInSelectedLanguage={contentMissingInSelectedLanguage}>
+        <ClassificationDetail
+          classification={classification}
+          classificationVersion={latestVersionResource}
+          missingInSelectedLanguage={contentMissingInSelectedLanguage}
+        >
           {children}
         </ClassificationDetail>
         {download}

@@ -61,7 +61,8 @@ export const en = {
     language: {
       notSelectedLanguage: 'This classification is not available in the selected language',
       displayedInLanguage: 'This classification is displayed in {language}',
-      missingInSelectedLanguage: 'This classification is missing content in the selected language, please select another language.',
+      missingInSelectedLanguage:
+        'This classification is missing content in the selected language, please select another language.',
     },
     view: 'View classification',
     type: 'Type',

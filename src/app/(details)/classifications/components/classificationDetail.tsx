@@ -21,7 +21,7 @@ import { VersionView } from './views/VersionView';
 interface ClassificationDetailProps {
   classification: ClassificationWithLanguage;
   classificationVersion?: ClassificationVersionResource | null;
-  missingInSelectedLanguage?: Boolean,
+  missingInSelectedLanguage?: Boolean;
   children: React.ReactNode;
 }
 export default function ClassificationDetail({
@@ -82,7 +82,11 @@ export default function ClassificationDetail({
             />
           }
         />
-        <VersionView classification={classification} classificationVersion={classificationVersion} missingInSelectedLanguage={missingInSelectedLanguage}>
+        <VersionView
+          classification={classification}
+          classificationVersion={classificationVersion}
+          missingInSelectedLanguage={missingInSelectedLanguage}
+        >
           {children}
         </VersionView>
       </main>
