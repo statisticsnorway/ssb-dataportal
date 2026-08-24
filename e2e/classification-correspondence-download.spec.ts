@@ -51,6 +51,10 @@ test('correspondence download dialog can copy shareable link', async ({ page }, 
 });
 
 test.describe('Correspondence not-found routes', () => {
+  test.beforeEach(({}, testInfo) => {
+    test.skip(testInfo.project.name === 'chrome-unauth', 'Classification details are not available unauthenticated');
+  });
+
   test('shows a correspondence-specific not-found page for an unknown direct correspondence', async ({ page }) => {
     await page.goto(buildUrl({ classificationId: 91, correspondenceId: 999999 }));
 
