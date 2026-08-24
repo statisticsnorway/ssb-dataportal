@@ -139,10 +139,14 @@ export default async function ClassificationLayout({
     return renderInfoOnlyPage();
   }
 
+  const contentMissingInSelectedLanguage = (classification.versions ?? []).some(
+    (version) => !version?.published?.includes(language),
+  );
+
   return (
     <VersionProvider classification={classification} versionSummary={versionSummary} isLatest={isLatest}>
       <VersionResourceLayer versionResource={latestVersionResource ?? undefined}>
-        <ClassificationDetail classification={classification} classificationVersion={latestVersionResource}>
+        <ClassificationDetail classification={classification} classificationVersion={latestVersionResource} missingInSelectedLanguage={contentMissingInSelectedLanguage}>
           {children}
         </ClassificationDetail>
         {download}

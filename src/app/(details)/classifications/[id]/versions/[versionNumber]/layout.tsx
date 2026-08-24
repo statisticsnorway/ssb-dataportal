@@ -27,6 +27,8 @@ export default async function VersionLayout({
     return notFound();
   }
 
+  // biome-ignore lint/suspicious/noConsole: <explanation>
+  console.log({ versionResource });
   if (!versionResource) return notFound();
 
   return (
