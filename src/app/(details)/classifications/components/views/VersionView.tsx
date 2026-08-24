@@ -1,12 +1,14 @@
 'use client';
 
-import { Alert, Divider, Heading, Tabs, Tag } from '@digdir/designsystemet-react';
+import { Alert, Divider, Heading, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { AppNotFoundState } from '@/components/app-state';
+import { DetailsList } from '@/components/details-list';
 import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
+import { formatLocaleDate } from '@/utils/functions';
 import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from '../../[id]/tabs';
 import { BuildUrlProps, buildUrl } from '../../utils/urls';
 import { ResolvedVersion, VersionProvider } from '../versionContext';
@@ -85,19 +87,6 @@ export function VersionView({ classification, classificationVersion, children }:
     router.prefetch(getTabUrl(classificationDetailsTabsData.Changes.slug));
   }, [router, pathname, classification.id, resolved.isLatest, resolved.version.id]);
 
-  const validFromText =
-    resolved.version.validFrom?.toLocaleDateString('nb-NO', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    }) ?? '—';
-
-  const versionTag = (
-    <Tag data-color={'info'} className={styles.versionTag}>
-      {`${localization.versions.tags.isLatest} (${localization.versions.tags.validFrom}: ${validFromText})`}
-    </Tag>
-  );
-
   return (
     <VersionProvider classification={classification} versionSummary={resolved.version} isLatest={resolved.isLatest}>
       <Divider data-version-divider />
@@ -114,7 +103,13 @@ export function VersionView({ classification, classificationVersion, children }:
       >
         {resolved.version.name ?? '—'}
       </Heading>
-      {resolved?.isLatest && versionTag}
+      <DetailsList
+        content={[
+          { label: localization.versions.validFrom, value: formatLocaleDate(classificationVersion?.validFrom) || '—' },
+          { label: localization.versions.validTo, value: formatLocaleDate(classificationVersion?.validTo) || '—' },
+        ]}
+        fallbackLanguage={classification.fallbackLanguage}
+      />
       <p
         className={styles.introduction}
         {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
