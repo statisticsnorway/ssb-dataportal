@@ -40,6 +40,13 @@
   gap: 1rem;
 }
 
+.detailPage {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-block: 1.5rem 3rem;
+}
+
 .versionTag {
   max-width: 100%;
 }
