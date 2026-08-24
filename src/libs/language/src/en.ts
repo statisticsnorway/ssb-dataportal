@@ -45,7 +45,7 @@ export const en = {
       publications: 'Publications',
       unitTypes: 'Unit types',
       levels: 'Levels',
-      noChanges: 'No descriptions available in the changelog.',
+      noChanges: 'No descriptions for changes within this version.',
       notRelevant: 'Not relevant',
       number: 'Number',
       name: 'Name',

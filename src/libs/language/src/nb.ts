@@ -46,7 +46,7 @@ export const nb = {
       number: 'Nummer',
       name: 'Navn',
       notRelevant: 'Ikke relevant',
-      noChanges: 'Ingen beskrivelser i endringsloggen.',
+      noChanges: 'Ingen beskrivelse av endringer innenfor denne versjonen.',
       description: 'Beskrivelse',
       changelog: 'Endringslogg',
       date: 'Dato',
