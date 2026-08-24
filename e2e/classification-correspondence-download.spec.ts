@@ -52,7 +52,7 @@ test('correspondence download dialog can copy shareable link', async ({ page }, 
 
 test.describe('Correspondence not-found routes', () => {
   test('shows a correspondence-specific not-found page for an unknown direct correspondence', async ({ page }) => {
-    await page.goto(buildUrl({ classificationId: 79, correspondenceId: 999999 }));
+    await page.goto(buildUrl({ classificationId: 91, correspondenceId: 999999 }));
 
     await expect(page.getByRole('heading', { name: 'Korrespondansetabell ikke funnet' })).toBeVisible();
     await expect(
@@ -63,7 +63,7 @@ test.describe('Correspondence not-found routes', () => {
     await expect(notFoundState.getByRole('link', { name: 'Klassifikasjoner' })).toHaveAttribute('href', buildUrl({}));
     await expect(notFoundState.getByRole('link', { name: 'Korrespondanser' })).toHaveAttribute(
       'href',
-      buildUrl({ classificationId: 79, tab: 'correspondences' }),
+      buildUrl({ classificationId: 91, tab: 'correspondences' }),
     );
   });
 
