@@ -110,7 +110,7 @@ export const nn = {
       noVariants: 'Denne versjonen har ingen variantar',
       variantHeading: 'Variantar',
       variantInfo:
-        'Ein variant baserer seg på ein klassifikasjonsversjon, og representerer ei alternativ gruppering av denne (grupperinga KAN gå på tvers av strukturen i den opphavlege klassifikasjonen). Variantar blir ofte brukt for å oppfylle krav til spesifikke statistikkar, t.d. blir ein variant av Standard for næringsgruppering brukt for å lage Miljørekneskap.',
+        'Ein variant baserer seg på ein klassifikasjonsversjon, og inneber ei omgruppering, utviding eller reduksjon av elementa i denne.',
     },
   },
   classificationDetails: {

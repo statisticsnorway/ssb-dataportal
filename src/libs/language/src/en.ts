@@ -113,7 +113,7 @@ export const en = {
       noVariants: 'This version has no variants',
       variantHeading: 'Variants',
       variantInfo:
-        'A variant is based on a classification version and represents an alternative grouping of it (the grouping MAY go across the structure of the original classification). Variants are often used to meet the requirements of specific statistics, e.g., a variant of the Standard for industry classification is used to create Environmental Accounts.',
+        "A variant is based on a classification version and represents an alternative grouping, an expansion, or a reduction of it's codes.",
     },
   },
   classificationDetails: {
