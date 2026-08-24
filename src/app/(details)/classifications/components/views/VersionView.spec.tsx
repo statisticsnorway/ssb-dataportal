@@ -23,28 +23,30 @@ vi.mock('@/components/app-state', () => ({
   AppNotFoundState: () => <div data-testid='not-found' />,
 }));
 
-vi.mock(import('@digdir/designsystemet-react'), async (importOriginal) => {
-  const actual = await importOriginal();
+vi.mock('@digdir/designsystemet-react', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@digdir/designsystemet-react')>();
+  const mockedTabs = Object.assign(
+    ({ children, onChange }: { children: React.ReactNode; onChange?: (value: string) => void }) => (
+      <div>
+        {children}
+        <button type='button' data-testid='select-details' onClick={() => onChange?.('detailsTab')} />
+        <button type='button' data-testid='select-unknown' onClick={() => onChange?.('unknownTab')} />
+      </div>
+    ),
+    {
+      List: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+      Tab: ({ children }: { children: React.ReactNode }) => <button type='button'>{children}</button>,
+      Panel: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+    },
+  ) as unknown as typeof actual.Tabs;
+
   return {
     ...actual,
-    Alert: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-    Divider: () => <hr />,
-    Heading: ({ children }: { children: React.ReactNode }) => <h2>{children}</h2>,
-    Tag: ({ children }: { children: React.ReactNode }) => <span>{children}</span>,
-    Tabs: Object.assign(
-      ({ children, onChange }: { children: React.ReactNode; onChange?: (value: string) => void }) => (
-        <div>
-          {children}
-          <button type='button' data-testid='select-details' onClick={() => onChange?.('detailsTab')} />
-          <button type='button' data-testid='select-unknown' onClick={() => onChange?.('unknownTab')} />
-        </div>
-      ),
-      {
-        List: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-        Tab: ({ children }: { children: React.ReactNode }) => <button type='button'>{children}</button>,
-        Panel: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-      },
-    ),
+    Alert: (({ children }: { children: React.ReactNode }) => <div>{children}</div>) as unknown as typeof actual.Alert,
+    Divider: (() => <hr />) as unknown as typeof actual.Divider,
+    Heading: (({ children }: { children: React.ReactNode }) => <h2>{children}</h2>) as unknown as typeof actual.Heading,
+    Tag: (({ children }: { children: React.ReactNode }) => <span>{children}</span>) as unknown as typeof actual.Tag,
+    Tabs: mockedTabs,
   };
 });
 
