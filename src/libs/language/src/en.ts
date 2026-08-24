@@ -274,6 +274,14 @@ export const en = {
       'go to the variants overview',
       'go to the classification overview',
     ],
+    notFoundTitleCorrespondenceDetails: 'Correspondence table not found',
+    notFoundMessageCorrespondenceDetails:
+      'Is there a typo in the URL? Or has the correspondence table been deleted or moved?',
+    notFoundHelpListCorrespondenceDetails: [
+      'check that you have the correct correspondence table ID in the URL',
+      'go to the correspondences overview',
+      'go to the classification overview',
+    ],
     notFoundTitle: 'Page not found',
     notFoundMessage: 'The page may have been moved, deleted, or the URL may be incorrect.',
     notFoundTitleVariableDetails: 'Variable definition not found',

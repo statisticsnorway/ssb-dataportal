@@ -74,7 +74,7 @@ function decodeTextResponse(buffer: ArrayBuffer, mimeType: string): string {
 export async function fetchCorrespondenceTable(
   id: number,
   language: SupportedLanguage = 'nb',
-): Promise<CorrespondenceTableResource> {
+): Promise<CorrespondenceTableResource | undefined> {
   const api = getCorrespondenceTablesClient();
   try {
     return await api.correspondenceTables(
@@ -86,6 +86,11 @@ export async function fetchCorrespondenceTable(
     );
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
+      if (error.response.status === 404) {
+        logger.info({ id }, 'Correspondence table not found');
+        return undefined;
+      }
+
       logger.error(
         {
           id,

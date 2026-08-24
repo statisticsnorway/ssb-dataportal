@@ -43,6 +43,10 @@ export default async function CorrespondencePage({ params }: Readonly<Correspond
 
   const table = await fetchCorrespondenceTable(tableId, language);
 
+  if (!table) {
+    return notFound();
+  }
+
   const downloadHref = buildDownloadHref(
     `/classifications/${id}/versions/${versionNumber}/correspondences/${correspondenceId}`,
     { format: 'csv', language },

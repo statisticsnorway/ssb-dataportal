@@ -271,6 +271,14 @@ export const nn = {
       'gå til oversikta over variantar',
       'gå til oversikta over klassifikasjonar',
     ],
+    notFoundTitleCorrespondenceDetails: 'Korrespondansetabell ikkje funnen',
+    notFoundMessageCorrespondenceDetails:
+      'Er det skrivefeil i lenkja? Eller har korrespondansetabellen blitt sletta eller flytta?',
+    notFoundHelpListCorrespondenceDetails: [
+      'sjekke at du har riktig korrespondansetabell-id i lenkja',
+      'gå til oversikta over korrespondansar',
+      'gå til oversikta over klassifikasjonar',
+    ],
     notFoundTitle: 'Sida finst ikkje',
     notFoundMessage: 'Sida kan vere flytta, sletta eller lenkja kan vere feil.',
     notFoundTitleVariableDetails: 'Variabeldefinisjon ikkje funnen',

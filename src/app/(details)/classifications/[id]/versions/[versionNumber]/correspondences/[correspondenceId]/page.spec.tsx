@@ -80,4 +80,15 @@ describe('CorrespondencePage', () => {
 
     await expect(CorrespondencePage({ params: Promise.resolve(params) })).rejects.toThrow('NEXT_NOT_FOUND');
   });
+
+  it('returns not found when the correspondence table does not exist', async () => {
+    mocks.fetchCorrespondenceTable.mockResolvedValue(undefined);
+    const { default: CorrespondencePage } = await import('./page');
+
+    await expect(
+      CorrespondencePage({
+        params: Promise.resolve({ id: '6', versionNumber: '3218', correspondenceId: '2919' }),
+      }),
+    ).rejects.toThrow('NEXT_NOT_FOUND');
+  });
 });
