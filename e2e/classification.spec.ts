@@ -188,6 +188,8 @@ test('displays fallback-language tag when classification is missing in the selec
   ).toBeVisible();
 });
 
+const contentMissingNNLanguageAlert = 'Denne klassifikasjonen manglar innhald på valt språk, vel eit anna språk';
+
 test('display alert content is missing in selected language - latest version', async ({
   classificationDetailsPage,
 }) => {
@@ -197,9 +199,10 @@ test('display alert content is missing in selected language - latest version', a
   await switchLanguage(page, 'Norsk nynorsk');
 
   await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
-  await expect(
-    page.getByText('Denne klassifikasjonen manglar innhald på valt språk, vel eit anna språk.', { exact: true }),
-  ).toBeVisible();
+  const alert = page.getByRole('alert', {
+    name: contentMissingNNLanguageAlert,
+  });
+  await expect(alert).toBeVisible();
 });
 
 test('display alert content is missing in selected language - older version', async ({ classificationDetailsPage }) => {
@@ -207,11 +210,11 @@ test('display alert content is missing in selected language - older version', as
   const page = await classificationDetailsPage(classification.id!);
   await page.goto(buildUrl({ classificationId: classification.id!, versionId: 2 }));
 
-  await page.waitForLoadState('networkidle');
   await switchLanguage(page, 'Norsk nynorsk');
 
   await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
-  await expect(
-    page.getByText('Denne klassifikasjonen manglar innhald på valt språk, vel eit anna språk.', { exact: true }),
-  ).toBeVisible();
+  const alert = page.getByRole('alert', {
+    name: contentMissingNNLanguageAlert,
+  });
+  await expect(alert).toBeVisible();
 });
