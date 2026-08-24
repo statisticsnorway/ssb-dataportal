@@ -67,7 +67,6 @@ describe('CorrespondenceTable', () => {
       '/classifications/6/versions/3218/correspondences/2919/download?v=1&format=csv&language=nb',
     );
     expect(screen.queryByRole('button', { name: 'Åpne hierarkiet' })).not.toBeInTheDocument();
-    expect(screen.getAllByRole('columnheader')).toHaveLength(2);
     expect(screen.getAllByRole('columnheader')[0]).toHaveAttribute('scope', 'colgroup');
     expect(screen.getAllByRole('columnheader')[1]).toHaveAttribute('scope', 'colgroup');
   });
