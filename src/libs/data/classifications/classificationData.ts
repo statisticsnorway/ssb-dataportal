@@ -1,5 +1,6 @@
 'use server';
 
+import { cache } from 'react';
 import {
   ClassificationRequest,
   ClassificationsApi,
@@ -8,7 +9,6 @@ import {
 } from '@/libs/data-access/klass/apis/ClassificationsApi';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { KlassPagedResourcesClassificationSummaryResourceFromJSON } from '@/libs/data-access/klass/models/KlassPagedResourcesClassificationSummaryResource';
-
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
 import { SupportedLanguages } from '@/libs/data-access/variable-definitions/internal/models/SupportedLanguages';
 import { SupportedLanguage } from '@/libs/language';
@@ -211,7 +211,7 @@ export async function fetchClassificationForLanguage(
   return classification;
 }
 
-export async function fetchClassificationById(
+const fetchClassificationByIdCached = cache(async function fetchClassificationByIdCached(
   id: number,
   language: SupportedLanguage | undefined = 'nb',
 ): Promise<ClassificationWithLanguage> {
@@ -240,4 +240,11 @@ export async function fetchClassificationById(
   if (!chosen) throw new Error(`Classification ${id} not available in any supported language`);
 
   return chosen;
+});
+
+export async function fetchClassificationById(
+  id: number,
+  language: SupportedLanguage | undefined = 'nb',
+): Promise<ClassificationWithLanguage> {
+  return fetchClassificationByIdCached(id, language);
 }

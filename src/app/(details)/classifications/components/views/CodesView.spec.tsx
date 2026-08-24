@@ -7,6 +7,18 @@ import type { KlassCode } from '@/types/klass-codes';
 import { parseVersion } from '@/utils/mock-data';
 import { CodesView } from './CodesView';
 
+vi.mock('next/navigation', () => ({
+  usePathname: () => '/classifications/2003/codes',
+  useSearchParams: () => new URLSearchParams(),
+  useRouter: () => ({
+    push: vi.fn(),
+  }),
+}));
+
+vi.mock('@/app/(details)/classifications/components/download-dialog', () => ({
+  DownloadCodesDialog: () => <div data-testid='download-codes-dialog' />,
+}));
+
 vi.mock('../versionContext', () => ({
   useVersion: () => ({
     classification: { id: 2003, fallbackLanguage: 'nb' },
@@ -31,10 +43,6 @@ vi.mock('@/components/code-tree', () => ({
       </ul>
     </>
   ),
-}));
-
-vi.mock('@/app/(details)/classifications/components/download-dialog', () => ({
-  DownloadCodesDialog: () => <div data-testid='download-codes-dialog' />,
 }));
 
 const codes: ClassificationItemResource[] = [
@@ -95,9 +103,18 @@ describe('CodesView', () => {
     expect(screen.queryByText(hidden)).not.toBeInTheDocument();
   });
 
-  it('renders download dialog trigger on codes tab when download data is available', () => {
+  it('keeps the codes table visible and shows no rows when filter has no matches', () => {
+    render(<CodesView version={version} />);
+
+    fireEvent.change(screen.getByLabelText('Filtrer på kode eller navn'), { target: { value: 'no-match' } });
+
+    expect(screen.getByLabelText('filtered-codes')).toBeInTheDocument();
+    expect(screen.queryByRole('listitem')).not.toBeInTheDocument();
+  });
+
+  it('renders download button on codes tab when classification download data is available', () => {
     render(<CodesView version={version} classificationId={2003} />);
 
-    expect(screen.getByTestId('download-codes-dialog')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Last ned' })).toBeInTheDocument();
   });
 });

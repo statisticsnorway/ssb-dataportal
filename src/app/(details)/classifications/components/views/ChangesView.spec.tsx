@@ -1,7 +1,14 @@
-import { render, waitFor } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { ClassificationResource, ClassificationVersionResource, CodeChangeItem } from '@/libs/data-access/klass';
 import ChangesView from './ChangesView';
+
+vi.mock('next/navigation', () => ({
+  usePathname: () => '/classifications/2003/changes',
+  useRouter: () => ({
+    push: vi.fn(),
+  }),
+}));
 
 const fetchChangesMock = vi.hoisted(() => vi.fn<() => Promise<CodeChangeItem[]>>());
 
@@ -34,11 +41,47 @@ vi.mock('../expandable-table', () => ({
   ExpandableTable: () => <div data-testid='expandable-table' />,
 }));
 
-vi.mock('@/app/(details)/classifications/components/download-dialog', () => ({
-  DownloadChangesDialog: () => <div data-testid='download-dialog' />,
-}));
-
 describe('ChangesView', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('updates the table version titles when inverted', async () => {
+    fetchChangesMock.mockResolvedValue([
+      {
+        oldCode: 'old-code',
+        oldName: 'Old name',
+        newCode: 'new-code',
+        newName: 'New name',
+      },
+    ]);
+
+    const previousVersion: ClassificationVersionResource = {
+      id: 30,
+      name: 'v30',
+      validFrom: new Date('1994-01-01'),
+      validTo: new Date('1994-12-31'),
+    };
+
+    const currentVersion: ClassificationVersionResource = {
+      id: 31,
+      name: 'v31',
+      validFrom: new Date('2009-01-01'),
+      validTo: new Date('2009-12-31'),
+    };
+
+    render(
+      <ChangesView classification={{ id: 6, versions: [previousVersion, currentVersion] }} version={currentVersion} />,
+    );
+
+    await screen.findByText('v30');
+    expect((await screen.findAllByRole('columnheader')).map((header) => header.textContent)).toEqual(['v30', 'v31']);
+
+    fireEvent.click(screen.getByRole('button', { name: /inverter/i }));
+
+    expect((await screen.findAllByRole('columnheader')).map((header) => header.textContent)).toEqual(['v31', 'v30']);
+  });
+
   it('fetches changes only once for stable inputs', async () => {
     fetchChangesMock.mockResolvedValue([]);
 

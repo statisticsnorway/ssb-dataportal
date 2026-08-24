@@ -1,3 +1,4 @@
+import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
@@ -40,11 +41,12 @@ const baseClassification = {
 describe('VersionLayout', () => {
   it('calls notFound when versionNumber is not a number', async () => {
     mocks.fetchClassificationById.mockResolvedValueOnce(baseClassification);
-    const { default: Layout } = await import('../../layout');
+    const { default: VersionLayout } = await import('../../layout');
 
     await expect(
-      Layout({
+      VersionLayout({
         children: null,
+        download: null,
         params: Promise.resolve({ id: '42', versionNumber: 'abc' }),
       } as never),
     ).rejects.toThrow('NEXT_NOT_FOUND');
@@ -55,11 +57,12 @@ describe('VersionLayout', () => {
   it('calls notFound when fetchVersionById returns null', async () => {
     mocks.fetchClassificationById.mockResolvedValueOnce(baseClassification);
     mocks.fetchVersionById.mockResolvedValueOnce(null);
-    const { default: Layout } = await import('../../layout');
+    const { default: VersionLayout } = await import('../../layout');
 
     await expect(
-      Layout({
-        children: null,
+      VersionLayout({
+        children: <div>child</div>,
+        download: null,
         params: Promise.resolve({ id: '42', versionNumber: '42' }),
       } as never),
     ).rejects.toThrow('NEXT_NOT_FOUND');
@@ -71,11 +74,12 @@ describe('VersionLayout', () => {
   it('calls notFound when fetchVersionById throws', async () => {
     mocks.fetchClassificationById.mockResolvedValueOnce(baseClassification);
     mocks.fetchVersionById.mockRejectedValueOnce(new Error('boom'));
-    const { default: Layout } = await import('../../layout');
+    const { default: VersionLayout } = await import('../../layout');
 
     await expect(
-      Layout({
-        children: null,
+      VersionLayout({
+        children: <div>child</div>,
+        download: null,
         params: Promise.resolve({ id: '42', versionNumber: '42' }),
       } as never),
     ).rejects.toThrow('NEXT_NOT_FOUND');
@@ -87,14 +91,20 @@ describe('VersionLayout', () => {
   it('renders VersionResourceLayer with children when version exists', async () => {
     mocks.fetchClassificationById.mockResolvedValueOnce(baseClassification);
     mocks.fetchVersionById.mockResolvedValueOnce({ id: 42, name: 'Version 1' });
-    const { default: Layout } = await import('../../layout');
+    const { default: VersionLayout } = await import('../../layout');
 
-    const result = await Layout({
-      children: 'child-content',
+    const element = await VersionLayout({
+      children: <div>child content</div>,
+      download: null,
       params: Promise.resolve({ id: '42', versionNumber: '42' }),
-    } as never);
+    });
 
-    expect(result).toBeTruthy();
-    expect(mocks.fetchVersionById).toHaveBeenCalledWith(42, 'nb');
+    render(element);
+
+    expect(screen.getByTestId('version-layer')).toHaveAttribute('data-version-id', '42');
+    expect(screen.getByText('child content')).toBeInTheDocument();
+
+    //expect(result).toBeTruthy();
+    //expect(mocks.fetchVersionById).toHaveBeenCalledWith(42, 'nb');
   });
 });

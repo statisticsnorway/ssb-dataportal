@@ -82,6 +82,8 @@ export const en = {
       button: 'Download',
       formatLabel: 'Format',
       languageLabel: 'Language',
+      copyLink: 'Copy link',
+      linkCopied: 'Link copied.',
       confirm: 'Download file',
       inProgress: 'Downloading ...',
       error: 'Could not download the file. Please try again.',

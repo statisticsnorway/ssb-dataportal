@@ -37,6 +37,16 @@ export function CodeTreeRow({
   const isExpanded = expandedCodes.has(code.code);
   const isSelected = selectedCode === code.code;
 
+  const activateRow = () => {
+    onChange(code);
+    if (hasChildren) onToggle(code.code);
+  };
+
+  const hasTextSelection = () => {
+    const selection = window.getSelection();
+    return Boolean(selection && selection.toString().trim().length > 0);
+  };
+
   const setFallbackLanguage = () => {
     return fallbackLanguage ? { lang: fallbackLanguage } : {};
   };
@@ -71,20 +81,26 @@ export function CodeTreeRow({
           <span className={styles.chevronPlaceholder} aria-hidden='true' />
         )}
 
-        <button
+        <div
           {...setFallbackLanguage()}
-          type='button'
+          role='button'
+          tabIndex={0}
           className={styles.rowBody}
           aria-label={`${localization.codeTree.selectCode} ${code.code}: ${code.name}`}
           aria-pressed={isSelected}
           onClick={() => {
-            onChange(code);
-            if (hasChildren) onToggle(code.code);
+            if (hasTextSelection()) return;
+            activateRow();
+          }}
+          onKeyDown={(event) => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            activateRow();
           }}
         >
           <span className={styles.codeLabel}>{code.code}</span>
           <span className={styles.nameLabel}>{code.name}</span>
-        </button>
+        </div>
 
         {code.notes && (
           <Dialog.TriggerContext>

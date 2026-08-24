@@ -1,16 +1,22 @@
 import { Alert, Heading } from '@digdir/designsystemet-react';
 import { mapCorrespondenceItems } from '@/app/(details)/classifications/utils/correspondences';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { ClassificationVersionResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import { ClassificationCard } from '../classification-cards';
 import styles from './views.module.css';
 
 interface CorrespondencesViewProps {
+  classificationId: number;
   classificationVersion: ClassificationVersionResource;
 }
 
-export default function CorrespondencesView({ classificationVersion }: Readonly<CorrespondencesViewProps>) {
+export default function CorrespondencesView({
+  classificationId,
+  classificationVersion,
+}: Readonly<CorrespondencesViewProps>) {
   const correspondences = classificationVersion?.correspondenceTables ?? [];
+  const versionId = classificationVersion.id;
   return (
     <div className={styles.aboutWrapper}>
       <header>
@@ -24,13 +30,17 @@ export default function CorrespondencesView({ classificationVersion }: Readonly<
           {localization.classification.correspondence.none}
         </Alert>
       ) : (
-        correspondences.map((correspondence) => (
-          <ClassificationCard
-            key={correspondence.id}
-            title={correspondence.name}
-            content={mapCorrespondenceItems(correspondence)}
-          />
-        ))
+        correspondences.map((correspondence) => {
+          const href = buildUrl({ classificationId, versionId, correspondenceId: correspondence.id });
+          return (
+            <ClassificationCard
+              key={correspondence.id}
+              title={correspondence.name}
+              content={mapCorrespondenceItems(correspondence)}
+              href={href}
+            />
+          );
+        })
       )}
     </div>
   );

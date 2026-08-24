@@ -9,8 +9,9 @@ import { createLogger } from '@/libs/logger/server-logger';
 
 export default async function VersionLayout({
   children,
+  download,
   params,
-}: Readonly<{ children: ReactNode; params: Promise<{ id: string; versionNumber: string }> }>) {
+}: Readonly<{ children: ReactNode; download: ReactNode; params: Promise<{ id: string; versionNumber: string }> }>) {
   const logger = createLogger('version-page');
   const { id, versionNumber } = await params;
   const versionId = Number(versionNumber);
@@ -33,7 +34,10 @@ export default async function VersionLayout({
 
   if (!versionResource) return notFound();
 
-  if (!versionResource) return notFound();
-
-  return <VersionResourceLayer versionResource={versionResource}>{children}</VersionResourceLayer>;
+  return (
+    <VersionResourceLayer versionResource={versionResource}>
+      {children}
+      {download}
+    </VersionResourceLayer>
+  );
 }

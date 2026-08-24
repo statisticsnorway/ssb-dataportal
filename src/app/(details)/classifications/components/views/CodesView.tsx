@@ -1,14 +1,15 @@
 'use client';
 
 import { Button, Search } from '@digdir/designsystemet-react';
-import { useMemo, useState } from 'react';
-import { DownloadCodesDialog } from '@/app/(details)/classifications/components/download-dialog';
+import { usePathname, useRouter } from 'next/navigation';
+import { useCallback, useMemo, useState } from 'react';
 import { CodeTree } from '@/components/code-tree';
 import { ClassificationItemResource, ClassificationVersionResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import type { KlassCode } from '@/types/klass-codes';
 import { filterCodesWithAncestors } from '@/utils/classifications/filterCodes';
 import { mapLevels } from '../../utils/details';
+import { buildDownloadHref } from '../../utils/download-urls';
 import { ClassificationTable } from '../classification-table';
 import { ExpandableTable } from '../expandable-table';
 import { useVersion } from '../versionContext';
@@ -18,6 +19,17 @@ interface CodesViewProps {
   version: Pick<ClassificationVersionResource, 'classificationItems' | 'levels' | 'id' | 'validFrom' | 'validTo'>;
   classificationId?: number;
   isVariantDownload?: boolean;
+}
+
+interface CodesToolbarProps {
+  allExpanded: boolean;
+  hasExpandableNodes: boolean;
+  onToggleAll: () => void;
+  filterTerm: string;
+  onFilterTermChange: (value: string) => void;
+  onFilterClear: () => void;
+  showDownloadButton: boolean;
+  onOpenDownloadRoute: () => void;
 }
 
 function toDateString(value?: string | Date | null): string | undefined {
@@ -39,17 +51,92 @@ function toKlassCode(item: ClassificationItemResource): KlassCode {
   };
 }
 
+function CodesToolbar({
+  allExpanded,
+  hasExpandableNodes,
+  onToggleAll,
+  filterTerm,
+  onFilterTermChange,
+  onFilterClear,
+  showDownloadButton,
+  onOpenDownloadRoute,
+}: Readonly<CodesToolbarProps>) {
+  return (
+    <div className={styles.codesTools}>
+      <div className={styles.searchScope}>
+        <Search>
+          <Search.Input
+            id='codes-filter-input'
+            aria-label={localization.codeTree.filterLabel}
+            placeholder={localization.codeTree.filterPlaceholder}
+            value={filterTerm}
+            onChange={(event) => onFilterTermChange(event.target.value)}
+          />
+          <Search.Clear aria-label={localization.codeTree.clearFilter} onClick={onFilterClear} />
+          <Search.Button variant='secondary'>{localization.codeTree.filterButton}</Search.Button>
+        </Search>
+      </div>
+      <div className={styles.codeTreeToolbar}>
+        {hasExpandableNodes ? (
+          <Button variant='secondary' onClick={onToggleAll} aria-expanded={allExpanded}>
+            {allExpanded ? localization.codeTree.collapseAll : localization.codeTree.expandAll}
+          </Button>
+        ) : null}
+        {showDownloadButton ? (
+          <Button variant='secondary' onClick={onOpenDownloadRoute}>
+            {localization.classification.download.button}
+          </Button>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 /**
  * Shared page body rendered by both the current-codes page and the versioned-codes page.
  * The classification layout already supplies the heading, breadcrumbs and tab chrome;
  * this component is responsible for filter inputs and rendering the filtered tree.
  */
 export function CodesView({ version, classificationId, isVariantDownload }: Readonly<CodesViewProps>) {
+  const pathname = usePathname();
+  const router = useRouter();
   const [filterTerm, setFilterTerm] = useState('');
   const codes = version.classificationItems ?? [];
   const mappedCodes = useMemo(() => codes.map(toKlassCode), [codes]);
   const filteredCodes = useMemo(() => filterCodesWithAncestors(mappedCodes, filterTerm), [mappedCodes, filterTerm]);
   const isClassificationDownloadReady = Boolean(classificationId && version.validFrom);
+  const showDownloadButton = Boolean(
+    version.id && (isVariantDownload || (!isVariantDownload && isClassificationDownloadReady)),
+  );
+
+  const handleOpenDownloadRoute = () => {
+    const language = localization.getLanguage() as 'nb' | 'nn' | 'en';
+    router.push(buildDownloadHref(pathname, { format: 'csv', language }));
+  };
+
+  const renderToolbar = useCallback(
+    ({
+      allExpanded,
+      hasExpandableNodes,
+      toggleAll,
+    }: {
+      allExpanded: boolean;
+      hasExpandableNodes: boolean;
+      toggleAll: () => void;
+    }) => (
+      <CodesToolbar
+        allExpanded={allExpanded}
+        hasExpandableNodes={hasExpandableNodes}
+        onToggleAll={toggleAll}
+        filterTerm={filterTerm}
+        onFilterTermChange={setFilterTerm}
+        onFilterClear={() => setFilterTerm('')}
+        showDownloadButton={showDownloadButton}
+        onOpenDownloadRoute={handleOpenDownloadRoute}
+      />
+    ),
+    [filterTerm, showDownloadButton, handleOpenDownloadRoute],
+  );
 
   const { classification } = useVersion();
   return (
@@ -72,42 +159,7 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
           />
         }
       />
-      <CodeTree
-        codes={filteredCodes}
-        toolbar={({ allExpanded, hasExpandableNodes, toggleAll }) => (
-          <div className={styles.codesTools}>
-            <div className={styles.searchScope}>
-              <Search>
-                <Search.Input
-                  id='codes-filter-input'
-                  aria-label={localization.codeTree.filterLabel}
-                  placeholder={localization.codeTree.filterPlaceholder}
-                  value={filterTerm}
-                  onChange={(event) => setFilterTerm(event.target.value)}
-                />
-                <Search.Clear aria-label={localization.codeTree.clearFilter} onClick={() => setFilterTerm('')} />
-                <Search.Button variant='secondary'>{localization.codeTree.filterButton}</Search.Button>
-              </Search>
-            </div>
-            <div className={styles.codeTreeToolbar}>
-              {hasExpandableNodes ? (
-                <Button variant='secondary' onClick={toggleAll} aria-expanded={allExpanded}>
-                  {allExpanded ? localization.codeTree.collapseAll : localization.codeTree.expandAll}
-                </Button>
-              ) : null}
-              {version.id && (isVariantDownload || isClassificationDownloadReady) ? (
-                <DownloadCodesDialog
-                  versionId={version.id}
-                  classificationId={classificationId}
-                  validFrom={version.validFrom}
-                  validTo={version.validTo}
-                  isVariantDownload={isVariantDownload}
-                />
-              ) : null}
-            </div>
-          </div>
-        )}
-      />
+      <CodeTree codes={filteredCodes} toolbar={renderToolbar} autoExpandAll={filterTerm.trim().length > 0} />
     </div>
   );
 }

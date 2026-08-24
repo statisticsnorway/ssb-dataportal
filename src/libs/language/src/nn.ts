@@ -79,6 +79,8 @@ export const nn = {
       button: 'Last ned',
       formatLabel: 'Format',
       languageLabel: 'Språk',
+      copyLink: 'Kopier lenkje',
+      linkCopied: 'Lenkje kopiert.',
       confirm: 'Last ned fil',
       inProgress: 'Lastar ned ...',
       error: 'Klarte ikkje laste ned filen. Prøv igjen.',

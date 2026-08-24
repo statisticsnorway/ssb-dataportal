@@ -4,6 +4,7 @@ import {
   ChangesRequest,
   CodeChangeItem,
   CodeChangeItemFromJSON,
+  CodeItem,
   CodesApi,
   CodesRequest,
   VersionsLanguageEnum,
@@ -29,7 +30,60 @@ const FILE_DOWNLOAD_ACCEPT = {
   json: 'application/json',
 } as const;
 
+const DEFAULT_TEXT_CHARSET = 'utf-8';
+
 export type FileDownloadFormat = keyof typeof FILE_DOWNLOAD_ACCEPT;
+
+function getCharsetFromMimeType(mimeType: string): string {
+  const match = /charset\s*=\s*['"]?([^;'"\s]+)/i.exec(mimeType);
+  return match?.[1] ?? DEFAULT_TEXT_CHARSET;
+}
+
+function decodeTextResponse(buffer: ArrayBuffer, mimeType: string): string {
+  const charset = getCharsetFromMimeType(mimeType);
+
+  try {
+    return new TextDecoder(charset).decode(buffer);
+  } catch {
+    return new TextDecoder(DEFAULT_TEXT_CHARSET).decode(buffer);
+  }
+}
+
+function toDateString(value?: Date): string {
+  if (!value) return '';
+  return value.toISOString().slice(0, 10);
+}
+
+function escapeCsv(value: string): string {
+  return `"${value.replaceAll('"', '""')}"`;
+}
+
+function toCodesCsv(codes: CodeItem[]): string {
+  const header =
+    '"code","parentCode","level","name","shortName","presentationName","validFrom","validTo","validFromInRequestedRange","validToInRequestedRange","notes"';
+
+  const rows = codes.map((code) => {
+    const validFrom = toDateString(code.validFrom);
+    const validTo = toDateString(code.validTo);
+    return [
+      code.code ?? '',
+      code.parentCode ?? '',
+      code.level ?? '',
+      code.name ?? '',
+      code.shortName ?? '',
+      code.presentationName ?? '',
+      validFrom,
+      validTo,
+      validFrom,
+      validTo,
+      code.notes ?? '',
+    ]
+      .map(escapeCsv)
+      .join(',');
+  });
+
+  return [header, ...rows].join('\n');
+}
 
 interface CodesDownloadRequest {
   versionId: number;
@@ -118,6 +172,12 @@ export async function fetchCodesDownload({
   const api = getCodesClient();
   try {
     const params = { id: classificationId, from, to, language: toKlassLanguage(language) } satisfies CodesRequest;
+    if (format === 'csv') {
+      const data = await api.codes(params, fetchInit);
+      const codes = data.codes ?? [];
+      return { content: toCodesCsv(codes), mimeType: FILE_DOWNLOAD_ACCEPT.csv };
+    }
+
     const response = await api.codesRaw(params, async ({ init }) => ({
       ...init,
       ...fetchInit,
@@ -126,8 +186,9 @@ export async function fetchCodesDownload({
         Accept: FILE_DOWNLOAD_ACCEPT[format],
       },
     }));
-    const content = await response.raw.text();
     const mimeType = response.raw.headers.get('content-type') ?? FILE_DOWNLOAD_ACCEPT[format];
+    const buffer = await response.raw.arrayBuffer();
+    const content = decodeTextResponse(buffer, mimeType);
     return { content, mimeType };
   } catch (error) {
     if (error instanceof ResponseError) {
@@ -214,8 +275,9 @@ export async function fetchChangesDownload({
         Accept: FILE_DOWNLOAD_ACCEPT[format],
       },
     }));
-    const content = await response.raw.text();
     const mimeType = response.raw.headers.get('content-type') ?? FILE_DOWNLOAD_ACCEPT[format];
+    const buffer = await response.raw.arrayBuffer();
+    const content = decodeTextResponse(buffer, mimeType);
     return { content, mimeType };
   } catch (error) {
     if (error instanceof ResponseError) {
