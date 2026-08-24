@@ -46,7 +46,11 @@ function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): 
   return { version: latest, isLatest: true };
 }
 
-export function VersionView({ classification, classificationVersion, children }: Readonly<VersionViewProps>) {
+export function VersionView({
+  classification,
+  classificationVersion: versionOnEntry,
+  children,
+}: Readonly<VersionViewProps>) {
   const pathname = usePathname();
   const router = useRouter();
   const activeTab = getClassificationDetailsTabForRoute(pathname) ?? classificationDetailsTabsData.Codes;
@@ -105,8 +109,8 @@ export function VersionView({ classification, classificationVersion, children }:
       </Heading>
       <DetailsList
         content={[
-          { label: localization.validity.validFrom, value: formatLocaleDate(classificationVersion?.validFrom) || '—' },
-          { label: localization.validity.validTo, value: formatLocaleDate(classificationVersion?.validTo) || '—' },
+          { label: localization.validity.validFrom, value: formatLocaleDate(resolved.version.validFrom) || '—' },
+          { label: localization.validity.validTo, value: formatLocaleDate(resolved.version.validTo) || '—' },
         ]}
         fallbackLanguage={classification.fallbackLanguage}
       />
@@ -114,7 +118,7 @@ export function VersionView({ classification, classificationVersion, children }:
         className={styles.introduction}
         {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
       >
-        {classificationVersion?.introduction ?? '—'}
+        {versionOnEntry?.introduction ?? '—'}
       </p>
       <Tabs
         value={activeTab.id}
