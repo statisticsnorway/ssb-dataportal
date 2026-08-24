@@ -109,21 +109,6 @@ export default async function ClassificationLayout({
 
   const isLatest = latestSummary.id === versionSummary.id;
 
-  if (!latestSummary) {
-    return notFound();
-  }
-
-  const versionSummary =
-    requestedVersionId !== undefined
-      ? classification.versions?.find((version) => version.id === requestedVersionId)
-      : latestSummary;
-
-  if (!versionSummary) {
-    return notFound();
-  }
-
-  const isLatest = latestSummary.id === versionSummary.id;
-
   const resolveLanguage = () => {
     return classification.fallbackLanguage
       ? (classification.fallbackLanguage as SupportedLanguage)
@@ -132,7 +117,7 @@ export default async function ClassificationLayout({
   let latestVersionResource;
   try {
     const resourceId = requestedVersionId ?? latestSummary.id;
-    latestVersionResource = resourceId != null ? await fetchVersionById(resourceId, language) : null;
+    latestVersionResource = resourceId != null ? await fetchVersionById(resourceId, resolveLanguage()) : null;
   } catch (error) {
     logger.error({ id, error: sanitizeError(error) }, 'Failed to fetch latest version resource');
     return notFound();
