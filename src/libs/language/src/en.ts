@@ -70,13 +70,12 @@ export const en = {
     standardPrefix: 'Classification of',
     emailPlaceholder: 'Your email address',
     subscribe: 'Subscribe',
-    subscription: 'Subscription',
     subscribeMessageError: 'An error occurred during registration',
     subscribeMessageAlready: 'You are already subscribed',
-    subscribeConfirm: 'Confirm subscription',
+    subscribeSubmit: 'Submit',
     subscribeInfo: 'Subscribe to updates for this classification',
     subscribeMessageSuccess:
-      'You will receive an email. Follow the instructions in the email to start your subscription.',
+      'You will receive an email. Follow the instructions in the email to confirm your subscription.',
     subscribeMessageInvalidEmail: 'Enter a valid email address',
     download: {
       button: 'Download',

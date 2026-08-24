@@ -54,7 +54,7 @@ const SubscribeDialog = ({ classificationId }: { classificationId: number | unde
         <form onSubmit={handleSubscription} noValidate>
           <Field className={styles.field}>
             <Label weight='semibold' htmlFor='subscription-email'>
-              {localization.classification.subscription}
+              {localization.classification.subscribe}
             </Label>
             {persistedResult.current ? null : (
               <Field.Description>{localization.classification.subscribeInfo}</Field.Description>
@@ -79,7 +79,7 @@ const SubscribeDialog = ({ classificationId }: { classificationId: number | unde
           </Field>
           {persistedResult.current ? null : (
             <Button type='submit' id='subscribe-button'>
-              {localization.classification.subscribeConfirm}
+              {localization.classification.subscribeSubmit}
             </Button>
           )}
         </form>
