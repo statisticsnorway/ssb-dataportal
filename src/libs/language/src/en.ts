@@ -333,6 +333,7 @@ export const en = {
   navigateHomeVariableDefinitions: 'Navigate to Variable definitions main page',
   next: 'Next',
   no: 'No',
+  noDataPlaceholder: '—',
   on: 'on',
   opensInNewTab: 'opens in a new tab',
 

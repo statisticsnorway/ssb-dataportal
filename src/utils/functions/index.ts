@@ -15,7 +15,7 @@ export function areFieldsDefinedAndNonNull<T extends {}, U extends Array<keyof T
   return obj != null && obj != undefined && fields.every((field) => obj[field] !== undefined && obj[field] !== null);
 }
 
-export const formatDate = (date?: Date) => date?.toISOString().split('T')[0] || '-';
+export const formatDate = (date?: Date) => date?.toISOString().split('T')[0] || localization.noDataPlaceholder;
 
 /**
  * Formats a date value to a Norwegian Bokmål locale date string (`nb-NO`).

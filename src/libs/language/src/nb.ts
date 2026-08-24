@@ -331,6 +331,7 @@ export const nb = {
   navigateHomeVariableDefinitions: 'Naviger til hovedside Variabeldefinisjoner',
   next: 'Neste',
   no: 'Nei',
+  noDataPlaceholder: '—',
   on: 'på',
   opensInNewTab: 'åpnes i ny fane',
 

@@ -107,7 +107,7 @@ export function VersionView({
         level={2}
         {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
       >
-        {resolved.version.name ?? '—'}
+        {resolved.version.name ?? localization.noDataPlaceholder}
       </Heading>
       <DetailsList
         content={[
@@ -125,7 +125,7 @@ export function VersionView({
         className={styles.introduction}
         {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
       >
-        {versionOnEntry?.introduction ?? '—'}
+        {versionOnEntry?.introduction ?? localization.noDataPlaceholder}
       </p>
       <Tabs
         value={activeTab.id}
