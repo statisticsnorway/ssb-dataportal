@@ -188,7 +188,7 @@ test('displays fallback-language tag when classification is missing in the selec
   ).toBeVisible();
 });
 
-const contentMissingNNLanguageAlert = 'Denne klassifikasjonen manglar innhald på valt språk, vel eit anna språk';
+const contentMissingNNLanguageAlert = 'Denne klassifikasjonen manglar innhald på valt språk, vel eit anna språk.';
 
 test('display alert content is missing in selected language - latest version', async ({
   classificationDetailsPage,
