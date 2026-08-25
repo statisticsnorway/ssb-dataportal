@@ -485,5 +485,6 @@ export const en = {
     level: 'level',
     levelPlural: 'levels',
     codeChangesForVersion: '{numberOfChanges} changes to codes from the previous version.',
+    codeChangesTableLabel: 'Code changes table',
   },
 } satisfies Translation;

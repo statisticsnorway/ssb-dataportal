@@ -107,6 +107,7 @@ export default function ChangesView({
           language: localization.getLanguage() as 'nb' | 'nn' | 'en',
         })}
         onDownloadClick={handleOpenDownloadRoute}
+        tableLabel={localization.versions.codeChangesTableLabel}
       />
     );
   };

@@ -481,5 +481,6 @@ export const nn = {
     level: 'nivå',
     levelPlural: 'nivåer',
     codeChangesForVersion: '{numberOfChanges} kodeendringar frå forrige versjon.',
+    codeChangesTableLabel: 'Tabell over kodeendringar',
   },
 } satisfies Translation;

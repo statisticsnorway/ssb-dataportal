@@ -29,7 +29,9 @@ export default async function CorrespondencePage({ params }: Readonly<Correspond
 
   const version = await fetchVersionById(versionId, language);
 
-  if (!version) {
+  const belongsToVersion = version?.correspondenceTables?.some((table) => table.id === tableId);
+
+  if (!version || !belongsToVersion) {
     return notFound();
   }
 

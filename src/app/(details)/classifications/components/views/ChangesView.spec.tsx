@@ -94,6 +94,7 @@ describe('ChangesView', () => {
       ],
       downloadHref: '/classifications/2003/changes/download?v=1&format=csv&language=nb',
       onDownloadClick: expect.any(Function),
+      tableLabel: 'Tabell over kodeendringer',
     });
   });
 
