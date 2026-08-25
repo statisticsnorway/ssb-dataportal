@@ -131,7 +131,7 @@ export default function ChangesView({
       {mappings.length > 0 && (
         <p>
           {localization.formatString(localization.versions.codeChangesForVersion, {
-            numberOfChanges: changes?.length || localization.noDataPlaceholder,
+            numberOfChanges: mappings.length,
           })}
         </p>
       )}
