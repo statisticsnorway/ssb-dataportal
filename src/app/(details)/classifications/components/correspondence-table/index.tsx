@@ -2,7 +2,6 @@
 
 import {
   Button,
-  Search,
   Table,
   TableBody,
   TableCell,
@@ -14,6 +13,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import type { CorrespondenceMapResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
+import { CodeSearch } from '../search';
 import styles from './correspondenceTable.module.css';
 
 interface CorrespondenceTableProps {
@@ -119,17 +119,7 @@ export function CorrespondenceTable({
     <section>
       <div className={styles.toolbar}>
         <div className={styles.searchScope}>
-          <Search>
-            <Search.Input
-              id='correspondence-filter-input'
-              aria-label={localization.codeTree.filterLabel}
-              placeholder={localization.codeTree.filterPlaceholder}
-              value={filterTerm}
-              onChange={(event) => setFilterTerm(event.target.value)}
-            />
-            <Search.Clear aria-label={localization.codeTree.clearFilter} onClick={() => setFilterTerm('')} />
-            <Search.Button variant='secondary'>{localization.codeTree.filterButton}</Search.Button>
-          </Search>
+          <CodeSearch searchId='correspondence-filter-input' filterTerm={filterTerm} setFilterTerm={setFilterTerm} />
         </div>
         <div className={styles.actions}>
           <Button variant='secondary' onClick={() => setInverted((current) => !current)}>
