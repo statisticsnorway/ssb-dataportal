@@ -53,7 +53,7 @@
 
 @media (min-width: 768px) {
   .codesTools {
-    align-items: center;
+    align-items: end;
     flex-direction: row;
     justify-content: space-between;
   }

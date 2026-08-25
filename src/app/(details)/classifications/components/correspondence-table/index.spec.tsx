@@ -4,21 +4,25 @@ import { userEvent } from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { CorrespondenceTable } from './index';
 
-vi.mock('@digdir/designsystemet-react', () => ({
-  Alert: ({ children, ...props }: any) => <div {...props}>{children}</div>,
-  Button: ({ asChild, children, ...props }: any) => (asChild ? children : <button {...props}>{children}</button>),
-  Search: Object.assign(({ children, ...props }: any) => <div {...props}>{children}</div>, {
-    Input: (props: any) => <input {...props} />,
-    Clear: ({ children, ...props }: any) => <button {...props}>{children}</button>,
-    Button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
-  }),
-  Table: ({ children, ...props }: any) => <table {...props}>{children}</table>,
-  TableBody: ({ children, ...props }: any) => <tbody {...props}>{children}</tbody>,
-  TableCell: ({ children, ...props }: any) => <td {...props}>{children}</td>,
-  TableHead: ({ children, ...props }: any) => <thead {...props}>{children}</thead>,
-  TableHeaderCell: ({ children, ...props }: any) => <th {...props}>{children}</th>,
-  TableRow: ({ children, ...props }: any) => <tr {...props}>{children}</tr>,
-}));
+vi.mock('@digdir/designsystemet-react', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@digdir/designsystemet-react')>();
+  return {
+    ...actual,
+    Alert: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+    Button: ({ asChild, children, ...props }: any) => (asChild ? children : <button {...props}>{children}</button>),
+    Search: Object.assign(({ children, ...props }: any) => <div {...props}>{children}</div>, {
+      Input: (props: any) => <input {...props} />,
+      Clear: ({ children, ...props }: any) => <button {...props}>{children}</button>,
+      Button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
+    }),
+    Table: ({ children, ...props }: any) => <table {...props}>{children}</table>,
+    TableBody: ({ children, ...props }: any) => <tbody {...props}>{children}</tbody>,
+    TableCell: ({ children, ...props }: any) => <td {...props}>{children}</td>,
+    TableHead: ({ children, ...props }: any) => <thead {...props}>{children}</thead>,
+    TableHeaderCell: ({ children, ...props }: any) => <th {...props}>{children}</th>,
+    TableRow: ({ children, ...props }: any) => <tr {...props}>{children}</tr>,
+  };
+});
 
 const mappings = [
   {
