@@ -141,16 +141,18 @@ jobs:
       - name: Install Playwright Browsers
         run: pnpm playwright install --with-deps
       - name: Run Playwright tests (shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }})
+        continue-on-error: true
         run: pnpm playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
         env:
           NEXT_TEST: "test"
       - name: Upload blob report
-        if: ${{ !cancelled() }}
+        if: ${{ always() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: blob-report-${{ matrix.shardIndex }}
           path: blob-report/
       - name: Upload e2e coverage shard
+        if: ${{ always() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: e2e-coverage-${{ matrix.shardIndex }}
@@ -158,7 +160,7 @@ jobs:
 
   merge-e2e-results:
     needs: [e2e-tests]
-    if: ${{ !cancelled() }}
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -182,7 +184,10 @@ jobs:
           path: all-blob-reports
           merge-multiple: true
       - name: Merge Playwright reports
-        run: pnpm playwright merge-reports --reporter html ./all-blob-reports
+        run: |
+          mkdir -p results
+          PLAYWRIGHT_JUNIT_OUTPUT_FILE=results/e2e-junit.xml \
+            pnpm playwright merge-reports --reporter html,junit ./all-blob-reports
       - name: Upload merged Playwright report
         if: ${{ always() }}
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
@@ -204,6 +209,37 @@ jobs:
         with:
           name: e2e-coverage
           path: results/e2e-coverage/
+      - name: Add consolidated e2e results to the job summary
+        if: ${{ always() && hashFiles('results/e2e-junit.xml') != '' }}
+        run: |
+          {
+            echo '## End-to-end test results'
+            echo
+            echo 'The results below are merged from all four shards.'
+            echo
+            echo '| Result | Test cases |'
+            echo '| --- | ---: |'
+            printf '| Total | %s |\n' "$(grep -o '<testsuites[^>]*tests="[0-9]*"' results/e2e-junit.xml | head -1 | sed 's/.*tests="//; s/".*//')"
+            printf '| Failed | %s |\n' "$(grep -o '<testsuites[^>]*failures="[0-9]*"' results/e2e-junit.xml | head -1 | sed 's/.*failures="//; s/".*//')"
+            printf '| Skipped | %s |\n' "$(grep -o '<testsuites[^>]*skipped="[0-9]*"' results/e2e-junit.xml | head -1 | sed 's/.*skipped="//; s/".*//')"
+            echo
+            echo '<details><summary>Failed tests</summary>'
+            echo
+            awk '/<testcase / { test=$0; sub(/^.*name="/, "", test); sub(/".*$/, "", test) } /<(failure|error)( |\/)/ { print "- " test }' results/e2e-junit.xml
+            echo
+            echo '</details>'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Fail the aggregate e2e job when any shard failed
+        if: ${{ always() }}
+        run: |
+          if [ "${{ needs.e2e-tests.result }}" != "success" ]; then
+            echo 'One or more e2e shards did not complete successfully.'
+            exit 1
+          fi
+          if [ -f results/e2e-junit.xml ] && grep -Eq '<(failure|error)( |/)' results/e2e-junit.xml; then
+            echo 'One or more e2e tests failed. See the consolidated job summary and Playwright report.'
+            exit 1
+          fi
 
   sonarqube:
     if: github.actor != 'dependabot[bot]'
