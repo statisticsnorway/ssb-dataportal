@@ -62,7 +62,7 @@ test.describe('footer', () => {
   }, testInfo: TestInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
     const footer = page.getByRole('contentinfo');
-    const link = footer.getByRole('link', { name: `${localization.apiDocumentation} ${localization.apiDocVardef}`});
+    const link = footer.getByRole('link', { name: `${localization.apiDocumentation} ${localization.apiDocVardef}` });
     await expect(link).toHaveAttribute(
       'href',
       'https://metadata.test.ssb.no/docs/swagger/variable-definitions?urls.primaryName=internal',
