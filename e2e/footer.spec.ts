@@ -30,7 +30,7 @@ test.describe('footer', () => {
   }, testInfo: TestInfo) => {
     test.skip(testInfo.project.name !== 'chrome-unauth');
     const footer = page.getByRole('contentinfo');
-    const link = footer.getByRole('link', { name: localization.apiDocVardef });
+    const link = footer.getByRole('link', { name: `${localization.apiDocumentation} ${localization.apiDocVardef}` });
     await expect(link).toHaveAttribute('href', 'https://metadata.test.ssb.no/docs/swagger/variable-definitions');
   });
 
@@ -39,7 +39,7 @@ test.describe('footer', () => {
   }, testInfo: TestInfo) => {
     test.skip(testInfo.project.name !== 'chrome-unauth');
     const footer = page.getByRole('contentinfo');
-    const link = footer.getByRole('link', { name: localization.apiDocKlass });
+    const link = footer.getByRole('link', { name: `${localization.apiDocumentation} ${localization.apiDocKlass}` });
     await expect(link).toHaveAttribute('href', 'https://data.test.ssb.no/api/klass/swagger-ui/index.html');
   });
 
@@ -62,7 +62,7 @@ test.describe('footer', () => {
   }, testInfo: TestInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
     const footer = page.getByRole('contentinfo');
-    const link = footer.getByRole('link', { name: localization.apiDocVardef });
+    const link = footer.getByRole('link', { name: `${localization.apiDocumentation} ${localization.apiDocVardef}` });
     await expect(link).toHaveAttribute(
       'href',
       'https://metadata.test.ssb.no/docs/swagger/variable-definitions?urls.primaryName=internal',
@@ -74,7 +74,7 @@ test.describe('footer', () => {
   }, testInfo: TestInfo) => {
     test.skip(testInfo.project.name === 'chrome-unauth');
     const footer = page.getByRole('contentinfo');
-    const link = footer.getByRole('link', { name: localization.apiDocKlass });
+    const link = footer.getByRole('link', { name: `${localization.apiDocumentation} ${localization.apiDocKlass}` });
     await expect(link).toHaveAttribute('href', 'https://data.test.ssb.no/api/klass/swagger-ui/index.html');
   });
 });
