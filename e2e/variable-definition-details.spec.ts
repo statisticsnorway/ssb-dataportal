@@ -172,11 +172,9 @@ test.describe('Contact', () => {
     await expect(owner_groups).toContainText(variable_org!.owner.groups!);
   });
 
-  test('Vardef API documentation link points to the internal test docs URL when authenticated', async ({
-    page,
-  }) => {
+  test('Vardef API documentation link points to the internal test docs URL when authenticated', async ({ page }) => {
     await goToDetail(page);
-    const apiLink = page.getByRole('link', { name: `${localization.apiDocumentation} ${localization.apiDocVardef}` });
+    const apiLink = page.getByRole('link', { name: localization.apiDocVardef });
     await expect(apiLink).toHaveAttribute(
       'href',
       'https://metadata.test.ssb.no/docs/swagger/variable-definitions?urls.primaryName=internal',
