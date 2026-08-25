@@ -186,7 +186,7 @@ jobs:
           path: all-blob-reports
           merge-multiple: true
       - name: Merge Playwright reports
-        run: pnpm playwright merge-reports --reporter list,html,json ./all-blob-reports
+        run: pnpm playwright merge-reports --reporter html,json ./all-blob-reports
         env:
           PLAYWRIGHT_JSON_OUTPUT_NAME: playwright-report.json
       - name: Upload merged Playwright report
@@ -210,11 +210,13 @@ jobs:
         with:
           name: e2e-coverage
           path: results/e2e-coverage/
-      - name: Set final e2e status
+      - name: Report failures and set final e2e status
         if: ${{ always() }}
         env:
           SHARD_JOB_RESULT: ${{ needs.e2e-tests.result }}
         run: |
+          pnpm playwright merge-reports --reporter list ./all-blob-reports
+
           node - <<'NODE'
           const fs = require('node:fs');
 
