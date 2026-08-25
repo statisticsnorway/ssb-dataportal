@@ -3,6 +3,7 @@ import {
   mapCorrespondenceDetails,
   mapCorrespondenceItems,
 } from '@/app/(details)/classifications/utils/correspondences';
+import { localization } from '@/libs/language';
 
 describe('correspondence', () => {
   it('maps correspondance items', () => {
@@ -39,9 +40,9 @@ describe('correspondence', () => {
 
   it('uses the common fallback for missing correspondence details', () => {
     expect(mapCorrespondenceDetails({})).toEqual([
-      { label: 'ID', value: '—' },
-      { label: 'Eierseksjon', value: '—' },
-      { label: 'Ansvarlig', value: '—' },
+      { label: 'ID', value: localization.noDataPlaceholder },
+      { label: 'Eierseksjon', value: localization.noDataPlaceholder },
+      { label: 'Ansvarlig', value: localization.noDataPlaceholder },
     ]);
   });
 });
