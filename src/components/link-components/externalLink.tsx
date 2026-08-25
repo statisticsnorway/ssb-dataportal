@@ -4,9 +4,9 @@ import { localization } from '@/libs/language';
 interface ExternalLinkProps {
   linkText: string;
   href: string;
+  ariaLabel?: string;
   className?: string;
   willOpenNewTab?: boolean;
-  ariaLabel?: string;
 }
 
 /**
