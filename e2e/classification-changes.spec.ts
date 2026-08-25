@@ -67,13 +67,13 @@ test('changes tab shows no data rows when no changes are found', async ({ classi
   await assertChangelogTable(page, currentVersion!);
 });
 
-test('changes tab groups rows by new code', async ({ classificationDetailsPage }) => {
+test('changes tab groups rows by old code', async ({ classificationDetailsPage }) => {
   const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID);
 
-  await expect(page.getByRole('cell', { name: '701' })).toBeVisible();
-  await expect(page.getByRole('cell', { name: '702' })).toBeVisible();
-  await expect(page.getByRole('cell', { name: '700' })).toHaveCount(1);
-  await expect(page.getByRole('cell', { name: 'Samlet kode' })).toHaveCount(1);
+  await expect(page.getByRole('cell', { name: '701' })).toHaveCount(1);
+  await expect(page.getByRole('cell', { name: '702' })).toHaveCount(1);
+  await expect(page.getByRole('cell', { name: '700' })).toHaveCount(2);
+  await expect(page.getByRole('cell', { name: 'Samlet kode' })).toHaveCount(2);
 });
 
 test('changes tab renders newly created codes', async ({ classificationDetailsPage }) => {
