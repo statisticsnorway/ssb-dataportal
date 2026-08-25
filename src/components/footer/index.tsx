@@ -55,7 +55,7 @@ export const Footer = () => {
             <ExternalLink
               href={vardefApiDocsUrl}
               linkText={localization.apiDocVardef}
-              ariaLabel={`${localization.apiDocumentation} ${localization.apiDocVardef} `}
+              ariaLabel={`${localization.apiDocumentation} ${localization.apiDocVardef}`}
               className={styles.negativeLink}
             />
           </section>
