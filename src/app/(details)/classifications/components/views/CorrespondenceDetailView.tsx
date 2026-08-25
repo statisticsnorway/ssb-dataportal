@@ -49,11 +49,10 @@ export default function CorrespondenceDetailView({
         {table.name}
       </Heading>
       <DetailsList content={mapCorrespondenceDetails(table)} />
-      <br />
       <Heading className='secondaryHeading' data-size='sm' level={4}>
         {localization.classificationDetails.codes}
       </Heading>
-      <p className={styles.codeSummary}>
+      <p>
         {localization.formatString(localization.classification.correspondence.codeSummary, {
           sourceCount: codeCounts.source,
           sourceName: table.source?.trim() || '',

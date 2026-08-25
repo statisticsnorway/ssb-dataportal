@@ -98,7 +98,6 @@ export const nb = {
         'Korrespondansen kobler {sourceCount} koder fra «{sourceName}» til {targetCount} koder fra «{targetName}».',
       tableLabel: 'Korrespondansetabell',
       noTarget: 'Ingen tilsvarende kode',
-      noFilterResults: 'Ingen korrespondanser samsvarer med filteret (0 treff).',
     },
     variant: {
       name: 'Navn',
@@ -485,6 +484,7 @@ export const nb = {
     level: 'nivå',
     levelPlural: 'nivåer',
     codeChangesForVersion: '{numberOfChanges} kodeendringer fra forrige versjon.',
+    codeChangesTableLabel: 'Tabell over kodeendringer',
   },
 };
 

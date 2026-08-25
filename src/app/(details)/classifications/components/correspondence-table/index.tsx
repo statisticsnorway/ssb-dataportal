@@ -23,6 +23,7 @@ interface CorrespondenceTableProps {
   mappings: CorrespondenceMapResource[];
   downloadHref: string;
   onDownloadClick?: () => void;
+  tableLabel?: string;
 }
 
 interface MappingGroup {
@@ -94,6 +95,7 @@ export function CorrespondenceTable({
   mappings,
   downloadHref,
   onDownloadClick,
+  tableLabel = localization.classification.correspondence.tableLabel,
 }: Readonly<CorrespondenceTableProps>) {
   const [inverted, setInverted] = useState(false);
   const [filterTerm, setFilterTerm] = useState('');
@@ -148,10 +150,9 @@ export function CorrespondenceTable({
           )}
         </div>
       </div>
-
       {hasNoFilterResults ? (
         <Alert role='status' data-color='info'>
-          {localization.classification.correspondence.noFilterResults}
+          {`0 ${localization.search.hits}`}
         </Alert>
       ) : (
         <div className={styles.tableWrapper}>
@@ -161,7 +162,7 @@ export function CorrespondenceTable({
             hover={true}
             stickyHeader={true}
             className={styles.table}
-            aria-label={localization.classification.correspondence.tableLabel}
+            aria-label={tableLabel}
           >
             <TableHead>
               <TableRow>
@@ -177,10 +178,8 @@ export function CorrespondenceTable({
                 </TableHeaderCell>
               </TableRow>
             </TableHead>
-
             {groupedMappings.map((group, groupIndex) => {
               const isLastGroup = groupIndex === groupedMappings.length - 1;
-
               return (
                 <TableBody key={group.key} className={styles.mappingGroup}>
                   {group.targets.map((target, index) => (

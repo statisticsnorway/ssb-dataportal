@@ -102,7 +102,6 @@ export const en = {
         'The correspondence links {sourceCount} codes from “{sourceName}” to {targetCount} codes from “{targetName}”.',
       tableLabel: 'Correspondence table',
       noTarget: 'No corresponding code',
-      noFilterResults: 'No correspondences match the filter (0 results).',
     },
     variant: {
       name: 'Name',
@@ -486,5 +485,6 @@ export const en = {
     level: 'level',
     levelPlural: 'levels',
     codeChangesForVersion: '{numberOfChanges} changes to codes from the previous version.',
+    codeChangesTableLabel: 'Code changes table',
   },
 } satisfies Translation;
