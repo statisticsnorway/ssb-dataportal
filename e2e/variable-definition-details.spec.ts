@@ -174,7 +174,7 @@ test.describe('Contact', () => {
 
   test('Vardef API documentation link points to the internal test docs URL when authenticated', async ({ page }) => {
     await goToDetail(page);
-    const apiLink = page.getByRole('link', { name: localization.apiDocumentation });
+    const apiLink = page.getByRole('main').getByRole('link', { name: localization.apiDocumentation, exact: true });
     await expect(apiLink).toHaveAttribute(
       'href',
       'https://metadata.test.ssb.no/docs/swagger/variable-definitions?urls.primaryName=internal',
