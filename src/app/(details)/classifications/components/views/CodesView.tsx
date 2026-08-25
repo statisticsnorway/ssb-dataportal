@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Search } from '@digdir/designsystemet-react';
+import { Button } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useMemo, useState } from 'react';
 import { CodeTree } from '@/components/code-tree';
@@ -12,6 +12,7 @@ import { mapLevels } from '../../utils/details';
 import { buildDownloadHref } from '../../utils/download-urls';
 import { ClassificationTable } from '../classification-table';
 import { ExpandableTable } from '../expandable-table';
+import { CodeSearch } from '../search';
 import styles from './views.module.css';
 
 interface CodesViewProps {
@@ -56,24 +57,13 @@ function CodesToolbar({
   onToggleAll,
   filterTerm,
   onFilterTermChange,
-  onFilterClear,
   showDownloadButton,
   onOpenDownloadRoute,
 }: Readonly<CodesToolbarProps>) {
   return (
     <div className={styles.codesTools}>
       <div className={styles.searchScope}>
-        <Search>
-          <Search.Input
-            id='codes-filter-input'
-            aria-label={localization.codeTree.filterLabel}
-            placeholder={localization.codeTree.filterPlaceholder}
-            value={filterTerm}
-            onChange={(event) => onFilterTermChange(event.target.value)}
-          />
-          <Search.Clear aria-label={localization.codeTree.clearFilter} onClick={onFilterClear} />
-          <Search.Button variant='secondary'>{localization.codeTree.filterButton}</Search.Button>
-        </Search>
+        <CodeSearch searchId='codes-filter-input' filterTerm={filterTerm} setFilterTerm={onFilterTermChange} />
       </div>
       <div className={styles.codeTreeToolbar}>
         {hasExpandableNodes ? (
