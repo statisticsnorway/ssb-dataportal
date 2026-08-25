@@ -9,7 +9,7 @@ interface CodeSearchProps {
 const CodeSearch = ({ searchId, filterTerm, setFilterTerm }: CodeSearchProps) => {
   return (
     <Field>
-      <Label>{localization.codeTree.filterPlaceholder}</Label>
+      <Label weight={'medium'}>{localization.codeTree.filterPlaceholder}</Label>
       <Search>
         <Search.Input
           id={searchId}
