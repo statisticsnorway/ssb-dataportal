@@ -62,10 +62,10 @@ export default function ChangesView({
   const mappings = useMemo<CorrespondenceMapResource[]>(
     () =>
       (changes ?? []).map((change) => ({
-        sourceCode: change.oldCode ?? localization.noDataPlaceholder,
-        sourceName: change.oldName ?? localization.noDataPlaceholder,
-        targetCode: change.newCode ?? localization.noDataPlaceholder,
-        targetName: change.newName ?? localization.noDataPlaceholder,
+        sourceCode: change.oldCode ?? '-',
+        sourceName: change.oldName ?? '-',
+        targetCode: change.newCode ?? '-',
+        targetName: change.newName ?? '-',
       })),
     [changes],
   );
