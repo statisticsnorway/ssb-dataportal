@@ -8,7 +8,7 @@ vi.mock('@digdir/designsystemet-react', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@digdir/designsystemet-react')>();
   return {
     ...actual,
-  Alert: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+    Alert: ({ children, ...props }: any) => <div {...props}>{children}</div>,
     Button: ({ asChild, children, ...props }: any) => (asChild ? children : <button {...props}>{children}</button>),
     Search: Object.assign(({ children, ...props }: any) => <div {...props}>{children}</div>, {
       Input: (props: any) => <input {...props} />,

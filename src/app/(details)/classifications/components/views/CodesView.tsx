@@ -57,7 +57,6 @@ function CodesToolbar({
   onToggleAll,
   filterTerm,
   onFilterTermChange,
-  onFilterClear,
   showDownloadButton,
   onOpenDownloadRoute,
 }: Readonly<CodesToolbarProps>) {
