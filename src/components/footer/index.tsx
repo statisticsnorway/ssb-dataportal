@@ -4,7 +4,6 @@ import { localization } from '@/libs/language';
 import { getKlassApiDocsUrl, getVardefApiDocsUrl } from '@/utils/config';
 import { getContactEmailAddress } from '@/utils/userAgent';
 import { DataportalLogo } from '../dataportal-logo';
-import { ApiDocLink } from '../link-components/apiDocLink';
 import { ExternalLink } from '../link-components/externalLink';
 import styles from './footer.module.css';
 
@@ -47,8 +46,18 @@ export const Footer = () => {
             <Heading level={3} className={`negative-text secondaryHeading`}>
               {localization.apiDocumentation}
             </Heading>
-            <ExternalLink href={klassApiDocsUrl} linkText={localization.apiDocKlass} className={styles.negativeLink} />
-            <ApiDocLink href={vardefApiDocsUrl} className={styles.negativeLink} linkText={localization.apiDocVardef} />
+            <ExternalLink
+              href={klassApiDocsUrl}
+              linkText={localization.apiDocKlass}
+              ariaLabel={`${localization.apiDocumentation} ${localization.apiDocKlass}`}
+              className={styles.negativeLink}
+            />
+            <ExternalLink
+              href={vardefApiDocsUrl}
+              linkText={localization.apiDocVardef}
+              ariaLabel={`${localization.apiDocumentation} ${localization.apiDocVardef} `}
+              className={styles.negativeLink}
+            />
           </section>
           <section className={styles.footerLinkSection}>
             <Heading level={3} className={`negative-text secondaryHeading`}>
