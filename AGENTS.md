@@ -35,7 +35,6 @@ pnpm test:e2e:accessibility / :headed / :ui / :generate
 - Every data source has a toggle: `VARDEF_USE_STATIC_DATA`, `DATADOC_USE_STATIC_DATA`, `KLASS_USE_STATIC_DATA`, `KLASS_SEARCH_USE_STATIC_DATA`, `KLASS_SUBSCRIBER_USE_STATIC_DATA`. `.env` defaults these to `false` (live APIs); `.env.test` sets them `true`. All e2e/CI run on static data.
 - Static fixtures live in `src/static-data/*.json`, served through `src/utils/mock-data.ts`. Codes are only mocked for klass id `2003`.
 - `DANGEROUSLY_DISABLE_USER_AUTH=true` + `IS_AUTHENTICATED=true` skips auth in test mode; the unauth e2e server runs `IS_AUTHENTICATED=false`.
-- `HIDE_CLASSIFICATIONS=true` in `.env` but `false` in `.env.test` — tests expect classifications visible.
 
 ## Architecture
 
