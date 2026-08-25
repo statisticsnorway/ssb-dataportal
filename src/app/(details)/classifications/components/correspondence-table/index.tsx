@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  Alert,
   Button,
   Search,
   Table,
@@ -22,6 +23,7 @@ interface CorrespondenceTableProps {
   mappings: CorrespondenceMapResource[];
   downloadHref: string;
   onDownloadClick?: () => void;
+  tableLabel?: string;
 }
 
 interface MappingGroup {
@@ -93,6 +95,7 @@ export function CorrespondenceTable({
   mappings,
   downloadHref,
   onDownloadClick,
+  tableLabel = localization.classification.correspondence.tableLabel,
 }: Readonly<CorrespondenceTableProps>) {
   const [inverted, setInverted] = useState(false);
   const [filterTerm, setFilterTerm] = useState('');
@@ -114,9 +117,10 @@ export function CorrespondenceTable({
     );
   }, [filterTerm, mappings]);
   const groupedMappings = useMemo(() => groupMappings(filteredMappings, inverted), [filteredMappings, inverted]);
+  const hasNoFilterResults = filterTerm.trim().length > 0 && groupedMappings.length === 0;
 
   return (
-    <section>
+    <div>
       <div className={styles.toolbar}>
         <div className={styles.searchScope}>
           <Search>
@@ -146,49 +150,52 @@ export function CorrespondenceTable({
           )}
         </div>
       </div>
-
-      <div className={styles.tableWrapper}>
-        <Table
-          border={true}
-          zebra={false}
-          hover={true}
-          stickyHeader={true}
-          className={styles.table}
-          aria-label={localization.classification.correspondence.tableLabel}
-        >
-          <TableHead>
-            <TableRow>
-              <TableHeaderCell
-                colSpan={2}
-                scope='col'
-                className={`${styles.tableHeader} ${styles.tableCentralDivider}`}
-              >
-                {displayedSourceName}
-              </TableHeaderCell>
-              <TableHeaderCell colSpan={2} scope='col' className={styles.tableHeader}>
-                {displayedTargetName}
-              </TableHeaderCell>
-            </TableRow>
-          </TableHead>
-
-          {groupedMappings.map((group, groupIndex) => {
-            const isLastGroup = groupIndex === groupedMappings.length - 1;
-
-            return (
-              <TableBody key={group.key} className={styles.mappingGroup}>
-                {group.targets.map((target, index) => (
-                  <TableRow key={`${group.key}-${target.code ?? 'missing'}-${index}`}>
-                    {index === 0
-                      ? renderCodeAndName(group.sourceCode, group.sourceName, group.targets.length, true, isLastGroup)
-                      : null}
-                    {renderCodeAndName(target.code, target.name)}
-                  </TableRow>
-                ))}
-              </TableBody>
-            );
-          })}
-        </Table>
-      </div>
-    </section>
+      {hasNoFilterResults ? (
+        <Alert role='status' data-color='info'>
+          {`0 ${localization.search.hits}`}
+        </Alert>
+      ) : (
+        <div className={styles.tableWrapper}>
+          <Table
+            border={true}
+            zebra={false}
+            hover={true}
+            stickyHeader={true}
+            className={styles.table}
+            aria-label={tableLabel}
+          >
+            <TableHead>
+              <TableRow>
+                <TableHeaderCell
+                  colSpan={2}
+                  scope='colgroup'
+                  className={`${styles.tableHeader} ${styles.tableCentralDivider}`}
+                >
+                  {displayedSourceName}
+                </TableHeaderCell>
+                <TableHeaderCell colSpan={2} scope='colgroup' className={styles.tableHeader}>
+                  {displayedTargetName}
+                </TableHeaderCell>
+              </TableRow>
+            </TableHead>
+            {groupedMappings.map((group, groupIndex) => {
+              const isLastGroup = groupIndex === groupedMappings.length - 1;
+              return (
+                <TableBody key={group.key} className={styles.mappingGroup}>
+                  {group.targets.map((target, index) => (
+                    <TableRow key={`${group.key}-${target.code ?? 'missing'}-${index}`}>
+                      {index === 0
+                        ? renderCodeAndName(group.sourceCode, group.sourceName, group.targets.length, true, isLastGroup)
+                        : null}
+                      {renderCodeAndName(target.code, target.name)}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              );
+            })}
+          </Table>
+        </div>
+      )}
+    </div>
   );
 }

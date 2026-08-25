@@ -38,20 +38,21 @@ export default function CorrespondenceDetailView({
     target: countDistinctCodes(mappings, 'target'),
   };
   return (
-    <main className={styles.detailPage}>
+    <section className={styles.aboutWrapper} aria-labelledby='correspondence-title'>
       <DigdirLink asChild>
         <Link href={backHref}>
           <ArrowLeftIcon aria-hidden='true' />
           {localization.codeTree.back}
         </Link>
       </DigdirLink>
-      <h1 className={styles.detailsHeading}>{table.name}</h1>
+      <Heading id='correspondence-title' className='secondaryHeading' data-size='md' level={3}>
+        {table.name}
+      </Heading>
       <DetailsList content={mapCorrespondenceDetails(table)} />
-      <br />
-      <Heading className='secondaryHeading' data-size='md' level={2}>
+      <Heading className='secondaryHeading' data-size='sm' level={4}>
         {localization.classificationDetails.codes}
       </Heading>
-      <p className={styles.codeSummary}>
+      <p>
         {localization.formatString(localization.classification.correspondence.codeSummary, {
           sourceCount: codeCounts.source,
           sourceName: table.source?.trim() || '',
@@ -65,6 +66,6 @@ export default function CorrespondenceDetailView({
         mappings={table.correspondenceMaps ?? []}
         downloadHref={downloadHref}
       />
-    </main>
+    </section>
   );
 }
