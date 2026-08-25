@@ -17,6 +17,7 @@ import { buildDownloadHref } from '../../utils/download-urls';
 import { ClassificationTable } from '../classification-table';
 import { CorrespondenceTable } from '../correspondence-table';
 import { ExpandableTable } from '../expandable-table';
+import styles from './views.module.css';
 
 export default function ChangesView({
   classification,
@@ -113,7 +114,7 @@ export default function ChangesView({
   };
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <ExpandableTable
         title={localization.classification.about.changelog}
         table={
@@ -127,13 +128,14 @@ export default function ChangesView({
         }
         message={version?.changelogs?.length ? undefined : localization.classification.about.noChanges}
       />
-      <br />
-      <p>
-        {localization.formatString(localization.versions.codeChangesForVersion, {
-          numberOfChanges: changes?.length || localization.noDataPlaceholder,
-        })}
-      </p>
+      {mappings.length > 0 && (
+        <p>
+          {localization.formatString(localization.versions.codeChangesForVersion, {
+            numberOfChanges: mappings.length,
+          })}
+        </p>
+      )}
       {renderCodeChanges()}
-    </>
+    </div>
   );
 }
