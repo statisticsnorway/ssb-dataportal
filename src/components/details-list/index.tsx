@@ -1,5 +1,6 @@
 import { Card, Divider, Heading, Popover } from '@digdir/designsystemet-react';
 import { QuestionmarkCircleIcon } from '@navikt/aksel-icons';
+import { localization } from '@/libs/language/src/localization';
 import { Item } from '@/types/item';
 import styles from './detailsList.module.css';
 
@@ -16,7 +17,7 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage }: Detai
   };
 
   const setHtmlLang = (value?: React.ReactNode) => {
-    if (value && value !== '-') {
+    if (value && value !== localization.noDataPlaceholder) {
       return fallbackLanguage ? { lang: fallbackLanguage } : {};
     }
     return {};
