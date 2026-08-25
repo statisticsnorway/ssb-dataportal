@@ -116,6 +116,7 @@ jobs:
           path: coverage/
 
   e2e-tests:
+    name: E2E shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
     timeout-minutes: 25
     runs-on: ubuntu-latest
     permissions:
@@ -141,6 +142,7 @@ jobs:
       - name: Install Playwright Browsers
         run: pnpm playwright install --with-deps
       - name: Run Playwright tests (shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }})
+        continue-on-error: true
         run: pnpm playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
         env:
           NEXT_TEST: "test"
@@ -150,6 +152,7 @@ jobs:
         with:
           name: blob-report-${{ matrix.shardIndex }}
           path: blob-report/
+          if-no-files-found: error
       - name: Upload e2e coverage shard
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
@@ -157,6 +160,7 @@ jobs:
           path: results/e2e-coverage/
 
   merge-e2e-results:
+    name: E2E test results
     needs: [e2e-tests]
     if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
@@ -182,7 +186,9 @@ jobs:
           path: all-blob-reports
           merge-multiple: true
       - name: Merge Playwright reports
-        run: pnpm playwright merge-reports --reporter html ./all-blob-reports
+        run: pnpm playwright merge-reports --reporter list,html,json ./all-blob-reports
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_NAME: playwright-report.json
       - name: Upload merged Playwright report
         if: ${{ always() }}
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
@@ -204,6 +210,34 @@ jobs:
         with:
           name: e2e-coverage
           path: results/e2e-coverage/
+      - name: Set final e2e status
+        if: ${{ always() }}
+        env:
+          SHARD_JOB_RESULT: ${{ needs.e2e-tests.result }}
+        run: |
+          node - <<'NODE'
+          const fs = require('node:fs');
+
+          if (!fs.existsSync('playwright-report.json')) {
+            console.error('The merged Playwright JSON report was not generated.');
+            process.exit(1);
+          }
+
+          const report = JSON.parse(fs.readFileSync('playwright-report.json', 'utf8'));
+          const unexpected = report.stats?.unexpected ?? 0;
+          const topLevelErrors = report.errors?.length ?? 0;
+          const shardsSucceeded = process.env.SHARD_JOB_RESULT === 'success';
+
+          if (!shardsSucceeded || unexpected > 0 || topLevelErrors > 0) {
+            console.error(
+              `E2E tests failed: ${unexpected} unexpected test result(s), ${topLevelErrors} top-level error(s), ` +
+                `shard job result: ${process.env.SHARD_JOB_RESULT}.`,
+            );
+            process.exit(1);
+          }
+
+          console.log('All merged E2E tests passed.');
+          NODE
 
   sonarqube:
     if: github.actor != 'dependabot[bot]'
