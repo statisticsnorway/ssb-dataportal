@@ -17,7 +17,7 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage }: Detai
   };
 
   const setHtmlLang = (value?: React.ReactNode) => {
-    if (value && value !== localization.classification.about.notRelevant) {
+    if (value && value !== localization.noDataPlaceholder) {
       return fallbackLanguage ? { lang: fallbackLanguage } : {};
     }
     return {};
