@@ -34,7 +34,7 @@ describe('mapAboutItems', () => {
     ]);
 
     // No row should fall back to "not relevant" when all fields are set
-    expect(rows.every((r) => r.value !== '—')).toBe(true);
+    expect(rows.every((r) => r.value !== localization.noDataPlaceholder)).toBe(true);
   });
 
   it('display for missing/empty fields', () => {
@@ -45,7 +45,7 @@ describe('mapAboutItems', () => {
     const emptyClassification = { statisticalUnits: [] } as unknown as ClassificationResource;
 
     const rows = mapDetailsItems(emptyVersion, emptyClassification);
-    const fallbackLabels = rows.filter((r) => r.value === '—').map((r) => r.label);
+    const fallbackLabels = rows.filter((r) => r.value === localization.noDataPlaceholder).map((r) => r.label);
 
     expect(fallbackLabels).toContain(localization.classification.about.basedOn);
     expect(fallbackLabels).toContain(localization.classification.about.legalBasis);
@@ -143,8 +143,14 @@ describe('mapAboutItems edge cases', () => {
 
     const rows = mapDetailsItems(version, { statisticalUnits: [] } as unknown as ClassificationResource);
 
-    expect(rows.find((r) => r.label === localization.classification.about.basedOn)?.value).toBe('—');
-    expect(rows.find((r) => r.label === localization.classification.about.legalBasis)?.value).toBe('—');
-    expect(rows.find((r) => r.label === localization.classification.about.publications)?.value).toBe('—');
+    expect(rows.find((r) => r.label === localization.classification.about.basedOn)?.value).toBe(
+      localization.noDataPlaceholder,
+    );
+    expect(rows.find((r) => r.label === localization.classification.about.legalBasis)?.value).toBe(
+      localization.noDataPlaceholder,
+    );
+    expect(rows.find((r) => r.label === localization.classification.about.publications)?.value).toBe(
+      localization.noDataPlaceholder,
+    );
   });
 });

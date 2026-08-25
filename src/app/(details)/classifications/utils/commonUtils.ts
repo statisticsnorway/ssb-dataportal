@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { localization } from '@/libs/language';
 import { Item } from '@/types/item';
 
 /**
@@ -29,6 +30,6 @@ const hasDisplayValue = (value: ReactNode | undefined | null): boolean => {
 export const addRow = (rows: Item[], label: string, value: ReactNode | undefined | null) => {
   rows.push({
     label,
-    value: hasDisplayValue(value) ? value : '—',
+    value: hasDisplayValue(value) ? value : localization.noDataPlaceholder,
   });
 };

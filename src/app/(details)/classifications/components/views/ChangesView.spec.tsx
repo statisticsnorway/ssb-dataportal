@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { ClassificationResource, ClassificationVersionResource, CodeChangeItem } from '@/libs/data-access/klass';
 import ChangesView from './ChangesView';
@@ -11,6 +11,7 @@ vi.mock('next/navigation', () => ({
 }));
 
 const fetchChangesMock = vi.hoisted(() => vi.fn<() => Promise<CodeChangeItem[]>>());
+const correspondenceTableMock = vi.hoisted(() => vi.fn());
 
 vi.mock('@/libs/data/classifications/codesData', () => ({
   fetchChanges: fetchChangesMock,
@@ -41,12 +42,19 @@ vi.mock('../expandable-table', () => ({
   ExpandableTable: () => <div data-testid='expandable-table' />,
 }));
 
+vi.mock('../correspondence-table', () => ({
+  CorrespondenceTable: (props: unknown) => {
+    correspondenceTableMock(props);
+    return <div data-testid='correspondence-table' />;
+  },
+}));
+
 describe('ChangesView', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('updates the table version titles when inverted', async () => {
+  it('passes changes to CorrespondenceTable as mappings', async () => {
     fetchChangesMock.mockResolvedValue([
       {
         oldCode: 'old-code',
@@ -74,12 +82,22 @@ describe('ChangesView', () => {
       <ChangesView classification={{ id: 6, versions: [previousVersion, currentVersion] }} version={currentVersion} />,
     );
 
-    await screen.findByText('v30');
-    expect((await screen.findAllByRole('columnheader')).map((header) => header.textContent)).toEqual(['v30', 'v31']);
+    await waitFor(() => expect(correspondenceTableMock).toHaveBeenCalled());
 
-    fireEvent.click(screen.getByRole('button', { name: /inverter/i }));
-
-    expect((await screen.findAllByRole('columnheader')).map((header) => header.textContent)).toEqual(['v31', 'v30']);
+    expect(correspondenceTableMock).toHaveBeenLastCalledWith({
+      sourceName: 'v30',
+      targetName: 'v31',
+      mappings: [
+        {
+          sourceCode: 'new-code',
+          sourceName: 'New name',
+          targetCode: 'old-code',
+          targetName: 'Old name',
+        },
+      ],
+      downloadHref: '/classifications/2003/changes/download?v=1&format=csv&language=nb',
+      onDownloadClick: expect.any(Function),
+    });
   });
 
   it('fetches changes only once for stable inputs', async () => {

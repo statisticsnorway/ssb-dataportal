@@ -1,45 +1,32 @@
-import {
-  Alert,
-  Button,
-  Card,
-  Spinner,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeaderCell,
-  TableRow,
-} from '@digdir/designsystemet-react';
-import { usePathname, useRouter } from 'next/navigation';
+import { Alert, Spinner } from '@digdir/designsystemet-react';
+import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { fetchChanges } from '@/libs/data/classifications/codesData';
 import {
   ClassificationResource,
   ClassificationVersionResource,
   CodeChangeItem,
+  CorrespondenceMapResource,
   VersionsLanguageEnum,
 } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import { getDayBeforeDate } from '@/utils/dates';
 import { sortDatesDescendingSafe } from '@/utils/sort';
-import { groupChanges } from '../../utils/changes';
 import { mapChanges } from '../../utils/details';
 import { buildDownloadHref } from '../../utils/download-urls';
 import { ClassificationTable } from '../classification-table';
+import { CorrespondenceTable } from '../correspondence-table';
 import { ExpandableTable } from '../expandable-table';
-import styles from './views.module.css';
 
 export default function ChangesView({
   classification,
   version,
 }: Readonly<{ classification: ClassificationResource; version: ClassificationVersionResource }>) {
   const pathname = usePathname();
-  const router = useRouter();
   const sortedVersions =
     [...(classification.versions ?? [])].toSorted((v1, v2) => sortDatesDescendingSafe(v1.validFrom, v2.validFrom)) ??
     [];
   const previousVersion = sortedVersions[sortedVersions.findIndex((v) => v.id === version.id) + 1];
-  const [inverted, setInverted] = useState(false);
 
   const hasPreviousVersion =
     sortedVersions.length > 1 && previousVersion?.validFrom !== undefined && classification.id !== undefined;
@@ -52,13 +39,6 @@ export default function ChangesView({
   }, [hasPreviousVersion, previousVersion?.validFrom]);
 
   const [changes, setChanges] = useState<CodeChangeItem[] | null>(null);
-
-  const handleOpenDownloadRoute = () => {
-    const language = localization.getLanguage() as 'nb' | 'nn' | 'en';
-    router.push(buildDownloadHref(pathname, { format: 'csv', language }));
-  };
-
-  const handleInvertTable = () => setInverted((v) => !v);
 
   useEffect(() => {
     if (!hasPreviousVersion || !changesFrom || classification.id === undefined) {
@@ -78,25 +58,25 @@ export default function ChangesView({
     getChanges();
   }, [hasPreviousVersion, classification.id, changesFrom?.getTime(), version.validTo?.getTime()]);
 
-  const groupedChanges = groupChanges(changes ?? [], inverted);
-  const leftVersionName = (inverted ? version : previousVersion)?.name;
-  const rightVersionName = (inverted ? previousVersion : version)?.name;
-
-  const renderCodeAndName = (code?: string, name?: string, rowSpan?: number, addDivider = false) => (
-    <>
-      <TableCell rowSpan={rowSpan ?? 1} className={styles.tableCodeLabel}>
-        {code ?? '-'}
-      </TableCell>
-      <TableCell
-        rowSpan={rowSpan ?? 1}
-        className={addDivider ? `${styles.tableNameLabel} ${styles.tableCentralDivider}` : styles.tableNameLabel}
-      >
-        {name ?? '-'}
-      </TableCell>
-    </>
+  const mappings = useMemo<CorrespondenceMapResource[]>(
+    () =>
+      (changes ?? []).map((change) => ({
+        sourceCode: change.newCode ?? '-',
+        sourceName: change.newName ?? '-',
+        targetCode: change.oldCode ?? '-',
+        targetName: change.oldName ?? '-',
+      })),
+    [changes],
   );
 
-  const renderChangesContent = () => {
+  const handleOpenDownloadRoute = () => {
+    window.location.href = buildDownloadHref(pathname, {
+      format: 'csv',
+      language: localization.getLanguage() as 'nb' | 'nn' | 'en',
+    });
+  };
+
+  const renderCodeChanges = () => {
     if (!hasPreviousVersion || !previousVersion) {
       return (
         <Alert data-color={'info'} role='status'>
@@ -109,7 +89,7 @@ export default function ChangesView({
       return <Spinner aria-label={localization.loading.results} />;
     }
 
-    if (groupedChanges.length < 1) {
+    if (mappings.length < 1) {
       return (
         <Alert data-color={'info'} role='status'>
           {localization.versions.noChanges}
@@ -118,60 +98,16 @@ export default function ChangesView({
     }
 
     return (
-      <Card>
-        <figure className={styles.tableFigure} aria-labelledby='code-changes-caption'>
-          <figcaption id='code-changes-caption' className={styles.tableToolbar}>
-            <span>
-              {localization.formatString(localization.versions.codeChangesForVersion, {
-                numberOfChanges: changes.length,
-              })}
-            </span>
-            <div className={styles.tableActions}>
-              <Button variant='secondary' onClick={handleInvertTable}>
-                {localization.versions.invert}
-              </Button>
-              {classification.id !== undefined && changesFrom && version.id !== undefined ? (
-                <Button variant='secondary' onClick={handleOpenDownloadRoute}>
-                  {localization.classification.download.button}
-                </Button>
-              ) : null}
-            </div>
-          </figcaption>
-          <Table border={true} zebra={false} hover={false} stickyHeader={true} className={styles.table}>
-            <TableHead>
-              <TableRow>
-                <TableHeaderCell
-                  colSpan={2}
-                  scope='col'
-                  className={`${styles.tableHeader} ${styles.tableCentralDivider}`}
-                >
-                  {leftVersionName ?? '-'}
-                </TableHeaderCell>
-                <TableHeaderCell colSpan={2} scope='col' className={styles.tableHeader}>
-                  {rightVersionName ?? '-'}
-                </TableHeaderCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {groupedChanges.flatMap((group) =>
-                group.changes.map((change, index) => {
-                  const leftCode = inverted ? change.newCode : change.oldCode;
-                  const leftName = inverted ? change.newName : change.oldName;
-                  const rightCode = inverted ? change.oldCode : change.newCode;
-                  const rightName = inverted ? change.oldName : change.newName;
-
-                  return (
-                    <TableRow key={`${group.newCodeKey}-${leftCode ?? 'none'}-${index}`}>
-                      {renderCodeAndName(leftCode, leftName, 1, true)}
-                      {index === 0 ? renderCodeAndName(rightCode, rightName, group.changes.length) : null}
-                    </TableRow>
-                  );
-                }),
-              )}
-            </TableBody>
-          </Table>
-        </figure>
-      </Card>
+      <CorrespondenceTable
+        sourceName={previousVersion.name ?? localization.noDataPlaceholder}
+        targetName={version.name ?? localization.noDataPlaceholder}
+        mappings={mappings}
+        downloadHref={buildDownloadHref(pathname, {
+          format: 'csv',
+          language: localization.getLanguage() as 'nb' | 'nn' | 'en',
+        })}
+        onDownloadClick={handleOpenDownloadRoute}
+      />
     );
   };
 
@@ -191,7 +127,12 @@ export default function ChangesView({
         message={version?.changelogs?.length ? undefined : localization.classification.about.noChanges}
       />
       <br />
-      {renderChangesContent()}
+      <p>
+        {localization.formatString(localization.versions.codeChangesForVersion, {
+          numberOfChanges: changes?.length || localization.noDataPlaceholder,
+        })}
+      </p>
+      {renderCodeChanges()}
     </>
   );
 }

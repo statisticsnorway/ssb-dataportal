@@ -337,6 +337,7 @@ export const nn = {
   navigateHomeVariableDefinitions: 'Naviger til hovudsida Variabeldefinisjonar',
   next: 'Neste',
   no: 'Nei',
+  noDataPlaceholder: '—',
   on: 'på',
   opensInNewTab: 'opnast i ny fane',
 

@@ -85,33 +85,6 @@ describe('CorrespondenceTable', () => {
     expect(firstRowCells?.[2]).toHaveTextContent('01.479');
   });
 
-  it('keeps distinct code counts in the original direction when the table is inverted', async () => {
-    const user = userEvent.setup();
-    renderTable([
-      ...mappings,
-      {
-        sourceCode: '03.100',
-        sourceName: 'Fiske',
-        targetCode: '01.490',
-        targetName: 'Husdyrhold ellers',
-      },
-    ]);
-
-    expect(
-      screen.getByText(
-        'Korrespondansen kobler 3 koder fra «Næringsgruppering 2025» til 2 koder fra «Næringsgruppering 2007».',
-      ),
-    ).toBeVisible();
-
-    await user.click(screen.getByRole('button', { name: 'Inverter tabell' }));
-
-    expect(
-      screen.getByText(
-        'Korrespondansen kobler 3 koder fra «Næringsgruppering 2025» til 2 koder fra «Næringsgruppering 2007».',
-      ),
-    ).toBeVisible();
-  });
-
   it('filters mappings by code or name on either side', async () => {
     const user = userEvent.setup();
     renderTable();

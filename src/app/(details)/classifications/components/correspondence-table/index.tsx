@@ -21,6 +21,7 @@ interface CorrespondenceTableProps {
   targetName: string;
   mappings: CorrespondenceMapResource[];
   downloadHref: string;
+  onDownloadClick?: () => void;
 }
 
 interface MappingGroup {
@@ -55,20 +56,6 @@ function groupMappings(mappings: CorrespondenceMapResource[], inverted: boolean)
 
   return [...groups.values()];
 }
-
-function countDistinctCodes(mappings: CorrespondenceMapResource[], side: 'source' | 'target'): number {
-  const codes = new Set<string>();
-
-  for (const mapping of mappings) {
-    const code = side === 'source' ? mapping.sourceCode : mapping.targetCode;
-    if (code?.trim()) {
-      codes.add(code.trim());
-    }
-  }
-
-  return codes.size;
-}
-
 function renderCodeAndName(
   code?: string | null,
   name?: string | null,
@@ -91,10 +78,10 @@ function renderCodeAndName(
   return (
     <>
       <TableCell rowSpan={rowSpan} className={codeClassName}>
-        {code ?? '-'}
+        {code ?? localization.noDataPlaceholder}
       </TableCell>
       <TableCell rowSpan={rowSpan} className={nameClassName}>
-        {hasMapping ? (name ?? '-') : localization.classification.correspondence.noTarget}
+        {hasMapping ? (name ?? localization.noDataPlaceholder) : localization.classification.correspondence.noTarget}
       </TableCell>
     </>
   );
@@ -105,6 +92,7 @@ export function CorrespondenceTable({
   targetName,
   mappings,
   downloadHref,
+  onDownloadClick,
 }: Readonly<CorrespondenceTableProps>) {
   const [inverted, setInverted] = useState(false);
   const [filterTerm, setFilterTerm] = useState('');
@@ -112,13 +100,7 @@ export function CorrespondenceTable({
   const normalizedTargetName = targetName.trim();
   const displayedSourceName = inverted ? normalizedTargetName : normalizedSourceName;
   const displayedTargetName = inverted ? normalizedSourceName : normalizedTargetName;
-  const codeCounts = useMemo(
-    () => ({
-      source: countDistinctCodes(mappings, 'source'),
-      target: countDistinctCodes(mappings, 'target'),
-    }),
-    [mappings],
-  );
+
   const filteredMappings = useMemo(() => {
     const normalizedTerm = filterTerm.trim().toLocaleLowerCase();
     if (!normalizedTerm) {
@@ -135,14 +117,6 @@ export function CorrespondenceTable({
 
   return (
     <section>
-      <p className={styles.codeSummary}>
-        {localization.formatString(localization.classification.correspondence.codeSummary, {
-          sourceCount: codeCounts.source,
-          sourceName: normalizedSourceName,
-          targetCount: codeCounts.target,
-          targetName: normalizedTargetName,
-        })}
-      </p>
       <div className={styles.toolbar}>
         <div className={styles.searchScope}>
           <Search>
@@ -161,9 +135,15 @@ export function CorrespondenceTable({
           <Button variant='secondary' onClick={() => setInverted((current) => !current)}>
             {localization.versions.invert}
           </Button>
-          <Button asChild variant='secondary'>
-            <Link href={downloadHref}>{localization.classification.download.button}</Link>
-          </Button>
+          {onDownloadClick ? (
+            <Button variant='secondary' onClick={onDownloadClick}>
+              {localization.classification.download.button}
+            </Button>
+          ) : (
+            <Button asChild variant='secondary'>
+              <Link href={downloadHref}>{localization.classification.download.button}</Link>
+            </Button>
+          )}
         </div>
       </div>
 

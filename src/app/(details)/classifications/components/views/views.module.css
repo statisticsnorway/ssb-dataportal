@@ -40,61 +40,6 @@
   gap: 1rem;
 }
 
-.table {
-  background-color: var(--element-background-color);
-  --dsc-table-padding: var(--ds-size-1) var(--ds-size-2);
-  word-break: break-all;
-  font-size: var(--ds-font-size-sm);
-}
-
-.tableHeader {
-  border-bottom: var(--ds-border-width-default) solid var(--ssb-dark-color-2);
-  background: var(--ds-color-neutral-surface-tinted);
-  font-weight: 600;
-  font-size: 0.875rem;
-  color: var(--ds-color-neutral-text-subtle);
-  gap: 1.5rem;
-}
-
-.tableCodeLabel {
-  font-family: var(--font-family-monospace);
-  font-weight: 600;
-  flex: 0 0 5rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: var(--ds-color-neutral-text-default);
-}
-
-.tableNameLabel {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
-  flex: 1;
-}
-
-.tableCentralDivider {
-  border-right: var(--ds-border-width-default) solid var(--ssb-dark-color-2);
-}
-
-.tableFigure {
-  margin: 0;
-}
-
-.tableToolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--ds-size-2, 0.5rem);
-  padding-block-end: var(--ds-size-2, 0.5rem);
-}
-
-.tableActions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: var(--ds-size-2, 0.5rem);
-}
-
 .introduction {
   overflow-wrap: break-word;
   hyphens: auto;
@@ -103,10 +48,6 @@
 @media (min-width: 400px) {
   .tabsPanel {
     --dsc-tabs-content-padding: var(--dsc-tabs-tab-padding);
-  }
-  .table {
-    font-size: var(--ds-font-size-md);
-    word-break: normal;
   }
 }
 
@@ -125,9 +66,6 @@
     justify-content: flex-end;
   }
 
-  .table {
-    --dsc-table-padding: var(--ds-size-2) var(--ds-size-3);
-  }
   .detailsHeading {
     font-size: 2rem;
   }
