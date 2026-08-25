@@ -1,41 +1,14 @@
-import { Alert } from '@digdir/designsystemet-react';
 import { Metadata } from 'next';
 import { cookies, headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { cache, ReactNode } from 'react';
-import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
 import { languageCookieName, resolveLanguage } from '@/libs/language';
-import { localization } from '@/libs/language/src/localization';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
-import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import ClassificationDetail from '../components/classificationDetail';
 import { VersionProvider, VersionResourceLayer } from '../components/versionContext';
-import { buildUrl } from '../utils/urls';
-
-const showInfoOnly = process.env.HIDE_CLASSIFICATIONS === 'true';
-
-const renderInfoOnlyPage = () => {
-  return (
-    <div className='container'>
-      <DataportalBreadcrumbs
-        homeUrl={getHomeBreadcrumb()}
-        items={[
-          {
-            text: localization.classification.labelPlural,
-            href: buildUrl({}),
-          },
-        ]}
-      />
-
-      <Alert data-color={'warning'} className='infoAlert'>
-        Detaljside for klassifikasjon er ikke klar for testing.
-      </Alert>
-    </div>
-  );
-};
 
 export const getRequestLanguage = cache(async () => {
   const cookieStore = await cookies();
@@ -133,11 +106,6 @@ export default async function ClassificationLayout({
   }
 
   logger.info({ id }, 'Classification detail page access');
-
-  if (showInfoOnly) {
-    logger.info('Classification detail page is running in info-only mode');
-    return renderInfoOnlyPage();
-  }
 
   const contentMissingInSelectedLanguage = (classification.versions ?? []).some(
     (version) => !version?.published?.includes(language),
