@@ -25,21 +25,17 @@ test.describe('footer', () => {
     await expect(footer.getByRole('link', { name: localization.info.footerAccessibilityStatement })).toBeVisible();
   });
 
-  test('Vardef API documentation link points to the test docs URL when not authenticated', async ({
-    page,
-  }, testInfo: TestInfo) => {
-    test.skip(testInfo.project.name !== 'chrome-unauth');
+  test('Vardef API documentation link points to the test docs URL from test environment', async ({ page }) => {
     const footer = page.getByRole('contentinfo');
-    const link = footer.getByRole('link', { name: localization.apiDocVardef });
+    const link = footer.getByRole('link', { name: `${localization.apiDocumentation} ${localization.apiDocVardef}` });
     await expect(link).toHaveAttribute('href', 'https://metadata.test.ssb.no/docs/swagger/variable-definitions');
   });
 
-  test('Klassifikasjoner API documentation link points to the test docs URL when not authenticated', async ({
+  test('Klassifikasjoner API documentation link points to the test docs URL from test environment', async ({
     page,
-  }, testInfo: TestInfo) => {
-    test.skip(testInfo.project.name !== 'chrome-unauth');
+  }) => {
     const footer = page.getByRole('contentinfo');
-    const link = footer.getByRole('link', { name: localization.apiDocKlass });
+    const link = footer.getByRole('link', { name: `${localization.apiDocumentation} ${localization.apiDocKlass}` });
     await expect(link).toHaveAttribute('href', 'https://data.test.ssb.no/api/klass/swagger-ui/index.html');
   });
 
@@ -55,26 +51,5 @@ test.describe('footer', () => {
     const footer = page.getByRole('contentinfo');
     const link = footer.getByRole('link', { name: localization.info.footerPrivacyStatement });
     await expect(link).toHaveAttribute('href', PRIVACY_STATEMENT_URL);
-  });
-
-  test('Vardef API documentation link points to the internal test docs URL when authenticated', async ({
-    page,
-  }, testInfo: TestInfo) => {
-    test.skip(testInfo.project.name === 'chrome-unauth');
-    const footer = page.getByRole('contentinfo');
-    const link = footer.getByRole('link', { name: localization.apiDocVardef });
-    await expect(link).toHaveAttribute(
-      'href',
-      'https://metadata.test.ssb.no/docs/swagger/variable-definitions?urls.primaryName=internal',
-    );
-  });
-
-  test('Klassifikasjoner API documentation link points to the correct URL when authenticated', async ({
-    page,
-  }, testInfo: TestInfo) => {
-    test.skip(testInfo.project.name === 'chrome-unauth');
-    const footer = page.getByRole('contentinfo');
-    const link = footer.getByRole('link', { name: localization.apiDocKlass });
-    await expect(link).toHaveAttribute('href', 'https://data.test.ssb.no/api/klass/swagger-ui/index.html');
   });
 });

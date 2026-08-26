@@ -4,6 +4,7 @@ import { localization } from '@/libs/language';
 interface ExternalLinkProps {
   linkText: string;
   href: string;
+  ariaLabel?: string;
   className?: string;
   willOpenNewTab?: boolean;
 }
@@ -17,15 +18,15 @@ interface ExternalLinkProps {
  * @param willOpenNewTab - When true, adds `target="_blank"` and appends text indicating the link opens in a new tab.
  * @returns A `Link` component rendering the given text and URL.
  */
-const ExternalLink = ({ linkText, href, className, willOpenNewTab = false, ...rest }: ExternalLinkProps) => {
+const ExternalLink = ({ linkText, href, ariaLabel, className, willOpenNewTab = false, ...rest }: ExternalLinkProps) => {
   return (
     <>
       {willOpenNewTab ? (
-        <Link {...rest} target='_blank' rel='noreferrer' href={href} className={className}>
+        <Link {...rest} target='_blank' rel='noreferrer' href={href} className={className} aria-label={ariaLabel}>
           {`${linkText} (${localization.opensInNewTab})`}
         </Link>
       ) : (
-        <Link {...rest} rel='noreferrer' href={href} className={className}>
+        <Link {...rest} rel='noreferrer' href={href} className={className} aria-label={ariaLabel}>
           {linkText}
         </Link>
       )}
