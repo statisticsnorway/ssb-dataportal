@@ -25,9 +25,7 @@ test.describe('footer', () => {
     await expect(footer.getByRole('link', { name: localization.info.footerAccessibilityStatement })).toBeVisible();
   });
 
-  test('Vardef API documentation link points to the test docs URL from test environment', async ({
-    page,
-  }, testInfo: TestInfo) => {
+  test('Vardef API documentation link points to the test docs URL from test environment', async ({ page }) => {
     const footer = page.getByRole('contentinfo');
     const link = footer.getByRole('link', { name: `${localization.apiDocumentation} ${localization.apiDocVardef}` });
     await expect(link).toHaveAttribute('href', 'https://metadata.test.ssb.no/docs/swagger/variable-definitions');
@@ -35,7 +33,7 @@ test.describe('footer', () => {
 
   test('Klassifikasjoner API documentation link points to the test docs URL from test environment', async ({
     page,
-  }, testInfo: TestInfo) => {
+  }) => {
     const footer = page.getByRole('contentinfo');
     const link = footer.getByRole('link', { name: `${localization.apiDocumentation} ${localization.apiDocKlass}` });
     await expect(link).toHaveAttribute('href', 'https://data.test.ssb.no/api/klass/swagger-ui/index.html');

@@ -173,7 +173,6 @@ test.describe('Contact', () => {
   });
 
   test('Vardef API documentation link points to the internal test docs URL when authenticated', async ({ page }) => {
-    await goToDetail(page);
     const apiLink = page.getByRole('main').getByRole('link', { name: localization.apiDocumentation, exact: true });
     await expect(apiLink).toHaveAttribute(
       'href',
