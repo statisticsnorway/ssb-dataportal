@@ -32,12 +32,12 @@ export default function ChangesView({
   const hasPreviousVersion =
     sortedVersions.length > 1 && previousVersion?.validFrom !== undefined && classification.id !== undefined;
   const changesFrom = useMemo(() => {
-    if (!hasPreviousVersion || !previousVersion?.validFrom) {
+    if (!hasPreviousVersion || !version.validFrom) {
       return null;
     }
 
-    return getDayBeforeDate(previousVersion.validFrom as Date);
-  }, [hasPreviousVersion, previousVersion?.validFrom]);
+    return getDayBeforeDate(version.validFrom);
+  }, [hasPreviousVersion, version.validFrom]);
 
   const [changes, setChanges] = useState<CodeChangeItem[] | null>(null);
 
