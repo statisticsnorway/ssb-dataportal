@@ -2,10 +2,11 @@
 
 import { Alert, Divider, Heading, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { AppNotFoundState } from '@/components/app-state';
 import { DetailsList } from '@/components/details-list';
 import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
+import { fetchVersionById } from '@/libs/data/classifications/versionsData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
 import { formatLocaleDate } from '@/utils/functions';
@@ -59,6 +60,28 @@ export function VersionView({
 
   const versions = classification.versions ?? [];
   const resolved = resolveVersionFromPath(pathname, versions);
+
+  const [displayedVersion, setDisplayedVersion] = useState<ClassificationVersionResource | null | undefined>(
+    versionOnEntry,
+  );
+
+  useEffect(() => {
+    const resolvedVersionId = resolved?.version.id;
+    if (resolvedVersionId === undefined || displayedVersion?.id === resolvedVersionId) {
+      return;
+    }
+
+    let cancelled = false;
+    fetchVersionById(resolvedVersionId, localization.getLanguage() as 'nb' | 'nn' | 'en').then((result) => {
+      if (!cancelled) {
+        setDisplayedVersion(result ?? null);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [resolved?.version.id, displayedVersion?.id]);
 
   if (!resolved) {
     return (
@@ -125,7 +148,7 @@ export function VersionView({
         className={styles.introduction}
         {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
       >
-        {versionOnEntry?.introduction ?? localization.noDataPlaceholder}
+        {displayedVersion?.introduction ?? localization.noDataPlaceholder}
       </p>
       <Tabs
         value={activeTab.id}

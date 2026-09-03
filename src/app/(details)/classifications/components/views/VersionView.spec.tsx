@@ -10,6 +10,8 @@ const mocks = vi.hoisted(() => ({
   push: vi.fn(),
 }));
 
+const fetchVersionByIdMock = vi.hoisted(() => vi.fn());
+
 vi.mock('next/navigation', () => ({
   usePathname: () => mocks.pathname,
   useRouter: () => ({
@@ -17,6 +19,10 @@ vi.mock('next/navigation', () => ({
     prefetch: mocks.prefetch,
     push: mocks.push,
   }),
+}));
+
+vi.mock('@/libs/data/classifications/versionsData', () => ({
+  fetchVersionById: fetchVersionByIdMock,
 }));
 
 vi.mock('@/components/app-state', () => ({
@@ -62,6 +68,7 @@ describe('VersionView', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mocks.pathname = buildUrl({ classificationId: 104, versionId: 10 });
+    fetchVersionByIdMock.mockResolvedValue(undefined);
   });
 
   it('redirects a bare version route to its codes tab', async () => {
@@ -166,5 +173,34 @@ describe('VersionView', () => {
     );
 
     expect(screen.getByTestId('not-found')).toBeVisible();
+  });
+
+  it('refetches the introduction text when navigating client-side to a different version', async () => {
+    mocks.pathname = buildUrl({ classificationId: 104, versionId: 10, tab: 'codes' });
+    fetchVersionByIdMock.mockResolvedValue({ id: 20, introduction: 'Latest version introduction' });
+
+    const { rerender } = render(
+      <VersionView
+        classification={classification}
+        classificationVersion={{ id: 10, introduction: 'Old version introduction' }}
+      >
+        <div>Codes</div>
+      </VersionView>,
+    );
+
+    expect(screen.getByText('Old version introduction')).toBeVisible();
+
+    mocks.pathname = buildUrl({ classificationId: 104, versionId: 20, tab: 'codes' });
+    rerender(
+      <VersionView
+        classification={classification}
+        classificationVersion={{ id: 10, introduction: 'Old version introduction' }}
+      >
+        <div>Codes</div>
+      </VersionView>,
+    );
+
+    await waitFor(() => expect(fetchVersionByIdMock).toHaveBeenCalledWith(20, expect.any(String)));
+    await waitFor(() => expect(screen.getByText('Latest version introduction')).toBeVisible());
   });
 });
