@@ -45,34 +45,29 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage, allowed
           {title}
         </Heading>
       )}
-      {visibleRows.map((row, index) => {
-        const labelText = typeof row.label === 'string' ? row.label : undefined;
-        return (
-          <dl key={getRowKey(row, index)} className={styles.row}>
-            {row.popover ? (
-              <dt className={styles.popoverKey} aria-label={labelText}>
-                <span className={styles.popoverLabel}>{row.label}</span>
-                <Popover.TriggerContext>
-                  <Popover.Trigger aria-label={`${row.label} information`} inline className={styles.popoverButton}>
-                    <QuestionmarkCircleIcon title='Information' fontSize='2rem' aria-hidden focusable='false' />
-                  </Popover.Trigger>
-                  <Popover placement='top' id='info'>
-                    {popoverContent}
-                  </Popover>
-                </Popover.TriggerContext>
-              </dt>
-            ) : (
-              <dt className={styles.key} aria-label={labelText}>
-                {row.label}
-              </dt>
-            )}
-            <dd className={styles.value} aria-label={labelText} {...setHtmlLang(row.value)}>
-              {row.value}
-            </dd>
-            {index != visibleRows.length - 1 && <Divider />}
-          </dl>
-        );
-      })}
+      {visibleRows.map((row, index) => (
+        <dl key={getRowKey(row, index)} className={styles.row}>
+          {row.popover ? (
+            <dt className={styles.popoverKey} aria-label={row.label}>
+              <span className={styles.popoverLabel}>{row.label}</span>
+              <Popover.TriggerContext>
+                <Popover.Trigger aria-label={`${row.label} information`} inline className={styles.popoverButton}>
+                  <QuestionmarkCircleIcon title='Information' fontSize='2rem' aria-hidden focusable='false' />
+                </Popover.Trigger>
+                <Popover placement='top' id='info'>
+                  {popoverContent}
+                </Popover>
+              </Popover.TriggerContext>
+            </dt>
+          ) : (
+            <dt className={styles.key}>{row.label}</dt>
+          )}
+          <dd className={styles.value} aria-label={row.label} {...setHtmlLang(row.value)}>
+            {row.value}
+          </dd>
+          {index != visibleRows.length - 1 && <Divider />}
+        </dl>
+      ))}
     </Card>
   );
 };
