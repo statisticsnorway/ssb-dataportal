@@ -39,9 +39,7 @@ async function assertDetailsList(page: Page, version: (typeof versions)[number])
   await expect(definitionFor(localization.classification.about.mail)).toHaveText(version.contactPerson!.email!);
 
   await expect(headerTerm(localization.validity.validFrom)).toBeVisible();
-  await expect(headerDefinitionFor(localization.validity.validFrom)).toHaveText(
-    formatLocaleDate(version.validFrom!),
-  );
+  await expect(headerDefinitionFor(localization.validity.validFrom)).toHaveText(formatLocaleDate(version.validFrom!));
 
   await expect(term(localization.classification.about.publishedLanguages)).toBeVisible();
   await expect(definitionFor(localization.classification.about.publishedLanguages)).toHaveText(
