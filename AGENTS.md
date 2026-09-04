@@ -53,6 +53,7 @@ pnpm test:e2e:accessibility / :headed / :ui / :generate
 - E2E: `e2e/*.spec.ts` (Playwright, `data-testid` attribute, locale `nb-NO`). Fixtures in `e2e/fixtures/`, helpers in `e2e/utils/`.
 - Accessibility e2e tests MUST include `accessibility` in the filename and use axe `.withRules([...])` (see README).
 - E2E `webServer` always sets `reuseExistingServer: false` and starts both an authenticated (:3000) and unauthenticated (:8000) server. To test against live APIs, change the webserver command in `playwright.config.ts` to `pnpm dev` — don't commit that.
+- When analyzing local e2e test failures, prefer obtaining generated reports from the `.md` files in `playwright-report/data` over rerunning time consuming tests
 - CI shards e2e across 4 workers; `test-results/`, `playwright-report/`, `results/`, `coverage/` are regenerated artifacts.
 
 ## Conventions & gotchas
