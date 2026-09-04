@@ -124,6 +124,7 @@ export const en = {
     correspondences: 'Correspondences',
     variants: 'Variants',
   },
+  close: 'Close',
   codeTree: {
     label: 'Code list',
     expand: 'Show subcodes for',

@@ -204,3 +204,23 @@ test('display alert content is missing in selected language - older version', as
   await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
   await expect(page.getByText(contentMissingNNLanguageAlert, { exact: true })).toBeVisible();
 });
+
+test.describe('Classification - information Klass moved', () => {
+  const classification = parseClassification(classifications[0]);
+  test('alert has heading', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage(classification.id!);
+    await expect(page.getByRole('status')).toContainText(localization.migrationClassifications.header);
+  });
+
+  test('alert has message', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage(classification.id!);
+    await expect(page.getByRole('status')).toContainText(localization.migrationClassifications.info);
+  });
+
+  test('alert can be closed', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage(classification.id!);
+    await expect(page.getByRole('status')).toBeVisible();
+    await page.getByRole('button', { name: localization.close, exact: true }).click();
+    await expect(page.getByRole('status')).not.toBeVisible();
+  });
+});

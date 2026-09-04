@@ -3,6 +3,7 @@
 import { Alert, Button, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { XMarkIcon } from '@navikt/aksel-icons';
 import { type ReactNode, useState } from 'react';
+import { localization } from '@/libs/language/src/localization';
 import styles from './alerts.module.css';
 
 interface ClosableAlertProps {
@@ -23,7 +24,7 @@ export function ClosableAlert({ heading, message, color = 'info' }: Readonly<Clo
           {heading && <Heading className='secondaryHeading'>{heading}</Heading>}
           {message && <Paragraph data-size='md'>{message}</Paragraph>}
         </div>
-        <Button variant='tertiary' data-size='sm' aria-label={'Lukk'} onClick={() => setVisible(false)}>
+        <Button variant='tertiary' data-size='sm' aria-label={localization.close} onClick={() => setVisible(false)}>
           <XMarkIcon aria-hidden='true' focusable='false' />
         </Button>
       </div>

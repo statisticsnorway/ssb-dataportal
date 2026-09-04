@@ -120,6 +120,7 @@ export const nb = {
     correspondences: 'Korrespondanser',
     variants: 'Varianter',
   },
+  close: 'Lukk',
   codeTree: {
     label: 'Kodeliste',
     expand: 'Vis underkoder for',
