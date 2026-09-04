@@ -167,7 +167,13 @@ export function VersionView({
           ))}
         </Tabs.List>
 
-        <Tabs.Panel key={pathname} value={activeTab.id} id={activeTab.id} className={styles.tabsPanel}>
+        <Tabs.Panel
+          key={pathname}
+          value={activeTab.id}
+          id={activeTab.id}
+          aria-labelledby={`${activeTab.id}-tab`}
+          className={styles.tabsPanel}
+        >
           {children}
         </Tabs.Panel>
       </Tabs>
