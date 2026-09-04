@@ -11,6 +11,7 @@ import { ExternalLink } from '@/components/link-components/externalLink';
 import { CopyTag } from '@/components/tag-components/copy-tag';
 import { DaplaDataFileDTO, DatasetDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
+import { Visibility } from '@/types/item';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { getDaplaCtrlUrl } from '@/utils/config';
 import { convertAssessment, convertDataSetState } from '@/utils/functions';
@@ -58,6 +59,7 @@ export default function DatasetDetail({
         </Heading>
         <DetailsList
           title={localization.datasetDetail.aboutDataset}
+          allowedVisibility={isAuthenticated ? Visibility.INTERNAL : Visibility.EXTERNAL}
           content={[
             { label: localization.datasetDetail.dataProduct, value: dataset.product_short_name },
             { label: localization.datasetDetail.bucket, value: dataset.storage_location_name },
@@ -79,6 +81,7 @@ export default function DatasetDetail({
                   href={`${getDaplaCtrlUrl()}/team/${dataset.owner}`}
                 />
               ),
+              visibility: new Set([Visibility.INTERNAL]),
             },
             ...(totalNamingStandardViolations > 0
               ? [

@@ -197,7 +197,7 @@ test('display alert content is missing in selected language - latest version', a
 test('display alert content is missing in selected language - older version', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[0]);
   const page = await classificationDetailsPage(classification.id!);
-  await page.goto(buildUrl({ classificationId: classification.id!, versionId: 2 }));
+  await page.goto(buildUrl({ classificationId: classification.id!, versionId: 2, tab: 'codes' }));
 
   await switchLanguage(page, 'Norsk nynorsk');
 

@@ -1,5 +1,6 @@
 import { test, expect } from '@bgotink/playwright-coverage';
 import { tabsData } from '@/app/(services)/tabs';
+import { localization } from '@/libs/language';
 
 const route = tabsData.DataProducts.route;
 const EXAMPLE_DATASET = `${route}/arblonn/datasets/id7`;
@@ -14,6 +15,11 @@ test.describe('unauthenticated', () => {
     await page.goto(EXAMPLE_DATASET);
     await expect(page.getByText(DATA_FILE_NAME_VIOLATES_NAMING_STANDARD)).not.toBeVisible();
   });
+
+  test('exclude owning team detail', async ({ page }) => {
+    await page.goto(EXAMPLE_DATASET);
+    await expect(page.getByText(localization.datasetDetail.responsible)).not.toBeVisible();
+  });
 });
 
 test.describe('authenticated', () => {
@@ -27,5 +33,10 @@ test.describe('authenticated', () => {
     await expect(page.getByRole('button', { name: 'Navnestandardavvik' })).toBeVisible();
     await page.getByRole('button', { name: 'Navnestandardavvik' }).click();
     await expect(page.getByText('invalid', { exact: true })).toBeVisible();
+  });
+
+  test('include owning team detail', async ({ page }) => {
+    await page.goto(EXAMPLE_DATASET);
+    await expect(page.getByText(localization.datasetDetail.responsible)).toBeVisible();
   });
 });

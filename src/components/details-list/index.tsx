@@ -1,7 +1,7 @@
 import { Card, Divider, Heading, Popover } from '@digdir/designsystemet-react';
 import { QuestionmarkCircleIcon } from '@navikt/aksel-icons';
 import { localization } from '@/libs/language/src/localization';
-import { Item } from '@/types/item';
+import { Item, Visibility } from '@/types/item';
 import styles from './detailsList.module.css';
 
 interface DetailsListProps {
@@ -9,9 +9,10 @@ interface DetailsListProps {
   content: Item[];
   popoverContent?: string;
   fallbackLanguage?: string;
+  allowedVisibility?: Visibility;
 }
 
-const DetailsList = ({ title, content, popoverContent, fallbackLanguage }: DetailsListProps) => {
+const DetailsList = ({ title, content, popoverContent, fallbackLanguage, allowedVisibility }: DetailsListProps) => {
   const getRowKey = (row: Item, index: number) => {
     return typeof row.label === 'string' && row.label.length > 0 ? row.label : String(index);
   };
@@ -22,6 +23,15 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage }: Detai
     }
     return {};
   };
+
+  const visibleRows = content.filter((row) => {
+    if (allowedVisibility === undefined) {
+      return true;
+    }
+
+    return row.visibility?.has(allowedVisibility) ?? true;
+  });
+
   return (
     <Card className={styles.tableContainer}>
       {title && (
@@ -35,7 +45,7 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage }: Detai
           {title}
         </Heading>
       )}
-      {content.map((row, index) => (
+      {visibleRows.map((row, index) => (
         <dl key={getRowKey(row, index)} className={styles.row}>
           {row.popover ? (
             <dt className={styles.popoverKey}>
@@ -55,7 +65,7 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage }: Detai
           <dd className={styles.value} {...setHtmlLang(row.value)}>
             {row.value}
           </dd>
-          {index != content.length - 1 && <Divider />}
+          {index != visibleRows.length - 1 && <Divider />}
         </dl>
       ))}
     </Card>
