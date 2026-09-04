@@ -48,12 +48,14 @@ const dataProducts: DataProductDTO[] = [
     product_short_name: 'arbstatus',
     title: 'Tilknytning til arbeid, utdanning og velferdsordninger',
     subject_code: 'al05',
+    has_naming_standard_violations: false,
   },
   {
     product_type: DataProductType.OTHER_DATA_PRODUCT,
     product_short_name: 'ameld',
     title: 'Ameldingen',
     subject_code: 'bf',
+    has_naming_standard_violations: false,
   },
 ];
 
@@ -92,6 +94,7 @@ describe('DataProductsServicePage', () => {
         {
           product_type: DataProductType.OTHER_DATA_PRODUCT,
           product_short_name: 'kortnavn',
+          has_naming_standard_violations: false,
         },
       ],
     });
@@ -133,6 +136,7 @@ describe('DataProductsServicePage', () => {
         {
           product_type: DataProductType.OTHER_DATA_PRODUCT,
           product_short_name: 'produkt-uten-tittel',
+          has_naming_standard_violations: false,
         },
       ],
     });
@@ -195,6 +199,7 @@ describe('DataProductsServicePage', () => {
           product_short_name: 'health-product',
           title: 'Helseprodukt',
           subject_code: 'hel2',
+          has_naming_standard_violations: false,
         },
       ],
       subjectFields,

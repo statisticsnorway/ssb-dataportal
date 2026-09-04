@@ -13,6 +13,7 @@ type BuildDataFileInput = {
 
 const buildDataFile = ({ filePath, version, from, until, periodType }: BuildDataFileInput): DaplaDataFileDTO => ({
   file_path: filePath,
+  file_name: filePath.split('/').at(-1) ?? '',
   data_file_version: version ?? null,
   naming_standard_violations: [],
   contains_data_from: from ?? null,

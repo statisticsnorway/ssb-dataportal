@@ -15,6 +15,7 @@ type BuildDataFileInput = {
 
 const buildDataFile = ({ filePath, from, until, periodType }: BuildDataFileInput): DaplaDataFileDTO => ({
   file_path: filePath,
+  file_name: filePath.split('/').at(-1) ?? '',
   naming_standard_violations: [],
   contains_data_from: from,
   contains_data_until: until,
@@ -32,6 +33,7 @@ describe('DataCoverageTimeline', () => {
     };
     const item: TimelineItem = {
       file_path: 'gs://bucket/dataset/ufo-observasjoner_p2018_p2019_v1.parquet',
+      file_name: 'ufo-observasjoner_p2018_p2019_v1.parquet',
       data_file_version: 1,
       periodType: PeriodFormat.YEAR,
       start: '2018-01-01',
