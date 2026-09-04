@@ -120,6 +120,7 @@ export const nb = {
     correspondences: 'Korrespondanser',
     variants: 'Varianter',
   },
+  close: 'Lukk',
   codeTree: {
     label: 'Kodeliste',
     expand: 'Vis underkoder for',
@@ -329,7 +330,11 @@ export const nb = {
   },
 
   loadingVariableDefinitions: 'Laster variabeldefinisjoner',
-  migration: {
+  migrationClassifications: {
+    header: 'Vi har flyttet Klass',
+    info: 'Du er nå på den nye tjenesten Klass i SSB Dataportal. Oppdater gjerne bokmerker og lagrede lenker.',
+  },
+  migrationVariableDefinitions: {
     header: 'Migrering av variabeldefinisjoner pågår',
     info: 'Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført vil noe innhold fortsatt ligge på den gamle siden.',
     linkText: 'Finn flere variabeldefinisjoner på ssb.no',

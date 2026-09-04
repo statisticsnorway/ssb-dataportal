@@ -124,6 +124,7 @@ export const en = {
     correspondences: 'Correspondences',
     variants: 'Variants',
   },
+  close: 'Close',
   codeTree: {
     label: 'Code list',
     expand: 'Show subcodes for',
@@ -331,7 +332,11 @@ export const en = {
   },
 
   loadingVariableDefinitions: 'Loading variable definitions',
-  migration: {
+  migrationClassifications: {
+    header: 'We have moved Klass',
+    info: 'You are now on the new Klass service in SSB Dataportal. Please update your bookmarks and saved links.',
+  },
+  migrationVariableDefinitions: {
     header: 'Migration of variable definitions in progress',
     info: 'We are moving variable definitions to SSB Dataportal. Until the work is complete, some content will still be on the old site.',
     linkText: 'Find more variable definitions on ssb.no',

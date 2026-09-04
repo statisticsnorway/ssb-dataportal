@@ -4,6 +4,7 @@ import { Heading, Paragraph, Tag, Tooltip } from '@digdir/designsystemet-react';
 import { GlobeIcon } from '@navikt/aksel-icons';
 import { usePathname } from 'next/navigation';
 import { SubscribeDialog } from '@/app/(details)/classifications/components/subscribe';
+import { ClosableAlert } from '@/components/alerts';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
@@ -35,6 +36,10 @@ export default function ClassificationDetail({
 
   return (
     <div className={`${styles.detailsPage} container`}>
+      <ClosableAlert
+        heading={localization.migrationClassifications.header}
+        message={localization.migrationClassifications.info}
+      />
       <DataportalBreadcrumbs
         homeUrl={getHomeBreadcrumb()}
         items={[

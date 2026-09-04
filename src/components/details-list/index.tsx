@@ -48,7 +48,7 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage, allowed
       {visibleRows.map((row, index) => (
         <dl key={getRowKey(row, index)} className={styles.row}>
           {row.popover ? (
-            <dt className={styles.popoverKey}>
+            <dt className={styles.popoverKey} aria-label={row.label}>
               <span className={styles.popoverLabel}>{row.label}</span>
               <Popover.TriggerContext>
                 <Popover.Trigger aria-label={`${row.label} information`} inline className={styles.popoverButton}>
@@ -62,7 +62,7 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage, allowed
           ) : (
             <dt className={styles.key}>{row.label}</dt>
           )}
-          <dd className={styles.value} {...setHtmlLang(row.value)}>
+          <dd className={styles.value} aria-label={row.label} {...setHtmlLang(row.value)}>
             {row.value}
           </dd>
           {index != visibleRows.length - 1 && <Divider />}

@@ -30,7 +30,7 @@ test('Outdated versions display alert', async ({ classificationDetailsPage }) =>
 test('Classifications details version have title', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[0]);
   const page = await classificationDetailsPage(classification.id!);
-  const heading = page.getByRole('heading', { level: 2 });
+  const heading = page.getByRole('heading', { level: 2, name: classification.versions![0]!.name! });
   await expect(heading).toBeVisible();
   await expect(heading).toHaveText(classification.versions![0]!.name!);
   await expect(page.getByText(versions[0]?.introduction!)).toBeVisible();
@@ -203,4 +203,25 @@ test('display alert content is missing in selected language - older version', as
 
   await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
   await expect(page.getByText(contentMissingNNLanguageAlert, { exact: true })).toBeVisible();
+});
+
+test.describe('Classification - information Klass moved', () => {
+  const classification = parseClassification(classifications[0]);
+
+  test('alert has message', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage(classification.id!);
+    await expect(page.getByRole('status')).toContainText(localization.migrationClassifications.info);
+  });
+
+  test('alert has heading', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage(classification.id!);
+    await expect(page.getByRole('status')).toContainText(localization.migrationClassifications.header);
+  });
+
+  test('alert can be closed', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage(classification.id!);
+    await expect(page.getByRole('status')).toBeVisible();
+    await page.getByRole('button', { name: localization.close, exact: true }).click();
+    await expect(page.getByRole('status')).not.toBeVisible();
+  });
 });
