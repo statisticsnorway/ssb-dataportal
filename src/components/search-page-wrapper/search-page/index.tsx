@@ -36,7 +36,7 @@ const SearchPage: FC<SearchPageProps> = ({
   controlsContent,
   totalHits,
   header,
-  tabsId
+  tabsId,
 }) => {
   const hitsLabel = (totalHits?: ReactNode): ReactNode => {
     if (totalHits == null) return null;
