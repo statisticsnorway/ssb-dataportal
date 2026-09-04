@@ -18,27 +18,33 @@ async function gotoAbout(page: Page, url: string) {
   await page.goto(url, { waitUntil: 'domcontentloaded' });
   const aboutTab = page.getByRole('tab', { name: classificationDetailsTabsData.Details.label });
   await expect(aboutTab).toHaveAttribute('aria-selected', 'true');
-  return page.getByLabel(localization.classificationDetails.details);
 }
-async function assertDetailsList(page: Page, version: (typeof versions)[number]) {
-  const details = page.getByLabel(localization.classificationDetails.details);
 
-  const term = (name: string) => details.getByRole('term', { name });
-  const definition = (name: string) => details.getByRole('definition', { name });
+async function assertDetailsList(page: Page, version: (typeof versions)[number]) {
+  const details = page.getByRole('tabpanel', { name: classificationDetailsTabsData.Details.label });
+
+  const term = (label: string) => details.getByRole('term').filter({ hasText: new RegExp(`^${label}$`) });
+  const definitionFor = (label: string) => term(label).locator('xpath=following-sibling::dd[1]');
+
+  // Validity is rendered in the version header (VersionView), not inside the Details tab panel.
+  const headerTerm = (label: string) => page.getByRole('term').filter({ hasText: new RegExp(`^${label}$`) });
+  const headerDefinitionFor = (label: string) => headerTerm(label).locator('xpath=following-sibling::dd[1]');
 
   await expect(term(localization.classification.about.custodian)).toBeVisible();
-  await expect(definition(localization.classification.about.custodian)).toHaveText(
+  await expect(definitionFor(localization.classification.about.custodian)).toHaveText(
     formatCustodian(parseVersion(version)),
   );
 
   await expect(term(localization.classification.about.mail)).toBeVisible();
-  await expect(definition(localization.classification.about.mail)).toHaveText(version.contactPerson!.email!);
+  await expect(definitionFor(localization.classification.about.mail)).toHaveText(version.contactPerson!.email!);
 
-  await expect(term(localization.validity.validFrom)).toBeVisible();
-  await expect(definition(localization.validity.validFrom)).toHaveText(formatLocaleDate(version.validFrom!));
+  await expect(headerTerm(localization.validity.validFrom)).toBeVisible();
+  await expect(headerDefinitionFor(localization.validity.validFrom)).toHaveText(
+    formatLocaleDate(version.validFrom!),
+  );
 
   await expect(term(localization.classification.about.publishedLanguages)).toBeVisible();
-  await expect(definition(localization.classification.about.publishedLanguages)).toHaveText(
+  await expect(definitionFor(localization.classification.about.publishedLanguages)).toHaveText(
     (version.published ?? []).filter(isSupportedLanguage).map(formatLanguages).join(', '),
   );
 }
