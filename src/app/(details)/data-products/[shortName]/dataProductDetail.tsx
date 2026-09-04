@@ -1,6 +1,7 @@
 'use client';
 
 import { Heading } from '@digdir/designsystemet-react';
+import { notFound } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
@@ -28,6 +29,11 @@ export default function DataProductDetail({
 }>) {
   const assessmentLabelByValue = getAssessmentLabelByValue();
   const { isAuthenticated } = useAuthContext();
+
+  if (!isAuthenticated && dataProduct.has_naming_standard_violations === true) {
+    notFound();
+  }
+
   const visibleDatasets = isAuthenticated ? datasets : datasets.filter((ds) => !ds.has_naming_standard_violations);
 
   const assessmentFilters = useMemo<FilterItem[]>(

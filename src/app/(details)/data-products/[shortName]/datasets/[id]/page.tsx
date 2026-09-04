@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
-import { authenticateUser } from '@/libs/auth/userAuth';
 import { getDatasetById, listDataFilesByDatasetId } from '@/libs/data/datasets/datasets';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
@@ -25,15 +24,12 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 export default async function Dataset({ params }: Readonly<{ params: Promise<{ id: string }> }>) {
   const logger = createLogger('dataset-detail-page');
   const { id } = await params;
-  const { isAuthenticated } = await authenticateUser();
   logger.info({ id }, 'Dataset detail page access');
 
   const { dataset, dataFiles } = await getPageData(id).catch((error) => {
     logger.error({ id, error: sanitizeError(error) }, 'Failed to load dataset');
     return notFound();
   });
-
-  if (!isAuthenticated && dataset.has_naming_standard_violations === true) return notFound();
 
   return <DatasetDetail dataset={dataset} dataFiles={dataFiles} />;
 }

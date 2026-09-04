@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
-import { authenticateUser } from '@/libs/auth/userAuth';
 import { getDataProductByShortName, listDatasetsByProductShortName } from '@/libs/data/datasets/datasets';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
@@ -25,14 +24,12 @@ export default async function DataProduct({ params }: Readonly<{ params: Promise
   const logger = createLogger('data-product-detail-page');
 
   const { shortName } = await params;
-  const { isAuthenticated } = await authenticateUser();
   const { dataProduct, datasets } = await getPageData(shortName).catch((error) => {
     logger.error({ shortName, error: sanitizeError(error) }, 'Failed to load data product details');
     return notFound();
   });
 
   if (!dataProduct) return notFound();
-  if (!isAuthenticated && dataProduct.has_naming_standard_violations === true) return notFound();
 
   return <DataProductDetail dataProduct={dataProduct} datasets={datasets} />;
 }
