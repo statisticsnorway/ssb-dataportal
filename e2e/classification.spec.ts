@@ -30,7 +30,7 @@ test('Outdated versions display alert', async ({ classificationDetailsPage }) =>
 test('Classifications details version have title', async ({ classificationDetailsPage }) => {
   const classification = parseClassification(classifications[0]);
   const page = await classificationDetailsPage(classification.id!);
-  const heading = page.getByRole('heading', { level: 2 });
+  const heading = page.getByRole('heading', { level: 2, name: classification.versions![0]!.name! });
   await expect(heading).toBeVisible();
   await expect(heading).toHaveText(classification.versions![0]!.name!);
   await expect(page.getByText(versions[0]?.introduction!)).toBeVisible();

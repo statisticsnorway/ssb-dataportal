@@ -20,21 +20,27 @@ async function gotoAbout(page: Page, url: string) {
   await expect(aboutTab).toHaveAttribute('aria-selected', 'true');
   return page.getByLabel(localization.classificationDetails.details);
 }
-
 async function assertDetailsList(page: Page, version: (typeof versions)[number]) {
-  const dl = page.locator('dl');
-  await expect(dl.getByText(localization.classification.about.custodian, { exact: true })).toBeVisible();
-  await expect(dl.locator('dd').getByText(formatCustodian(parseVersion(version)), { exact: true })).toBeVisible();
-  await expect(dl.getByText(localization.classification.about.mail, { exact: true })).toBeVisible();
-  await expect(dl.locator('dd').getByText(version.contactPerson!.email!, { exact: true })).toBeVisible();
-  await expect(dl.getByText(localization.validity.validFrom, { exact: true })).toBeVisible();
-  await expect(dl.locator('dd').getByText(formatLocaleDate(version.validFrom!), { exact: true })).toBeVisible();
-  await expect(dl.getByText(localization.classification.about.publishedLanguages, { exact: true })).toBeVisible();
-  await expect(
-    dl.locator('dd').getByText((version.published ?? []).filter(isSupportedLanguage).map(formatLanguages).join(', '), {
-      exact: true,
-    }),
-  ).toBeVisible();
+  const details = page.getByLabel(localization.classificationDetails.details);
+
+  const term = (name: string) => details.getByRole('term', { name });
+  const definition = (name: string) => details.getByRole('definition', { name });
+
+  await expect(term(localization.classification.about.custodian)).toBeVisible();
+  await expect(definition(localization.classification.about.custodian)).toHaveText(
+    formatCustodian(parseVersion(version)),
+  );
+
+  await expect(term(localization.classification.about.mail)).toBeVisible();
+  await expect(definition(localization.classification.about.mail)).toHaveText(version.contactPerson!.email!);
+
+  await expect(term(localization.validity.validFrom)).toBeVisible();
+  await expect(definition(localization.validity.validFrom)).toHaveText(formatLocaleDate(version.validFrom!));
+
+  await expect(term(localization.classification.about.publishedLanguages)).toBeVisible();
+  await expect(definition(localization.classification.about.publishedLanguages)).toHaveText(
+    (version.published ?? []).filter(isSupportedLanguage).map(formatLanguages).join(', '),
+  );
 }
 
 test('displays version details current', async ({ page }) => {
