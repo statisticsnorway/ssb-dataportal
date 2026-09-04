@@ -207,14 +207,15 @@ test('display alert content is missing in selected language - older version', as
 
 test.describe('Classification - information Klass moved', () => {
   const classification = parseClassification(classifications[0]);
-  test('alert has heading', async ({ classificationDetailsPage }) => {
-    const page = await classificationDetailsPage(classification.id!);
-    await expect(page.getByRole('status')).toContainText(localization.migrationClassifications.header);
-  });
-
+  
   test('alert has message', async ({ classificationDetailsPage }) => {
     const page = await classificationDetailsPage(classification.id!);
     await expect(page.getByRole('status')).toContainText(localization.migrationClassifications.info);
+  });
+
+  test('alert has heading', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage(classification.id!);
+    await expect(page.getByRole('status')).toContainText(localization.migrationClassifications.header);
   });
 
   test('alert can be closed', async ({ classificationDetailsPage }) => {
