@@ -35,6 +35,7 @@ export interface GetDatasetByIdRequest {
 
 export interface ListDatasetsRequest {
     productShortName?: string | null;
+    storageLocation?: string | null;
 }
 
 /**
@@ -76,6 +77,7 @@ export interface DatasetsApiInterface {
     /**
      * 
      * @param {string} [productShortName] 
+     * @param {string} [storageLocation] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DatasetsApiInterface
@@ -189,6 +191,10 @@ export class DatasetsApi extends runtime.BaseAPI implements DatasetsApiInterface
 
         if (requestParameters['productShortName'] != null) {
             queryParameters['product_short_name'] = requestParameters['productShortName'];
+        }
+
+        if (requestParameters['storageLocation'] != null) {
+            queryParameters['storage_location'] = requestParameters['storageLocation'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
