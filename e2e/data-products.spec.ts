@@ -97,13 +97,8 @@ test.describe('unauthenticated', () => {
     await expect(main.getByRole('checkbox', { name: 'Annen dataprodukt' })).not.toBeAttached();
   });
 
-  test('Data product details page excludes datasets with no valid data files', async ({ page }) => {
+  test('Data product details page is blocked when product is filtered out', async ({ page }) => {
     await page.goto(`${route}/ameld`);
-    await expect(page).toHaveURL(/\/data-products\/ameld$/);
-    await stabilize();
-
-    await expect(page.getByRole('heading', { level: 1, name: 'ameld' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'valid-dataset' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'invalid-dataset' })).not.toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Siden finnes ikke' })).toBeVisible();
   });
 });
