@@ -3,6 +3,7 @@
 import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { parseAsArrayOf, parseAsString, useQueryStates } from 'nuqs';
 import { Suspense, useMemo } from 'react';
+import { useAuthContext } from '@/app/authContext';
 import { CheckboxFilter, FiltersPanel } from '@/components/filters';
 import { FilterTagsSection } from '@/components/filters/filter-tags-section';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
@@ -76,10 +77,14 @@ export const DataProductsServicePage = ({
   dataProducts,
   subjectFields = EMPTY_SUBJECT_FIELDS,
 }: DataProductsServicePageProps) => {
+  const { isAuthenticated } = useAuthContext();
+
   const [{ productTypes, subjects }, setQueryState] = useQueryStates({
     productTypes: parseAsArrayOf(parseAsString).withDefault([]),
     subjects: parseAsArrayOf(parseAsString).withDefault([]),
   });
+
+  dataProducts = dataProducts.filter((dp) => isAuthenticated || dp.has_naming_standard_violations !== true);
 
   const productTypeFilters = useMemo<FilterItem[]>(() => {
     const counts = countByProductType(dataProducts);

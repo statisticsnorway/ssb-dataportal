@@ -66,7 +66,7 @@ paths:
             examples:
               example:
                 value:
-                  file_path: gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_p2022_v2.parquet
+                  file_path: gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person-data_p2021_p2022_v2.parquet
         required: true
       responses:
         "201":
@@ -115,7 +115,7 @@ paths:
           application/json:
             examples:
               example:
-                value: gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_p2022_v2.parquet
+                value: gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person-data_p2021_p2022_v2.parquet
       responses:
         "200":
           description: Get the Dapla Data File by its file path.
@@ -213,6 +213,12 @@ paths:
       operationId: listDatasets
       parameters:
       - name: product_short_name
+        in: query
+        explode: false
+        schema:
+          type: string
+          nullable: true
+      - name: storage_location
         in: query
         explode: false
         schema:
@@ -326,6 +332,7 @@ components:
         naming conventions.
     DaplaDataFileDTO:
       required:
+      - file_name
       - file_path
       - naming_standard_violations
       type: object
@@ -334,6 +341,9 @@ components:
           type: string
           description: The file path of the data file. This is the unique identifier
             of the data file.
+        file_name:
+          type: string
+          description: "The filename of the data file, extracted from the file path."
         storage_location_name:
           type: string
           description: "The name of the storage location where the data file is stored.\
@@ -420,6 +430,8 @@ components:
         follow Dapla's naming conventions. This model is used to represent a data
         file to clients.
     DataProductDTO:
+      required:
+      - has_naming_standard_violations
       type: object
       properties:
         product_type:
@@ -439,6 +451,8 @@ components:
           description: The subject area this product is categorized within. Defined
             by codes in Level 2 of https://www.ssb.no/klass/klassifikasjoner/618
           nullable: true
+        has_naming_standard_violations:
+          type: boolean
       description: Data Product
     DataProductType:
       type: string
@@ -455,6 +469,12 @@ components:
         \ a statistic on ssb.no. The list of all statistic products is defined by\
         \ the Statistic Register."
     DatasetDTO:
+      required:
+      - dataset_state
+      - has_naming_standard_violations
+      - product_short_name
+      - short_description
+      - storage_location_name
       type: object
       properties:
         id:
@@ -465,29 +485,26 @@ components:
           type: string
           description: "The name of the storage location where the dataset is stored.\
             \ In the case of object storage, this is the name of the bucket."
-          nullable: true
         product_short_name:
           type: string
           description: "The identifier of the product this dataset belongs to, sourced\
             \ from the file path."
-          nullable: true
         short_description:
           type: string
           description: "A short description of the dataset, sourced from the file\
             \ path. \\[Defined in the Dapla Manual.\\](https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn)"
-          nullable: true
         assessment:
           nullable: true
           allOf:
           - $ref: "#/components/schemas/Assessment"
         dataset_state:
-          nullable: true
-          allOf:
-          - $ref: "#/components/schemas/DatasetState"
+          $ref: "#/components/schemas/DatasetState"
         owner:
           type: string
           description: The uniform name of the Dapla team which owns the dataset.
           nullable: true
+        has_naming_standard_violations:
+          type: boolean
       description: A Dataset is a group of data files within one product and state
         with the same short description.
     DatasetState:

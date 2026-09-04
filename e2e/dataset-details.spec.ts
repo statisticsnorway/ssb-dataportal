@@ -4,6 +4,7 @@ import { localization } from '@/libs/language';
 
 const route = tabsData.DataProducts.route;
 const EXAMPLE_DATASET = `${route}/arblonn/datasets/id7`;
+const VIOLATING_DATASET = `${route}/ameld/datasets/id10`;
 const DATA_FILE_NAME_VIOLATES_NAMING_STANDARD = 'invalid.parquet';
 
 test.describe('unauthenticated', () => {
@@ -19,6 +20,11 @@ test.describe('unauthenticated', () => {
   test('exclude owning team detail', async ({ page }) => {
     await page.goto(EXAMPLE_DATASET);
     await expect(page.getByText(localization.datasetDetail.responsible)).not.toBeVisible();
+  });
+
+  test('blocks dataset with naming standard violations', async ({ page }) => {
+    await page.goto(VIOLATING_DATASET);
+    await expect(page.getByRole('heading', { name: 'Siden finnes ikke' })).toBeVisible();
   });
 });
 

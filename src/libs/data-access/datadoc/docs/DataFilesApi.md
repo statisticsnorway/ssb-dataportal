@@ -35,7 +35,7 @@ async function example() {
 
   const body = {
     // CreateDaplaDataFile
-    createDaplaDataFile: {"file_path":"gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_p2022_v2.parquet"},
+    createDaplaDataFile: {"file_path":"gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person-data_p2021_p2022_v2.parquet"},
   } satisfies CreateOrUpdateDaplaDataFileRequest;
 
   try {
