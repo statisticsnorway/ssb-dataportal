@@ -69,6 +69,12 @@ export interface DaplaDataFileDTO {
      */
     file_path: string;
     /**
+     * The filename of the data file, extracted from the file path.
+     * @type {string}
+     * @memberof DaplaDataFileDTO
+     */
+    file_name: string;
+    /**
      * The name of the storage location where the data file is stored. In the case of object storage, this is the name of the bucket.
      * @type {string}
      * @memberof DaplaDataFileDTO
@@ -173,6 +179,7 @@ export interface DaplaDataFileDTO {
  */
 export function instanceOfDaplaDataFileDTO(value: object): value is DaplaDataFileDTO {
     if (!('file_path' in value) || value['file_path'] === undefined) return false;
+    if (!('file_name' in value) || value['file_name'] === undefined) return false;
     if (!('naming_standard_violations' in value) || value['naming_standard_violations'] === undefined) return false;
     return true;
 }
@@ -188,6 +195,7 @@ export function DaplaDataFileDTOFromJSONTyped(json: any, ignoreDiscriminator: bo
     return {
         
         'file_path': json['file_path'],
+        'file_name': json['file_name'],
         'storage_location_name': json['storage_location_name'] == null ? undefined : json['storage_location_name'],
         'file_type': json['file_type'] == null ? undefined : FileTypeFromJSON(json['file_type']),
         'data_last_modified_at': json['data_last_modified_at'] == null ? undefined : (new Date(json['data_last_modified_at'])),
@@ -219,6 +227,7 @@ export function DaplaDataFileDTOToJSONTyped(value?: DaplaDataFileDTO | null, ign
     return {
         
         'file_path': value['file_path'],
+        'file_name': value['file_name'],
         'storage_location_name': value['storage_location_name'],
         'file_type': FileTypeToJSON(value['file_type']),
         'data_last_modified_at': value['data_last_modified_at'] == null ? value['data_last_modified_at'] : value['data_last_modified_at'].toISOString(),

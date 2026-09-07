@@ -1,6 +1,7 @@
 'use client';
 
 import { Badge, Card, Heading, Tag } from '@digdir/designsystemet-react';
+import { notFound } from 'next/navigation';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { useTimelineData } from '@/components/data-coverage-timeline';
@@ -27,6 +28,10 @@ export default function DatasetDetail({
   dataFiles: Array<DaplaDataFileDTO>;
 }>) {
   const { isAuthenticated } = useAuthContext();
+
+  if (!isAuthenticated && dataset.has_naming_standard_violations === true) {
+    notFound();
+  }
 
   if (!isAuthenticated) {
     dataFiles = dataFiles.filter(

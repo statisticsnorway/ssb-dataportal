@@ -8,6 +8,7 @@ External representation of a Data File. A Data File is a logically defined blob 
 Name | Type
 ------------ | -------------
 `file_path` | string
+`file_name` | string
 `storage_location_name` | string
 `file_type` | [FileType](FileType.md)
 `data_last_modified_at` | Date
@@ -33,6 +34,7 @@ import type { DaplaDataFileDTO } from ''
 // TODO: Update the object below with actual values
 const example = {
   "file_path": null,
+  "file_name": null,
   "storage_location_name": null,
   "file_type": null,
   "data_last_modified_at": null,

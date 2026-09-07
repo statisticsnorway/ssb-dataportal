@@ -14,6 +14,7 @@ Name | Type
 `assessment` | [Assessment](Assessment.md)
 `dataset_state` | [DatasetState](DatasetState.md)
 `owner` | string
+`has_naming_standard_violations` | boolean
 
 ## Example
 
@@ -29,6 +30,7 @@ const example = {
   "assessment": null,
   "dataset_state": null,
   "owner": null,
+  "has_naming_standard_violations": null,
 } satisfies DatasetDTO
 
 console.log(example)

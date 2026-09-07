@@ -45,19 +45,19 @@ export interface DatasetDTO {
      * @type {string}
      * @memberof DatasetDTO
      */
-    storage_location_name?: string | null;
+    storage_location_name: string;
     /**
      * The identifier of the product this dataset belongs to, sourced from the file path.
      * @type {string}
      * @memberof DatasetDTO
      */
-    product_short_name?: string | null;
+    product_short_name: string;
     /**
      * A short description of the dataset, sourced from the file path. \[Defined in the Dapla Manual.\](https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn)
      * @type {string}
      * @memberof DatasetDTO
      */
-    short_description?: string | null;
+    short_description: string;
     /**
      * 
      * @type {Assessment}
@@ -69,13 +69,19 @@ export interface DatasetDTO {
      * @type {DatasetState}
      * @memberof DatasetDTO
      */
-    dataset_state?: DatasetState | null;
+    dataset_state: DatasetState;
     /**
      * The uniform name of the Dapla team which owns the dataset.
      * @type {string}
      * @memberof DatasetDTO
      */
     owner?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DatasetDTO
+     */
+    has_naming_standard_violations: boolean;
 }
 
 
@@ -84,6 +90,11 @@ export interface DatasetDTO {
  * Check if a given object implements the DatasetDTO interface.
  */
 export function instanceOfDatasetDTO(value: object): value is DatasetDTO {
+    if (!('storage_location_name' in value) || value['storage_location_name'] === undefined) return false;
+    if (!('product_short_name' in value) || value['product_short_name'] === undefined) return false;
+    if (!('short_description' in value) || value['short_description'] === undefined) return false;
+    if (!('dataset_state' in value) || value['dataset_state'] === undefined) return false;
+    if (!('has_naming_standard_violations' in value) || value['has_naming_standard_violations'] === undefined) return false;
     return true;
 }
 
@@ -98,12 +109,13 @@ export function DatasetDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     return {
         
         'id': json['id'] == null ? undefined : json['id'],
-        'storage_location_name': json['storage_location_name'] == null ? undefined : json['storage_location_name'],
-        'product_short_name': json['product_short_name'] == null ? undefined : json['product_short_name'],
-        'short_description': json['short_description'] == null ? undefined : json['short_description'],
+        'storage_location_name': json['storage_location_name'],
+        'product_short_name': json['product_short_name'],
+        'short_description': json['short_description'],
         'assessment': json['assessment'] == null ? undefined : AssessmentFromJSON(json['assessment']),
-        'dataset_state': json['dataset_state'] == null ? undefined : DatasetStateFromJSON(json['dataset_state']),
+        'dataset_state': DatasetStateFromJSON(json['dataset_state']),
         'owner': json['owner'] == null ? undefined : json['owner'],
+        'has_naming_standard_violations': json['has_naming_standard_violations'],
     };
 }
 
@@ -125,6 +137,7 @@ export function DatasetDTOToJSONTyped(value?: DatasetDTO | null, ignoreDiscrimin
         'assessment': AssessmentToJSON(value['assessment']),
         'dataset_state': DatasetStateToJSON(value['dataset_state']),
         'owner': value['owner'],
+        'has_naming_standard_violations': value['has_naming_standard_violations'],
     };
 }
 
