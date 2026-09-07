@@ -84,7 +84,7 @@ export const DataProductsServicePage = ({
     subjects: parseAsArrayOf(parseAsString).withDefault([]),
   });
 
-  dataProducts = dataProducts.filter((dp) => isAuthenticated || dp.has_naming_standard_violations !== true);
+  dataProducts = dataProducts.filter((dp) => isAuthenticated || dp.contains_valid_datasets !== false);
 
   const productTypeFilters = useMemo<FilterItem[]>(() => {
     const counts = countByProductType(dataProducts);
