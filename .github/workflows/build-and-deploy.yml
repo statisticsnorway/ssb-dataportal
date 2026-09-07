@@ -121,13 +121,11 @@ jobs:
         with:
           filters: |
             vardef:
-              - 'src/app/variable-definitions/**'
-              - 'src/app/(details)/variable-definitions/**'
+              - 'src/app/**/variable-definitions/**'
               - 'src/libs/data/variable-definitions/**'
               - 'src/libs/data-access/variable-definitions/**'
             klass:
-              - 'src/app/classifications/**'
-              - 'src/app/(details)/classifications/**'
+              - 'src/app/**/classifications/**'
               - 'src/libs/data/klass/**'
               - 'src/libs/data-access/klass/**'
 
