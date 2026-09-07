@@ -90,15 +90,15 @@ test.describe('unauthenticated', () => {
     await stabilize();
     const main = page.getByRole('main');
 
-    await expect(main).toContainText('1 treff');
+    await expect(main).toContainText('3 treff');
     await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
-    await expect(main).not.toContainText('Ameldingen');
-    await expect(main).not.toContainText('Arblonn');
-    await expect(main.getByRole('checkbox', { name: 'Annen dataprodukt' })).not.toBeAttached();
+    await expect(main).toContainText('Ameldingen');
+    await expect(main).toContainText('Arblonn');
+    await expect(main).not.toContainText('All data files are invalid');
   });
 
   test('Data product details page is blocked when product is filtered out', async ({ page }) => {
-    await page.goto(`${route}/ameld`);
+    await page.goto(`${route}/invalid`);
     await expect(page.getByRole('heading', { name: 'Siden finnes ikke' })).toBeVisible();
   });
 });
