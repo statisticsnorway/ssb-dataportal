@@ -192,6 +192,8 @@ jobs:
   mabl-status:
     name: Mabl status
     needs: [mabl-test, mabl-prod]
+    permissions:
+      contents: "read"
     if: always() && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
