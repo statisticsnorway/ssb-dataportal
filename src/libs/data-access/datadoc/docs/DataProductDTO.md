@@ -11,7 +11,7 @@ Name | Type
 `product_short_name` | string
 `title` | string
 `subject_code` | string
-`has_naming_standard_violations` | boolean
+`contains_valid_datasets` | boolean
 
 ## Example
 
@@ -24,7 +24,7 @@ const example = {
   "product_short_name": null,
   "title": null,
   "subject_code": null,
-  "has_naming_standard_violations": null,
+  "contains_valid_datasets": null,
 } satisfies DataProductDTO
 
 console.log(example)

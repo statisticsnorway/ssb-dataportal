@@ -56,7 +56,7 @@ export interface DataProductDTO {
      * @type {boolean}
      * @memberof DataProductDTO
      */
-    has_naming_standard_violations: boolean;
+    contains_valid_datasets: boolean;
 }
 
 
@@ -65,7 +65,7 @@ export interface DataProductDTO {
  * Check if a given object implements the DataProductDTO interface.
  */
 export function instanceOfDataProductDTO(value: object): value is DataProductDTO {
-    if (!('has_naming_standard_violations' in value) || value['has_naming_standard_violations'] === undefined) return false;
+    if (!('contains_valid_datasets' in value) || value['contains_valid_datasets'] === undefined) return false;
     return true;
 }
 
@@ -83,7 +83,7 @@ export function DataProductDTOFromJSONTyped(json: any, ignoreDiscriminator: bool
         'product_short_name': json['product_short_name'] == null ? undefined : json['product_short_name'],
         'title': json['title'] == null ? undefined : json['title'],
         'subject_code': json['subject_code'] == null ? undefined : json['subject_code'],
-        'has_naming_standard_violations': json['has_naming_standard_violations'],
+        'contains_valid_datasets': json['contains_valid_datasets'],
     };
 }
 
@@ -102,7 +102,7 @@ export function DataProductDTOToJSONTyped(value?: DataProductDTO | null, ignoreD
         'product_short_name': value['product_short_name'],
         'title': value['title'],
         'subject_code': value['subject_code'],
-        'has_naming_standard_violations': value['has_naming_standard_violations'],
+        'contains_valid_datasets': value['contains_valid_datasets'],
     };
 }
 

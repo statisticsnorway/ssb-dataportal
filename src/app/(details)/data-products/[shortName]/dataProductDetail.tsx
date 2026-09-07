@@ -30,7 +30,7 @@ export default function DataProductDetail({
   const assessmentLabelByValue = getAssessmentLabelByValue();
   const { isAuthenticated } = useAuthContext();
 
-  if (!isAuthenticated && dataProduct.has_naming_standard_violations === true) {
+  if (!isAuthenticated && dataProduct.contains_valid_datasets === false) {
     notFound();
   }
 
