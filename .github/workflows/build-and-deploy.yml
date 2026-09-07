@@ -107,3 +107,103 @@ jobs:
           DEPLOY_SERVER: deploy.ssb.cloud.nais.io:443
           WORKLOAD_IMAGE: ${{ needs.docker-build.outputs.image }}
           TELEMETRY: ${{ needs.docker-build.outputs.telemetry }}
+
+  changes:
+    name: Detect changed areas
+    runs-on: ubuntu-latest
+    outputs:
+      vardef: ${{ steps.filter.outputs.vardef }}
+      klass: ${{ steps.filter.outputs.klass }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        id: filter
+        with:
+          filters: |
+            vardef:
+              - 'src/app/variable-definitions/**'
+              - 'src/app/(details)/variable-definitions/**'
+              - 'src/libs/data/variable-definitions/**'
+              - 'src/libs/data-access/variable-definitions/**'
+            klass:
+              - 'src/app/classifications/**'
+              - 'src/app/(details)/classifications/**'
+              - 'src/libs/data/klass/**'
+              - 'src/libs/data-access/klass/**'
+
+  mabl-test:
+    name: Mabl (test)
+    needs: [deploy-test, changes]
+    if: github.event_name == 'push' && needs.deploy-test.result == 'success'
+    permissions:
+      contents: "read"
+      id-token: "write"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: vardef
+            mablLabel: postmerge-dataportal-vardef-test
+            run: ${{ needs.changes.outputs.vardef == 'true' }}
+          - label: klass
+            mablLabel: postmerge-dataportal-klass-test
+            run: ${{ needs.changes.outputs.klass == 'true' }}
+    steps:
+      - name: Run Mabl tests (test)
+        if: matrix.run == 'true'
+        uses: mablhq/github-run-tests-action@e46db148f0124be267acff561cd4d9303375852a # v1
+        env:
+          MABL_API_KEY: ${{ secrets.MABL_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          application-id: ${{ secrets.MABL_APPLICATION_ID }}
+          environment-id: ${{ secrets.MABL_ENVIRONMENT_ID_TEST }}
+          plan-labels: ${{ matrix.mablLabel }}
+          mabl-branch: ${{ github.ref_name }}
+
+  mabl-prod:
+    name: Mabl (prod)
+    needs: [deploy-prod, changes]
+    if: github.event_name == 'push' && needs.deploy-prod.result == 'success'
+    permissions:
+      contents: "read"
+      id-token: "write"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: vardef
+            mablLabel: postmerge-dataportal-vardef-prod
+            run: ${{ needs.changes.outputs.vardef == 'true' }}
+          - label: klass
+            mablLabel: postmerge-dataportal-klass-prod
+            run: ${{ needs.changes.outputs.klass == 'true' }}
+    steps:
+      - name: Run Mabl tests (prod)
+        if: matrix.run == 'true'
+        uses: mablhq/github-run-tests-action@e46db148f0124be267acff561cd4d9303375852a # v1
+        env:
+          MABL_API_KEY: ${{ secrets.MABL_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          application-id: ${{ secrets.MABL_APPLICATION_ID }}
+          environment-id: ${{ secrets.MABL_ENVIRONMENT_ID_PROD }}
+          plan-labels: ${{ matrix.mablLabel }}
+          mabl-branch: ${{ github.ref_name }}
+
+  mabl-status:
+    name: Mabl status
+    needs: [mabl-test, mabl-prod]
+    if: always() && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if any Mabl job failed
+        run: |
+          if [[ "${{ needs.mabl-test.result }}" == "failure" || "${{ needs.mabl-prod.result }}" == "failure" ]]; then
+            echo "Mabl tests failed"
+            exit 1
+          fi
+          echo "Mabl OK (test=${{ needs.mabl-test.result }}, prod=${{ needs.mabl-prod.result }})"
+
