@@ -111,6 +111,8 @@ jobs:
   changes:
     name: Detect changed areas
     runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
     outputs:
       vardef: ${{ steps.filter.outputs.vardef }}
       klass: ${{ steps.filter.outputs.klass }}
