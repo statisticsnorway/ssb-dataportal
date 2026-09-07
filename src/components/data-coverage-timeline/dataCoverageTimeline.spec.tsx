@@ -5,6 +5,7 @@ import { localization } from '@/libs/language/src/localization';
 import DataCoverageTimeline, { formatAvailableDatasets, slotOverlapsItem } from './dataCoverageTimeline';
 import { type Slot, type TimelineItem } from './types';
 import { useTimelineData } from './useTimelineData';
+import { getFileNameFromFilePath } from './utils';
 
 type BuildDataFileInput = {
   filePath: string;
@@ -15,7 +16,7 @@ type BuildDataFileInput = {
 
 const buildDataFile = ({ filePath, from, until, periodType }: BuildDataFileInput): DaplaDataFileDTO => ({
   file_path: filePath,
-  file_name: filePath.split('/').at(-1) ?? '',
+  file_name: getFileNameFromFilePath(filePath),
   naming_standard_violations: [],
   contains_data_from: from,
   contains_data_until: until,

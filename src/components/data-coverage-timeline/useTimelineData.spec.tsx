@@ -2,6 +2,7 @@ import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { type DaplaDataFileDTO, PeriodFormat } from '@/libs/data-access/datadoc';
 import { useTimelineData } from './useTimelineData';
+import { getFileNameFromFilePath } from './utils';
 
 type BuildDataFileInput = {
   filePath: string;
@@ -13,7 +14,7 @@ type BuildDataFileInput = {
 
 const buildDataFile = ({ filePath, version, from, until, periodType }: BuildDataFileInput): DaplaDataFileDTO => ({
   file_path: filePath,
-  file_name: filePath.split('/').at(-1) ?? '',
+  file_name: getFileNameFromFilePath(filePath),
   data_file_version: version ?? null,
   naming_standard_violations: [],
   contains_data_from: from ?? null,
