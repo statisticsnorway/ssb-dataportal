@@ -1,11 +1,11 @@
 'use client';
 
-import { Heading, Paragraph, Tag, Tooltip } from '@digdir/designsystemet-react';
-import { GlobeIcon } from '@navikt/aksel-icons';
+import { Heading, Paragraph } from '@digdir/designsystemet-react';
 import { usePathname } from 'next/navigation';
 import { SubscribeDialog } from '@/app/(details)/classifications/components/subscribe';
 import { ClosableAlert } from '@/components/alerts';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
+import LanguageTag from '@/components/language-tag';
 import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
@@ -53,12 +53,10 @@ export default function ClassificationDetail({
       <main className={styles.mainContent}>
         {classification.fallbackLanguage && (
           <div>
-            <Tooltip content={localization.classification.language.notSelectedLanguage}>
-              <Tag data-size='lg' tabIndex={0}>
-                <GlobeIcon aria-hidden='true' focusable='false' />
-                {formatLanguages(classification.fallbackLanguage)}
-              </Tag>
-            </Tooltip>
+            <LanguageTag
+              tooltipContent={localization.classification.language.notSelectedLanguage}
+              title={formatLanguages(classification.fallbackLanguage)}
+            />
           </div>
         )}
         <Heading

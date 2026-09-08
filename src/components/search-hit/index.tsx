@@ -1,6 +1,6 @@
-import { Card, Heading, Link, Paragraph, Tag, Tooltip } from '@digdir/designsystemet-react';
-import { GlobeIcon } from '@navikt/aksel-icons';
+import { Card, Heading, Link, Paragraph } from '@digdir/designsystemet-react';
 import { ReactNode } from 'react';
+import LanguageTag from '@/components/language-tag';
 import { localization, SupportedLanguage } from '@/libs/language';
 import { formatLanguages } from '@/utils/functions';
 import styles from './search-hit.module.css';
@@ -18,12 +18,10 @@ const SearchHit = ({ title, href, description, tagsList, fallbackLanguage }: Sea
     <Card aria-label={title} role='article'>
       {fallbackLanguage && (
         <div className={styles.hasNotValueInSelectedLanguage}>
-          <Tooltip content={localization.classification.language.notSelectedLanguage}>
-            <Tag data-size='lg' className={styles.languageTag} tabIndex={0}>
-              <GlobeIcon aria-hidden='true' focusable='false' />
-              {formatLanguages(fallbackLanguage)}
-            </Tag>
-          </Tooltip>
+          <LanguageTag
+            tooltipContent={localization.classification.language.notSelectedLanguage}
+            title={formatLanguages(fallbackLanguage)}
+          />
         </div>
       )}
       {href && title ? (

@@ -1,6 +1,9 @@
 import { Alert, Spinner } from '@digdir/designsystemet-react';
 import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
+import { mapChanges } from '@/app/(details)/classifications/utils/details';
+import { buildDownloadHref } from '@/app/(details)/classifications/utils/download-urls';
+import LanguageTag from '@/components/language-tag';
 import { fetchChanges } from '@/libs/data/classifications/codesData';
 import {
   ClassificationResource,
@@ -13,12 +16,9 @@ import { SupportedLanguages } from '@/libs/data-access/variable-definitions/inte
 import { localization } from '@/libs/language';
 import { getDayBeforeDate } from '@/utils/dates';
 import { sortDatesDescendingSafe } from '@/utils/sort';
-import { mapChanges } from '../../utils/details';
-import { buildDownloadHref } from '../../utils/download-urls';
 import { ClassificationTable } from '../classification-table';
 import { CorrespondenceTable } from '../correspondence-table';
 import { ExpandableTable } from '../expandable-table';
-import LanguageTag from '../language-tag';
 import styles from './views.module.css';
 
 export default function ChangesView({
@@ -122,7 +122,13 @@ export default function ChangesView({
         ariaLabel={localization.classification.about.changelog}
         title={
           <span className={styles.changelogTitle}>
-            {localization.classification.about.changelog} {isEnglish && <LanguageTag />}
+            {localization.classification.about.changelog}{' '}
+            {isEnglish && (
+              <LanguageTag
+                tooltipContent={localization.classification.language.contentChangelog}
+                title={localization.classification.about.langNO}
+              />
+            )}
           </span>
         }
         table={
