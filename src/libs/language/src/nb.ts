@@ -107,6 +107,7 @@ export const nb = {
       owner: 'Eier',
       ownerSection: 'Eierseksjon',
       noVariants: 'Denne versjonen har ingen varianter',
+      numberOfCodesAndLevels: 'Varianten inneholder {numberOfCodes} koder fordelt over {numberOfLevels} {level}.',
       variantHeading: 'Varianter',
       variantInfo:
         'En variant baserer seg på en klassifikasjonsversjon, og innebærer en omgruppering, utvidelse eller reduksjon av elementene i denne.',

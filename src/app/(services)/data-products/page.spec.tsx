@@ -50,7 +50,7 @@ describe('DataProductsPage', () => {
 
   it('passes data products and subject fields to the service page', async () => {
     vi.mocked(listDataProducts).mockResolvedValue([
-      { product_short_name: 'arbstatus', has_naming_standard_violations: false },
+      { product_short_name: 'arbstatus', contains_valid_datasets: false },
     ]);
     vi.mocked(fetchSubjectFieldFilterValues).mockResolvedValue([
       {

@@ -130,11 +130,16 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
   return (
     <div className={styles.wrapper}>
       <p>
-        {localization.formatString(localization.versions.numberOfCodesAndLevels, {
-          numberOfCodes: codes.length,
-          numberOfLevels: version.levels?.length ?? '?',
-          level: version.levels?.length === 1 ? localization.versions.level : localization.versions.levelPlural,
-        })}
+        {localization.formatString(
+          isVariantDownload
+            ? localization.classification.variant.numberOfCodesAndLevels
+            : localization.versions.numberOfCodesAndLevels,
+          {
+            numberOfCodes: codes.length,
+            numberOfLevels: version.levels?.length ?? '?',
+            level: version.levels?.length === 1 ? localization.versions.level : localization.versions.levelPlural,
+          },
+        )}
       </p>
       <ExpandableTable
         title={localization.classification.about.levels}

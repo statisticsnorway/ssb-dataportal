@@ -111,6 +111,7 @@ export const en = {
       owner: 'Owner',
       ownerSection: 'Owner section',
       noVariants: 'This version has no variants',
+      numberOfCodesAndLevels: 'The variant contains {numberOfCodes} codes distributed over {numberOfLevels} {level}.',
       variantHeading: 'Variants',
       variantInfo:
         "A variant is based on a classification version and represents an alternative grouping, an expansion, or a reduction of it's codes.",
