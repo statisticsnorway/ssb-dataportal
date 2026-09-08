@@ -5,11 +5,12 @@ interface ExpandableTableProps {
   table?: React.ReactNode;
   message?: string;
   title?: string | React.ReactNode;
+  ariaLabel?: string;
 }
-const ExpandableTable = ({ table, title, message }: ExpandableTableProps) => {
+const ExpandableTable = ({ table, title, message, ariaLabel }: ExpandableTableProps) => {
   return (
     <Card className={styles.card}>
-      <Details className={styles.details}>
+      <Details className={styles.details} aria-label={ariaLabel}>
         {title && <DetailsSummary>{title}</DetailsSummary>}
         {table && <span className={styles.table}>{table}</span>}
         {message && <Paragraph lang='no'>{message}</Paragraph>}

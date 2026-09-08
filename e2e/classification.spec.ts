@@ -225,4 +225,3 @@ test.describe('Classification - information Klass moved', () => {
     await expect(page.getByRole('status')).not.toBeVisible();
   });
 });
-

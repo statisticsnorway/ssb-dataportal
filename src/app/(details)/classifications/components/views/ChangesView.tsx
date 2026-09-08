@@ -119,6 +119,7 @@ export default function ChangesView({
   return (
     <div className={styles.wrapper}>
       <ExpandableTable
+        ariaLabel={localization.classification.about.changelog}
         title={
           <span className={styles.changelogTitle}>
             {localization.classification.about.changelog} {isEnglish && <LanguageTag />}
