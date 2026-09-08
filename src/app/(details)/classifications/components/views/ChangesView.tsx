@@ -17,6 +17,7 @@ import { buildDownloadHref } from '../../utils/download-urls';
 import { ClassificationTable } from '../classification-table';
 import { CorrespondenceTable } from '../correspondence-table';
 import { ExpandableTable } from '../expandable-table';
+import LanguageTag from '../language-tag';
 import styles from './views.module.css';
 
 export default function ChangesView({
@@ -116,7 +117,11 @@ export default function ChangesView({
   return (
     <div className={styles.wrapper}>
       <ExpandableTable
-        title={localization.classification.about.changelog}
+        title={
+          <>
+            {localization.classification.about.changelog} <LanguageTag />
+          </>
+        }
         table={
           version?.changelogs?.length ? (
             <ClassificationTable
