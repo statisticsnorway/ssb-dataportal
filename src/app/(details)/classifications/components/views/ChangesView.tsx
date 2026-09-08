@@ -9,6 +9,7 @@ import {
   CorrespondenceMapResource,
   VersionsLanguageEnum,
 } from '@/libs/data-access/klass';
+import { SupportedLanguages } from '@/libs/data-access/variable-definitions/internal/models/SupportedLanguages';
 import { localization } from '@/libs/language';
 import { getDayBeforeDate } from '@/utils/dates';
 import { sortDatesDescendingSafe } from '@/utils/sort';
@@ -42,6 +43,7 @@ export default function ChangesView({
 
   const [changes, setChanges] = useState<CodeChangeItem[] | null>(null);
 
+  const isEnglish = localization.getLanguage() === SupportedLanguages.En;
   useEffect(() => {
     if (!hasPreviousVersion || !changesFrom || classification.id === undefined) {
       return;
@@ -118,9 +120,9 @@ export default function ChangesView({
     <div className={styles.wrapper}>
       <ExpandableTable
         title={
-          <>
-            {localization.classification.about.changelog} <LanguageTag />
-          </>
+          <span className={styles.changelogTitle}>
+            {localization.classification.about.changelog} {isEnglish && <LanguageTag />}
+          </span>
         }
         table={
           version?.changelogs?.length ? (
@@ -128,6 +130,7 @@ export default function ChangesView({
               content={version.changelogs
                 .toSorted((cl1, cl2) => sortDatesDescendingSafe(cl1.changeOccured, cl2.changeOccured))
                 .map((c) => mapChanges(c))}
+              onlyInNorwegian={true}
             />
           ) : undefined
         }
