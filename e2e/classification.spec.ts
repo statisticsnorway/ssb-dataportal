@@ -225,3 +225,15 @@ test.describe('Classification - information Klass moved', () => {
     await expect(page.getByRole('status')).not.toBeVisible();
   });
 });
+
+test.describe('Changelog is only in norwegian', () => {
+  const classification = parseClassification(classifications[0]);
+
+  test('html sets correct lang no', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage(classification.id!);
+  });
+
+  test('language tag only visible in english', async ({ classificationDetailsPage }) => {
+    const page = await classificationDetailsPage(classification.id!);
+  });
+});
