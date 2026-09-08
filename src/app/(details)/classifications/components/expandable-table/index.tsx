@@ -7,6 +7,15 @@ interface ExpandableTableProps {
   title?: string | React.ReactNode;
   ariaLabel?: string;
 }
+
+/**
+ * ExpandableTable component renders a table inside a collapsible card.
+ *
+ * @param table - The table content to display inside the expandable section.
+ * @param title - The title of the expandable section.
+ * @param message - A message to display when the table is not available.
+ * @param ariaLabel - The aria-label for the details element for accessibility.
+ */
 const ExpandableTable = ({ table, title, message, ariaLabel }: ExpandableTableProps) => {
   return (
     <Card className={styles.card}>
