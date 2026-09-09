@@ -40,6 +40,7 @@ export const en = {
       langEN: 'English',
       langNB: 'Norwegian (Bokmål)',
       langNN: 'Norwegian (Nynorsk)',
+      langNO: 'Norwegian',
       legalBasis: 'Legal basis',
       publications: 'Publications',
       unitTypes: 'Unit types',
@@ -62,6 +63,7 @@ export const en = {
       displayedInLanguage: 'This classification is displayed in {language}',
       missingInSelectedLanguage:
         'This classification is missing content in the selected language, please select another language.',
+      contentChangelog: 'The changelog is only available in Norwegian',
     },
     view: 'View classification',
     type: 'Type',
