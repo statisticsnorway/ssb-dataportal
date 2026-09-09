@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { SubscribeDialog } from '@/app/(details)/classifications/components/subscribe';
 import { ClosableAlert } from '@/components/alerts';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
-import LanguageTag from '@/components/language-tag';
+import { LanguageTag } from '@/components/language-tag';
 import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';

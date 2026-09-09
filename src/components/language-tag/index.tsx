@@ -21,4 +21,4 @@ const LanguageTag = ({ tooltipContent, title }: LanguageTagProps) => {
   );
 };
 
-export default LanguageTag;
+export { LanguageTag };

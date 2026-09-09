@@ -3,7 +3,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { mapChanges } from '@/app/(details)/classifications/utils/details';
 import { buildDownloadHref } from '@/app/(details)/classifications/utils/download-urls';
-import LanguageTag from '@/components/language-tag';
+import { LanguageTag } from '@/components/language-tag';
 import { fetchChanges } from '@/libs/data/classifications/codesData';
 import {
   ClassificationResource,

@@ -1,6 +1,6 @@
 import { Card, Heading, Link, Paragraph } from '@digdir/designsystemet-react';
 import { ReactNode } from 'react';
-import LanguageTag from '@/components/language-tag';
+import { LanguageTag } from '@/components/language-tag';
 import { localization, SupportedLanguage } from '@/libs/language';
 import { formatLanguages } from '@/utils/functions';
 import styles from './search-hit.module.css';
