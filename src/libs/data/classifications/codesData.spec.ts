@@ -156,6 +156,7 @@ describe('fetchCodesDownload', () => {
       from: new Date('2020-01-01'),
       language: 'nb',
       format: 'csv',
+      includeFuture: true,
     });
 
     expect(result.mimeType).toContain('text/csv');

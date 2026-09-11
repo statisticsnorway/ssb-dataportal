@@ -177,6 +177,7 @@ export async function fetchAllClassifications(
 export async function fetchClassificationForLanguage(
   id: number,
   language: SupportedLanguage | undefined = 'nb',
+  includeFuture: boolean,
 ): Promise<ClassificationResource | null> {
   let classification: ClassificationResource;
   const logger = createLogger('classification-data');
@@ -189,6 +190,7 @@ export async function fetchClassificationForLanguage(
     const params = {
       id,
       language: language.toUpperCase() as ClassificationsLanguageEnum,
+      includeFuture: includeFuture,
     } satisfies ClassificationRequest;
 
     try {
@@ -214,6 +216,7 @@ export async function fetchClassificationForLanguage(
 const fetchClassificationByIdCached = cache(async function fetchClassificationByIdCached(
   id: number,
   language: SupportedLanguage | undefined = 'nb',
+  includeFuture: boolean,
 ): Promise<ClassificationWithLanguage> {
   const logger = createLogger('classification-data');
 
@@ -227,7 +230,7 @@ const fetchClassificationByIdCached = cache(async function fetchClassificationBy
   const results = await Promise.all(
     languages.map(async (lang) => {
       try {
-        const resource = await fetchClassificationForLanguage(id, lang);
+        const resource = await fetchClassificationForLanguage(id, lang, includeFuture);
         return resource ? toEntry(resource, lang, language) : null;
       } catch (error) {
         logger.warn({ id, lang, error: String(error) }, 'Classification fetch failed for language');
@@ -245,6 +248,7 @@ const fetchClassificationByIdCached = cache(async function fetchClassificationBy
 export async function fetchClassificationById(
   id: number,
   language: SupportedLanguage | undefined = 'nb',
+  includeFuture: boolean = false,
 ): Promise<ClassificationWithLanguage> {
-  return fetchClassificationByIdCached(id, language);
+  return fetchClassificationByIdCached(id, language, includeFuture);
 }

@@ -5,6 +5,7 @@ import {
   CorrespondenceTableResourceFromJSONTyped,
   CorrespondenceTablesApi,
   CorrespondenceTablesLanguageEnum,
+  CorrespondenceTablesRequest,
 } from '@/libs/data-access/klass';
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
 import { SupportedLanguage } from '@/libs/language';
@@ -135,7 +136,7 @@ export async function fetchCorrespondenceDownload({
     const params = {
       id: tableId,
       language: toKlassLanguage(language),
-    };
+    } satisfies CorrespondenceTablesRequest;
 
     const response = await api.correspondenceTablesRaw(params, async ({ init }) => ({
       ...init,

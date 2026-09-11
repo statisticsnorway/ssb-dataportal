@@ -21,7 +21,7 @@ export default async function VersionLayout({
 
   let versionResource;
   try {
-    versionResource = await fetchVersionById(versionId, language);
+    versionResource = await fetchVersionById(versionId, language, true);
   } catch (error) {
     logger.error({ error, versionId }, 'Failed to fetch version by id');
     return notFound();

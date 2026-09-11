@@ -72,7 +72,7 @@ export function VersionView({
     }
 
     let cancelled = false;
-    fetchVersionById(resolvedVersionId, localization.getLanguage() as 'nb' | 'nn' | 'en').then((result) => {
+    fetchVersionById(resolvedVersionId, localization.getLanguage() as 'nb' | 'nn' | 'en', true).then((result) => {
       if (!cancelled) {
         setDisplayedVersion(result ?? null);
       }
