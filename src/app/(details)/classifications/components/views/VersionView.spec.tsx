@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
+import { localization } from '@/libs/language';
 import { VersionView } from './VersionView';
 
 const mocks = vi.hoisted(() => ({
@@ -144,7 +145,7 @@ describe('VersionView', () => {
       </VersionView>,
     );
 
-    expect(screen.getByText('Dette er ikke dagens versjon av klassifikasjonen')).toBeVisible();
+    expect(screen.getByText(localization.versions.isNotValid)).toBeVisible();
   });
 
   it('prefetches changes for a specific version', async () => {
