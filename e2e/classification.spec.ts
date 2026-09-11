@@ -98,7 +98,7 @@ test.describe('All versions table on classification page', () => {
     await expect(page.getByRole('cell', { name: formatDate(olderVersion?.validFrom) })).toBeVisible();
     await expect(page.getByRole('cell', { name: formatDate(olderVersion?.validTo) }).nth(1)).toBeVisible();
     await expect(page.getByRole('cell', { name: formatDate(currentVersion?.validFrom) }).first()).toBeVisible();
-    await expect(page.getByRole('cell', { name: localization.versions.now })).toBeVisible();
+    await expect(page.getByRole('cell', { name: localization.noDataPlaceholder })).toBeVisible();
   });
 
   test('links to other versions', async ({ classificationDetailsPage }) => {

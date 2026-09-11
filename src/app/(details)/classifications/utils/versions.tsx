@@ -52,6 +52,6 @@ export const mapVersions = (
   },
   {
     label: localization.validity.validTo,
-    value: v ? (v.validTo ?? localization.versions.now) : '',
+    value: v ? (v.validTo ?? localization.noDataPlaceholder) : '',
   },
 ];

@@ -479,7 +479,6 @@ export const nn = {
   versions: {
     name: 'Namn',
     invert: 'Inverter tabell',
-    now: 'No',
     tags: {
       isLatest: 'Gjeldande versjon:',
       isNotCurrent: 'Dette er ikkje dagens versjon av klassifikasjonen',

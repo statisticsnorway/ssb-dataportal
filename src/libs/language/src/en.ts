@@ -483,7 +483,6 @@ export const en = {
   versions: {
     name: 'Name',
     invert: 'Invert table',
-    now: 'Now',
     tags: {
       isLatest: 'Current version:',
       isNotCurrent: 'This is not the current version of the classification',
