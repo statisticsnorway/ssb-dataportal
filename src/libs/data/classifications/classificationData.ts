@@ -177,7 +177,7 @@ export async function fetchAllClassifications(
 export async function fetchClassificationForLanguage(
   id: number,
   language: SupportedLanguage | undefined = 'nb',
-  includeFuture: boolean,
+  includeFuture: boolean = false,
 ): Promise<ClassificationResource | null> {
   let classification: ClassificationResource;
   const logger = createLogger('classification-data');
@@ -216,7 +216,7 @@ export async function fetchClassificationForLanguage(
 const fetchClassificationByIdCached = cache(async function fetchClassificationByIdCached(
   id: number,
   language: SupportedLanguage | undefined = 'nb',
-  includeFuture: boolean,
+  includeFuture: boolean = false,
 ): Promise<ClassificationWithLanguage> {
   const logger = createLogger('classification-data');
 

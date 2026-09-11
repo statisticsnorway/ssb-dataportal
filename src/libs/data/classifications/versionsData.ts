@@ -34,7 +34,7 @@ async function getKlassVersionsClient(): Promise<VersionsApi> {
 const fetchVersionByIdCached = cache(async function fetchVersionByIdCached(
   id: number,
   language: SupportedLanguage | undefined = 'nb',
-  includeFuture: boolean,
+  includeFuture: boolean = false,
 ): Promise<ClassificationVersionResource | undefined> {
   const logger = createLogger('classification-versions-data');
   const api = await getKlassVersionsClient();
@@ -76,7 +76,7 @@ const fetchVersionByIdCached = cache(async function fetchVersionByIdCached(
 export async function fetchVersionById(
   id: number,
   language: SupportedLanguage | undefined = 'nb',
-  includeFuture: boolean,
+  includeFuture: boolean = false,
 ): Promise<ClassificationVersionResource | undefined> {
   return fetchVersionByIdCached(id, language, includeFuture);
 }
