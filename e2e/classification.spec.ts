@@ -7,6 +7,7 @@ import { expect, test } from './fixtures/classification.fixture';
 import { CODES_PREV_VERSION_URL, CODES_PREV_VERSION_URL_CODES, formatDate, switchLanguage } from './utils/commonUtils';
 import { languageButton } from './utils/variables';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
+import { fetchVersionById } from '@/libs/data/classifications/versionsData';
 
 const classifications = classificationMock.classifications;
 const versions = versionsMock.versions;
@@ -114,6 +115,25 @@ test.describe('All versions table on classification page', () => {
     await expect(link).toBeVisible();
     await link.click();
     await expect(page).toHaveURL(CODES_PREV_VERSION_URL_CODES);
+  });
+
+  test('future versions are available', async ({ classificationDetailsPage }) => {
+    const futureVersion = versions.find((version) => version.id === 1698);
+    const page = await classificationDetailsPage(91);
+    await page.getByText(localization.classificationDetails.versions).click();
+
+    const link = page
+      .getByRole('table')
+      .getByRole('row')
+      .filter({ hasText: futureVersion?.name })
+      .getByRole('link', { name: futureVersion?.name });
+
+    await expect(link).toBeVisible();
+    await link.click();
+    const heading = page.getByRole('heading', { level: 2, name: futureVersion!.name });
+    await expect(heading).toBeVisible();
+    await expect(heading).toHaveText(futureVersion!.name);
+    await expect(page.getByText(futureVersion!.introduction!)).toBeVisible();
   });
 });
 
