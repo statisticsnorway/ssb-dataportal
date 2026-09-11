@@ -140,21 +140,20 @@ jobs:
       matrix:
         include:
           - label: vardef
-            mablLabel: postmerge-dataportal-vardef-test
+            mablLabel: post-merge-vardef
             run: ${{ needs.changes.outputs.vardef == 'true' }}
           - label: klass
-            mablLabel: postmerge-dataportal-klass-test
+            mablLabel: post-merge-klass
             run: ${{ needs.changes.outputs.klass == 'true' }}
     steps:
       - name: Run Mabl tests (test)
-        if: matrix.run == 'true'
+        if: matrix.run
         uses: mablhq/github-run-tests-action@e46db148f0124be267acff561cd4d9303375852a # v1
         env:
           MABL_API_KEY: ${{ secrets.MABL_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          application-id: ${{ secrets.MABL_APPLICATION_ID }}
-          environment-id: ${{ secrets.MABL_ENVIRONMENT_ID_TEST }}
+          application-id: ${{ secrets.MABL_APPLICATION_ID_TEST }}
           plan-labels: ${{ matrix.mablLabel }}
           mabl-branch: ${{ github.ref_name }}
 
@@ -173,4 +172,3 @@ jobs:
             exit 1
           fi
           echo "Mabl OK (test=${{ needs.mabl-test.result }})"
-
