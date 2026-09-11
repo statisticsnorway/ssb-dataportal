@@ -12,7 +12,6 @@ export type ResolvedVersion = NonNullable<ClassificationResource['versions']>[nu
 type BaseVersionContextType = {
   classification: ClassificationResource;
   versionSummary: ClassificationVersionSummaryResource;
-  isLatest: boolean;
 };
 
 export type VersionContextType = BaseVersionContextType & {
@@ -25,18 +24,13 @@ const VersionResourceContext = createContext<ClassificationVersionResource | nul
 export function VersionProvider({
   classification,
   versionSummary,
-  isLatest,
   children,
 }: Readonly<{
   classification: ClassificationResource;
   versionSummary: ClassificationVersionSummaryResource;
-  isLatest: boolean;
   children: React.ReactNode;
 }>) {
-  const value = useMemo(
-    () => ({ classification, versionSummary, isLatest }),
-    [classification, versionSummary, isLatest],
-  );
+  const value = useMemo(() => ({ classification, versionSummary }), [classification, versionSummary]);
 
   return <BaseVersionContext.Provider value={value}>{children}</BaseVersionContext.Provider>;
 }

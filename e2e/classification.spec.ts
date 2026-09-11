@@ -24,7 +24,7 @@ test('Outdated versions display alert', async ({ classificationDetailsPage }) =>
   const classification = parseClassification(classifications[0]);
   const page = await classificationDetailsPage(classification.id!);
   await page.goto(CODES_PREV_VERSION_URL);
-  const alert = page.getByText(localization.versions.tags.isNotCurrent);
+  const alert = page.getByText(localization.versions.isNotValid);
   await expect(alert).toBeVisible();
 });
 

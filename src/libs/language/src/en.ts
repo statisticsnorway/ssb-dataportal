@@ -483,10 +483,7 @@ export const en = {
   versions: {
     name: 'Name',
     invert: 'Invert table',
-    tags: {
-      isLatest: 'Current version:',
-      isNotCurrent: 'This is not the current version of the classification',
-    },
+    isNotValid: "This version is not valid on today's date.",
     noChanges: 'No changes to codes for this version',
     numberOfCodesAndLevels: 'This version contains {numberOfCodes} codes organized into {numberOfLevels} {level}.',
     level: 'level',

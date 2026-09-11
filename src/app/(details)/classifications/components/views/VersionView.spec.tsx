@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { VersionView } from './VersionView';
 
@@ -59,21 +59,31 @@ vi.mock('@digdir/designsystemet-react', async (importOriginal) => {
 const classification = {
   id: 104,
   versions: [
-    { id: 10, name: 'Old version', validFrom: new Date('2020-01-01') },
+    { id: 10, name: 'Old version', validFrom: new Date('2020-01-01'), validTo: new Date('2024-12-31') },
     { id: 20, name: 'Latest version', validFrom: new Date('2025-01-01') },
   ],
 };
 
 describe('VersionView', () => {
   beforeEach(() => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    vi.setSystemTime(new Date('2026-06-15T10:00:00Z'));
+
     vi.clearAllMocks();
     mocks.pathname = buildUrl({ classificationId: 104, versionId: 10 });
     fetchVersionByIdMock.mockResolvedValue(undefined);
   });
 
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it('redirects a bare version route to its codes tab', async () => {
     render(
-      <VersionView classification={classification}>
+      <VersionView
+        classification={classification}
+        classificationVersion={{ id: 10, introduction: 'Old version introduction' }}
+      >
         <div>Codes</div>
       </VersionView>,
     );
@@ -120,6 +130,21 @@ describe('VersionView', () => {
     expect(screen.getByText('Latest version')).toBeVisible();
     await waitFor(() => expect(mocks.prefetch).toHaveBeenCalledWith('/classifications/104/changes'));
     expect(mocks.replace).not.toHaveBeenCalled();
+  });
+
+  it('shows warning when selected version is not valid today', () => {
+    mocks.pathname = buildUrl({ classificationId: 104, versionId: 10, tab: 'codes' });
+
+    render(
+      <VersionView
+        classification={classification}
+        classificationVersion={{ id: 10, introduction: 'Old version introduction' }}
+      >
+        <div>Codes</div>
+      </VersionView>,
+    );
+
+    expect(screen.getByText('Dette er ikke dagens versjon av klassifikasjonen')).toBeVisible();
   });
 
   it('prefetches changes for a specific version', async () => {

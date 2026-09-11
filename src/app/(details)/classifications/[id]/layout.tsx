@@ -9,6 +9,7 @@ import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import ClassificationDetail from '../components/classificationDetail';
 import { VersionProvider, VersionResourceLayer } from '../components/versionContext';
+import { resolveDefaultVersion } from '../utils/versionSelection';
 
 export const getRequestLanguage = cache(async () => {
   const cookieStore = await cookies();
@@ -73,28 +74,25 @@ export default async function ClassificationLayout({
     }
   }
 
-  const latestSummary = [...(classification.versions ?? [])].sort(
-    (a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0),
-  )[0];
+  const today = new Date();
+  const defaultVersion = resolveDefaultVersion(classification.versions ?? [], today);
 
-  if (!latestSummary) {
+  if (!defaultVersion) {
     return notFound();
   }
 
-  const versionSummary =
+  const resolvedVersion =
     requestedVersionId !== undefined
       ? classification.versions?.find((version) => version.id === requestedVersionId)
-      : latestSummary;
+      : defaultVersion;
 
-  if (!versionSummary) {
+  if (!resolvedVersion) {
     return notFound();
   }
-
-  const isLatest = latestSummary.id === versionSummary.id;
 
   let latestVersionResource;
   try {
-    const resourceId = requestedVersionId ?? latestSummary.id;
+    const resourceId = requestedVersionId ?? defaultVersion.id;
     latestVersionResource = resourceId != null ? await fetchVersionById(resourceId, language, true) : null;
   } catch (error) {
     logger.error({ id, error: sanitizeError(error) }, 'Failed to fetch latest version resource');
@@ -112,7 +110,7 @@ export default async function ClassificationLayout({
   );
 
   return (
-    <VersionProvider classification={classification} versionSummary={versionSummary} isLatest={isLatest}>
+    <VersionProvider classification={classification} versionSummary={resolvedVersion}>
       <VersionResourceLayer versionResource={latestVersionResource ?? undefined}>
         <ClassificationDetail
           classification={classification}
