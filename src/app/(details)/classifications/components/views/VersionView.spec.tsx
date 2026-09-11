@@ -200,7 +200,7 @@ describe('VersionView', () => {
       </VersionView>,
     );
 
-    await waitFor(() => expect(fetchVersionByIdMock).toHaveBeenCalledWith(20, expect.any(String)));
+    await waitFor(() => expect(fetchVersionByIdMock).toHaveBeenCalledWith(20, expect.any(String), true));
     await waitFor(() => expect(screen.getByText('Latest version introduction')).toBeVisible());
   });
 });
