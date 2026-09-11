@@ -482,10 +482,7 @@ export const nb = {
   versions: {
     name: 'Navn',
     invert: 'Inverter tabell',
-    tags: {
-      isLatest: 'Gjeldende versjon:',
-      isNotCurrent: 'Dette er ikke dagens versjon av klassifikasjonen',
-    },
+    isNotValid: 'Versjonen er ikke gyldig på dagens dato.',
     noChanges: 'Ingen kodeendringer finnes for den aktuelle versjonen.',
     numberOfCodesAndLevels: 'Versjonen inneholder {numberOfCodes} koder fordelt over {numberOfLevels} {level}.',
     level: 'nivå',

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import '@testing-library/jest-dom/vitest';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => ({
   fetchClassificationById: vi.fn(),
@@ -96,6 +96,9 @@ async function importLayoutModule() {
 
 describe('classification [id] layout', () => {
   beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-06-15T10:00:00Z'));
+
     vi.resetModules();
     vi.clearAllMocks();
     vi.unstubAllEnvs();
@@ -107,6 +110,10 @@ describe('classification [id] layout', () => {
     mocks.headers.mockResolvedValue({
       get: () => 'nb-NO',
     });
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('generateMetadata returns classification name when found', async () => {
@@ -153,6 +160,30 @@ describe('classification [id] layout', () => {
     expect(screen.getByTestId('version-layer')).toHaveAttribute('data-version-id', '20');
     expect(screen.getByTestId('classification-detail')).toBeInTheDocument();
     expect(screen.getByText('child content')).toBeInTheDocument();
+  });
+
+  it('renders detail page with version valid on today over newer future versions', async () => {
+    mocks.fetchClassificationById.mockResolvedValue({
+      name: 'Classification A',
+      versions: [
+        { id: 10, validFrom: new Date('2020-01-01'), validTo: new Date('2024-12-31') },
+        { id: 20, validFrom: new Date('2025-01-01') },
+        { id: 30, validFrom: new Date('2099-01-01') },
+      ],
+    });
+    mocks.fetchVersionById.mockResolvedValue({ id: 20 });
+
+    const mod = await importLayoutModule();
+    const element = await mod.default({
+      children: <div>child content</div>,
+      download: null,
+      params: Promise.resolve({ id: '7' }),
+    });
+
+    render(element);
+
+    expect(mocks.fetchVersionById).toHaveBeenCalledWith(20, 'nb', true);
+    expect(screen.getByTestId('version-layer')).toHaveAttribute('data-version-id', '20');
   });
 
   it('calls notFound instead of falling back to the latest version for an unknown version', async () => {

@@ -12,6 +12,7 @@ import { localization } from '@/libs/language';
 import { formatLocaleDate } from '@/utils/functions';
 import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from '../../[id]/tabs';
 import { BuildUrlProps, buildUrl } from '../../utils/urls';
+import { isVersionValidOnDate, resolveDefaultVersion } from '../../utils/versionSelection';
 import { ResolvedVersion, VersionProvider } from '../versionContext';
 import styles from './views.module.css';
 
@@ -24,15 +25,15 @@ interface VersionViewProps {
 
 type ResolvedVersionResult = {
   version: ResolvedVersion;
-  isLatest: boolean;
+  isDefault: boolean;
 };
 
 type TabSlug = NonNullable<BuildUrlProps['tab']>;
 
 function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): ResolvedVersionResult | null {
   const sorted = [...versions].sort((a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0));
-  const latest = sorted.at(0);
-  if (!latest) return null;
+  const defaultVersion = resolveDefaultVersion(sorted, new Date());
+  if (!defaultVersion) return null;
 
   const segments = pathname.split('/').filter(Boolean);
   const versionIndex = segments.indexOf('versions');
@@ -42,10 +43,10 @@ function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): 
     if (!Number.isInteger(versionId)) return null;
 
     const version = sorted.find((v) => v.id === versionId);
-    return version ? { version, isLatest: latest.id === versionId } : null;
+    return version ? { version, isDefault: defaultVersion.id === versionId } : null;
   }
 
-  return { version: latest, isLatest: true };
+  return { version: defaultVersion, isDefault: true };
 }
 
 export function VersionView({
@@ -99,9 +100,10 @@ export function VersionView({
   }
 
   const tabs = Object.values(classificationDetailsTabsData);
+  const isVersionValidToday = isVersionValidOnDate(resolved.version, new Date());
 
   const getTabUrl = (tab: TabSlug) =>
-    resolved.isLatest
+    resolved.isDefault
       ? buildUrl({ classificationId: classification.id, tab })
       : buildUrl({ classificationId: classification.id, versionId: resolved.version.id, tab });
 
@@ -114,14 +116,14 @@ export function VersionView({
 
     // Changes can take 6s or more to load in so prefetch this to avoid the user having to wait on tab access
     router.prefetch(getTabUrl(classificationDetailsTabsData.Changes.slug));
-  }, [router, pathname, classification.id, resolved.isLatest, resolved.version.id]);
+  }, [router, pathname, classification.id, resolved.isDefault, resolved.version.id]);
 
   return (
-    <VersionProvider classification={classification} versionSummary={resolved.version} isLatest={resolved.isLatest}>
+    <VersionProvider classification={classification} versionSummary={resolved.version}>
       <Divider data-version-divider />
-      {!resolved?.isLatest && (
-        <Alert data-color={'danger'} role='status'>
-          {localization.versions.tags.isNotCurrent}
+      {!isVersionValidToday && (
+        <Alert data-color={'warning'} role='status'>
+          {localization.versions.isNotValid}
         </Alert>
       )}
       <Heading

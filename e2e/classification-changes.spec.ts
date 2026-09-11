@@ -7,10 +7,21 @@ import versionsMock from '@/static-data/versions.json';
 const currentVersion = versionsMock.versions![0];
 
 const CHANGES_CLASSIFICATION_ID = 91;
+const CHANGES_VERSION_ID = 363;
 const NO_CHANGES_CLASSIFICATION_ID = 2003;
 
-async function openChangesTab(classificationDetailsPage: (id: string | number) => Promise<Page>, id: number) {
+async function openChangesTab(
+  classificationDetailsPage: (id: string | number) => Promise<Page>,
+  id: number,
+  versionId?: number,
+) {
   const page = await classificationDetailsPage(id);
+  if (versionId !== undefined) {
+    await page.goto(buildUrl({ classificationId: id, versionId, tab: 'changes' }), { waitUntil: 'domcontentloaded' });
+    await expect(page).toHaveURL(buildUrl({ classificationId: id, versionId, tab: 'changes' }));
+    return page;
+  }
+
   const changesTab = page.getByRole('tab', { name: localization.classificationDetails.changes });
   await expect(changesTab).toBeVisible();
   await changesTab.click();
@@ -50,7 +61,7 @@ async function assertChangelogTable(page: Page, version: (typeof versionsMock.ve
 }
 
 test('changes tab renders base case with static data', async ({ classificationDetailsPage }) => {
-  const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID);
+  const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID, CHANGES_VERSION_ID);
 
   await expect(page.getByRole('table')).toBeVisible();
   await expect(page.getByRole('cell', { name: '120' })).toHaveCount(2);
@@ -68,7 +79,7 @@ test('changes tab shows no data rows when no changes are found', async ({ classi
 });
 
 test('changes tab groups rows by old code', async ({ classificationDetailsPage }) => {
-  const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID);
+  const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID, CHANGES_VERSION_ID);
 
   await expect(page.getByRole('cell', { name: '701' })).toHaveCount(1);
   await expect(page.getByRole('cell', { name: '702' })).toHaveCount(1);
@@ -77,7 +88,7 @@ test('changes tab groups rows by old code', async ({ classificationDetailsPage }
 });
 
 test('changes tab renders newly created codes', async ({ classificationDetailsPage }) => {
-  const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID);
+  const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID, CHANGES_VERSION_ID);
 
   const createdRow = page.getByRole('row').filter({ has: page.getByRole('cell', { name: '990' }) });
   await expect(createdRow.getByRole('cell', { name: 'Ny kode' })).toBeVisible();
@@ -85,7 +96,7 @@ test('changes tab renders newly created codes', async ({ classificationDetailsPa
 });
 
 test('changes tab renders deleted codes', async ({ classificationDetailsPage }) => {
-  const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID);
+  const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID, CHANGES_VERSION_ID);
 
   const deletedRow = page.getByRole('row').filter({ has: page.getByRole('cell', { name: '888' }) });
   await expect(deletedRow.getByRole('cell', { name: 'Utgatt kode' })).toBeVisible();
@@ -93,11 +104,12 @@ test('changes tab renders deleted codes', async ({ classificationDetailsPage }) 
 });
 
 test('changes tab supports downloading changes', async ({ classificationDetailsPage }) => {
-  const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID);
+  const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID, CHANGES_VERSION_ID);
 
   const openDownloadDialog = page.getByRole('button', {
     name: localization.classification.download.button,
   });
+  await expect(openDownloadDialog).toBeVisible();
   await openDownloadDialog.click();
 
   const dialog = page.getByRole('dialog');
@@ -115,7 +127,7 @@ test('changes tab supports downloading changes', async ({ classificationDetailsP
 
 test('changes download dialog can copy shareable link', async ({ classificationDetailsPage }, testInfo) => {
   test.skip(testInfo.project.name !== 'firefox');
-  const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID);
+  const page = await openChangesTab(classificationDetailsPage, CHANGES_CLASSIFICATION_ID, CHANGES_VERSION_ID);
 
   const openDownloadDialog = page.getByRole('button', {
     name: localization.classification.download.button,
