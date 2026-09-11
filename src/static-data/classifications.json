@@ -115,7 +115,7 @@
           "name": "Landkoder (SSB-3) 2019",
           "id": 1633,
           "validFrom": "2019-01-01",
-          "validTo": "2023-01-01",
+          "validTo": "2100-01-01",
           "lastModified": "2024-05-10T06:31:28.000+0000",
           "published": ["nb", "nn", "en"],
           "_links": {
@@ -125,9 +125,9 @@
           }
         },
         {
-          "name": "Landkoder (SSB-3) 2023",
+          "name": "Landkoder (SSB-3) 2100",
           "id": 1698,
-          "validFrom": "2023-01-01",
+          "validFrom": "2100-01-01",
           "lastModified": "2024-05-10T06:29:09.000+0000",
           "published": ["nb", "nn", "en"],
           "_links": {
@@ -386,7 +386,7 @@
           "name": "Gruppering av hjelpe- og omsorgstiltak i barnevernet 2021",
           "id": 1596,
           "validFrom": "2021-01-01",
-          "validTo": "2023-01-01",
+          "validTo": "2100-01-01",
           "lastModified": "2024-08-28T07:15:36.000+0000",
           "published": ["nb", "nn", "en"],
           "_links": {

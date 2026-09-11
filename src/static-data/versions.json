@@ -4,6 +4,7 @@
       "name": "Oppvarmingskilde 2001",
       "id": 1,
       "validFrom": "2001-01-01",
+      "validTo": "2100-01-01",
       "lastModified": "2010-10-13T08:07:43.000+0000",
       "published": ["nb", "en"],
       "introduction": "Beskrivelse av versjonen",
@@ -4296,9 +4297,9 @@
       }
     },
     {
-      "name": "Landkoder (SSB-3) 2023",
+      "name": "Landkoder (SSB-3) 2100",
       "id": 1698,
-      "validFrom": "2023-01-01",
+      "validFrom": "2100-01-01",
       "lastModified": "2024-05-10T06:29:09.000+0000",
       "published": ["nb", "nn", "en"],
       "introduction": "Kodereferanse har rekkefølgen (alfa-2, alfa-3, num-3, SSB-3), for eks. Norge (NO, NOR, 578, 000).           \n\t\t\nDet engelske navnet for Tyrkia (Turkey) ble endret til Türkiye.\nHviterussland endret navn til Belarus.\nKodene er uendret.",
@@ -4313,7 +4314,7 @@
       "derivedFrom": "https://www.iso.org/obp/ui/#iso:pub:PUB500001:en",
       "correspondenceTables": [
         {
-          "name": "Landkoder (SSB-3) 2023 - Landkoder (SSB-3) 2019",
+          "name": "Landkoder (SSB-3) 2100 - Landkoder (SSB-3) 2019",
           "id": 950,
           "contactPerson": {
             "name": "Moe, Dana",
@@ -4321,7 +4322,7 @@
             "phone": ""
           },
           "owningSection": "320",
-          "source": "Landkoder (SSB-3) 2023",
+          "source": "Landkoder (SSB-3) 2100",
           "sourceId": 1698,
           "target": "Landkoder (SSB-3) 2019",
           "targetId": 1633,
@@ -4345,7 +4346,7 @@
           }
         },
         {
-          "name": "EU/EFTA/andre land 2023 - Landkoder (SSB-3) 2023",
+          "name": "EU/EFTA/andre land 2023 - Landkoder (SSB-3) 2100",
           "id": 1253,
           "contactPerson": {
             "name": "Moe, Dana",
@@ -4355,7 +4356,7 @@
           "owningSection": "320",
           "source": "EU/EFTA/andre land 2023",
           "sourceId": 2054,
-          "target": "Landkoder (SSB-3) 2023",
+          "target": "Landkoder (SSB-3) 2100",
           "targetId": 1698,
           "changeTable": false,
           "lastModified": "2023-03-20T12:14:36.000+0000",
@@ -4383,7 +4384,7 @@
           }
         },
         {
-          "name": "Landkoder (alfa-3) 2023 - Landkoder (SSB-3) 2023",
+          "name": "Landkoder (alfa-3) 2023 - Landkoder (SSB-3) 2100",
           "id": 953,
           "contactPerson": {
             "name": "Moe, Dana",
@@ -4393,7 +4394,7 @@
           "owningSection": "320",
           "source": "Landkoder (alfa-3) 2023",
           "sourceId": 1836,
-          "target": "Landkoder (SSB-3) 2023",
+          "target": "Landkoder (SSB-3) 2100",
           "targetId": 1698,
           "changeTable": false,
           "lastModified": "2022-11-08T08:49:08.000+0000",
@@ -4415,7 +4416,7 @@
           }
         },
         {
-          "name": "Landkoder (alfa-2) 2023 - Landkoder (SSB-3) 2023",
+          "name": "Landkoder (alfa-2) 2023 - Landkoder (SSB-3) 2100",
           "id": 952,
           "contactPerson": {
             "name": "Rolsdorph, Nina",
@@ -4425,7 +4426,7 @@
           "owningSection": "214",
           "source": "Landkoder (alfa-2) 2023",
           "sourceId": 1693,
-          "target": "Landkoder (SSB-3) 2023",
+          "target": "Landkoder (SSB-3) 2100",
           "targetId": 1698,
           "changeTable": false,
           "lastModified": "2022-11-08T08:47:58.000+0000",
@@ -4447,7 +4448,7 @@
           }
         },
         {
-          "name": "Statsborgerskap 2025 - Landkoder (SSB-3) 2023",
+          "name": "Statsborgerskap 2025 - Landkoder (SSB-3) 2100",
           "id": 2772,
           "contactPerson": {
             "name": "Moe, Dana",
@@ -4457,7 +4458,7 @@
           "owningSection": "320",
           "source": "Statsborgerskap 2025",
           "sourceId": 3255,
-          "target": "Landkoder (SSB-3) 2023",
+          "target": "Landkoder (SSB-3) 2100",
           "targetId": 1698,
           "changeTable": false,
           "lastModified": "2025-10-17T11:40:43.000+0000",
@@ -4479,7 +4480,7 @@
           }
         },
         {
-          "name": "Statsborgerskap 2023 - Landkoder (SSB-3) 2023",
+          "name": "Statsborgerskap 2023 - Landkoder (SSB-3) 2100",
           "id": 1495,
           "contactPerson": {
             "name": "Moe, Dana",
@@ -4489,7 +4490,7 @@
           "owningSection": "320",
           "source": "Statsborgerskap 2023",
           "sourceId": 2059,
-          "target": "Landkoder (SSB-3) 2023",
+          "target": "Landkoder (SSB-3) 2100",
           "targetId": 1698,
           "changeTable": false,
           "lastModified": "2023-10-19T08:41:03.000+0000",
@@ -4513,7 +4514,7 @@
       ],
       "classificationVariants": [
         {
-          "name": "Overnattingsstatistikk 2024  - variant av Landkoder (SSB-3) 2023",
+          "name": "Overnattingsstatistikk 2024  - variant av Landkoder (SSB-3) 2100",
           "id": 2875,
           "contactPerson": {
             "name": "Endre Furu",
@@ -4530,7 +4531,7 @@
           }
         },
         {
-          "name": "land_godstransport 2024-03  - variant av Landkoder (SSB-3) 2023",
+          "name": "land_godstransport 2024-03  - variant av Landkoder (SSB-3) 2100",
           "id": 2680,
           "contactPerson": {
             "name": "Stavnes, Einar Døvik",
@@ -6526,72 +6527,6 @@
           "href": "https://data.ssb.no/api/klass/v1/versions/1698"
         }
       }
-    },
-    {
-      "code": "A",
-      "parentCode": null,
-      "level": "1",
-      "name": "Jordbruk, skogbruk og fiske",
-      "validFrom": "2008-01-01"
-    },
-    {
-      "code": "B",
-      "parentCode": null,
-      "level": "1",
-      "name": "Bergverksdrift og utvinning",
-      "validFrom": "2008-01-01"
-    },
-    {
-      "code": "C",
-      "parentCode": null,
-      "level": "1",
-      "name": "Industri",
-      "validFrom": "2008-01-01",
-      "notes": "Omfatter:\nDette næringshovedområdet omfatter bearbeiding og foredling av materialer og stoffer til nye produkter.\nOmfatter også:\nMontasje av komponenter til ferdigprodukter grupperes her.\nEkskluderer:\nBygging og anleggsvirksomhet grupperes under næring F."
-    },
-    {
-      "code": "01",
-      "parentCode": "A",
-      "level": "2",
-      "name": "Jordbruk og tjenester tilknyttet jordbruk",
-      "validFrom": "2008-01-01"
-    },
-    {
-      "code": "02",
-      "parentCode": "A",
-      "level": "2",
-      "name": "Skogbruk og tjenester tilknyttet skogbruk",
-      "validFrom": "2008-01-01"
-    },
-    {
-      "code": "011",
-      "parentCode": "01",
-      "level": "3",
-      "name": "Dyrking av ettårige vekster",
-      "validFrom": "2008-01-01"
-    }
-  ],
-  "2": [
-    {
-      "code": "A",
-      "parentCode": null,
-      "level": "1",
-      "name": "Jordbruk, skogbruk og fiske (v1)",
-      "validFrom": "2002-01-01"
-    },
-    {
-      "code": "B",
-      "parentCode": null,
-      "level": "1",
-      "name": "Bergverksdrift og utvinning (v1)",
-      "validFrom": "2002-01-01"
-    },
-    {
-      "code": "01",
-      "parentCode": "A",
-      "level": "2",
-      "name": "Jordbruk og tjenester tilknyttet jordbruk (v1)",
-      "validFrom": "2002-01-01"
     }
   ]
 }

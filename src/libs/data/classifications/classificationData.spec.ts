@@ -100,7 +100,7 @@ describe('classification data fetching', () => {
         new ResponseError(new Response(null, { status: 404 }), 'Not found'),
       );
 
-      await expect(fetchClassificationForLanguage(999)).rejects.toThrow('Not found');
+      await expect(fetchClassificationForLanguage(999, 'nb', false)).rejects.toThrow('Not found');
     });
 
     it('throws ResponseError for non-404 status codes', async () => {
@@ -110,7 +110,7 @@ describe('classification data fetching', () => {
         new ResponseError(new Response(null, { status: 500 }), 'Internal Server Error'),
       );
 
-      await expect(fetchClassificationForLanguage(1)).rejects.toThrow('Internal Server Error');
+      await expect(fetchClassificationForLanguage(1, 'nb', false)).rejects.toThrow('Internal Server Error');
     });
 
     it('mock api call happy path', async () => {

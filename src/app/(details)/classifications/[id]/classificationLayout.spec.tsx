@@ -149,7 +149,7 @@ describe('classification [id] layout', () => {
 
     render(element);
 
-    expect(mocks.fetchVersionById).toHaveBeenCalledWith(20, 'nb');
+    expect(mocks.fetchVersionById).toHaveBeenCalledWith(20, 'nb', true);
     expect(screen.getByTestId('version-layer')).toHaveAttribute('data-version-id', '20');
     expect(screen.getByTestId('classification-detail')).toBeInTheDocument();
     expect(screen.getByText('child content')).toBeInTheDocument();
@@ -194,7 +194,7 @@ describe('classification [id] layout', () => {
 
     render(element);
 
-    expect(mocks.fetchVersionById).toHaveBeenCalledWith(10, 'nb');
+    expect(mocks.fetchVersionById).toHaveBeenCalledWith(10, 'nb', true);
     expect(screen.getByTestId('version-layer')).toHaveAttribute('data-version-id', '10');
   });
 

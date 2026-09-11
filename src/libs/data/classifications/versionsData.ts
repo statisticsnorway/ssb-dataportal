@@ -2,7 +2,7 @@
 
 import { cache } from 'react';
 import { ClassificationsLanguageEnum } from '@/libs/data-access/klass/apis/ClassificationsApi';
-import { VersionsApi } from '@/libs/data-access/klass/apis/VersionsApi';
+import { VersionsApi, VersionsRequest } from '@/libs/data-access/klass/apis/VersionsApi';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
 import { SupportedLanguage } from '@/libs/language';
@@ -34,6 +34,7 @@ async function getKlassVersionsClient(): Promise<VersionsApi> {
 const fetchVersionByIdCached = cache(async function fetchVersionByIdCached(
   id: number,
   language: SupportedLanguage | undefined = 'nb',
+  includeFuture: boolean = false,
 ): Promise<ClassificationVersionResource | undefined> {
   const logger = createLogger('classification-versions-data');
   const api = await getKlassVersionsClient();
@@ -41,7 +42,8 @@ const fetchVersionByIdCached = cache(async function fetchVersionByIdCached(
   const params = {
     id,
     language: language.toUpperCase() as ClassificationsLanguageEnum,
-  };
+    includeFuture: includeFuture,
+  } as VersionsRequest;
 
   if (process.env.KLASS_USE_STATIC_DATA === 'true') {
     logger.warn({ id }, 'Using static mock data for versions');
@@ -74,6 +76,7 @@ const fetchVersionByIdCached = cache(async function fetchVersionByIdCached(
 export async function fetchVersionById(
   id: number,
   language: SupportedLanguage | undefined = 'nb',
+  includeFuture: boolean = false,
 ): Promise<ClassificationVersionResource | undefined> {
-  return fetchVersionByIdCached(id, language);
+  return fetchVersionByIdCached(id, language, includeFuture);
 }

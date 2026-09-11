@@ -22,7 +22,7 @@ export const getRequestLanguage = cache(async () => {
 const getPageData = cache(async (id: number) => {
   const logger = createLogger('classification-detail-page');
   const language = await getRequestLanguage();
-  const classification = await fetchClassificationById(id, language);
+  const classification = await fetchClassificationById(id, language, true);
   logger.debug(`Fetched classification ${classification.name}`);
   return { classification, language };
 });
@@ -95,7 +95,7 @@ export default async function ClassificationLayout({
   let latestVersionResource;
   try {
     const resourceId = requestedVersionId ?? latestSummary.id;
-    latestVersionResource = resourceId != null ? await fetchVersionById(resourceId, language) : null;
+    latestVersionResource = resourceId != null ? await fetchVersionById(resourceId, language, true) : null;
   } catch (error) {
     logger.error({ id, error: sanitizeError(error) }, 'Failed to fetch latest version resource');
     return notFound();

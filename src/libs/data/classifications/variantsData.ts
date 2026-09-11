@@ -140,7 +140,7 @@ export async function fetchVariantForClassification(
   language: SupportedLanguage = 'nb',
   versionId?: number,
 ): Promise<ClassificationVariantResource | undefined> {
-  const classification = await fetchClassificationById(classificationId, language);
+  const classification = await fetchClassificationById(classificationId, language, true);
   const versions = classification.versions ?? [];
   const selectedVersion =
     versionId === undefined
@@ -149,7 +149,7 @@ export async function fetchVariantForClassification(
 
   if (selectedVersion?.id === undefined) return undefined;
 
-  const version = await fetchVersionById(selectedVersion.id, language);
+  const version = await fetchVersionById(selectedVersion.id, language, true);
   const belongsToVersion = version?.classificationVariants?.some((variant) => variant.id === variantId) ?? false;
   if (!belongsToVersion) return undefined;
 
