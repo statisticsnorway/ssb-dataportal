@@ -141,10 +141,10 @@ jobs:
       matrix:
         include:
           - label: vardef
-            mablLabel: post-merge,dataportal,vardef,test
+            mablLabel: post-merge,dataportal,vardef,Test
             run: ${{ needs.changes.outputs.vardef == 'true' }}
           - label: klass
-            mablLabel: post-merge,dataportal,klass,test
+            mablLabel: post-merge,dataportal,klass,Test
             run: ${{ needs.changes.outputs.klass == 'true' }}
     steps:
       - name: Run Mabl tests (test)
