@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - chore/run-mabl-tests-on-main
   workflow_dispatch:
     inputs:
       cluster:
