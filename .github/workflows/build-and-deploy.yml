@@ -140,14 +140,14 @@ jobs:
       matrix:
         include:
           - label: vardef
-            mablLabel: postmerge-dataportal-vardef-test
+            mablLabel: post-merge,dataportal,vardef,test
             run: ${{ needs.changes.outputs.vardef == 'true' }}
           - label: klass
-            mablLabel: postmerge-dataportal-klass-test
+            mablLabel: post-merge,dataportal,klass,test
             run: ${{ needs.changes.outputs.klass == 'true' }}
     steps:
       - name: Run Mabl tests (test)
-        if: matrix.run == 'true'
+        if: matrix.run
         uses: mablhq/github-run-tests-action@e46db148f0124be267acff561cd4d9303375852a # v1
         env:
           MABL_API_KEY: ${{ secrets.MABL_API_KEY }}
