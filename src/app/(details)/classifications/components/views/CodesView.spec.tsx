@@ -57,7 +57,7 @@ const codes: ClassificationItemResource[] = [
     validFrom: new Date('2020-01-01'),
     validTo: undefined,
     shortName: undefined,
-    notes: 'Seasonal harvest work is included.',
+    notes: '',
   },
   {
     code: '02',
