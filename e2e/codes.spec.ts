@@ -158,6 +158,15 @@ test.describe('/classifications/[id]/codes', () => {
     ).toBeVisible();
     await expect(codesPage.getByRole('button', { name: rowBodyLabel('C', 'Industri') })).toBeVisible();
   });
+
+  test('filter input narrows the tree by notes', async ({ codesPage }) => {
+    await codesPage.getByLabel(localization.codeTree.filterLabel).fill('bearbeiding');
+
+    await expect(codesPage.getByRole('button', { name: rowBodyLabel('C', 'Industri') })).toBeVisible();
+    await expect(
+      codesPage.getByRole('button', { name: rowBodyLabel('B', 'Bergverksdrift og utvinning') }),
+    ).not.toBeVisible();
+  });
 });
 
 test.describe('/classifications/[id]/versions/[versionNumber]/codes', () => {

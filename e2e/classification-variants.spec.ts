@@ -76,6 +76,16 @@ test.describe('Current variants tab', () => {
     await expect(page).toHaveURL(CURRENT_DETAILS_URL);
     await expect(page.locator('[data-mount-check="mounted"]')).toBeVisible();
   });
+
+  test('filters variant codes by notes', async ({ page }) => {
+    const variant = currentVersion!.classificationVariants![0]!;
+    await page.goto(buildUrl({ classificationId: 2003, variantId: variant.id }), { waitUntil: 'networkidle' });
+
+    await page.getByLabel(localization.codeTree.filterLabel).fill('bearbeiding');
+
+    await expect(page.getByRole('button', { name: 'Velg kode C: Industri' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Velg kode B: Bergverksdrift og utvinning' })).not.toBeVisible();
+  });
 });
 
 test.describe('Older variants tab', () => {
