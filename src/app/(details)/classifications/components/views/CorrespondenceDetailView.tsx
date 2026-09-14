@@ -2,13 +2,13 @@ import { Link as DigdirLink, Heading } from '@digdir/designsystemet-react';
 import { ArrowLeftIcon } from '@navikt/aksel-icons';
 import Link from 'next/link';
 import { DetailsList } from '@/components/details-list';
-import { CorrespondenceMapResource, CorrespondenceTableResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
+import type { CorrespondenceMapWithNotes, CorrespondenceTableWithNotes } from '@/types/klass-correspondences';
 import { mapCorrespondenceDetails } from '../../utils/correspondences';
 import { CorrespondenceTable } from '../correspondence-table';
 import styles from './views.module.css';
 
-function countDistinctCodes(mappings: CorrespondenceMapResource[], side: 'source' | 'target'): number {
+function countDistinctCodes(mappings: CorrespondenceMapWithNotes[], side: 'source' | 'target'): number {
   const codes = new Set<string>();
 
   for (const mapping of mappings) {
@@ -22,7 +22,7 @@ function countDistinctCodes(mappings: CorrespondenceMapResource[], side: 'source
 }
 
 interface CorrespondenceDetailViewProps {
-  table: CorrespondenceTableResource;
+  table: CorrespondenceTableWithNotes;
   backHref: string;
   downloadHref: string;
 }

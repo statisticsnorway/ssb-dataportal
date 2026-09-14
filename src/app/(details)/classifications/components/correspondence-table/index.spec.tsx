@@ -40,6 +40,7 @@ const mappings = [
   {
     sourceCode: '02.110',
     sourceName: 'Skogskjøtsel',
+    sourceNotes: 'Omfatter pleie av ungskog.',
     targetCode: '01.490',
     targetName: 'Husdyrhold ellers',
   },
@@ -107,6 +108,17 @@ describe('CorrespondenceTable', () => {
     await user.click(screen.getByRole('button', { name: 'Fjern filter' }));
     expect(screen.getByText('02.110')).toBeInTheDocument();
     expect(screen.getAllByText('01.490')).toHaveLength(2);
+  });
+
+  it('filters mappings by notes on either side', async () => {
+    const user = userEvent.setup();
+    renderTable();
+
+    await user.type(screen.getByRole('textbox', { name: 'Filtrer på kode eller navn' }), 'ungskog');
+
+    expect(screen.getByText('02.110')).toBeInTheDocument();
+    expect(screen.getByText('Skogskjøtsel')).toBeInTheDocument();
+    expect(screen.queryByText('01.479')).not.toBeInTheDocument();
   });
 
   it('shows a status message when the filter has no matches', async () => {

@@ -1,7 +1,11 @@
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CorrespondenceTablesApi } from '@/libs/data-access/klass';
 import { ResponseError } from '@/libs/data-access/klass/runtime';
-import { fetchCorrespondenceDownload, fetchCorrespondenceTable } from './correspondencesData';
+import {
+  fetchCorrespondenceDownload,
+  fetchCorrespondenceTable,
+  fetchCorrespondenceTableWithNotes,
+} from './correspondencesData';
 
 vi.mock('server-only', () => ({}));
 
@@ -85,6 +89,21 @@ describe('fetchCorrespondenceTable', () => {
     vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
 
     await expect(fetchCorrespondenceTable(999999, 'nb')).resolves.toBeUndefined();
+  });
+
+  it('adds searchable notes from the source and target versions', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
+
+    await expect(fetchCorrespondenceTableWithNotes(1506, 'nb')).resolves.toMatchObject({
+      correspondenceMaps: [
+        {
+          sourceCode: '000',
+          sourceNotes: expect.stringContaining('Svalbard'),
+          targetCode: '000',
+          targetNotes: expect.stringContaining('Svalbard'),
+        },
+      ],
+    });
   });
 
   it('returns undefined when the correspondence table is not found', async () => {

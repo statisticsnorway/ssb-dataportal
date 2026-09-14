@@ -4,7 +4,7 @@ import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout'
 import CorrespondenceDetailView from '@/app/(details)/classifications/components/views/CorrespondenceDetailView';
 import { buildDownloadHref } from '@/app/(details)/classifications/utils/download-urls';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
-import { fetchCorrespondenceTable } from '@/libs/data/classifications/correspondencesData';
+import { fetchCorrespondenceTableWithNotes } from '@/libs/data/classifications/correspondencesData';
 
 export default async function CorrespondencePage({
   params,
@@ -18,7 +18,7 @@ export default async function CorrespondencePage({
   }
 
   const language = await getRequestLanguage();
-  const table = await fetchCorrespondenceTable(tableId, language);
+  const table = await fetchCorrespondenceTableWithNotes(tableId, language);
 
   if (!table) {
     return notFound();

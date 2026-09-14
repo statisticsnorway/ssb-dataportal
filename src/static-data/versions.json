@@ -196,6 +196,14 @@
           "published": ["nb", "nn", "en"],
           "sourceLevel": null,
           "targetLevel": null,
+          "correspondenceMaps": [
+            {
+              "sourceCode": "000",
+              "sourceName": "Norge",
+              "targetCode": "000",
+              "targetName": "Norge"
+            }
+          ],
           "_links": {
             "self": {
               "href": "https://data.ssb.no/api/klass/v1/correspondencetables/1506"
@@ -2320,6 +2328,14 @@
           "published": ["nb", "nn", "en"],
           "sourceLevel": null,
           "targetLevel": null,
+          "correspondenceMaps": [
+            {
+              "sourceCode": "000",
+              "sourceName": "Norge",
+              "targetCode": "000",
+              "targetName": "Norge"
+            }
+          ],
           "_links": {
             "self": {
               "href": "https://data.ssb.no/api/klass/v1/correspondencetables/1506"

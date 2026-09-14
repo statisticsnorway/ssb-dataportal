@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 
 const mocks = vi.hoisted(() => ({
-  fetchCorrespondenceTable: vi.fn(),
+  fetchCorrespondenceTableWithNotes: vi.fn(),
   getRequestLanguage: vi.fn(),
   notFound: vi.fn(() => {
     throw new Error('NEXT_NOT_FOUND');
@@ -15,7 +15,7 @@ vi.mock('@/app/(details)/classifications/[id]/layout', () => ({
   getRequestLanguage: mocks.getRequestLanguage,
 }));
 vi.mock('@/libs/data/classifications/correspondencesData', () => ({
-  fetchCorrespondenceTable: mocks.fetchCorrespondenceTable,
+  fetchCorrespondenceTableWithNotes: mocks.fetchCorrespondenceTableWithNotes,
 }));
 vi.mock('@/app/(details)/classifications/components/correspondence-table', () => ({
   CorrespondenceTable: ({ downloadHref }: { downloadHref: string }) => (
@@ -27,7 +27,7 @@ describe('CorrespondencePage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mocks.getRequestLanguage.mockResolvedValue('nb');
-    mocks.fetchCorrespondenceTable.mockResolvedValue({
+    mocks.fetchCorrespondenceTableWithNotes.mockResolvedValue({
       name: 'Testkorrespondanse',
       id: 2919,
       source: 'Fra-kodeliste',
@@ -41,7 +41,7 @@ describe('CorrespondencePage', () => {
 
     render(await CorrespondencePage({ params: Promise.resolve({ id: '79', correspondenceId: '2919' }) }));
 
-    expect(mocks.fetchCorrespondenceTable).toHaveBeenCalledWith(2919, 'nb');
+    expect(mocks.fetchCorrespondenceTableWithNotes).toHaveBeenCalledWith(2919, 'nb');
     expect(screen.getByRole('link', { name: /^Tilbake$/ })).toHaveAttribute(
       'href',
       buildUrl({ classificationId: 79, tab: 'correspondences' }),
@@ -60,11 +60,11 @@ describe('CorrespondencePage', () => {
     const { default: CorrespondencePage } = await import('./page');
 
     await expect(CorrespondencePage({ params: Promise.resolve(params) })).rejects.toThrow('NEXT_NOT_FOUND');
-    expect(mocks.fetchCorrespondenceTable).not.toHaveBeenCalled();
+    expect(mocks.fetchCorrespondenceTableWithNotes).not.toHaveBeenCalled();
   });
 
   it('returns not found when the correspondence table does not exist', async () => {
-    mocks.fetchCorrespondenceTable.mockResolvedValue(undefined);
+    mocks.fetchCorrespondenceTableWithNotes.mockResolvedValue(undefined);
     const { default: CorrespondencePage } = await import('./page');
 
     await expect(
@@ -73,7 +73,7 @@ describe('CorrespondencePage', () => {
   });
 
   it('propagates correspondence table fetch failures', async () => {
-    mocks.fetchCorrespondenceTable.mockRejectedValue(new Error('API failed'));
+    mocks.fetchCorrespondenceTableWithNotes.mockRejectedValue(new Error('API failed'));
     const { default: CorrespondencePage } = await import('./page');
 
     await expect(

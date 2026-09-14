@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 
 const mocks = vi.hoisted(() => ({
-  fetchCorrespondenceTable: vi.fn(),
+  fetchCorrespondenceTableWithNotes: vi.fn(),
   fetchVersionById: vi.fn(),
   getRequestLanguage: vi.fn(),
   notFound: vi.fn(() => {
@@ -16,7 +16,7 @@ vi.mock('@/app/(details)/classifications/[id]/layout', () => ({
   getRequestLanguage: mocks.getRequestLanguage,
 }));
 vi.mock('@/libs/data/classifications/correspondencesData', () => ({
-  fetchCorrespondenceTable: mocks.fetchCorrespondenceTable,
+  fetchCorrespondenceTableWithNotes: mocks.fetchCorrespondenceTableWithNotes,
 }));
 vi.mock('@/libs/data/classifications/versionsData', () => ({ fetchVersionById: mocks.fetchVersionById }));
 vi.mock('@/app/(details)/classifications/components/correspondence-table', () => ({
@@ -34,7 +34,7 @@ describe('CorrespondencePage', () => {
       validFrom: new Date('2025-01-01'),
       correspondenceTables: [{ id: 2919 }],
     });
-    mocks.fetchCorrespondenceTable.mockResolvedValue({
+    mocks.fetchCorrespondenceTableWithNotes.mockResolvedValue({
       name: 'Testkorrespondanse',
       id: 2919,
       owningSection: '320',
@@ -88,7 +88,7 @@ describe('CorrespondencePage', () => {
   });
 
   it('returns not found when the correspondence table does not exist', async () => {
-    mocks.fetchCorrespondenceTable.mockResolvedValue(undefined);
+    mocks.fetchCorrespondenceTableWithNotes.mockResolvedValue(undefined);
     const { default: CorrespondencePage } = await import('./page');
 
     await expect(
@@ -106,6 +106,6 @@ describe('CorrespondencePage', () => {
         params: Promise.resolve({ id: '6', versionNumber: '3218', correspondenceId: '1253' }),
       }),
     ).rejects.toThrow('NEXT_NOT_FOUND');
-    expect(mocks.fetchCorrespondenceTable).not.toHaveBeenCalled();
+    expect(mocks.fetchCorrespondenceTableWithNotes).not.toHaveBeenCalled();
   });
 });

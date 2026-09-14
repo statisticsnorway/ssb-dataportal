@@ -12,8 +12,11 @@ import { SupportedLanguage } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import versionsMock from '@/static-data/versions.json';
+import type { CorrespondenceMapWithNotes, CorrespondenceTableWithNotes } from '@/types/klass-correspondences';
 import { getUserAgent } from '@/utils/userAgent';
 import { querystringFormatDates } from './utils';
+import { fetchVariantById } from './variantsData';
+import { fetchVersionById } from './versionsData';
 
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
 const logger = createLogger('classification-correspondences-data');
@@ -115,6 +118,45 @@ export async function fetchCorrespondenceTable(
     }
     throw error;
   }
+}
+
+async function fetchCodeNotes(
+  resourceId: number | undefined,
+  resourceHref: string | undefined,
+  language: SupportedLanguage,
+): Promise<Map<string, string>> {
+  if (resourceId === undefined) return new Map();
+
+  const resource = resourceHref?.includes('/variants/')
+    ? await fetchVariantById(resourceId, language)
+    : await fetchVersionById(resourceId, language, true);
+
+  return new Map(
+    (resource?.classificationItems ?? []).flatMap((item) =>
+      item.code && item.notes ? [[item.code, item.notes] as const] : [],
+    ),
+  );
+}
+
+export async function fetchCorrespondenceTableWithNotes(
+  id: number,
+  language: SupportedLanguage = 'nb',
+): Promise<CorrespondenceTableWithNotes | undefined> {
+  const table = await fetchCorrespondenceTable(id, language);
+  if (!table?.correspondenceMaps?.length) return table;
+
+  const [sourceNotes, targetNotes] = await Promise.all([
+    fetchCodeNotes(table.sourceId, table.links?.source?.href, language),
+    fetchCodeNotes(table.targetId, table.links?.target?.href, language),
+  ]);
+
+  const correspondenceMaps: CorrespondenceMapWithNotes[] = table.correspondenceMaps.map((mapping) => ({
+    ...mapping,
+    sourceNotes: mapping.sourceCode ? sourceNotes.get(mapping.sourceCode) : undefined,
+    targetNotes: mapping.targetCode ? targetNotes.get(mapping.targetCode) : undefined,
+  }));
+
+  return { ...table, correspondenceMaps };
 }
 
 export async function fetchCorrespondenceDownload({

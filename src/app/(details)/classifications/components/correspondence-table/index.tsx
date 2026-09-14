@@ -12,15 +12,15 @@ import {
 } from '@digdir/designsystemet-react';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import type { CorrespondenceMapResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
+import type { CorrespondenceMapWithNotes } from '@/types/klass-correspondences';
 import { CodeSearch } from '../search';
 import styles from './correspondenceTable.module.css';
 
 interface CorrespondenceTableProps {
   sourceName: string;
   targetName: string;
-  mappings: CorrespondenceMapResource[];
+  mappings: CorrespondenceMapWithNotes[];
   downloadHref: string;
   onDownloadClick?: () => void;
   tableLabel?: string;
@@ -36,7 +36,7 @@ interface MappingGroup {
   }>;
 }
 
-function groupMappings(mappings: CorrespondenceMapResource[], inverted: boolean): MappingGroup[] {
+function groupMappings(mappings: CorrespondenceMapWithNotes[], inverted: boolean): MappingGroup[] {
   const groups = new Map<string, MappingGroup>();
 
   for (const mapping of mappings) {
@@ -111,9 +111,14 @@ export function CorrespondenceTable({
     }
 
     return mappings.filter((mapping) =>
-      [mapping.sourceCode, mapping.sourceName, mapping.targetCode, mapping.targetName].some((value) =>
-        value?.toLocaleLowerCase().includes(normalizedTerm),
-      ),
+      [
+        mapping.sourceCode,
+        mapping.sourceName,
+        mapping.sourceNotes,
+        mapping.targetCode,
+        mapping.targetName,
+        mapping.targetNotes,
+      ].some((value) => value?.toLocaleLowerCase().includes(normalizedTerm)),
     );
   }, [filterTerm, mappings]);
   const groupedMappings = useMemo(() => groupMappings(filteredMappings, inverted), [filteredMappings, inverted]);

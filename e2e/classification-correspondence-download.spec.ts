@@ -4,6 +4,15 @@ import { expect, test } from './fixtures/classification.fixture';
 
 const CORRESPONDENCE_URL = `${buildUrl({ classificationId: 91, versionId: 363, correspondenceId: 1506 })}`;
 
+test('filters correspondence mappings by code notes', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'chrome-unauth');
+  await page.goto(CORRESPONDENCE_URL);
+
+  await page.getByLabel(localization.codeTree.filterLabel).fill('Svalbard');
+
+  await expect(page.getByRole('cell', { name: 'Norge' })).toHaveCount(2);
+});
+
 test('correspondence details supports downloading correspondence table', async ({ page }) => {
   await page.goto(CORRESPONDENCE_URL);
 
