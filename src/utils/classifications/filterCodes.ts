@@ -16,7 +16,9 @@ export function filterCodesWithAncestors(codes: KlassCode[], term: string): Klas
 
   for (const item of codes) {
     const matchesFilter =
-      item.code.toLocaleLowerCase().includes(normalizedTerm) || item.name.toLocaleLowerCase().includes(normalizedTerm);
+      item.code.toLocaleLowerCase().includes(normalizedTerm) ||
+      item.name.toLocaleLowerCase().includes(normalizedTerm) ||
+      item.notes?.toLocaleLowerCase().includes(normalizedTerm);
 
     if (!matchesFilter) {
       continue;
