@@ -336,7 +336,7 @@ export const en = {
 
   loadingVariableDefinitions: 'Loading variable definitions',
   migrationClassifications: {
-    header: 'We have moved Klass',
+    header: 'Klass has been moved from ssb.no/klass',
     info: 'You are now on the new Klass service in SSB Dataportal. Please update your bookmarks and saved links.',
   },
   migrationVariableDefinitions: {

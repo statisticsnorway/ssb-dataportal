@@ -332,7 +332,7 @@ export const nn = {
 
   loadingVariableDefinitions: 'Lastar variabeldefinisjonar',
   migrationClassifications: {
-    header: 'Vi har flytta Klass',
+    header: 'Klass er flytta frå ssb.no/klass',
     info: 'Du er no på den nye tenesta Klass i SSB Dataportal. Oppdater gjerne bokmerke og lagra lenkjer.',
   },
   migrationVariableDefinitions: {

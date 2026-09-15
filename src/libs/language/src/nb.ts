@@ -334,7 +334,7 @@ export const nb = {
 
   loadingVariableDefinitions: 'Laster variabeldefinisjoner',
   migrationClassifications: {
-    header: 'Vi har flyttet Klass',
+    header: 'Klass er flyttet fra ssb.no/klass',
     info: 'Du er nå på den nye tjenesten Klass i SSB Dataportal. Oppdater gjerne bokmerker og lagrede lenker.',
   },
   migrationVariableDefinitions: {
