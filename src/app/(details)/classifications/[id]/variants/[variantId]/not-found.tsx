@@ -1,9 +1,9 @@
 'use client';
 
 import { useParams } from 'next/navigation';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { AppNotFoundState } from '@/components/app-state';
 import { localization } from '@/libs/language';
-import { buildUrl } from '../../../utils/urls';
 
 export default function NotFound() {
   const { id } = useParams<{ id: string }>();

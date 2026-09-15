@@ -49,3 +49,37 @@ test('correspondence download dialog can copy shareable link', async ({ page }, 
   const clipboardText = await page.evaluate(() => navigator.clipboard.readText());
   expect(clipboardText).toBe(page.url());
 });
+
+test.describe('Correspondence not-found routes', () => {
+  test.beforeEach(({}, testInfo) => {
+    test.skip(testInfo.project.name === 'chrome-unauth', 'Classification details are not available unauthenticated');
+  });
+
+  test('shows a correspondence-specific not-found page for an unknown direct correspondence', async ({ page }) => {
+    await page.goto(buildUrl({ classificationId: 91, correspondenceId: 999999 }));
+
+    await expect(page.getByRole('heading', { name: 'Korrespondansetabell ikke funnet' })).toBeVisible();
+    await expect(
+      page.getByText('Er det skrivefeil i lenken? Eller har korrespondansetabellen blitt slettet eller flyttet?'),
+    ).toBeVisible();
+
+    const notFoundState = page.locator('section[aria-labelledby="app-not-found-title"]');
+    await expect(notFoundState.getByRole('link', { name: 'Klassifikasjoner' })).toHaveAttribute('href', buildUrl({}));
+    await expect(notFoundState.getByRole('link', { name: 'Korrespondanser' })).toHaveAttribute(
+      'href',
+      buildUrl({ classificationId: 91, tab: 'correspondences' }),
+    );
+  });
+
+  test('shows a correspondence-specific not-found page for an unknown versioned correspondence', async ({ page }) => {
+    await page.goto(buildUrl({ classificationId: 91, versionId: 363, correspondenceId: 999999 }));
+
+    await expect(page.getByRole('heading', { name: 'Korrespondansetabell ikke funnet' })).toBeVisible();
+    const notFoundState = page.locator('section[aria-labelledby="app-not-found-title"]');
+    await expect(notFoundState.getByRole('link', { name: 'Klassifikasjoner' })).toHaveAttribute('href', buildUrl({}));
+    await expect(notFoundState.getByRole('link', { name: 'Korrespondanser' })).toHaveAttribute(
+      'href',
+      buildUrl({ classificationId: 91, versionId: 363, tab: 'correspondences' }),
+    );
+  });
+});

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { buildUrl } from '../../utils/urls';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 
 const mocks = vi.hoisted(() => ({
   fetchVariantForClassification: vi.fn(),

@@ -6,7 +6,8 @@
     "assessment": "OPEN",
     "dataset_state": "SOURCE_DATA",
     "owner": "team-a",
-    "storage_location_name": "bucket-a"
+    "storage_location_name": "bucket-a",
+    "has_naming_standard_violations": false
   },
   {
     "id": "ds-2",
@@ -15,7 +16,8 @@
     "assessment": "PROTECTED",
     "dataset_state": "INPUT_DATA",
     "owner": "team-a",
-    "storage_location_name": "bucket-a"
+    "storage_location_name": "bucket-a",
+    "has_naming_standard_violations": false
   },
   {
     "id": "ds-3",
@@ -24,7 +26,8 @@
     "assessment": "SENSITIVE",
     "dataset_state": "PROCESSED_DATA",
     "owner": "team-a",
-    "storage_location_name": "bucket-a"
+    "storage_location_name": "bucket-a",
+    "has_naming_standard_violations": false
   },
   {
     "id": "id1",
@@ -78,7 +81,8 @@
     "short_description": "Arblonn datasett 6",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
-    "owner": "arbmark-register"
+    "owner": "arbmark-register",
+    "has_naming_standard_violations": true
   },
   {
     "id": "id7",
@@ -123,7 +127,8 @@
     "short_description": "invalid-dataset",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
-    "owner": "arbmark-register"
+    "owner": "arbmark-register",
+    "has_naming_standard_violations": true
   },
   {
     "id": "id11",
@@ -132,7 +137,8 @@
     "short_description": "valid-dataset",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
-    "owner": "arbmark-register"
+    "owner": "arbmark-register",
+    "has_naming_standard_violations": false
   },
   {
     "id": "id10",
@@ -141,7 +147,8 @@
     "short_description": "invalid-dataset",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
-    "owner": "arbmark-register"
+    "owner": "arbmark-register",
+    "has_naming_standard_violations": true
   },
   {
     "id": "id12",

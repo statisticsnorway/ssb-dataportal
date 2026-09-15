@@ -20,6 +20,7 @@ describe('variant details', () => {
     owningSection: '320',
     contactPerson: { name: 'Ada Lovelace' },
     validFrom: new Date('2024-01-02'),
+    validTo: new Date('2025-01-02'),
     introduction: 'Alternative grouping',
   };
 
@@ -37,7 +38,8 @@ describe('variant details', () => {
       { label: localization.classification.variant.id, value: 42 },
       { label: localization.classification.variant.ownerSection, value: '320' },
       { label: localization.classification.variant.responsible, value: 'Ada Lovelace' },
-      { label: localization.classification.variant.validFrom, value: '2.1.2024' },
+      { label: localization.validity.validFrom, value: '2.1.2024' },
+      { label: localization.validity.validTo, value: '2.1.2025' },
       { label: localization.classification.variant.description, value: 'Alternative grouping' },
     ]);
   });

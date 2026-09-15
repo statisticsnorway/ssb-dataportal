@@ -37,6 +37,16 @@ const varsionWithTwoCorrespondences: ClassificationVersionResource = {
   ],
 };
 
+const versionWithChangeTable: ClassificationVersionResource = {
+  correspondenceTables: [
+    {
+      id: 2919,
+      name: 'Næringsgruppering 2025 - Næringsgruppering 2007',
+      changeTable: true,
+    },
+  ],
+};
+
 describe('CorrespondencesView', () => {
   it('shows informational alert when correspondences are missing', () => {
     render(<CorrespondencesView classificationId={classificationId} classificationVersion={{}} />);
@@ -53,12 +63,13 @@ describe('CorrespondencesView', () => {
       <CorrespondencesView classificationId={classificationId} classificationVersion={versionWithOneCorrespondence} />,
     );
     expect(screen.getByRole('heading', { name: localization.classification.correspondence.heading })).toBeVisible();
+    expect(screen.getByText('Korrespondansetabeller viser sammenhengen mellom to ulike kodeverk.')).toBeVisible();
     expect(screen.getByRole('heading', { level: 3, name: 'Korrespondansetabell' })).toBeVisible();
-    expect(screen.getByText(localization.classification.correspondence.from)).toBeVisible();
+    expect(screen.getByText(localization.from)).toBeVisible();
     expect(screen.getByText('Kommuneinndeling 2026')).toBeVisible();
     expect(screen.getAllByText(localization.classification.correspondence.fromLevel)).toHaveLength(2);
     expect(screen.getAllByText('Alle')).toHaveLength(2);
-    expect(screen.getByText(localization.classification.correspondence.to)).toBeVisible();
+    expect(screen.getByText(localization.to)).toBeVisible();
     expect(screen.getByText('Delområde- og grunnkretsinndeling 2026')).toBeVisible();
     expect(screen.getByText(localization.classification.correspondence.owner)).toBeVisible();
     expect(screen.getByText('320')).toBeVisible();
@@ -70,5 +81,11 @@ describe('CorrespondencesView', () => {
     expect(screen.getByRole('heading', { name: localization.classification.correspondence.heading })).toBeVisible();
     expect(screen.getByRole('heading', { level: 3, name: 'Korrespondansetabell 1' })).toBeVisible();
     expect(screen.getByRole('heading', { level: 3, name: 'Korrespondansetabell 2' })).toBeVisible();
+  });
+  it('does not render change tables as correspondences', () => {
+    render(<CorrespondencesView classificationId={classificationId} classificationVersion={versionWithChangeTable} />);
+
+    expect(screen.getByRole('status')).toHaveTextContent(localization.classification.correspondence.none);
+    expect(screen.queryByText('Næringsgruppering 2025 - Næringsgruppering 2007')).not.toBeInTheDocument();
   });
 });

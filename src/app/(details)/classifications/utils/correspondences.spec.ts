@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { mapCorrespondenceItems } from '@/app/(details)/classifications/utils/correspondences';
+import {
+  mapCorrespondenceDetails,
+  mapCorrespondenceItems,
+} from '@/app/(details)/classifications/utils/correspondences';
+import { localization } from '@/libs/language';
 
 describe('correspondence', () => {
   it('maps correspondance items', () => {
@@ -11,11 +15,34 @@ describe('correspondence', () => {
       owningSection: '320',
     };
     expect(mapCorrespondenceItems(table)).toEqual([
-      { label: 'Korrespondanser fra', value: 'SN2007' },
+      { label: 'Fra', value: 'SN2007' },
       { label: 'Nivå', value: 'Nivå 1' },
-      { label: 'Korrespondanser til', value: 'SN2015' },
+      { label: 'Til', value: 'SN2015' },
       { label: 'Nivå', value: 'Nivå 2' },
       { label: 'Eier', value: '320' },
+    ]);
+  });
+
+  it('maps correspondence details', () => {
+    const table = {
+      id: 1506,
+      owningSection: '320',
+      contactPerson: { name: 'Dana Moe' },
+      description: 'Viser sammenhengen mellom kodeverkene.',
+    };
+
+    expect(mapCorrespondenceDetails(table)).toEqual([
+      { label: 'ID', value: 1506 },
+      { label: 'Eierseksjon', value: '320' },
+      { label: 'Ansvarlig', value: 'Dana Moe' },
+    ]);
+  });
+
+  it('uses the common fallback for missing correspondence details', () => {
+    expect(mapCorrespondenceDetails({})).toEqual([
+      { label: 'ID', value: localization.noDataPlaceholder },
+      { label: 'Eierseksjon', value: localization.noDataPlaceholder },
+      { label: 'Ansvarlig', value: localization.noDataPlaceholder },
     ]);
   });
 });

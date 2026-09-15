@@ -35,17 +35,17 @@ export const en = {
     about: {
       custodian: 'Maintainer',
       mail: 'Mail',
-      validity: 'Valid from',
       publishedLanguages: 'Published languages',
       basedOn: 'Based on',
       langEN: 'English',
       langNB: 'Norwegian (Bokmål)',
       langNN: 'Norwegian (Nynorsk)',
+      langNO: 'Norwegian',
       legalBasis: 'Legal basis',
       publications: 'Publications',
       unitTypes: 'Unit types',
       levels: 'Levels',
-      noChanges: 'No descriptions available in the changelog.',
+      noChanges: 'No descriptions for changes within this version.',
       notRelevant: 'Not relevant',
       number: 'Number',
       name: 'Name',
@@ -61,6 +61,9 @@ export const en = {
     language: {
       notSelectedLanguage: 'This classification is not available in the selected language',
       displayedInLanguage: 'This classification is displayed in {language}',
+      missingInSelectedLanguage:
+        'This classification is missing content in the selected language, please select another language.',
+      contentChangelog: 'The changelog is only available in Norwegian',
     },
     view: 'View classification',
     type: 'Type',
@@ -70,13 +73,12 @@ export const en = {
     standardPrefix: 'Classification of',
     emailPlaceholder: 'Your email address',
     subscribe: 'Subscribe',
-    subscription: 'Subscription',
     subscribeMessageError: 'An error occurred during registration',
     subscribeMessageAlready: 'You are already subscribed',
-    subscribeConfirm: 'Confirm subscription',
+    subscribeSubmit: 'Submit',
     subscribeInfo: 'Subscribe to updates for this classification',
     subscribeMessageSuccess:
-      'You will receive an email. Follow the instructions in the email to start your subscription.',
+      'You will receive an email. Follow the instructions in the email to confirm your subscription.',
     subscribeMessageInvalidEmail: 'Enter a valid email address',
     download: {
       button: 'Download',
@@ -90,13 +92,18 @@ export const en = {
     },
     correspondence: {
       heading: 'Correspondences',
-      info: 'Correspondence tables show the relationship between versions of two different classifications, for example the relationship between Police District 2016 and Municipality Classification 2014 (which municipalities belong to which police district). If you want to see the difference between two consecutive versions of the same code list, for example between Municipality Classification 2014 and Municipality Classification 2013, you can find it under the “Changes” tab.',
+      info: 'Correspondence tables show the relationship between two different code lists.',
       none: 'This version has no correspondences',
-      from: 'Correspondences from',
       fromLevel: 'Level',
-      to: 'Correspondences to',
       toLevel: 'Level',
       owner: 'Owner',
+      id: 'ID',
+      ownerSection: 'Owner section',
+      responsible: 'Responsible',
+      codeSummary:
+        'The correspondence links {sourceCount} codes from “{sourceName}” to {targetCount} codes from “{targetName}”.',
+      tableLabel: 'Correspondence table',
+      noTarget: 'No corresponding code',
     },
     variant: {
       name: 'Name',
@@ -105,11 +112,11 @@ export const en = {
       responsible: 'Responsible',
       owner: 'Owner',
       ownerSection: 'Owner section',
-      validFrom: 'Valid from and including',
       noVariants: 'This version has no variants',
+      numberOfCodesAndLevels: 'The variant contains {numberOfCodes} codes distributed over {numberOfLevels} {level}.',
       variantHeading: 'Variants',
       variantInfo:
-        'A variant is based on a classification version and represents an alternative grouping of it (the grouping MAY go across the structure of the original classification). Variants are often used to meet the requirements of specific statistics, e.g., a variant of the Standard for industry classification is used to create Environmental Accounts.',
+        "A variant is based on a classification version and represents an alternative grouping, an expansion, or a reduction of it's codes.",
     },
   },
   classificationDetails: {
@@ -120,6 +127,7 @@ export const en = {
     correspondences: 'Correspondences',
     variants: 'Variants',
   },
+  close: 'Close',
   codeTree: {
     label: 'Code list',
     expand: 'Show subcodes for',
@@ -267,6 +275,14 @@ export const en = {
       'go to the variants overview',
       'go to the classification overview',
     ],
+    notFoundTitleCorrespondenceDetails: 'Correspondence table not found',
+    notFoundMessageCorrespondenceDetails:
+      'Is there a typo in the URL? Or has the correspondence table been deleted or moved?',
+    notFoundHelpListCorrespondenceDetails: [
+      'check that you have the correct correspondence table ID in the URL',
+      'go to the correspondences overview',
+      'go to the classification overview',
+    ],
     notFoundTitle: 'Page not found',
     notFoundMessage: 'The page may have been moved, deleted, or the URL may be incorrect.',
     notFoundTitleVariableDetails: 'Variable definition not found',
@@ -319,7 +335,11 @@ export const en = {
   },
 
   loadingVariableDefinitions: 'Loading variable definitions',
-  migration: {
+  migrationClassifications: {
+    header: 'We have moved Klass',
+    info: 'You are now on the new Klass service in SSB Dataportal. Please update your bookmarks and saved links.',
+  },
+  migrationVariableDefinitions: {
     header: 'Migration of variable definitions in progress',
     info: 'We are moving variable definitions to SSB Dataportal. Until the work is complete, some content will still be on the old site.',
     linkText: 'Find more variable definitions on ssb.no',
@@ -329,6 +349,7 @@ export const en = {
   navigateHomeVariableDefinitions: 'Navigate to Variable definitions main page',
   next: 'Next',
   no: 'No',
+  noDataPlaceholder: '—',
   on: 'on',
   opensInNewTab: 'opens in a new tab',
 
@@ -432,6 +453,8 @@ export const en = {
 
   validity: {
     label: 'Validity',
+    validFrom: 'Valid from',
+    validTo: 'Valid to',
   },
 
   variableDefinition: {
@@ -454,8 +477,6 @@ export const en = {
       'A unit type is the type of objects (units) that statistics are produced for, for example person, enterprise, and election',
     relevant: 'Relevant variable definitions',
     shortName: 'Short name',
-    validFrom: 'Valid from',
-    validTo: 'Valid to',
     viewExternalReference: 'View external reference',
     viewRelevant: 'View relevant variable definition',
   },
@@ -464,18 +485,12 @@ export const en = {
     include: 'Include',
     includeLevel: 'Include level {level}',
     invert: 'Invert table',
-    validFrom: 'Valid from',
-    validTo: 'Valid to',
-    now: 'Now',
-    tags: {
-      isLatest: 'Current version:',
-      validFrom: 'Valid from and including',
-      isNotCurrent: 'This is not the current version of the classification',
-    },
+    isNotValid: "This version is not valid on today's date.",
     noChanges: 'No changes to codes for this version',
     numberOfCodesAndLevels: 'This version contains {numberOfCodes} codes organized into {numberOfLevels} {level}.',
     level: 'level',
     levelPlural: 'levels',
     codeChangesForVersion: '{numberOfChanges} changes to codes from the previous version.',
+    codeChangesTableLabel: 'Code changes table',
   },
 } satisfies Translation;

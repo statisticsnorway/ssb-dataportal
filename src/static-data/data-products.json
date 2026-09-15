@@ -3,23 +3,27 @@
     "product_type": "STATISTIC_PRODUCT",
     "product_short_name": "arbstatus",
     "title": "Tilknytning til arbeid, utdanning og velferdsordninger",
-    "subject_code": "al05"
+    "subject_code": "al05",
+    "contains_valid_datasets": true
   },
   {
     "product_type": "OTHER_DATA_PRODUCT",
     "product_short_name": "ameld",
     "title": "Ameldingen",
-    "subject_code": "bf"
+    "subject_code": "bf",
+    "contains_valid_datasets": true
   },
   {
     "product_type": "OTHER_DATA_PRODUCT",
     "product_short_name": "arblonn",
     "title": "Arblonn",
-    "subject_code": "al05"
+    "subject_code": "al05",
+    "contains_valid_datasets": true
   },
   {
     "product_type": "OTHER_DATA_PRODUCT",
     "product_short_name": "invalid",
-    "title": "All data files are invalid"
+    "title": "All data files are invalid",
+    "contains_valid_datasets": false
   }
 ]

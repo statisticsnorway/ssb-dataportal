@@ -125,12 +125,12 @@ const VariableDefinitionsServicePage = ({
   const pageInfo = (
     <Alert data-color='info' style={{ marginBottom: '1rem' }}>
       <Heading className='infoHeadingSecondary' level={2} data-size='sm' style={{ marginBottom: 'var(--ds-size-2)' }}>
-        {localization.migration.header}
+        {localization.migrationVariableDefinitions.header}
       </Heading>
-      <Paragraph>{localization.migration.info}</Paragraph>
+      <Paragraph>{localization.migrationVariableDefinitions.info}</Paragraph>
       <ExternalLink
         href='https://www.ssb.no/a/metadata/definisjoner/variabler/main.html'
-        linkText={`${' '}${localization.migration.linkText}`}
+        linkText={`${' '}${localization.migrationVariableDefinitions.linkText}`}
       />
     </Alert>
   );

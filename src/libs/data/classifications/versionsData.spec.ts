@@ -18,7 +18,7 @@ describe('fetchVersion', () => {
   it('returns static mock data when KLASS_USE_STATIC_DATA is true', async () => {
     vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
 
-    const result = await fetchVersionById(91);
+    const result = await fetchVersionById(91, 'nb', false);
 
     const expected = versionsMock.versions['91'];
     expect(result).toEqual(expected);
@@ -27,7 +27,7 @@ describe('fetchVersion', () => {
   it('returns empty array for an unknown version id in static mode', async () => {
     vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
 
-    const result = await fetchVersionById(999);
+    const result = await fetchVersionById(999, 'nb', false);
 
     expect(result).toBeUndefined();
   });

@@ -7,7 +7,6 @@ import {
   CLASSIFICATIONS_URL,
   CODELIST,
   hits,
-  languageButton,
   REMOVE_STANDARD,
   STANDARD,
   totalCodelistMockClassifications,
@@ -277,5 +276,19 @@ test.describe('Classifications - search card', () => {
         .getByRole('article', { name: stripTitlePrefix(codeList.name!) })
         .getByRole('heading', { name: stripTitlePrefix(codeList.name!) }),
     ).not.toContainText(codeListPrefix);
+  });
+});
+
+test.describe('Classifications - information Klass moved', () => {
+  test('alert has heading', async ({ classificationsPage: page }) => {
+    await expect(page.getByRole('status')).toContainText(localization.migrationClassifications.header);
+  });
+  test('alert has message', async ({ classificationsPage: page }) => {
+    await expect(page.getByRole('status')).toContainText(localization.migrationClassifications.info);
+  });
+  test('alert can be closed', async ({ classificationsPage: page }) => {
+    await expect(page.getByRole('status')).toBeVisible();
+    await page.getByRole('button', { name: localization.close, exact: true }).click();
+    await expect(page.getByRole('status')).not.toBeVisible();
   });
 });

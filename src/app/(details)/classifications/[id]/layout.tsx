@@ -1,41 +1,15 @@
-import { Alert } from '@digdir/designsystemet-react';
 import { Metadata } from 'next';
 import { cookies, headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { cache, ReactNode } from 'react';
-import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
 import { languageCookieName, resolveLanguage } from '@/libs/language';
-import { localization } from '@/libs/language/src/localization';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
-import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import ClassificationDetail from '../components/classificationDetail';
 import { VersionProvider, VersionResourceLayer } from '../components/versionContext';
-import { buildUrl } from '../utils/urls';
-
-const showInfoOnly = process.env.HIDE_CLASSIFICATIONS === 'true';
-
-const renderInfoOnlyPage = () => {
-  return (
-    <div className='container'>
-      <DataportalBreadcrumbs
-        homeUrl={getHomeBreadcrumb()}
-        items={[
-          {
-            text: localization.classification.labelPlural,
-            href: buildUrl({}),
-          },
-        ]}
-      />
-
-      <Alert data-color={'warning'} className='infoAlert'>
-        Detaljside for klassifikasjon er ikke klar for testing.
-      </Alert>
-    </div>
-  );
-};
+import { resolveDefaultVersion } from '../utils/versionSelection';
 
 export const getRequestLanguage = cache(async () => {
   const cookieStore = await cookies();
@@ -49,7 +23,7 @@ export const getRequestLanguage = cache(async () => {
 const getPageData = cache(async (id: number) => {
   const logger = createLogger('classification-detail-page');
   const language = await getRequestLanguage();
-  const classification = await fetchClassificationById(id, language);
+  const classification = await fetchClassificationById(id, language, true);
   logger.debug(`Fetched classification ${classification.name}`);
   return { classification, language };
 });
@@ -100,29 +74,26 @@ export default async function ClassificationLayout({
     }
   }
 
-  const latestSummary = [...(classification.versions ?? [])].sort(
-    (a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0),
-  )[0];
+  const today = new Date();
+  const defaultVersion = resolveDefaultVersion(classification.versions ?? [], today);
 
-  if (!latestSummary) {
+  if (!defaultVersion) {
     return notFound();
   }
 
-  const versionSummary =
+  const resolvedVersion =
     requestedVersionId !== undefined
       ? classification.versions?.find((version) => version.id === requestedVersionId)
-      : latestSummary;
+      : defaultVersion;
 
-  if (!versionSummary) {
+  if (!resolvedVersion) {
     return notFound();
   }
-
-  const isLatest = latestSummary.id === versionSummary.id;
 
   let latestVersionResource;
   try {
-    const resourceId = requestedVersionId ?? latestSummary.id;
-    latestVersionResource = resourceId != null ? await fetchVersionById(resourceId, language) : null;
+    const resourceId = requestedVersionId ?? defaultVersion.id;
+    latestVersionResource = resourceId != null ? await fetchVersionById(resourceId, language, true) : null;
   } catch (error) {
     logger.error({ id, error: sanitizeError(error) }, 'Failed to fetch latest version resource');
     return notFound();
@@ -134,15 +105,18 @@ export default async function ClassificationLayout({
 
   logger.info({ id }, 'Classification detail page access');
 
-  if (showInfoOnly) {
-    logger.info('Classification detail page is running in info-only mode');
-    return renderInfoOnlyPage();
-  }
+  const contentMissingInSelectedLanguage = (classification.versions ?? []).some(
+    (version) => !version?.published?.includes(language),
+  );
 
   return (
-    <VersionProvider classification={classification} versionSummary={versionSummary} isLatest={isLatest}>
+    <VersionProvider classification={classification} versionSummary={resolvedVersion}>
       <VersionResourceLayer versionResource={latestVersionResource ?? undefined}>
-        <ClassificationDetail classification={classification} classificationVersion={latestVersionResource}>
+        <ClassificationDetail
+          classification={classification}
+          classificationVersion={latestVersionResource}
+          missingInSelectedLanguage={contentMissingInSelectedLanguage}
+        >
           {children}
         </ClassificationDetail>
         {download}

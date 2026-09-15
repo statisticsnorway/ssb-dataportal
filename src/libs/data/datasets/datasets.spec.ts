@@ -177,6 +177,7 @@ describe('datadoc data fetching', () => {
       const mockResult = [
         {
           file_path: 'gs://bucket/path/file.parquet',
+          file_name: 'file.parquet',
           naming_standard_violations: [],
         } as DaplaDataFileDTO,
       ];

@@ -154,7 +154,7 @@ example().catch(console.error);
 
 ## listDatasets
 
-> Array&lt;DatasetDTO&gt; listDatasets(productShortName)
+> Array&lt;DatasetDTO&gt; listDatasets(productShortName, storageLocation)
 
 
 
@@ -178,6 +178,8 @@ async function example() {
   const body = {
     // string (optional)
     productShortName: productShortName_example,
+    // string (optional)
+    storageLocation: storageLocation_example,
   } satisfies ListDatasetsRequest;
 
   try {
@@ -198,6 +200,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **productShortName** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **storageLocation** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 

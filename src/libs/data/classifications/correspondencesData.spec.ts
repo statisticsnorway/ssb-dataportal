@@ -1,7 +1,7 @@
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CorrespondenceTablesApi } from '@/libs/data-access/klass';
 import { ResponseError } from '@/libs/data-access/klass/runtime';
-import { fetchCorrespondenceDownload } from './correspondencesData';
+import { fetchCorrespondenceDownload, fetchCorrespondenceTable } from './correspondencesData';
 
 vi.mock('server-only', () => ({}));
 
@@ -68,5 +68,39 @@ describe('fetchCorrespondenceDownload', () => {
         format: 'json',
       }),
     ).rejects.toThrow('Failed');
+  });
+});
+
+describe('fetchCorrespondenceTable', () => {
+  it('returns a correspondence table from static data', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
+
+    await expect(fetchCorrespondenceTable(1506, 'nb')).resolves.toMatchObject({
+      id: 1506,
+      name: expect.any(String),
+    });
+  });
+
+  it('returns undefined when a static correspondence table is not found', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
+
+    await expect(fetchCorrespondenceTable(999999, 'nb')).resolves.toBeUndefined();
+  });
+
+  it('returns undefined when the correspondence table is not found', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
+    vi.spyOn(CorrespondenceTablesApi.prototype, 'correspondenceTables').mockRejectedValue(
+      new ResponseError(new Response(null, { status: 404 }), 'Not found'),
+    );
+
+    await expect(fetchCorrespondenceTable(1506, 'nb')).resolves.toBeUndefined();
+  });
+
+  it('rethrows correspondence table errors other than not found', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
+    const error = new ResponseError(new Response(null, { status: 500 }), 'Failed');
+    vi.spyOn(CorrespondenceTablesApi.prototype, 'correspondenceTables').mockRejectedValue(error);
+
+    await expect(fetchCorrespondenceTable(1506, 'nb')).rejects.toBe(error);
   });
 });

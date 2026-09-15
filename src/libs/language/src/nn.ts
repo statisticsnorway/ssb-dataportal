@@ -33,7 +33,6 @@ export const nn = {
     about: {
       custodian: 'Ansvarleg',
       mail: 'E-post',
-      validity: 'Gyldig frå',
       publishedLanguages: 'Publiserte språk',
       basedOn: 'Basert på',
       legalBasis: 'Lovgrunnlag',
@@ -42,9 +41,10 @@ export const nn = {
       langEN: 'Engelsk',
       langNB: 'Bokmål',
       langNN: 'Nynorsk',
+      langNO: 'Norsk',
       levels: 'Nivå',
       number: 'Nummer',
-      noChanges: 'Ingen beskrivelser i endringsloggen.',
+      noChanges: 'Inga skildring av endringar innanfor denne versjonen.',
       notRelevant: 'Ikkje relevant',
       name: 'Namn',
       description: 'Skildring',
@@ -59,6 +59,8 @@ export const nn = {
     language: {
       notSelectedLanguage: 'Denne klassifikasjonen er ikkje tilgjengeleg på valt språk',
       displayedInLanguage: 'Denne klassifikasjonen viser innhald på {language}',
+      missingInSelectedLanguage: 'Denne klassifikasjonen manglar innhald på valt språk, vel eit anna språk.',
+      contentChangelog: 'Endringsloggen er kun tilgjengeleg på norsk',
     },
     view: 'Sjå klassifikasjon',
     type: 'Type',
@@ -68,10 +70,9 @@ export const nn = {
     standardPrefix: 'Standard for',
     emailPlaceholder: 'Di e-postadresse',
     subscribe: 'Abonner',
-    subscription: 'Abonnement',
     subscribeMessageError: 'Det oppstod ein feil under registrering',
     subscribeMessageAlready: 'Du er allereie abonnent',
-    subscribeConfirm: 'Stadfest abonnement',
+    subscribeSubmit: 'Send inn',
     subscribeInfo: 'Abonner på oppdateringar for denne klassifikasjonen',
     subscribeMessageSuccess: 'Du vil motta ein e-post. Følg instruksjonane i e-posten for å starte abonnementet ditt.',
     subscribeMessageInvalidEmail: 'Skriv inn ei gyldig e-postadresse',
@@ -87,13 +88,18 @@ export const nn = {
     },
     correspondence: {
       heading: 'Korrespondansar',
-      info: 'Korrespondansetabellar viser samanhengen mellom versjonar av to ulike kodeverk, til dømes samanhengen mellom Politidistrikt 2016 og Kommuneinndeling 2014 (kva kommunar høyrer til kva politidistrikt). Dersom du ønskjer å sjå skilnaden mellom to påfølgjande versjonar av den same kodelista, til dømes mellom Kommuneinndeling 2014 og Kommuneinndeling 2013, finn du han under fana «Endringar».',
+      info: 'Korrespondansetabellar viser samanhengen mellom to ulike kodeverk.',
       none: 'Denne versjonen har ingen korrespondansar',
-      from: 'Korrespondansar frå',
       fromLevel: 'Nivå',
-      to: 'Korrespondansar til',
       toLevel: 'Nivå',
       owner: 'Eigar',
+      id: 'ID',
+      ownerSection: 'Eigarseksjon',
+      responsible: 'Ansvarleg',
+      codeSummary:
+        'Korrespondansen koplar {sourceCount} kodar frå «{sourceName}» til {targetCount} kodar frå «{targetName}».',
+      tableLabel: 'Korrespondansetabell',
+      noTarget: 'Ingen tilsvarande kode',
     },
     variant: {
       name: 'Namn',
@@ -102,11 +108,11 @@ export const nn = {
       responsible: 'Ansvarleg',
       owner: 'Eigar',
       ownerSection: 'Eigarseksjon',
-      validFrom: 'Gyldig frå og med',
       noVariants: 'Denne versjonen har ingen variantar',
+      numberOfCodesAndLevels: 'Varianten inneheld {numberOfCodes} kodar fordelt over {numberOfLevels} {level}.',
       variantHeading: 'Variantar',
       variantInfo:
-        'Ein variant baserer seg på ein klassifikasjonsversjon, og representerer ei alternativ gruppering av denne (grupperinga KAN gå på tvers av strukturen i den opphavlege klassifikasjonen). Variantar blir ofte brukt for å oppfylle krav til spesifikke statistikkar, t.d. blir ein variant av Standard for næringsgruppering brukt for å lage Miljørekneskap.',
+        'Ein variant baserer seg på ein klassifikasjonsversjon, og inneber ei omgruppering, utviding eller reduksjon av elementa i denne.',
     },
   },
   classificationDetails: {
@@ -117,6 +123,7 @@ export const nn = {
     correspondences: 'Korrespondansar',
     variants: 'Variantar',
   },
+  close: 'Lukk',
   codeTree: {
     label: 'Kodeliste',
     expand: 'Vis underkodar for',
@@ -264,6 +271,14 @@ export const nn = {
       'gå til oversikta over variantar',
       'gå til oversikta over klassifikasjonar',
     ],
+    notFoundTitleCorrespondenceDetails: 'Korrespondansetabell ikkje funnen',
+    notFoundMessageCorrespondenceDetails:
+      'Er det skrivefeil i lenkja? Eller har korrespondansetabellen blitt sletta eller flytta?',
+    notFoundHelpListCorrespondenceDetails: [
+      'sjekke at du har riktig korrespondansetabell-id i lenkja',
+      'gå til oversikta over korrespondansar',
+      'gå til oversikta over klassifikasjonar',
+    ],
     notFoundTitle: 'Sida finst ikkje',
     notFoundMessage: 'Sida kan vere flytta, sletta eller lenkja kan vere feil.',
     notFoundTitleVariableDetails: 'Variabeldefinisjon ikkje funnen',
@@ -316,7 +331,11 @@ export const nn = {
   },
 
   loadingVariableDefinitions: 'Lastar variabeldefinisjonar',
-  migration: {
+  migrationClassifications: {
+    header: 'Vi har flytta Klass',
+    info: 'Du er no på den nye tenesta Klass i SSB Dataportal. Oppdater gjerne bokmerke og lagra lenkjer.',
+  },
+  migrationVariableDefinitions: {
     header: 'Migrering av variabeldefinisjonar pågår',
     info: 'Vi er i gang med å flytte variabeldefinisjonar til SSB Dataportal. Inntil arbeidet er fullført vil noko innhald framleis ligge på den gamle sida.',
     linkText: 'Finn fleire variabeldefinisjonar på ssb.no',
@@ -326,6 +345,7 @@ export const nn = {
   navigateHomeVariableDefinitions: 'Naviger til hovudsida Variabeldefinisjonar',
   next: 'Neste',
   no: 'Nei',
+  noDataPlaceholder: '—',
   on: 'på',
   opensInNewTab: 'opnast i ny fane',
 
@@ -429,6 +449,8 @@ export const nn = {
 
   validity: {
     label: 'Gyldigheit',
+    validFrom: 'Gyldig frå',
+    validTo: 'Gyldig til',
   },
 
   variableDefinition: {
@@ -451,8 +473,6 @@ export const nn = {
       'Ein einingstype er typen objekt (einingar) det blir laga statistikk om, til dømes person, føretak og val',
     relevant: 'Relevante variabeldefinisjonar',
     shortName: 'Kortnamn',
-    validFrom: 'Gyldig frå',
-    validTo: 'Gyldig til',
     viewExternalReference: 'Sjå ekstern referanse',
     viewRelevant: 'Sjå relevant variabeldefinisjon',
   },
@@ -461,18 +481,12 @@ export const nn = {
     include: 'Inkluder',
     includeLevel: 'Inkluder nivå {level}',
     invert: 'Inverter tabell',
-    validFrom: 'Gyldig frå',
-    validTo: 'Gyldig til',
-    now: 'No',
-    tags: {
-      isLatest: 'Gjeldande versjon:',
-      validFrom: 'Gyldig frå og med',
-      isNotCurrent: 'Dette er ikkje dagens versjon av klassifikasjonen',
-    },
+    isNotValid: 'Versjonen er ikkje gyldig på dagens dato.',
     noChanges: 'Ingen kodeendringar finst for den aktuelle versjonen.',
     numberOfCodesAndLevels: 'Versjonen inneheld {numberOfCodes} kodar fordelt over {numberOfLevels} {level}.',
     level: 'nivå',
     levelPlural: 'nivåer',
     codeChangesForVersion: '{numberOfChanges} kodeendringar frå forrige versjon.',
+    codeChangesTableLabel: 'Tabell over kodeendringar',
   },
 } satisfies Translation;

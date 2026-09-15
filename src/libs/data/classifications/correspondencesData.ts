@@ -2,13 +2,16 @@
 
 import {
   CorrespondenceTableResource,
+  CorrespondenceTableResourceFromJSONTyped,
   CorrespondenceTablesApi,
   CorrespondenceTablesLanguageEnum,
+  CorrespondenceTablesRequest,
 } from '@/libs/data-access/klass';
 import { Configuration, ConfigurationParameters, ResponseError } from '@/libs/data-access/klass/runtime';
 import { SupportedLanguage } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
+import versionsMock from '@/static-data/versions.json';
 import { getUserAgent } from '@/utils/userAgent';
 import { querystringFormatDates } from './utils';
 
@@ -74,7 +77,15 @@ function decodeTextResponse(buffer: ArrayBuffer, mimeType: string): string {
 export async function fetchCorrespondenceTable(
   id: number,
   language: SupportedLanguage = 'nb',
-): Promise<CorrespondenceTableResource> {
+): Promise<CorrespondenceTableResource | undefined> {
+  if (process.env.KLASS_USE_STATIC_DATA === 'true') {
+    const table = versionsMock.versions
+      .flatMap((version) => version.correspondenceTables ?? [])
+      .find((correspondence) => correspondence.id === id);
+
+    return table ? CorrespondenceTableResourceFromJSONTyped(table, true) : undefined;
+  }
+
   const api = getCorrespondenceTablesClient();
   try {
     return await api.correspondenceTables(
@@ -86,6 +97,11 @@ export async function fetchCorrespondenceTable(
     );
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
+      if (error.response.status === 404) {
+        logger.info({ id }, 'Correspondence table not found');
+        return undefined;
+      }
+
       logger.error(
         {
           id,
@@ -120,13 +136,13 @@ export async function fetchCorrespondenceDownload({
     const params = {
       id: tableId,
       language: toKlassLanguage(language),
-    };
+    } satisfies CorrespondenceTablesRequest;
 
     const response = await api.correspondenceTablesRaw(params, async ({ init }) => ({
       ...init,
       ...fetchInit,
       headers: {
-        ...(init.headers ?? {}),
+        ...init.headers,
         Accept: FILE_DOWNLOAD_ACCEPT[format],
       },
     }));

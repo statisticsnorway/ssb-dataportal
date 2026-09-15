@@ -1,34 +1,39 @@
 'use client';
 
-import { Alert, Divider, Heading, Tabs, Tag } from '@digdir/designsystemet-react';
+import { Alert, Divider, Heading, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { AppNotFoundState } from '@/components/app-state';
+import { DetailsList } from '@/components/details-list';
 import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
+import { fetchVersionById } from '@/libs/data/classifications/versionsData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
+import { formatLocaleDate } from '@/utils/functions';
 import { classificationDetailsTabsData, getClassificationDetailsTabForRoute } from '../../[id]/tabs';
 import { BuildUrlProps, buildUrl } from '../../utils/urls';
+import { isVersionValidOnDate, resolveDefaultVersion } from '../../utils/versionSelection';
 import { ResolvedVersion, VersionProvider } from '../versionContext';
 import styles from './views.module.css';
 
 interface VersionViewProps {
   classification: ClassificationWithLanguage;
   classificationVersion?: ClassificationVersionResource | null;
+  missingInSelectedLanguage?: boolean;
   children: React.ReactNode;
 }
 
 type ResolvedVersionResult = {
   version: ResolvedVersion;
-  isLatest: boolean;
+  isDefault: boolean;
 };
 
 type TabSlug = NonNullable<BuildUrlProps['tab']>;
 
 function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): ResolvedVersionResult | null {
   const sorted = [...versions].sort((a, b) => (b.validFrom?.getTime() ?? 0) - (a.validFrom?.getTime() ?? 0));
-  const latest = sorted.at(0);
-  if (!latest) return null;
+  const defaultVersion = resolveDefaultVersion(sorted, new Date());
+  if (!defaultVersion) return null;
 
   const segments = pathname.split('/').filter(Boolean);
   const versionIndex = segments.indexOf('versions');
@@ -38,19 +43,46 @@ function resolveVersionFromPath(pathname: string, versions: ResolvedVersion[]): 
     if (!Number.isInteger(versionId)) return null;
 
     const version = sorted.find((v) => v.id === versionId);
-    return version ? { version, isLatest: latest.id === versionId } : null;
+    return version ? { version, isDefault: defaultVersion.id === versionId } : null;
   }
 
-  return { version: latest, isLatest: true };
+  return { version: defaultVersion, isDefault: true };
 }
 
-export function VersionView({ classification, classificationVersion, children }: Readonly<VersionViewProps>) {
+export function VersionView({
+  classification,
+  classificationVersion: versionOnEntry,
+  missingInSelectedLanguage,
+  children,
+}: Readonly<VersionViewProps>) {
   const pathname = usePathname();
   const router = useRouter();
   const activeTab = getClassificationDetailsTabForRoute(pathname) ?? classificationDetailsTabsData.Codes;
 
   const versions = classification.versions ?? [];
   const resolved = resolveVersionFromPath(pathname, versions);
+
+  const [displayedVersion, setDisplayedVersion] = useState<ClassificationVersionResource | null | undefined>(
+    versionOnEntry,
+  );
+
+  useEffect(() => {
+    const resolvedVersionId = resolved?.version.id;
+    if (resolvedVersionId === undefined || displayedVersion?.id === resolvedVersionId) {
+      return;
+    }
+
+    let cancelled = false;
+    fetchVersionById(resolvedVersionId, localization.getLanguage() as 'nb' | 'nn' | 'en', true).then((result) => {
+      if (!cancelled) {
+        setDisplayedVersion(result ?? null);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [resolved?.version.id, displayedVersion?.id]);
 
   if (!resolved) {
     return (
@@ -68,9 +100,10 @@ export function VersionView({ classification, classificationVersion, children }:
   }
 
   const tabs = Object.values(classificationDetailsTabsData);
+  const isVersionValidToday = isVersionValidOnDate(resolved.version, new Date());
 
   const getTabUrl = (tab: TabSlug) =>
-    resolved.isLatest
+    resolved.isDefault
       ? buildUrl({ classificationId: classification.id, tab })
       : buildUrl({ classificationId: classification.id, versionId: resolved.version.id, tab });
 
@@ -83,27 +116,14 @@ export function VersionView({ classification, classificationVersion, children }:
 
     // Changes can take 6s or more to load in so prefetch this to avoid the user having to wait on tab access
     router.prefetch(getTabUrl(classificationDetailsTabsData.Changes.slug));
-  }, [router, pathname, classification.id, resolved.isLatest, resolved.version.id]);
-
-  const validFromText =
-    resolved.version.validFrom?.toLocaleDateString('nb-NO', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    }) ?? '—';
-
-  const versionTag = (
-    <Tag data-color={'info'} className={styles.versionTag}>
-      {`${localization.versions.tags.isLatest} (${localization.versions.tags.validFrom}: ${validFromText})`}
-    </Tag>
-  );
+  }, [router, pathname, classification.id, resolved.isDefault, resolved.version.id]);
 
   return (
-    <VersionProvider classification={classification} versionSummary={resolved.version} isLatest={resolved.isLatest}>
+    <VersionProvider classification={classification} versionSummary={resolved.version}>
       <Divider data-version-divider />
-      {!resolved?.isLatest && (
-        <Alert data-color={'danger'} role='status'>
-          {localization.versions.tags.isNotCurrent}
+      {!isVersionValidToday && (
+        <Alert data-color={'warning'} role='status'>
+          {localization.versions.isNotValid}
         </Alert>
       )}
       <Heading
@@ -112,14 +132,25 @@ export function VersionView({ classification, classificationVersion, children }:
         level={2}
         {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
       >
-        {resolved.version.name ?? '—'}
+        {resolved.version.name ?? localization.noDataPlaceholder}
       </Heading>
-      {resolved?.isLatest && versionTag}
+      <DetailsList
+        content={[
+          { label: localization.validity.validFrom, value: formatLocaleDate(resolved.version.validFrom) || '—' },
+          { label: localization.validity.validTo, value: formatLocaleDate(resolved.version.validTo) || '—' },
+        ]}
+        fallbackLanguage={classification.fallbackLanguage}
+      />
+      {missingInSelectedLanguage && (
+        <Alert data-color={'warning'} role='alert'>
+          {localization.classification.language.missingInSelectedLanguage}
+        </Alert>
+      )}
       <p
         className={styles.introduction}
         {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
       >
-        {classificationVersion?.introduction ?? '—'}
+        {displayedVersion?.introduction ?? localization.noDataPlaceholder}
       </p>
       <Tabs
         value={activeTab.id}
@@ -138,7 +169,13 @@ export function VersionView({ classification, classificationVersion, children }:
           ))}
         </Tabs.List>
 
-        <Tabs.Panel key={pathname} value={activeTab.id} id={activeTab.id} className={styles.tabsPanel}>
+        <Tabs.Panel
+          key={pathname}
+          value={activeTab.id}
+          id={activeTab.id}
+          aria-labelledby={`${activeTab.id}-tab`}
+          className={styles.tabsPanel}
+        >
           {children}
         </Tabs.Panel>
       </Tabs>

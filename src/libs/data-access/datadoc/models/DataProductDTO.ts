@@ -51,6 +51,12 @@ export interface DataProductDTO {
      * @memberof DataProductDTO
      */
     subject_code?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DataProductDTO
+     */
+    contains_valid_datasets: boolean;
 }
 
 
@@ -59,6 +65,7 @@ export interface DataProductDTO {
  * Check if a given object implements the DataProductDTO interface.
  */
 export function instanceOfDataProductDTO(value: object): value is DataProductDTO {
+    if (!('contains_valid_datasets' in value) || value['contains_valid_datasets'] === undefined) return false;
     return true;
 }
 
@@ -71,10 +78,12 @@ export function DataProductDTOFromJSONTyped(json: any, ignoreDiscriminator: bool
         return json;
     }
     return {
+        
         'product_type': json['product_type'] == null ? undefined : DataProductTypeFromJSON(json['product_type']),
         'product_short_name': json['product_short_name'] == null ? undefined : json['product_short_name'],
         'title': json['title'] == null ? undefined : json['title'],
         'subject_code': json['subject_code'] == null ? undefined : json['subject_code'],
+        'contains_valid_datasets': json['contains_valid_datasets'],
     };
 }
 
@@ -93,6 +102,7 @@ export function DataProductDTOToJSONTyped(value?: DataProductDTO | null, ignoreD
         'product_short_name': value['product_short_name'],
         'title': value['title'],
         'subject_code': value['subject_code'],
+        'contains_valid_datasets': value['contains_valid_datasets'],
     };
 }
 

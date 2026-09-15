@@ -48,7 +48,7 @@ const SearchPage: FC<SearchPageProps> = ({
   };
 
   return (
-    <main id='variableDefinitionsPage'>
+    <main id={`searchpage-${tabsId}`}>
       <header>
         <Heading level={1} className='ds-sr-only'>
           {header}

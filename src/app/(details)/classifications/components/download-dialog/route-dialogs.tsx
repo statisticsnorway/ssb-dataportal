@@ -65,13 +65,13 @@ export function DownloadChangesRouteDialog() {
     ) ?? [];
   const previousVersion = sortedVersions[sortedVersions.findIndex((v) => v.id === versionResource?.id) + 1];
 
-  if (!versionResource?.id || !classification.id || !previousVersion?.validFrom) {
+  if (!versionResource?.id || !classification.id || !versionResource.validFrom || !previousVersion?.validFrom) {
     return null;
   }
 
   const config = parseDownloadConfig(searchParams, localization.getLanguage() as DownloadLanguage);
   const closePath = getBasePathFromDownloadPath(pathname);
-  const from = getDateBefore(previousVersion.validFrom);
+  const from = getDateBefore(versionResource.validFrom);
 
   return (
     <DownloadChangesDialog

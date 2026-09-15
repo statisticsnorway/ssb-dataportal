@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { createLogger } from '@/libs/logger/server-logger';
-import { buildUrl } from '../utils/urls';
 
 export default async function ClassificationPage({ params }: Readonly<{ params: Promise<{ id: string }> }>) {
   const { id } = await params;

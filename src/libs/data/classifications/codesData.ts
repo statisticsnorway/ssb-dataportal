@@ -92,6 +92,7 @@ interface CodesDownloadRequest {
   to?: Date;
   language: SupportedLanguage;
   format: FileDownloadFormat;
+  includeFuture: boolean;
 }
 
 interface ChangesDownloadRequest {
@@ -164,6 +165,7 @@ export async function fetchCodesDownload({
   to,
   language,
   format,
+  includeFuture,
 }: CodesDownloadRequest): Promise<{ content: string; mimeType: string }> {
   if (process.env.KLASS_USE_STATIC_DATA === 'true') {
     logger.warn({ versionId }, 'Using static mock data for version code download');
@@ -176,7 +178,13 @@ export async function fetchCodesDownload({
 
   const api = getCodesClient();
   try {
-    const params = { id: classificationId, from, to, language: toKlassLanguage(language) } satisfies CodesRequest;
+    const params = {
+      id: classificationId,
+      from,
+      to,
+      language: toKlassLanguage(language),
+      includeFuture: includeFuture,
+    } satisfies CodesRequest;
     if (format === 'csv') {
       const data = await api.codes(params, fetchInit);
       const codes = data.codes ?? [];

@@ -33,12 +33,12 @@ export const nb = {
     about: {
       custodian: 'Ansvarlig',
       mail: 'E-post',
-      validity: 'Gyldig fra',
       publishedLanguages: 'Publiserte språk',
       basedOn: 'Basert på',
       langEN: 'Engelsk',
       langNB: 'Bokmål',
       langNN: 'Nynorsk',
+      langNO: 'Norsk',
       legalBasis: 'Lovhjemmel',
       publications: 'Publikasjoner',
       unitTypes: 'Enhetstyper',
@@ -46,7 +46,7 @@ export const nb = {
       number: 'Nummer',
       name: 'Navn',
       notRelevant: 'Ikke relevant',
-      noChanges: 'Ingen beskrivelser i endringsloggen.',
+      noChanges: 'Ingen beskrivelse av endringer innenfor denne versjonen.',
       description: 'Beskrivelse',
       changelog: 'Endringslogg',
       date: 'Dato',
@@ -59,6 +59,8 @@ export const nb = {
     language: {
       notSelectedLanguage: 'Denne klassifikasjonen er ikke tilgjengelig på valgt språk',
       displayedInLanguage: 'Denne klassifikasjonen viser innhold på {language}',
+      missingInSelectedLanguage: 'Denne klassifikasjonen mangler innhold på valgt språk, velg et annet språk.',
+      contentChangelog: 'Endringsloggen er kun tilgjengelig på norsk',
     },
     view: 'Se klassifikasjon',
     type: 'Type',
@@ -68,10 +70,9 @@ export const nb = {
     standardPrefix: 'Standard for',
     emailPlaceholder: 'Din e-postadresse',
     subscribe: 'Abonner',
-    subscription: 'Abonnement',
     subscribeMessageError: 'Det oppstod en feil under registering',
     subscribeMessageAlready: 'Du er allerede abonnent',
-    subscribeConfirm: 'Bekreft abonnement',
+    subscribeSubmit: 'Send inn',
     subscribeInfo: 'Abonner på oppdateringer for denne klassifikasjonen',
     subscribeMessageSuccess: 'Du vil motta en mail. Følg instruksjonene i mailen for å starte ditt abonnement.',
     subscribeMessageInvalidEmail: 'Skriv inn en gyldig e-postadresse',
@@ -87,13 +88,18 @@ export const nb = {
     },
     correspondence: {
       heading: 'Korrespondanser',
-      info: 'Korrespondansetabeller viser sammenhengen mellom versjoner av to ulike kodeverk, f.eks. sammenhengen mellom Politidistrikt 2016 og Kommuneinndeling 2014 (hvilke kommuner tilhører hvilket politidistrikt). Dersom du ønsker å se forskjellen mellom to påfølgende versjoner av samme kodeliste, f.eks. mellom Kommuneinndeling 2014 og Kommuneinndeling 2013, finner du den under fanen «Endringer».',
+      info: 'Korrespondansetabeller viser sammenhengen mellom to ulike kodeverk.',
       none: 'Denne versjonen har ingen korrespondanser',
-      from: 'Korrespondanser fra',
       fromLevel: 'Nivå',
-      to: 'Korrespondanser til',
       toLevel: 'Nivå',
       owner: 'Eier',
+      id: 'ID',
+      ownerSection: 'Eierseksjon',
+      responsible: 'Ansvarlig',
+      codeSummary:
+        'Korrespondansen kobler {sourceCount} koder fra «{sourceName}» til {targetCount} koder fra «{targetName}».',
+      tableLabel: 'Korrespondansetabell',
+      noTarget: 'Ingen tilsvarende kode',
     },
     variant: {
       name: 'Navn',
@@ -102,11 +108,11 @@ export const nb = {
       responsible: 'Ansvarlig',
       owner: 'Eier',
       ownerSection: 'Eierseksjon',
-      validFrom: 'Gyldig fra og med',
       noVariants: 'Denne versjonen har ingen varianter',
+      numberOfCodesAndLevels: 'Varianten inneholder {numberOfCodes} koder fordelt over {numberOfLevels} {level}.',
       variantHeading: 'Varianter',
       variantInfo:
-        'En variant baserer seg på en klassifikasjonsversjon, og representerer en alternativ gruppering av denne (grupperingen KAN gå på tvers av strukturen i den opprinnelige klassifikasjonen). Varianter brukes ofte for å oppfylle krav til spesifikke statistikker, f.eks. brukes en variant av Standard for næringsgruppering for å lage Miljøregnskap.',
+        'En variant baserer seg på en klassifikasjonsversjon, og innebærer en omgruppering, utvidelse eller reduksjon av elementene i denne.',
     },
   },
   classificationDetails: {
@@ -117,6 +123,7 @@ export const nb = {
     correspondences: 'Korrespondanser',
     variants: 'Varianter',
   },
+  close: 'Lukk',
   codeTree: {
     label: 'Kodeliste',
     expand: 'Vis underkoder for',
@@ -264,6 +271,14 @@ export const nb = {
       'gå til oversikten over varianter',
       'gå til oversikten over klassifikasjoner',
     ],
+    notFoundTitleCorrespondenceDetails: 'Korrespondansetabell ikke funnet',
+    notFoundMessageCorrespondenceDetails:
+      'Er det skrivefeil i lenken? Eller har korrespondansetabellen blitt slettet eller flyttet?',
+    notFoundHelpListCorrespondenceDetails: [
+      'sjekke at du har riktig korrespondansetabell-id i lenken',
+      'gå til oversikten over korrespondanser',
+      'gå til oversikten over klassifikasjoner',
+    ],
     notFoundTitle: 'Siden finnes ikke',
     notFoundMessage: 'Siden kan være flyttet, slettet eller lenken kan være feil.',
     notFoundTitleVariableDetails: 'Variabeldefinisjon ikke funnet',
@@ -318,7 +333,11 @@ export const nb = {
   },
 
   loadingVariableDefinitions: 'Laster variabeldefinisjoner',
-  migration: {
+  migrationClassifications: {
+    header: 'Vi har flyttet Klass',
+    info: 'Du er nå på den nye tjenesten Klass i SSB Dataportal. Oppdater gjerne bokmerker og lagrede lenker.',
+  },
+  migrationVariableDefinitions: {
     header: 'Migrering av variabeldefinisjoner pågår',
     info: 'Vi er i gang med å flytte variabeldefinisjoner til SSB Dataportal. Inntil arbeidet er fullført vil noe innhold fortsatt ligge på den gamle siden.',
     linkText: 'Finn flere variabeldefinisjoner på ssb.no',
@@ -328,6 +347,7 @@ export const nb = {
   navigateHomeVariableDefinitions: 'Naviger til hovedside Variabeldefinisjoner',
   next: 'Neste',
   no: 'Nei',
+  noDataPlaceholder: '—',
   on: 'på',
   opensInNewTab: 'åpnes i ny fane',
 
@@ -431,6 +451,8 @@ export const nb = {
 
   validity: {
     label: 'Gyldighet',
+    validFrom: 'Gyldig fra',
+    validTo: 'Gyldig til',
   },
 
   // Labels specific to variable definitions
@@ -454,8 +476,6 @@ export const nb = {
       'En enhetstype er typen av objekter (enheter) som det lages statistikk om, f.eks. person, foretak og valg',
     relevant: 'Relevante variabeldefinisjoner',
     shortName: 'Kortnavn',
-    validFrom: 'Gyldig fra',
-    validTo: 'Gyldig til',
     viewExternalReference: 'Se ekstern referanse',
     viewRelevant: 'Se relevant variabeldefinisjon',
   },
@@ -464,19 +484,13 @@ export const nb = {
     include: 'Inkluder',
     includeLevel: 'Inkluder nivå {level}',
     invert: 'Inverter tabell',
-    validFrom: 'Gyldig fra',
-    validTo: 'Gyldig til',
-    now: 'Nå',
-    tags: {
-      isLatest: 'Gjeldende versjon:',
-      validFrom: 'Gyldig fra og med',
-      isNotCurrent: 'Dette er ikke dagens versjon av klassifikasjonen',
-    },
+    isNotValid: 'Versjonen er ikke gyldig på dagens dato.',
     noChanges: 'Ingen kodeendringer finnes for den aktuelle versjonen.',
     numberOfCodesAndLevels: 'Versjonen inneholder {numberOfCodes} koder fordelt over {numberOfLevels} {level}.',
     level: 'nivå',
     levelPlural: 'nivåer',
     codeChangesForVersion: '{numberOfChanges} kodeendringer fra forrige versjon.',
+    codeChangesTableLabel: 'Tabell over kodeendringer',
   },
 };
 

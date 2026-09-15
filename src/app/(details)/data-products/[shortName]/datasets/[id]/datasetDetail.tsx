@@ -1,6 +1,7 @@
 'use client';
 
 import { Badge, Card, Heading, Tag } from '@digdir/designsystemet-react';
+import { notFound } from 'next/navigation';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { useTimelineData } from '@/components/data-coverage-timeline';
@@ -11,6 +12,7 @@ import { ExternalLink } from '@/components/link-components/externalLink';
 import { CopyTag } from '@/components/tag-components/copy-tag';
 import { DaplaDataFileDTO, DatasetDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
+import { Visibility } from '@/types/item';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { getDaplaCtrlUrl } from '@/utils/config';
 import { convertAssessment, convertDataSetState } from '@/utils/functions';
@@ -26,6 +28,10 @@ export default function DatasetDetail({
   dataFiles: Array<DaplaDataFileDTO>;
 }>) {
   const { isAuthenticated } = useAuthContext();
+
+  if (!isAuthenticated && dataset.has_naming_standard_violations === true) {
+    notFound();
+  }
 
   if (!isAuthenticated) {
     dataFiles = dataFiles.filter(
@@ -58,6 +64,7 @@ export default function DatasetDetail({
         </Heading>
         <DetailsList
           title={localization.datasetDetail.aboutDataset}
+          allowedVisibility={isAuthenticated ? Visibility.INTERNAL : Visibility.EXTERNAL}
           content={[
             { label: localization.datasetDetail.dataProduct, value: dataset.product_short_name },
             { label: localization.datasetDetail.bucket, value: dataset.storage_location_name },
@@ -79,6 +86,7 @@ export default function DatasetDetail({
                   href={`${getDaplaCtrlUrl()}/team/${dataset.owner}`}
                 />
               ),
+              visibility: new Set([Visibility.INTERNAL]),
             },
             ...(totalNamingStandardViolations > 0
               ? [

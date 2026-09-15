@@ -1,12 +1,10 @@
-import { Button } from '@digdir/designsystemet-react';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout';
+import CorrespondenceDetailView from '@/app/(details)/classifications/components/views/CorrespondenceDetailView';
 import { buildDownloadHref } from '@/app/(details)/classifications/utils/download-urls';
+import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { fetchCorrespondenceTable } from '@/libs/data/classifications/correspondencesData';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
-import { localization } from '@/libs/language';
-import styles from './correspondences.module.css';
 
 interface CorrespondencePageProps {
   params: Promise<{
@@ -16,59 +14,47 @@ interface CorrespondencePageProps {
   }>;
 }
 
-export default async function CorrespondencePage({ params }: CorrespondencePageProps) {
+export default async function CorrespondencePage({ params }: Readonly<CorrespondencePageProps>) {
   const { id, versionNumber, correspondenceId } = await params;
 
+  const classificationId = Number(id);
   const versionId = Number(versionNumber);
   const tableId = Number(correspondenceId);
 
+  if (Number.isNaN(classificationId) || Number.isNaN(versionId) || Number.isNaN(tableId)) {
+    return notFound();
+  }
+
   const language = await getRequestLanguage();
 
-  const version = await fetchVersionById(versionId, language);
+  const version = await fetchVersionById(versionId, language, true);
 
-  if (!version) {
+  const belongsToVersion = version?.correspondenceTables?.some((table) => table.id === tableId);
+
+  if (!version || !belongsToVersion) {
     return notFound();
   }
 
   const table = await fetchCorrespondenceTable(tableId, language);
 
+  if (!table) {
+    return notFound();
+  }
+
   const downloadHref = buildDownloadHref(
-    `/classifications/${id}/versions/${versionNumber}/correspondences/${correspondenceId}`,
+    buildUrl({
+      classificationId: Number(id),
+      versionId: Number(versionNumber),
+      correspondenceId: Number(correspondenceId),
+    }),
     { format: 'csv', language },
   );
 
   return (
-    <main className={styles.page}>
-      <h1 className={styles.title}>{table.source}</h1>
-      <h2 className={styles.subtitle}>{table.target}</h2>
-      <div className={styles.actions}>
-        <Button asChild variant='secondary'>
-          <Link href={downloadHref}>{localization.classification.download.button}</Link>
-        </Button>
-      </div>
-      <div className={styles.tableWrapper}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>Fra</th>
-              <th>Til</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {table.correspondenceMaps?.map((item, index) => (
-              <tr key={index}>
-                <td>
-                  {item.sourceCode} - {item.sourceName}
-                </td>
-                <td>
-                  {item.targetCode} - {item.targetName}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </main>
+    <CorrespondenceDetailView
+      table={table}
+      backHref={buildUrl({ classificationId, versionId, tab: 'correspondences' })}
+      downloadHref={downloadHref}
+    />
   );
 }

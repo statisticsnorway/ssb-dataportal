@@ -3,6 +3,7 @@
 import { Spinner } from '@digdir/designsystemet-react';
 import { parseAsArrayOf, parseAsInteger, parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs';
 import { Suspense, use, useEffect, useMemo, useState } from 'react';
+import { ClosableAlert } from '@/components/alerts';
 import { FiltersPanel } from '@/components/filters';
 import { FilterTagsSection } from '@/components/filters/filter-tags-section';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
@@ -156,6 +157,12 @@ const ClassificationsServicePage = ({
       isSearchActive={isSearchActive}
     >
       <SearchPage
+        banner={
+          <ClosableAlert
+            heading={localization.migrationClassifications.header}
+            message={localization.migrationClassifications.info}
+          />
+        }
         tabsId={tabsData.Classifications.id}
         header={localization.tabs.classifications}
         asideContent={

@@ -32,7 +32,7 @@ describe('Map versions', () => {
     expect(element?.props?.href).toBe(buildUrl({ classificationId: 2003, versionId: 1, tab: 'codes' }));
     expect(element?.props?.children).toBe('Oppvarmingskilde 2001');
     expect(validFrom).toBe('2001-01-01');
-    expect(validTo).toBe(localization.versions.now);
+    expect(validTo).toBe(localization.noDataPlaceholder);
   });
 
   it('links versions to the active tab', () => {
@@ -53,7 +53,7 @@ describe('Map versions', () => {
     const result = mapVersions(currentVersion, undefined);
     expect(result[0]?.value).toBe(currentVersion?.name);
     expect(result[1]?.value).toBe('2001-01-01');
-    expect(result[2]?.value).toBe(localization.versions.now);
+    expect(result[2]?.value).toBe(localization.noDataPlaceholder);
   });
 
   it('Version is not defined', () => {

@@ -27,7 +27,7 @@ describe('DetailsView', () => {
     expect(dts.length).toBeGreaterThan(0);
     expect(dts).toHaveLength(dds.length);
   });
-  it('displays not relevant if no content detailslist', () => {
+  it('no content for item', () => {
     const sparseVersion = {
       ...baseVersion,
       introduction: '',
@@ -39,7 +39,7 @@ describe('DetailsView', () => {
 
     render(<DetailsView classification={baseClassification} classificationVersion={sparseVersion} />);
 
-    expect(screen.getAllByText(/ikke relevant/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/—/i).length).toBeGreaterThan(0);
   });
   it('sets correct language in html when using fallback language', () => {
     const classification: ClassificationWithLanguage = {

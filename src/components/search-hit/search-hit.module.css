@@ -28,7 +28,3 @@
   flex-direction: row-reverse;
   gap: var(--small-gap);
 }
-
-.languageTag {
-  --dsc-tag-background: var(--ds-color-surface-tinted);
-}

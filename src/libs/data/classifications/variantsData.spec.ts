@@ -63,7 +63,7 @@ describe('fetchVariantForClassification', () => {
     vi.spyOn(VariantsApi.prototype, 'variants').mockResolvedValue({ id: 200, classificationItems: [] });
 
     await expect(fetchVariantForClassification(104, 200)).resolves.toMatchObject({ id: 200 });
-    expect(fetchVersionById).toHaveBeenCalledWith(20, 'nb');
+    expect(fetchVersionById).toHaveBeenCalledWith(20, 'nb', true);
   });
 
   it('returns a variant from an explicitly selected version', async () => {
@@ -74,7 +74,7 @@ describe('fetchVariantForClassification', () => {
     vi.spyOn(VariantsApi.prototype, 'variants').mockResolvedValue({ id: 100, classificationItems: [] });
 
     await expect(fetchVariantForClassification(104, 100, 'nb', 10)).resolves.toMatchObject({ id: 100 });
-    expect(fetchVersionById).toHaveBeenCalledWith(10, 'nb');
+    expect(fetchVersionById).toHaveBeenCalledWith(10, 'nb', true);
   });
 
   it('rejects a version that does not belong to the classification', async () => {

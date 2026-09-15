@@ -42,7 +42,8 @@ export const mapVariantItems = (variant: ClassificationVariantResource): Item[] 
 export const mapVariantDetails = (variant: ClassificationVariantResource): Item[] => {
   const rows = mapVariantItems(variant);
   addRow(rows, localization.classification.variant.responsible, variant.contactPerson?.name);
-  addRow(rows, localization.classification.variant.validFrom, formatLocaleDate(variant.validFrom));
+  addRow(rows, localization.validity.validFrom, formatLocaleDate(variant.validFrom));
+  addRow(rows, localization.validity.validTo, formatLocaleDate(variant.validTo));
   addRow(rows, localization.classification.variant.description, variant.introduction);
 
   return rows;

@@ -31,6 +31,7 @@ export async function downloadCodesAction({
     to: validTo ? new Date(validTo) : undefined,
     language,
     format,
+    includeFuture: true,
   });
 }
 

@@ -20,8 +20,8 @@ test('Page has subscription dialog', async ({ classificationDetailsPage }) => {
   // Dialog is visible with expected elements
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeAttached();
-  await expect(dialog.getByRole('button', { name: localization.classification.subscribeConfirm })).toBeVisible();
-  await expect(dialog.getByRole('textbox', { name: localization.classification.subscription })).toBeVisible();
+  await expect(dialog.getByRole('button', { name: localization.classification.subscribeSubmit })).toBeVisible();
+  await expect(dialog.getByRole('textbox', { name: localization.classification.subscribe })).toBeVisible();
 
   const closeButton = dialog.getByRole('button', { name: 'Lukk dialogvindu' });
   await expect(closeButton).toBeVisible();
@@ -46,8 +46,8 @@ test.describe('User wants to start new subscription', () => {
     await expect(subscriptionButton).toBeVisible();
     await subscriptionButton.click();
     dialog = page.getByRole('dialog');
-    inputField = dialog.getByRole('textbox', { name: localization.classification.subscription });
-    confirmSubscription = dialog.getByRole('button', { name: localization.classification.subscribeConfirm });
+    inputField = dialog.getByRole('textbox', { name: localization.classification.subscribe });
+    confirmSubscription = dialog.getByRole('button', { name: localization.classification.subscribeSubmit });
   });
   test('User writes invalid email', async () => {
     await inputField.fill('svada</>');
@@ -92,7 +92,7 @@ test.describe('User wants to start new subscription', () => {
     await newSubscriptionButton.click();
     const newDialog = page.getByRole('dialog');
     const newConfirmSubscription = newDialog.getByRole('button', {
-      name: localization.classification.subscribeConfirm,
+      name: localization.classification.subscribeSubmit,
     });
     await expect(newConfirmSubscription).toBeVisible();
   });
@@ -104,10 +104,10 @@ test('User already subscribes', async ({ classificationDetailsPage }) => {
   await pageAlreadySubscribes.getByRole('button', { name: localization.classification.subscribe }).click();
   const dialogAlreadySubscribes = pageAlreadySubscribes.getByRole('dialog');
   const inputFieldAlreadySubscribes = dialogAlreadySubscribes.getByRole('textbox', {
-    name: localization.classification.subscription,
+    name: localization.classification.subscribe,
   });
   const confirmSubscriptionAlreadySubscribes = dialogAlreadySubscribes.getByRole('button', {
-    name: localization.classification.subscribeConfirm,
+    name: localization.classification.subscribeSubmit,
   });
   await inputFieldAlreadySubscribes.fill('tull@ssb.no');
   await expect(confirmSubscriptionAlreadySubscribes).toBeVisible();

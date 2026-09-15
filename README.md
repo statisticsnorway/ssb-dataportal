@@ -42,9 +42,11 @@ Pnpm is our package manager. This must be installed with a system-wide manual in
 To reduce the risk of installing compromised packages cooldown period of 7 days is set in `pnpm-workspace.yaml`
 
 Run
+
 ```bash
 pnpm outdated
 ```
+
 Update versions in `package.json`
 
 ### Vulnerability scanning
@@ -68,6 +70,7 @@ RISK_THRESHOLD — minimum risk score
 Install [Grype](https://oss.anchore.com/docs/installation/grype/)
 
 Scan filesystem
+
 ```bash
 grype .
 ```
@@ -120,26 +123,25 @@ Configuration is primarily source from `.env*` files. This may be overridden in 
 
 #### Commonly used config
 
-| Key                              | Description                                                                                                  |
-|----------------------------------|--------------------------------------------------------------------------------------------------------------|
-| `METADATA_API_BASE_PATH`         | Which Metadata API instance to point to. Can be set to `http://localhost:8081` to work with a local instance |
-| `DATADOC_USE_STATIC_DATA`        | `true` to use the static data product and dataset data from the repo. Otherwise the data will be retrieved from a live instance. |
-| `VARDEF_USE_STATIC_DATA`         | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance.      |
-| `KLASS_BASE_PATH`                | Which Klass instance to point to. Can be set to `http://localhost:8080` to work with a local instance        |
-| `KLASS_USE_STATIC_DATA`          | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. Codes are only mocked for id 2003.   |
-| `HIDE_CLASSIFICATIONS`           | `true` Hides classifications so that only the info text is visible                                           |
-| `KLASS_SEARCH_USE_STATIC_DATA`   | `true` to use the static search result data from the repo. Otherwise the data will be retrieved from a live instance.      |
-| `KLASS_SUBSCRIBER_USE_STATIC_DATA`   | `true` to use the static subscriber data from the repo. Otherwise the data will be retrieved from a live instance.      |
-| `SSB_DATAPORTAL_JWT_TOKEN`       | A JWT token to use for auth. Can be obtained from via the [Dapla CLI](#local-auth).                          |
-| `DANGEROUSLY_DISABLE_USER_AUTH`  | `true` to completely disable token verification and take full control over authentication                    |
-| `IS_AUTHENTICATED`               | `true` to hardcode successful authentication. Only applies under `DANGEROUSLY_DISABLE_USER_AUTH` mode        |
-| `DEV_ENVIRONMENT_NAME`           | Used to identify different dev and test instances. May for example be set to the branch name.                |
-| `DAPLA_LAB_VARDEF_URL`           | URL to Vardef instance used in Dapla Lab integration.                                                        |
-| `NEXT_PUBLIC_LOGIN_URL`          | URL to login page - value accessible in the browser.                                                         |
-| `NEXT_PUBLIC_LOGOUT_URL`         | URL to logout page - value accessible in the browser.                                                        |
-| `NEXT_PUBLIC_ENABLE_TEST_ROUTES` | `true` to enable local test-specific routes.                                                                 |
-| `VARDEF_API_DOCS_URL`            | URL to the Swagger API docs for variable definitions.                                                        |
- | `SITE_URL`                      | The base URL of the deployed site. Can be set to `http://localhost:3000` for local testing or development.          |
+| Key                                | Description                                                                                                                                |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `METADATA_API_BASE_PATH`           | Which Metadata API instance to point to. Can be set to `http://localhost:8081` to work with a local instance                               |
+| `DATADOC_USE_STATIC_DATA`          | `true` to use the static data product and dataset data from the repo. Otherwise the data will be retrieved from a live instance.           |
+| `VARDEF_USE_STATIC_DATA`           | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance.                                    |
+| `KLASS_BASE_PATH`                  | Which Klass instance to point to. Can be set to `http://localhost:8080` to work with a local instance                                      |
+| `KLASS_USE_STATIC_DATA`            | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. Codes are only mocked for id 2003. |
+| `KLASS_SEARCH_USE_STATIC_DATA`     | `true` to use the static search result data from the repo. Otherwise the data will be retrieved from a live instance.                      |
+| `KLASS_SUBSCRIBER_USE_STATIC_DATA` | `true` to use the static subscriber data from the repo. Otherwise the data will be retrieved from a live instance.                         |
+| `SSB_DATAPORTAL_JWT_TOKEN`         | A JWT token to use for auth. Can be obtained from via the [Dapla CLI](#local-auth).                                                        |
+| `DANGEROUSLY_DISABLE_USER_AUTH`    | `true` to completely disable token verification and take full control over authentication                                                  |
+| `IS_AUTHENTICATED`                 | `true` to hardcode successful authentication. Only applies under `DANGEROUSLY_DISABLE_USER_AUTH` mode                                      |
+| `DEV_ENVIRONMENT_NAME`             | Used to identify different dev and test instances. May for example be set to the branch name.                                              |
+| `DAPLA_LAB_VARDEF_URL`             | URL to Vardef instance used in Dapla Lab integration.                                                                                      |
+| `NEXT_PUBLIC_LOGIN_URL`            | URL to login page - value accessible in the browser.                                                                                       |
+| `NEXT_PUBLIC_LOGOUT_URL`           | URL to logout page - value accessible in the browser.                                                                                      |
+| `NEXT_PUBLIC_ENABLE_TEST_ROUTES`   | `true` to enable local test-specific routes.                                                                                               |
+| `VARDEF_API_DOCS_URL`              | URL to the Swagger API docs for variable definitions.                                                                                      |
+| `SITE_URL`                         | The base URL of the deployed site. Can be set to `http://localhost:3000` for local testing or development.                                 |
 
 ### Local auth
 
@@ -273,13 +275,13 @@ This makes it possible to share links, refresh the page, and restore the same vi
 
 #### Query parameters
 
-| Parameter | Description | Example |
-|---|---|---|
-| `q` | Text filter for variable name / short name | `?q=inntekt` |
-| `subjects` | Selected statistical subject codes | `?subjects=al` |
-| `status` | Selected publication statuses | `?status=DRAFT` |
-| `sort` | Selected sort option | `?sort=titleDesc` |
-| `page` | Current pagination page | `?page=2` |
+| Parameter  | Description                                | Example           |
+| ---------- | ------------------------------------------ | ----------------- |
+| `q`        | Text filter for variable name / short name | `?q=inntekt`      |
+| `subjects` | Selected statistical subject codes         | `?subjects=al`    |
+| `status`   | Selected publication statuses              | `?status=DRAFT`   |
+| `sort`     | Selected sort option                       | `?sort=titleDesc` |
+| `page`     | Current pagination page                    | `?page=2`         |
 
 Example:
 
@@ -340,6 +342,7 @@ Commit with message like `Bump version x.x.x -> y.y.y`.
 Open and merge a PR.
 
 ## Styling
+
 - Use `global.css` for shared CSS variables and global utility classes that are reused across the application.
 - Use *.module.css files for component-specific styles, keeping them close to the component they belong to.
 - For typography, use the predefined SSB styling classes:
