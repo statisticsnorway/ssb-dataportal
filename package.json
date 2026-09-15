@@ -82,6 +82,6 @@
     "ts-node": "10.9.2",
     "typescript-plugin-css-modules": "5.2.0",
     "vite": "8.1.3",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   }
 }
