@@ -3,9 +3,9 @@ on:
   push:
     branches: [main]
     paths-ignore:
-      - .agents
-      - .nais
-      - scripts
+      - .agents/**
+      - .nais/**
+      - scripts/**
       - .gitignore
       - .dockerignore
       - .pre-commit-config.yaml
@@ -19,9 +19,9 @@ on:
   pull_request:
     branches: [main]
     paths-ignore:
-      - .agents
-      - .nais
-      - scripts
+      - .agents/**
+      - .nais/**
+      - scripts/**
       - .gitignore
       - .dockerignore
       - .pre-commit-config.yaml
