@@ -1,12 +1,14 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
 import DataProductDetail from './dataProductDetail';
+
+let isAuthenticatedMock = true;
 
 vi.mock('server-only', () => ({}));
 vi.mock('@/app/authContext', () => ({
   useAuthContext: () => ({
-    isAuthenticated: true,
+    isAuthenticated: isAuthenticatedMock,
     login: vi.fn(),
     logout: vi.fn(),
     user: null,
@@ -20,6 +22,12 @@ vi.mock('@/libs/language', () => ({
       filter: {
         label: 'Filters',
       },
+      sort: {
+        label: 'Sort',
+        titleAlphabeticalAsc: 'Title A-Z',
+        titleAlphabeticalDesc: 'Title Z-A',
+        lastUpdatedFirst: 'Last changed',
+      },
     },
     products: {
       assessment: {
@@ -32,6 +40,7 @@ vi.mock('@/libs/language', () => ({
     dataProductDetail: {
       dataProductFilters: 'Filters',
       dataset: 'Datasets',
+      sortByMostNamingStandardViolations: 'Most naming standard violations',
     },
   },
 }));
@@ -48,7 +57,29 @@ vi.mock('@/components/dataportal-breadcrumbs', () => ({
   DataportalBreadcrumbs: () => <nav data-testid='breadcrumbs' />,
 }));
 
-// Minimal mock of CheckboxFilter so we can click checkboxes
+vi.mock('@/components/sort-fields', () => ({
+  SortFields: ({
+    sortOptions,
+    sortValue,
+    onSortChange,
+    sortLabels,
+  }: {
+    sortOptions: string[];
+    sortValue: string;
+    onSortChange: (value: string) => void;
+    sortLabels?: Record<string, string>;
+  }) => (
+    <select aria-label='Sort' value={sortValue} onChange={(event) => onSortChange(event.target.value)}>
+      {sortOptions.map((option) => (
+        <option key={option} value={option}>
+          {sortLabels?.[option] ?? option}
+        </option>
+      ))}
+    </select>
+  ),
+}));
+
+// Minimal mock of filters so we can click controls
 vi.mock('@/components/filters', () => {
   const FiltersPanel = ({ children }: { children: React.ReactNode }) => (
     <div data-testid='filters-panel'>{children}</div>
@@ -115,6 +146,10 @@ const datasets = [
 
 // --- Tests ---
 describe('DataProductDetail', () => {
+  beforeEach(() => {
+    isAuthenticatedMock = true;
+  });
+
   it('renders title, breadcrumbs, filters and all datasets initially', () => {
     render(
       <DataProductDetail dataProduct={dataProduct} datasets={datasets} namingStandardViolationsByDatasetId={{}} />,
@@ -186,5 +221,48 @@ describe('DataProductDetail', () => {
     expect(hits[0]).toHaveAttribute('data-violations', '4');
     expect(hits[1]).toHaveAttribute('data-violations', '0');
     expect(hits[2]).toHaveAttribute('data-violations', '1');
+  });
+
+  it('shows sorting controls for authenticated users', () => {
+    render(
+      <DataProductDetail
+        dataProduct={dataProduct}
+        datasets={datasets}
+        namingStandardViolationsByDatasetId={{ '1': 1 }}
+      />,
+    );
+
+    expect(screen.getByLabelText('Sort')).toBeInTheDocument();
+  });
+
+  it('shows only alphabetical sort options for unauthenticated users', () => {
+    isAuthenticatedMock = false;
+
+    render(
+      <DataProductDetail
+        dataProduct={dataProduct}
+        datasets={datasets}
+        namingStandardViolationsByDatasetId={{ '1': 1 }}
+      />,
+    );
+
+    const sortSelect = screen.getByLabelText('Sort');
+    expect(sortSelect).toBeInTheDocument();
+    expect(screen.queryByRole('option', { name: 'Most naming standard violations' })).not.toBeInTheDocument();
+  });
+
+  it('sorts datasets by naming standard violations when selected', () => {
+    render(
+      <DataProductDetail
+        dataProduct={dataProduct}
+        datasets={datasets}
+        namingStandardViolationsByDatasetId={{ '1': 1, '2': 4, '3': 2 }}
+      />,
+    );
+
+    fireEvent.change(screen.getByLabelText('Sort'), { target: { value: 'violationsDesc' } });
+
+    const hits = screen.getAllByTestId('dataset-hit');
+    expect(hits.map((hit) => hit.textContent)).toEqual(['Protected ds', 'Sensitive ds', 'Open ds']);
   });
 });

@@ -1,25 +1,28 @@
 import { Select } from '@digdir/designsystemet-react';
 import React from 'react';
 import { localization } from '@/libs/language';
-import { SortTypes } from '@/types/sort';
 import styles from './sort-fields.module.css';
 
 interface SortFieldsProps {
-  sortOptions: ReadonlyArray<SortTypes>;
-  sortValue: SortTypes;
-  onSortChange: (key: SortTypes) => void;
+  sortOptions: ReadonlyArray<string>;
+  sortValue: string;
+  onSortChange: (key: string) => void;
+  sortLabels?: Record<string, string>;
 }
 
-const SortFields = ({ sortOptions, sortValue, onSortChange }: SortFieldsProps) => {
-  const sortLabels: Record<string, string> = {
+const SortFields = ({ sortOptions, sortValue, onSortChange, sortLabels }: SortFieldsProps) => {
+  const defaultSortLabels: Record<string, string> = {
     titleAsc: localization.search.sort.titleAlphabeticalAsc,
     titleDesc: localization.search.sort.titleAlphabeticalDesc,
     lastChanged: localization.search.sort.lastUpdatedFirst,
   };
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onSortChange(e.target.value as SortTypes);
+    onSortChange(e.target.value);
   };
+
+  const labels = { ...defaultSortLabels, ...sortLabels };
+
   return (
     <section className={styles.wrapper}>
       <Select
@@ -31,7 +34,7 @@ const SortFields = ({ sortOptions, sortValue, onSortChange }: SortFieldsProps) =
       >
         {sortOptions.map((key) => (
           <Select.Option key={key} value={key}>
-            {sortLabels[key] || key}
+            {labels[key] || key}
           </Select.Option>
         ))}
       </Select>

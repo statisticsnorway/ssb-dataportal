@@ -190,6 +190,7 @@ export const nn = {
   dataProductDetail: {
     dataProductFilters: 'Dataproduktfilter',
     dataset: 'Datasett',
+    sortByMostNamingStandardViolations: 'Flest avvik frå namnestandard',
   },
   datasetDetail: {
     aboutDataset: 'Om datasettet',
