@@ -1,7 +1,12 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
-import { getDataProductByShortName, listDatasetsByProductShortName } from '@/libs/data/datasets/datasets';
+import { authenticateUser } from '@/libs/auth/userAuth';
+import {
+  getDataProductByShortName,
+  listDataFilesByDatasetId,
+  listDatasetsByProductShortName,
+} from '@/libs/data/datasets/datasets';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import DataProductDetail from './dataProductDetail';
@@ -31,5 +36,49 @@ export default async function DataProduct({ params }: Readonly<{ params: Promise
 
   if (!dataProduct) return notFound();
 
-  return <DataProductDetail dataProduct={dataProduct} datasets={datasets} />;
+  const auth = await authenticateUser();
+
+  if (!auth.isAuthenticated) {
+    return <DataProductDetail dataProduct={dataProduct} datasets={datasets} namingStandardViolationsByDatasetId={{}} />;
+  }
+
+  const namingStandardViolationsByDatasetId = Object.fromEntries(
+    await Promise.all(
+      datasets.map(async (dataset) => {
+        if (!dataset.id) {
+          return null;
+        }
+
+        if (!dataset.has_naming_standard_violations) {
+          return [dataset.id, 0] as const;
+        }
+
+        try {
+          const dataFiles = await listDataFilesByDatasetId(dataset.id);
+          const totalViolations = dataFiles.reduce(
+            (total, dataFile) => total + (dataFile.naming_standard_violations?.length ?? 0),
+            0,
+          );
+          return [dataset.id, totalViolations] as const;
+        } catch (error) {
+          logger.warn(
+            {
+              datasetId: dataset.id,
+              error: sanitizeError(error),
+            },
+            'Failed to load naming standard violations for dataset',
+          );
+          return [dataset.id, 0] as const;
+        }
+      }),
+    ).then((entries) => entries.filter((entry): entry is readonly [string, number] => entry !== null)),
+  );
+
+  return (
+    <DataProductDetail
+      dataProduct={dataProduct}
+      datasets={datasets}
+      namingStandardViolationsByDatasetId={namingStandardViolationsByDatasetId}
+    />
+  );
 }

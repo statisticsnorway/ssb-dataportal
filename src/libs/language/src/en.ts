@@ -194,6 +194,7 @@ export const en = {
   dataProductDetail: {
     dataProductFilters: 'Data product filters',
     dataset: 'Dataset',
+    sortByMostNamingStandardViolations: 'Most naming standard violations',
   },
   datasetDetail: {
     aboutDataset: 'About dataset',
