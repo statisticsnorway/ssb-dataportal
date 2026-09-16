@@ -1,4 +1,4 @@
-import { Badge, Tag } from '@digdir/designsystemet-react';
+import { Badge, Tag, Tooltip } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { SearchHit } from '@/components/search-hit';
@@ -22,13 +22,15 @@ export const DatasetSearchHit = ({ dataset, namingStandardViolationsCount }: Dat
       {dataset.assessment && <Tag data-color='warning'>{convertAssessment(dataset.assessment)}</Tag>}
       {isAuthenticated && dataset.owner && <Tag> {dataset.owner}</Tag>}
       {isAuthenticated && namingStandardViolationsCount > 0 && (
-        <Badge
-          count={namingStandardViolationsCount}
-          data-color='warning'
-          data-size='sm'
-          className={styles.violationBadge}
-          aria-label={`${namingStandardViolationsCount} total ${localization.datasetDetail.namingStandardViolations}`}
-        />
+        <Tooltip content={localization.datasetDetail.namingStandardViolations}>
+          <Badge
+            count={namingStandardViolationsCount}
+            data-color='warning'
+            data-size='sm'
+            className={styles.violationBadge}
+            aria-label={`${namingStandardViolationsCount} total ${localization.datasetDetail.namingStandardViolations}`}
+          />
+        </Tooltip>
       )}
     </>
   );
