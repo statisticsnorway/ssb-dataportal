@@ -2,8 +2,36 @@ name: Test and lint
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - .agents
+      - .nais
+      - scripts
+      - .gitignore
+      - .dockerignore
+      - .pre-commit-config.yaml
+      - AGENTS.md
+      - backstage.yaml
+      - Dockerfile
+      - LICENSE
+      - openapitools.json
+      - README.md
+      - SECURITY.md
   pull_request:
     branches: [main]
+    paths-ignore:
+      - .agents
+      - .nais
+      - scripts
+      - .gitignore
+      - .dockerignore
+      - .pre-commit-config.yaml
+      - AGENTS.md
+      - backstage.yaml
+      - Dockerfile
+      - LICENSE
+      - openapitools.json
+      - README.md
+      - SECURITY.md
 
 jobs:
   lint-and-format:
