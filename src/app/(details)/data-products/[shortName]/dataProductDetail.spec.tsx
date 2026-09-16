@@ -84,8 +84,16 @@ vi.mock('@/components/filters', () => {
 });
 
 vi.mock('./components/DatasetSearchHit', () => ({
-  DatasetSearchHit: ({ dataset }: { dataset: DatasetDTO }) => (
-    <div data-testid='dataset-hit'>{dataset.short_description ?? dataset.id}</div>
+  DatasetSearchHit: ({
+    dataset,
+    namingStandardViolationsCount,
+  }: {
+    dataset: DatasetDTO;
+    namingStandardViolationsCount: number;
+  }) => (
+    <div data-testid='dataset-hit' data-violations={namingStandardViolationsCount}>
+      {dataset.short_description ?? dataset.id}
+    </div>
   ),
 }));
 
@@ -108,7 +116,9 @@ const datasets = [
 // --- Tests ---
 describe('DataProductDetail', () => {
   it('renders title, breadcrumbs, filters and all datasets initially', () => {
-    render(<DataProductDetail dataProduct={dataProduct} datasets={datasets} />);
+    render(
+      <DataProductDetail dataProduct={dataProduct} datasets={datasets} namingStandardViolationsByDatasetId={{}} />,
+    );
 
     expect(screen.getByRole('heading', { level: 1, name: 'My Product' })).toBeInTheDocument();
     expect(screen.getByTestId('breadcrumbs')).toBeInTheDocument();
@@ -119,7 +129,9 @@ describe('DataProductDetail', () => {
   });
 
   it('filters datasets when an assessment checkbox is selected', () => {
-    render(<DataProductDetail dataProduct={dataProduct} datasets={datasets} />);
+    render(
+      <DataProductDetail dataProduct={dataProduct} datasets={datasets} namingStandardViolationsByDatasetId={{}} />,
+    );
 
     const openCheckbox = screen.getByLabelText('Open');
     fireEvent.click(openCheckbox);
@@ -130,7 +142,9 @@ describe('DataProductDetail', () => {
   });
 
   it('supports multiple selected filters (OR filtering)', () => {
-    render(<DataProductDetail dataProduct={dataProduct} datasets={datasets} />);
+    render(
+      <DataProductDetail dataProduct={dataProduct} datasets={datasets} namingStandardViolationsByDatasetId={{}} />,
+    );
 
     fireEvent.click(screen.getByLabelText('Open'));
     fireEvent.click(screen.getByLabelText('Sensitive'));
@@ -141,7 +155,9 @@ describe('DataProductDetail', () => {
   });
 
   it('toggling a selected filter off shows all datasets again', () => {
-    render(<DataProductDetail dataProduct={dataProduct} datasets={datasets} />);
+    render(
+      <DataProductDetail dataProduct={dataProduct} datasets={datasets} namingStandardViolationsByDatasetId={{}} />,
+    );
 
     const protectedCheckbox = screen.getByLabelText('Protected');
     fireEvent.click(protectedCheckbox); // select
@@ -153,7 +169,22 @@ describe('DataProductDetail', () => {
 
   it('falls back to product_short_name when title is missing', () => {
     const product = { product_short_name: 'fallback-name' } as DataProductDTO;
-    render(<DataProductDetail dataProduct={product} datasets={[]} />);
+    render(<DataProductDetail dataProduct={product} datasets={[]} namingStandardViolationsByDatasetId={{}} />);
     expect(screen.getByRole('heading', { level: 1, name: 'fallback-name' })).toBeInTheDocument();
+  });
+
+  it('passes naming standard violation counts to dataset cards', () => {
+    render(
+      <DataProductDetail
+        dataProduct={dataProduct}
+        datasets={datasets}
+        namingStandardViolationsByDatasetId={{ '1': 4, '2': 0, '3': 1 }}
+      />,
+    );
+
+    const hits = screen.getAllByTestId('dataset-hit');
+    expect(hits[0]).toHaveAttribute('data-violations', '4');
+    expect(hits[1]).toHaveAttribute('data-violations', '0');
+    expect(hits[2]).toHaveAttribute('data-violations', '1');
   });
 });

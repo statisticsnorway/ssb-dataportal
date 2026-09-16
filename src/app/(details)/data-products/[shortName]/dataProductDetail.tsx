@@ -23,9 +23,11 @@ const getAssessmentLabelByValue = (): Record<string, string> => ({
 export default function DataProductDetail({
   dataProduct,
   datasets,
+  namingStandardViolationsByDatasetId,
 }: Readonly<{
   dataProduct: DataProductDTO;
   datasets: DatasetDTO[];
+  namingStandardViolationsByDatasetId: Record<string, number>;
 }>) {
   const assessmentLabelByValue = getAssessmentLabelByValue();
   const { isAuthenticated } = useAuthContext();
@@ -93,7 +95,11 @@ export default function DataProductDetail({
             </Heading>
             <div className={styles.datasetList}>
               {filteredDatasets.map((d) => (
-                <DatasetSearchHit key={d.id ?? `${d.product_short_name}-${d.short_description}`} dataset={d} />
+                <DatasetSearchHit
+                  key={d.id ?? `${d.product_short_name}-${d.short_description}`}
+                  dataset={d}
+                  namingStandardViolationsCount={d.id ? (namingStandardViolationsByDatasetId[d.id] ?? 0) : 0}
+                />
               ))}
             </div>
           </section>
