@@ -1,16 +1,22 @@
 import { Select } from '@digdir/designsystemet-react';
 import React from 'react';
 import { localization } from '@/libs/language';
+import { SortTypes } from '@/types/sort';
 import styles from './sort-fields.module.css';
 
-interface SortFieldsProps {
-  sortOptions: ReadonlyArray<string>;
-  sortValue: string;
-  onSortChange: (key: string) => void;
+interface SortFieldsProps<TSortOption extends string = SortTypes> {
+  sortOptions: ReadonlyArray<TSortOption>;
+  sortValue: TSortOption;
+  onSortChange: (key: TSortOption) => void;
   sortLabels?: Record<string, string>;
 }
 
-const SortFields = ({ sortOptions, sortValue, onSortChange, sortLabels }: SortFieldsProps) => {
+const SortFields = <TSortOption extends string = SortTypes>({
+  sortOptions,
+  sortValue,
+  onSortChange,
+  sortLabels,
+}: SortFieldsProps<TSortOption>) => {
   const defaultSortLabels: Record<string, string> = {
     titleAsc: localization.search.sort.titleAlphabeticalAsc,
     titleDesc: localization.search.sort.titleAlphabeticalDesc,
@@ -18,7 +24,7 @@ const SortFields = ({ sortOptions, sortValue, onSortChange, sortLabels }: SortFi
   };
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onSortChange(e.target.value);
+    onSortChange(e.target.value as TSortOption);
   };
 
   const labels = { ...defaultSortLabels, ...sortLabels };
