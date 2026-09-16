@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths-ignore:
-      - .agents
-      - scripts
+      - .agents/**
+      - scripts/**
       - .gitignore
       - .pre-commit-config.yaml
       - AGENTS.md
@@ -15,8 +15,8 @@ on:
       - openapitools.json
       - README.md
       - SECURITY.md
-      - __mocks__
-      - e2e
+      - __mocks__/**
+      - e2e/**
       - playwright.config.ts
       - sonar-project.properties
       - vitest.config.ts
