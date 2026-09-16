@@ -16,7 +16,9 @@ spec:
   lifecycle: production
   dependsOn:
     - system:keycloak
+    - system:nais
   consumesApis:
     - api:vardef-internal-api
     - api:klass-api
+    - api:datadoc-internal-api
   system: metadata
