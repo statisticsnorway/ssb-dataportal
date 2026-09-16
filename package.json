@@ -44,7 +44,7 @@
     "@biomejs/biome": "2.5.0",
     "@digdir/designsystemet-css": "1.18.0",
     "@digdir/designsystemet-react": "1.18.0",
-    "@navikt/aksel-icons": "8.16.1",
+    "@navikt/aksel-icons": "8.16.2",
     "@next/env": "16.2.12",
     "@svgr/webpack": "8.1.0",
     "@types/lodash": "4.17.25",
@@ -53,16 +53,16 @@
     "@types/react-dom": "19.2.4",
     "@types/react-syntax-highlighter": "15.5.13",
     "classnames": "2.5.1",
-    "jose": "6.2.8",
+    "jose": "6.2.12",
     "next": "16.3.3",
-    "nuqs": "2.9.4",
+    "nuqs": "2.10.1",
     "pino": "10.3.1",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-localization": "2.0.6",
     "react-syntax-highlighter": "16.1.1",
     "server-only": "0.0.1",
-    "typescript": "6.0.3"
+    "typescript": "7.0.2"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.12.1",
