@@ -6,6 +6,8 @@ import type { DataProductDTO } from '@/libs/data-access/datadoc/models';
 import { KlassCode } from '@/types/klass-codes';
 import DataProductsPage from './page';
 
+vi.mock('server-only', () => ({}));
+
 vi.mock('next/headers', () => ({
   cookies: vi.fn().mockResolvedValue({
     get: vi.fn().mockReturnValue(undefined),
@@ -13,6 +15,10 @@ vi.mock('next/headers', () => ({
   headers: vi.fn().mockResolvedValue({
     get: vi.fn().mockReturnValue('nb'),
   }),
+}));
+
+vi.mock('@/libs/language/src/getRequestLanguage', () => ({
+  getRequestLanguage: vi.fn().mockResolvedValue('nb'),
 }));
 
 vi.mock('@/libs/data/classifications/codesData', () => ({
