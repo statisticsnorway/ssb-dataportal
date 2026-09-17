@@ -3,12 +3,16 @@ import { notFound } from 'next/navigation';
 import { cache, ReactNode } from 'react';
 import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
-import { getRequestLanguage } from '@/libs/language/src/getRequestLanguage';
+import { getRequestLanguage as getRequestLanguageFromRequest } from '@/libs/language/src/getRequestLanguage';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import ClassificationDetail from '../components/classificationDetail';
 import { VersionProvider, VersionResourceLayer } from '../components/versionContext';
 import { resolveDefaultVersion } from '../utils/versionSelection';
+
+export const getRequestLanguage = cache(async () => {
+  return getRequestLanguageFromRequest();
+});
 
 const getPageData = cache(async (id: number) => {
   const logger = createLogger('classification-detail-page');
