@@ -43,7 +43,10 @@ const rootLogger = pino({
         messageKey: 'message',
         formatters: {
           level(label) {
-            return { severity: GCP_SEVERITY_MAP[label] ?? 'INFO' };
+            return {
+              level: label.toUpperCase(),
+              severity: GCP_SEVERITY_MAP[label] ?? 'INFO',
+            };
           },
         },
       }),
