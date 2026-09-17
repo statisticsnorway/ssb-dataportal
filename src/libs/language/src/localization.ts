@@ -33,14 +33,12 @@ export const resolveLanguageFromLocale = (locale?: string): SupportedLanguage =>
     .map((part) => part.trim().split(';')[0]?.toLowerCase())
     .filter((part): part is string => Boolean(part));
 
-  if (locales.some((part) => part === 'nn' || part.startsWith('nn-'))) {
-    return 'nn';
-  }
-
   if (locales.some((part) => bokmalLocalePrefixes.some((prefix) => part === prefix || part.startsWith(`${prefix}-`)))) {
     return 'nb';
   }
-
+  if (locales.some((part) => part === 'nn' || part.startsWith('nn-'))) {
+    return 'nn';
+  }
   return 'en';
 };
 

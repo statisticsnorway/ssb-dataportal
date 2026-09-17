@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
-import { cookies, headers } from 'next/headers';
 import { fetchAllClassifications } from '@/libs/data/classifications/classificationData';
 import { fetchSubjectFieldFilterValues } from '@/libs/data/classifications/codesData';
 import { fetchSearchResult } from '@/libs/data/classifications/searchData';
-import { languageCookieName, localization, resolveLanguage } from '@/libs/language';
+import { localization } from '@/libs/language';
+import { getRequestLanguage } from '@/libs/language/src/getRequestLanguage';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import { regionFamily } from '@/utils/subjectFieldsMapping';
@@ -19,12 +19,7 @@ export default async function Classifications({
   readonly searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const params = await searchParams;
-  const cookieStore = await cookies();
-  const requestHeaders = await headers();
-  const language = resolveLanguage(
-    cookieStore.get(languageCookieName)?.value,
-    requestHeaders.get('accept-language') ?? undefined,
-  );
+  const language = await getRequestLanguage();
   const logger = createLogger('classifications-discover-page');
   logger.info({ params }, 'Classifications page access');
 

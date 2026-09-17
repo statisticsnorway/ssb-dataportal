@@ -1,5 +1,14 @@
-import { describe, expect, it } from 'vitest';
-import { resolveLanguage, resolveLanguageFromLocale } from './localization';
+import { describe, expect, it, vi } from 'vitest';
+
+vi.mock('server-only', () => ({}));
+vi.mock('@/libs/logger/server-logger', () => ({
+  createLogger: () => ({
+    debug: vi.fn(),
+    warn: vi.fn(),
+  }),
+}));
+
+const { resolveLanguage, resolveLanguageFromLocale } = await import('./localization');
 
 describe('resolveLanguageFromLocale', () => {
   it('returns nynorsk when locale is Nynorsk', () => {
@@ -19,6 +28,10 @@ describe('resolveLanguageFromLocale', () => {
 
   it('parses Accept-Language and prioritizes Nynorsk', () => {
     expect(resolveLanguageFromLocale('en-US,en;q=0.9,nn-NO;q=0.8')).toBe('nn');
+  });
+
+  it('parses Accept-Language and prioritizes Bokmål', () => {
+    expect(resolveLanguageFromLocale('en-US,en;q=0.9,nb-NO;q=0.8,nn-NO;q=0.8')).toBe('nb');
   });
 });
 
