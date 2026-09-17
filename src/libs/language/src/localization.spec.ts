@@ -11,27 +11,19 @@ vi.mock('@/libs/logger/server-logger', () => ({
 const { resolveLanguage, resolveLanguageFromLocale } = await import('./localization');
 
 describe('resolveLanguageFromLocale', () => {
-  it('returns nynorsk when locale is Nynorsk', () => {
-    expect(resolveLanguageFromLocale('nn-NO')).toBe('nn');
-  });
-
-  it('returns bokmal when locale is Bokmal, Danish or Swedish', () => {
-    expect(resolveLanguageFromLocale('nb-NO')).toBe('nb');
-    expect(resolveLanguageFromLocale('da-DK')).toBe('nb');
-    expect(resolveLanguageFromLocale('sv-SE')).toBe('nb');
-  });
-
-  it('returns english for all other locales', () => {
-    expect(resolveLanguageFromLocale('en-GB')).toBe('en');
-    expect(resolveLanguageFromLocale('de-DE')).toBe('en');
-  });
-
-  it('parses Accept-Language and prioritizes Nynorsk', () => {
-    expect(resolveLanguageFromLocale('en-US,en;q=0.9,nn-NO;q=0.8')).toBe('nn');
-  });
-
-  it('parses Accept-Language and prioritizes Bokmål', () => {
-    expect(resolveLanguageFromLocale('en-US,en;q=0.9,nb-NO;q=0.8,nn-NO;q=0.8')).toBe('nb');
+  it.each([
+    { locale: 'nn-NO', expected: 'nn' },
+    { locale: 'nb-NO', expected: 'nb' },
+    { locale: 'da-DK', expected: 'nb' },
+    { locale: 'sv-SE', expected: 'nb' },
+    { locale: 'en-GB', expected: 'en' },
+    { locale: 'de-DE', expected: 'en' },
+    { locale: 'en-US,en;q=0.9,nn-NO;q=0.8', expected: 'en' },
+    { locale: 'en-US,en;q=0.9,nb-NO;q=0.8,nn-NO;q=0.8', expected: 'en' },
+    { locale: 'nn,nb;q=0.9,no;q=0.8,en-US;q=0.7,en;q=0.6', expected: 'nn' },
+    { locale: 'nn;q=0.7,nb-NO;q=0.9,en;q=0.6', expected: 'nb' },
+  ] as const)('resolves $expected from "$locale"', ({ locale, expected }) => {
+    expect(resolveLanguageFromLocale(locale)).toBe(expected);
   });
 });
 
