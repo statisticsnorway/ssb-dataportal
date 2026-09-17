@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
-import { cookies, headers } from 'next/headers';
 import { fetchSubjectFieldFilterValues } from '@/libs/data/classifications/codesData';
 import { listRenderedVariableDefinitions } from '@/libs/data/variable-definitions/variableDefinitions';
-import { languageCookieName, localization, resolveLanguage } from '@/libs/language';
+import { localization } from '@/libs/language';
+import { getRequestLanguage } from '@/libs/language/src/getRequestLanguage';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import VariableDefinitionsServicePage from './variable-definitions-service-page';
@@ -17,12 +17,7 @@ export default async function VariableDefinitions({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }>) {
   const params = await searchParams;
-  const cookieStore = await cookies();
-  const requestHeaders = await headers();
-  const language = resolveLanguage(
-    cookieStore.get(languageCookieName)?.value,
-    requestHeaders.get('accept-language') ?? undefined,
-  );
+  const language = await getRequestLanguage();
   const logger = createLogger('variable-definitions-discover-page');
   logger.info({ params }, 'Variable definitions page access');
 

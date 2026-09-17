@@ -3,8 +3,11 @@ import React from 'react';
 import '@testing-library/jest-dom/vitest';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+vi.mock('server-only', () => ({}));
+
 const mocks = vi.hoisted(() => ({
   fetchVersionById: vi.fn(),
+  getRequestLanguage: vi.fn(),
   notFound: vi.fn(() => {
     throw new Error('NEXT_NOT_FOUND');
   }),
@@ -38,6 +41,10 @@ vi.mock('@/libs/logger/server-logger', () => ({
   createLogger: mocks.createLogger,
 }));
 
+vi.mock('@/app/(details)/classifications/[id]/layout', () => ({
+  getRequestLanguage: mocks.getRequestLanguage,
+}));
+
 vi.mock('@/app/(details)/classifications/components/versionContext', () => ({
   VersionResourceLayer: ({
     versionResource,
@@ -55,6 +62,7 @@ vi.mock('@/app/(details)/classifications/components/versionContext', () => ({
 describe('VersionLayout', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mocks.getRequestLanguage.mockResolvedValue('nb');
   });
 
   it('calls notFound when versionNumber is not a number', async () => {
