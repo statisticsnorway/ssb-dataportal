@@ -6,7 +6,7 @@ on:
       - main
       - chore/update-grype-result-scan
   schedule:
-    - cron: '0 0 * * *' # Runs every day at midnight
+    - cron: "0 0 * * *" # Runs every day at midnight
   workflow_dispatch:
 jobs:
   dependency-version-check:
@@ -57,7 +57,7 @@ jobs:
           output-format: table
           fail-build: false
           severity-cutoff: high
-          
+
       - name: Create Docker SARIF file
         uses: anchore/scan-action@e1165082ffb1fe366ebaf02d8526e7c4989ea9d2 # v7.4.0
         id: scan
@@ -98,19 +98,38 @@ jobs:
           echo "RISK map entries: $(jq 'length' risk-map.json)"
           echo "Sample map keys:"
           jq 'to_entries | .[0:5]' risk-map.json
+      
+      - name: Debug SARIF around line 1218
+        run: |
+          sed -n '1210,1230p' "${{ steps.scan.outputs.sarif }}"
+          jq '.runs
+              | to_entries
+              | map({
+                  run: .key,
+                  rules_type: (.value.tool.driver.rules | type),
+                  results_type: (.value.results | type),
+                  bad_results: [.value.results[]? | select(type != "object")] | length,
+                  bad_rules:   [.value.tool.driver.rules[]? | select(type != "object")] | length
+                })' "${{ steps.scan.outputs.sarif }}"  
 
       - name: Filter Docker SARIF (composite RISK > RISK_THRESHOLD, high/critical)
         run: |
           jq --argjson threshold "${RISK_THRESHOLD}" \
             --slurpfile riskMap risk-map.json '
+            def as_array(x): if (x | type) == "array" then x else [] end;
+            def as_object(x): if (x | type) == "object" then x else {} end;
+
             ($riskMap[0] // {}) as $risk
-            | .runs |= map(
-                ((.tool.driver.rules // [])
+            | .runs |= (as_array(.) | map(
+                (
+                  as_array(.tool.driver.rules)
                   | map(select(type == "object"))
-                  | map({ key: (.id // ""), value: . })
-                  | from_entries) as $rules
+                  | map(select((.id // "") != ""))
+                  | map({ key: .id, value: . })
+                  | from_entries
+                ) as $rules
                 | .results = (
-                    (.results // [])
+                    as_array(.results)
                     | map(select(type == "object"))
                     | map(
                         . as $r
@@ -125,18 +144,19 @@ jobs:
                           )
                       )
                   )
-                | ((.results // []) | map(.ruleId // empty) | unique) as $keep
+                | (as_array(.results) | map(.ruleId // empty) | unique) as $keep
                 | .tool.driver.rules = (
-                    (.tool.driver.rules // [])
+                    as_array(.tool.driver.rules)
                     | map(select(type == "object"))
                     | map(select(($keep | index(.id // "")) != null))
                     | map(
-                        . as $rule
+                        as_object(.)
+                        | .properties = as_object(.properties)
                         | .properties["security-severity"] =
-                            (($risk[($rule.id // "")] // 0) | tostring)
+                            (($risk[(.id // "")] // 0) | tostring)
                       )
                   )
-              )
+              ))
           ' "${{ steps.scan.outputs.sarif }}" > docker.filtered.sarif
 
           echo "Kept results: $(jq '[.runs[].results[]] | length' docker.filtered.sarif)"
@@ -158,4 +178,3 @@ jobs:
             report/index.html
             grype-report.json
             filtered-vulns.json
-
