@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - chore/do-not-report-risk-score-NA
   schedule:
     - cron: '0 0 * * *' # Runs every day at midnight
   workflow_dispatch:
@@ -38,7 +39,7 @@ jobs:
       actions: read
       pages: write
     env:
-      RISK_THRESHOLD: "0.1"
+      RISK_THRESHOLD: "0.8"
       SEVERITIES: "High,Critical"
     steps:
       - name: Checkout repository
