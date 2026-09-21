@@ -214,9 +214,6 @@ importers:
       '@biomejs/biome':
         specifier: 2.5.0
         version: 2.5.0
-      '@digdir/designsystemet-css':
-        specifier: 1.18.0
-        version: 1.18.0
       '@digdir/designsystemet-react':
         specifier: 1.18.0
         version: 1.18.0(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -226,6 +223,9 @@ importers:
       '@next/env':
         specifier: 16.2.12
         version: 16.2.12
+      '@statisticsnorway/design-css':
+        specifier: 0.2.2
+        version: 0.2.2
       '@svgr/webpack':
         specifier: 8.1.0
         version: 8.1.0(supports-color@10.2.2)(typescript@7.0.2)
@@ -1047,8 +1047,8 @@ packages:
     resolution: {integrity: sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==}
     engines: {node: '>=20.19.0'}
 
-  '@digdir/designsystemet-css@1.18.0':
-    resolution: {integrity: sha512-AiJAOGOJa8XKnaGhlho+/I16jYYB8gJuXgdoCreotFGhZWf9FPjRp/3IXh4CoLmSwooNXJL/5/qmiFRBhbrJ2Q==}
+  '@digdir/designsystemet-css@1.21.1':
+    resolution: {integrity: sha512-k01KHaYmkze7tYBt1S/XVPC5UzPIYrpH8pQJzMtRo9WX3EHSPy7llwuFeRvnP4RT3ctDowaIi3s3S3pHIAKevw==}
 
   '@digdir/designsystemet-react@1.18.0':
     resolution: {integrity: sha512-rBOG0wWrHYeQFsmfjcECiEyXdt5RQ06Ec5oTT3SyvaU/+5cEpaCSCcF97S4EfA/2vsRVjIjYa6V854ibEM2FbA==}
@@ -1058,6 +1058,9 @@ packages:
 
   '@digdir/designsystemet-types@1.18.0':
     resolution: {integrity: sha512-2Qfn9Pf59AZyjc95NcWpsNyma3vcsWbiNMLmoMjHG8o0oBNYQdaln4V7wJig5avjbz7Z1BcBhs60d/DOcP+j5w==}
+
+  '@digdir/designsystemet-types@1.21.1':
+    resolution: {integrity: sha512-kRkZb+XGIVzPseVnWGi1aryfBenpSh/U0QvaOWmH2MNTIrY+/OHqKaVU1x71lo/XFAlhlwpPrhqqJoaNMxvxsA==}
 
   '@digdir/designsystemet-web@1.18.0':
     resolution: {integrity: sha512-CLQZWSywbk2StmD6kzTi9ZsHiZrNKbWVOTRG0/JGP0xX+QZwadDqz1Dsh11HeRDRCoz6PjMz6Yi1HV/icmwcjQ==}
@@ -1682,6 +1685,9 @@ packages:
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
+
+  '@statisticsnorway/design-css@0.2.2':
+    resolution: {integrity: sha512-R44w88n3K8h9X/Lj6khSps8x2onpyVRa2HBHTHRFN6SJxPVfhxpJFopIRVSYishD7OqPgBQ7abNgFlFVXbegyw==}
 
   '@svgr/babel-plugin-add-jsx-attribute@8.0.0':
     resolution: {integrity: sha512-b9MIk7yhdS1pMCZM8VeNfUlSKVRhsHZNMl5O9SfaX0l0t5wjdgu4IDzGB8bpnGBBOjGST3rRFVsaaEtI4W6f7g==}
@@ -4767,9 +4773,9 @@ snapshots:
 
   '@csstools/css-tokenizer@4.0.0': {}
 
-  '@digdir/designsystemet-css@1.18.0':
+  '@digdir/designsystemet-css@1.21.1':
     dependencies:
-      '@digdir/designsystemet-types': 1.18.0
+      '@digdir/designsystemet-types': 1.21.1
 
   '@digdir/designsystemet-react@1.18.0(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
@@ -4787,6 +4793,8 @@ snapshots:
       - '@types/react'
 
   '@digdir/designsystemet-types@1.18.0': {}
+
+  '@digdir/designsystemet-types@1.21.1': {}
 
   '@digdir/designsystemet-web@1.18.0':
     dependencies:
@@ -5275,6 +5283,10 @@ snapshots:
   '@rolldown/pluginutils@1.0.1': {}
 
   '@standard-schema/spec@1.1.0': {}
+
+  '@statisticsnorway/design-css@0.2.2':
+    dependencies:
+      '@digdir/designsystemet-css': 1.21.1
 
   '@svgr/babel-plugin-add-jsx-attribute@8.0.0(@babel/core@7.29.0(supports-color@10.2.2))':
     dependencies:

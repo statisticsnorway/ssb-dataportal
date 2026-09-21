@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@biomejs/biome": "2.5.0",
-    "@digdir/designsystemet-css": "1.18.0",
+    "@statisticsnorway/design-css": "0.2.2",
     "@digdir/designsystemet-react": "1.18.0",
     "@navikt/aksel-icons": "8.16.2",
     "@next/env": "16.2.12",
