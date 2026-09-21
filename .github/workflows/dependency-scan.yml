@@ -78,18 +78,27 @@ jobs:
       - name: Run Grype report script
         run: bash scripts/grype-report.sh ssb-dataportal:latest
 
-      - name: Install Grype + jq
-        env:
-          GRYPE_VERSION: v0.114.0
+      - name: Build RISK map (ruleId -> composite RISK)
         run: |
-          curl -sSfL "https://raw.githubusercontent.com/anchore/grype/${GRYPE_VERSION}/install.sh" \
-            | sh -s -- -b /usr/local/bin "${GRYPE_VERSION}"
-          sudo apt-get update
-          sudo apt-get install -y jq
+          # Inspect one entry so we can confirm field names
+          echo "Sample entry from filtered-vulns.json:"
+          jq '.[0]' filtered-vulns.json || echo "filtered-vulns.json is empty or missing"
 
-      - name: Run Grype report script
-        run: bash scripts/grype-report.sh ssb-dataportal:latest
-    
+          # Build { "CVE-xxxx-yyyy": <risk>, ... }
+          # Adjust .vulnerability.id / .risk paths if grype-report.sh uses different names.
+          jq '
+            map({
+              key: (.vulnerability.id // .id // ""),
+              value: ((.risk // 0) | tonumber)
+            })
+            | map(select(.key != ""))
+            | from_entries
+          ' filtered-vulns.json > risk-map.json
+
+          echo "RISK map entries: $(jq 'length' risk-map.json)"
+          echo "Sample map keys:"
+          jq 'to_entries | .[0:5]' risk-map.json
+
       - name: Filter Docker SARIF (composite RISK > RISK_THRESHOLD, high/critical)
         run: |
           jq --argjson threshold "${RISK_THRESHOLD}" \
@@ -105,13 +114,11 @@ jobs:
                     | map(select(type == "object"))
                     | map(
                         . as $r
-                        # Composite RISK for this result (0 if not present in map)
                         | (($risk[($r.ruleId // "")] // 0) | tonumber) as $riskScore
                         | select(
                             (($r.level // "") == "error")
                             and ($riskScore > $threshold)
                           )
-                        # Prefix message with the composite RISK for visibility in alerts
                         | .message.text = (
                             "[RISK " + ($riskScore | tostring) + "] "
                             + ($r.message.text // "")
@@ -123,8 +130,6 @@ jobs:
                     (.tool.driver.rules // [])
                     | map(select(type == "object"))
                     | map(select(($keep | index(.id // "")) != null))
-                    # Also mirror composite RISK into the rule's security-severity
-                    # so GitHub sorts alerts by the real risk.
                     | map(
                         . as $rule
                         | .properties["security-severity"] =
