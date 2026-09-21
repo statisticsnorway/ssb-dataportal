@@ -69,19 +69,19 @@ jobs:
       - name: Filter Docker SARIF (security-severity > threshold, matching severities)
         run: |
           # Map SEVERITIES ("High,Critical") -> SARIF levels (["error"])
-          sarif_levels=$(printf '%s' "$SEVERITIES" \
-            | jq -R '
-                split(",")
-                | map(ascii_downcase | gsub("^\\s+|\\s+$"; ""))
-                | map(
-                    if . == "critical" or . == "high" then "error"
-                    elif . == "medium" then "warning"
-                    elif . == "low" or . == "info" then "note"
-                    else empty end
-                  )
-                | unique
-              ')
-            jq --argjson threshold "$RISK_THRESHOLD" --argjson levels "$sarif_levels" '
+          sarif_levels=$(printf '%s' "$SEVERITIES" | jq -R '
+            split(",")
+            | map(ascii_downcase | gsub("^\\s+|\\s+$"; ""))
+            | map(
+                if . == "critical" or . == "high" then "error"
+                elif . == "medium" then "warning"
+                elif . == "low" or . == "info" then "note"
+                else empty end
+              )
+            | unique
+          ')
+          
+          jq --argjson threshold "$RISK_THRESHOLD" --argjson levels "$sarif_levels" '
             .runs = (
               (.runs // [])
               | map(
