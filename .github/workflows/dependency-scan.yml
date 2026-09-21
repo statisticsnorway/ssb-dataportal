@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - chore/update-grype-result-scan
   schedule:
     - cron: '0 0 * * *' # Runs every day at midnight
   workflow_dispatch:
