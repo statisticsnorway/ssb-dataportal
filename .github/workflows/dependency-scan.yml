@@ -96,6 +96,8 @@ jobs:
           echo "Sample map keys:"
           jq 'to_entries | .[0:5]' risk-map.json
 
+    
+
       - name: Filter Docker SARIF (composite RISK > RISK_THRESHOLD, high/critical)
         run: |
           jq --argjson threshold "${RISK_THRESHOLD}" \
@@ -154,6 +156,36 @@ jobs:
           ' "${{ steps.scan.outputs.sarif }}" > docker.filtered.sarif
 
           echo "Kept results: $(jq '[.runs[].results[]] | length' docker.filtered.sarif)"
+
+      - name: Debug RISK/SARIF IDs
+        run: |
+          echo "=== RISK MAP ==="
+          jq 'to_entries | .[0:10]' risk-map.json
+
+          echo "=== SARIF RULE IDs ==="
+          jq '
+            [.runs[].results[]?
+              | {
+                  ruleId,
+                  level,
+                  risk: .ruleId
+                }
+            ]
+            | .[0:20]
+          ' "${{ steps.scan.outputs.sarif }}"
+
+          echo "=== RULE IDS + RISK LOOKUP ==="
+          jq --slurpfile riskMap risk-map.json '
+            ($riskMap[0] // {}) as $risk
+            | [.runs[].results[]?
+                | {
+                    ruleId,
+                    level,
+                    risk: ($risk[(.ruleId // "")] // 0)
+                  }
+              ]
+              | .[0:20]
+          ' "${{ steps.scan.outputs.sarif }}"
 
       - name: Upload Docker SARIF report
         uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
