@@ -144,23 +144,30 @@ jobs:
                           )
                       )
                   )
-                | (as_array(.results) | map(.ruleId // empty) | unique) as $keep
+                | (
+                    as_array(.results)
+                    | map(.ruleId | select(type == "string"))
+                    | unique
+                  ) as $keep
                 | .tool.driver.rules = (
                     as_array(.tool.driver.rules)
                     | map(select(type == "object"))
-                    | map(select(($keep | index(.id // "")) != null))
+                    | map(select(
+                        (.id | type) == "string"
+                        and ($keep | index(.id)) != null
+                      ))
                     | map(
                         as_object(.)
                         | .properties = as_object(.properties)
                         | .properties["security-severity"] =
-                            (($risk[(.id // "")] // 0) | tostring)
+                            (($risk[.id] // 0) | tostring)
                       )
                   )
               ))
           ' "${{ steps.scan.outputs.sarif }}" > docker.filtered.sarif
 
           echo "Kept results: $(jq '[.runs[].results[]] | length' docker.filtered.sarif)"
-
+          
       - name: Upload Docker SARIF report
         uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
         with:
