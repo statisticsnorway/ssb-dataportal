@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - chore/update-grype-result-scan
   schedule:
     - cron: '0 0 * * *' # Runs every day at midnight
   workflow_dispatch:
@@ -65,31 +66,38 @@ jobs:
           fail-build: false
           severity-cutoff: high
     
-      - name: Filter Docker SARIF (security-severity > 1.0, high/critical)
+      - name: Filter Docker SARIF (security-severity > RISK_THRESHOLD, high/critical)
         run: |
-          jq '
-            .runs = (
-              (.runs // [])
-              | map(
-                  .tool.driver.rules = (.tool.driver.rules // [])
-                  | ((.tool.driver.rules // []) | map({ key: (.id // ""), value: . }) | from_entries) as $rules
-                  | .results = (
-                      (.results // [])
-                      | map(
-                          select(
-                            ((.level // "") == "error")
-                            and ((((($rules[(.ruleId // "")].properties["security-severity"] // "0") | tostring) | try tonumber catch 0) > 1.0))
-                          )
-                        )
-                    )
-                  | (.results | map(.ruleId // empty) | unique) as $keep
-                  | .tool.driver.rules = (
-                      (.tool.driver.rules // [])
-                      | map(select((.id // "") as $id | ($keep | index($id))))
-                    )
+          jq --argjson threshold "${RISK_THRESHOLD}" '
+            def score(rules; id):
+              ((rules[id] // {}).properties["security-severity"] // "0")
+              | tostring | try tonumber catch 0;
+
+            .runs |= map(
+              (
+                (.tool.driver.rules // [])
+                | map(select(type == "object"))
+                | map({ key: (.id // ""), value: . })
+                | from_entries
+              ) as $rules
+              | .results = (
+                  (.results // [])
+                  | map(select(type == "object"))
+                  | map(select(
+                      ((.level // "") == "error")
+                      and (score($rules; (.ruleId // "")) > $threshold)
+                    ))
+                )
+              | ((.results // []) | map(.ruleId // empty) | unique) as $keep
+              | .tool.driver.rules = (
+                  (.tool.driver.rules // [])
+                  | map(select(type == "object"))
+                  | map(select(($keep | index(.id // "")) != null))
                 )
             )
           ' "${{ steps.scan.outputs.sarif }}" > docker.filtered.sarif
+
+          echo "Kept results: $(jq '[.runs[].results[]] | length' docker.filtered.sarif)"
 
       - name: Upload Docker SARIF report
         uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
