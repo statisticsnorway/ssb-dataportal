@@ -80,15 +80,12 @@ jobs:
 
       - name: Build RISK map (ruleId -> composite RISK)
         run: |
-          # Inspect one entry so we can confirm field names
           echo "Sample entry from filtered-vulns.json:"
           jq '.[0]' filtered-vulns.json || echo "filtered-vulns.json is empty or missing"
 
-          # Build { "CVE-xxxx-yyyy": <risk>, ... }
-          # Adjust .vulnerability.id / .risk paths if grype-report.sh uses different names.
           jq '
             map({
-              key: (.vulnerability.id // .id // ""),
+              key: (.vulnerability // .id // ""),
               value: ((.risk // 0) | tonumber)
             })
             | map(select(.key != ""))
