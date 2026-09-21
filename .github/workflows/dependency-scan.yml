@@ -74,7 +74,12 @@ jobs:
               | tostring | try tonumber catch 0;
 
             .runs |= map(
-              ((.tool.driver.rules // []) | map({ key: (.id // ""), value: . }) | from_entries) as $rules
+              (
+                (.tool.driver.rules // [])
+                | map(select(type == "object"))
+                | map({ key: (.id // ""), value: . })
+                | from_entries
+              ) as $rules
               | .results = (
                   (.results // [])
                   | map(select(type == "object"))
@@ -86,6 +91,7 @@ jobs:
               | ((.results // []) | map(.ruleId // empty) | unique) as $keep
               | .tool.driver.rules = (
                   (.tool.driver.rules // [])
+                  | map(select(type == "object"))
                   | map(select(($keep | index(.id // "")) != null))
                 )
             )
