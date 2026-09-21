@@ -68,8 +68,8 @@ jobs:
     
       - name: Filter Docker SARIF (security-severity > threshold, matching severities)
         run: |
-          # Map SEVERITIES ("High,Critical") -> SARIF levels (["error"])
-          sarif_levels=$(printf '%s' "$SEVERITIES" | jq -R '
+          # Map SEVERITIES ("High,Critical") -> SARIF levels (["error"]); -c ensures single-line JSON
+          sarif_levels=$(printf '%s' "$SEVERITIES" | jq -Rc '
             split(",")
             | map(ascii_downcase | gsub("^\\s+|\\s+$"; ""))
             | map(
@@ -80,7 +80,8 @@ jobs:
               )
             | unique
           ')
-          
+          echo "sarif_levels=$sarif_levels"
+
           jq --argjson threshold "$RISK_THRESHOLD" --argjson levels "$sarif_levels" '
             .runs = (
               (.runs // [])
@@ -88,6 +89,7 @@ jobs:
                   ((.tool.driver.rules // []) | map({ key: (.id // ""), value: . }) | from_entries) as $rules
                   | .results = (
                       (.results // [])
+                      | map(select(type == "object"))
                       | map(
                           select(
                             (($levels | index(.level // "")) != null)
