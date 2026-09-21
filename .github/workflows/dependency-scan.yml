@@ -65,20 +65,23 @@ jobs:
           fail-build: false
           severity-cutoff: high
     
-      - name: Filter Docker SARIF (security-severity > 1.0, high/critical)
+      - name: Filter Docker SARIF (security-severity > threshold, matching severities)
         run: |
-          jq '
+          jq --argjson threshold "$RISK_THRESHOLD" '
             .runs = (
               (.runs // [])
               | map(
-                  .tool.driver.rules = (.tool.driver.rules // [])
-                  | ((.tool.driver.rules // []) | map({ key: (.id // ""), value: . }) | from_entries) as $rules
+                  ((.tool.driver.rules // []) | map({ key: (.id // ""), value: . }) | from_entries) as $rules
                   | .results = (
                       (.results // [])
                       | map(
                           select(
+                            # SARIF level "error" == high or critical
                             ((.level // "") == "error")
-                            and ((((($rules[(.ruleId // "")].properties["security-severity"] // "0") | tostring) | try tonumber catch 0) > 1.0))
+                            and (
+                              ((($rules[(.ruleId // "")].properties["security-severity"] // "0")
+                                | tostring | try tonumber catch 0)) > $threshold
+                            )
                           )
                         )
                     )
