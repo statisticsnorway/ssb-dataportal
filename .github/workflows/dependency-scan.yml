@@ -118,7 +118,12 @@ jobs:
                       | map(select(type == "object"))
                       | map(
                           . as $r
-                          | (($risk[($r.ruleId // "")] // 0) | tonumber) as $riskScore
+                          | (
+                            ($r.ruleId // "")
+                            | capture("^(?<cve>CVE-[0-9]{4}-[0-9]+)")?.cve
+                            // ""
+                          ) as $cve
+                          | (($risk[$cve] // 0) | tonumber) as $riskScore
                           | select(
                               (($r.level // "") == "error")
                               and ($riskScore > $threshold)
