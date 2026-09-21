@@ -168,35 +168,71 @@ jobs:
 
           echo "Kept results: $(jq '[.runs[].results[]] | length' docker.filtered.sarif)"
 
-      - name: Debug RISK/SARIF IDs
+      - name: Validate filtered SARIF
         run: |
-          echo "=== RISK MAP ==="
-          jq 'to_entries | .[0:10]' risk-map.json
+          set -euo pipefail
 
-          echo "=== SARIF RULE IDs ==="
+          echo "=== JSON validation ==="
+          jq empty docker.filtered.sarif
+          echo "JSON: OK"
+
+          echo "=== SARIF structure ==="
+          jq -e '
+            (.version | type == "string")
+            and (.runs | type == "array")
+            and all(.runs[];
+              (.tool.driver | type == "object")
+              and (.tool.driver.rules | type == "array")
+              and (.results | type == "array")
+            )
+          ' docker.filtered.sarif >/dev/null
+
+          echo "SARIF structure: OK"
+      
+      - name: Validate SARIF rule references
+        run: |
+          set -euo pipefail
+
+          jq -e '
+            all(.runs[];
+              (
+                [.tool.driver.rules[]?.id]
+                | unique
+              ) as $ruleIds
+              |
+              all(.results[]?.ruleId;
+                . as $resultRuleId
+                | ($ruleIds | index($resultRuleId)) != null
+              )
+            )
+          ' docker.filtered.sarif >/dev/null
+
+          echo "SARIF rule references: OK"
+
+      - name: Show filtered SARIF summary
+        run: |
+          echo "=== Filtered results ==="
+
           jq '
-            [.runs[].results[]?
-              | {
-                  ruleId,
-                  level,
-                  risk: .ruleId
-                }
+            [.runs[].results[]? |
+              {
+                ruleId,
+                level,
+                message: .message.text
+              }
             ]
-            | .[0:20]
-          ' "${{ steps.scan.outputs.sarif }}"
+          ' docker.filtered.sarif
 
-          echo "=== RULE IDS + RISK LOOKUP ==="
-          jq --slurpfile riskMap risk-map.json '
-            ($riskMap[0] // {}) as $risk
-            | [.runs[].results[]?
-                | {
-                    ruleId,
-                    level,
-                    risk: ($risk[(.ruleId // "")] // 0)
-                  }
-              ]
-              | .[0:20]
-          ' "${{ steps.scan.outputs.sarif }}"
+          echo "=== Filtered rules ==="
+
+          jq '
+            [.runs[].tool.driver.rules[]? |
+              {
+                id,
+                severity: .properties["security-severity"]
+              }
+            ]
+          ' docker.filtered.sarif
 
       - name: Upload Docker SARIF report
         uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
