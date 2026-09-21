@@ -22,8 +22,11 @@ spec:
   login:
     provider: openid
   replicas:
-    max: 2
     min: 2
+    max: 4
+    scalingStrategy:
+      cpu:
+        thresholdPercentage: 100
   resources:
     requests:
       cpu: 300m
