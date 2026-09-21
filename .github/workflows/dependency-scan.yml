@@ -98,76 +98,66 @@ jobs:
           echo "RISK map entries: $(jq 'length' risk-map.json)"
           echo "Sample map keys:"
           jq 'to_entries | .[0:5]' risk-map.json
-      
-      - name: Debug SARIF around line 1218
-        run: |
-          sed -n '1210,1230p' "${{ steps.scan.outputs.sarif }}"
-          jq '.runs
-              | to_entries
-              | map({
-                  run: .key,
-                  rules_type: (.value.tool.driver.rules | type),
-                  results_type: (.value.results | type),
-                  bad_results: [.value.results[]? | select(type != "object")] | length,
-                  bad_rules:   [.value.tool.driver.rules[]? | select(type != "object")] | length
-                })' "${{ steps.scan.outputs.sarif }}"  
 
       - name: Filter Docker SARIF (composite RISK > RISK_THRESHOLD, high/critical)
         run: |
           jq --argjson threshold "${RISK_THRESHOLD}" \
             --slurpfile riskMap risk-map.json '
-            def as_array(x): if (x | type) == "array" then x else [] end;
-            def as_object(x): if (x | type) == "object" then x else {} end;
+            def as_array(x):
+              if (x | type) == "array" then x else [] end;
+
+            def as_object(x):
+              if (x | type) == "object" then x else {} end;
 
             ($riskMap[0] // {}) as $risk
-            | .runs |= (as_array(.) | map(
-                (
-                  as_array(.tool.driver.rules)
-                  | map(select(type == "object"))
-                  | map(select((.id // "") != ""))
-                  | map({ key: .id, value: . })
-                  | from_entries
-                ) as $rules
-                | .results = (
-                    as_array(.results)
-                    | map(select(type == "object"))
-                    | map(
-                        . as $r
-                        | (($risk[($r.ruleId // "")] // 0) | tonumber) as $riskScore
-                        | select(
-                            (($r.level // "") == "error")
-                            and ($riskScore > $threshold)
-                          )
-                        | .message.text = (
-                            "[RISK " + ($riskScore | tostring) + "] "
-                            + ($r.message.text // "")
+
+            | .runs |= (
+                as_array(.)
+                | map(
+                    .results = (
+                      as_array(.results)
+                      | map(select(type == "object"))
+                      | map(
+                          . as $r
+                          | (($risk[($r.ruleId // "")] // 0) | tonumber) as $riskScore
+                          | select(
+                              (($r.level // "") == "error")
+                              and ($riskScore > $threshold)
+                            )
+                          | .message.text = (
+                              "[RISK " + ($riskScore | tostring) + "] "
+                              + ($r.message.text // "")
+                            )
+                        )
+                    )
+
+                    | (
+                        as_array(.results)
+                        | map(.ruleId | select(type == "string"))
+                        | unique
+                      ) as $keep
+
+                    | .tool.driver.rules = (
+                        as_array(.tool.driver.rules)
+                        | map(select(type == "object"))
+                        | map(select(
+                            (.id | type) == "string"
+                            and (.id as $ruleId
+                                | ($keep | index($ruleId)) != null)
+                          ))
+                        | map(
+                            as_object(.)
+                            | .properties = as_object(.properties)
+                            | .properties["security-severity"] =
+                                (($risk[.id] // 0) | tostring)
                           )
                       )
                   )
-                | (
-                    as_array(.results)
-                    | map(.ruleId | select(type == "string"))
-                    | unique
-                  ) as $keep
-                | .tool.driver.rules = (
-                    as_array(.tool.driver.rules)
-                    | map(select(type == "object"))
-                    | map(select(
-                        (.id | type) == "string"
-                        and ($keep | index(.id)) != null
-                      ))
-                    | map(
-                        as_object(.)
-                        | .properties = as_object(.properties)
-                        | .properties["security-severity"] =
-                            (($risk[.id] // 0) | tostring)
-                      )
-                  )
-              ))
+              )
           ' "${{ steps.scan.outputs.sarif }}" > docker.filtered.sarif
 
           echo "Kept results: $(jq '[.runs[].results[]] | length' docker.filtered.sarif)"
-          
+
       - name: Upload Docker SARIF report
         uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
         with:
