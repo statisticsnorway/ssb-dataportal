@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - chore/update-grype-result-scan
   schedule:
     - cron: '0 0 * * *' # Runs every day at midnight
   workflow_dispatch:
@@ -67,7 +68,20 @@ jobs:
     
       - name: Filter Docker SARIF (security-severity > threshold, matching severities)
         run: |
-          jq --argjson threshold "$RISK_THRESHOLD" '
+          # Map SEVERITIES ("High,Critical") -> SARIF levels (["error"])
+          sarif_levels=$(printf '%s' "$SEVERITIES" \
+            | jq -R '
+                split(",")
+                | map(ascii_downcase | gsub("^\\s+|\\s+$"; ""))
+                | map(
+                    if . == "critical" or . == "high" then "error"
+                    elif . == "medium" then "warning"
+                    elif . == "low" or . == "info" then "note"
+                    else empty end
+                  )
+                | unique
+              ')
+            jq --argjson threshold "$RISK_THRESHOLD" --argjson levels "$sarif_levels" '
             .runs = (
               (.runs // [])
               | map(
@@ -76,8 +90,7 @@ jobs:
                       (.results // [])
                       | map(
                           select(
-                            # SARIF level "error" == high or critical
-                            ((.level // "") == "error")
+                            (($levels | index(.level // "")) != null)
                             and (
                               ((($rules[(.ruleId // "")].properties["security-severity"] // "0")
                                 | tostring | try tonumber catch 0)) > $threshold
