@@ -97,8 +97,7 @@ jobs:
           jq 'to_entries | .[0:5]' risk-map.json
 
     
-
-      - name: Filter Docker SARIF (composite RISK > RISK_THRESHOLD, high/critical)
+      - name: Filter Docker SARIF (composite RISK > RISK_THRESHOLD)
         run: |
           jq --argjson threshold "${RISK_THRESHOLD}" \
             --slurpfile riskMap risk-map.json '
@@ -107,6 +106,14 @@ jobs:
 
             def as_object(x):
               if (x | type) == "object" then x else {} end;
+
+            def cve_from_rule_id(x):
+              (x // "")
+              | split("-")
+              | if length >= 3 and .[0] == "CVE"
+                then .[0:3] | join("-")
+                else ""
+                end;
 
             ($riskMap[0] // {}) as $risk
 
@@ -118,11 +125,7 @@ jobs:
                       | map(select(type == "object"))
                       | map(
                           . as $r
-                          | (
-                            ($r.ruleId // "")
-                            | capture("^(?<cve>CVE-[0-9]{4}-[0-9]+)")?.cve
-                            // ""
-                          ) as $cve
+                          | cve_from_rule_id($r.ruleId) as $cve
                           | (($risk[$cve] // 0) | tonumber) as $riskScore
                           | select(
                               (($r.level // "") == "error")
@@ -153,7 +156,10 @@ jobs:
                             as_object(.)
                             | .properties = as_object(.properties)
                             | .properties["security-severity"] =
-                                (($risk[.id] // 0) | tostring)
+                                (
+                                  cve_from_rule_id(.id) as $cve
+                                  | (($risk[$cve] // 0) | tostring)
+                                )
                           )
                       )
                   )
