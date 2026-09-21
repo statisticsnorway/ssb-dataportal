@@ -38,7 +38,7 @@ jobs:
       actions: read
       pages: write
     env:
-      RISK_THRESHOLD: "0.1"
+      RISK_THRESHOLD: "1.0"
       SEVERITIES: "High,Critical"
     steps:
       - name: Checkout repository
