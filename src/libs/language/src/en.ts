@@ -483,8 +483,6 @@ export const en = {
   },
   versions: {
     name: 'Name',
-    include: 'Include',
-    includeLevel: 'Include level {level}',
     invert: 'Invert table',
     isNotValid: "This version is not valid on today's date.",
     noChanges: 'No changes to codes for this version',

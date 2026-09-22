@@ -482,8 +482,6 @@ export const nb = {
   },
   versions: {
     name: 'Navn',
-    include: 'Inkluder',
-    includeLevel: 'Inkluder nivå {level}',
     invert: 'Inverter tabell',
     isNotValid: 'Versjonen er ikke gyldig på dagens dato.',
     noChanges: 'Ingen kodeendringer finnes for den aktuelle versjonen.',
