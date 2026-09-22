@@ -58,7 +58,7 @@ const codes: ClassificationItemResource[] = [
     validFrom: new Date('2020-01-01'),
     validTo: undefined,
     shortName: undefined,
-    notes: '',
+    notes: 'Seasonal harvest work is included.',
   },
   {
     code: '02',
@@ -105,6 +105,16 @@ describe('CodesView', () => {
 
     expect(screen.getByText(visible)).toBeInTheDocument();
     expect(screen.queryByText(hidden)).not.toBeInTheDocument();
+  });
+
+  it('filters by notes and keeps ancestors of matching codes', () => {
+    render(<CodesView version={version} />);
+
+    fireEvent.change(screen.getByLabelText('Filtrer på kode eller navn'), { target: { value: 'seasonal' } });
+
+    expect(screen.getByText('01:Agriculture')).toBeInTheDocument();
+    expect(screen.getByText('01.1:Crop production')).toBeInTheDocument();
+    expect(screen.queryByText('02:Forestry')).not.toBeInTheDocument();
   });
 
   it('keeps the codes table visible and shows no rows when filter has no matches', () => {

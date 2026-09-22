@@ -23,25 +23,72 @@ export const isSupportedLanguage = (value: string): value is SupportedLanguage =
 
 const bokmalLocalePrefixes = ['nb', 'no', 'da', 'sv'];
 
+interface ParsedLocale {
+  locale: string;
+  quality: number;
+  index: number;
+}
+
+const parseLocalePart = (part: string, index: number): ParsedLocale | undefined => {
+  const [rawLocale, ...params] = part.trim().split(';');
+  const locale = rawLocale?.toLowerCase();
+
+  if (!locale) {
+    return undefined;
+  }
+
+  const qualityParam = params.find((param) => param.trim().startsWith('q='));
+  const parsedQuality = qualityParam ? Number(qualityParam.trim().slice(2)) : 1;
+  const quality = Number.isFinite(parsedQuality) ? Math.max(0, Math.min(1, parsedQuality)) : 1;
+
+  return { locale, quality, index };
+};
+
+const isBokmalLocale = (locale: string) => {
+  return bokmalLocalePrefixes.some((prefix) => locale === prefix || locale.startsWith(`${prefix}-`));
+};
+
+const isNynorskLocale = (locale: string) => {
+  return locale === 'nn' || locale.startsWith('nn-');
+};
+
+const isEnglishLocale = (locale: string) => {
+  return locale === 'en' || locale.startsWith('en-');
+};
+
+const toSupportedLanguage = (locale: string): SupportedLanguage | undefined => {
+  if (isNynorskLocale(locale)) {
+    return 'nn';
+  }
+
+  if (isBokmalLocale(locale)) {
+    return 'nb';
+  }
+
+  if (isEnglishLocale(locale)) {
+    return 'en';
+  }
+
+  return undefined;
+};
+
 export const resolveLanguageFromLocale = (locale?: string): SupportedLanguage => {
   if (!locale) {
     return 'en';
   }
 
-  const locales = locale
+  const bestMatch = locale
     .split(',')
-    .map((part) => part.trim().split(';')[0]?.toLowerCase())
-    .filter((part): part is string => Boolean(part));
+    .map((part, index) => parseLocalePart(part, index))
+    .filter((part): part is ParsedLocale => part !== undefined)
+    .map((part) => ({
+      ...part,
+      language: toSupportedLanguage(part.locale),
+    }))
+    .filter((part): part is ParsedLocale & { language: SupportedLanguage } => part.language !== undefined)
+    .sort((a, b) => b.quality - a.quality || a.index - b.index)[0];
 
-  if (locales.some((part) => part === 'nn' || part.startsWith('nn-'))) {
-    return 'nn';
-  }
-
-  if (locales.some((part) => bokmalLocalePrefixes.some((prefix) => part === prefix || part.startsWith(`${prefix}-`)))) {
-    return 'nb';
-  }
-
-  return 'en';
+  return bestMatch?.language ?? 'en';
 };
 
 export const resolveLanguage = (value?: string, locale?: string): SupportedLanguage => {

@@ -4,6 +4,23 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - .agents/**
+      - scripts/**
+      - .gitignore
+      - .pre-commit-config.yaml
+      - AGENTS.md
+      - backstage.yaml
+      - LICENSE
+      - openapitools.json
+      - README.md
+      - SECURITY.md
+      - __mocks__/**
+      - e2e/**
+      - playwright.config.ts
+      - sonar-project.properties
+      - vitest.config.ts
+      - vitest.setup.ts
   workflow_dispatch:
     inputs:
       cluster:

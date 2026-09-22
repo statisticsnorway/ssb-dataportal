@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 const mocks = vi.hoisted(() => ({
   fetchClassificationById: vi.fn(),
   fetchVersionById: vi.fn(),
+  getRequestLanguage: vi.fn(),
   resolveLanguage: vi.fn(),
   cookies: vi.fn(),
   headers: vi.fn(),
@@ -25,6 +26,10 @@ vi.mock('@/libs/data/classifications/versionsData', () => ({
 vi.mock('@/libs/language', () => ({
   languageCookieName: 'lang',
   resolveLanguage: mocks.resolveLanguage,
+}));
+
+vi.mock('@/libs/language/src/getRequestLanguage', () => ({
+  getRequestLanguage: mocks.getRequestLanguage,
 }));
 
 vi.mock('next/headers', () => ({
@@ -104,6 +109,7 @@ describe('classification [id] layout', () => {
     vi.unstubAllEnvs();
 
     mocks.resolveLanguage.mockReturnValue('nb');
+    mocks.getRequestLanguage.mockResolvedValue('nb');
     mocks.cookies.mockResolvedValue({
       get: () => ({ value: 'nb' }),
     });
