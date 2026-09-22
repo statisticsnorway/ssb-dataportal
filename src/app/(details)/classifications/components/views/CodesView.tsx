@@ -223,12 +223,14 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
           },
         )}
       </p>
-      <CheckboxFilter
-        filterHeading={localization.classification.filterLevels}
-        filters={levelFilters}
-        selectedItems={selectedLevelFilters}
-        onFilterChange={handleLevelFilterChange}
-      />
+      {sortedLevels.length > 1 ? (
+        <CheckboxFilter
+          filterHeading={localization.classification.filterLevels}
+          filters={levelFilters}
+          selectedItems={selectedLevelFilters}
+          onFilterChange={handleLevelFilterChange}
+        />
+      ) : null}
       <CodeTree codes={filteredCodes} toolbar={renderToolbar} autoExpandAll={filterTerm.trim().length > 0} />
     </div>
   );

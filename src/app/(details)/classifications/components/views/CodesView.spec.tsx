@@ -142,6 +142,39 @@ describe('CodesView', () => {
     expect(screen.queryByText('01.1:Crop production')).not.toBeInTheDocument();
   });
 
+  it('does not render level filter when there is only one level', () => {
+    const oneLevelVersion = parseVersion(versionsMock.versions[0]);
+    oneLevelVersion.classificationItems = [
+      {
+        code: '01',
+        name: 'Agriculture',
+        level: '1',
+        parentCode: undefined,
+        validFrom: new Date('2020-01-01'),
+        validTo: undefined,
+        shortName: undefined,
+        notes: '',
+      },
+      {
+        code: '02',
+        name: 'Forestry',
+        level: '1',
+        parentCode: undefined,
+        validFrom: new Date('2020-01-01'),
+        validTo: undefined,
+        shortName: undefined,
+        notes: '',
+      },
+    ];
+    oneLevelVersion.levels = [{ levelNumber: 1, levelName: 'Main level' }];
+
+    render(<CodesView version={oneLevelVersion} />);
+
+    expect(screen.queryByRole('group', { name: /filter by level/i })).not.toBeInTheDocument();
+    expect(screen.getByText('01:Agriculture')).toBeInTheDocument();
+    expect(screen.getByText('02:Forestry')).toBeInTheDocument();
+  });
+
   it('keeps selected deep levels attached to nearest selected ancestor', () => {
     const sparseLevelVersion = parseVersion(versionsMock.versions[0]);
     sparseLevelVersion.classificationItems = [
