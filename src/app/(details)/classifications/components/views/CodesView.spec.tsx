@@ -135,7 +135,7 @@ describe('CodesView', () => {
   it('filters visible codes when levels are unchecked', () => {
     render(<CodesView version={version} />);
 
-    fireEvent.click(screen.getByRole('checkbox', { name: 'Inkluder nivå 2' }));
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Sub level' }));
 
     expect(screen.getByText('01:Agriculture')).toBeInTheDocument();
     expect(screen.getByText('02:Forestry')).toBeInTheDocument();
@@ -184,7 +184,7 @@ describe('CodesView', () => {
 
     render(<CodesView version={sparseLevelVersion} />);
 
-    fireEvent.click(screen.getByRole('checkbox', { name: 'Inkluder nivå 2' }));
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Sub level' }));
 
     const deepLevelCode = screen.getByText('01.1.001:Specialized crops').closest('li');
     expect(deepLevelCode).toHaveAttribute('data-parent-code', '01');

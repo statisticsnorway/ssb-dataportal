@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { ChangelogResource, ClassificationVersionResource, LevelResource } from '@/libs/data-access/klass/models';
+import { ChangelogResource, ClassificationVersionResource } from '@/libs/data-access/klass/models';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { localization } from '@/libs/language/src/localization';
-import { mapChanges, mapDetailsItems, mapLevels } from './details';
+import { mapChanges, mapDetailsItems } from './details';
 
 const baseVersion: ClassificationVersionResource = {
   name: 'Version 1',
@@ -59,28 +59,6 @@ describe('mapAboutItems', () => {
     const unitRow = rows.find((r) => r.label === localization.classification.about.unitTypes);
     expect(Array.isArray(unitRow?.value)).toBe(true);
     expect(unitRow?.value as unknown[]).toHaveLength(2);
-  });
-});
-
-describe('mapLevels', () => {
-  it('maps level number and name', () => {
-    const level: LevelResource = { levelNumber: 2, levelName: 'Group' } as LevelResource;
-    const rows = mapLevels(level);
-
-    expect(rows).toEqual([
-      { label: localization.classification.about.number, value: '2' },
-      { label: localization.classification.about.name, value: 'Group' },
-    ]);
-  });
-
-  it('returns empty strings when level is undefined', () => {
-    const rows = mapLevels(undefined);
-    expect(rows.map((r) => r.value)).toEqual(['', '']);
-  });
-
-  it('returns empty strings when level fields are missing', () => {
-    const rows = mapLevels({} as LevelResource);
-    expect(rows.map((r) => r.value)).toEqual(['', '']);
   });
 });
 

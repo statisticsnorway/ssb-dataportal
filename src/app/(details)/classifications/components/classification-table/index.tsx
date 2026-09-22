@@ -69,7 +69,7 @@ const ClassificationTable = ({ content, sortableField, onlyInNorwegian }: Classi
       : content;
 
   return (
-    <Table border={true} zebra={true} hover={true} className={styles.table}>
+    <Table border={true} zebra={true} hover={true} stickyHeader={true} className={styles.table}>
       <TableHead>
         <TableRow>
           {headers.map((header, index) => {

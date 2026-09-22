@@ -4,18 +4,17 @@ import { Button } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CodeTree } from '@/components/code-tree';
+import { CheckboxFilter } from '@/components/filters';
 import {
   ClassificationItemResource,
   ClassificationVersionResource,
   LevelResource,
 } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
+import { FilterItem } from '@/types/filters';
 import type { KlassCode } from '@/types/klass-codes';
 import { filterCodesWithAncestors } from '@/utils/classifications/filterCodes';
-import { mapLevels } from '../../utils/details';
 import { buildDownloadHref } from '../../utils/download-urls';
-import { ClassificationTable } from '../classification-table';
-import { ExpandableTable } from '../expandable-table';
 import { CodeSearch } from '../search';
 import styles from './views.module.css';
 
@@ -165,30 +164,25 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
     );
   };
 
-  const levelsTableContent = useMemo(
+  const levelFilters = useMemo<FilterItem[]>(
     () =>
-      sortedLevels.map((level, index) => {
-        const levelValue = getLevelValue(level, index);
-        const levelLabel = level.levelNumber?.toString() ?? (index + 1).toString();
+      sortedLevels.map((level, index) => ({
+        label: level.levelName,
+        value: getLevelValue(level, index),
+      })),
+    [sortedLevels],
+  );
 
-        return [
-          {
-            label: localization.versions.include,
-            value: (
-              <input
-                type='checkbox'
-                aria-label={localization.formatString(localization.versions.includeLevel, {
-                  level: levelLabel,
-                })}
-                checked={selectedLevels.includes(levelValue)}
-                onChange={() => handleLevelToggle(levelValue)}
-              />
-            ),
-          },
-          ...mapLevels(level),
-        ];
-      }),
-    [handleLevelToggle, selectedLevels, sortedLevels],
+  const selectedLevelFilters = useMemo<FilterItem[]>(
+    () => levelFilters.filter((filter) => selectedLevels.includes(filter.value)),
+    [levelFilters, selectedLevels],
+  );
+
+  const handleLevelFilterChange = useCallback(
+    (filter: FilterItem) => {
+      handleLevelToggle(filter.value);
+    },
+    [handleLevelToggle],
   );
 
   const renderToolbar = useCallback(
@@ -229,9 +223,11 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
           },
         )}
       </p>
-      <ExpandableTable
-        title={localization.classification.about.levels}
-        table={<ClassificationTable content={levelsTableContent} />}
+      <CheckboxFilter
+        filterHeading={localization.classification.filterLevels}
+        filters={levelFilters}
+        selectedItems={selectedLevelFilters}
+        onFilterChange={handleLevelFilterChange}
       />
       <CodeTree codes={filteredCodes} toolbar={renderToolbar} autoExpandAll={filterTerm.trim().length > 0} />
     </div>

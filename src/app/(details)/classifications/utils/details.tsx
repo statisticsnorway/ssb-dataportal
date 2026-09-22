@@ -1,6 +1,6 @@
 import { Tag } from '@digdir/designsystemet-react';
 import { EmailLink } from '@/components/link-components/emailLink';
-import { ChangelogResource, ClassificationVersionResource, LevelResource } from '@/libs/data-access/klass/models';
+import { ChangelogResource, ClassificationVersionResource } from '@/libs/data-access/klass/models';
 import { ClassificationResource } from '@/libs/data-access/klass/models/ClassificationResource';
 import { isSupportedLanguage } from '@/libs/language';
 import { localization } from '@/libs/language/src/localization';
@@ -72,32 +72,6 @@ export const mapDetailsItems = (
 
   return rows;
 };
-
-/**
- * ------------------------------
- * Level details
- * ------------------------------
- */
-
-/**
- * Maps level data to rows for the level details table.
- *
- * Creates rows for level number and level name. If `level` is missing,
- * row values default to empty strings.
- *
- * @param level - Level source data.
- * @returns Rows for rendering level details.
- */
-export const mapLevels = (level: LevelResource | undefined): VersionItem[] => [
-  {
-    label: localization.classification.about.number,
-    value: level?.levelNumber?.toString() ?? '',
-  },
-  {
-    label: localization.classification.about.name,
-    value: level?.levelName ?? '',
-  },
-];
 
 /**
  * ------------------------------
