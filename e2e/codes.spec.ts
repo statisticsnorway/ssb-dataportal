@@ -29,7 +29,7 @@ async function expandSection(page: Page, title: string) {
 }
 
 async function assertLevelsTable(page: Page, version: (typeof versions)[number]) {
-  const section = await expandSection(page, localization.classification.about.levels);
+  const section = await expandSection(page, localization.classification.filterLevels);
   const table = section.getByRole('table');
   await expect(table).toBeVisible();
 

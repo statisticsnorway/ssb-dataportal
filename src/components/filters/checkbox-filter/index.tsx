@@ -8,6 +8,7 @@ interface CheckboxFilterProps {
   filters: FilterItem[];
   selectedItems: FilterItem[];
   onFilterChange: (filter: FilterItem) => void;
+  headingWeight?: 'regular' | 'medium' | 'semibold';
 }
 
 /**
@@ -22,15 +23,26 @@ interface CheckboxFilterProps {
  *
  * @returns A Card collapsible card component with checkboxes for filtering.
  */
-export const CheckboxFilter = ({ filterHeading, filters, selectedItems, onFilterChange }: CheckboxFilterProps) => {
+export const CheckboxFilter = ({
+  filterHeading,
+  filters,
+  selectedItems,
+  onFilterChange,
+  headingWeight = 'semibold',
+}: CheckboxFilterProps) => {
   return (
-    <CollapsibleCard heading={filterHeading}>
+    <CollapsibleCard
+      heading={filterHeading}
+      toggleButtonClassName={headingWeight === 'semibold' ? styles.headingSemibold : ''}
+    >
       {filters.map((filter, index) => {
+        const labelText = filter.count == null ? (filter.label ?? '') : `${filter.label ?? ''} (${filter.count})`;
+
         return (
           <Checkbox
             id={`checkbox-${filter.value.replace(/\s+/g, '-').toLowerCase()}-${index}`}
             key={filter.value}
-            label={filter.count == null ? filter.label : `${filter.label} (${filter.count})`}
+            label={labelText}
             className={styles.checkbox}
             checked={selectedItems.some((item) => item.value === filter.value)}
             onChange={() => onFilterChange(filter)}

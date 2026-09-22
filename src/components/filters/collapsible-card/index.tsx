@@ -11,6 +11,7 @@ interface CollapsibleCardProps {
   defaultOpen?: boolean;
   cardClassName?: string;
   contentClassName?: string;
+  toggleButtonClassName?: string;
 }
 
 /**
@@ -34,6 +35,7 @@ export function CollapsibleCard({
   defaultOpen = true,
   cardClassName = '',
   contentClassName = '',
+  toggleButtonClassName = '',
 }: Readonly<CollapsibleCardProps>) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -46,7 +48,12 @@ export function CollapsibleCard({
     <Card className={`${styles.filterCard} ${cardClassName} ${hiddenClassName}`}>
       <Fieldset aria-labelledby={headingId}>
         <FieldsetLegend className={styles.filterHeader} id={headingId}>
-          <Button className={styles.toggleFilter} onClick={toggleOpen} aria-expanded={isOpen} aria-controls={panelId}>
+          <Button
+            className={`${styles.toggleFilter} ${toggleButtonClassName}`}
+            onClick={toggleOpen}
+            aria-expanded={isOpen}
+            aria-controls={panelId}
+          >
             {heading}
             {isOpen ? (
               <ChevronDownIcon title={localization.search.filter.close} className={styles.chevronUpDown} />
