@@ -14,7 +14,7 @@ describe('VariantsView', () => {
   it('links variants without a version when none is selected explicitly', () => {
     render(<VariantsView classificationVersion={version} classificationId={104} />);
 
-    expect(screen.getByRole('link', { name: 'Test' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Testvariant' })).toHaveAttribute(
       'href',
       `${buildUrl({ classificationId: 104, tab: 'variants' })}/42`,
     );
@@ -24,7 +24,7 @@ describe('VariantsView', () => {
   it('keeps an explicitly selected version in the variant link', () => {
     render(<VariantsView classificationVersion={version} classificationId={104} versionId={10} />);
 
-    expect(screen.getByRole('link', { name: 'Test' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Testvariant' })).toHaveAttribute(
       'href',
       `${buildUrl({ classificationId: 104, versionId: 10, tab: 'variants' })}/42`,
     );

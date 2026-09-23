@@ -12,7 +12,7 @@ import { addRow } from './commonUtils';
  */
 export const formatVariantName = (name: string | undefined) => {
   if (!name) return '';
-  return name.split('variant')[0]?.replace(/-\s*$/, '').trimEnd() ?? '';
+  return name.split('- variant')[0]?.trim() ?? '';
 };
 
 /**

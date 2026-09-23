@@ -66,7 +66,7 @@ describe('VariantView', () => {
       'href',
       buildUrl({ classificationId: 104, versionId: 10, tab: 'variants' }),
     );
-    expect(screen.getByRole('heading', { name: 'Test' })).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'Testvariant' })).toBeVisible();
     expect(screen.getByTestId('codes-view')).toBeVisible();
   });
 
