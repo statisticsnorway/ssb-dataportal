@@ -90,6 +90,7 @@ interface CodesDownloadRequest {
   classificationId: number;
   from: Date;
   to?: Date;
+  level?: string;
   language: SupportedLanguage;
   format: FileDownloadFormat;
   includeFuture: boolean;
@@ -163,6 +164,7 @@ export async function fetchCodesDownload({
   classificationId,
   from,
   to,
+  level,
   language,
   format,
   includeFuture,
@@ -182,6 +184,7 @@ export async function fetchCodesDownload({
       id: classificationId,
       from,
       to,
+      selectLevel: level,
       language: toKlassLanguage(language),
       includeFuture: includeFuture,
     } satisfies CodesRequest;
