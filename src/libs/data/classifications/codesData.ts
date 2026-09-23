@@ -103,6 +103,17 @@ interface ChangesDownloadRequest {
   format: FileDownloadFormat;
 }
 
+export type FetchChangesResult =
+  | {
+      status: 'success';
+      changes: CodeChangeItem[];
+    }
+  | {
+      status: 'not-found';
+      statusCode: 404;
+      message: string;
+    };
+
 function buildKlassClientConfig(): ConfigurationParameters {
   const config: ConfigurationParameters = {
     headers: { 'User-Agent': getUserAgent() },
@@ -224,11 +235,14 @@ export async function fetchChanges(
   from: Date,
   to?: Date,
   language: VersionsLanguageEnum | undefined = VersionsLanguageEnum.NB,
-): Promise<CodeChangeItem[]> {
+): Promise<FetchChangesResult> {
   if (process.env.KLASS_USE_STATIC_DATA === 'true') {
-    logger.warn({ versionId: classificationId }, 'Using static mock data for changes');
+    logger.warn({ classificationId }, 'Using static mock data for changes');
     const key = String(classificationId) as keyof typeof changesMock;
-    return (changesMock[key]?.codeChanges.map(CodeChangeItemFromJSON) ?? []) as CodeChangeItem[];
+    return {
+      status: 'success',
+      changes: (changesMock[key]?.codeChanges.map(CodeChangeItemFromJSON) ?? []) as CodeChangeItem[],
+    };
   }
 
   const api = getCodesClient();
@@ -236,20 +250,23 @@ export async function fetchChanges(
     const params = { id: classificationId, from: from, to: to, language: language } satisfies ChangesRequest;
     const data = await api.changes(params, fetchInit);
     logger.info({ params, count: data.codeChanges?.length }, 'Fetched changes');
-    return data.codeChanges ?? [];
+    return { status: 'success', changes: data.codeChanges ?? [] };
   } catch (error) {
     if (error instanceof ResponseError) {
       if (error.response.status === 404) {
-        logger.info({ classificationId, url: error.response.url }, 'No changes found for classification');
-        return [];
+        const message = await error.response.text();
+        logger.error(
+          { classificationId, statusCode: error.response.status, url: error.response.url, responseMessage: message },
+          'Change table not found',
+        );
+        return { status: 'not-found', statusCode: 404, message };
       }
 
       logger.error(
         {
           statusCode: error.response.status,
           url: error.response.url,
-          message: error.response.body,
-          versionId: classificationId,
+          classificationId,
         },
         'Failed to fetch changes',
       );
@@ -270,9 +287,12 @@ export async function fetchChangesDownload({
   if (process.env.KLASS_USE_STATIC_DATA === 'true') {
     logger.warn({ classificationId }, 'Using static mock data for changes download');
     const changeLanguage = toKlassLanguage(language) as VersionsLanguageEnum;
-    const changes = await fetchChanges(classificationId, from, to, changeLanguage);
+    const result = await fetchChanges(classificationId, from, to, changeLanguage);
+    if (result.status !== 'success') {
+      throw new Error(result.message);
+    }
     return {
-      content: JSON.stringify(changes, null, 2),
+      content: JSON.stringify(result.changes, null, 2),
       mimeType: FILE_DOWNLOAD_ACCEPT.json,
     };
   }
