@@ -34,7 +34,7 @@ export function parseDownloadConfig(
   return {
     format: isFormat(format) ? format : 'csv',
     language: isLanguage(language) ? language : defaultLanguage,
-    level: level ? level : undefined,
+    level: level,
   };
 }
 
