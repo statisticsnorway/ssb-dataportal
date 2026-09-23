@@ -13,15 +13,18 @@ import { localization } from '@/libs/language';
 import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { isVariablePubliclyAccessible } from '@/utils/variableAccess';
 import { CodeSnippet } from './components/codeSnippet';
+import { ValidityPeriodSelector } from './components/validityPeriodSelector';
 import { mapAboutVariableItems, mapContactItems } from './groups';
 import styles from './variable-details-page.module.css';
 
 export default function VariableDefinitionDetail({
   variableDefinition,
+  variableDefinitions,
   apiDocsBaseUrl,
   daplaLabVardefUrl,
 }: Readonly<{
   variableDefinition: RenderedView;
+  variableDefinitions: RenderedView[];
   daplaLabVardefUrl: string | undefined;
   apiDocsBaseUrl: string;
 }>) {
@@ -59,6 +62,10 @@ export default function VariableDefinitionDetail({
           title={localization.variableDefinition.aboutVariable}
           content={mapAboutVariableItems(variableDefinition, isAuthenticated, apiDocsBaseUrl)}
           popoverContent={localization.variableDefinition.unitTypeInfo}
+        />
+        <ValidityPeriodSelector
+          variableDefinitions={variableDefinitions}
+          selectedValidFrom={variableDefinition.valid_from}
         />
         {isAuthenticated && (
           <CodeSnippet

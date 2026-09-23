@@ -14,11 +14,23 @@ import { FilterItem } from '@/types/filters';
 export function getStaticVariableDefinitions(): Array<RenderedView> {
   return variableDefinitionsJson.map(RenderedViewFromJSON);
 }
+export function getStaticVariableDefinitionsByShortName(shortName: string): Array<RenderedView> {
+  return getStaticVariableDefinitions().filter((v) => String(v.short_name) === shortName);
+}
 export function getStaticVariableDefinitionByShortName(shortName: string): RenderedView | undefined {
   return getStaticVariableDefinitions().find((v) => String(v.short_name) === shortName);
 }
 export function getStaticVariableDefinitionById(id: string): RenderedView | undefined {
   return getStaticVariableDefinitions().find((v) => String(v.id) === id);
+}
+
+export function getStaticVariableDefinitionValidityPeriodsById(id: string): Array<RenderedView> {
+  const variableDefinition = getStaticVariableDefinitionById(id);
+  if (!variableDefinition) {
+    return [];
+  }
+
+  return getStaticVariableDefinitionsByShortName(variableDefinition.short_name);
 }
 
 export function getClassification(id: number): ClassificationResource {

@@ -39,3 +39,9 @@
 .ownerValue {
   margin-left: 0.5rem;
 }
+
+.validityCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

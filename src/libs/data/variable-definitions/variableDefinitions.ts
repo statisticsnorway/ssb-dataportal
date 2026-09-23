@@ -8,6 +8,8 @@ import {
   getStaticVariableDefinitionById,
   getStaticVariableDefinitionByShortName,
   getStaticVariableDefinitions,
+  getStaticVariableDefinitionsByShortName,
+  getStaticVariableDefinitionValidityPeriodsById,
 } from '@/utils/mock-data';
 import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
@@ -19,6 +21,7 @@ import {
 import {
   instanceOfRenderedView,
   RenderedView,
+  RenderedViewFromJSON,
   SupportedLanguages,
 } from '../../data-access/variable-definitions/internal/models';
 import {
@@ -140,6 +143,89 @@ export async function getVariableDefinitionByShortName(shortName: string): Promi
     throw error;
   }
 }
+
+export async function getVariableDefinitionsByShortName(shortName: string): Promise<RenderedView[]> {
+  const logger = createLoggerWithBindings({ module: 'variable-definitions', fn: 'getVariableDefinitionsByShortName' });
+  if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
+    logger.warn('Using static mock data for vardef');
+    return getStaticVariableDefinitionsByShortName(shortName);
+  }
+
+  const api = await getVardefClient();
+  if (!api) throw new Error('Could not access Vardef API!');
+
+  const params = {
+    shortName,
+    acceptLanguage: localization.getLanguage() as SupportedLanguages,
+    render: true,
+  } satisfies ListVariableDefinitionsRequest;
+
+  try {
+    const rawDataArray = await api.listVariableDefinitions(params);
+    const data = rawDataArray.filter(
+      (item): item is RenderedView => item !== undefined && instanceOfRenderedView(item),
+    );
+
+    if (data.length !== rawDataArray.length) {
+      logger.warn(
+        { shortName, total: rawDataArray.length, decoded: data.length },
+        'Some variable definitions could not be decoded to RenderedView',
+      );
+    }
+
+    logger.info({ shortName, count: data.length }, 'Fetched variable definitions by short name');
+    return data;
+  } catch (error: unknown) {
+    if (error instanceof ResponseError) {
+      logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
+    } else {
+      logger.error({ error: sanitizeError(error) }, 'Unexpected error during fetch');
+    }
+    throw error;
+  }
+}
+
+export async function getVariableDefinitionValidityPeriodsById(id: string): Promise<RenderedView[]> {
+  const logger = createLoggerWithBindings({
+    module: 'variable-definitions',
+    fn: 'getVariableDefinitionValidityPeriodsById',
+  });
+  if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
+    logger.warn('Using static mock data for vardef');
+    return getStaticVariableDefinitionValidityPeriodsById(id);
+  }
+
+  const language = localization.getLanguage() as SupportedLanguages;
+  const metadataBasePath = process.env.METADATA_API_BASE_PATH ?? 'https://metadata.ssb.no';
+  const basePath = metadataBasePath.replace(/\/$/, '');
+  const url = `${basePath}/public/variable-definitions/${encodeURIComponent(id)}/validity-periods`;
+
+  try {
+    const startTime = Date.now();
+    const response = await fetch(url, {
+      headers: {
+        'Accept-Language': language,
+        'User-Agent': getUserAgent(),
+      },
+      cache: 'force-cache',
+      next: { revalidate: ttlSeconds },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch validity periods for id="${id}" with status ${response.status}`);
+    }
+
+    const rawData = (await response.json()) as unknown[];
+    const data = rawData.map(RenderedViewFromJSON).filter((item) => instanceOfRenderedView(item));
+    const durationMs = Date.now() - startTime;
+    logger.info({ id, count: data.length, time: durationMs, url }, 'Fetched variable definition validity periods');
+    return data;
+  } catch (error: unknown) {
+    logger.error({ id, error: sanitizeError(error), url }, 'Failed to fetch variable definition validity periods');
+    throw error;
+  }
+}
+
 export async function getRenderedVariableDefinitionById(id: string): Promise<RenderedView | undefined> {
   const logger = createLoggerWithBindings({ module: 'variable-definitions', fn: 'getRenderedVariableDefinitionById' });
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {

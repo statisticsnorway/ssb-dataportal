@@ -5,6 +5,7 @@ import { getStaticVariableDefinitions as getStaticVariableDefinitions } from '@/
 import {
   getVardefClient,
   getVariableDefinitionByShortName,
+  getVariableDefinitionValidityPeriodsById,
   listRenderedVariableDefinitions,
 } from './variableDefinitions';
 
@@ -114,6 +115,14 @@ describe('vardef data fetching', () => {
       await expect(getVariableDefinitionByShortName('antall')).rejects.toThrow(
         'No variable definition found for shortName="antall"',
       );
+    });
+
+    it('returns validity periods by id from static data', async () => {
+      vi.stubEnv('VARDEF_USE_STATIC_DATA', 'true');
+      const variable = staticDefs[5];
+      assert(variable);
+      await expect(getVariableDefinitionValidityPeriodsById(variable.id)).resolves.toEqual([variable]);
+      vi.unstubAllEnvs();
     });
   });
 });
