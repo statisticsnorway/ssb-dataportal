@@ -3,6 +3,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { mapChanges } from '@/app/(details)/classifications/utils/details';
 import { buildDownloadHref } from '@/app/(details)/classifications/utils/download-urls';
+import { ClassificationTable } from '@/components/classification-table';
 import { ExpandableTable } from '@/components/expandable-table';
 import { LanguageTag } from '@/components/language-tag';
 import { fetchChanges } from '@/libs/data/classifications/codesData';
@@ -17,7 +18,6 @@ import { SupportedLanguages } from '@/libs/data-access/variable-definitions/inte
 import { localization } from '@/libs/language';
 import { getDayBeforeDate } from '@/utils/dates';
 import { sortDatesDescendingSafe } from '@/utils/sort';
-import { ClassificationTable } from '../classification-table';
 import { CorrespondenceTable } from '../correspondence-table';
 import styles from './views.module.css';
 

@@ -4,6 +4,7 @@ import { Heading, Paragraph } from '@digdir/designsystemet-react';
 import { usePathname } from 'next/navigation';
 import { SubscribeDialog } from '@/app/(details)/classifications/components/subscribe';
 import { ClosableAlert } from '@/components/alerts';
+import { ClassificationTable } from '@/components/classification-table';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { ExpandableTable } from '@/components/expandable-table';
 import { LanguageTag } from '@/components/language-tag';
@@ -16,7 +17,6 @@ import { getClassificationDetailsTabForRoute } from '../[id]/tabs';
 import { buildUrl } from '../utils/urls';
 import { mapVersions } from '../utils/versions';
 import styles from './classification-page.module.css';
-import { ClassificationTable } from './classification-table';
 import { VersionView } from './views/VersionView';
 
 interface ClassificationDetailProps {
