@@ -35,7 +35,7 @@ vi.mock('../classification-table', () => ({
   ClassificationTable: () => <div data-testid='classification-table' />,
 }));
 
-vi.mock('../expandable-table', () => ({
+vi.mock('@/components/expandable-table', () => ({
   ExpandableTable: () => <div data-testid='expandable-table' />,
 }));
 
