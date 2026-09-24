@@ -4,6 +4,25 @@
   margin-block-end: var(--ds-size-4);
 }
 
+.contextInfo {
+  display: grid;
+  gap: var(--ds-size-1);
+}
+
+.contextHeading {
+  font-size: var(--ds-font-size-4);
+  font-weight: 700;
+  line-height: var(--ds-font-line-height-4);
+  margin: 0;
+}
+
+.contextSubheading {
+  font-size: var(--ds-font-size-2);
+  font-weight: 400;
+  line-height: var(--ds-font-line-height-2);
+  margin: 0;
+}
+
 .actions {
   display: flex;
   gap: var(--ds-size-3);

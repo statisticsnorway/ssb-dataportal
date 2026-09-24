@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ClassificationItemResource } from '@/libs/data-access/klass/models/ClassificationItemResource';
 import { LevelResource } from '@/libs/data-access/klass/models/LevelResource';
 import versionsMock from '@/static-data/versions.json';
@@ -8,11 +8,15 @@ import type { KlassCode } from '@/types/klass-codes';
 import { parseVersion } from '@/utils/mock-data';
 import { CodesView } from './CodesView';
 
+const mocks = vi.hoisted(() => ({
+  push: vi.fn(),
+}));
+
 vi.mock('next/navigation', () => ({
   usePathname: () => '/classifications/2003/codes',
   useSearchParams: () => new URLSearchParams(),
   useRouter: () => ({
-    push: vi.fn(),
+    push: mocks.push,
   }),
 }));
 
@@ -86,6 +90,42 @@ version.levels = [
 ] as LevelResource[];
 
 describe('CodesView', () => {
+  beforeEach(() => {
+    mocks.push.mockClear();
+  });
+
+  it('includes selected level in download route when exactly one of many levels is selected', () => {
+    render(<CodesView version={version} classificationId={2003} />);
+
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Sub level' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Last ned' }));
+
+    expect(mocks.push).toHaveBeenCalledWith('/classifications/2003/codes/download?v=1&format=csv&language=nb&level=1');
+  });
+
+  it('uses all levels in download route when version has a single level', () => {
+    const oneLevelVersion = parseVersion(versionsMock.versions[0]);
+    oneLevelVersion.classificationItems = [
+      {
+        code: '01',
+        name: 'Agriculture',
+        level: '1',
+        parentCode: undefined,
+        validFrom: new Date('2020-01-01'),
+        validTo: undefined,
+        shortName: undefined,
+        notes: '',
+      },
+    ];
+    oneLevelVersion.levels = [{ levelNumber: 1, levelName: 'Main level' }];
+
+    render(<CodesView version={oneLevelVersion} classificationId={2003} />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Last ned' }));
+
+    expect(mocks.push).toHaveBeenCalledWith('/classifications/2003/codes/download?v=1&format=csv&language=nb');
+  });
+
   it('renders all codes before filters are applied', () => {
     render(<CodesView version={version} />);
 

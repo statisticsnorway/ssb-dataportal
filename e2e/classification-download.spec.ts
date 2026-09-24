@@ -15,7 +15,7 @@ const VERSIONED_VARIANT_DOWNLOAD_URL = `${buildUrl({
 })}/download?v=1&format=csv&language=nb`;
 
 test.describe('classification code download', () => {
-  test('download dialog shows format and language selectors with defaults', async ({ codesPage }) => {
+  test('download dialog shows selectors with defaults', async ({ codesPage }) => {
     const openDownloadDialog = codesPage.getByRole('button', {
       name: localization.classification.download.button,
     });
@@ -27,14 +27,17 @@ test.describe('classification code download', () => {
 
     const formatSelect = dialog.getByLabel(localization.classification.download.formatLabel);
     const languageSelect = dialog.getByLabel(localization.classification.download.languageLabel);
+    const levelSelect = dialog.getByLabel(localization.classification.download.levelLabel);
 
     await expect(formatSelect).toBeVisible();
     await expect(languageSelect).toBeVisible();
+    await expect(levelSelect).toBeVisible();
     await expect(formatSelect).toHaveValue('csv');
     await expect(languageSelect).toHaveValue('nb');
+    await expect(dialog.getByLabel(localization.classification.download.allLevels)).toBeChecked();
   });
 
-  test('download dialog triggers file download with selected format and language', async ({ codesVersionPage }) => {
+  test('download dialog triggers file download with selectors', async ({ codesVersionPage }) => {
     const openDownloadDialog = codesVersionPage.getByRole('button', {
       name: localization.classification.download.button,
     });
@@ -45,6 +48,7 @@ test.describe('classification code download', () => {
 
     await dialog.getByLabel(localization.classification.download.formatLabel).selectOption('xml');
     await dialog.getByLabel(localization.classification.download.languageLabel).selectOption('en');
+    await dialog.getByLabel('Industri').check();
 
     const [download] = await Promise.all([
       codesVersionPage.waitForEvent('download'),
@@ -66,8 +70,9 @@ test.describe('classification code download', () => {
 
     await dialog.getByLabel(localization.classification.download.formatLabel).selectOption('xml');
     await dialog.getByLabel(localization.classification.download.languageLabel).selectOption('en');
+    await dialog.getByLabel('Industri').check();
 
-    await expect(codesPage).toHaveURL(/\/download\?v=1&format=xml&language=en$/);
+    await expect(codesPage).toHaveURL(/\/download\?v=1&format=xml&language=en&level=2$/);
 
     await dialog.getByRole('button', { name: localization.classification.download.copyLink }).click();
 
