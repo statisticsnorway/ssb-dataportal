@@ -6,7 +6,7 @@
   height: auto;
   background-color: var(--ssb-dark-color-5);
   padding: var(--medium-gap) var(--large-gap);
-  color: white;
+  color: var(--white-color);
   gap: var(--medium-gap);
   display: flex;
   flex-direction: column;

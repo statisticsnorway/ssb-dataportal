@@ -38,6 +38,7 @@
   --main-background-color: var(--ds-color-secondary-background-tinted);
   --shadow-color: #969ba0;
   --element-background-color: var(--ds-color-secondary-background-default);
+  --white-color: #fff;
   --main-font-color: #000;
 
   --text-color-primary: var(--ds-color-secondary-text-default);
@@ -166,7 +167,7 @@ p {
 
 /* Uses not() with a dummy ID and class to increase specificity and allow overriding color */
 .negative-text:not(#dummy-id.dummy-class) {
-  color: white;
+  color: var(--white-color);
 }
 
 /** Ingress is used to draw attention to a limited amount of introductory text. */
