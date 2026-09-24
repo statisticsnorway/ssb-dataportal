@@ -107,6 +107,7 @@ export default function ChangesView({
           message={message}
           statusCode={String(changesResult.statusCode)}
           helpList={[localization.error.helpRegisterChangeTable, localization.error.helpReload]}
+          showHomeLink={false}
         />
       );
     }

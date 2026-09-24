@@ -195,6 +195,7 @@ describe('ChangesView', () => {
     expect(helpItems).toHaveLength(2);
     expect(helpItems[0]).toHaveTextContent(localization.error.helpRegisterChangeTable);
     expect(helpItems[1]).toHaveTextContent(localization.error.helpReload);
+    expect(screen.queryByRole('link', { name: localization.error.goHome })).not.toBeInTheDocument();
     expect(screen.queryByText(localization.versions.noChanges)).not.toBeInTheDocument();
     expect(screen.queryByTestId('correspondence-table')).not.toBeInTheDocument();
     expect(screen.getByTestId('expandable-table')).toBeInTheDocument();

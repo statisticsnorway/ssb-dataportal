@@ -14,6 +14,7 @@ type AppErrorStateProps = Readonly<{
   onRetry?: () => void;
   backHref?: string;
   homeHref?: string;
+  showHomeLink?: boolean;
   homeVariant?: 'primary' | 'secondary' | 'tertiary';
   supportHref?: string;
   helpList?: string[];
@@ -27,6 +28,7 @@ export function AppErrorState({
   onRetry,
   backHref,
   homeHref = '/',
+  showHomeLink = true,
   homeVariant,
   supportHref,
   helpList,
@@ -54,12 +56,14 @@ export function AppErrorState({
     });
   }
 
-  actions.push({
-    kind: 'link',
-    label: errorText.goHome,
-    href: homeHref,
-    variant: homeVariant ?? 'tertiary',
-  });
+  if (showHomeLink) {
+    actions.push({
+      kind: 'link',
+      label: errorText.goHome,
+      href: homeHref,
+      variant: homeVariant ?? 'tertiary',
+    });
+  }
 
   const resolvedHelpList = helpList ?? [errorText.helpReload, errorText.helpBack, errorText.helpHome];
 
