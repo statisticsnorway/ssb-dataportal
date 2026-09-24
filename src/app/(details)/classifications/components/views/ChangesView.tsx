@@ -3,12 +3,12 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { mapChanges } from '@/app/(details)/classifications/utils/details';
 import { buildDownloadHref } from '@/app/(details)/classifications/utils/download-urls';
+import { AppErrorState } from '@/components/app-state';
 import { LanguageTag } from '@/components/language-tag';
-import { fetchChanges } from '@/libs/data/classifications/codesData';
+import { type FetchChangesResult, fetchChanges } from '@/libs/data/classifications/codesData';
 import {
   ClassificationResource,
   ClassificationVersionResource,
-  CodeChangeItem,
   CorrespondenceMapResource,
   VersionsLanguageEnum,
 } from '@/libs/data-access/klass';
@@ -41,7 +41,7 @@ export default function ChangesView({
     return getDayBeforeDate(version.validFrom);
   }, [hasPreviousVersion, version.validFrom]);
 
-  const [changes, setChanges] = useState<CodeChangeItem[] | null>(null);
+  const [changesResult, setChangesResult] = useState<FetchChangesResult | null>(null);
 
   const isEnglish = localization.getLanguage() === SupportedLanguages.En;
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function ChangesView({
     }
 
     const getChanges = async () => {
-      setChanges(
+      setChangesResult(
         await fetchChanges(
           classification.id as number,
           changesFrom,
@@ -64,13 +64,13 @@ export default function ChangesView({
 
   const mappings = useMemo<CorrespondenceMapResource[]>(
     () =>
-      (changes ?? []).map((change) => ({
+      (changesResult?.status === 'success' ? changesResult.changes : []).map((change) => ({
         sourceCode: change.oldCode ?? '-',
         sourceName: change.oldName ?? '-',
         targetCode: change.newCode ?? '-',
         targetName: change.newName ?? '-',
       })),
-    [changes],
+    [changesResult],
   );
 
   const handleOpenDownloadRoute = () => {
@@ -89,8 +89,27 @@ export default function ChangesView({
       );
     }
 
-    if (changes === null) {
+    if (changesResult === null) {
       return <Spinner aria-label={localization.loading.results} />;
+    }
+
+    if (changesResult.status === 'not-found') {
+      const message = String(
+        localization.formatString(localization.error.missingChangeTable, {
+          sourceName: previousVersion.name ?? localization.noDataPlaceholder,
+          targetName: version.name ?? localization.noDataPlaceholder,
+        }),
+      );
+
+      return (
+        <AppErrorState
+          title={localization.error.classificationDetailsTabs.notFoundChanges}
+          message={message}
+          statusCode={String(changesResult.statusCode)}
+          helpList={[localization.error.helpRegisterChangeTable, localization.error.helpReload]}
+          showHomeLink={false}
+        />
+      );
     }
 
     if (mappings.length < 1) {

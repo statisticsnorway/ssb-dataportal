@@ -221,7 +221,7 @@ export const nn = {
     classificationDetailsTabs: {
       notFoundCodes: 'Kodar ikkje funne',
       notFoundAboutClassification: 'Om klassifikasjonen ikkje funnen',
-      notFoundChanges: 'Endringar ikkje funne',
+      notFoundChanges: 'Kodeendringar ikkje funne',
       notFoundVersions: 'Versjonar ikkje funne',
       notFoundCorrespondences: 'Korrespondansar ikkje funne',
       notFoundVariants: 'Variantar ikkje funne',
@@ -238,6 +238,8 @@ export const nn = {
     helpBack: 'gå tilbake til førre side',
     helpHome: 'gå til framsida',
     helpChangeFilters: 'endre søk eller filter',
+    helpRegisterChangeTable: 'registrere ei endringstabell',
+    missingChangeTable: '{sourceName} har inga endringstabell mot: {targetName}',
     statusCode: 'Feilkode',
     referenceCode: 'Referanse',
     supportPrefix: 'Har problemet vart ei stund, kan du',

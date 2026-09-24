@@ -225,7 +225,7 @@ export const en = {
     classificationDetailsTabs: {
       notFoundCodes: 'Codes not found',
       notFoundAboutClassification: 'About classification not found',
-      notFoundChanges: 'Changes not found',
+      notFoundChanges: 'Code changes not found',
       notFoundVersions: 'Versions not found',
       notFoundCorrespondences: 'Correspondences not found',
       notFoundVariants: 'Variants not found',
@@ -242,6 +242,8 @@ export const en = {
     helpBack: 'go back to the previous page',
     helpHome: 'go to the home page',
     helpChangeFilters: 'change search or filters',
+    helpRegisterChangeTable: 'register a change table',
+    missingChangeTable: '{sourceName} has no change table with: {targetName}',
     statusCode: 'Error code',
     referenceCode: 'Reference',
     supportPrefix: 'If the problem has persisted for a while, you can',
