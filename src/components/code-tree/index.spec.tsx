@@ -11,6 +11,15 @@ vi.mock('@digdir/designsystemet-react', () => ({
       {children}
     </button>
   ),
+  Table: ({ children, ...props }: any) => <table {...props}>{children}</table>,
+  TableBody: ({ children, ...props }: any) => <tbody {...props}>{children}</tbody>,
+  TableCell: ({ children, ...props }: any) => <td {...props}>{children}</td>,
+  TableHead: ({ children, ...props }: any) => <thead {...props}>{children}</thead>,
+  TableHeaderCell: ({ children, ...props }: any) => <th {...props}>{children}</th>,
+  TableRow: ({ children, ...props }: any) => <tr {...props}>{children}</tr>,
+  Dialog: Object.assign(({ children, ...props }: any) => <dialog {...props}>{children}</dialog>, {
+    Block: ({ children }: any) => <div>{children}</div>,
+  }),
 }));
 
 vi.mock('@navikt/aksel-icons', () => ({
@@ -181,5 +190,39 @@ describe('CodeTree', () => {
     await user.click(screen.getByRole('button', { name: 'Åpne alle' }));
 
     expect(screen.getByRole('button', { name: /Velg kode A1a/ })).toBeInTheDocument();
+  });
+
+  describe('virtualization for large classifications', () => {
+    // One root code per iteration keeps every row visible without needing to expand
+    // anything, well above VIRTUALIZE_THRESHOLD (150) from index.tsx.
+    const LARGE_CODES: KlassCode[] = Array.from({ length: 500 }, (_, i) =>
+      makeCode({ code: `R${i}`, level: '1', name: `Root ${i}` }),
+    );
+
+    it('does not mount every row up front for a very large flat list', () => {
+      render(<CodeTree codes={LARGE_CODES} />);
+
+      expect(screen.getByRole('button', { name: /Velg kode R0:/ })).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /Velg kode R499:/ })).not.toBeInTheDocument();
+    });
+
+    it('still renders every row for a list below the virtualization threshold', () => {
+      const smallCodes: KlassCode[] = Array.from({ length: 50 }, (_, i) =>
+        makeCode({ code: `S${i}`, level: '1', name: `Small ${i}` }),
+      );
+      render(<CodeTree codes={smallCodes} />);
+
+      expect(screen.getByRole('button', { name: /Velg kode S0:/ })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /Velg kode S49:/ })).toBeInTheDocument();
+    });
+
+    it('mounts only a subset of rows for a large list, without requiring scroll interaction', () => {
+      render(<CodeTree codes={LARGE_CODES} />);
+
+      // With jsdom's default viewport, only ~40 of 500 rows mount initially.
+      const rowCount = screen.getAllByRole('treeitem').length;
+      expect(rowCount).toBeGreaterThan(0);
+      expect(rowCount).toBeLessThan(500);
+    });
   });
 });

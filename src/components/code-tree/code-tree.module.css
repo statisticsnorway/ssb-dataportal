@@ -5,32 +5,36 @@
 }
 
 .treeCard {
-  background: var(--ds-color-neutral-surface-default);
-  border-radius: var(--ds-border-radius-lg);
-  border: var(--ds-border-width-default) solid var(--ssb-dark-color-2);
-  overflow: hidden;
   font-size: 1rem;
-  color: var(--ds-color-neutral-text-default);
 }
 
-.treeHeader {
-  display: flex;
-  align-items: center;
-  padding: 0.75rem 0.75rem 0.75rem 2.125rem;
-  border-bottom: var(--ds-border-width-default) solid var(--ssb-dark-color-2);
-  background: var(--ds-color-neutral-surface-tinted);
+.table {
+  width: 100%;
+}
+
+.table :where(tbody > tr:last-child > td) {
+  border-bottom: 0;
+}
+
+.treeHeaderCode,
+.treeHeaderName {
+  padding: var(--ds-size-2) var(--ds-size-3);
+  border-bottom: var(--ds-border-width-default) solid var(--ds-color-secondary-border-subtle);
+  background: var(--ds-color-secondary-surface-tinted);
   font-weight: 600;
   font-size: 0.875rem;
-  color: var(--ds-color-neutral-text-subtle);
-  gap: 1.5rem;
+  color: var(--ds-color-secondary-text-subtle);
 }
 
 .treeHeaderCode {
-  flex: 0 0 5rem;
+  width: 9rem;
+  text-align: left;
+  border-right: var(--ds-border-width-default) solid var(--ds-color-secondary-border-subtle);
 }
 
 .treeHeaderName {
-  flex: 1;
+  width: auto;
+  text-align: left;
 }
 
 .tree {
@@ -46,20 +50,49 @@
 }
 
 .row {
+  transition: background-color 80ms ease;
+}
+
+.treeCell {
+  padding: 0;
+}
+
+.codeCell {
+  border-right: var(--ds-border-width-default) solid var(--ds-color-secondary-border-subtle);
+}
+
+.nameCell .rowContent {
+  padding-left: 0;
+}
+
+.rowContent {
   display: flex;
   align-items: center;
-  min-height: 3.5rem;
+  min-height: 0;
   padding-left: calc(var(--depth, 0) * var(--tree-indent, 1rem));
   transition: background-color 80ms ease;
+  /*
+    Large classifications (e.g. Næringsgruppering) can expand to thousands of rows at once.
+    content-visibility lets the browser skip layout/paint for rows outside the viewport;
+    contain-intrinsic-size gives it a placeholder height (matching the row's natural height)
+    so scrollbar size and position stay correct while off-screen rows are skipped.
+    Unsupported browsers simply ignore both properties.
+  */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 2.5rem;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .expandableRow:hover {
     background-color: var(--ds-color-surface-hover);
   }
+
+  .row:hover {
+    background-color: var(--ds-color-surface-hover);
+  }
 }
 
-.expandableRow:active {
+.row:active {
   background-color: var(--ds-color-surface-active);
 }
 
@@ -90,19 +123,20 @@
 }
 
 .rowBody {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 1.5rem;
   flex: 1;
   min-width: 0;
-  padding: 0.625rem 0.75rem 0.625rem 0.125rem;
+  padding: var(--ds-size-2) 0.75rem;
   background: none;
   border: none;
   cursor: pointer;
   text-align: left;
   font-family: inherit;
   font-size: inherit;
-  color: var(--ds-color-neutral-text-default);
+  color: var(--ds-color-secondary-text-default);
 }
 
 .rowBody:focus-visible {
@@ -118,7 +152,7 @@
   flex: 0 0 5rem;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--ds-color-neutral-text-default);
+  color: var(--ds-color-secondary-text-default);
 }
 
 .nameLabel {
@@ -141,7 +175,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--ds-color-neutral-text-subtle);
+  color: var(--ds-color-secondary-text-subtle);
   border-radius: 50%;
   margin-right: 0.5rem;
 }
@@ -192,7 +226,7 @@
     --tree-indent: 0.625rem;
   }
 
-  .rowBody {
+  .rowContent {
     align-items: flex-start;
   }
 
@@ -225,19 +259,14 @@
     --stripe-5: #1d4ed8;
   }
 
-  /* Header: restore the 2rem left gap that clears the chevron column */
-  .treeHeader {
-    padding-left: 2rem;
-    gap: 0.5rem;
-  }
-
   /* Auto-size the header code cell to match the content-width rows below */
   .treeHeaderCode {
     flex: 0 0 auto;
+    padding-left: 2rem;
   }
 
   /* Row body: tighten the gap (chevron is back so default left padding applies) */
-  .rowBody {
+  .rowContent {
     gap: 0.5rem;
   }
 

@@ -12,6 +12,7 @@ import {
 } from '@digdir/designsystemet-react';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
+import { ClassificationSurface } from '@/components/classification-surface';
 import type { CorrespondenceMapResource } from '@/libs/data-access/klass/models';
 import { localization } from '@/libs/language';
 import { CodeSearch } from '../search';
@@ -150,51 +151,53 @@ export function CorrespondenceTable({
           {`0 ${localization.search.hits}`}
         </Alert>
       ) : (
-        <Table
-          border={true}
-          zebra={false}
-          hover={true}
-          stickyHeader={true}
-          className={styles.table}
-          aria-label={tableLabel}
-        >
-          <TableHead>
-            <TableRow>
-              <TableHeaderCell
-                colSpan={2}
-                scope='colgroup'
-                className={`${styles.tableHeader} ${styles.tableCentralDivider}`}
-              >
-                {displayedSourceName}
-              </TableHeaderCell>
-              <TableHeaderCell colSpan={2} scope='colgroup' className={styles.tableHeader}>
-                {displayedTargetName}
-              </TableHeaderCell>
-            </TableRow>
-          </TableHead>
-          {groupedMappings.map((group, groupIndex) => {
-            const isLastGroup = groupIndex === groupedMappings.length - 1;
-            return (
-              <TableBody key={group.key} className={styles.mappingGroup}>
-                {group.targets.map((target, index) => (
-                  <TableRow key={`${group.key}-${target.code ?? 'missing'}-${index}`}>
-                    {index === 0
-                      ? renderCodeAndName(
-                          group.sourceCode,
-                          group.sourceName,
-                          group.targets.length,
-                          true,
-                          isLastGroup,
-                          isLastGroup,
-                        )
-                      : null}
-                    {renderCodeAndName(target.code, target.name)}
-                  </TableRow>
-                ))}
-              </TableBody>
-            );
-          })}
-        </Table>
+        <ClassificationSurface>
+          <Table
+            border={false}
+            zebra={false}
+            hover={true}
+            stickyHeader={true}
+            className={styles.table}
+            aria-label={tableLabel}
+          >
+            <TableHead>
+              <TableRow>
+                <TableHeaderCell
+                  colSpan={2}
+                  scope='colgroup'
+                  className={`${styles.tableHeader} ${styles.tableCentralDivider}`}
+                >
+                  {displayedSourceName}
+                </TableHeaderCell>
+                <TableHeaderCell colSpan={2} scope='colgroup' className={styles.tableHeader}>
+                  {displayedTargetName}
+                </TableHeaderCell>
+              </TableRow>
+            </TableHead>
+            {groupedMappings.map((group, groupIndex) => {
+              const isLastGroup = groupIndex === groupedMappings.length - 1;
+              return (
+                <TableBody key={group.key} className={styles.mappingGroup}>
+                  {group.targets.map((target, index) => (
+                    <TableRow key={`${group.key}-${target.code ?? 'missing'}-${index}`}>
+                      {index === 0
+                        ? renderCodeAndName(
+                            group.sourceCode,
+                            group.sourceName,
+                            group.targets.length,
+                            true,
+                            isLastGroup,
+                            isLastGroup,
+                          )
+                        : null}
+                      {renderCodeAndName(target.code, target.name)}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              );
+            })}
+          </Table>
+        </ClassificationSurface>
       )}
     </div>
   );

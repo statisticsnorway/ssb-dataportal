@@ -23,7 +23,6 @@
   --large-gap: 2rem;
   --extra-large-gap: 4rem;
 
-  /* Ref: https://design.ssb.no/#/components/color */
   --ssb-dark-color-1: var(--ds-color-secondary-background-tinted);
   --ssb-dark-color-2: var(--ds-color-secondary-border-subtle);
   --ssb-dark-color-5: var(--ds-color-secondary-base-default);

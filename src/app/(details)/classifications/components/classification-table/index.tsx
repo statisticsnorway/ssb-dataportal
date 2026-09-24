@@ -10,6 +10,7 @@ import {
   TableRow,
 } from '@digdir/designsystemet-react';
 import { useState } from 'react';
+import { ClassificationSurface } from '@/components/classification-surface';
 import { VersionItem } from '@/types/item';
 import styles from './classificationTable.module.css';
 
@@ -69,42 +70,44 @@ const ClassificationTable = ({ content, sortableField, onlyInNorwegian }: Classi
       : content;
 
   return (
-    <Table border={true} zebra={true} hover={true} stickyHeader={true} className={styles.table}>
-      <TableHead>
-        <TableRow>
-          {headers.map((header, index) => {
-            const isSortable = index === sortableIndex;
-            return (
-              <TableHeaderCell
-                scope='col'
-                key={header}
-                sort={isSortable ? sortDirection : undefined}
-                onClick={isSortable ? handleSort : undefined}
-              >
-                {header}
-              </TableHeaderCell>
-            );
-          })}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {sortedContent.map((row, rowIndex) => (
-          <TableRow key={`${row.map((item) => String(item.value)).join('-')}-${rowIndex}`}>
-            {row.map((item) =>
-              onlyInNorwegian ? (
-                <TableCell lang='no' key={item.label}>
-                  {item.value instanceof Date ? item.value.toLocaleDateString('nb-NO') : item.value}
-                </TableCell>
-              ) : (
-                <TableCell key={item.label}>
-                  {item.value instanceof Date ? item.value.toLocaleDateString('nb-NO') : item.value}
-                </TableCell>
-              ),
-            )}
+    <ClassificationSurface>
+      <Table border={false} zebra={true} hover={true} stickyHeader={true} className={styles.table}>
+        <TableHead>
+          <TableRow>
+            {headers.map((header, index) => {
+              const isSortable = index === sortableIndex;
+              return (
+                <TableHeaderCell
+                  scope='col'
+                  key={header}
+                  sort={isSortable ? sortDirection : undefined}
+                  onClick={isSortable ? handleSort : undefined}
+                >
+                  {header}
+                </TableHeaderCell>
+              );
+            })}
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHead>
+        <TableBody>
+          {sortedContent.map((row, rowIndex) => (
+            <TableRow key={`${row.map((item) => String(item.value)).join('-')}-${rowIndex}`}>
+              {row.map((item) =>
+                onlyInNorwegian ? (
+                  <TableCell lang='no' key={item.label}>
+                    {item.value instanceof Date ? item.value.toLocaleDateString('nb-NO') : item.value}
+                  </TableCell>
+                ) : (
+                  <TableCell key={item.label}>
+                    {item.value instanceof Date ? item.value.toLocaleDateString('nb-NO') : item.value}
+                  </TableCell>
+                ),
+              )}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </ClassificationSurface>
   );
 };
 
