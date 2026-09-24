@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, Divider, Heading, Paragraph, Tooltip } from '@digdir/designsystemet-react';
+import { Button, Card, Heading, Paragraph, Tooltip } from '@digdir/designsystemet-react';
 import { FilesIcon } from '@navikt/aksel-icons';
 import dynamic from 'next/dynamic';
 import { coldarkCold } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -10,6 +10,18 @@ import { localization } from '@/libs/language';
 import styles from './code-snippet.module.css';
 
 const SyntaxHighlighter = dynamic(() => import('react-syntax-highlighter').then((mod) => mod.Prism), { ssr: false });
+
+const codeStyle = {
+  ...coldarkCold,
+  string: {
+    ...coldarkCold.string,
+    color: '#491FD6',
+  },
+  char: {
+    ...coldarkCold.char,
+    color: '#491FD6',
+  },
+};
 
 export interface CodeSnippetProps {
   code: string[];
@@ -29,7 +41,7 @@ const CodeSnippet = ({
   const daplaManualUrl = process.env.NEXT_PUBLIC_DAPLA_MANUAL_URL;
   const pyPiPackageUrl = process.env.NEXT_PUBLIC_DAPLA_METADATA_PYPI;
   return (
-    <Card>
+    <Card className={styles.codeSnippet}>
       <Heading className={`${styles.header} infoHeadingSecondary`} id={`tableHeading-code`} data-size='md' level={2}>
         {localization.codeSnippet.codeExample}
       </Heading>
@@ -39,7 +51,7 @@ const CodeSnippet = ({
           <ExternalLink linkText={localization.codeSnippet.linkToPyPiPackage} href={pyPiPackageUrl} />
         </Paragraph>
       )}
-      <Card.Block>
+      <Card.Block className={styles.codeBlock}>
         <Tooltip content={copied ? copiedLabel : copyLabel}>
           <Button
             className={styles.copyCodeButton}
@@ -53,18 +65,16 @@ const CodeSnippet = ({
         </Tooltip>
         <SyntaxHighlighter
           language='python'
-          style={coldarkCold}
+          style={codeStyle}
           customStyle={{
-            borderRadius: '5px',
             fontSize: 'calc(0.9rem + 0.25vw)',
             margin: 0,
-            padding: '3rem 3rem 1rem 2rem',
+            padding: '1.5rem',
           }}
         >
           {codeString}
         </SyntaxHighlighter>
       </Card.Block>
-      <Divider />
       <footer className={styles.linkFooter}>
         {daplaLabVardefUrl && (
           <ExternalLink

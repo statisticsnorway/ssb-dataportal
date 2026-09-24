@@ -14,7 +14,7 @@ export default function SearchLayout({ children }: Readonly<{ children: ReactNod
   const activeTab = getTabForRoute(pathname) ?? tabsData.VariableDefinitions;
 
   return (
-    <Tabs className={styles.tabsContainer} value={activeTab.id} data-color='accent'>
+    <Tabs className={styles.tabsContainer} value={activeTab.id}>
       <nav className={`${styles.tabsNavigationContainer} container`}>
         <Tabs.List aria-label={localization.tabs.ariaLabel}>
           {Object.values(tabsData).map((tab) => (

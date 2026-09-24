@@ -67,7 +67,11 @@ export const mapDetailsItems = (
   addRow(
     rows,
     localization.classification.about.unitTypes,
-    classification.statisticalUnits?.map((unit) => <Tag key={unit}>{unit}</Tag>),
+    classification.statisticalUnits?.map((unit) => (
+      <Tag data-color='magic' key={unit}>
+        {unit}
+      </Tag>
+    )),
   );
 
   return rows;

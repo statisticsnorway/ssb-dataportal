@@ -19,7 +19,7 @@ interface StatusTagProps {
  */
 const StatusTag = ({ variableStatus, className }: StatusTagProps) => {
   return (
-    <Tag data-color='warning' aria-label={localization.status.label} className={classNames(className)} data-size='md'>
+    <Tag data-color='magic' aria-label={localization.status.label} className={classNames(className)} data-size='md'>
       {convertStatus(variableStatus)}
     </Tag>
   );

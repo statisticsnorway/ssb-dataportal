@@ -71,12 +71,12 @@ export default function DatasetDetail({
             {
               label: localization.datasetDetail.datasetState,
               value: dataset.dataset_state && (
-                <Tag data-color='success'>{convertDataSetState(dataset.dataset_state)}</Tag>
+                <Tag data-color='magic'>{convertDataSetState(dataset.dataset_state)}</Tag>
               ),
             },
             {
               label: localization.datasetDetail.assessment,
-              value: dataset.assessment && <Tag data-color='warning'> {convertAssessment(dataset.assessment)}</Tag>,
+              value: dataset.assessment && <Tag data-color='magic'> {convertAssessment(dataset.assessment)}</Tag>,
             },
             {
               label: localization.datasetDetail.responsible,

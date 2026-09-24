@@ -64,11 +64,16 @@ function renderCodeAndName(
   rowSpan = 1,
   addDivider = false,
   removeBottomBorder = false,
+  addBottomLeftRadius = false,
 ) {
   const hasMapping = Boolean(code || name);
-  const codeClassName = removeBottomBorder
-    ? `${styles.tableCodeLabel} ${styles.tableBottomCell}`
-    : styles.tableCodeLabel;
+  const codeClassName = [
+    styles.tableCodeLabel,
+    removeBottomBorder ? styles.tableBottomCell : null,
+    addBottomLeftRadius ? styles.tableBottomLeftCell : null,
+  ]
+    .filter(Boolean)
+    .join(' ');
   const nameClassName = [
     styles.tableNameLabel,
     addDivider ? styles.tableCentralDivider : null,
@@ -145,46 +150,51 @@ export function CorrespondenceTable({
           {`0 ${localization.search.hits}`}
         </Alert>
       ) : (
-        <div className={styles.tableWrapper}>
-          <Table
-            border={true}
-            zebra={false}
-            hover={true}
-            stickyHeader={true}
-            className={styles.table}
-            aria-label={tableLabel}
-          >
-            <TableHead>
-              <TableRow>
-                <TableHeaderCell
-                  colSpan={2}
-                  scope='colgroup'
-                  className={`${styles.tableHeader} ${styles.tableCentralDivider}`}
-                >
-                  {displayedSourceName}
-                </TableHeaderCell>
-                <TableHeaderCell colSpan={2} scope='colgroup' className={styles.tableHeader}>
-                  {displayedTargetName}
-                </TableHeaderCell>
-              </TableRow>
-            </TableHead>
-            {groupedMappings.map((group, groupIndex) => {
-              const isLastGroup = groupIndex === groupedMappings.length - 1;
-              return (
-                <TableBody key={group.key} className={styles.mappingGroup}>
-                  {group.targets.map((target, index) => (
-                    <TableRow key={`${group.key}-${target.code ?? 'missing'}-${index}`}>
-                      {index === 0
-                        ? renderCodeAndName(group.sourceCode, group.sourceName, group.targets.length, true, isLastGroup)
-                        : null}
-                      {renderCodeAndName(target.code, target.name)}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              );
-            })}
-          </Table>
-        </div>
+        <Table
+          border={true}
+          zebra={false}
+          hover={true}
+          stickyHeader={true}
+          className={styles.table}
+          aria-label={tableLabel}
+        >
+          <TableHead>
+            <TableRow>
+              <TableHeaderCell
+                colSpan={2}
+                scope='colgroup'
+                className={`${styles.tableHeader} ${styles.tableCentralDivider}`}
+              >
+                {displayedSourceName}
+              </TableHeaderCell>
+              <TableHeaderCell colSpan={2} scope='colgroup' className={styles.tableHeader}>
+                {displayedTargetName}
+              </TableHeaderCell>
+            </TableRow>
+          </TableHead>
+          {groupedMappings.map((group, groupIndex) => {
+            const isLastGroup = groupIndex === groupedMappings.length - 1;
+            return (
+              <TableBody key={group.key} className={styles.mappingGroup}>
+                {group.targets.map((target, index) => (
+                  <TableRow key={`${group.key}-${target.code ?? 'missing'}-${index}`}>
+                    {index === 0
+                      ? renderCodeAndName(
+                          group.sourceCode,
+                          group.sourceName,
+                          group.targets.length,
+                          true,
+                          isLastGroup,
+                          isLastGroup,
+                        )
+                      : null}
+                    {renderCodeAndName(target.code, target.name)}
+                  </TableRow>
+                ))}
+              </TableBody>
+            );
+          })}
+        </Table>
       )}
     </div>
   );

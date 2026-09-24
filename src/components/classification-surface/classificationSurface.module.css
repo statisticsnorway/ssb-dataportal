@@ -1,0 +1,13 @@
+.classificationSurface {
+  overflow: hidden;
+  border: var(--ds-border-width-default) solid var(--ds-color-secondary-border-subtle);
+  border-radius: var(--ds-border-radius-lg);
+  background: var(--white-color);
+  color: var(--ds-color-secondary-text-default);
+}
+
+.seamless {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}

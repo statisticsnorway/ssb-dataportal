@@ -77,6 +77,7 @@ export default function ClassificationDetail({
         )}
         <SubscribeDialog classificationId={classification.id} />
         <ExpandableTable
+          variant='seamless'
           title={localization.classificationDetails.versions}
           table={
             <ClassificationTable

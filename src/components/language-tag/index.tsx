@@ -13,7 +13,7 @@ interface LanguageTagProps {
 const LanguageTag = ({ tooltipContent, title }: LanguageTagProps) => {
   return (
     <Tooltip content={tooltipContent ?? localization.classification.language.contentChangelog}>
-      <Tag data-size='lg' tabIndex={0}>
+      <Tag data-color='magic' data-size='lg' tabIndex={0}>
         <GlobeIcon aria-hidden='true' focusable='false' />
         {title}
       </Tag>

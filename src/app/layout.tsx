@@ -44,7 +44,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <AuthProvider isAuthenticated={authResult.isAuthenticated}>
       <html lang={language}>
-        <body className={`${robotoCondensed.variable} ${roboto.variable} ${openSans.variable}`}>
+        <body className={`${robotoCondensed.variable} ${roboto.variable} ${openSans.variable}`} data-color='secondary'>
           <LocalizationSync language={language}>
             <NuqsAdapter>
               <AppLayout catalogTitle={localization.appTitle}>{children}</AppLayout>

@@ -1,6 +1,7 @@
 import { Tag } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
 import { SearchHit } from '@/components/search-hit';
+import { CopyTag } from '@/components/tag-components/copy-tag';
 import { DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
 import { localization } from '@/libs/language';
 import { KlassCode } from '@/types/klass-codes';
@@ -41,8 +42,13 @@ export const DataProductSearchHit = ({ dataProduct, subjectFields }: DataProduct
 
   const tagsList = (
     <>
-      {subjectFieldLabel && <Tag aria-label={localization.subjectArea}>{subjectFieldLabel}</Tag>}
-      {dataProduct.product_type && <Tag>{localizeDataProductType(dataProduct.product_type)}</Tag>}
+      {subjectFieldLabel && (
+        <Tag data-color='magic' aria-label={localization.subjectArea}>
+          {subjectFieldLabel}
+        </Tag>
+      )}
+      {dataProduct.product_type && <Tag data-color='magic'>{localizeDataProductType(dataProduct.product_type)}</Tag>}
+      {dataProduct.product_short_name && <CopyTag text={dataProduct.product_short_name} />}
     </>
   );
 

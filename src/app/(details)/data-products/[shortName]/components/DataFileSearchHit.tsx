@@ -43,9 +43,11 @@ export const DataFileSearchHit = ({ dataFile }: DataFileSearchHitProps) => {
       href={undefined}
       description={undefined}
       tagsList=<>
-        <Tag data-color='warning'>{formatPeriodString(dataFile)}</Tag>
-        <Tag>{dataFile.data_file_version ? `Versjon ${dataFile.data_file_version}` : 'Ikke versjonert'}</Tag>
-        <Tag data-color='success'>{dataFile.file_type}</Tag>
+        <Tag data-color='magic'>{formatPeriodString(dataFile)}</Tag>
+        <Tag data-color='magic'>
+          {dataFile.data_file_version ? `Versjon ${dataFile.data_file_version}` : 'Ikke versjonert'}
+        </Tag>
+        <Tag data-color='magic'>{dataFile.file_type}</Tag>
         <CopyTag text={dataFile.file_path ?? 'undefined'} copyType='file_path' />
         {(dataFile.naming_standard_violations?.length ?? 0) > 0 ? (
           <Popover.TriggerContext>

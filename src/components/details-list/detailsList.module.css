@@ -9,7 +9,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  padding-left: 1rem;
+  padding-left: 0;
   font-family: var(--font-open-sans);
   color: var(--text-color-primary);
 }
@@ -34,7 +34,7 @@
   margin: 0;
 }
 .popoverButton {
-  --dsc-button-background: white;
+  --dsc-button-background: var(--white-color);
   --dsc-button-color: var(--ssb-dark-color-5);
   --dsc-button-padding: 0 0.5rem;
   --dsc-button-size: 2rem;
