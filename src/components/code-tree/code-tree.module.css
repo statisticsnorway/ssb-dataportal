@@ -37,18 +37,6 @@
   text-align: left;
 }
 
-.tree {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.children {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
 .row {
   transition: background-color 80ms ease;
 }
@@ -197,16 +185,6 @@
   outline-offset: 2px;
   box-shadow: 0 0 0 var(--ds-border-width-focus) var(--ds-color-focus-inner);
   border-radius: 50%;
-}
-
-.notesSection {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.notesSection + .notesSection {
-  margin-top: 0.75rem;
 }
 
 /* ── Tablet and below: name wraps (≤48rem / ~768px) ─────────────────────────

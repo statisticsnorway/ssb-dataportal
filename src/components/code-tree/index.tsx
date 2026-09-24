@@ -205,7 +205,7 @@ export function CodeTree({ codes, onChange, toolbar, autoExpandAll = false }: Re
             </TableHead>
             <TableBody role='tree' aria-label={localization.codeTree.label}>
               {topSpacerHeight > 0 && (
-                <tr aria-hidden='true' style={{ height: topSpacerHeight }}>
+                <tr style={{ height: topSpacerHeight }}>
                   <td colSpan={2} className={styles.spacerCell} />
                 </tr>
               )}
@@ -222,7 +222,7 @@ export function CodeTree({ codes, onChange, toolbar, autoExpandAll = false }: Re
                 />
               ))}
               {bottomSpacerHeight > 0 && (
-                <tr aria-hidden='true' style={{ height: bottomSpacerHeight }}>
+                <tr style={{ height: bottomSpacerHeight }}>
                   <td colSpan={2} className={styles.spacerCell} />
                 </tr>
               )}

@@ -37,9 +37,3 @@
 .seamlessCard :where(table) :where(th, td) {
   border-radius: 0;
 }
-
-.seamlessCard :global(.classification-surface) {
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-}

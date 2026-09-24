@@ -4,8 +4,19 @@ import styles from './classificationSurface.module.css';
 interface ClassificationSurfaceProps {
   children: ReactNode;
   className?: string;
+  seamless?: boolean;
 }
 
-export function ClassificationSurface({ children, className = '' }: Readonly<ClassificationSurfaceProps>) {
-  return <div className={`classification-surface ${styles.surface} ${className}`}>{children}</div>;
+export function ClassificationSurface({
+  children,
+  className = '',
+  seamless = false,
+}: Readonly<ClassificationSurfaceProps>) {
+  return (
+    <div
+      className={`${styles.classificationSurface} ${seamless ? styles.seamless : ''} classification-surface ${className}`}
+    >
+      {children}
+    </div>
+  );
 }
