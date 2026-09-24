@@ -7,6 +7,7 @@ import {
 import { RenderedView, RenderedViewFromJSON } from '@/libs/data-access/variable-definitions/internal';
 import classificationsMock from '@/static-data/classifications.json';
 import subjectFieldsMock from '@/static-data/codes-mock.json';
+import validityPeriodsJson from '@/static-data/validity-periods.json';
 import variableDefinitionsJson from '@/static-data/variable-definitions.json';
 import { getClassificationTypeFromString } from '@/types/classification';
 import { FilterItem } from '@/types/filters';
@@ -25,12 +26,7 @@ export function getStaticVariableDefinitionById(id: string): RenderedView | unde
 }
 
 export function getStaticVariableDefinitionValidityPeriodsById(id: string): Array<RenderedView> {
-  const variableDefinition = getStaticVariableDefinitionById(id);
-  if (!variableDefinition) {
-    return [];
-  }
-
-  return getStaticVariableDefinitionsByShortName(variableDefinition.short_name);
+  return validityPeriodsJson.map(RenderedViewFromJSON).filter((view) => view.id === id);
 }
 
 export function getClassification(id: number): ClassificationResource {

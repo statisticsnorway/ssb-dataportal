@@ -4,6 +4,7 @@ import { cache } from 'react';
 import {
   getRenderedVariableDefinitionById as getVariableDefinitionById,
   getVariableDefinitionByShortName,
+  getVariableDefinitionByShortNameAtDate,
   getVariableDefinitionValidityPeriodsById,
   VariableDefinitionValidityPeriod,
 } from '@/libs/data/variable-definitions/variableDefinitions';
@@ -104,8 +105,16 @@ const getPageData = cache(async (shortNameOrId: string, validAt?: string) => {
     variableDefinition = baseVariableDefinition;
   } else {
     variableDefinition =
-      (await getVariableDefinitionById(baseVariableDefinition.id, selectedValidityPeriod.valid_from)) ??
-      baseVariableDefinition;
+      (await getVariableDefinitionByShortNameAtDate(
+        baseVariableDefinition.short_name,
+        selectedValidityPeriod.valid_from,
+      )) ?? baseVariableDefinition;
+
+    variableDefinition = {
+      ...variableDefinition,
+      valid_from: selectedValidityPeriod.valid_from,
+      valid_until: selectedValidityPeriod.valid_until,
+    };
   }
 
   if (validityPeriods.length === 0) {

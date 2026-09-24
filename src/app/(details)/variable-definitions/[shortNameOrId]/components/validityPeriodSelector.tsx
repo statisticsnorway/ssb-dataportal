@@ -44,7 +44,7 @@ export function ValidityPeriodSelector({
           const value = formatDate(definition.valid_from);
           const validTo = definition.valid_until ? formatDate(definition.valid_until) : localization.noDataPlaceholder;
           return (
-            <Select.Option key={definition.id} value={value}>
+            <Select.Option key={`${definition.id}-${value}`} value={value}>
               {`${value} - ${validTo}`}
             </Select.Option>
           );

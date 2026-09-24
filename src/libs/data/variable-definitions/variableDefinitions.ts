@@ -35,6 +35,29 @@ const ttlSeconds = Number(process.env.VARDEF_CACHE_TTL_SECONDS);
 
 export type VariableDefinitionValidityPeriod = Pick<RenderedView, 'id' | 'valid_from' | 'valid_until'>;
 
+function isVariableDefinitionValidOnDate(
+  variableDefinition: Pick<RenderedView, 'valid_from' | 'valid_until'>,
+  date: Date,
+) {
+  const target = new Date(date);
+  target.setHours(0, 0, 0, 0);
+
+  const validFrom = new Date(variableDefinition.valid_from);
+  validFrom.setHours(0, 0, 0, 0);
+
+  if (validFrom.getTime() > target.getTime()) {
+    return false;
+  }
+
+  if (!variableDefinition.valid_until) {
+    return true;
+  }
+
+  const validUntil = new Date(variableDefinition.valid_until);
+  validUntil.setHours(0, 0, 0, 0);
+  return validUntil.getTime() >= target.getTime();
+}
+
 function createVardefConfiguration(token: string): Configuration {
   let configParams = {
     accessToken: token,
@@ -161,6 +184,64 @@ export async function getVariableDefinitionByShortName(shortName: string): Promi
       throw new Error('Could not decode data');
     }
     logger.info({ id: data.id, shortName: data.short_name }, 'Fetched variable definition');
+    return data;
+  } catch (error: unknown) {
+    if (error instanceof ResponseError) {
+      logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
+    } else {
+      logger.error({ error: sanitizeError(error) }, 'Unexpected error during fetch');
+    }
+    throw error;
+  }
+}
+
+export async function getVariableDefinitionByShortNameAtDate(
+  shortName: string,
+  dateOfValidity: Date,
+): Promise<RenderedView | undefined> {
+  const logger = createLoggerWithBindings({
+    module: 'variable-definitions',
+    fn: 'getVariableDefinitionByShortNameAtDate',
+  });
+
+  if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
+    logger.warn('Using static mock data for vardef');
+    return getStaticVariableDefinitionsByShortName(shortName).find((item) =>
+      isVariableDefinitionValidOnDate(item, dateOfValidity),
+    );
+  }
+
+  const api = await getVardefClient();
+  if (!api) throw new Error('Could not access Vardef API!');
+
+  const params = {
+    shortName,
+    dateOfValidity,
+    acceptLanguage: localization.getLanguage() as SupportedLanguages,
+    render: true,
+  } satisfies ListVariableDefinitionsRequest;
+
+  try {
+    const rawDataArray = await api.listVariableDefinitions(params);
+    if (rawDataArray.length === 0) {
+      return undefined;
+    }
+    if (rawDataArray.length > 1) {
+      throw new Error(
+        `Multiple variable definitions found for shortName="${shortName}" and date="${dateOfValidity.toISOString().slice(0, 10)}"`,
+      );
+    }
+
+    const data = rawDataArray[0];
+    if (data == undefined || !instanceOfRenderedView(data)) {
+      logger.error({ shortName, data }, 'Response could not be decoded to RenderedView');
+      throw new Error('Could not decode data');
+    }
+
+    logger.info(
+      { id: data.id, shortName: data.short_name, dateOfValidity },
+      'Fetched variable definition by short name and date',
+    );
     return data;
   } catch (error: unknown) {
     if (error instanceof ResponseError) {
