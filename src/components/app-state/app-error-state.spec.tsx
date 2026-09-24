@@ -52,6 +52,11 @@ describe('AppErrorState', () => {
     expect(homelink).toHaveAttribute('href', '/');
   });
 
+  it('does not render home link', () => {
+    render(<AppErrorState showHomeLink={false} />);
+    expect(screen.queryByRole('link', { name: goHome })).not.toBeInTheDocument();
+  });
+
   it('render retry button and calls onRetry', async () => {
     const user = userEvent.setup();
     const onRetry = vi.fn();
