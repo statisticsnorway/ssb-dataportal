@@ -199,8 +199,12 @@ export function CodeTree({ codes, onChange, toolbar, autoExpandAll = false }: Re
           >
             <TableHead>
               <TableRow>
-                <TableHeaderCell className={styles.treeHeaderCode}>{localization.codeTree.codeColumn}</TableHeaderCell>
-                <TableHeaderCell className={styles.treeHeaderName}>{localization.codeTree.nameColumn}</TableHeaderCell>
+                <TableHeaderCell scope='col' className={styles.treeHeaderCode}>
+                  {localization.codeTree.codeColumn}
+                </TableHeaderCell>
+                <TableHeaderCell scope='col' className={styles.treeHeaderName}>
+                  {localization.codeTree.nameColumn}
+                </TableHeaderCell>
               </TableRow>
             </TableHead>
             <TableBody role='tree' aria-label={localization.codeTree.label}>
