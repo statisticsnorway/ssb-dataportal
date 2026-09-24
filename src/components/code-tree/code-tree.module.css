@@ -71,13 +71,6 @@
   min-height: 0;
   padding-left: calc(var(--depth, 0) * var(--tree-indent, 1rem));
   transition: background-color 80ms ease;
-  /*
-    Large classifications (e.g. Næringsgruppering) can expand to thousands of rows at once.
-    content-visibility lets the browser skip layout/paint for rows outside the viewport;
-    contain-intrinsic-size gives it a placeholder height (matching the row's natural height)
-    so scrollbar size and position stay correct while off-screen rows are skipped.
-    Unsupported browsers simply ignore both properties.
-  */
   content-visibility: auto;
   contain-intrinsic-size: auto 2.5rem;
 }
