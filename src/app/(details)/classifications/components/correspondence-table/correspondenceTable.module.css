@@ -23,7 +23,7 @@
 
 .table {
   width: 100%;
-  background-color: var(--ds-color-secondary-surface-default);
+  background-color: var(--white-color);
   border-radius: var(--ds-border-radius-lg);
   overflow: hidden;
   --dsc-table-padding: var(--ds-size-1) var(--ds-size-2);

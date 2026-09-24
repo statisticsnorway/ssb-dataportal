@@ -37,8 +37,8 @@
   --dark-blue-color: #1e2b3c;
   --main-background-color: var(--ds-color-secondary-background-tinted);
   --shadow-color: #969ba0;
-  --element-background-color: var(--ds-color-secondary-background-default);
   --white-color: #fff;
+  --element-background-color: var(--white-color);
   --main-font-color: #000;
 
   --text-color-primary: var(--ds-color-secondary-text-default);
