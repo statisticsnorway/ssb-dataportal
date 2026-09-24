@@ -1,6 +1,7 @@
 import { Tag } from '@digdir/designsystemet-react';
 import { tabsData } from '@/app/(services)/tabs';
 import { SearchHit } from '@/components/search-hit';
+import { CopyTag } from '@/components/tag-components/copy-tag';
 import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { getClassificationTypeFromString } from '@/types/classification';
 import { KlassCode } from '@/types/klass-codes';
@@ -28,6 +29,7 @@ const ClassificationSearchHit = ({ classification, subjectFields }: SearchHitPro
           {getLabelForClassificationType(getClassificationTypeFromString(classification.classificationType))}
         </Tag>
       )}
+      <CopyTag text={String(classification.id)} copyType='id' />
     </>
   );
   return (

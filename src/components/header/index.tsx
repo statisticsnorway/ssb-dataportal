@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { FC } from 'react';
 import { DataportalLogo } from '../dataportal-logo';
 import { LanguagePicker } from '../language-picker';
@@ -17,6 +18,9 @@ export const Header: FC<HeaderProps> = ({ homeUrl, title, devEnvironmentName }) 
         <DataportalLogo homeUrl={homeUrl} title={title} placement='header' />
         <div className={styles.rightGroup}>
           {devEnvironmentName ? <p className={styles.environmentName}>{devEnvironmentName}</p> : undefined}
+          <Link className={styles.exampleLink} href='/example'>
+            Designsystem eksempel
+          </Link>
           <LoginButton />
           <LanguagePicker />
         </div>

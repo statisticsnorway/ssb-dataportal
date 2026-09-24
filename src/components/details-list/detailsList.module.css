@@ -9,7 +9,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  padding-left: 1rem;
+  padding-left: 0;
   font-family: var(--font-open-sans);
   color: var(--text-color-primary);
 }

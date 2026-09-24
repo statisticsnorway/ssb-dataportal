@@ -24,6 +24,19 @@
   hyphens: auto;
 }
 
+.commentCard {
+  overflow: hidden;
+}
+
+.commentCard :global(summary) {
+  border-radius: calc(var(--dsc-card-border-radius) - var(--dsc-card-border-width));
+}
+
+.commentCard :global(details[open] > summary) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
 /* Styling groups.tsx*/
 .owner {
   display: flex;

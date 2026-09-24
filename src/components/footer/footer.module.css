@@ -33,7 +33,17 @@
   align-items: flex-start;
   gap: 0.5rem;
 }
-.negativeLink {
+.footer .negativeLink {
+  color: var(--ssb-green-2);
+  --dsc-link-color: var(--ssb-green-2);
+  --dsc-link-color--visited: var(--ssb-green-2);
+  --dsc-link-color--hover: var(--ssb-green-2);
+  --dsc-link-color--active: var(--ssb-green-2);
+}
+
+.footer .negativeLink:visited,
+.footer .negativeLink:hover,
+.footer .negativeLink:active {
   color: var(--ssb-green-2);
 }
 .divider {

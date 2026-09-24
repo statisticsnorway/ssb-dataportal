@@ -6,6 +6,7 @@ interface ExpandableTableProps {
   message?: string;
   title?: string | React.ReactNode;
   ariaLabel?: string;
+  variant?: 'default' | 'seamless';
 }
 
 /**
@@ -15,13 +16,16 @@ interface ExpandableTableProps {
  * @param title - The title of the expandable section.
  * @param message - A message to display when the table is not available.
  * @param ariaLabel - The aria-label for the details element for accessibility.
+ * @param variant - `seamless` renders the table flush inside the card on the SSB secondary colour scale.
  */
-const ExpandableTable = ({ table, title, message, ariaLabel }: ExpandableTableProps) => {
+const ExpandableTable = ({ table, title, message, ariaLabel, variant = 'default' }: ExpandableTableProps) => {
+  const isSeamless = variant === 'seamless';
+
   return (
-    <Card className={styles.card}>
+    <Card className={isSeamless ? `${styles.card} ${styles.seamlessCard}` : styles.card}>
       <Details className={styles.details} aria-label={ariaLabel}>
         {title && <DetailsSummary>{title}</DetailsSummary>}
-        {table && <span className={styles.table}>{table}</span>}
+        {table && <div className={styles.table}>{table}</div>}
         {message && <Paragraph lang='no'>{message}</Paragraph>}
       </Details>
     </Card>

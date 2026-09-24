@@ -214,9 +214,6 @@ importers:
       '@biomejs/biome':
         specifier: 2.5.13
         version: 2.5.13
-      '@digdir/designsystemet-css':
-        specifier: 1.21.1
-        version: 1.21.1
       '@digdir/designsystemet-react':
         specifier: 1.21.1
         version: 1.21.1(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -226,6 +223,9 @@ importers:
       '@next/env':
         specifier: 16.3.5
         version: 16.3.5
+      '@statisticsnorway/design-css':
+        specifier: 0.2.2
+        version: 0.2.2
       '@svgr/webpack':
         specifier: 8.1.0
         version: 8.1.0(supports-color@10.2.2)(typescript@7.0.2)
@@ -1673,6 +1673,9 @@ packages:
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
+
+  '@statisticsnorway/design-css@0.2.2':
+    resolution: {integrity: sha512-R44w88n3K8h9X/Lj6khSps8x2onpyVRa2HBHTHRFN6SJxPVfhxpJFopIRVSYishD7OqPgBQ7abNgFlFVXbegyw==}
 
   '@svgr/babel-plugin-add-jsx-attribute@8.0.0':
     resolution: {integrity: sha512-b9MIk7yhdS1pMCZM8VeNfUlSKVRhsHZNMl5O9SfaX0l0t5wjdgu4IDzGB8bpnGBBOjGST3rRFVsaaEtI4W6f7g==}
@@ -5250,6 +5253,10 @@ snapshots:
   '@rolldown/pluginutils@1.0.1': {}
 
   '@standard-schema/spec@1.1.0': {}
+
+  '@statisticsnorway/design-css@0.2.2':
+    dependencies:
+      '@digdir/designsystemet-css': 1.21.1
 
   '@svgr/babel-plugin-add-jsx-attribute@8.0.0(@babel/core@7.29.0(supports-color@10.2.2))':
     dependencies:

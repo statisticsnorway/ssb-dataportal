@@ -56,7 +56,7 @@
 
 @media (min-width: 400px) {
   .tabsPanel {
-    --dsc-tabs-content-padding: var(--dsc-tabs-tab-padding);
+    --dsc-tabs-content-padding: 0;
   }
 }
 

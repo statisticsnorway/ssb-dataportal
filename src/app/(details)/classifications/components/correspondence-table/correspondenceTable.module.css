@@ -21,22 +21,20 @@
   gap: var(--ds-size-2);
 }
 
-.tableWrapper {
-  overflow-x: auto;
-}
-
 .table {
   width: 100%;
-  background-color: var(--element-background-color);
+  background-color: var(--ds-color-secondary-surface-default);
+  border-radius: var(--ds-border-radius-lg);
+  overflow: hidden;
   --dsc-table-padding: var(--ds-size-1) var(--ds-size-2);
   word-break: break-all;
   font-size: var(--font-size-md);
 }
 
 .tableHeader {
-  border-bottom: var(--ds-border-width-default) solid var(--ssb-dark-color-2);
-  background: var(--ds-color-neutral-surface-tinted);
-  color: var(--ds-color-neutral-text-subtle);
+  border-bottom: var(--ds-border-width-default) solid var(--ds-color-secondary-border-subtle);
+  background: var(--ds-color-secondary-surface-tinted);
+  color: var(--ds-color-secondary-text-subtle);
   font-weight: 600;
   font-size: 0.875rem;
 }
@@ -45,7 +43,7 @@
   width: 5rem;
   vertical-align: top;
   overflow: hidden;
-  color: var(--ds-color-neutral-text-default);
+  color: var(--ds-color-secondary-text-default);
   font-family: var(--font-family-monospace);
   font-weight: 600;
   text-overflow: ellipsis;
@@ -60,11 +58,19 @@
 }
 
 .tableCentralDivider {
-  border-right: var(--ds-border-width-default) solid var(--ssb-dark-color-2);
+  border-right: var(--ds-border-width-default) solid var(--ds-color-secondary-border-subtle);
 }
 
 .tableBottomCell {
   border-bottom: 0;
+}
+
+.tableBottomLeftCell {
+  border-bottom-left-radius: var(--ds-border-radius-lg);
+}
+
+.table :where(tbody:last-of-type > tr:last-child > td:first-child):not(.tableBottomLeftCell) {
+  border-bottom-left-radius: 0;
 }
 
 @media (hover: hover) and (pointer: fine) {

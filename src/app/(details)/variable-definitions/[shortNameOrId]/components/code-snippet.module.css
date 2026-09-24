@@ -1,24 +1,45 @@
+.codeSnippet {
+  padding: 1.5rem;
+}
+
 .header {
-  padding: 1rem 1rem 0 2rem;
-  margin-bottom: 1rem;
+  padding: 0;
+  margin-bottom: 0;
 }
 
 .helpText {
-  padding-left: 2rem;
-  padding-bottom: 1rem;
+  padding: 0 0 0.75rem;
+}
+
+.codeBlock {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  border-radius: calc(var(--dsc-card-border-radius) - var(--dsc-card-border-width));
+  --dsc-card-block-border-width: 0;
+  --dsc-card-block-border-color: transparent;
+}
+
+.codeBlock :global(.token.string),
+.codeBlock :global(.token.char) {
+  color: var(--ds-color-magic-base-default) !important;
+}
+
+.codeBlock :global(pre) {
+  border-radius: inherit;
 }
 
 .linkFooter {
   border: none;
   display: flex;
   flex-wrap: wrap;
-  padding: 1rem;
-  gap: 1rem;
+  padding: 0;
+  gap: 0.75rem;
 }
 .copyCodeButton {
   position: absolute;
-  top: 1.5rem;
-  right: 2rem;
+  top: 0;
+  right: 0;
   z-index: 2;
   color: var(--main-font-color);
 }

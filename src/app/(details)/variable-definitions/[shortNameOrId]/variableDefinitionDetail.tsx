@@ -42,11 +42,11 @@ export default function VariableDefinitionDetail({
         <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='xl' level={1}>
           {variableDefinition.name}
         </Heading>
-        <CopyTag text={variableDefinition.short_name} />
+        <CopyTag text={variableDefinition.short_name} size='lg' />
         <Paragraph className={`${styles.definition} ingress`}>{variableDefinition.definition}</Paragraph>
         {isAuthenticated && <StatusTag variableStatus={variableDefinition.variable_status} />}
         {variableDefinition.comment ? (
-          <Card>
+          <Card className={styles.commentCard}>
             <Details>
               <DetailsSummary data-size='lg' className={`font-roboto`}>
                 {localization.variableDefinition.comment}

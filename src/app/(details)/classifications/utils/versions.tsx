@@ -13,6 +13,7 @@ const mapVersionName = (
   if (!classificationId) return v.name;
   return (
     <Link
+      className='secondary-color-link'
       href={buildUrl({ classificationId, versionId: v.id, tab })}
       scroll={false}
       onClick={(event) => {

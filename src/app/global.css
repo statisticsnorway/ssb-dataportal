@@ -1,7 +1,7 @@
 /* This is a global stylesheet */
 
-@import url("@digdir/designsystemet-css");
-@import url("@digdir/designsystemet-css/theme");
+@import url("@statisticsnorway/design-css");
+@import url("@statisticsnorway/design-css/theme");
 
 @layer reset, ds;
 
@@ -24,26 +24,26 @@
   --extra-large-gap: 4rem;
 
   /* Ref: https://design.ssb.no/#/components/color */
-  --ssb-dark-color-1: #f0f8f9;
-  --ssb-dark-color-2: #c3dcdc;
-  --ssb-dark-color-5: #274247;
-  --ssb-dark-color-6: #162327;
+  --ssb-dark-color-1: var(--ds-color-secondary-background-tinted);
+  --ssb-dark-color-2: var(--ds-color-secondary-border-subtle);
+  --ssb-dark-color-5: var(--ds-color-secondary-base-default);
+  --ssb-dark-color-6: var(--ds-color-secondary-text-default);
   --ssb-purple-2: #d2ceff;
   --ssb-green-2: #b6e8b8;
 
-  --lighter-shade-of-ssb-5: #386067;
+  --lighter-shade-of-ssb-5: var(--ds-color-secondary-border-default);
 
   --blue-color: #335380;
   --dark-blue-color: #1e2b3c;
-  --main-background-color: #f0f8f9;
+  --main-background-color: var(--ds-color-secondary-background-tinted);
   --shadow-color: #969ba0;
-  --element-background-color: #fff;
+  --element-background-color: var(--ds-color-secondary-background-default);
   --main-font-color: #000;
 
-  --text-color-primary: #111827;
-  --text-color-secondary: #4f525f;
-  --border-color: #ddd;
-  --separator-color: #d1d5db;
+  --text-color-primary: var(--ds-color-secondary-text-default);
+  --text-color-secondary: var(--ds-color-secondary-text-subtle);
+  --border-color: var(--ds-color-secondary-border-subtle);
+  --separator-color: var(--ds-color-secondary-border-subtle);
 
   --border-radius-md: 0.5rem;
   --border-radius-lg: 1rem;
@@ -182,6 +182,42 @@ button {
 
 .font-roboto {
   font-family: var(--font-roboto), sans-serif;
+}
+
+.secondary-color-link {
+  color: var(--ds-color-secondary-base-default);
+}
+
+.secondary-color-link:hover {
+  color: var(--ds-color-secondary-base-hover);
+}
+
+.secondary-color-link:active {
+  color: var(--ds-color-secondary-base-active);
+}
+
+/* Use the SSB secondary palette for application links. */
+a:not(.ds-button) {
+  color: var(--ds-color-secondary-base-default);
+}
+
+a:not(.ds-button):visited {
+  color: var(--ds-color-secondary-base-default);
+}
+
+a:not(.ds-button):hover {
+  color: var(--ds-color-secondary-base-hover);
+}
+
+a:not(.ds-button):active {
+  color: var(--ds-color-secondary-base-active);
+}
+
+.ds-link {
+  --dsc-link-color: var(--ds-color-secondary-base-default);
+  --dsc-link-color--visited: var(--ds-color-secondary-base-default);
+  --dsc-link-color--hover: var(--ds-color-secondary-base-hover);
+  --dsc-link-color--active: var(--ds-color-secondary-base-active);
 }
 
 .infoAlert {

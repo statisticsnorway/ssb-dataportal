@@ -45,7 +45,7 @@ const SearchHitContainer = ({
         {pagedHits.map((hit) => renderHit(hit))}
       </div>
       {hasPagination && (
-        <Pagination data-testid={'pagination'}>
+        <Pagination data-testid='pagination'>
           <Pagination.List>
             <Pagination.Item>
               <Pagination.Button aria-label={localization.previous} {...prevButtonProps}>
