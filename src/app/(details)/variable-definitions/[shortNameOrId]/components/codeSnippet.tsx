@@ -15,11 +15,11 @@ const codeStyle = {
   ...coldarkCold,
   string: {
     ...coldarkCold.string,
-    color: 'var(--ds-color-magic-base-default)',
+    color: '#491FD6',
   },
   char: {
     ...coldarkCold.char,
-    color: 'var(--ds-color-magic-base-default)',
+    color: '#491FD6',
   },
 };
 
