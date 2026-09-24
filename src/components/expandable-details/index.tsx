@@ -1,7 +1,7 @@
 import { Card, Details, DetailsSummary, Paragraph } from '@digdir/designsystemet-react';
-import styles from './expandableTable.module.css';
+import styles from './expandableDetails.module.css';
 
-interface ExpandableTableProps {
+interface ExpandableDetailsProps {
   table?: React.ReactNode;
   message?: string;
   title?: string | React.ReactNode;
@@ -9,14 +9,14 @@ interface ExpandableTableProps {
 }
 
 /**
- * ExpandableTable component renders a table inside a collapsible card.
+ * ExpandableDetails component renders details inside a collapsible card.
  *
- * @param table - The table content to display inside the expandable section.
+ * @param table - The content to display inside the expandable section.
  * @param title - The title of the expandable section.
  * @param message - A message to display when the table is not available.
  * @param ariaLabel - The aria-label for the details element for accessibility.
  */
-const ExpandableTable = ({ table, title, message, ariaLabel }: ExpandableTableProps) => {
+const ExpandableDetails = ({ table, title, message, ariaLabel }: ExpandableDetailsProps) => {
   return (
     <Card className={styles.card}>
       <Details className={styles.details} aria-label={ariaLabel}>
@@ -28,4 +28,4 @@ const ExpandableTable = ({ table, title, message, ariaLabel }: ExpandableTablePr
   );
 };
 
-export { ExpandableTable };
+export { ExpandableDetails };

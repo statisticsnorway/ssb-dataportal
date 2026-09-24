@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { mapChanges } from '@/app/(details)/classifications/utils/details';
 import { buildDownloadHref } from '@/app/(details)/classifications/utils/download-urls';
 import { ClassificationTable } from '@/components/classification-table';
-import { ExpandableTable } from '@/components/expandable-table';
+import { ExpandableDetails } from '@/components/expandable-details';
 import { LanguageTag } from '@/components/language-tag';
 import { fetchChanges } from '@/libs/data/classifications/codesData';
 import {
@@ -118,7 +118,7 @@ export default function ChangesView({
 
   return (
     <div className={styles.wrapper}>
-      <ExpandableTable
+      <ExpandableDetails
         ariaLabel={localization.classification.about.changelog}
         title={
           <span className={styles.changelogTitle}>
