@@ -16,11 +16,11 @@ import VariableDefinitionDetail from './variableDefinitionDetail';
 
 const variableDefinitionIdLength = 8;
 
-function sortByValidityDesc<T extends { valid_from?: Date }>(items: T[]) {
+function sortByValidityDesc<T extends { valid_from: Date }>(items: T[]) {
   return [...items].sort((a, b) => (b.valid_from?.getTime() ?? 0) - (a.valid_from?.getTime() ?? 0));
 }
 
-function resolveDefaultValidityPeriod<T extends { valid_from?: Date; valid_until?: Date | null }>(
+function resolveDefaultValidityPeriod<T extends { valid_from: Date; valid_until?: Date | null }>(
   items: T[],
 ): T | undefined {
   if (items.length === 0) {

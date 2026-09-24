@@ -13,7 +13,4 @@ export * from './Problem';
 export * from './RenderedContact';
 export * from './RenderedView';
 export * from './SupportedLanguages';
-export * from './UpdateDraft';
-export * from './VardokIdResponse';
-export * from './VardokVardefIdPairResponse';
 export * from './VariableStatus';

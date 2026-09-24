@@ -1,5 +1,5 @@
 apis/DataMigrationApi.ts
 apis/DraftVariableDefinitionsApi.ts
-models/Create*
+apis/PatchesApi.ts
 models/Update*
 models/*Vardok*

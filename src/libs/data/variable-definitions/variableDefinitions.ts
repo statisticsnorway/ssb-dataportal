@@ -61,6 +61,9 @@ async function resolveVardefToken(logger: ReturnType<typeof createLoggerWithBind
   if (process.env.VARDEF_USE_M2M_TOKEN === 'true') {
     logger.debug('Using M2M token for Vardef auth');
     token = await getM2mToken(process.env.VARDEF_M2M_CLIENT_ID, process.env.VARDEF_M2M_CLIENT_SECRET);
+    if (!token) {
+      throw new Error('Could not retrieve access token!');
+    }
     return token;
   }
 
