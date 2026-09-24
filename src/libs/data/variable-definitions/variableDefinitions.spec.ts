@@ -121,7 +121,13 @@ describe('vardef data fetching', () => {
       vi.stubEnv('VARDEF_USE_STATIC_DATA', 'true');
       const variable = staticDefs[5];
       assert(variable);
-      await expect(getVariableDefinitionValidityPeriodsById(variable.id)).resolves.toEqual([variable]);
+      await expect(getVariableDefinitionValidityPeriodsById(variable.id)).resolves.toEqual([
+        {
+          id: variable.id,
+          valid_from: variable.valid_from,
+          valid_until: variable.valid_until,
+        },
+      ]);
       vi.unstubAllEnvs();
     });
   });

@@ -15,13 +15,14 @@ import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
 import {
   GetVariableDefinitionByIdRequest,
+  ListValidityPeriodsRequest,
   ListVariableDefinitionsRequest,
+  ValidityPeriodsApi,
   VariableDefinitionsApi,
 } from '../../data-access/variable-definitions/internal/apis';
 import {
   instanceOfRenderedView,
   RenderedView,
-  RenderedViewFromJSON,
   SupportedLanguages,
 } from '../../data-access/variable-definitions/internal/models';
 import {
@@ -32,37 +33,61 @@ import {
 
 const ttlSeconds = Number(process.env.VARDEF_CACHE_TTL_SECONDS);
 
-export async function getVardefClient(): Promise<VariableDefinitionsApi> {
-  const logger = createLoggerWithBindings({ module: 'variable-definitions', fn: 'getVardefClient' });
-  let token = process.env.SSB_DATAPORTAL_JWT_TOKEN;
-  if (token) {
-    logger.warn('Using hardcoded access token from environment! (SSB_DATAPORTAL_JWT_TOKEN)');
-  } else if (process.env.VARDEF_USE_M2M_TOKEN === 'true') {
-    logger.debug('Using M2M token for Vardef auth');
-    token = await getM2mToken(process.env.VARDEF_M2M_CLIENT_ID, process.env.VARDEF_M2M_CLIENT_SECRET);
-  } else {
-    token = await getEncodedJwt().catch((reason) => {
-      logger.error({ error: sanitizeError(reason) }, 'JWT retrieval unexpectedly failed');
-      return undefined;
-    });
-    if (!token) {
-      logger.debug('No JWT token found in request headers');
-      throw new Error('Could not retrieve access token!');
-    }
-    logger.debug('Successfully retrieved JWT from authorization header');
-  }
+export type VariableDefinitionValidityPeriod = Pick<RenderedView, 'id' | 'valid_from' | 'valid_until'>;
+
+function createVardefConfiguration(token: string): Configuration {
   let configParams = {
     accessToken: token,
     headers: {
       'User-Agent': getUserAgent(),
     },
   } as ConfigurationParameters;
+
   const basePath = process.env.METADATA_API_BASE_PATH;
   if (basePath) {
-    logger.debug({ basePath }, 'Vardef API base path configured');
     configParams.basePath = basePath;
   }
-  return new VariableDefinitionsApi(new Configuration(configParams));
+
+  return new Configuration(configParams);
+}
+
+async function resolveVardefToken(logger: ReturnType<typeof createLoggerWithBindings>): Promise<string> {
+  let token = process.env.SSB_DATAPORTAL_JWT_TOKEN;
+  if (token) {
+    logger.warn('Using hardcoded access token from environment! (SSB_DATAPORTAL_JWT_TOKEN)');
+    return token;
+  }
+
+  if (process.env.VARDEF_USE_M2M_TOKEN === 'true') {
+    logger.debug('Using M2M token for Vardef auth');
+    token = await getM2mToken(process.env.VARDEF_M2M_CLIENT_ID, process.env.VARDEF_M2M_CLIENT_SECRET);
+    return token;
+  }
+
+  token = await getEncodedJwt().catch((reason) => {
+    logger.error({ error: sanitizeError(reason) }, 'JWT retrieval unexpectedly failed');
+    return undefined;
+  });
+
+  if (!token) {
+    logger.debug('No JWT token found in request headers');
+    throw new Error('Could not retrieve access token!');
+  }
+
+  logger.debug('Successfully retrieved JWT from authorization header');
+  return token;
+}
+
+export async function getVardefClient(): Promise<VariableDefinitionsApi> {
+  const logger = createLoggerWithBindings({ module: 'variable-definitions', fn: 'getVardefClient' });
+  const token = await resolveVardefToken(logger);
+  return new VariableDefinitionsApi(createVardefConfiguration(token));
+}
+
+async function getValidityPeriodsClient(): Promise<ValidityPeriodsApi> {
+  const logger = createLoggerWithBindings({ module: 'variable-definitions', fn: 'getValidityPeriodsClient' });
+  const token = await resolveVardefToken(logger);
+  return new ValidityPeriodsApi(createVardefConfiguration(token));
 }
 
 export async function listRenderedVariableDefinitions(language: SupportedLanguages): Promise<Array<RenderedView>> {
@@ -185,48 +210,57 @@ export async function getVariableDefinitionsByShortName(shortName: string): Prom
   }
 }
 
-export async function getVariableDefinitionValidityPeriodsById(id: string): Promise<RenderedView[]> {
+export async function getVariableDefinitionValidityPeriodsById(
+  id: string,
+): Promise<VariableDefinitionValidityPeriod[]> {
   const logger = createLoggerWithBindings({
     module: 'variable-definitions',
     fn: 'getVariableDefinitionValidityPeriodsById',
   });
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
     logger.warn('Using static mock data for vardef');
-    return getStaticVariableDefinitionValidityPeriodsById(id);
+    return getStaticVariableDefinitionValidityPeriodsById(id).map((item) => ({
+      id: item.id,
+      valid_from: item.valid_from,
+      valid_until: item.valid_until,
+    }));
   }
 
-  const language = localization.getLanguage() as SupportedLanguages;
-  const metadataBasePath = process.env.METADATA_API_BASE_PATH ?? 'https://metadata.ssb.no';
-  const basePath = metadataBasePath.replace(/\/$/, '');
-  const url = `${basePath}/public/variable-definitions/${encodeURIComponent(id)}/validity-periods`;
+  const api = await getValidityPeriodsClient();
+  if (!api) throw new Error('Could not access Vardef API!');
+
+  const params = {
+    variableDefinitionId: id,
+  } satisfies ListValidityPeriodsRequest;
 
   try {
     const startTime = Date.now();
-    const response = await fetch(url, {
-      headers: {
-        'Accept-Language': language,
-        'User-Agent': getUserAgent(),
-      },
+    const rawData = await api.listValidityPeriods(params, {
       cache: 'force-cache',
       next: { revalidate: ttlSeconds },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch validity periods for id="${id}" with status ${response.status}`);
-    }
-
-    const rawData = (await response.json()) as unknown[];
-    const data = rawData.map(RenderedViewFromJSON).filter((item) => instanceOfRenderedView(item));
+    } as RequestInit);
+    const data = rawData.map((item) => ({
+      id: item.id,
+      valid_from: item.valid_from,
+      valid_until: item.valid_until,
+    }));
     const durationMs = Date.now() - startTime;
-    logger.info({ id, count: data.length, time: durationMs, url }, 'Fetched variable definition validity periods');
+    logger.info({ id, count: data.length, time: durationMs }, 'Fetched variable definition validity periods');
     return data;
   } catch (error: unknown) {
-    logger.error({ id, error: sanitizeError(error), url }, 'Failed to fetch variable definition validity periods');
+    if (error instanceof ResponseError) {
+      logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
+    } else {
+      logger.error({ id, error: sanitizeError(error) }, 'Failed to fetch variable definition validity periods');
+    }
     throw error;
   }
 }
 
-export async function getRenderedVariableDefinitionById(id: string): Promise<RenderedView | undefined> {
+export async function getRenderedVariableDefinitionById(
+  id: string,
+  dateOfValidity?: Date,
+): Promise<RenderedView | undefined> {
   const logger = createLoggerWithBindings({ module: 'variable-definitions', fn: 'getRenderedVariableDefinitionById' });
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
     logger.warn('Using static mock data for vardef');
@@ -239,6 +273,7 @@ export async function getRenderedVariableDefinitionById(id: string): Promise<Ren
   const params = {
     variableDefinitionId: id,
     acceptLanguage: localization.getLanguage() as SupportedLanguages,
+    dateOfValidity,
     render: true,
   } satisfies GetVariableDefinitionByIdRequest;
 

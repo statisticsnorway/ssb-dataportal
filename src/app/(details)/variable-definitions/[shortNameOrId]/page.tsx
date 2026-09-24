@@ -5,6 +5,7 @@ import {
   getRenderedVariableDefinitionById as getVariableDefinitionById,
   getVariableDefinitionByShortName,
   getVariableDefinitionValidityPeriodsById,
+  VariableDefinitionValidityPeriod,
 } from '@/libs/data/variable-definitions/variableDefinitions';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { sanitizeError } from '@/libs/logger/sanitize';
@@ -15,11 +16,13 @@ import VariableDefinitionDetail from './variableDefinitionDetail';
 
 const variableDefinitionIdLength = 8;
 
-function sortByValidityDesc(items: RenderedView[]) {
+function sortByValidityDesc<T extends { valid_from?: Date }>(items: T[]) {
   return [...items].sort((a, b) => (b.valid_from?.getTime() ?? 0) - (a.valid_from?.getTime() ?? 0));
 }
 
-function resolveDefaultVariableDefinition(items: RenderedView[]): RenderedView | undefined {
+function resolveDefaultValidityPeriod<T extends { valid_from?: Date; valid_until?: Date | null }>(
+  items: T[],
+): T | undefined {
   if (items.length === 0) {
     return undefined;
   }
@@ -55,13 +58,16 @@ function resolveDefaultVariableDefinition(items: RenderedView[]): RenderedView |
   return beforeToday ?? sorted[0];
 }
 
-function resolveVariableDefinitionByQuery(items: RenderedView[], validAt?: string): RenderedView | undefined {
+function resolveValidityPeriodByQuery(
+  items: VariableDefinitionValidityPeriod[],
+  validAt?: string,
+): VariableDefinitionValidityPeriod | undefined {
   if (!validAt) {
-    return resolveDefaultVariableDefinition(items);
+    return resolveDefaultValidityPeriod(items);
   }
 
   const matched = items.find((item) => formatDate(item.valid_from) === validAt);
-  return matched ?? resolveDefaultVariableDefinition(items);
+  return matched ?? resolveDefaultValidityPeriod(items);
 }
 
 /**
@@ -69,8 +75,8 @@ function resolveVariableDefinitionByQuery(items: RenderedView[], validAt?: strin
  */
 const getPageData = cache(async (shortNameOrId: string, validAt?: string) => {
   const logger = createLogger('variable-definition-detail-page');
-  let variableDefinition: RenderedView | undefined;
-  let variableDefinitions: RenderedView[] = [];
+  let variableDefinition: RenderedView;
+  let validityPeriods: VariableDefinitionValidityPeriod[] = [];
   let baseVariableDefinition: RenderedView | undefined;
 
   if (shortNameOrId.length === variableDefinitionIdLength) {
@@ -91,14 +97,35 @@ const getPageData = cache(async (shortNameOrId: string, validAt?: string) => {
     throw new Error('No variable definition found');
   }
 
-  variableDefinitions = await getVariableDefinitionValidityPeriodsById(baseVariableDefinition.id);
-  variableDefinition = resolveVariableDefinitionByQuery(variableDefinitions, validAt) ?? baseVariableDefinition;
+  validityPeriods = await getVariableDefinitionValidityPeriodsById(baseVariableDefinition.id);
+  const selectedValidityPeriod = resolveValidityPeriodByQuery(validityPeriods, validAt);
 
-  if (variableDefinitions.length === 0) {
-    variableDefinitions = [baseVariableDefinition];
+  if (!selectedValidityPeriod) {
+    variableDefinition = baseVariableDefinition;
+  } else {
+    variableDefinition =
+      (await getVariableDefinitionById(baseVariableDefinition.id, selectedValidityPeriod.valid_from)) ??
+      baseVariableDefinition;
   }
 
-  return { variableDefinition, variableDefinitions: sortByValidityDesc(variableDefinitions) };
+  if (validityPeriods.length === 0) {
+    validityPeriods = [
+      {
+        id: baseVariableDefinition.id,
+        valid_from: baseVariableDefinition.valid_from,
+        valid_until: baseVariableDefinition.valid_until,
+      },
+    ];
+  }
+
+  const variableDefinitions = sortByValidityDesc(validityPeriods).map((period) => ({
+    ...variableDefinition,
+    id: period.id,
+    valid_from: period.valid_from,
+    valid_until: period.valid_until,
+  }));
+
+  return { variableDefinition, variableDefinitions };
 });
 
 export async function generateMetadata({
