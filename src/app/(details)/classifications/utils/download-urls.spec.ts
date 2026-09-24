@@ -9,19 +9,25 @@ import {
 
 describe('download url helpers', () => {
   it('parses valid format and language from query', () => {
-    const params = new URLSearchParams('format=json&language=en');
+    const params = new URLSearchParams('format=json&language=en&level=2');
 
-    expect(parseDownloadConfig(params, 'nb')).toEqual({ format: 'json', language: 'en' });
+    expect(parseDownloadConfig(params, 'nb')).toEqual({ format: 'json', language: 'en', level: '2' });
   });
 
   it('falls back to defaults when query values are invalid', () => {
     const params = new URLSearchParams('format=pdf&language=de');
 
-    expect(parseDownloadConfig(params, 'nn')).toEqual({ format: 'csv', language: 'nn' });
+    expect(parseDownloadConfig(params, 'nn')).toEqual({ format: 'csv', language: 'nn', level: undefined });
   });
 
   it('builds expected query string', () => {
     expect(buildDownloadQuery({ format: 'xml', language: 'en' })).toBe('v=1&format=xml&language=en');
+  });
+
+  it('includes selected level in query string when present', () => {
+    expect(buildDownloadQuery({ format: 'xml', language: 'en', level: '3' })).toBe(
+      'v=1&format=xml&language=en&level=3',
+    );
   });
 
   it('adds and removes download path segment', () => {

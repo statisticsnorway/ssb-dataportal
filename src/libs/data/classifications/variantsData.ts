@@ -158,10 +158,12 @@ export async function fetchVariantForClassification(
 
 export async function fetchVariantCodesDownload({
   variantId,
+  level,
   language,
   format,
 }: {
   variantId: number;
+  level?: string;
   language: SupportedLanguage;
   format: FileDownloadFormat;
 }): Promise<{ content: string; mimeType: string }> {
@@ -169,7 +171,8 @@ export async function fetchVariantCodesDownload({
 
   try {
     const variant = await fetchVariantById(variantId, language);
-    const codes = variant?.classificationItems ?? [];
+    const allCodes = variant?.classificationItems ?? [];
+    const codes = level ? allCodes.filter((code) => code.level === level) : allCodes;
 
     if (format === 'json') {
       return {

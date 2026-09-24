@@ -153,7 +153,8 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
 
   const handleOpenDownloadRoute = () => {
     const language = localization.getLanguage() as 'nb' | 'nn' | 'en';
-    router.push(buildDownloadHref(pathname, { format: 'csv', language }));
+    const level = selectedLevels.length === 1 && allLevelValues.length > 1 ? selectedLevels[0] : undefined;
+    router.push(buildDownloadHref(pathname, { format: 'csv', language, level }));
   };
 
   const handleLevelToggle = (levelValue: string) => {

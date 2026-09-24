@@ -14,6 +14,7 @@ export async function downloadCodesAction({
   classificationId,
   validFrom,
   validTo,
+  level,
   language,
   format,
 }: {
@@ -21,6 +22,7 @@ export async function downloadCodesAction({
   classificationId: number;
   validFrom: string;
   validTo?: string;
+  level?: string;
   language: SupportedLanguage;
   format: FileDownloadFormat;
 }) {
@@ -29,6 +31,7 @@ export async function downloadCodesAction({
     classificationId,
     from: new Date(validFrom),
     to: validTo ? new Date(validTo) : undefined,
+    level,
     language,
     format,
     includeFuture: true,
@@ -37,15 +40,18 @@ export async function downloadCodesAction({
 
 export async function downloadVariantCodesAction({
   variantId,
+  level,
   language,
   format,
 }: {
   variantId: number;
+  level?: string;
   language: SupportedLanguage;
   format: FileDownloadFormat;
 }) {
   return fetchVariantCodesDownload({
     variantId,
+    level,
     language,
     format,
   });
