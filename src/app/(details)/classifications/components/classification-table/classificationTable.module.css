@@ -1,21 +1,10 @@
 .table {
-  width: 100%;
-  color: var(--ds-color-secondary-text-default);
+  background-color: var(--element-background-color);
+  border-radius: var(--ds-border-radius-lg);
+  overflow: hidden;
   --dsc-table-padding: var(--ds-size-1) var(--ds-size-2);
   word-break: break-all;
   font-size: var(--ds-font-size-sm);
-}
-
-.table :where(thead th) {
-  border-bottom: var(--ds-border-width-default) solid var(--ds-color-secondary-border-subtle);
-  background: var(--ds-color-secondary-surface-tinted);
-  color: var(--ds-color-secondary-text-subtle);
-  font-weight: 600;
-  font-size: 0.875rem;
-}
-
-.table :where(tbody tr:hover td) {
-  background: var(--ds-color-secondary-surface-hover);
 }
 
 @media (min-width: 400px) {
