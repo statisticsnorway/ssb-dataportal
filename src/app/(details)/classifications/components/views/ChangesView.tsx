@@ -3,7 +3,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { mapChanges } from '@/app/(details)/classifications/utils/details';
 import { buildDownloadHref } from '@/app/(details)/classifications/utils/download-urls';
-import { ClassificationTable } from '@/components/classification-table';
+import { DetailsTable } from '@/components/details-table';
 import { ExpandableDetails } from '@/components/expandable-details';
 import { LanguageTag } from '@/components/language-tag';
 import { fetchChanges } from '@/libs/data/classifications/codesData';
@@ -133,7 +133,7 @@ export default function ChangesView({
         }
         table={
           version?.changelogs?.length ? (
-            <ClassificationTable
+            <DetailsTable
               content={version.changelogs
                 .toSorted((cl1, cl2) => sortDatesDescendingSafe(cl1.changeOccured, cl2.changeOccured))
                 .map((c) => mapChanges(c))}

@@ -10,16 +10,16 @@ import {
   TableRow,
 } from '@digdir/designsystemet-react';
 import { useState } from 'react';
-import { VersionItem } from '@/types/item';
-import styles from './classificationTable.module.css';
+import { VersionItem as DetailsItem } from '@/types/item';
+import styles from './DetailsTable.module.css';
 
-interface ClassificationTableProps {
-  content: VersionItem[][];
+interface DetailsTableProps {
+  content: DetailsItem[][];
   sortableField?: string;
   onlyInNorwegian?: boolean;
 }
 
-const compare = (a: VersionItem['value'], b: VersionItem['value']) => {
+const compare = (a: DetailsItem['value'], b: DetailsItem['value']) => {
   if (a == null && b == null) return 0;
   if (a == null) return -1;
   if (b == null) return 1;
@@ -30,9 +30,9 @@ const compare = (a: VersionItem['value'], b: VersionItem['value']) => {
 };
 
 /**
- * Renders a table of classification data.
+ * Renders a table of details.
  *
- * Each row in `content` is an array of `VersionItem`s where the `label` of the
+ * Each row in `content` is an array of `DetailItem`s where the `label` of the
  * first row's items is used as the column headers. Cell values are rendered
  * as-is, except `Date` values which are formatted with `nb-NO` locale.
  *
@@ -43,11 +43,11 @@ const compare = (a: VersionItem['value'], b: VersionItem['value']) => {
  * numbers and nullish values via the local `compare` helper.
  *
  * @param props - Component props
- * @param props.content - 2D array of `VersionItem`s; outer array = rows, inner array = cells
+ * @param props.content - 2D array of `DetailItem`s; outer array = rows, inner array = cells
  * @param props.sortableField - Optional header label of the column that should be sortable
  * @returns The rendered classification version table
  */
-const ClassificationTable = ({ content, sortableField, onlyInNorwegian }: ClassificationTableProps) => {
+const DetailsTable = ({ content, sortableField, onlyInNorwegian }: DetailsTableProps) => {
   const headers = content[0]?.map((item) => item.label) ?? [];
   const sortableIndex = sortableField ? headers.indexOf(sortableField) : -1;
 
@@ -108,4 +108,4 @@ const ClassificationTable = ({ content, sortableField, onlyInNorwegian }: Classi
   );
 };
 
-export { ClassificationTable };
+export { DetailsTable };

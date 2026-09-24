@@ -26,10 +26,8 @@ vi.mock('next/navigation', () => ({
   useParams: () => ({}),
 }));
 
-vi.mock('@/components/classification-table', () => ({
-  ClassificationTable: ({ content }: { content: unknown[] }) => (
-    <div data-testid='classification-table'>rows: {content.length}</div>
-  ),
+vi.mock('@/components/details-table', () => ({
+  DetailsTable: ({ content }: { content: unknown[] }) => <div data-testid='details-table'>rows: {content.length}</div>,
 }));
 
 vi.mock('./views/VersionView', () => ({
@@ -49,7 +47,7 @@ describe('Classification details page', () => {
         {null}
       </ClassificationDetail>,
     );
-    expect(screen.getByTestId('classification-table')).toBeDefined();
+    expect(screen.getByTestId('details-table')).toBeDefined();
   });
 
   it('passes correct number of rows to ClassificationVersionTable', () => {
@@ -59,7 +57,7 @@ describe('Classification details page', () => {
       </ClassificationDetail>,
     );
     const expected = classification.versions?.length ?? 0;
-    expect(screen.getByTestId('classification-table').textContent).toBe(`rows: ${expected}`);
+    expect(screen.getByTestId('details-table').textContent).toBe(`rows: ${expected}`);
   });
 
   it('renders the classification name as the primary heading', () => {
@@ -139,7 +137,7 @@ describe('Classification details page', () => {
         {null}
       </ClassificationDetail>,
     );
-    expect(screen.getByTestId('classification-table').textContent).toBe('rows: 0');
+    expect(screen.getByTestId('details-table').textContent).toBe('rows: 0');
   });
   it('renders correct html lang when fallback language is used', () => {
     const withFallback = {

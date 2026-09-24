@@ -31,8 +31,8 @@ vi.mock('@digdir/designsystemet-react', () => ({
   TableRow: ({ children }: { children: React.ReactNode }) => <tr>{children}</tr>,
 }));
 
-vi.mock('@/components/classification-table', () => ({
-  ClassificationTable: () => <div data-testid='classification-table' />,
+vi.mock('@/components/details-table', () => ({
+  DetailsTable: () => <div data-testid='details-table' />,
 }));
 
 vi.mock('@/components/expandable-details', () => ({
