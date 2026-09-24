@@ -20,11 +20,6 @@
   --dsc-card-block-border-color: transparent;
 }
 
-.codeBlock :global(.token.string),
-.codeBlock :global(.token.char) {
-  color: var(--ds-color-magic-base-default) !important;
-}
-
 .codeBlock :global(pre) {
   border-radius: inherit;
 }

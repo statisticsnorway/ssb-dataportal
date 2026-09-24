@@ -23,9 +23,9 @@ const ClassificationSearchHit = ({ classification, subjectFields }: SearchHitPro
 
   const tagsList = (
     <>
-      {subjectLabel ? <Tag>{subjectLabel}</Tag> : undefined}
+      {subjectLabel ? <Tag data-color='magic'>{subjectLabel}</Tag> : undefined}
       {classification?.classificationType && (
-        <Tag data-color='warning'>
+        <Tag data-color='magic'>
           {getLabelForClassificationType(getClassificationTypeFromString(classification.classificationType))}
         </Tag>
       )}

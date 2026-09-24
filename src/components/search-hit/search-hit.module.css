@@ -23,12 +23,6 @@
   gap: var(--small-gap);
 }
 
-.tagsList :global(.ds-tag) {
-  --dsc-tag-background: var(--ds-color-magic-surface-tinted);
-  --dsc-tag-border-color: var(--ds-color-magic-surface-tinted);
-  --dsc-tag-color: var(--ds-color-magic-text-default);
-}
-
 .hasNotValueInSelectedLanguage {
   display: flex;
   flex-direction: row-reverse;
