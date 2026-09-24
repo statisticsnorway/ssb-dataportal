@@ -1,9 +1,5 @@
 apis/DataMigrationApi.ts
 apis/DraftVariableDefinitionsApi.ts
-apis/PatchesApi.ts
-apis/ValidityPeriodsApi.ts
-docs/*
-!docs/VariableDefinitionsApi.md
 models/Create*
 models/Update*
 models/*Vardok*

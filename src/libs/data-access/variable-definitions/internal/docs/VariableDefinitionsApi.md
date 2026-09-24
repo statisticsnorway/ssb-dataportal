@@ -28,11 +28,7 @@ import type { GetVariableDefinitionByIdRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: labid_token
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new VariableDefinitionsApi(config);
+  const api = new VariableDefinitionsApi();
 
   const body = {
     // string | Unique identifier for the variable definition.
@@ -73,7 +69,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[labid_token](../README.md#labid_token)
+No authorization required
 
 ### HTTP request headers
 
@@ -109,11 +105,7 @@ import type { ListVariableDefinitionsRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: labid_token
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new VariableDefinitionsApi(config);
+  const api = new VariableDefinitionsApi();
 
   const body = {
     // SupportedLanguages | Render the variable definition in the given language. (optional)
@@ -154,7 +146,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[labid_token](../README.md#labid_token)
+No authorization required
 
 ### HTTP request headers
 
