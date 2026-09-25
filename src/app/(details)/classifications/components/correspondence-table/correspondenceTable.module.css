@@ -85,12 +85,6 @@
   }
 }
 
-@media (min-width: 400px) {
-  .table {
-    overflow-wrap: anywhere;
-  }
-}
-
 @media (min-width: 768px) {
   .toolbar {
     align-items: end;

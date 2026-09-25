@@ -4,10 +4,6 @@
   padding-bottom: 0.5rem;
 }
 
-.treeCard {
-  font-size: 1rem;
-}
-
 .table {
   width: 100%;
   background-color: var(--ds-color-secondary-surface-default);
@@ -213,7 +209,6 @@
 
   /* Auto-size the header code cell to match the content-width rows below */
   .treeHeaderCode {
-    flex: 0 0 auto;
     padding-left: 2rem;
   }
 
