@@ -4,12 +4,9 @@
   padding-bottom: 0.5rem;
 }
 
-.treeCard {
-  font-size: 1rem;
-}
-
 .table {
   width: 100%;
+  background-color: var(--ds-color-secondary-surface-default);
 }
 
 .table :where(tbody > tr:last-child > td) {
@@ -27,9 +24,10 @@
 }
 
 .treeHeaderCode {
-  width: 9rem;
+  width: 1%;
   text-align: left;
   border-right: var(--ds-border-width-default) solid var(--ds-color-secondary-border-subtle);
+  white-space: nowrap;
 }
 
 .treeHeaderName {
@@ -59,8 +57,6 @@
   min-height: 0;
   padding-left: calc(var(--depth, 0) * var(--tree-indent, 1rem));
   transition: background-color 80ms ease;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 2.5rem;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -130,17 +126,11 @@
 .codeLabel {
   font-family: var(--font-family-monospace);
   font-weight: 600;
-  flex: 0 0 5rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  min-width: 4rem;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  padding-right: var(--ds-size-2);
   color: var(--ds-color-secondary-text-default);
-}
-
-.nameLabel {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
-  flex: 1;
 }
 
 .infoButton {
@@ -193,23 +183,12 @@
    ─────────────────────────────────────────────────────────────────────────── */
 
 @media (max-width: 48rem) {
-  .treeCard {
-    --tree-indent: 0.625rem;
-  }
-
   .rowContent {
     align-items: flex-start;
   }
 
   .codeLabel {
     align-self: center;
-  }
-
-  .nameLabel {
-    white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
-    overflow-wrap: anywhere;
   }
 }
 
@@ -220,49 +199,13 @@
    ─────────────────────────────────────────────────────────────────────────── */
 
 @media (max-width: 30rem) {
-  .treeCard {
-    --tree-indent: 0rem;
-    /* Depth stripe colours — progressively darker blue per level */
-    --stripe-1: #93c5fd;
-    --stripe-2: #60a5fa;
-    --stripe-3: #3b82f6;
-    --stripe-4: #2563eb;
-    --stripe-5: #1d4ed8;
-  }
-
   /* Auto-size the header code cell to match the content-width rows below */
   .treeHeaderCode {
-    flex: 0 0 auto;
     padding-left: 2rem;
   }
 
   /* Row body: tighten the gap (chevron is back so default left padding applies) */
   .rowContent {
     gap: 0.5rem;
-  }
-
-  /* Shrink code cell to its actual text width — eliminates the dead-space column */
-  .codeLabel {
-    flex: 0 0 auto;
-  }
-
-  /* Left-edge depth stripe drawn with inset box-shadow — no layout impact */
-  .row[data-depth="1"] {
-    box-shadow: inset 4px 0 0 var(--stripe-1);
-  }
-  .row[data-depth="2"] {
-    box-shadow: inset 4px 0 0 var(--stripe-2);
-  }
-  .row[data-depth="3"] {
-    box-shadow: inset 4px 0 0 var(--stripe-3);
-  }
-  .row[data-depth="4"] {
-    box-shadow: inset 4px 0 0 var(--stripe-4);
-  }
-  .row[data-depth="5"],
-  .row[data-depth="6"],
-  .row[data-depth="7"],
-  .row[data-depth="8"] {
-    box-shadow: inset 4px 0 0 var(--stripe-5);
   }
 }
