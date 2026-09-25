@@ -131,14 +131,10 @@
   font-family: var(--font-family-monospace);
   font-weight: 600;
   flex: 0 0 5rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
   color: var(--ds-color-secondary-text-default);
 }
 
 .nameLabel {
-  overflow: hidden;
-  text-overflow: ellipsis;
   min-width: 0;
   flex: 1;
 }
