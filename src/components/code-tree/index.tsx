@@ -187,7 +187,7 @@ export function CodeTree({ codes, onChange, toolbar, autoExpandAll = false }: Re
           )}
         </div>
       )}
-      <div ref={scrollContainerRef} className={styles.treeCardInner}>
+      <div ref={scrollContainerRef}>
         <Table
           border={true}
           zebra={false}

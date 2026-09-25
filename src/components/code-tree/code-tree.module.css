@@ -183,10 +183,6 @@
    ─────────────────────────────────────────────────────────────────────────── */
 
 @media (max-width: 48rem) {
-  .treeCard {
-    --tree-indent: 0.625rem;
-  }
-
   .rowContent {
     align-items: flex-start;
   }
@@ -203,10 +199,6 @@
    ─────────────────────────────────────────────────────────────────────────── */
 
 @media (max-width: 30rem) {
-  .treeCard {
-    --tree-indent: 0rem;
-  }
-
   /* Auto-size the header code cell to match the content-width rows below */
   .treeHeaderCode {
     padding-left: 2rem;
