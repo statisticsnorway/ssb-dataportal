@@ -1,6 +1,7 @@
 .checkboxFilterItems {
   position: relative;
   padding-block: 0.5rem;
+  min-width: 0;
 }
 
 .checkboxFilterItems:has(.checkbox:first-child:hover)::before {
@@ -29,6 +30,14 @@
   box-sizing: border-box;
   padding: 0.5rem 1rem;
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.checkbox :where(label) {
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .headingSemibold {
