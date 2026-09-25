@@ -63,10 +63,7 @@ export default function VariableDefinitionDetail({
           content={mapAboutVariableItems(variableDefinition, isAuthenticated, apiDocsBaseUrl)}
           popoverContent={localization.variableDefinition.unitTypeInfo}
         />
-        <ValidityPeriodSelector
-          variableDefinitions={variableDefinitions}
-          selectedValidFrom={variableDefinition.valid_from}
-        />
+        <ValidityPeriodSelector variableDefinitions={variableDefinitions} />
         {isAuthenticated && (
           <CodeSnippet
             daplaLabVardefUrl={daplaLabVardefUrl}

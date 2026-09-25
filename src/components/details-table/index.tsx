@@ -11,7 +11,7 @@ import {
 } from '@digdir/designsystemet-react';
 import { useState } from 'react';
 import { VersionItem as DetailsItem } from '@/types/item';
-import styles from './DetailsTable.module.css';
+import styles from './detailsTable.module.css';
 
 interface DetailsTableProps {
   content: DetailsItem[][];
