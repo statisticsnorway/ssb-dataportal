@@ -29,7 +29,12 @@ export default async function VariantView({
     await getRequestLanguage(),
     versionId,
   );
-  if (!variant?.classificationItems) return notFound();
+  //if (!variant?.classificationItems) return notFound();
+    if (!variant?.classificationItems) {
+      // biome-ignore lint/suspicious/noConsole: <bug fixing missing classification items>
+      console.log('Variant {} with ID ' + variantId + ' and version ' + versionId + ' does not have classification items');
+      return notFound();
+    }
 
   return (
     <div className={styles.aboutWrapper}>
