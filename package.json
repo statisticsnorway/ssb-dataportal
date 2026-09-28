@@ -1,6 +1,6 @@
 {
   "name": "ssb-dataportal",
-  "version": "0.20.0",
+  "version": "0.20.1",
   "private": true,
   "devEngines": {
     "packageManager": {
@@ -43,9 +43,9 @@
   "dependencies": {
     "@biomejs/biome": "2.5.13",
     "@digdir/designsystemet-react": "1.21.1",
-    "@statisticsnorway/design-css": "0.2.2",
     "@navikt/aksel-icons": "8.16.2",
     "@next/env": "16.3.5",
+    "@statisticsnorway/design-css": "0.2.2",
     "@svgr/webpack": "8.1.0",
     "@types/lodash": "4.17.25",
     "@types/node": "26.5.1",
