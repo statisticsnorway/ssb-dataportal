@@ -2,8 +2,6 @@
   flex: 1 0 auto;
 }
 
-/* Full-bleed white band that continues the header background behind the info
-   message, ending with a sharp edge above the tab selection. */
 .tabBand {
   background-color: var(--element-background-color);
   padding-top: 2rem;
