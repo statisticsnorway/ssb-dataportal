@@ -1,23 +1,20 @@
 'use client';
 
-import Link from 'next/link';
+import { Button, Card, Dropdown, Heading, Link } from '@digdir/designsystemet-react';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { DetailsTable } from '@/components/details-table';
-import { ExpandableDetails } from '@/components/expandable-details';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
-import { VersionItem } from '@/types/item';
-import { formatDate } from '@/utils/functions';
+import { formatDate, formatLocaleDate } from '@/utils/functions';
 
 type ValidityPeriodSelectorProps = {
-  variableDefinitions: RenderedView[];
+  validityPeriods: RenderedView[];
 };
 
-export function ValidityPeriodSelector({ variableDefinitions }: Readonly<ValidityPeriodSelectorProps>) {
+export function ValidityPeriodSelector({ validityPeriods }: Readonly<ValidityPeriodSelectorProps>) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  if (variableDefinitions.length <= 1) {
+  if (validityPeriods.length <= 1) {
     return null;
   }
 
@@ -27,42 +24,23 @@ export function ValidityPeriodSelector({ variableDefinitions }: Readonly<Validit
     return `${pathname}?${nextParams.toString()}`;
   };
 
-  const mapValidityPeriod = (definition: RenderedView): VersionItem[] => {
-    const validFrom = formatDate(definition.valid_from);
-    const validTo = definition.valid_until ? formatDate(definition.valid_until) : localization.noDataPlaceholder;
-
-    return [
-      {
-        label: localization.validity.validFrom,
-        value: (
-          <Link
-            href={buildHref(validFrom)}
-            scroll={false}
-            onClick={(event) => {
-              const details = event.currentTarget.closest('details');
-              details?.removeAttribute('open');
-            }}
-          >
-            {validFrom}
-          </Link>
-        ),
-      },
-      {
-        label: localization.validity.validTo,
-        value: validTo,
-      },
-    ];
+  const mapValidityPeriod = (definition: RenderedView) => {
+    return (
+      <Dropdown.Item style={{ padding: 'var(--ds-size-2)' }}>
+        <Link href={buildHref(formatDate(definition.valid_from))}>{formatLocaleDate(definition.valid_from)}</Link>
+      </Dropdown.Item>
+    );
   };
 
   return (
-    <ExpandableDetails
-      title={localization.validity.label}
-      table={
-        <DetailsTable
-          sortableField={localization.validity.validFrom}
-          content={variableDefinitions.map((definition) => mapValidityPeriod(definition))}
-        />
-      }
-    />
+    <Card>
+      <Heading level={2} className='infoHeadingSecondary' data-size='md'>
+        {localization.validity.label}
+      </Heading>
+      <Button popovertarget='dropdown'>Velg</Button>
+      <Dropdown id='dropdown' style={{ minWidth: 'max-content' }} placement='bottom-start'>
+        <Dropdown.List>{validityPeriods.map((definition) => mapValidityPeriod(definition))}</Dropdown.List>
+      </Dropdown>
+    </Card>
   );
 }
