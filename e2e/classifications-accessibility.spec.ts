@@ -23,7 +23,6 @@ test.describe('Classifications – accessibility', () => {
     expect(results.violations).toEqual([]);
   });
 
-  // When wcag AAA is required add 'wcag21aaa'
   test('Page follows wcag standard', async ({ classificationsPage }) => {
     const results = await new AxeBuilder({ page: classificationsPage }).withTags(['wcag21a', 'wcag21aa']).analyze();
     expect(results.violations).toEqual([]);
