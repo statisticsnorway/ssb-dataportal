@@ -35,7 +35,6 @@
   --blue-color: #335380;
   --dark-blue-color: #1e2b3c;
   --main-background-color: var(--ds-color-secondary-background-tinted);
-  --shadow-color: #969ba0;
   --white-color: #fff;
   --element-background-color: var(--white-color);
   --main-font-color: #000;
@@ -241,5 +240,4 @@ a:not(.ds-button):active {
 
 body:has(.services-tab-band, .info-band) .site-header {
   border-bottom: none;
-  box-shadow: none;
 }
