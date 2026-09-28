@@ -90,7 +90,6 @@ describe('VariantView', () => {
       }),
     );
 
-    expect(mocks.fetchVariantById).toHaveBeenCalled();
     expect(mocks.fetchVariantById).toHaveBeenCalledWith(42, 'nb');
     expect(mocks.fetchVersionById).toHaveBeenCalledWith(10, 'nb', true);
 
