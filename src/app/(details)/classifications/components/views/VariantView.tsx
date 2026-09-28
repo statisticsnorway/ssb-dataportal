@@ -4,12 +4,12 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout';
 import { formatVariantName, mapVariantDetails } from '@/app/(details)/classifications/utils/variants';
+import { resolveDefaultVersion } from '@/app/(details)/classifications/utils/versionSelection';
 import { DetailsList } from '@/components/details-list';
 import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
 import { fetchVariantById } from '@/libs/data/classifications/variantsData';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
 import { localization } from '@/libs/language/src/localization';
-import { resolveDefaultVersion } from '../../utils/versionSelection';
 import { CodesView } from './CodesView';
 import styles from './views.module.css';
 
