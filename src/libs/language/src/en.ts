@@ -12,6 +12,7 @@ export const en = {
   apiDocumentation: 'API documentation',
   apiDocVardef: 'Variable definitions',
   apiDocKlass: 'Classifications',
+  appSubTitle: ['Here we collect information about our datasets, variables, classifications and APIs in one place.'],
   appTitle: 'SSB Dataportal',
 
   authentication: {
@@ -308,6 +309,14 @@ export const en = {
   id: 'ID',
 
   info: {
+    aboutDataportal: {
+      body: [
+        "The goal is to make it easier to find, understand and use SSB's data correctly and efficiently.",
+        'In this first version you can explore Statistics Norway\'s variable definitions. The portal will gradually expand with overviews of datasets, classifications and APIs, so you can see the full chain from concept to finished data file. By connecting definitions from Vardef with codes from Klass and dataset documentation, we establish a "single source of truth" that ensures we always interpret and use our data the same way.',
+      ],
+      title: 'About SSB Dataportal',
+      toggle: 'Why SSB Dataportal',
+    },
     comingSoon: 'Coming soon',
     classificationsPrototypeIntro: 'Under development',
     classificationsPrototypeInfo:
@@ -322,17 +331,7 @@ export const en = {
     footerContact: 'Get in touch',
     footerAccessibilityStatement: 'Accessibility statement',
     footerPrivacyStatement: 'Privacy statement',
-    landingPageInfoGoal:
-      "The goal is to make it easier to find, understand, and use Statistics Norway's data correctly and efficiently.",
-    landingPageInfoGoalTitle: 'Why SSB Dataportal?',
-    landingPageInfoIntro:
-      'Here we gather information about our datasets, variables, classifications, and APIs in one place.',
-    landingPageInfoIntroTitle: 'What is SSB Dataportal?',
-    landingPageInfoPrototype:
-      'In this first version, you can explore Statistics Norway\'s variable definitions. The portal will gradually expand with an overview of datasets, code sets, and APIs, so you can see the full context from concept to finished data file. By linking definitions from Vardef with code sets from Klass and dataset documentation, we establish a "single source of truth" to ensure that we always interpret and use our data in the same way.',
-    landingPagePrototypeTitle: 'Continuous improvement',
     landingPageSubTitle: "Your gateway to Statistics Norway's public data",
-    landingPageTitle: 'Welcome to SSB Dataportal',
   },
   language: {
     notSelectedLanguage: 'This {element} is not available in the selected language',

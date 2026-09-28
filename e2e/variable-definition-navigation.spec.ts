@@ -68,14 +68,14 @@ test.describe('Variable definitions breadcrumbs', () => {
     await expect(current).toContainText(variable.name);
   });
 
-  test('click on "Home" navigates to /', async ({ page, goToVariable }) => {
+  test('click on "Home" navigates to classifications', async ({ page, goToVariable }) => {
     test.skip(noVariables, 'No variable definitions available to test');
     const variable = variableDefinitions[0];
     assert(variable);
     await goToVariable(variable);
     const nav = page.getByRole('navigation', { name: localization.breadcrumbsLabel });
     nav.getByRole('link', { name: localization.home }).click();
-    await expect(page).toHaveURL('/');
+    await expect(page).toHaveURL(/\/classifications(\?.*)?$/);
   });
 
   test('click on "Variabeldefinisjoner" navigates to search result', async ({ page, goToVariable }) => {

@@ -1,13 +1,12 @@
 'use client';
 
-import { Alert, Heading, Paragraph, Spinner } from '@digdir/designsystemet-react';
+import { Spinner } from '@digdir/designsystemet-react';
 import { parseAsArrayOf, parseAsInteger, parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs';
 import { Suspense, use, useMemo } from 'react';
 import { useAuthContext } from '@/app/authContext';
 import { FilterTagsSection } from '@/components/filters/filter-tags-section';
 import { FiltersPanel } from '@/components/filters/filters-panel';
 import { TextFilter } from '@/components/filters/text-filter';
-import { ExternalLink } from '@/components/link-components/externalLink';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { SortFields } from '@/components/sort-fields';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
@@ -122,19 +121,6 @@ const VariableDefinitionsServicePage = ({
     });
   };
 
-  const pageInfo = (
-    <Alert data-color='info' style={{ marginBottom: '1rem' }}>
-      <Heading className='infoHeadingSecondary' level={2} data-size='sm' style={{ marginBottom: 'var(--ds-size-2)' }}>
-        {localization.migrationVariableDefinitions.header}
-      </Heading>
-      <Paragraph>{localization.migrationVariableDefinitions.info}</Paragraph>
-      <ExternalLink
-        href='https://www.ssb.no/a/metadata/definisjoner/variabler/main.html'
-        linkText={`${' '}${localization.migrationVariableDefinitions.linkText}`}
-      />
-    </Alert>
-  );
-
   return (
     <VariableDefinitionsProvider
       variablesPromise={variablesPromise}
@@ -145,7 +131,6 @@ const VariableDefinitionsServicePage = ({
       subjectFields={subjectFields}
     >
       <SearchPage
-        banner={pageInfo}
         tabsId={tabsData.VariableDefinitions.id}
         header={localization.tabs.variableDefinitions}
         asideContent={

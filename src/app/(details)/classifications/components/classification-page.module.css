@@ -1,3 +1,20 @@
+/* White band that continues the header background behind the info banner,
+   ending with a sharp edge above the breadcrumbs (same look as the services tab band).
+   The padding collapses in the same 0.4s window as the banner itself
+   (alerts.module.css applies .alertWrapClosing on close), so banner and band
+   shrink together as one continuous motion instead of two sequential steps. */
+.infoBand {
+  background-color: var(--element-background-color);
+  padding-top: 1.5rem;
+  padding-bottom: 1rem;
+  transition: padding 0.4s ease;
+}
+
+.infoBand:has([class*="alertWrapClosing"]) {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 .detailsPage {
   width: 100%;
   margin-bottom: var(--ds-size-4);
