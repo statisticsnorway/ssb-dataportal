@@ -6,6 +6,7 @@ import { localization } from '@/libs/language';
 import { getRequestLanguage } from '@/libs/language/src/getRequestLanguage';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
+import { ClassificationType } from '@/types/classification';
 import { regionFamily } from '@/utils/subjectFieldsMapping';
 import ClassificationsServicePage from './classifications-service-page';
 
@@ -40,7 +41,10 @@ export default async function Classifications({
       return { data: [], error };
     });
 
-  const searchResultPromise = fetchSearchResult({ query: params.q?.toString() ?? '', includeCodelists: true })
+  const selectedTypes = params.types?.toString().split(',') ?? [];
+  const includeCodelists = selectedTypes.includes(ClassificationType.Codelist);
+
+  const searchResultPromise = fetchSearchResult({ query: params.q?.toString() ?? '', includeCodelists })
     .then((data) => ({ data, error: null }))
     .catch((error) => {
       logger.error({ error: sanitizeError(error) }, 'Failed to load search results');
