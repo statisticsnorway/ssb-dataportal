@@ -12,7 +12,6 @@ import {
 } from '@digdir/designsystemet-react';
 import type { ReactNode, RefObject } from 'react';
 import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ClassificationSurface } from '@/components/classification-surface';
 import { localization } from '@/libs/language';
 import type { CodeTreeNode, KlassCode } from '@/types/klass-codes';
 import { buildCodeTree } from '@/utils/classifications/buildCodeTree';
@@ -188,52 +187,51 @@ export function CodeTree({ codes, onChange, toolbar, autoExpandAll = false }: Re
           )}
         </div>
       )}
-      <ClassificationSurface className={styles.treeCard}>
-        <div ref={scrollContainerRef} className={styles.treeCardInner}>
-          <Table
-            border={false}
-            zebra={false}
-            hover={true}
-            className={styles.table}
-            aria-label={localization.codeTree.label}
-          >
-            <TableHead>
-              <TableRow>
-                <TableHeaderCell scope='col' className={styles.treeHeaderCode}>
-                  {localization.codeTree.codeColumn}
-                </TableHeaderCell>
-                <TableHeaderCell scope='col' className={styles.treeHeaderName}>
-                  {localization.codeTree.nameColumn}
-                </TableHeaderCell>
-              </TableRow>
-            </TableHead>
-            <TableBody role='tree' aria-label={localization.codeTree.label}>
-              {topSpacerHeight > 0 && (
-                <tr style={{ height: topSpacerHeight }}>
-                  <td colSpan={2} className={styles.spacerCell} />
-                </tr>
-              )}
-              {renderedRows.map(({ node, depth }) => (
-                <CodeTreeRow
-                  key={node.code.code}
-                  node={node}
-                  depth={depth}
-                  isExpanded={expandedCodes.has(node.code.code)}
-                  isSelected={selectedCode === node.code.code}
-                  onToggle={handleToggle}
-                  onChange={handleChange}
-                  onNotes={setNotesCode}
-                />
-              ))}
-              {bottomSpacerHeight > 0 && (
-                <tr style={{ height: bottomSpacerHeight }}>
-                  <td colSpan={2} className={styles.spacerCell} />
-                </tr>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-      </ClassificationSurface>
+      <div ref={scrollContainerRef}>
+        <Table
+          border={true}
+          zebra={false}
+          hover={true}
+          stickyHeader={true}
+          className={styles.table}
+          aria-label={localization.codeTree.label}
+        >
+          <TableHead>
+            <TableRow>
+              <TableHeaderCell scope='col' className={styles.treeHeaderCode}>
+                {localization.codeTree.codeColumn}
+              </TableHeaderCell>
+              <TableHeaderCell scope='col' className={styles.treeHeaderName}>
+                {localization.codeTree.nameColumn}
+              </TableHeaderCell>
+            </TableRow>
+          </TableHead>
+          <TableBody role='tree' aria-label={localization.codeTree.label}>
+            {topSpacerHeight > 0 && (
+              <tr style={{ height: topSpacerHeight }}>
+                <td colSpan={2} className={styles.spacerCell} />
+              </tr>
+            )}
+            {renderedRows.map(({ node, depth }) => (
+              <CodeTreeRow
+                key={node.code.code}
+                node={node}
+                depth={depth}
+                isExpanded={expandedCodes.has(node.code.code)}
+                isSelected={selectedCode === node.code.code}
+                onToggle={handleToggle}
+                onChange={handleChange}
+                onNotes={setNotesCode}
+              />
+            ))}
+            {bottomSpacerHeight > 0 && (
+              <tr style={{ height: bottomSpacerHeight }}>
+                <td colSpan={2} className={styles.spacerCell} />
+              </tr>
+            )}
+          </TableBody>
+        </Table>
+      </div>
       <Dialog open={Boolean(notesCode)} onClose={() => setNotesCode(null)}>
         {notesCode && (
           <>
