@@ -43,6 +43,21 @@ test.describe('Variant by id', () => {
     await expect(page.getByRole('heading', { name: formatVariantName(currentVariant.name) })).toBeVisible();
   });
 
+  test('resolves the variant from the current version when a future version exists', async ({ page }) => {
+    expect(futureVersion.classificationVariants ?? []).toHaveLength(0);
+
+    const url = buildUrl({
+      classificationId: 2003,
+      variantId: variant.id,
+    });
+
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
+
+    await expect(page).toHaveURL(url);
+    await expect(page.getByRole('heading', { name: formatVariantName(variant.name) })).toBeVisible();
+    await expect(page.getByText(String(variant.id), { exact: true })).toBeVisible();
+  });
+
   test('displays a variant from a future version', async ({ page }) => {
     const futureVariant = futureVersion.classificationVariants![0]!;
     const url = buildUrl({
