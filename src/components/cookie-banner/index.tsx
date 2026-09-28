@@ -32,6 +32,7 @@ export const CookieBanner = () => {
       <Alert data-color='info' className={styles.content}>
         <p>{localization.cookieBanner.message}</p>
         <Button
+          data-color='secondary'
           className={styles.closeButton}
           aria-label={localization.cookieBanner.closeButtonLabel}
           variant='tertiary'

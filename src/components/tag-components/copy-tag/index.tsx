@@ -8,6 +8,7 @@ import styles from './copy-tag.module.css';
 interface CopyTagProps {
   text: string;
   copyType?: CopyType;
+  size?: 'md' | 'lg';
 }
 
 type CopyType = 'short_name' | 'id' | 'file_path';
@@ -25,13 +26,13 @@ const localizeCopyTypeLabel = (it: CopyType): string => {
   }
 };
 
-const CopyTag = ({ text, copyType = 'short_name' }: CopyTagProps) => {
+const CopyTag = ({ text, copyType = 'short_name', size = 'md' }: CopyTagProps) => {
   const { copied, copyToClipboard } = useClipboard();
   const copyLabel = localizeCopyTypeLabel(copyType);
   return (
     <Tag
-      data-size='md'
-      data-color={copyType == 'short_name' ? 'success' : 'neutral'}
+      data-size={size}
+      data-color='magic'
       className={styles.copyText}
       aria-label={
         copyType === 'short_name' ? localization.variableDefinition.shortName : localization.variableDefinition.id

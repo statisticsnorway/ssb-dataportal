@@ -1,5 +1,6 @@
 .card {
   min-width: 0;
+  overflow: hidden;
 }
 
 .details {
@@ -11,4 +12,28 @@
 
 .table {
   margin: 0;
+}
+
+.seamlessCard {
+  --seamless-inner-radius: calc(var(--dsc-card-border-radius) - var(--dsc-card-border-width));
+}
+
+.seamlessCard :where([open]) > :where(summary, u-summary) {
+  border-radius: var(--seamless-inner-radius) var(--seamless-inner-radius) 0 0;
+}
+
+.seamlessCard :where(:not([open])) > :where(summary, u-summary) {
+  border-radius: var(--seamless-inner-radius);
+}
+
+.seamlessCard :where(table) {
+  --dsc-table-header-background--sorted: transparent;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.seamlessCard :where(table) :where(th, td) {
+  border-radius: 0;
 }

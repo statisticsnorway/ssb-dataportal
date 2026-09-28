@@ -15,6 +15,10 @@
   font-weight: 700;
 }
 
+.toggleFilter:hover {
+  background-color: var(--ds-color-surface-hover);
+}
+
 .hidden {
   padding-bottom: 0;
 }
@@ -26,5 +30,6 @@
 }
 
 .filterItems {
-  padding-bottom: 0.5rem;
+  margin-top: 0;
+  padding-block: 0.5rem;
 }

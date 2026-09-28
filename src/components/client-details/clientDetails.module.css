@@ -1,6 +1,6 @@
 .summaryDetail {
   font-size: 1.2rem;
-  background-color: white;
+  background-color: var(--white-color);
 }
 
 .contentDetail {

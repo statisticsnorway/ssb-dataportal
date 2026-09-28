@@ -8,6 +8,13 @@ describe('format variant name', () => {
     const formattedName = formatVariantName(variantName);
     expect(formattedName).toBe('Næringsgruppering 2002');
   });
+  it('Removes variant suffix when variant is in name', () => {
+    expect(
+      formatVariantName(
+        'Nasjonal variant for Hovedøkosystemer  2026-09  - variant av Klassifisering av økosystemtyper 2026-09',
+      ),
+    ).toBe('Nasjonal variant for Hovedøkosystemer  2026-09');
+  });
 
   it('returns an empty string when the name is missing', () => {
     expect(formatVariantName(undefined)).toBe('');

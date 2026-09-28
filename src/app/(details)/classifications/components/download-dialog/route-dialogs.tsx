@@ -18,6 +18,24 @@ function buildSharePath(pathname: string, format: DownloadFormat, language: Down
   return `${getDownloadPath(getBasePathFromDownloadPath(pathname))}?${buildDownloadQuery({ format, language })}`;
 }
 
+function getLevelValue(levelNumber: number | undefined, index: number): string {
+  return levelNumber?.toString() ?? `missing-level-${index + 1}`;
+}
+
+function getSortedLevelOptions(levels: Array<{ levelNumber?: number; levelName?: string }> | undefined) {
+  return (
+    levels
+      ?.toSorted((levelA, levelB) => (levelA.levelNumber ?? 1) - (levelB.levelNumber ?? 1))
+      .map((level, index) => {
+        const value = getLevelValue(level.levelNumber, index);
+        return {
+          value,
+          label: level.levelName ?? value,
+        };
+      }) ?? []
+  );
+}
+
 function getDateBefore(date: Date): Date {
   const value = new Date(date);
   value.setDate(value.getDate() - 1);
@@ -47,8 +65,13 @@ export function DownloadCodesRouteDialog() {
       showTrigger={false}
       initialFormat={config.format}
       initialLanguage={config.language}
+      levels={getSortedLevelOptions(versionResource.levels)}
+      initialLevel={config.level}
+      dialogSubheading={versionResource.name}
       onDialogClose={() => router.push(closePath)}
-      buildShareUrl={({ language, format }) => buildSharePath(pathname, format, language)}
+      buildShareUrl={({ language, format, level }) =>
+        `${getDownloadPath(getBasePathFromDownloadPath(pathname))}?${buildDownloadQuery({ format, language, level })}`
+      }
     />
   );
 }
@@ -83,6 +106,7 @@ export function DownloadChangesRouteDialog() {
       showTrigger={false}
       initialFormat={config.format}
       initialLanguage={config.language}
+      dialogSubheading={versionResource.name}
       onDialogClose={() => router.push(closePath)}
       buildShareUrl={({ language, format }) => buildSharePath(pathname, format, language)}
     />
@@ -93,6 +117,7 @@ export function DownloadVariantCodesRouteDialog({ variantId }: Readonly<{ varian
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { versionResource } = useVersion();
 
   const basePath = getBasePathFromDownloadPath(pathname);
 
@@ -107,8 +132,13 @@ export function DownloadVariantCodesRouteDialog({ variantId }: Readonly<{ varian
       showTrigger={false}
       initialFormat={config.format}
       initialLanguage={config.language}
+      levels={getSortedLevelOptions(versionResource?.levels)}
+      initialLevel={config.level}
+      dialogSubheading={versionResource?.classificationVariants?.find((variant) => variant.id === variantId)?.name}
       onDialogClose={() => router.push(closePath)}
-      buildShareUrl={({ language, format }) => buildSharePath(pathname, format, language)}
+      buildShareUrl={({ language, format, level }) =>
+        `${getDownloadPath(getBasePathFromDownloadPath(pathname))}?${buildDownloadQuery({ format, language, level })}`
+      }
     />
   );
 }
@@ -143,6 +173,7 @@ export function DownloadCorrespondenceRouteDialog() {
       showTrigger={false}
       initialFormat={config.format}
       initialLanguage={config.language}
+      dialogSubheading={correspondenceTable.name}
       onDialogClose={() => router.push(closePath)}
       buildShareUrl={({ language, format }) => buildSharePath(pathname, format, language)}
     />

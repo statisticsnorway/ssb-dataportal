@@ -10,6 +10,7 @@ const LANGUAGE_OPTIONS = new Set<SupportedLanguage>(['nb', 'nn', 'en']);
 export interface DownloadConfig {
   format: FileDownloadFormat;
   language: SupportedLanguage;
+  level?: string;
 }
 
 function isFormat(value: string | null): value is FileDownloadFormat {
@@ -28,10 +29,12 @@ export function parseDownloadConfig(
 ): DownloadConfig {
   const format = searchParams.get('format');
   const language = searchParams.get('language');
+  const level = searchParams.get('level')?.trim();
 
   return {
     format: isFormat(format) ? format : 'csv',
     language: isLanguage(language) ? language : defaultLanguage,
+    level: level,
   };
 }
 
@@ -40,6 +43,9 @@ export function buildDownloadQuery(config: DownloadConfig): string {
   query.set('v', DOWNLOAD_SCHEMA_VERSION);
   query.set('format', config.format);
   query.set('language', config.language);
+  if (config.level) {
+    query.set('level', config.level);
+  }
   return query.toString();
 }
 

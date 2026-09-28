@@ -119,15 +119,14 @@ describe('vardef data fetching', () => {
 
     it('returns validity periods by id from static data', async () => {
       vi.stubEnv('VARDEF_USE_STATIC_DATA', 'true');
-      const variable = staticDefs[5];
-      assert(variable);
-      await expect(getVariableDefinitionValidityPeriodsById(variable.id)).resolves.toEqual([
-        {
-          id: variable.id,
-          valid_from: variable.valid_from,
-          valid_until: variable.valid_until,
-        },
-      ]);
+      const id = 'uTlh01fK';
+      const validityPeriods = await getVariableDefinitionValidityPeriodsById(id);
+      expect(validityPeriods).toHaveLength(2);
+      validityPeriods.forEach((vp) => {
+        expect(vp).toHaveProperty('id', id);
+        expect(vp).toHaveProperty('valid_from');
+        expect(vp).toHaveProperty('valid_until');
+      });
       vi.unstubAllEnvs();
     });
   });

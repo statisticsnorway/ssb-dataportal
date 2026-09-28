@@ -18,9 +18,9 @@ export const DatasetSearchHit = ({ dataset, namingStandardViolationsCount }: Dat
   const route = `${tabsData.DataProducts.route}/${dataset.product_short_name}/datasets/${dataset.id}`;
   const tagsList = (
     <>
-      {dataset.dataset_state && <Tag data-color='success'>{convertDataSetState(dataset.dataset_state)}</Tag>}
-      {dataset.assessment && <Tag data-color='warning'>{convertAssessment(dataset.assessment)}</Tag>}
-      {isAuthenticated && dataset.owner && <Tag> {dataset.owner}</Tag>}
+      {dataset.dataset_state && <Tag data-color='magic'>{convertDataSetState(dataset.dataset_state)}</Tag>}
+      {dataset.assessment && <Tag data-color='magic'>{convertAssessment(dataset.assessment)}</Tag>}
+      {isAuthenticated && dataset.owner && <Tag data-color='magic'> {dataset.owner}</Tag>}
       {isAuthenticated && namingStandardViolationsCount > 0 && (
         <Tooltip content={localization.datasetDetail.namingStandardViolations}>
           <Badge

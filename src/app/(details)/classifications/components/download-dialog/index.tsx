@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Dialog, Field, Label, Select } from '@digdir/designsystemet-react';
+import { Button, Dialog, Field, Fieldset, Label, Radio, Select } from '@digdir/designsystemet-react';
 import { useEffect, useState } from 'react';
 import type { FileDownloadFormat } from '@/libs/data/classifications/codesData';
 import { localization, type SupportedLanguage, supportedLanguages } from '@/libs/language';
@@ -32,13 +32,16 @@ interface DownloadCodesDialogProps {
   classificationId?: number;
   validFrom?: Date | string;
   validTo?: Date | string;
+  levels?: Array<{ value: string; label: string }>;
+  initialLevel?: string;
+  dialogSubheading?: string;
   isVariantDownload?: boolean;
   open?: boolean;
   showTrigger?: boolean;
   initialFormat?: FileDownloadFormat;
   initialLanguage?: SupportedLanguage;
   onDialogClose?: () => void;
-  buildShareUrl?: (args: { language: SupportedLanguage; format: FileDownloadFormat }) => string;
+  buildShareUrl?: (args: { language: SupportedLanguage; format: FileDownloadFormat; level?: string }) => string;
 }
 
 interface DownloadChangesDialogProps {
@@ -50,8 +53,9 @@ interface DownloadChangesDialogProps {
   showTrigger?: boolean;
   initialFormat?: FileDownloadFormat;
   initialLanguage?: SupportedLanguage;
+  dialogSubheading?: string;
   onDialogClose?: () => void;
-  buildShareUrl?: (args: { language: SupportedLanguage; format: FileDownloadFormat }) => string;
+  buildShareUrl?: (args: { language: SupportedLanguage; format: FileDownloadFormat; level?: string }) => string;
 }
 
 interface DownloadCorrespondenceDialogProps {
@@ -60,8 +64,9 @@ interface DownloadCorrespondenceDialogProps {
   showTrigger?: boolean;
   initialFormat?: FileDownloadFormat;
   initialLanguage?: SupportedLanguage;
+  dialogSubheading?: string;
   onDialogClose?: () => void;
-  buildShareUrl?: (args: { language: SupportedLanguage; format: FileDownloadFormat }) => string;
+  buildShareUrl?: (args: { language: SupportedLanguage; format: FileDownloadFormat; level?: string }) => string;
 }
 
 interface DownloadDialogBaseProps {
@@ -80,13 +85,24 @@ interface DownloadDialogBaseProps {
   handleAction: (args: {
     language: SupportedLanguage;
     format: FileDownloadFormat;
+    level?: string;
   }) => Promise<{ content: string; mimeType: string }>;
+  context?: {
+    heading: string;
+    subheading?: string;
+  };
+  levelFilter?: {
+    label: string;
+    allLevelsLabel: string;
+    options: Array<{ value: string; label: string }>;
+    initialValue?: string;
+  };
   open?: boolean;
   showTrigger?: boolean;
   initialFormat?: FileDownloadFormat;
   initialLanguage?: SupportedLanguage;
   onDialogClose?: () => void;
-  buildShareUrl?: (args: { language: SupportedLanguage; format: FileDownloadFormat }) => string;
+  buildShareUrl?: (args: { language: SupportedLanguage; format: FileDownloadFormat; level?: string }) => string;
 }
 
 function DownloadDialog({
@@ -94,6 +110,8 @@ function DownloadDialog({
   filePrefixByLanguage,
   title,
   handleAction,
+  context,
+  levelFilter,
   open,
   showTrigger = true,
   initialFormat,
@@ -111,6 +129,7 @@ function DownloadDialog({
   const [format, setFormat] = useState<FileDownloadFormat>(defaultFormat);
   const [language, setLanguage] = useState<SupportedLanguage>(defaultLanguage);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [selectedLevel, setSelectedLevel] = useState(levelFilter?.initialValue);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [copyMessage, setCopyMessage] = useState<string | null>(null);
 
@@ -122,7 +141,11 @@ function DownloadDialog({
     setLanguage(defaultLanguage);
   }, [defaultLanguage]);
 
-  const sharePath = buildShareUrl?.({ language, format }) ?? null;
+  useEffect(() => {
+    setSelectedLevel(levelFilter?.initialValue);
+  }, [levelFilter?.initialValue]);
+
+  const sharePath = buildShareUrl?.({ language, format, level: selectedLevel }) ?? null;
 
   useEffect(() => {
     if (!sharePath) {
@@ -140,6 +163,7 @@ function DownloadDialog({
   const handleClose = () => {
     setFormat(defaultFormat);
     setLanguage(defaultLanguage);
+    setSelectedLevel(levelFilter?.initialValue);
     setIsDownloading(false);
     setErrorMessage(null);
     setCopyMessage(null);
@@ -168,7 +192,7 @@ function DownloadDialog({
     setIsDownloading(true);
 
     try {
-      const payload = await handleAction({ language, format });
+      const payload = await handleAction({ language, format, level: selectedLevel });
       const filePrefix = filePrefixByLanguage[language];
       download(payload.content, payload.mimeType, `${filePrefix}-${versionId}-${language}.${format}`);
     } catch {
@@ -182,6 +206,12 @@ function DownloadDialog({
     <Dialog open={open} onClose={handleClose}>
       <form onSubmit={handleDownload} noValidate>
         <div className={styles.formFields}>
+          {context ? (
+            <div className={styles.contextInfo}>
+              <h2 className={styles.contextHeading}>{context.heading}</h2>
+              {context.subheading ? <p className={styles.contextSubheading}>{context.subheading}</p> : null}
+            </div>
+          ) : null}
           <Field>
             <Label htmlFor='download-format'>{title.formatLabel}</Label>
             <Select
@@ -210,6 +240,31 @@ function DownloadDialog({
               ))}
             </Select>
           </Field>
+          {levelFilter ? (
+            <Fieldset>
+              <Fieldset.Legend>{levelFilter.label}</Fieldset.Legend>
+              <Field>
+                <Radio
+                  name='download-level'
+                  label={levelFilter.allLevelsLabel}
+                  value=''
+                  checked={!selectedLevel}
+                  onChange={() => setSelectedLevel(undefined)}
+                />
+              </Field>
+              {levelFilter.options.map((levelOption) => (
+                <Field key={levelOption.value}>
+                  <Radio
+                    name='download-level'
+                    label={levelOption.label}
+                    value={levelOption.value}
+                    checked={selectedLevel === levelOption.value}
+                    onChange={() => setSelectedLevel(levelOption.value)}
+                  />
+                </Field>
+              ))}
+            </Fieldset>
+          ) : null}
           {errorMessage ? <p role='alert'>{errorMessage}</p> : null}
           {copyMessage ? <output>{copyMessage}</output> : null}
         </div>
@@ -249,6 +304,9 @@ export function DownloadCodesDialog({
   showTrigger,
   initialFormat,
   initialLanguage,
+  dialogSubheading,
+  levels,
+  initialLevel,
   onDialogClose,
   buildShareUrl,
 }: Readonly<DownloadCodesDialogProps>) {
@@ -273,12 +331,23 @@ export function DownloadCodesDialog({
       showTrigger={showTrigger}
       initialFormat={initialFormat}
       initialLanguage={initialLanguage}
+      context={{
+        heading: localization.classification.download.headingCodes,
+        subheading: dialogSubheading,
+      }}
+      levelFilter={{
+        label: localization.classification.download.levelLabel,
+        allLevelsLabel: localization.classification.download.allLevels,
+        options: levels ?? [],
+        initialValue: levels?.some((level) => level.value === initialLevel) ? initialLevel : undefined,
+      }}
       onDialogClose={onDialogClose}
       buildShareUrl={buildShareUrl}
-      handleAction={({ language, format }) => {
+      handleAction={({ language, format, level }) => {
         if (isVariantDownload) {
           return downloadVariantCodesAction({
             variantId: versionId,
+            level,
             language,
             format,
           });
@@ -293,6 +362,7 @@ export function DownloadCodesDialog({
           classificationId,
           validFrom: typeof validFrom === 'string' ? validFrom : validFrom.toISOString(),
           validTo: typeof validTo === 'string' ? validTo : validTo?.toISOString(),
+          level,
           language,
           format,
         });
@@ -310,6 +380,7 @@ export function DownloadChangesDialog({
   showTrigger,
   initialFormat,
   initialLanguage,
+  dialogSubheading,
   onDialogClose,
   buildShareUrl,
 }: Readonly<DownloadChangesDialogProps>) {
@@ -326,6 +397,10 @@ export function DownloadChangesDialog({
       showTrigger={showTrigger}
       initialFormat={initialFormat}
       initialLanguage={initialLanguage}
+      context={{
+        heading: localization.classification.download.headingChanges,
+        subheading: dialogSubheading,
+      }}
       onDialogClose={onDialogClose}
       buildShareUrl={buildShareUrl}
       handleAction={({ language, format }) =>
@@ -347,6 +422,7 @@ export function DownloadCorrespondenceDialog({
   showTrigger,
   initialFormat,
   initialLanguage,
+  dialogSubheading,
   onDialogClose,
   buildShareUrl,
 }: Readonly<DownloadCorrespondenceDialogProps>) {
@@ -363,6 +439,10 @@ export function DownloadCorrespondenceDialog({
       showTrigger={showTrigger}
       initialFormat={initialFormat}
       initialLanguage={initialLanguage}
+      context={{
+        heading: localization.classification.download.headingCorrespondence,
+        subheading: dialogSubheading,
+      }}
       onDialogClose={onDialogClose}
       buildShareUrl={buildShareUrl}
       handleAction={({ language, format }) =>

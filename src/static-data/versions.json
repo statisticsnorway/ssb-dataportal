@@ -47,6 +47,10 @@
         {
           "levelNumber": 1,
           "levelName": "Land"
+        },
+        {
+          "levelNumber": 2,
+          "levelName": "Industri"
         }
       ],
       "classificationItems": [

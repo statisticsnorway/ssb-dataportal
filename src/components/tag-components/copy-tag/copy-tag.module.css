@@ -1,6 +1,9 @@
 .copyText {
   font-family: var(--font-family-monospace);
   --dsc-tag-padding: 0;
+  --dsc-tag-background: var(--ds-color-magic-surface-tinted);
+  --dsc-tag-border-color: var(--ds-color-magic-surface-tinted);
+  --dsc-tag-color: var(--ds-color-magic-text-default);
   align-items: stretch !important;
   width: fit-content;
   max-width: 100%;
@@ -20,7 +23,12 @@
 
 .copyText .copyTextButton {
   --dsc-button-background: none;
+  --dsc-button-background--hover: var(--ds-color-magic-surface-active);
+  --dsc-button-background--active: var(--ds-color-magic-surface-active);
   --dsc-button-border-color: transparent;
+  --dsc-button-color: var(--ds-color-magic-text-default);
+  --dsc-button-color--hover: var(--ds-color-magic-text-default);
+  --dsc-button-color--active: var(--ds-color-magic-text-default);
   --dsc-button-padding: 0 var(--ds-size-2);
   --dsc-button-size: auto;
 

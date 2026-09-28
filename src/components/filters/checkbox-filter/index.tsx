@@ -34,6 +34,7 @@ export const CheckboxFilter = ({
     <CollapsibleCard
       heading={filterHeading}
       toggleButtonClassName={headingWeight === 'semibold' ? styles.headingSemibold : ''}
+      contentClassName={styles.checkboxFilterItems}
     >
       {filters.map((filter, index) => {
         const labelText = filter.count == null ? (filter.label ?? '') : `${filter.label ?? ''} (${filter.count})`;

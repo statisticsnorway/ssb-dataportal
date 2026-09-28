@@ -85,23 +85,39 @@ describe('fetchChanges', () => {
 
     const result = await fetchChanges(646, new Date(), undefined);
 
-    expect(result[0]?.newName).toEqual('Belarus');
+    expect(result.status).toBe('success');
+    if (result.status === 'success') {
+      expect(result.changes[0]?.newName).toEqual('Belarus');
+    }
   });
-  it('returns empty array for an unknown version id in static mode', async () => {
+  it('returns successful empty changes for an unknown version id in static mode', async () => {
     vi.stubEnv('KLASS_USE_STATIC_DATA', 'true');
 
     const result = await fetchChanges(9999, new Date(), undefined);
 
-    expect(result).toEqual([]);
+    expect(result).toEqual({ status: 'success', changes: [] });
   });
-  it('returns empty array when the API has no changes for a classification', async () => {
+  it('returns successful empty changes when the API has no changes for a classification', async () => {
     process.env.KLASS_USE_STATIC_DATA = 'false';
 
+    vi.spyOn(CodesApi.prototype, 'changes').mockResolvedValue({ codeChanges: [] });
+
+    await expect(fetchChanges(7, new Date(), undefined)).resolves.toEqual({ status: 'success', changes: [] });
+  });
+  it('returns the specific API error when the change table is missing', async () => {
+    process.env.KLASS_USE_STATIC_DATA = 'false';
+    const message =
+      'Næringsgruppering 2007 (SN 2007) has no change table (correspondenceTable) with: Næringsgruppering (SN) 2025';
+
     vi.spyOn(CodesApi.prototype, 'changes').mockRejectedValue(
-      new ResponseError(new Response(null, { status: 404 }), 'Not found'),
+      new ResponseError(new Response(message, { status: 404 }), 'Not found'),
     );
 
-    await expect(fetchChanges(7, new Date(), undefined)).resolves.toEqual([]);
+    await expect(fetchChanges(6, new Date('2024-12-31'), undefined)).resolves.toEqual({
+      status: 'not-found',
+      statusCode: 404,
+      message,
+    });
   });
   it('logs and rethrows an unexpected non-response error', async () => {
     process.env.KLASS_USE_STATIC_DATA = 'false';
