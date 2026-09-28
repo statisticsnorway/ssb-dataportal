@@ -451,7 +451,7 @@ export const nb = {
   yes: 'Ja',
 
   validity: {
-    label: 'Gyldighet',
+    label: 'Gyldighetsperioder',
     validFrom: 'Gyldig fra',
     validTo: 'Gyldig til',
   },

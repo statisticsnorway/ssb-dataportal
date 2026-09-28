@@ -453,7 +453,7 @@ export const en = {
   yes: 'Yes',
 
   validity: {
-    label: 'Validity',
+    label: 'Validity periods',
     validFrom: 'Valid from',
     validTo: 'Valid to',
   },
