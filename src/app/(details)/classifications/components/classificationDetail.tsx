@@ -9,7 +9,6 @@ import { LanguageTag } from '@/components/language-tag';
 import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
-import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { formatLanguages } from '@/utils/functions';
 import { getClassificationDetailsTabForRoute } from '../[id]/tabs';
 import { buildUrl } from '../utils/urls';
@@ -46,7 +45,6 @@ export default function ClassificationDetail({
       </section>
       <div className={`${styles.detailsPage} container`}>
         <DataportalBreadcrumbs
-          homeUrl={getHomeBreadcrumb()}
           items={[
             {
               text: localization.classification.labelPlural,

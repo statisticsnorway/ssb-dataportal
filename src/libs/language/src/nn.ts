@@ -302,7 +302,6 @@ export const nn = {
   },
 
   from: 'Frå',
-  home: 'Heim',
   id: 'ID',
 
   info: {

@@ -302,7 +302,6 @@ export const nb = {
   },
 
   from: 'Fra',
-  home: 'Hjem',
   id: 'ID',
 
   info: {

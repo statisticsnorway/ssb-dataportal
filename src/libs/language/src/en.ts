@@ -305,7 +305,6 @@ export const en = {
   },
 
   from: 'From',
-  home: 'Home',
   id: 'ID',
 
   info: {

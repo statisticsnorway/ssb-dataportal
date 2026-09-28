@@ -11,7 +11,6 @@ import { SortFields } from '@/components/sort-fields';
 import { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
 import { localization } from '@/libs/language';
 import { FilterItem } from '@/types/filters';
-import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { DatasetSearchHit } from './components/DatasetSearchHit';
 import styles from './page.module.css';
 
@@ -99,7 +98,6 @@ export default function DataProductDetail({
   return (
     <div className={`${styles.detailsPage} container`}>
       <DataportalBreadcrumbs
-        homeUrl={getHomeBreadcrumb()}
         items={[{ text: localization.tabs.dataProducts, href: tabsData.DataProducts.route }]}
         currentText={dataProduct.title ?? dataProduct.product_short_name ?? undefined}
       />
