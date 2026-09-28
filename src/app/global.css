@@ -239,10 +239,6 @@ a:not(.ds-button):active {
   color: var(--ssb-dark-color-6);
 }
 
-/* On the services pages and the classification details page the white background runs continuously
-   from the header behind the info banner (services-tab-band in src/app/(services)/layout.tsx,
-   info-band in src/app/(details)/classifications/components/classificationDetail.tsx), so the
-   header's separating line and shadow must not be visible there. */
 body:has(.services-tab-band, .info-band) .site-header {
   border-bottom: none;
   box-shadow: none;
