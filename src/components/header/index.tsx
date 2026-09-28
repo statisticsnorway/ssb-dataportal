@@ -12,7 +12,7 @@ export interface HeaderProps {
 
 export const Header: FC<HeaderProps> = ({ homeUrl, title, devEnvironmentName }) => {
   return (
-    <div className={`${styles.headerWrapper} site-header`}>
+    <div className={styles.headerWrapper}>
       <header className={`${styles.header} container`} role='banner'>
         <DataportalLogo homeUrl={homeUrl} title={title} placement='header' />
         <div className={styles.rightGroup}>

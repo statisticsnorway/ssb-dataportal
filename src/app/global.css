@@ -237,7 +237,3 @@ a:not(.ds-button):active {
   font-weight: var(--font-weight-medium);
   color: var(--ssb-dark-color-6);
 }
-
-body:has(.services-tab-band, .info-band) .site-header {
-  border-bottom: none;
-}
