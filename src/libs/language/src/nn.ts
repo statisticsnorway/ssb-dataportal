@@ -456,7 +456,10 @@ export const nn = {
   yes: 'Ja',
 
   validity: {
-    label: 'Gyldigheitsperioder',
+    validityPeriods: 'Gyldigheitsperioder',
+    chooseValidityPeriod: 'Vel gyldigheitsperiode',
+    validityPeriodsInfo:
+      'Dersom ein variabel definisjon endrar tyding, kan ein avgrense dei ulike tydingane til tidsperiodar. Her kan ein byte mellom gyldigheitsperiodar ved å velje datoen perioden gjeld frå.',
     validFrom: 'Gyldig frå',
     validTo: 'Gyldig til',
   },

@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, Dropdown, Heading, Link } from '@digdir/designsystemet-react';
+import { Button, Card, Dropdown, Heading, Link, Paragraph } from '@digdir/designsystemet-react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
@@ -18,28 +18,29 @@ export function ValidityPeriodSelector({ validityPeriods }: Readonly<ValidityPer
     return null;
   }
 
-  const buildHref = (validAt: string) => {
+  const buildValidityPeriodHref = (validAt: string) => {
     const nextParams = new URLSearchParams(searchParams.toString());
     nextParams.set('validAt', validAt);
     return `${pathname}?${nextParams.toString()}`;
   };
 
-  const mapValidityPeriod = (definition: RenderedView) => {
-    return (
-      <Dropdown.Item style={{ padding: 'var(--ds-size-2)' }}>
-        <Link href={buildHref(formatDate(definition.valid_from))}>{formatLocaleDate(definition.valid_from)}</Link>
-      </Dropdown.Item>
-    );
-  };
-
   return (
     <Card>
       <Heading level={2} className='infoHeadingSecondary' data-size='md'>
-        {localization.validity.label}
+        {localization.validity.validityPeriods}
       </Heading>
-      <Button popovertarget='dropdown'>Velg</Button>
-      <Dropdown id='dropdown' style={{ minWidth: 'max-content' }} placement='bottom-start'>
-        <Dropdown.List>{validityPeriods.map((definition) => mapValidityPeriod(definition))}</Dropdown.List>
+      <Paragraph>{localization.validity.validityPeriodsInfo}</Paragraph>
+      <Button popovertarget='validity-period-dropdown'>{localization.validity.chooseValidityPeriod}</Button>
+      <Dropdown id='validity-period-dropdown' style={{ minWidth: 'max-content' }} placement='bottom-start'>
+        <Dropdown.List>
+          {validityPeriods.map((definition) => (
+            <Dropdown.Item key={formatDate(definition.valid_from)} style={{ padding: 'var(--ds-size-2)' }}>
+              <Link href={buildValidityPeriodHref(formatDate(definition.valid_from))}>
+                {formatLocaleDate(definition.valid_from)}
+              </Link>
+            </Dropdown.Item>
+          ))}
+        </Dropdown.List>
       </Dropdown>
     </Card>
   );
