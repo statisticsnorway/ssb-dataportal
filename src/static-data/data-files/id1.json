@@ -6,7 +6,7 @@
     "short_description": "Arbeidsstatus datasett 1",
     "product_type": "STATISTIC_PRODUCT",
     "product_short_name": "arblonn",
-    "storage_category": "PRODUCT",
+    "storage_category": "SHARED",
     "assessment": "OPEN",
     "dataset_state": "PROCESSED_DATA",
     "contains_data_from": "2016-01-01T00:00:00",

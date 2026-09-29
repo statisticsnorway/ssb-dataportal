@@ -162,10 +162,10 @@ describe('datadoc data fetching', () => {
     it('static data uses datafiles/<datasetId>.json and converts dates', async () => {
       vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
 
-      //const result = await listDataFilesByDatasetId('id1');
-      //expect(result.length).toBeGreaterThan(0);
-      //expect(result[0]?.product_short_name).toEqual('arblonn');
-      //expect(result[0]?.contains_data_from).toBeInstanceOf(Date);
+      const result = await listDataFilesByDatasetId('id1');
+      expect(result.length).toBeGreaterThan(0);
+      expect(result[0]?.product_short_name).toEqual('arblonn');
+      expect(result[0]?.contains_data_from).toBeInstanceOf(Date);
 
       vi.unstubAllEnvs();
     });
