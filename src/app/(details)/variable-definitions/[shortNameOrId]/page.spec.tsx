@@ -28,7 +28,7 @@ vi.mock('next/navigation', () => ({
 vi.mock('@/libs/data/variable-definitions/variableDefinitions', () => ({
   getVariableDefinitionByShortNameAtDate: vi.fn(),
   getVariableDefinitionByShortName: vi.fn(),
-  getVariableDefinitionValidityPeriodsById: vi.fn(),
+  getValidityPeriodsById: vi.fn(),
 }));
 vi.mock('./variableDefinitionDetail', () => ({ default: () => <div>VariableDefinitionDetail</div> }));
 
