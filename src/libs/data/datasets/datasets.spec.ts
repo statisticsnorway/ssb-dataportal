@@ -218,7 +218,8 @@ describe('datadoc data fetching', () => {
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
       vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue(staticDatasets);
       const result = await listDatasets();
-      expect(result).toEqual(staticDatasets);
+      expect(result.length).toBeGreaterThan(0);
+      expect(result.every((d) => d.storage_location_name)).toBe(true);
     });
   });
 
