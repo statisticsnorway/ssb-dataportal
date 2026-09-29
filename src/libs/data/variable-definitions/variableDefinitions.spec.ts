@@ -3,9 +3,9 @@ import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { VariableDefinitionsApi } from '@/libs/data-access/variable-definitions/internal/apis/VariableDefinitionsApi';
 import { getStaticVariableDefinitions as getStaticVariableDefinitions } from '@/utils/mock-data';
 import {
+  getValidityPeriodsById,
   getVardefClient,
   getVariableDefinitionByShortName,
-  getVariableDefinitionValidityPeriodsById,
   listRenderedVariableDefinitions,
 } from './variableDefinitions';
 
@@ -120,7 +120,7 @@ describe('vardef data fetching', () => {
     it('returns validity periods by id from static data', async () => {
       vi.stubEnv('VARDEF_USE_STATIC_DATA', 'true');
       const id = 'uTlh01fK';
-      const validityPeriods = await getVariableDefinitionValidityPeriodsById(id);
+      const validityPeriods = await getValidityPeriodsById(id);
       expect(validityPeriods).toHaveLength(2);
       validityPeriods.forEach((vp) => {
         expect(vp).toHaveProperty('id', id);

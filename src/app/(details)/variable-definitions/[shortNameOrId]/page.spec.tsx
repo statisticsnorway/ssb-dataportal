@@ -1,8 +1,8 @@
 import { beforeEach, expect, it, vi } from 'vitest';
 import {
+  getValidityPeriodsById,
   getVariableDefinitionByShortName,
   getVariableDefinitionByShortNameAtDate,
-  getVariableDefinitionValidityPeriodsById,
 } from '@/libs/data/variable-definitions/variableDefinitions';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { getStaticVariableDefinitions } from '@/utils/mock-data';
@@ -40,7 +40,7 @@ beforeEach(() => {
 });
 
 it('calls notFound when variable definition fetch fails', async () => {
-  vi.mocked(getVariableDefinitionValidityPeriodsById).mockResolvedValue([]);
+  vi.mocked(getValidityPeriodsById).mockResolvedValue([]);
   vi.mocked(getVariableDefinitionByShortName).mockRejectedValue(new Error('Not found'));
   await expect(VariableDefinition({ params, searchParams })).rejects.toThrow('NOT_FOUND');
 });
@@ -65,7 +65,7 @@ it('uses validAt query param to resolve selected validity period', async () => {
     valid_from: newPeriod.valid_from,
     valid_until: newPeriod.valid_until,
   });
-  vi.mocked(getVariableDefinitionValidityPeriodsById).mockResolvedValue([oldPeriod, newPeriod]);
+  vi.mocked(getValidityPeriodsById).mockResolvedValue([oldPeriod, newPeriod]);
   vi.mocked(getVariableDefinitionByShortNameAtDate).mockResolvedValue({
     ...base,
     id: oldPeriod.id,

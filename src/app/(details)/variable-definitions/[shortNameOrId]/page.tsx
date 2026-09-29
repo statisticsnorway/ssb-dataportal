@@ -2,10 +2,10 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import {
+  getValidityPeriodsById,
   getRenderedVariableDefinitionById as getVariableDefinitionById,
   getVariableDefinitionByShortName,
   getVariableDefinitionByShortNameAtDate,
-  getVariableDefinitionValidityPeriodsById,
   VariableDefinitionValidityPeriod,
 } from '@/libs/data/variable-definitions/variableDefinitions';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
@@ -13,50 +13,45 @@ import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import { getVardefApiDocsUrl } from '@/utils/config';
 import { formatDate } from '@/utils/functions';
+import { sortDatesDescendingSafe } from '@/utils/sort';
 import VariableDefinitionDetail from './variableDefinitionDetail';
 
 const variableDefinitionIdLength = 8;
 
-function sortByValidityDesc<T extends { valid_from: Date }>(items: T[]) {
-  return [...items].sort((a, b) => (b.valid_from?.getTime() ?? 0) - (a.valid_from?.getTime() ?? 0));
-}
-
-function resolveDefaultValidityPeriod<T extends { valid_from: Date; valid_until?: Date | null }>(
-  items: T[],
+function resolveInitialValidityPeriod<T extends { valid_from: Date; valid_until?: Date | null }>(
+  periods: T[],
 ): T | undefined {
-  if (items.length === 0) {
+  if (periods.length === 0) {
     return undefined;
   }
-
-  const sorted = sortByValidityDesc(items);
+  periods.sort((p1, p2) => sortDatesDescendingSafe(p1.valid_from, p2.valid_from));
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const validOnToday = sorted.find((item) => {
+  const validToday = periods.find((item) => {
     const validFrom = new Date(item.valid_from);
     validFrom.setHours(0, 0, 0, 0);
-
-    const validUntil = item.valid_until ? new Date(item.valid_until) : undefined;
-    validUntil?.setHours(0, 0, 0, 0);
-
     if (validFrom.getTime() > today.getTime()) {
       return false;
     }
 
+    const validUntil = item.valid_until ? new Date(item.valid_until) : undefined;
+    validUntil?.setHours(0, 0, 0, 0);
     return validUntil === undefined || validUntil.getTime() >= today.getTime();
   });
 
-  if (validOnToday) {
-    return validOnToday;
+  if (validToday) {
+    return validToday;
   }
 
-  const beforeToday = sorted.find((item) => {
+  // Fallback if nothing is valid today
+  const latestBeforeToday = periods.find((item) => {
     const validFrom = new Date(item.valid_from);
     validFrom.setHours(0, 0, 0, 0);
     return validFrom.getTime() < today.getTime();
   });
 
-  return beforeToday ?? sorted[0];
+  return latestBeforeToday ?? periods[0];
 }
 
 function resolveValidityPeriodByQuery(
@@ -64,11 +59,11 @@ function resolveValidityPeriodByQuery(
   validAt?: string,
 ): VariableDefinitionValidityPeriod | undefined {
   if (!validAt) {
-    return resolveDefaultValidityPeriod(items);
+    return resolveInitialValidityPeriod(items);
   }
 
   const matched = items.find((item) => formatDate(item.valid_from) === validAt);
-  return matched ?? resolveDefaultValidityPeriod(items);
+  return matched ?? resolveInitialValidityPeriod(items);
 }
 
 /**
@@ -98,7 +93,7 @@ const getPageData = cache(async (shortNameOrId: string, validAt?: string) => {
     throw new Error('No variable definition found');
   }
 
-  validityPeriods = await getVariableDefinitionValidityPeriodsById(baseVariableDefinition.id);
+  validityPeriods = await getValidityPeriodsById(baseVariableDefinition.id);
   const selectedValidityPeriod = resolveValidityPeriodByQuery(validityPeriods, validAt);
 
   if (!selectedValidityPeriod) {
@@ -117,22 +112,14 @@ const getPageData = cache(async (shortNameOrId: string, validAt?: string) => {
     };
   }
 
-  if (validityPeriods.length === 0) {
-    validityPeriods = [
-      {
-        id: baseVariableDefinition.id,
-        valid_from: baseVariableDefinition.valid_from,
-        valid_until: baseVariableDefinition.valid_until,
-      },
-    ];
-  }
-
-  const variableDefinitions = sortByValidityDesc(validityPeriods).map((period) => ({
-    ...variableDefinition,
-    id: period.id,
-    valid_from: period.valid_from,
-    valid_until: period.valid_until,
-  }));
+  const variableDefinitions = validityPeriods
+    .toSorted((p1, p2) => sortDatesDescendingSafe(p1.valid_from, p2.valid_from))
+    .map((period) => ({
+      ...variableDefinition,
+      id: period.id,
+      valid_from: period.valid_from,
+      valid_until: period.valid_until,
+    }));
 
   return { variableDefinition, variableDefinitions };
 });

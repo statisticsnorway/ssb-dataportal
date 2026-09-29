@@ -5,11 +5,11 @@ import { localization } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLoggerWithBindings } from '@/libs/logger/server-logger';
 import {
+  getStaticVariableDefinitionValidityPeriodsById as getStaticValidityPeriodsById,
   getStaticVariableDefinitionById,
   getStaticVariableDefinitionByShortName,
   getStaticVariableDefinitions,
   getStaticVariableDefinitionsByShortName,
-  getStaticVariableDefinitionValidityPeriodsById,
 } from '@/utils/mock-data';
 import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
@@ -294,16 +294,14 @@ export async function getVariableDefinitionsByShortName(shortName: string): Prom
   }
 }
 
-export async function getVariableDefinitionValidityPeriodsById(
-  id: string,
-): Promise<VariableDefinitionValidityPeriod[]> {
+export async function getValidityPeriodsById(id: string): Promise<VariableDefinitionValidityPeriod[]> {
   const logger = createLoggerWithBindings({
     module: 'variable-definitions',
     fn: 'getVariableDefinitionValidityPeriodsById',
   });
   if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
     logger.warn('Using static mock data for vardef');
-    return getStaticVariableDefinitionValidityPeriodsById(id).map((item) => ({
+    return getStaticValidityPeriodsById(id).map((item) => ({
       id: item.id,
       valid_from: item.valid_from,
       valid_until: item.valid_until,
