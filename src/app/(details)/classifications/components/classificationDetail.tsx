@@ -6,7 +6,7 @@ import { SubscribeDialog } from '@/app/(details)/classifications/components/subs
 import { ClosableAlert } from '@/components/alerts';
 import { ClassificationTable } from '@/components/classification-table';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
-import { ExpandableDetails } from '@/components/expandable-details';
+import { ExpandableTable } from '@/components/expandable-table';
 import { LanguageTag } from '@/components/language-tag';
 import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
@@ -76,7 +76,7 @@ export default function ClassificationDetail({
           </Paragraph>
         )}
         <SubscribeDialog classificationId={classification.id} />
-        <ExpandableDetails
+        <ExpandableTable
           variant='seamless'
           title={localization.classificationDetails.versions}
           table={

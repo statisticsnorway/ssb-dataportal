@@ -39,9 +39,9 @@ vi.mock('@/components/classification-table', () => ({
   ClassificationTable: () => <div data-testid='classification-table' />,
 }));
 
-vi.mock('@/components/expandable-details', () => ({
-  ExpandableDetails: ({ table, message }: { table?: React.ReactNode; message?: string }) => (
-    <div data-testid='expandable-details'>
+vi.mock('@/components/expandable-table', () => ({
+  ExpandableTable: ({ table, message }: { table?: React.ReactNode; message?: string }) => (
+    <div data-testid='expandable-table'>
       {table}
       {message}
     </div>

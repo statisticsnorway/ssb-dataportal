@@ -5,7 +5,7 @@ import { mapChanges } from '@/app/(details)/classifications/utils/details';
 import { buildDownloadHref } from '@/app/(details)/classifications/utils/download-urls';
 import { AppErrorState } from '@/components/app-state';
 import { ClassificationTable } from '@/components/classification-table';
-import { ExpandableDetails } from '@/components/expandable-details';
+import { ExpandableTable } from '@/components/expandable-table';
 import { LanguageTag } from '@/components/language-tag';
 import { type FetchChangesResult, fetchChanges } from '@/libs/data/classifications/codesData';
 import {
@@ -137,7 +137,7 @@ export default function ChangesView({
 
   return (
     <div className={styles.wrapper}>
-      <ExpandableDetails
+      <ExpandableTable
         variant='seamless'
         ariaLabel={localization.classification.about.changelog}
         title={

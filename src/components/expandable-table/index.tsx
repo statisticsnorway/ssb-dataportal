@@ -1,7 +1,7 @@
 import { Card, Details, DetailsSummary, Paragraph } from '@digdir/designsystemet-react';
-import styles from './expandableDetails.module.css';
+import styles from './expandableTable.module.css';
 
-interface ExpandableDetailsProps {
+interface ExpandableTableProps {
   table?: React.ReactNode;
   message?: string;
   title?: string | React.ReactNode;
@@ -10,15 +10,15 @@ interface ExpandableDetailsProps {
 }
 
 /**
- * ExpandableDetails component renders details inside a collapsible card.
+ * ExpandableTable component renders a table inside a collapsible card.
  *
- * @param table - The content to display inside the expandable section.
+ * @param table - The table content to display inside the expandable section.
  * @param title - The title of the expandable section.
  * @param message - A message to display when the table is not available.
  * @param ariaLabel - The aria-label for the details element for accessibility.
  * @param variant - `seamless` renders the table flush inside the card on the SSB secondary colour scale.
  */
-const ExpandableDetails = ({ table, title, message, ariaLabel, variant = 'default' }: ExpandableDetailsProps) => {
+const ExpandableTable = ({ table, title, message, ariaLabel, variant = 'default' }: ExpandableTableProps) => {
   const isSeamless = variant === 'seamless';
 
   return (
@@ -32,4 +32,4 @@ const ExpandableDetails = ({ table, title, message, ariaLabel, variant = 'defaul
   );
 };
 
-export { ExpandableDetails };
+export { ExpandableTable };
