@@ -19,6 +19,7 @@ import {
   getDataProductByShortName,
   listDataFilesByDatasetId,
   listDataProducts,
+  listDataProductsWithAvailableDatasets,
   listDatasets,
   listDatasetsByProductShortName,
 } from './datasets';
@@ -218,6 +219,71 @@ describe('datadoc data fetching', () => {
       vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue(staticDatasets);
       const result = await listDatasets();
       expect(result).toEqual(staticDatasets);
+    });
+  });
+
+  describe('dataset product filtering', () => {
+    const testDataset = DatasetDTOFromJSON(datasetsStatic[1]);
+    assert(testDataset);
+
+    it('excludes datasets whose storage location contains produkt', async () => {
+      process.env.DATADOC_USE_STATIC_DATA = 'false';
+      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
+
+      const regularDataset = {
+        ...testDataset,
+        storage_location_name: 'ordinary-storage',
+      };
+      const productDataset = {
+        ...testDataset,
+        storage_location_name: 'Produkt-storage',
+      };
+
+      vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue([regularDataset, productDataset]);
+
+      const result = await listDatasetsByProductShortName(testDataset.product_short_name as string);
+
+      expect(result).toEqual([regularDataset]);
+    });
+
+    it('excludes a data product when all its datasets are product datasets', async () => {
+      process.env.DATADOC_USE_STATIC_DATA = 'false';
+      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
+
+      const product = DataProductDTOFromJSON(dataProducts[0]);
+      assert(product);
+      assert(product.product_short_name);
+
+      const productDataset = {
+        ...testDataset,
+        product_short_name: product.product_short_name,
+        storage_location_name: 'produkt-lager',
+      };
+
+      vi.spyOn(DataProductsApi.prototype, 'listDataProducts').mockResolvedValue([product]);
+      vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue([productDataset]);
+
+      await expect(listDataProductsWithAvailableDatasets()).resolves.toEqual([]);
+    });
+
+    it('keeps a data product when it has at least one non-product dataset', async () => {
+      process.env.DATADOC_USE_STATIC_DATA = 'false';
+      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
+
+      const product = DataProductDTOFromJSON(dataProducts[0]);
+      assert(product);
+      assert(product.product_short_name);
+
+      const regularDataset = {
+        ...testDataset,
+        product_short_name: product.product_short_name,
+        storage_location_name: 'ordinary-storage',
+      };
+
+      vi.spyOn(DataProductsApi.prototype, 'listDataProducts').mockResolvedValue([product]);
+      vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue([regularDataset]);
+
+      await expect(listDataProductsWithAvailableDatasets()).resolves.toEqual([product]);
     });
   });
 });
