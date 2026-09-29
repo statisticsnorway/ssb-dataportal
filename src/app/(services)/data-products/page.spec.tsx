@@ -29,6 +29,10 @@ vi.mock('@/libs/data/datasets/datasets', () => ({
   listDataProducts: vi.fn(),
 }));
 
+vi.mock('@/libs/data/datasets/datasets', () => ({
+  listDataProductsWithAvailableDatasets: vi.fn(),
+}));
+
 vi.mock('@/libs/logger/server-logger', () => ({
   createLogger: () => ({ info: vi.fn(), error: vi.fn(), warn: vi.fn(), debug: vi.fn() }),
 }));
