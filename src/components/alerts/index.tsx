@@ -16,33 +16,33 @@ interface ClosableAlertProps {
 export function ClosableAlert({ heading, message, color = 'info', onClose }: Readonly<ClosableAlertProps>) {
   const [visible, setVisible] = useState(true);
 
-  if (!visible) return null;
-
   return (
-    <Alert className={styles.alert} data-color={color} role='status'>
-      {heading && (
-        <Heading className={`infoHeadingSecondary ${styles.heading}`} level={2} data-size='sm'>
-          {heading}
-        </Heading>
-      )}
-      {message && (
-        <Paragraph className={styles.message} data-size='md'>
-          {message}
-        </Paragraph>
-      )}
-      <Button
-        className={styles.closeButton}
-        data-color='secondary'
-        variant='tertiary'
-        icon
-        aria-label={localization.close}
-        onClick={() => {
-          setVisible(false);
-          onClose?.();
-        }}
-      >
-        <XMarkIcon aria-hidden='true' focusable='false' />
-      </Button>
-    </Alert>
+    <div className={`${styles.alertWrap} ${visible ? '' : styles.alertWrapClosing}`}>
+      <Alert className={styles.alert} data-color={color} role='status'>
+        {heading && (
+          <Heading className={`infoHeadingSecondary ${styles.heading}`} level={2} data-size='sm'>
+            {heading}
+          </Heading>
+        )}
+        {message && (
+          <Paragraph className={styles.message} data-size='md'>
+            {message}
+          </Paragraph>
+        )}
+        <Button
+          className={styles.closeButton}
+          data-color='secondary'
+          variant='tertiary'
+          icon
+          aria-label={localization.close}
+          onClick={() => {
+            setVisible(false);
+            onClose?.();
+          }}
+        >
+          <XMarkIcon aria-hidden='true' focusable='false' />
+        </Button>
+      </Alert>
+    </div>
   );
 }

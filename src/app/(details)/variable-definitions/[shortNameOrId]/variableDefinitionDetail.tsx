@@ -10,7 +10,6 @@ import { CopyTag } from '@/components/tag-components/copy-tag';
 import { StatusTag } from '@/components/tag-components/statusTag';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
-import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { isVariablePubliclyAccessible } from '@/utils/variableAccess';
 import { CodeSnippet } from './components/codeSnippet';
 import { mapAboutVariableItems, mapContactItems } from './groups';
@@ -34,7 +33,6 @@ export default function VariableDefinitionDetail({
   return (
     <div className={`${styles.detailsPage} container`}>
       <DataportalBreadcrumbs
-        homeUrl={getHomeBreadcrumb()}
         items={[{ text: localization.variableDefinition.labelPlural, href: tabsData.VariableDefinitions.route }]}
         currentText={variableDefinition.name ?? variableDefinition.short_name}
       />

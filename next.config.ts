@@ -7,6 +7,7 @@ import { version as appVersion, name as appName } from './package.json';
 
 const nextConfig: NextConfig = {
   productionBrowserSourceMaps: true,
+  redirects: async () => [{ source: '/', destination: '/classifications', permanent: true }],
   turbopack: {
     root: path.resolve(__dirname),
     resolveAlias: {

@@ -13,7 +13,6 @@ import { CopyTag } from '@/components/tag-components/copy-tag';
 import { DaplaDataFileDTO, DatasetDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
 import { Visibility } from '@/types/item';
-import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { getDaplaCtrlUrl } from '@/utils/config';
 import { convertAssessment, convertDataSetState } from '@/utils/functions';
 import { sortDateStringsDescending } from '@/utils/sort';
@@ -48,7 +47,6 @@ export default function DatasetDetail({
   return (
     <div className={`${styles.detailsPage} container`}>
       <DataportalBreadcrumbs
-        homeUrl={getHomeBreadcrumb()}
         items={[
           { text: localization.tabs.dataProducts, href: tabsData.DataProducts.route },
           {

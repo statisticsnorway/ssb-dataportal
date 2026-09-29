@@ -1,6 +1,5 @@
 'use client';
 
-import { Alert, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { parseAsArrayOf, parseAsString, useQueryStates } from 'nuqs';
 import { Suspense, useMemo } from 'react';
 import { useAuthContext } from '@/app/authContext';
@@ -189,15 +188,6 @@ export const DataProductsServicePage = ({
     });
   };
 
-  const pageInfo = (
-    <Alert data-color='info'>
-      <Heading level={2} className='infoHeadingSecondary'>
-        {localization.info.datasetPrototypeIntro}
-      </Heading>
-      <Paragraph>{localization.info.datasetPrototypeInfo}</Paragraph>
-    </Alert>
-  );
-
   return (
     <DataProductsProvider
       dataProducts={dataProducts}
@@ -206,7 +196,6 @@ export const DataProductsServicePage = ({
       selectedSubjectCodes={subjects}
     >
       <SearchPage
-        banner={pageInfo}
         tabsId={tabsData.DataProducts.id}
         header={localization.tabs.dataProducts}
         totalHits={filteredDataProducts.length}

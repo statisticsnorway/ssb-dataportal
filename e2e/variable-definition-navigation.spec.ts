@@ -55,10 +55,9 @@ test.describe('Variable definitions breadcrumbs', () => {
     const nav = page.getByRole('navigation', { name: localization.breadcrumbsLabel });
     await expect(nav).toBeVisible();
     const items = nav.locator('ol > li');
-    await expect(items).toHaveCount(3);
+    await expect(items).toHaveCount(2);
     await expect(items.nth(0).locator('a'), 'First crumb is link').toHaveCount(1);
-    await expect(items.nth(1).locator('a'), 'Second crumb is link').toHaveCount(1);
-    const current = items.nth(2);
+    const current = items.nth(1);
     const currentElement = current.locator('[aria-current="page"]');
     await expect(currentElement, 'Last crumb is current').toBeVisible();
     const before = page.url();
@@ -66,16 +65,6 @@ test.describe('Variable definitions breadcrumbs', () => {
     await currentElement.click();
     await expect(page).toHaveURL(before);
     await expect(current).toContainText(variable.name);
-  });
-
-  test('click on "Home" navigates to /', async ({ page, goToVariable }) => {
-    test.skip(noVariables, 'No variable definitions available to test');
-    const variable = variableDefinitions[0];
-    assert(variable);
-    await goToVariable(variable);
-    const nav = page.getByRole('navigation', { name: localization.breadcrumbsLabel });
-    nav.getByRole('link', { name: localization.home }).click();
-    await expect(page).toHaveURL('/');
   });
 
   test('click on "Variabeldefinisjoner" navigates to search result', async ({ page, goToVariable }) => {
