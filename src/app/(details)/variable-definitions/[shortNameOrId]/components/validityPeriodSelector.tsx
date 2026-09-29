@@ -30,7 +30,9 @@ export function ValidityPeriodSelector({ validityPeriods }: Readonly<ValidityPer
         {localization.validity.validityPeriods}
       </Heading>
       <Paragraph>{localization.validity.validityPeriodsInfo}</Paragraph>
-      <Button popovertarget='validity-period-dropdown'>{localization.validity.chooseValidityPeriod}</Button>
+      <Button variant='secondary' popovertarget='validity-period-dropdown'>
+        {localization.validity.chooseValidityPeriod}
+      </Button>
       <Dropdown id='validity-period-dropdown' style={{ minWidth: 'max-content' }} placement='bottom-start'>
         <Dropdown.List>
           {validityPeriods.map((definition) => (
