@@ -5,6 +5,9 @@ metadata:
     team: dapla-metadata
   name: dataportalen-dev
   namespace: dapla-metadata
+  annotations:
+    # Allow nextjs to create cache directories inside /app
+    nais.io/read-only-file-system: "false"
 spec:
   ingresses:
     - https://dataportal-dev.test.ssb.no
@@ -29,15 +32,17 @@ spec:
   envFrom:
     - secret: dataportalen
   env:
+    - name: SITE_URL
+      value: https://dataportal-dev.test.ssb.no
     - name: METADATA_API_BASE_PATH
       value: http://metadata-api-gateway
     - name: VARDEF_USE_STATIC_DATA
       value: "false"
+    - name: VARDEF_USE_M2M_TOKEN
+      value: "true"
     - name: DATADOC_USE_STATIC_DATA
       value: "false"
     - name: DATADOC_USE_M2M_TOKEN
-      value: "true"
-    - name: VARDEF_USE_M2M_TOKEN
       value: "true"
     - name: KEYCLOAK_HOST
       value: https://auth.test.ssb.no
@@ -57,3 +62,7 @@ spec:
       value: "https://data.test.ssb.no/api/klass/swagger-ui/index.html"
     - name: DAPLA_LAB_VARDEF_URL
       value: "https://lab.dapla-test.ssb.no/launcher/dapla-lab-standard/vardef-forvaltning"
+    - name: LOG_LEVEL
+      value: "debug"
+    - name: USE_ANNIVERSARY_LOGO
+      value: "true"
