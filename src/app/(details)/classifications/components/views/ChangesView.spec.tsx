@@ -198,7 +198,7 @@ describe('ChangesView', () => {
     expect(screen.queryByRole('link', { name: localization.error.goHome })).not.toBeInTheDocument();
     expect(screen.queryByText(localization.versions.noChanges)).not.toBeInTheDocument();
     expect(screen.queryByTestId('correspondence-table')).not.toBeInTheDocument();
-    expect(screen.getByTestId('expandable-details')).toBeInTheDocument();
-    expect(screen.getByTestId('details-table')).toBeInTheDocument();
+    expect(screen.getByTestId('expandable-table')).toBeInTheDocument();
+    expect(screen.getByTestId('classification-table')).toBeInTheDocument();
   });
 });
