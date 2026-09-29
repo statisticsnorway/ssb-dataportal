@@ -4,8 +4,8 @@ import { Heading, Paragraph } from '@digdir/designsystemet-react';
 import { usePathname } from 'next/navigation';
 import { SubscribeDialog } from '@/app/(details)/classifications/components/subscribe';
 import { ClosableAlert } from '@/components/alerts';
+import { ClassificationTable } from '@/components/classification-table';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
-import { DetailsTable } from '@/components/details-table';
 import { ExpandableDetails } from '@/components/expandable-details';
 import { LanguageTag } from '@/components/language-tag';
 import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
@@ -80,7 +80,7 @@ export default function ClassificationDetail({
           variant='seamless'
           title={localization.classificationDetails.versions}
           table={
-            <DetailsTable
+            <ClassificationTable
               sortableField={localization.validity.validFrom}
               content={(classification.versions ?? []).map((v) => mapVersions(v, classification.id, activeTab))}
             />

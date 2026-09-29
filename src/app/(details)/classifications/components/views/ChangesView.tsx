@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { mapChanges } from '@/app/(details)/classifications/utils/details';
 import { buildDownloadHref } from '@/app/(details)/classifications/utils/download-urls';
 import { AppErrorState } from '@/components/app-state';
-import { DetailsTable } from '@/components/details-table';
+import { ClassificationTable } from '@/components/classification-table';
 import { ExpandableDetails } from '@/components/expandable-details';
 import { LanguageTag } from '@/components/language-tag';
 import { type FetchChangesResult, fetchChanges } from '@/libs/data/classifications/codesData';
@@ -153,7 +153,7 @@ export default function ChangesView({
         }
         table={
           version?.changelogs?.length ? (
-            <DetailsTable
+            <ClassificationTable
               content={version.changelogs
                 .toSorted((cl1, cl2) => sortDatesDescendingSafe(cl1.changeOccured, cl2.changeOccured))
                 .map((c) => mapChanges(c))}
