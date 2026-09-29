@@ -3,3 +3,4 @@ apis/DraftVariableDefinitionsApi.ts
 apis/PatchesApi.ts
 models/Update*
 models/*Vardok*
+docs/
