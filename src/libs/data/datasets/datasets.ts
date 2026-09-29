@@ -191,7 +191,9 @@ export async function listDataFilesByDatasetId(datasetId: string): Promise<Array
         logger.warn({ datafilePath }, 'Static datafile is not an array');
         return [];
       }
-      return parsedData.map((item) => DaplaDataFileDTOFromJSON(item));
+      return parsedData
+        .map((item) => DaplaDataFileDTOFromJSON(item))
+        .filter((dataFile) => dataFile.storage_category !== 'PRODUCT');
     } catch (error: unknown) {
       logger.warn({ error: sanitizeError(error), datafilePath }, 'No static datafile found for dataset id');
       return [];
@@ -203,7 +205,7 @@ export async function listDataFilesByDatasetId(datasetId: string): Promise<Array
     const dto = await api.listDataFiles({ datasetId: datasetId });
     logger.info('Fetched Dapla Data Files');
     logger.info({ count: dto.length }, 'Fetched data products from API');
-    return dto;
+    return dto.filter((dataFile) => dataFile.storage_category !== 'PRODUCT');
   } catch (error: unknown) {
     logAndThrowFetchError(logger, error);
   }
