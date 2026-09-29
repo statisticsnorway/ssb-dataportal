@@ -27,9 +27,6 @@ vi.mock('@/libs/data/classifications/codesData', () => ({
 
 vi.mock('@/libs/data/datasets/datasets', () => ({
   listDataProducts: vi.fn(),
-}));
-
-vi.mock('@/libs/data/datasets/datasets', () => ({
   listDataProductsWithAvailableDatasets: vi.fn(),
 }));
 
