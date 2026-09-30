@@ -5,7 +5,7 @@ import { VersionItem } from '@/types/item';
 import { TabSlug } from '../[id]/tabs';
 import { buildUrl } from './urls';
 
-const mapVersionName = (
+export const mapVersionName = (
   v: ClassificationVersionSummaryResource,
   classificationId: number | undefined,
   tab: TabSlug,

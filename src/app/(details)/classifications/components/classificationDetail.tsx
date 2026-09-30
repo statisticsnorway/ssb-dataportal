@@ -4,9 +4,7 @@ import { Heading, Paragraph } from '@digdir/designsystemet-react';
 import { usePathname } from 'next/navigation';
 import { SubscribeDialog } from '@/app/(details)/classifications/components/subscribe';
 import { ClosableAlert } from '@/components/alerts';
-import { ClassificationTable } from '@/components/classification-table';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
-import { ExpandableTable } from '@/components/expandable-table';
 import { LanguageTag } from '@/components/language-tag';
 import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
@@ -14,8 +12,8 @@ import { localization } from '@/libs/language';
 import { formatLanguages } from '@/utils/functions';
 import { getClassificationDetailsTabForRoute } from '../[id]/tabs';
 import { buildUrl } from '../utils/urls';
-import { mapVersions } from '../utils/versions';
 import styles from './classification-page.module.css';
+import { VersionPicker } from './version-picker';
 import { VersionView } from './views/VersionView';
 
 interface ClassificationDetailProps {
@@ -78,17 +76,10 @@ export default function ClassificationDetail({
               {classification.description}
             </Paragraph>
           )}
-          <SubscribeDialog classificationId={classification.id} />
-          <ExpandableTable
-            variant='seamless'
-            title={localization.classificationDetails.versions}
-            table={
-              <ClassificationTable
-                sortableField={localization.validity.validFrom}
-                content={(classification.versions ?? []).map((v) => mapVersions(v, classification.id, activeTab))}
-              />
-            }
-          />
+          <aside className={styles.actions}>
+            <SubscribeDialog classificationId={classification.id} />
+            <VersionPicker classification={classification} tab={activeTab} />
+          </aside>
           <VersionView
             classification={classification}
             classificationVersion={classificationVersion}
