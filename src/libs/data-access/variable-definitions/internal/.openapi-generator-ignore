@@ -1,9 +1,9 @@
 apis/DataMigrationApi.ts
 apis/DraftVariableDefinitionsApi.ts
 apis/PatchesApi.ts
-apis/ValidityPeriodsApi.ts
-docs/*
-!docs/VariableDefinitionsApi.md
-models/Create*
 models/Update*
 models/*Vardok*
+# This must be ignored due to manual changes due to a bug in the generated code.
+# Review the warning and changes on the instanceOfCompleteView function before updating.
+models/CompleteView.ts
+docs/

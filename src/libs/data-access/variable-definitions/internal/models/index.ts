@@ -2,6 +2,9 @@
 /* eslint-disable */
 export * from './CompleteView';
 export * from './Contact';
+export * from './CreateDraft';
+export * from './CreatePatch';
+export * from './CreateValidityPeriod';
 export * from './KlassReference';
 export * from './LanguageStringType';
 export * from './ListVariableDefinitions200ResponseInner';

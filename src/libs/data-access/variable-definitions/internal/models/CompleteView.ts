@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Internal Variable Definitions Administration API
- *  ## Introduction  Variable Definitions are centralized definitions of concrete variables which are typically present in multiple datasets. Variable Definitions support standardization of data and metadata and facilitate sharing and joining of data by clarifying when variables have an identical definition.  ## Maintenance of Variable Definitions This API allows for creation, maintenance and access of Variable Definitions.  ### Ownership Creation and maintenance of variables may only be performed by Statistics Norway employees representing a specific Dapla team, who are defined as the owners of a given Variable Definition. The team an owner represents must be specified when making a request through the `active_group` query parameter. All maintenance is to be performed by the owners, with no intervention from administrators.  ### Status All Variable Definitions have an associated status. The possible values for status are `DRAFT`, `PUBLISHED_INTERNAL` and `PUBLISHED_EXTERNAL`.  #### Draft When a Variable Definition is created it is assigned the status `DRAFT`. Under this status the Variable Definition is:  - Only visible to Statistics Norway employees. - Mutable (it may be changed directly without need for versioning). - Not suitable to refer to from other systems.  This status may be changed to `PUBLISHED_INTERNAL` or `PUBLISHED_EXTERNAL` with a direct update.  #### Published Internal Under this status the Variable Definition is:  - Only visible to Statistics Norway employees. - Immutable (all changes are versioned). - Suitable to refer to in internal systems for statistics production. - Not suitable to refer to for external use (for example in Statistikkbanken).  This status may be changed to `PUBLISHED_EXTERNAL` by creating a Patch version.  #### Published External Under this status the Variable Definition is:  - Visible to the general public. - Immutable (all changes are versioned). - Suitable to refer to from any system.  This status may not be changed as it would break immutability. If a Variable Definition is no longer relevant then its period of validity should be ended by specifying a `valid_until` date in a Patch version.  ### Immutability Variable Definitions are immutable. This means that any changes must be performed in a strict versioning system. Consumers can avoid being exposed to breaking changes by specifying a `date_of_validity` when they request a Variable Definition.  #### Patches Patches are for changes which do not affect the fundamental meaning of the Variable Definition.  #### Validity Periods Validity Periods are versions with a period defined by a `valid_from` date and optionally a `valid_until` date. If the fundamental meaning of a Variable Definition is to be changed, it should be done by creating a new Validity Period.  
+ *  ## Introduction  Variable Definitions are centralized definitions of concrete variables which are typically present in multiple datasets. Variable Definitions support standardization of data and metadata and facilitate sharing and joining of data by clarifying when variables have an identical definition.  ## Maintenance of Variable Definitions This API allows for creation, maintenance and access of Variable Definitions.  ### Ownership Creation and maintenance of variables may only be performed by Statistics Norway employees representing a specific Dapla team, who are defined as the owners of a given Variable Definition. In order to create variables, the single team an owner currently represents must be specified in the bearer token. This is currently only supported from the Dapla Lab platform. All maintenance is to be performed by the owners, with no intervention from administrators.  ### Status All Variable Definitions have an associated status. The possible values for status are `DRAFT`, `PUBLISHED_INTERNAL` and `PUBLISHED_EXTERNAL`.  #### Draft When a Variable Definition is created it is assigned the status `DRAFT`. Under this status the Variable Definition is:  - Only visible to Statistics Norway employees. - Mutable (it may be changed directly without need for versioning). - Not suitable to refer to from other systems.  This status may be changed to `PUBLISHED_INTERNAL` or `PUBLISHED_EXTERNAL` with a direct update.  #### Published Internal Under this status the Variable Definition is:  - Only visible to Statistics Norway employees. - Immutable (all changes are versioned). - Suitable to refer to in internal systems for statistics production. - Not suitable to refer to for external use (for example in Statistikkbanken).  This status may be changed to `PUBLISHED_EXTERNAL` by creating a Patch version.  #### Published External Under this status the Variable Definition is:  - Visible to the general public. - Immutable (all changes are versioned). - Suitable to refer to from any system.  This status may not be changed as it would break immutability. If a Variable Definition is no longer relevant then its period of validity should be ended by specifying a `valid_until` date in a Patch version.  ### Immutability Variable Definitions are immutable. This means that any changes must be performed in a strict versioning system. Consumers can avoid being exposed to breaking changes by specifying a `date_of_validity` when they request a Variable Definition.  #### Patches Patches are for changes which do not affect the fundamental meaning of the Variable Definition.  #### Validity Periods Validity Periods are versions with a period defined by a `valid_from` date and optionally a `valid_until` date. If the fundamental meaning of a Variable Definition is to be changed, it should be done by creating a new Validity Period.
  *
  * The version of the OpenAPI document: 0.1
  * Contact: metadata@ssb.no
@@ -61,7 +61,7 @@ export interface CompleteView {
      */
     patch_id: number;
     /**
-     * 
+     *
      * @type {LanguageStringType}
      * @memberof CompleteView
      */
@@ -73,7 +73,7 @@ export interface CompleteView {
      */
     short_name: string;
     /**
-     * 
+     *
      * @type {LanguageStringType}
      * @memberof CompleteView
      */
@@ -85,13 +85,13 @@ export interface CompleteView {
      */
     classification_reference?: string | null;
     /**
-     * A list of one or more unit types, e.g. person, vehicle, household. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/702.
+     * A list of one or more unit types, e.g. person, vehicle, household. Must be defined as codes from https://dataportal.ssb.no/classifications/702.
      * @type {Array<string>}
      * @memberof CompleteView
      */
     unit_types: Array<string>;
     /**
-     * A list of subject fields that the variable is used in. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.
+     * A list of subject fields that the variable is used in. Must be defined as codes from https://dataportal.ssb.no/classifications/618.
      * @type {Array<string>}
      * @memberof CompleteView
      */
@@ -103,13 +103,13 @@ export interface CompleteView {
      */
     contains_special_categories_of_personal_data: boolean;
     /**
-     * 
+     *
      * @type {VariableStatus}
      * @memberof CompleteView
      */
     variable_status: VariableStatus;
     /**
-     * Type of measurement for the variable, e.g. length, volume, currency. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/303
+     * Type of measurement for the variable, e.g. length, volume, currency. Must be defined as codes from https://dataportal.ssb.no/classifications/303
      * @type {string}
      * @memberof CompleteView
      */
@@ -133,7 +133,7 @@ export interface CompleteView {
      */
     external_reference_uri?: string | null;
     /**
-     * 
+     *
      * @type {LanguageStringType}
      * @memberof CompleteView
      */
@@ -145,13 +145,13 @@ export interface CompleteView {
      */
     related_variable_definition_uris?: Array<string> | null;
     /**
-     * 
+     *
      * @type {Owner}
      * @memberof CompleteView
      */
     owner: Owner;
     /**
-     * 
+     *
      * @type {Contact}
      * @memberof CompleteView
      */
@@ -186,13 +186,16 @@ export interface CompleteView {
 
 /**
  * Check if a given object implements the CompleteView interface.
+ *
+ * WARNING: This function has been modified after generation in order to correctly distinguish between CompleteView and RenderedView.
+ * This is necessary for the types to flow correctly throughout the app and the app can break if the manual changes are clobbered.
  */
 export function instanceOfCompleteView(value: object): value is CompleteView {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('patch_id' in value) || value['patch_id'] === undefined) return false;
-    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('name' in value) || typeof value['name'] !== 'object' || value['name'] === null) return false;
     if (!('short_name' in value) || value['short_name'] === undefined) return false;
-    if (!('definition' in value) || value['definition'] === undefined) return false;
+    if (!('definition' in value) || typeof value['definition'] !== 'object' || value['definition'] === null) return false;
     if (!('unit_types' in value) || value['unit_types'] === undefined) return false;
     if (!('subject_fields' in value) || value['subject_fields'] === undefined) return false;
     if (!('contains_special_categories_of_personal_data' in value) || value['contains_special_categories_of_personal_data'] === undefined) return false;
@@ -216,7 +219,7 @@ export function CompleteViewFromJSONTyped(json: any, ignoreDiscriminator: boolea
         return json;
     }
     return {
-        
+
         'id': json['id'],
         'patch_id': json['patch_id'],
         'name': LanguageStringTypeFromJSON(json['name']),
@@ -252,7 +255,7 @@ export function CompleteViewToJSONTyped(value?: CompleteView | null, ignoreDiscr
     }
 
     return {
-        
+
         'id': value['id'],
         'patch_id': value['patch_id'],
         'name': LanguageStringTypeToJSON(value['name']),
@@ -277,4 +280,3 @@ export function CompleteViewToJSONTyped(value?: CompleteView | null, ignoreDiscr
         'last_updated_by': value['last_updated_by'],
     };
 }
-

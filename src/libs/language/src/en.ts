@@ -458,7 +458,10 @@ export const en = {
   yes: 'Yes',
 
   validity: {
-    label: 'Validity',
+    validityPeriods: 'Validity periods',
+    chooseValidityPeriod: 'Select validity period',
+    validityPeriodsInfo:
+      'When a variable definition changes meaning time periods can be set for each distinct meaning. A specific validity period may be chosen below by selecting the date from which it is valid.',
     validFrom: 'Valid from',
     validTo: 'Valid to',
   },
