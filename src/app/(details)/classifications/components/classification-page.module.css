@@ -1,3 +1,15 @@
+.infoBand {
+  background-color: var(--element-background-color);
+  padding-top: 1.5rem;
+  padding-bottom: 1rem;
+  transition: padding 0.4s ease;
+}
+
+.infoBand:has([class*="alertWrapClosing"]) {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 .detailsPage {
   width: 100%;
   margin-bottom: var(--ds-size-4);

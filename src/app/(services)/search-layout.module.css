@@ -1,8 +1,68 @@
 .tabsContainer {
   flex: 1 0 auto;
 }
-.tabsNavigationContainer {
+
+.tabBand {
+  background-color: var(--element-background-color);
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+.intro {
   margin-top: 2rem;
+  text-align: center;
+}
+
+.introTitle {
+  margin-bottom: 0.5rem;
+}
+
+.introText {
+  margin-bottom: 0;
+}
+
+.introText + .introText {
+  margin-top: 0.5rem;
+}
+
+.aboutDetails {
+  margin-top: 1.5rem;
+  border-block-width: 0;
+}
+
+.aboutDetails > summary {
+  width: fit-content;
+  margin-inline: auto;
+  font-family: var(--font-roboto), sans-serif;
+  color: var(--ds-color-secondary-base-default);
+  text-decoration: underline;
+  background: transparent;
+}
+
+.aboutDetails > summary:hover {
+  color: var(--ds-color-secondary-base-hover);
+}
+
+.aboutDetails > summary::before {
+  order: 2;
+}
+
+.aboutContent {
+  margin: 1.25rem auto 0;
+  max-width: 46rem;
+  text-align: left;
+}
+
+.aboutContent > h3 {
+  margin-bottom: 0.5rem;
+}
+
+.aboutContent > p + p {
+  margin-top: 1rem;
+}
+
+.tabsNavigationContainer {
+  margin-top: 1rem;
   margin-bottom: 1rem;
 }
 

@@ -49,10 +49,6 @@ vi.mock('@/app/(services)/tabs', () => ({
   tabsData: { DataProducts: { route: '/data-products' } },
 }));
 
-vi.mock('@/utils/breadcrumbs', () => ({
-  getHomeBreadcrumb: () => '/',
-}));
-
 vi.mock('@/components/dataportal-breadcrumbs', () => ({
   DataportalBreadcrumbs: () => <nav data-testid='breadcrumbs' />,
 }));

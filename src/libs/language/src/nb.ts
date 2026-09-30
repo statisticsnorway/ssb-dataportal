@@ -10,6 +10,7 @@ export const nb = {
   apiDocumentation: 'API-dokumentasjon',
   apiDocVardef: 'Variabeldefinisjoner',
   apiDocKlass: 'Klassifikasjoner',
+  appSubTitle: ['Her samler vi informasjon om våre datasett, variabler, klassifikasjoner og API-er på ett sted.'],
   appTitle: 'SSB Dataportal',
 
   authentication: {
@@ -301,10 +302,17 @@ export const nb = {
   },
 
   from: 'Fra',
-  home: 'Hjem',
   id: 'ID',
 
   info: {
+    aboutDataportal: {
+      body: [
+        'Målet er å gjøre det enklere å finne, forstå og bruke SSBs data på en korrekt og effektiv måte.',
+        'I denne første versjonen kan du utforske SSBs variabeldefinisjoner. Portalen vil gradvis utvides med oversikt over datasett, klassifikasjoner og API-er, slik at du kan se hele sammenhengen fra konsept til ferdig datafil. Ved å koble definisjoner fra Vardef med kodeverk fra Klass og dokumentasjon om datasett, etablerer vi en "felles sannhet" som sikrer at vi alltid tolker og bruker dataene våre på samme måte.',
+      ],
+      title: 'Om SSB Dataportal',
+      toggle: 'Hvorfor SSB Dataportal',
+    },
     comingSoon: 'Kommer snart',
     classificationsPrototypeIntro: 'Under utvikling',
     classificationsPrototypeInfo:
@@ -319,17 +327,7 @@ export const nb = {
     footerContact: 'Kom i kontakt',
     footerAccessibilityStatement: 'Tilgjengelighetserklæring',
     footerPrivacyStatement: 'Personvernerklæring',
-    landingPageInfoGoal:
-      'Målet er å gjøre det enklere å finne, forstå og bruke SSBs data på en korrekt og effektiv måte.',
-    landingPageInfoGoalTitle: 'Hvorfor SSB Dataportal?',
-    landingPageInfoIntro:
-      'Her samler vi informasjon om våre datasett, variabler, klassifikasjoner og API-er på ett sted.',
-    landingPageInfoIntroTitle: 'Hva er SSB Dataportal?',
-    landingPageInfoPrototype:
-      'I denne første versjonen kan du utforske SSBs variabeldefinisjoner. Portalen vil gradvis utvides med oversikt over datasett, klassifikasjoner og API-er, slik at du kan se hele sammenhengen fra konsept til ferdig datafil. Ved å koble definisjoner fra Vardef med kodeverk fra Klass og dokumentasjon om datasett, etablerer vi en "felles sannhet" som sikrer at vi alltid tolker og bruker dataene våre på samme måte.',
-    landingPagePrototypeTitle: 'Kontinuerlig forbedring',
     landingPageSubTitle: 'Din inngang til SSBs felles kunnskap om data',
-    landingPageTitle: 'Velkommen til SSB Dataportal',
   },
   language: {
     notSelectedLanguage: 'Denne {item} er ikke tilgjengelig på valgt språk',

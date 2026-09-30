@@ -4,7 +4,6 @@ import { localization } from '@/libs/language';
 import styles from './search-page.module.css';
 
 interface SearchPageProps {
-  banner?: ReactNode;
   infoContent?: ReactNode;
   asideContent?: ReactNode;
   searchResult?: ReactElement;
@@ -29,7 +28,6 @@ interface SearchPageProps {
  * @param header          Page title announced to screen readers
  */
 const SearchPage: FC<SearchPageProps> = ({
-  banner,
   infoContent,
   asideContent,
   searchResult,
@@ -56,7 +54,6 @@ const SearchPage: FC<SearchPageProps> = ({
       </header>
       <TabsPanel id={tabsId} value={String(tabsId)} aria-labelledby={tabsId}>
         <div className={`${styles.pageContainer} container`}>
-          {banner}
           <div className={styles.searchHitsContainerWrapper}>
             {asideContent ? (
               <aside className={styles.filterSection} aria-label='Filters'>

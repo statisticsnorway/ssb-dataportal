@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { fetchSubjectFieldFilterValues } from '@/libs/data/classifications/codesData';
-import { listDataProducts } from '@/libs/data/datasets/datasets';
+import { listDataProductsWithAvailableDatasets } from '@/libs/data/datasets/datasets';
 import type { DataProductDTO } from '@/libs/data-access/datadoc/models';
 import { KlassCode } from '@/types/klass-codes';
 import DataProductsPage from './page';
@@ -26,7 +26,7 @@ vi.mock('@/libs/data/classifications/codesData', () => ({
 }));
 
 vi.mock('@/libs/data/datasets/datasets', () => ({
-  listDataProducts: vi.fn(),
+  listDataProductsWithAvailableDatasets: vi.fn(),
 }));
 
 vi.mock('@/libs/logger/server-logger', () => ({
@@ -55,7 +55,7 @@ describe('DataProductsPage', () => {
   });
 
   it('passes data products and subject fields to the service page', async () => {
-    vi.mocked(listDataProducts).mockResolvedValue([
+    vi.mocked(listDataProductsWithAvailableDatasets).mockResolvedValue([
       { product_short_name: 'arbstatus', contains_valid_datasets: false },
     ]);
     vi.mocked(fetchSubjectFieldFilterValues).mockResolvedValue([

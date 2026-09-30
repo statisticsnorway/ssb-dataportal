@@ -62,10 +62,6 @@ vi.mock('@digdir/designsystemet-react', () => ({
   Alert: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }));
 
-vi.mock('@/utils/breadcrumbs', () => ({
-  getHomeBreadcrumb: () => '/',
-}));
-
 vi.mock('@/libs/language/src/localization', () => ({
   localization: {
     classification: {

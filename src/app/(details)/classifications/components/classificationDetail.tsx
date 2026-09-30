@@ -11,7 +11,6 @@ import { LanguageTag } from '@/components/language-tag';
 import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { localization } from '@/libs/language';
-import { getHomeBreadcrumb } from '@/utils/breadcrumbs';
 import { formatLanguages } from '@/utils/functions';
 import { getClassificationDetailsTabForRoute } from '../[id]/tabs';
 import { buildUrl } from '../utils/urls';
@@ -35,65 +34,70 @@ export default function ClassificationDetail({
   const activeTab = getClassificationDetailsTabForRoute(pathname)?.slug ?? 'codes';
 
   return (
-    <div className={`${styles.detailsPage} container`}>
-      <ClosableAlert
-        heading={localization.migrationClassifications.header}
-        message={localization.migrationClassifications.info}
-      />
-      <DataportalBreadcrumbs
-        homeUrl={getHomeBreadcrumb()}
-        items={[
-          {
-            text: localization.classification.labelPlural,
-            href: buildUrl({}),
-          },
-        ]}
-        currentText={classification.name ?? String(classification.id)}
-      />
-      <main className={styles.mainContent}>
-        {classification.fallbackLanguage && (
-          <div>
-            <LanguageTag
-              tooltipContent={localization.classification.language.notSelectedLanguage}
-              title={formatLanguages(classification.fallbackLanguage)}
-            />
-          </div>
-        )}
-        <Heading
-          className={`${styles.detailsHeading} primaryHeading`}
-          data-size='lg'
-          level={1}
-          {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
-        >
-          {classification.name}
-        </Heading>
-        {classification.description && (
-          <Paragraph
-            className={`${styles.description} ingress`}
+    <>
+      <section className={`info-band ${styles.infoBand}`}>
+        <div className='container'>
+          <ClosableAlert
+            heading={localization.migrationClassifications.header}
+            message={localization.migrationClassifications.info}
+          />
+        </div>
+      </section>
+      <div className={`${styles.detailsPage} container`}>
+        <DataportalBreadcrumbs
+          items={[
+            {
+              text: localization.classification.labelPlural,
+              href: buildUrl({}),
+            },
+          ]}
+          currentText={classification.name ?? String(classification.id)}
+        />
+        <main className={styles.mainContent}>
+          {classification.fallbackLanguage && (
+            <div>
+              <LanguageTag
+                tooltipContent={localization.classification.language.notSelectedLanguage}
+                title={formatLanguages(classification.fallbackLanguage)}
+              />
+            </div>
+          )}
+          <Heading
+            className={`${styles.detailsHeading} primaryHeading`}
+            data-size='lg'
+            level={1}
             {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
           >
-            {classification.description}
-          </Paragraph>
-        )}
-        <SubscribeDialog classificationId={classification.id} />
-        <ExpandableTable
-          variant='seamless'
-          title={localization.classificationDetails.versions}
-          table={
-            <ClassificationTable
-              sortableField={localization.validity.validFrom}
-              content={(classification.versions ?? []).map((v) => mapVersions(v, classification.id, activeTab))}
-            />
-          }
-        />
-        <VersionView
-          classification={classification}
-          classificationVersion={classificationVersion}
-          missingInSelectedLanguage={missingInSelectedLanguage}
-        >
-          {children}
-        </VersionView>
-      </main>
-    </div>
+            {classification.name}
+          </Heading>
+          {classification.description && (
+            <Paragraph
+              className={`${styles.description} ingress`}
+              {...(classification.fallbackLanguage ? { lang: classification.fallbackLanguage } : {})}
+            >
+              {classification.description}
+            </Paragraph>
+          )}
+          <SubscribeDialog classificationId={classification.id} />
+          <ExpandableTable
+            variant='seamless'
+            title={localization.classificationDetails.versions}
+            table={
+              <ClassificationTable
+                sortableField={localization.validity.validFrom}
+                content={(classification.versions ?? []).map((v) => mapVersions(v, classification.id, activeTab))}
+              />
+            }
+          />
+          <VersionView
+            classification={classification}
+            classificationVersion={classificationVersion}
+            missingInSelectedLanguage={missingInSelectedLanguage}
+          >
+            {children}
+          </VersionView>
+        </main>
+      </div>
+    </>
   );
 }

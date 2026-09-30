@@ -7,19 +7,15 @@ export type BreadcrumbItem = {
 };
 
 export type DataportalBreadcrumbsProps = {
-  homeUrl: BreadcrumbItem;
   items: BreadcrumbItem[];
   currentText?: string;
 };
 
-export const DataportalBreadcrumbs = ({ homeUrl, items, currentText }: DataportalBreadcrumbsProps) => {
+export const DataportalBreadcrumbs = ({ items, currentText }: DataportalBreadcrumbsProps) => {
   return (
     <nav style={{ padding: '1rem 0' }} aria-label={localization.breadcrumbsLabel}>
       <Breadcrumbs>
         <BreadcrumbsList>
-          <BreadcrumbsItem>
-            <BreadcrumbsLink href={homeUrl.href}>{homeUrl.text}</BreadcrumbsLink>
-          </BreadcrumbsItem>
           {items.map((crumb, index) => (
             <BreadcrumbsItem key={`${crumb.href}-${index}`}>
               <BreadcrumbsLink href={crumb.href}>{crumb.text}</BreadcrumbsLink>
