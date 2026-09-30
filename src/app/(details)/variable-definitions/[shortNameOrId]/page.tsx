@@ -12,7 +12,6 @@ import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import { getVardefApiDocsUrl } from '@/utils/config';
-import { formatDate } from '@/utils/functions';
 import { sortDatesDescendingSafe } from '@/utils/sort';
 import VariableDefinitionDetail from './variableDefinitionDetail';
 
@@ -62,8 +61,28 @@ function resolveValidityPeriodByQuery(
     return resolveInitialValidityPeriod(items);
   }
 
-  const matched = items.find((item) => formatDate(item.valid_from) === validAt);
-  return matched ?? resolveInitialValidityPeriod(items);
+  const validAtDate = new Date(validAt);
+  if (Number.isNaN(validAtDate.getTime())) {
+    return undefined;
+  }
+  validAtDate.setHours(0, 0, 0, 0);
+
+  return items.find((item) => {
+    const validFrom = new Date(item.valid_from);
+    validFrom.setHours(0, 0, 0, 0);
+
+    if (validFrom.getTime() > validAtDate.getTime()) {
+      return false;
+    }
+
+    if (!item.valid_until) {
+      return true;
+    }
+
+    const validUntil = new Date(item.valid_until);
+    validUntil.setHours(0, 0, 0, 0);
+    return validUntil.getTime() >= validAtDate.getTime();
+  });
 }
 
 /**
@@ -85,7 +104,7 @@ const getPageData = cache(async (shortNameOrId: string, validAt?: string) => {
   if (baseVariableDefinition === undefined) {
     baseVariableDefinition = await getVariableDefinitionByShortName(shortNameOrId);
     logger.debug(
-      `Identified ${shortNameOrId} as short name, fetched variable definition ${baseVariableDefinition.name}`,
+      `Identified ${shortNameOrId} as short name, fetched variable definition ${baseVariableDefinition?.name}`,
     );
   }
 
@@ -95,6 +114,10 @@ const getPageData = cache(async (shortNameOrId: string, validAt?: string) => {
 
   validityPeriods = await getValidityPeriodsById(baseVariableDefinition.id);
   const selectedValidityPeriod = resolveValidityPeriodByQuery(validityPeriods, validAt);
+
+  if (validAt && !selectedValidityPeriod) {
+    throw new Error('No validity period found for requested validAt value');
+  }
 
   if (!selectedValidityPeriod) {
     variableDefinition = baseVariableDefinition;

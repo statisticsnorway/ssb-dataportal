@@ -180,3 +180,43 @@ test.describe('Contact', () => {
     );
   });
 });
+
+test.describe('Validity periods', () => {
+  test.beforeEach(async ({}, testInfo) => {
+    test.skip(testInfo.project.name === 'chrome-unauth');
+  });
+
+  test('does not show validity period picker when only one validity period exists', async ({ page }) => {
+    await page.goto(`${tabsData.VariableDefinitions.route}/org_form`);
+    await expect(page.getByRole('heading', { name: localization.validity.validityPeriods })).not.toBeVisible();
+    await expect(page.getByRole('button', { name: localization.validity.chooseValidityPeriod })).not.toBeVisible();
+  });
+
+  test('shows validity period picker and allows selecting a period', async ({ page }) => {
+    await page.goto(`${tabsData.VariableDefinitions.route}/aksje`);
+
+    await expect(page.getByRole('heading', { name: localization.validity.validityPeriods })).toBeVisible();
+
+    await page.getByRole('button', { name: localization.validity.chooseValidityPeriod }).click();
+    await page.getByRole('link', { name: '01.01.1984' }).click();
+
+    await expect(page).toHaveURL(/\/variable-definitions\/aksje\?validAt=1984-01-01/);
+
+    const dl = page.locator('dl');
+    await expect(dl.getByText(localization.validity.validFrom, { exact: true })).toBeVisible();
+    await expect(dl.locator('dd').getByText('1984-01-01', { exact: true })).toBeVisible();
+  });
+
+  test('uses validAt query param in valid range to load the expected validity period', async ({ page }) => {
+    await page.goto(`${tabsData.VariableDefinitions.route}/aksje?validAt=2024-12-31`);
+
+    const dl = page.locator('dl');
+    await expect(dl.locator('dd').getByText('1984-01-01', { exact: true })).toBeVisible();
+    await expect(dl.locator('dd').getByText('2025-01-01', { exact: true })).toBeVisible();
+  });
+
+  test('returns not found when validAt is outside all validity periods', async ({ page }) => {
+    await page.goto(`${tabsData.VariableDefinitions.route}/aksje?validAt=1983-12-31`);
+    await expect(page.getByRole('heading', { name: localization.error.notFoundTitleVariableDetails })).toBeVisible();
+  });
+});
