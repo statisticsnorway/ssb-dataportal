@@ -20,7 +20,9 @@ categories:
       label: "performance"
   - title: ":rotating_light: Testing"
     when:
-      label: "testing"
+      labels:
+        - "test"
+        - "testing"
   - title: ":construction_worker: Continuous Integration"
     when:
       label: "ci"
@@ -57,6 +59,7 @@ autolabeler:
   - label: "testing"
     branch:
       - '/test\/.+/'
+      - '/testing\/.+/'
   - label: "skip-changelog"
     branch:
       - '/release\/.+/'
