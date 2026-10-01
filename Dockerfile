@@ -27,7 +27,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN pnpm run build;
 
 # Production image, copy all the files and run next
-FROM gcr.io/distroless/nodejs26-debian13@sha256:2b8aeb6334dbad357860d17bd8868128bfb2514d6af31cfbc77a2268cb344a51 AS runner
+FROM gcr.io/distroless/nodejs26-debian13@sha256:3535dc89b77aad3c749e90e81b84d5b0af721fe491930294de6d6d2d6a34e67f AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
