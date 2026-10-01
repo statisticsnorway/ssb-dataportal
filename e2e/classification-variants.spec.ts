@@ -25,6 +25,13 @@ async function gotoVariants(page: Page, url: string) {
   return page.getByLabel(localization.classification.variant.variantHeading);
 }
 
+async function goBackToVariants(page: Page, url: string) {
+  const backLink = page.getByRole('link', { name: localization.codeTree.back, exact: true });
+  await expect(backLink).toBeVisible();
+  await backLink.click();
+  await expect(page).toHaveURL(url);
+}
+
 test.beforeEach(({}, testInfo) => {
   test.skip(testInfo.project.name === 'chrome-unauth');
 });
@@ -72,9 +79,7 @@ test.describe('Current variants tab', () => {
     await expect(page.getByRole('heading', { name: formatVariantName(variant.name) })).toBeVisible();
     await expect(page.locator('[data-mount-check="mounted"]')).toBeVisible();
 
-    await page.getByRole('link', { name: localization.codeTree.back, exact: true }).click();
-
-    await expect(page).toHaveURL(CURRENT_DETAILS_URL);
+    await goBackToVariants(page, CURRENT_DETAILS_URL);
     await expect(page.locator('[data-mount-check="mounted"]')).toBeVisible();
   });
 
@@ -124,8 +129,7 @@ test.describe('Explicit version variants tab', () => {
     );
     await expect(page.getByRole('heading', { name: formatVariantName(variant.name) })).toBeVisible();
 
-    await page.getByRole('link', { name: localization.codeTree.back, exact: true }).click();
-    await expect(page).toHaveURL(EXPLICIT_CURRENT_VERSION_URL);
+    await goBackToVariants(page, EXPLICIT_CURRENT_VERSION_URL);
   });
 });
 
