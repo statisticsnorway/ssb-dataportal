@@ -198,7 +198,11 @@ test.describe('Validity periods', () => {
     await expect(page.getByRole('heading', { name: localization.validity.validityPeriods })).toBeVisible();
 
     await page.getByRole('button', { name: localization.validity.chooseValidityPeriod }).click();
-    await page.getByRole('link', { name: '01.01.1984' }).click();
+    await page
+      .getByRole('heading', { name: localization.validity.validityPeriods })
+      .locator('..')
+      .locator('a[href*="validAt=1984-01-01"]')
+      .click();
 
     await expect(page).toHaveURL(/\/variable-definitions\/aksje\?validAt=1984-01-01/);
 
