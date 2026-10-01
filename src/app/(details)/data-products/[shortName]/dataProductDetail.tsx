@@ -27,11 +27,13 @@ type DatasetSortOption = (typeof sortOptionsAuthenticated)[number];
 
 export default function DataProductDetail({
   dataProduct,
-  datasets,
+  datasetsShared,
+  datasetsProduct,
   namingStandardViolationsByDatasetId,
 }: Readonly<{
   dataProduct: DataProductDTO;
-  datasets: DatasetDTO[];
+  datasetsShared: DatasetDTO[];
+  datasetsProduct: DatasetDTO[];
   namingStandardViolationsByDatasetId: Record<string, number>;
 }>) {
   const assessmentLabelByValue = getAssessmentLabelByValue();
@@ -41,7 +43,7 @@ export default function DataProductDetail({
     notFound();
   }
 
-  const visibleDatasets = isAuthenticated ? datasets : datasets.filter((ds) => !ds.has_naming_standard_violations);
+  const visibleDatasets = isAuthenticated ? [...datasetsShared, ...datasetsProduct] : datasetsShared.filter((ds) => !ds.has_naming_standard_violations);
 
   const assessmentFilters = useMemo<FilterItem[]>(
     () =>
