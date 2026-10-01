@@ -232,7 +232,7 @@ export function CodeTree({ codes, onChange, toolbar, autoExpandAll = false }: Re
           </TableBody>
         </Table>
       </div>
-      <Dialog open={Boolean(notesCode)} onClose={() => setNotesCode(null)}>
+      <Dialog open={Boolean(notesCode)} onClose={() => setNotesCode(null)} closeButton={localization.close}>
         {notesCode && (
           <>
             <Dialog.Block>
