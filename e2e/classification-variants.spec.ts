@@ -69,6 +69,7 @@ test.describe('Current variants tab', () => {
       'aria-selected',
       'true',
     );
+    await expect(page.getByRole('heading', { name: formatVariantName(variant.name) })).toBeVisible();
     await expect(page.locator('[data-mount-check="mounted"]')).toBeVisible();
 
     await page.getByRole('link', { name: localization.codeTree.back, exact: true }).click();
@@ -121,6 +122,7 @@ test.describe('Explicit version variants tab', () => {
       'aria-selected',
       'true',
     );
+    await expect(page.getByRole('heading', { name: formatVariantName(variant.name) })).toBeVisible();
 
     await page.getByRole('link', { name: localization.codeTree.back, exact: true }).click();
     await expect(page).toHaveURL(EXPLICIT_CURRENT_VERSION_URL);
