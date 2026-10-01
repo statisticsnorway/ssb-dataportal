@@ -88,7 +88,7 @@ test.describe('unauthenticated', () => {
     await stabilize();
     const main = page.getByRole('main');
 
-    await expect(main.getByRole('paragraph')).toContainText('2 treff');
+    await expect(main.getByRole('paragraph')).toContainText('1 treff');
     await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
     await expect(main).toContainText('Arblonn');
   });

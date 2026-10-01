@@ -2,7 +2,13 @@ import { localization } from '@/libs/language';
 import { test, expect } from '@bgotink/playwright-coverage';
 import { stabilize } from './utils/commonUtils';
 
-test('Data product datasets can be filtered by assessment', async ({ page }) => {
+test.describe('authenticated', () => {
+  test.beforeEach(async ({}, testInfo) => {
+    if (testInfo.project.name === 'chrome-unauth') testInfo.skip();
+  });
+
+  test('Data product datasets can be filtered by assessment', async ({ page }) => {
+  
   await page.goto('/data-products/arbstatus');
   await stabilize();
 
@@ -27,4 +33,5 @@ test('Data product datasets can be filtered by assessment', async ({ page }) => 
 
   await sensitiveFilter.check();
   await expect(heading3).toBeVisible();
+  });
 });
