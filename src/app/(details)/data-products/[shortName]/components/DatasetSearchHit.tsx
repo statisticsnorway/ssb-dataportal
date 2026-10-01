@@ -4,7 +4,7 @@ import { useAuthContext } from '@/app/authContext';
 import { SearchHit } from '@/components/search-hit';
 import { DatasetDTO } from '@/libs/data-access/datadoc/models';
 import { localization } from '@/libs/language';
-import { convertAssessment, convertDataSetState } from '@/utils/functions';
+import { convertAssessment, convertDataSetState, convertStorageCategory } from '@/utils/functions';
 import styles from './components.module.css';
 
 interface DatasetSearchHitProps {
@@ -21,6 +21,7 @@ export const DatasetSearchHit = ({ dataset, namingStandardViolationsCount }: Dat
       {dataset.dataset_state && <Tag data-color='magic'>{convertDataSetState(dataset.dataset_state)}</Tag>}
       {dataset.assessment && <Tag data-color='magic'>{convertAssessment(dataset.assessment)}</Tag>}
       {isAuthenticated && dataset.owner && <Tag data-color='magic'> {dataset.owner}</Tag>}
+      {isAuthenticated && dataset.storage_category && <Tag data-color='magic'> {convertStorageCategory(dataset.storage_category)}</Tag>}
       {isAuthenticated && namingStandardViolationsCount > 0 && (
         <Tooltip content={localization.datasetDetail.namingStandardViolations}>
           <Badge

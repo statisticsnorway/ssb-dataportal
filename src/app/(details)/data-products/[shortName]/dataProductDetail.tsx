@@ -20,6 +20,11 @@ const getAssessmentLabelByValue = (): Record<string, string> => ({
   SENSITIVE: localization.products.assessment.sensitive,
 });
 
+const getStorageCategoryLabelByValue = (): Record<string, string> => ({
+  SHARED: localization.products.storageCategory.shared,
+  PRODUCT: localization.products.storageCategory.product,
+});
+
 const sortOptionsAuthenticated = ['titleAsc', 'titleDesc', 'violationsDesc'] as const;
 const sortOptionsUnauthenticated = ['titleAsc', 'titleDesc'] as const;
 
@@ -37,6 +42,7 @@ export default function DataProductDetail({
   namingStandardViolationsByDatasetId: Record<string, number>;
 }>) {
   const assessmentLabelByValue = getAssessmentLabelByValue();
+  const storageCategoryLabelByValue = getStorageCategoryLabelByValue();
   const { isAuthenticated } = useAuthContext();
 
   if (!isAuthenticated && dataProduct.contains_valid_datasets === false) {
@@ -54,7 +60,17 @@ export default function DataProductDetail({
     [assessmentLabelByValue],
   );
 
+  const storageCategoryFilters = useMemo<FilterItem[]>(
+    () =>
+      Object.keys(storageCategoryLabelByValue).map((value) => ({
+        value,
+        label: storageCategoryLabelByValue[value] ?? value,
+      })),
+    [storageCategoryLabelByValue],
+  );
+
   const [selectedAssessments, setSelectedAssessments] = useState<FilterItem[]>([]);
+  const [selectedStorageCategories, setSelectedStorageCategories] = useState<FilterItem[]>([]);
   const [sortBy, setSortBy] = useState<DatasetSortOption>('titleAsc');
 
   const toggleAssessment = (filter: FilterItem) => {
@@ -64,15 +80,37 @@ export default function DataProductDetail({
     });
   };
 
-  const filteredDatasets = useMemo(() => {
-    if (selectedAssessments.length === 0) return visibleDatasets;
+  const toggleStorageCategory = (filter: FilterItem) => {
+    setSelectedStorageCategories((prev) => {
+      const exists = prev.some((f) => f.value === filter.value);
+      return exists ? prev.filter((f) => f.value !== filter.value) : [...prev, filter];
+    });
+  };
 
-    const selectedValues = new Set(selectedAssessments.map((f) => f.value));
+  const filteredDatasets = useMemo(() => {
+    if (selectedAssessments.length === 0 && selectedStorageCategories.length === 0) return visibleDatasets;
+
+    const selectedAssessmentValues = new Set(selectedAssessments.map((f) => f.value));
+    const selectedStorageCategoryValues = new Set(selectedStorageCategories.map((f) => f.value));
+
     return visibleDatasets.filter((dataset) => {
       const assessment = dataset.assessment;
-      return typeof assessment === 'string' && selectedValues.has(assessment);
+      const storageCategory = dataset.storage_category;
+      const assessmentMatches = typeof assessment === 'string' && selectedAssessmentValues.has(assessment);
+      const storageCategoryMatches = typeof storageCategory === 'string' && selectedStorageCategoryValues.has(storageCategory);
+
+      if (selectedAssessments.length > 0 && selectedStorageCategories.length > 0) {
+        return assessmentMatches && storageCategoryMatches;
+      }
+      if (selectedAssessments.length > 0) {
+        return assessmentMatches;
+      }
+      if (selectedStorageCategories.length > 0) {
+        return storageCategoryMatches;
+      }
+      return true;
     });
-  }, [visibleDatasets, selectedAssessments]);
+  }, [visibleDatasets, selectedAssessments, selectedStorageCategories]);
 
   const sortedDatasets = useMemo(() => {
     return [...filteredDatasets].sort((a, b) => {
@@ -116,6 +154,12 @@ export default function DataProductDetail({
                 filters={assessmentFilters}
                 selectedItems={selectedAssessments}
                 onFilterChange={toggleAssessment}
+              />
+              <CheckboxFilter
+                filterHeading={localization.products.storageCategory.filterLabel}
+                filters={storageCategoryFilters}
+                selectedItems={selectedStorageCategories}
+                onFilterChange={toggleStorageCategory}
               />
             </FiltersPanel>
           </aside>

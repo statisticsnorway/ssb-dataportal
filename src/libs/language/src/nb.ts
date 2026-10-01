@@ -388,6 +388,12 @@ export const nb = {
     },
     other: 'Annen dataprodukt',
     statistic: 'Statistikkprodukt',
+    storageCategory: {
+      filterLabel: 'Lagringskategori',
+      shared: 'Delt',
+      product: 'Produkt',
+      source: 'Kilde',
+    },
     typeFilterLabel: 'Dataprodukttype',
     unknown: 'Ukjent produkttype',
   },
