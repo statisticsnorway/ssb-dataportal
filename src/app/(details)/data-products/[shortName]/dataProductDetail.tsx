@@ -38,7 +38,7 @@ export default function DataProductDetail({
 }: Readonly<{
   dataProduct: DataProductDTO;
   datasetsShared: DatasetDTO[];
-  datasetsProduct: DatasetDTO[];
+  datasetsProduct?: DatasetDTO[];
   namingStandardViolationsByDatasetId: Record<string, number>;
 }>) {
   const assessmentLabelByValue = getAssessmentLabelByValue();
@@ -49,7 +49,9 @@ export default function DataProductDetail({
     notFound();
   }
 
-  const visibleDatasets = isAuthenticated ? [...datasetsShared, ...datasetsProduct] : datasetsShared.filter((ds) => !ds.has_naming_standard_violations);
+  const visibleDatasets = isAuthenticated
+    ? [...datasetsShared, ...(datasetsProduct ?? [])]
+    : datasetsShared.filter((ds) => !ds.has_naming_standard_violations);
 
   const assessmentFilters = useMemo<FilterItem[]>(
     () =>
@@ -97,7 +99,8 @@ export default function DataProductDetail({
       const assessment = dataset.assessment;
       const storageCategory = dataset.storage_category;
       const assessmentMatches = typeof assessment === 'string' && selectedAssessmentValues.has(assessment);
-      const storageCategoryMatches = typeof storageCategory === 'string' && selectedStorageCategoryValues.has(storageCategory);
+      const storageCategoryMatches =
+        typeof storageCategory === 'string' && selectedStorageCategoryValues.has(storageCategory);
 
       if (selectedAssessments.length > 0 && selectedStorageCategories.length > 0) {
         return assessmentMatches && storageCategoryMatches;

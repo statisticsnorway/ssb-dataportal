@@ -36,6 +36,10 @@ vi.mock('@/libs/language', () => ({
         open: 'Open',
         sensitive: 'Sensitive',
       },
+      storageCategory: {
+        shared: 'Shared',
+        product: 'Product',
+      },
     },
     dataProductDetail: {
       dataProductFilters: 'Filters',
@@ -148,7 +152,11 @@ describe('DataProductDetail', () => {
 
   it('renders title, breadcrumbs, filters and all datasets initially', () => {
     render(
-      <DataProductDetail dataProduct={dataProduct} datasets={datasets} namingStandardViolationsByDatasetId={{}} />,
+      <DataProductDetail
+        dataProduct={dataProduct}
+        datasetsShared={datasets}
+        namingStandardViolationsByDatasetId={{}}
+      />,
     );
 
     expect(screen.getByRole('heading', { level: 1, name: 'My Product' })).toBeInTheDocument();
@@ -161,7 +169,11 @@ describe('DataProductDetail', () => {
 
   it('filters datasets when an assessment checkbox is selected', () => {
     render(
-      <DataProductDetail dataProduct={dataProduct} datasets={datasets} namingStandardViolationsByDatasetId={{}} />,
+      <DataProductDetail
+        dataProduct={dataProduct}
+        datasetsShared={datasets}
+        namingStandardViolationsByDatasetId={{}}
+      />,
     );
 
     const openCheckbox = screen.getByLabelText('Open');
@@ -174,7 +186,11 @@ describe('DataProductDetail', () => {
 
   it('supports multiple selected filters (OR filtering)', () => {
     render(
-      <DataProductDetail dataProduct={dataProduct} datasets={datasets} namingStandardViolationsByDatasetId={{}} />,
+      <DataProductDetail
+        dataProduct={dataProduct}
+        datasetsShared={datasets}
+        namingStandardViolationsByDatasetId={{}}
+      />,
     );
 
     fireEvent.click(screen.getByLabelText('Open'));
@@ -187,7 +203,11 @@ describe('DataProductDetail', () => {
 
   it('toggling a selected filter off shows all datasets again', () => {
     render(
-      <DataProductDetail dataProduct={dataProduct} datasets={datasets} namingStandardViolationsByDatasetId={{}} />,
+      <DataProductDetail
+        dataProduct={dataProduct}
+        datasetsShared={datasets}
+        namingStandardViolationsByDatasetId={{}}
+      />,
     );
 
     const protectedCheckbox = screen.getByLabelText('Protected');
@@ -200,7 +220,7 @@ describe('DataProductDetail', () => {
 
   it('falls back to product_short_name when title is missing', () => {
     const product = { product_short_name: 'fallback-name' } as DataProductDTO;
-    render(<DataProductDetail dataProduct={product} datasets={[]} namingStandardViolationsByDatasetId={{}} />);
+    render(<DataProductDetail dataProduct={product} datasetsShared={[]} namingStandardViolationsByDatasetId={{}} />);
     expect(screen.getByRole('heading', { level: 1, name: 'fallback-name' })).toBeInTheDocument();
   });
 
@@ -208,7 +228,7 @@ describe('DataProductDetail', () => {
     render(
       <DataProductDetail
         dataProduct={dataProduct}
-        datasets={datasets}
+        datasetsShared={datasets}
         namingStandardViolationsByDatasetId={{ '1': 4, '2': 0, '3': 1 }}
       />,
     );
@@ -223,7 +243,7 @@ describe('DataProductDetail', () => {
     render(
       <DataProductDetail
         dataProduct={dataProduct}
-        datasets={datasets}
+        datasetsShared={datasets}
         namingStandardViolationsByDatasetId={{ '1': 1 }}
       />,
     );
@@ -237,7 +257,7 @@ describe('DataProductDetail', () => {
     render(
       <DataProductDetail
         dataProduct={dataProduct}
-        datasets={datasets}
+        datasetsShared={datasets}
         namingStandardViolationsByDatasetId={{ '1': 1 }}
       />,
     );
@@ -251,7 +271,7 @@ describe('DataProductDetail', () => {
     render(
       <DataProductDetail
         dataProduct={dataProduct}
-        datasets={datasets}
+        datasetsShared={datasets}
         namingStandardViolationsByDatasetId={{ '1': 1, '2': 4, '3': 2 }}
       />,
     );

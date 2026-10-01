@@ -21,7 +21,9 @@ export const DatasetSearchHit = ({ dataset, namingStandardViolationsCount }: Dat
       {dataset.dataset_state && <Tag data-color='magic'>{convertDataSetState(dataset.dataset_state)}</Tag>}
       {dataset.assessment && <Tag data-color='magic'>{convertAssessment(dataset.assessment)}</Tag>}
       {isAuthenticated && dataset.owner && <Tag data-color='magic'> {dataset.owner}</Tag>}
-      {isAuthenticated && dataset.storage_category && <Tag data-color='magic'> {convertStorageCategory(dataset.storage_category)}</Tag>}
+      {isAuthenticated && dataset.storage_category && (
+        <Tag data-color='magic'> {convertStorageCategory(dataset.storage_category)}</Tag>
+      )}
       {isAuthenticated && namingStandardViolationsCount > 0 && (
         <Tooltip content={localization.datasetDetail.namingStandardViolations}>
           <Badge

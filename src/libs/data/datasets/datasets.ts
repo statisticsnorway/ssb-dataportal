@@ -82,8 +82,11 @@ export async function getClientForApi<T extends Apis>(api: new (configuration: C
   return new api(new Configuration(configParams));
 }
 
-// remove from test
-export async function listDataProducts(): Promise<DataProductDTO[]> {
+/**
+ * Used in the data products module to fetch the list of data products from the API or static data.
+ * @returns A promise that resolves to an array of DataProductDTO objects representing the available data products.
+ */
+async function listDataProducts(): Promise<DataProductDTO[]> {
   const logger = createLogger('data-products');
   logger.info('List Data Products');
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
@@ -106,6 +109,11 @@ export async function listDataProducts(): Promise<DataProductDTO[]> {
   }
 }
 
+/**
+ *
+ * @param shortName
+ * @returns
+ */
 export async function getDataProductByShortName(shortName: string): Promise<DataProductDTO> {
   const logger = createLogger('data-products');
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
@@ -124,25 +132,12 @@ export async function getDataProductByShortName(shortName: string): Promise<Data
   }
 }
 
-export async function listDatasetsByProductShortName(shortName: string): Promise<DatasetDTO[]> {
-  const logger = createLogger('datasets');
-  logger.info({ shortName }, 'List datasets for product');
-  if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
-    logger.warn({ fn: 'listDatasetsByProductShortName' }, 'Using static mock data for datasets');
-    return filterProductDatasets(staticDatasets.filter((d) => d.product_short_name === shortName));
-  }
-  try {
-    const api = await getClientForApi(DatasetsApi);
-    const startTime = Date.now();
-    const rawData = await api.listDatasets({ productShortName: shortName }, dataDocFetchOptions);
-    const durationMs = Date.now() - startTime;
-    logger.info({ count: rawData.length, durationMs }, 'Fetched datasets from API');
-    return filterProductDatasets(rawData);
-  } catch (error: unknown) {
-    logAndThrowFetchError(logger, error);
-  }
-}
-
+/**
+ *
+ * @param shortName
+ * @param storageCategory
+ * @returns
+ */
 export async function listDatasetsByProductShortNameAndStorageCategory(
   shortName: string,
   storageCategory: StorageCategory,
@@ -164,114 +159,21 @@ export async function listDatasetsByProductShortNameAndStorageCategory(
     );
     const durationMs = Date.now() - startTime;
     logger.info(
-      { storageCategory, count: rawData.length, durationMs },
+      { shortName, storageCategory, count: rawData.length, durationMs },
       'Fetched datasets from API by storage category',
     );
-    return rawData.filter((dataset) => dataset.storage_category === storageCategory);
+    return rawData;
   } catch (error: unknown) {
     logAndThrowFetchError(logger, error);
   }
 }
 
-export async function listDatasets(): Promise<DatasetDTO[]> {
-  const logger = createLogger('datasets');
-  logger.info('List datasets');
-  if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
-    logger.warn({ fn: 'listDatasets' }, 'Using static mock data for datasets');
-    return filterProductDatasets(staticDatasets);
-  }
-  try {
-    const api = await getClientForApi(DatasetsApi);
-    const startTime = Date.now();
-    const rawData = await api.listDatasets({}, dataDocFetchOptions);
-    const durationMs = Date.now() - startTime;
-    logger.info({ count: rawData.length, durationMs }, 'Fetched datasets from API');
-    return filterProductDatasets(rawData);
-  } catch (error: unknown) {
-    logAndThrowFetchError(logger, error);
-  }
-}
-
-export async function listDatasetsByStorageCategory(storageCategory: StorageCategory): Promise<DatasetDTO[]> {
-  const logger = createLoggerWithBindings({
-    module: 'datasets',
-    fn: 'listDatasetsByStorageCategory',
-    storageCategory,
-  });
-  logger.info({ storageCategory }, 'List datasets by storage category');
-
-  if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
-    logger.warn('Using static mock data for datasets');
-    return staticDatasets.filter((dataset) => dataset.storage_category === storageCategory);
-  }
-
-  try {
-    const api = await getClientForApi(DatasetsApi);
-    const startTime = Date.now();
-    const rawData = await api.listDatasets({ storageCategory }, dataDocFetchOptions);
-    const durationMs = Date.now() - startTime;
-
-    logger.info(
-      { storageCategory, count: rawData.length, durationMs },
-      'Fetched datasets from API by storage category',
-    );
-    return filterProductDatasets(rawData);
-  } catch (error: unknown) {
-    logAndThrowFetchError(logger, error);
-  }
-}
-
-export async function getDatasetById(id: string): Promise<DatasetDTO> {
-  const logger = createLoggerWithBindings({ module: 'datasets', fn: 'getDatasetById', id: id });
-  if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
-    logger.warn({ fn: 'getDatasetById' }, 'Using static mock data for datasets');
-    let dataset = staticDatasets.find((dataset) => dataset.id === id);
-    if (!dataset) throw new ResponseError(new Response(null, { status: 404 }));
-    return dataset;
-  }
-  try {
-    const api = await getClientForApi(DatasetsApi);
-    const dto = await api.getDatasetById({ id: id });
-    logger.info('Fetched Dataset');
-    return dto;
-  } catch (error: unknown) {
-    logAndThrowFetchError(logger, error);
-  }
-}
-
-export async function listDataFilesByDatasetId(datasetId: string): Promise<Array<DaplaDataFileDTO>> {
-  const logger = createLoggerWithBindings({ module: 'datasets', fn: 'listDataFilesByDatasetId', id: datasetId });
-
-  if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
-    logger.warn({ fn: 'listDataFilesByDatasetId' }, 'Using static mock data for data files');
-    const datafilePath = join(process.cwd(), 'src', 'static-data', 'data-files', `${datasetId}.json`);
-    try {
-      const rawData = await readFile(datafilePath, 'utf-8');
-      const parsedData = JSON.parse(rawData) as unknown;
-      if (!Array.isArray(parsedData)) {
-        logger.warn({ datafilePath }, 'Static datafile is not an array');
-        return [];
-      }
-      return parsedData
-        .map((item) => DaplaDataFileDTOFromJSON(item))
-        .filter((dataFile) => dataFile.storage_category !== 'PRODUCT');
-    } catch (error: unknown) {
-      logger.warn({ error: sanitizeError(error), datafilePath }, 'No static datafile found for dataset id');
-      return [];
-    }
-  }
-
-  try {
-    const api = await getClientForApi(DataFilesApi);
-    const dto = await api.listDataFiles({ datasetId: datasetId });
-    logger.info('Fetched Dapla Data Files');
-    logger.info({ count: dto.length }, 'Fetched data products from API');
-    return dto.filter((dataFile) => dataFile.storage_category !== 'PRODUCT');
-  } catch (error: unknown) {
-    logAndThrowFetchError(logger, error);
-  }
-}
-
+/**
+ *
+ * @param datasetId
+ * @param storageCategory
+ * @returns
+ */
 export async function listDataFilesByDatasetIdAndStorageCategory(
   datasetId: string,
   storageCategory: StorageCategory,
@@ -279,7 +181,8 @@ export async function listDataFilesByDatasetIdAndStorageCategory(
   const logger = createLoggerWithBindings({
     module: 'datasets',
     fn: 'listDataFilesByDatasetIdAndStorageCategory',
-    id: datasetId,
+    datasetId,
+    storageCategory,
   });
 
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
@@ -303,20 +206,47 @@ export async function listDataFilesByDatasetIdAndStorageCategory(
 
   try {
     const api = await getClientForApi(DataFilesApi);
-    const dto = await api.listDataFiles({ datasetId: datasetId });
-    logger.info('Fetched Dapla Data Files');
-    logger.info({ count: dto.length }, 'Fetched data products from API');
-    return dto.filter((dataFile) => dataFile.storage_category === storageCategory);
+    const dto = await api.listDataFiles({ datasetId, storageCategory }, dataDocFetchOptions);
+    logger.info({ storageCategory, count: dto.length }, 'Fetched data files from API by storage category');
+    return dto;
   } catch (error: unknown) {
     logAndThrowFetchError(logger, error);
   }
 }
 
-type DataProductWithDatasets = DataProductDTO & {
-  datasets: DatasetDTO[];
-};
+/**
+ *
+ * @param id
+ * @returns
+ */
+export async function getDatasetById(id: string): Promise<DatasetDTO> {
+  const logger = createLoggerWithBindings({ module: 'datasets', fn: 'getDatasetById', id: id });
+  if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
+    logger.warn({ fn: 'getDatasetById' }, 'Using static mock data for datasets');
+    let dataset = staticDatasets.find((dataset) => dataset.id === id);
+    if (!dataset) throw new ResponseError(new Response(null, { status: 404 }));
+    return dataset;
+  }
+  try {
+    const api = await getClientForApi(DatasetsApi);
+    const dto = await api.getDatasetById({ id: id });
+    logger.info('Fetched Dataset');
+    return dto;
+  } catch (error: unknown) {
+    logAndThrowFetchError(logger, error);
+  }
+}
 
-export async function listDataProductsWithAvailableDatasets(
+//type DataProductWithDatasets = DataProductDTO & {
+//datasets: DatasetDTO[];
+//};
+
+/**
+ *
+ * @param isAuthenticated
+ * @returns
+ */
+/*export async function listDataProductsWithAvailableDatasets(
   isAuthenticated: boolean,
 ): Promise<DataProductWithDatasets[]> {
   const dataProducts = await listDataProducts();
@@ -339,25 +269,25 @@ export async function listDataProductsWithAvailableDatasets(
   );
 
   return products.filter((product): product is DataProductWithDatasets => product !== null);
-}
+}*/
 
-// update this
-/*export async function listDataProductsWithAvailableDatasets(): Promise<DataProductDTO[]> {
+export async function listDataProductsWithAvailableDatasets(isAuthenticated: boolean): Promise<DataProductDTO[]> {
   const dataProducts = await listDataProducts();
+
   const products = await Promise.all(
     dataProducts.map(async (dataProduct) => {
       if (!dataProduct.product_short_name) return null;
 
-      const datasets = await listDatasetsByProductShortName(dataProduct.product_short_name);
+      const [datasetsShared, datasetsProduct] = await Promise.all([
+        listDatasetsByProductShortNameAndStorageCategory(dataProduct.product_short_name, StorageCategory.SHARED),
+        isAuthenticated
+          ? listDatasetsByProductShortNameAndStorageCategory(dataProduct.product_short_name, StorageCategory.PRODUCT)
+          : Promise.resolve([]),
+      ]);
 
-      return datasets.length > 0 ? dataProduct : null;
+      return datasetsShared.length > 0 || datasetsProduct.length > 0 ? dataProduct : null;
     }),
   );
+
   return products.filter((product): product is DataProductDTO => product !== null);
-}*/
-
-const isProductDataset = (dataset: DatasetDTO): boolean =>
-  dataset.storage_location_name?.toLocaleLowerCase('nb-NO').includes('produkt') === true;
-
-const filterProductDatasets = (datasets: DatasetDTO[]): DatasetDTO[] =>
-  datasets.filter((dataset) => !isProductDataset(dataset));
+}
