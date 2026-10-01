@@ -42,7 +42,7 @@ jobs:
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
       - name: Install pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        uses: pnpm/setup@479c3cd2084b8e20207344a47dc10bdabea95adb # v3
         with:
           cache: true
           require-lockfile: true
@@ -59,7 +59,7 @@ jobs:
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
       - name: Install pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        uses: pnpm/setup@479c3cd2084b8e20207344a47dc10bdabea95adb # v3
         with:
           cache: true
           require-lockfile: true
@@ -74,7 +74,7 @@ jobs:
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
       - name: Install pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        uses: pnpm/setup@479c3cd2084b8e20207344a47dc10bdabea95adb # v3
         with:
           cache: true
           require-lockfile: true
@@ -91,7 +91,7 @@ jobs:
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
       - name: Install pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        uses: pnpm/setup@479c3cd2084b8e20207344a47dc10bdabea95adb # v3
         with:
           cache: true
           install: false
@@ -108,7 +108,7 @@ jobs:
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
       - name: Install pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        uses: pnpm/setup@479c3cd2084b8e20207344a47dc10bdabea95adb # v3
         with:
           cache: true
           require-lockfile: true
@@ -134,7 +134,7 @@ jobs:
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
       - name: Install pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        uses: pnpm/setup@479c3cd2084b8e20207344a47dc10bdabea95adb # v3
         with:
           cache: true
           require-lockfile: true
@@ -166,7 +166,7 @@ jobs:
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
       - name: Install pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        uses: pnpm/setup@479c3cd2084b8e20207344a47dc10bdabea95adb # v3
         with:
           cache: true
           require-lockfile: true
