@@ -40,23 +40,29 @@ const readSharedPorts = (): { authPort: number; unauthPort: number } | null => {
   try {
     const content = fs.readFileSync(portsFilePath, 'utf8');
     const parsed = JSON.parse(content) as { authPort?: number; unauthPort?: number; ownerPid?: number };
+    const authPort = parsed.authPort;
+    const unauthPort = parsed.unauthPort;
+    const ownerPid = parsed.ownerPid;
 
     if (
-      Number.isInteger(parsed.authPort) &&
-      Number.isInteger(parsed.unauthPort) &&
-      Number.isInteger(parsed.ownerPid) &&
-      parsed.authPort > 0 &&
-      parsed.unauthPort > 0 &&
-      parsed.ownerPid > 0 &&
-      isProcessAlive(parsed.ownerPid)
+      typeof authPort === 'number' &&
+      Number.isInteger(authPort) &&
+      authPort > 0 &&
+      typeof unauthPort === 'number' &&
+      Number.isInteger(unauthPort) &&
+      unauthPort > 0 &&
+      typeof ownerPid === 'number' &&
+      Number.isInteger(ownerPid) &&
+      ownerPid > 0 &&
+      isProcessAlive(ownerPid)
     ) {
       return {
-        authPort: parsed.authPort,
-        unauthPort: parsed.unauthPort,
+        authPort,
+        unauthPort,
       };
     }
 
-    if (Number.isInteger(parsed.ownerPid) && parsed.ownerPid > 0 && !isProcessAlive(parsed.ownerPid)) {
+    if (typeof ownerPid === 'number' && Number.isInteger(ownerPid) && ownerPid > 0 && !isProcessAlive(ownerPid)) {
       fs.unlinkSync(portsFilePath);
     }
 
