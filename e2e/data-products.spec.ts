@@ -17,7 +17,7 @@ test.describe('authenticated', () => {
     const main = page.getByRole('main');
 
     await expect(main.getByRole('heading', { name: localization.tabs.dataProducts })).toBeVisible();
-    await expect(main.getByRole('paragraph')).toContainText('2 treff');
+    await expect(main.getByRole('paragraph')).toContainText('4 treff');
     await expect(main).toContainText('Arblonn');
     await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
   });
@@ -47,12 +47,12 @@ test.describe('authenticated', () => {
     await expect(main).not.toContainText('Arblonn');
 
     await otherProductFilter.check();
-    await expect(main.getByRole('paragraph')).toContainText('2 treff');
+    await expect(main.getByRole('paragraph')).toContainText('4 treff');
     await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
     await expect(main).toContainText('Arblonn');
 
     await statisticProductFilter.uncheck();
-    await expect(main.getByRole('paragraph')).toContainText('1 treff');
+    await expect(main.getByRole('paragraph')).toContainText('3 treff');
     await expect(main).toContainText('Arblonn');
     await expect(main).not.toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
   });
@@ -71,7 +71,7 @@ test.describe('authenticated', () => {
     await expect(main).not.toContainText('Ameldingen');
 
     await subjectCheckbox('Arbeid og lønn').uncheck();
-    await expect(main.getByRole('paragraph')).toContainText('2 treff');
+    await expect(main.getByRole('paragraph')).toContainText('4 treff');
     await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
     await expect(main).toContainText('Arblonn');
   });
