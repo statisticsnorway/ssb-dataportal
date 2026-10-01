@@ -4,7 +4,7 @@
       "name": "Oppvarmingskilde 2001",
       "id": 1,
       "validFrom": "2001-01-01",
-      "validTo": "2100-01-01",
+      "validTo": "2030-01-01",
       "lastModified": "2010-10-13T08:07:43.000+0000",
       "published": ["nb", "en"],
       "introduction": "Beskrivelse av versjonen",
@@ -161,6 +161,109 @@
       "_links": {
         "self": {
           "href": "https://data.ssb.no/api/klass/v1/versions/2"
+        }
+      }
+    },
+    {
+      "name": "Oppvarmingskilde 2030",
+      "id": 3,
+      "validFrom": "2030-01-01",
+      "lastModified": "2026-10-13T08:07:43.000+0000",
+      "published": ["nb", "en"],
+      "introduction": "Beskrivelse av versjonen",
+      "contactPerson": {
+        "name": "Moe, Dana",
+        "email": "Dana.Moe@ssb.no",
+        "phone": ""
+      },
+      "owningSection": "320 - Seksjon for befolkningsstatistikk",
+      "legalBase": "",
+      "publications": "",
+      "derivedFrom": "",
+      "correspondenceTables": [],
+      "classificationVariants": [
+        {
+          "name": "Variant oppvarmingskilde 2030  - variant av Test 2025-10",
+          "id": 4000,
+          "contactPerson": {
+            "name": "Sara Larsson",
+            "email": "sl@ssb.no",
+            "phone": ""
+          },
+          "owningSection": "330",
+          "lastModified": "2022-07-08T03:57:23.000+0000",
+          "published": ["nb"],
+          "_links": {
+            "self": {
+              "href": "https://data.test.ssb.no/api/klass/v1/variants/4000"
+            }
+          }
+        }
+      ],
+      "changelogs": [
+        {
+          "changeOccured": "2019-04-04T10:42:04.000+0000",
+          "description": "Navneendring fra Makedonia til Nord-Makedonia og fra Swaziland til Eswatini"
+        }
+      ],
+      "levels": [
+        {
+          "levelNumber": 1,
+          "levelName": "Land"
+        },
+        {
+          "levelNumber": 2,
+          "levelName": "Industri"
+        }
+      ],
+      "classificationItems": [
+        {
+          "code": "A",
+          "parentCode": null,
+          "level": "1",
+          "name": "Jordbruk, skogbruk og fiske",
+          "validFrom": "2008-01-01"
+        },
+        {
+          "code": "B",
+          "parentCode": null,
+          "level": "1",
+          "name": "Bergverksdrift og utvinning",
+          "validFrom": "2008-01-01"
+        },
+        {
+          "code": "C",
+          "parentCode": null,
+          "level": "1",
+          "name": "Industri",
+          "validFrom": "2008-01-01",
+          "notes": "Omfatter:\nDette næringshovedområdet omfatter bearbeiding og foredling av materialer og stoffer til nye produkter.\nOmfatter også:\nMontasje av komponenter til ferdigprodukter grupperes her.\nEkskluderer:\nBygging og anleggsvirksomhet grupperes under næring F."
+        },
+        {
+          "code": "01",
+          "parentCode": "A",
+          "level": "2",
+          "name": "Jordbruk og tjenester tilknyttet jordbruk",
+          "validFrom": "2008-01-01"
+        },
+        {
+          "code": "02",
+          "parentCode": "A",
+          "level": "2",
+          "name": "Skogbruk og tjenester tilknyttet skogbruk",
+          "validFrom": "2008-01-01"
+        },
+        {
+          "code": "011",
+          "parentCode": "01",
+          "level": "3",
+          "name": "Dyrking av ettårige vekster",
+          "validFrom": "2008-01-01"
+        }
+      ],
+      "_links": {
+        "self": {
+          "href": "https://data.ssb.no/api/klass/v1/versions/3"
         }
       }
     },
