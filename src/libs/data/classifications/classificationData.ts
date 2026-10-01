@@ -250,5 +250,5 @@ export async function fetchClassificationById(
   language: SupportedLanguage | undefined = 'nb',
   includeFuture: boolean = false,
 ): Promise<ClassificationWithLanguage> {
-  return fetchClassificationByIdCached(id, language, includeFuture);
+  return await fetchClassificationByIdCached(id, language, includeFuture);
 }
