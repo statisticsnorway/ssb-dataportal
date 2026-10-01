@@ -33,6 +33,17 @@
     "storage_category": "PRODUCT"
   },
   {
+    "id": "ds-4",
+    "product_short_name": "arbstatus",
+    "short_description": "Arbeidsstatus datasett 4",
+    "assessment": "SENSITIVE",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "team-a",
+    "storage_location_name": "bucket-a",
+    "has_naming_standard_violations": false,
+    "storage_category": "SHARED"
+  },
+  {
     "id": "id1",
     "storage_location_name": "ssb-arbmark-register-data-produkt-test",
     "product_short_name": "arblonn",

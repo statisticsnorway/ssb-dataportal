@@ -110,9 +110,9 @@ async function listDataProducts(): Promise<DataProductDTO[]> {
 }
 
 /**
- *
- * @param shortName
- * @returns
+ * Fetches a data product by its short name.
+ * @param shortName The short name of the data product to fetch.
+ * @returns A promise that resolves to a DataProductDTO object representing the fetched data product.
  */
 export async function getDataProductByShortName(shortName: string): Promise<DataProductDTO> {
   const logger = createLogger('data-products');
@@ -133,10 +133,10 @@ export async function getDataProductByShortName(shortName: string): Promise<Data
 }
 
 /**
- *
- * @param shortName
- * @param storageCategory
- * @returns
+ * Fetches the list of datasets for a given data product and storage category.
+ * @param shortName The short name of the data product.
+ * @param storageCategory The storage category of the datasets to fetch.
+ * @returns A promise that resolves to an array of DatasetDTO objects representing the fetched datasets.
  */
 export async function listDatasetsByProductShortNameAndStorageCategory(
   shortName: string,
@@ -169,10 +169,10 @@ export async function listDatasetsByProductShortNameAndStorageCategory(
 }
 
 /**
- *
- * @param datasetId
- * @param storageCategory
- * @returns
+ * Fetches the list of data files for a given dataset and storage category.
+ * @param datasetId The ID of the dataset.
+ * @param storageCategory The storage category of the data files to fetch.
+ * @returns A promise that resolves to an array of DaplaDataFileDTO objects representing the fetched data files.
  */
 export async function listDataFilesByDatasetIdAndStorageCategory(
   datasetId: string,
@@ -215,9 +215,9 @@ export async function listDataFilesByDatasetIdAndStorageCategory(
 }
 
 /**
- *
- * @param id
- * @returns
+ * Fetches a dataset by its ID.
+ * @param id The ID of the dataset to fetch.
+ * @returns A promise that resolves to a DatasetDTO object representing the fetched dataset.
  */
 export async function getDatasetById(id: string): Promise<DatasetDTO> {
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'getDatasetById', id: id });
@@ -237,40 +237,11 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
   }
 }
 
-//type DataProductWithDatasets = DataProductDTO & {
-//datasets: DatasetDTO[];
-//};
-
 /**
- *
- * @param isAuthenticated
- * @returns
+ * Fetches the list of data products that have available datasets.
+ * @param isAuthenticated A boolean indicating whether the user is authenticated.
+ * @returns A promise that resolves to an array of DataProductDTO objects representing the data products with available datasets.
  */
-/*export async function listDataProductsWithAvailableDatasets(
-  isAuthenticated: boolean,
-): Promise<DataProductWithDatasets[]> {
-  const dataProducts = await listDataProducts();
-
-  const products = await Promise.all(
-    dataProducts.map(async (dataProduct): Promise<DataProductWithDatasets | null> => {
-      if (!dataProduct.product_short_name) return null;
-
-      const [datasetsShared, datasetsProduct] = await Promise.all([
-        listDatasetsByProductShortNameAndStorageCategory(dataProduct.product_short_name, StorageCategory.SHARED),
-        isAuthenticated
-          ? listDatasetsByProductShortNameAndStorageCategory(dataProduct.product_short_name, StorageCategory.PRODUCT)
-          : Promise.resolve([]),
-      ]);
-
-      const datasets = [...datasetsShared, ...datasetsProduct];
-
-      return datasets.length > 0 ? { ...dataProduct, datasets } : null;
-    }),
-  );
-
-  return products.filter((product): product is DataProductWithDatasets => product !== null);
-}*/
-
 export async function listDataProductsWithAvailableDatasets(isAuthenticated: boolean): Promise<DataProductDTO[]> {
   const dataProducts = await listDataProducts();
 

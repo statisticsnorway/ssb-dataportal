@@ -158,12 +158,15 @@ export default function DataProductDetail({
                 selectedItems={selectedAssessments}
                 onFilterChange={toggleAssessment}
               />
-              <CheckboxFilter
-                filterHeading={localization.products.storageCategory.filterLabel}
-                filters={storageCategoryFilters}
-                selectedItems={selectedStorageCategories}
-                onFilterChange={toggleStorageCategory}
-              />
+
+              {isAuthenticated && (
+                <CheckboxFilter
+                  filterHeading={localization.products.storageCategory.filterLabel}
+                  filters={storageCategoryFilters}
+                  selectedItems={selectedStorageCategories}
+                  onFilterChange={toggleStorageCategory}
+                />
+              )}
             </FiltersPanel>
           </aside>
           <section className={styles.mainSection}>
