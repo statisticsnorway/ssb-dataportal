@@ -1,6 +1,19 @@
 import { defineCoverageReporterConfig } from '@bgotink/playwright-coverage';
 import { defineConfig, devices } from '@playwright/test';
 import path from 'node:path';
+import { resolvePlaywrightPorts } from './e2e/utils/playwright-ports';
+
+const { authPort, unauthPort, shouldLog } = resolvePlaywrightPorts();
+
+if (shouldLog) {
+  process.stdout.write(`Generated random ports for this run: auth=${authPort}, unauth=${unauthPort}\n`);
+}
+
+process.env.PW_AUTH_PORT = String(authPort);
+process.env.PW_UNAUTH_PORT = String(unauthPort);
+
+const authBaseUrl = `http://localhost:${authPort}`;
+const unauthBaseUrl = `http://localhost:${unauthPort}`;
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -78,7 +91,7 @@ export default defineConfig({
     },
 
     /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: 'http://localhost:3000',
+    baseURL: authBaseUrl,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -91,7 +104,7 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: 'http://localhost:3000',
+        baseURL: authBaseUrl,
         locale: 'nb-NO',
         extraHTTPHeaders: {
           'accept-language': 'nb-NO,nb;q=0.9',
@@ -102,7 +115,7 @@ export default defineConfig({
       name: 'chrome-unauth',
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: 'http://localhost:8000',
+        baseURL: unauthBaseUrl,
         locale: 'nb-NO',
         extraHTTPHeaders: {
           'accept-language': 'nb-NO,nb;q=0.9',
@@ -113,38 +126,13 @@ export default defineConfig({
       name: 'firefox',
       use: {
         ...devices['Desktop Firefox'],
-        baseURL: 'http://localhost:3000',
+        baseURL: authBaseUrl,
         locale: 'nb-NO',
         extraHTTPHeaders: {
           'accept-language': 'nb-NO,nb;q=0.9',
         },
       },
     },
-
-    //{
-    //  name: 'webkit',
-    //  use: { ...devices['Desktop Safari'] },
-    //},
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
   ],
 
   /* Run your local dev server before starting the tests */
@@ -152,14 +140,22 @@ export default defineConfig({
     {
       name: 'authenticated',
       command: process.env.CI ? 'pnpm build:test && pnpm start:test' : 'pnpm dev:test',
-      url: 'http://localhost:3000',
+      url: authBaseUrl,
+      env: {
+        ...process.env,
+        PORT: String(authPort),
+      },
       timeout: 120 * 1000,
       reuseExistingServer: false,
     },
     {
       name: 'unauthenticated',
       command: 'pnpm build:test:unauth && pnpm start:test:unauth',
-      url: 'http://localhost:8000',
+      url: unauthBaseUrl,
+      env: {
+        ...process.env,
+        PORT: String(unauthPort),
+      },
       timeout: 120 * 1000,
       reuseExistingServer: false,
     },
