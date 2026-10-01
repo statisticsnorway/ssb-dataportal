@@ -2,7 +2,6 @@ import versionsMock from '@/static-data/versions.json';
 import { formatVariantName } from '@/app/(details)/classifications/utils/variants';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { test, expect } from '@bgotink/playwright-coverage';
-import { stabilize } from './utils/commonUtils';
 
 const versions = versionsMock.versions!;
 const currentVersion = versions[0]!;
@@ -70,7 +69,6 @@ test.describe('Variant by id', () => {
     });
 
     await page.goto(url, { waitUntil: 'domcontentloaded' });
-    await stabilize();
 
     await expect(page.locator('h1', { hasText: 'Variant ikke funnet' })).toBeVisible();
   });
