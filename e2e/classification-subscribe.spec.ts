@@ -23,7 +23,7 @@ test('Page has subscription dialog', async ({ classificationDetailsPage }) => {
   await expect(dialog.getByRole('button', { name: localization.classification.subscribeSubmit })).toBeVisible();
   await expect(dialog.getByRole('textbox', { name: localization.classification.subscribe })).toBeVisible();
 
-  const closeButton = dialog.getByRole('button', { name: 'Lukk dialogvindu' });
+  const closeButton = dialog.getByRole('button', { name: localization.close });
   await expect(closeButton).toBeVisible();
 
   // Close dialog
@@ -71,7 +71,7 @@ test.describe('User wants to start new subscription', () => {
     await inputField.fill('valid@example.com');
     await expect(confirmSubscription).toBeVisible();
     await confirmSubscription.click();
-    await dialog.getByRole('button', { name: 'Lukk dialogvindu' }).click();
+    await dialog.getByRole('button', { name: localization.close }).click();
     await page.getByRole('button', { name: localization.classification.subscribe }).click();
     await expect(confirmSubscription).not.toBeVisible();
   });
@@ -79,8 +79,10 @@ test.describe('User wants to start new subscription', () => {
     await inputField.fill('valid@example.com');
     await expect(confirmSubscription).toBeVisible();
     await confirmSubscription.click();
-    await dialog.getByRole('button', { name: 'Lukk dialogvindu' }).click();
-    const linkHome = page.getByLabel('Du er her:').getByRole('link', { name: 'Klassifikasjoner' });
+    await dialog.getByRole('button', { name: localization.close }).click();
+    const linkHome = page
+      .getByRole('navigation', { name: localization.breadcrumbsLabel })
+      .getByRole('link', { name: localization.tabs.classifications });
     await linkHome.click();
     await page.waitForURL('**/classifications**');
     const link = page.getByRole('link', { name: stripTitlePrefix(classification.name!), exact: true }).first();
