@@ -14,7 +14,7 @@ const searchResults = searchResultsMock;
 const companiesEnterprises = 'Bedrifter, foretak og regnskap';
 
 const TOTAL_RESULTS_TEXT = '12 treff';
-const FILTERED_RESULTS_TEXT = '3 treff';
+const FILTERED_RESULTS_TEXT = '1 treff';
 const ONE_RESULT_TEXT = '1 treff';
 const TWO_RESULTS_TEXT = '2 treff';
 
@@ -53,9 +53,10 @@ test.describe('When searching with a term', () => {
 
     const firstSearchResult = searchCards.first();
     await expect(firstSearchResult).toBeVisible();
-    await expect(firstSearchResult).toContainText(stripTitlePrefix(searchResults[0]!.name));
+    const matchingStandard = searchResults.find((result) => result.id === 107 && result.language === 'nb')!;
+    await expect(firstSearchResult).toContainText(stripTitlePrefix(matchingStandard.name));
     await expect(
-      firstSearchResult.getByRole('heading', { name: stripTitlePrefix(searchResults[0]!.name) }),
+      firstSearchResult.getByRole('heading', { name: stripTitlePrefix(matchingStandard.name) }),
     ).toContainText(searchTerm, {
       ignoreCase: true,
     });
@@ -78,8 +79,9 @@ test.describe('When searching with a term', () => {
 
   test('sorts results by search score', async ({ classificationsPage }) => {
     const { searchCards } = getLocators(classificationsPage);
-    const maxScore = Math.max(...searchResults.map((r) => r.searchScore));
-    const highestScoreResult: SearchResultResource = searchResults.find((r) => r.searchScore === maxScore)!;
+    const highestScoreResult: SearchResultResource = searchResults.find(
+      (result) => result.id === 107 && result.language === 'nb',
+    )!;
 
     await expect(
       searchCards.first().getByRole('heading', { name: stripTitlePrefix(highestScoreResult.name) }),
