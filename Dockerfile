@@ -3,7 +3,7 @@
 # Based on example from: https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
 
 # node 24
-FROM node@sha256:6dac556d980b7f0e5498d08f08cee0ca67798b4ad6c23964a9214920e67758d0 AS base
+FROM node@sha256:a723b54c35a76e947095a20a67d39585bb09c862e6b1adeb8a9f518f95e34fb0 AS base
 
 RUN npm install -g pnpm@11.9.0
 
