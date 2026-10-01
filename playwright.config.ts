@@ -18,45 +18,43 @@ const unauthBaseUrl = `http://localhost:${unauthPort}`;
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
-  reporter: [
-    ['list'],
-    process.env.CI
-      ? ['blob', { outputDir: 'blob-report' }]
-      : ['html', { outputFolder: 'playwright-report', open: 'never' }],
-    [
-      '@bgotink/playwright-coverage',
-      defineCoverageReporterConfig({
-        /* Path to the root files should be resolved from, most likely your repository root */
-        sourceRoot: __dirname,
-        /* Directory in which to write coverage reports */
-        resultDir: path.join(__dirname, 'results/e2e-coverage'),
-        rewritePath: ({ absolutePath, relativePath }) => {
-          return absolutePath.replace(/turbopack:\/\[project\]\//, '');
+const coverageReporter = [
+  '@bgotink/playwright-coverage',
+  defineCoverageReporterConfig({
+    /* Path to the root files should be resolved from, most likely your repository root */
+    sourceRoot: __dirname,
+    /* Directory in which to write coverage reports */
+    resultDir: path.join(__dirname, 'results/e2e-coverage'),
+    rewritePath: ({ absolutePath, relativePath }) => {
+      return absolutePath.replace(/turbopack:\/\[project\]\//, '');
+    },
+    /* Configure the reports to generate.
+       The value is an array of istanbul reports, with optional configuration attached. */
+    reports: [
+      /* Create <resultDir>/coverage.lcov for consumption by tooling */
+      [
+        'lcovonly',
+        {
+          file: 'coverage.lcov',
         },
-        /* Configure the reports to generate.
-           The value is an array of istanbul reports, with optional configuration attached. */
-        reports: [
-          /* Create <resultDir>/coverage.lcov for consumption by tooling */
-          [
-            'lcovonly',
-            {
-              file: 'coverage.lcov',
-            },
-          ],
-          /* Log a coverage summary at the end of the test run */
-          [
-            'text-summary',
-            {
-              file: null,
-            },
-          ],
-        ],
-        /* Configure watermarks, see https://github.com/istanbuljs/nyc#high-and-low-watermarks */
-        // watermarks: {},
-      }),
+      ],
+      /* Log a coverage summary at the end of the test run */
+      [
+        'text-summary',
+        {
+          file: null,
+        },
+      ],
     ],
-  ],
+    /* Configure watermarks, see https://github.com/istanbuljs/nyc#high-and-low-watermarks */
+    // watermarks: {},
+  }),
+] as const;
+
+export default defineConfig({
+  reporter: process.env.CI
+    ? [['list'], ['github'], ['blob', { outputDir: 'blob-report' }], coverageReporter]
+    : [['list'], ['html', { outputFolder: 'playwright-report', open: 'never' }], coverageReporter],
   testDir: './e2e',
   /* Run tests in files in parallel */
   fullyParallel: true,

@@ -50,7 +50,7 @@ test.describe('classification code download', () => {
 
     await dialog.getByLabel(localization.classification.download.formatLabel).selectOption('xml');
     await dialog.getByLabel(localization.classification.download.languageLabel).selectOption('en');
-    await dialog.getByLabel('Industri').check();
+    await dialog.getByRole('radio', { name: 'Industri', exact: true }).check();
 
     const [download] = await Promise.all([
       codesVersionPage.waitForEvent('download'),
@@ -72,7 +72,7 @@ test.describe('classification code download', () => {
 
     await dialog.getByLabel(localization.classification.download.formatLabel).selectOption('xml');
     await dialog.getByLabel(localization.classification.download.languageLabel).selectOption('en');
-    await dialog.getByLabel('Industri').check();
+    await dialog.getByRole('radio', { name: 'Industri', exact: true }).check();
 
     await expect(codesPage).toHaveURL(/\/download\?v=1&format=xml&language=en&level=2$/);
 
