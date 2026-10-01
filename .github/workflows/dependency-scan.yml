@@ -9,19 +9,6 @@ on:
     - cron: "0 0 * * *" # Runs every day at midnight
   workflow_dispatch:
 jobs:
-  dependency-version-check:
-    permissions:
-      contents: read
-      actions: read
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
-      - name: Install pnpm
-        uses: pnpm/setup@479c3cd2084b8e20207344a47dc10bdabea95adb # v3
-        with:
-          cache: true
-          require-lockfile: true
-
   grype-scan:
     runs-on: ubuntu-latest
     permissions:
