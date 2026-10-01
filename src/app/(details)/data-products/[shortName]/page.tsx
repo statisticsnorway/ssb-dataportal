@@ -5,8 +5,9 @@ import { authenticateUser } from '@/libs/auth/userAuth';
 import {
   getDataProductByShortName,
   listDataFilesByDatasetId,
-  listDatasetsByProductShortName,
+  listDatasetsByProductShortNameAndStorageCategory,
 } from '@/libs/data/datasets/datasets';
+import { StorageCategory } from '@/libs/data-access/datadoc/models/StorageCategory';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import DataProductDetail from './dataProductDetail';
@@ -14,7 +15,7 @@ import DataProductDetail from './dataProductDetail';
 const getPageData = cache(async (shortName: string) => {
   const [dataProduct, datasets] = await Promise.all([
     getDataProductByShortName(shortName),
-    listDatasetsByProductShortName(shortName).catch(() => []),
+    listDatasetsByProductShortNameAndStorageCategory(shortName, StorageCategory.SHARED).catch(() => []),
   ]);
   return { dataProduct, datasets };
 });

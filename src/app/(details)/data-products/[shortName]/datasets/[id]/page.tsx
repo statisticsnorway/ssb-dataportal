@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
-import { getDatasetById, listDataFilesByDatasetId } from '@/libs/data/datasets/datasets';
+import { getDatasetById, listDataFilesByDatasetIdAndStorageCategory } from '@/libs/data/datasets/datasets';
+import { StorageCategory } from '@/libs/data-access/datadoc';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import DatasetDetail from './datasetDetail';
@@ -11,7 +12,7 @@ import DatasetDetail from './datasetDetail';
  */
 const getPageData = cache(async (id: string) => {
   const dataset = await getDatasetById(id);
-  const dataFiles = await listDataFilesByDatasetId(id);
+  const dataFiles = await listDataFilesByDatasetIdAndStorageCategory(id, StorageCategory.SHARED);
   return { dataset: dataset, dataFiles: dataFiles };
 });
 

@@ -7,7 +7,8 @@
     "dataset_state": "SOURCE_DATA",
     "owner": "team-a",
     "storage_location_name": "bucket-a",
-    "has_naming_standard_violations": false
+    "has_naming_standard_violations": false,
+    "storage_category": "PRODUCT"
   },
   {
     "id": "ds-2",
@@ -17,7 +18,8 @@
     "dataset_state": "INPUT_DATA",
     "owner": "team-a",
     "storage_location_name": "bucket-a",
-    "has_naming_standard_violations": false
+    "has_naming_standard_violations": false,
+    "storage_category": "PRODUCT"
   },
   {
     "id": "ds-3",
@@ -27,7 +29,8 @@
     "dataset_state": "PROCESSED_DATA",
     "owner": "team-a",
     "storage_location_name": "bucket-a",
-    "has_naming_standard_violations": false
+    "has_naming_standard_violations": false,
+    "storage_category": "PRODUCT"
   },
   {
     "id": "id1",
@@ -36,7 +39,8 @@
     "short_description": "Arblonn datasett 1",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
-    "owner": "arbmark-register"
+    "owner": "arbmark-register",
+    "storage_category": "PRODUCT"
   },
   {
     "id": "id2",
@@ -45,7 +49,8 @@
     "short_description": "Arblonn datasett 2",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
-    "owner": "arbmark-register"
+    "owner": "arbmark-register",
+    "storage_category": "PRODUCT"
   },
   {
     "id": "id3",
@@ -54,7 +59,8 @@
     "short_description": "Arblonn datasett 3",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
-    "owner": "arbmark-register"
+    "owner": "arbmark-register",
+    "storage_category": "PRODUCT"
   },
   {
     "id": "id4",
@@ -63,7 +69,8 @@
     "short_description": "Arblonn datasett 4",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
-    "owner": "arbmark-register"
+    "owner": "arbmark-register",
+    "storage_category": "PRODUCT"
   },
   {
     "id": "id5",
@@ -72,7 +79,8 @@
     "short_description": "Arblonn datasett 5",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
-    "owner": "arbmark-register"
+    "owner": "arbmark-register",
+    "storage_category": "PRODUCT"
   },
   {
     "id": "id6",
@@ -82,7 +90,8 @@
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
     "owner": "arbmark-register",
-    "has_naming_standard_violations": true
+    "has_naming_standard_violations": true,
+    "storage_category": "PRODUCT"
   },
   {
     "id": "id7",
@@ -91,7 +100,8 @@
     "short_description": "Arblonn datasett 7",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
-    "owner": "arbmark-register"
+    "owner": "arbmark-register",
+    "storage_category": "SHARED"
   },
   {
     "id": "id8",
@@ -100,7 +110,8 @@
     "short_description": "Arblonn datasett 8",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
-    "owner": "arbmark-register"
+    "owner": "arbmark-register",
+    "storage_category": "PRODUCT"
   },
   {
     "id": "id9",
@@ -109,7 +120,8 @@
     "short_description": "Arblonn datasett 9",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
-    "owner": "arbmark-register"
+    "owner": "arbmark-register",
+    "storage_category": "PRODUCT"
   },
   {
     "id": "id7-0456gfjgafhjg7vgigyig23434769698",
@@ -118,7 +130,8 @@
     "short_description": "Arblonn datasett 10",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
-    "owner": "arbmark-register"
+    "owner": "arbmark-register",
+    "storage_category": "PRODUCT"
   },
   {
     "id": "id10",
@@ -128,7 +141,8 @@
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
     "owner": "arbmark-register",
-    "has_naming_standard_violations": true
+    "has_naming_standard_violations": true,
+    "storage_category": "PRODUCT"
   },
   {
     "id": "id11",
@@ -138,7 +152,8 @@
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
     "owner": "arbmark-register",
-    "has_naming_standard_violations": false
+    "has_naming_standard_violations": false,
+    "storage_category": "PRODUCT"
   },
   {
     "id": "id10",
@@ -148,7 +163,8 @@
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
     "owner": "arbmark-register",
-    "has_naming_standard_violations": true
+    "has_naming_standard_violations": true,
+    "storage_category": "PRODUCT"
   },
   {
     "id": "id12",
@@ -157,7 +173,8 @@
     "short_description": "Arblonn datasett 12",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
-    "owner": "arbmark-register"
+    "owner": "arbmark-register",
+    "storage_category": "PRODUCT"
   },
   {
     "id": "id13",
@@ -166,6 +183,7 @@
     "short_description": "Arblonn datasett 13",
     "assessment": "PROTECTED",
     "dataset_state": "PROCESSED_DATA",
-    "owner": "arbmark-register"
+    "owner": "arbmark-register",
+    "storage_category": "PRODUCT"
   }
 ]
