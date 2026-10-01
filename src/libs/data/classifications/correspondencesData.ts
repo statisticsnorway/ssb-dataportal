@@ -138,14 +138,16 @@ export async function fetchCorrespondenceDownload({
       language: toKlassLanguage(language),
     } satisfies CorrespondenceTablesRequest;
 
-    const response = await api.correspondenceTablesRaw(params, async ({ init }) => ({
-      ...init,
-      ...fetchInit,
-      headers: {
-        ...init.headers,
-        Accept: FILE_DOWNLOAD_ACCEPT[format],
-      },
-    }));
+    const response = await api.correspondenceTablesRaw(params, ({ init }) =>
+      Promise.resolve({
+        ...init,
+        ...fetchInit,
+        headers: {
+          ...init.headers,
+          Accept: FILE_DOWNLOAD_ACCEPT[format],
+        },
+      }),
+    );
 
     const mimeType = response.raw.headers.get('content-type') ?? FILE_DOWNLOAD_ACCEPT[format];
     const buffer = await response.raw.arrayBuffer();
