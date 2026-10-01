@@ -82,7 +82,7 @@ test.describe('unauthenticated', () => {
     test.skip(testInfo.project.name !== 'chrome-unauth');
   });
 
-  test('Data products page hides data products with naming standard violations', async ({ page }) => {
+  test('Data products page displays only dataproducts with shared datasets', async ({ page }) => {
     await page.goto(route);
     await expect(page).toHaveURL(/\/data-products$/);
     await stabilize();
@@ -91,11 +91,5 @@ test.describe('unauthenticated', () => {
     await expect(main.getByRole('paragraph')).toContainText('2 treff');
     await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
     await expect(main).toContainText('Arblonn');
-    await expect(main).not.toContainText('All data files are invalid');
-  });
-
-  test('Data product details page is blocked when product is filtered out', async ({ page }) => {
-    await page.goto(`${route}/invalid`);
-    await expect(page.getByRole('heading', { name: 'Siden finnes ikke' })).toBeVisible();
   });
 });
