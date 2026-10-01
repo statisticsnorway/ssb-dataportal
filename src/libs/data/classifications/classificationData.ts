@@ -20,7 +20,7 @@ import { getUserAgent } from '@/utils/userAgent';
 
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
 
-async function getKlassClassificationsClient(): Promise<ClassificationsApi> {
+function getKlassClassificationsClient(): ClassificationsApi {
   const logger = createLogger('classification-data');
   let configParams = {
     headers: {
