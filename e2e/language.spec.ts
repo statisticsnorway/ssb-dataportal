@@ -56,8 +56,12 @@ test.describe('automatic locale mapping', () => {
   });
 
   const openPageWithLocale = async (browser: Browser, locale: string) => {
+    const language = locale.split('-')[0];
     const context = await browser.newContext({
       locale,
+      extraHTTPHeaders: {
+        'accept-language': `${locale},${language};q=0.9`,
+      },
     });
     await context.clearCookies();
     const page = await context.newPage();
