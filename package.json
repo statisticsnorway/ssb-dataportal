@@ -7,11 +7,6 @@
       "name": "pnpm",
       "version": "11.22.0",
       "onFail": "download"
-    },
-    "runtime": {
-      "name": "node",
-      "version": "lts",
-      "onFail": "download"
     }
   },
   "scripts": {
