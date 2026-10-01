@@ -325,6 +325,17 @@ jobs:
                 comment.body?.includes(marker),
               );
 
+              if (counts.failed === 0) {
+                if (existingComment) {
+                  await github.rest.issues.deleteComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    comment_id: existingComment.id,
+                  });
+                }
+                return;
+              }
+
               if (existingComment) {
                 await github.rest.issues.updateComment({
                   owner: context.repo.owner,
