@@ -2,7 +2,7 @@ import { localization } from '@/libs/language';
 import versionsMock from '@/static-data/versions.json';
 import { expect, test } from './fixtures/codesPage.fixture';
 import { CODES_VERSION_URL } from './utils/commonUtils';
-import { Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
 
 const versions = versionsMock.versions;
 const currentVersion = versions![0];
@@ -16,28 +16,20 @@ const rowBodyLabel = (code: string, name: string) => `${localization.codeTree.se
 const expandLabel = (name: string) => `${localization.codeTree.expand} ${name}`;
 const collapseLabel = (name: string) => `${localization.codeTree.collapse} ${name}`;
 
-async function expandSection(page: Page, title: string) {
-  const section = page.locator('details', {
-    has: page.locator('summary', { hasText: title }),
+async function assertLevelFilter(page: Page, version: (typeof versions)[number]) {
+  const levelFilter = page.getByRole('group', {
+    name: localization.classification.filterLevels,
   });
-  await expect(section).toBeVisible();
-  const summary = section.locator('summary');
-  if ((await section.getAttribute('open')) === null) {
-    await summary.click();
-  }
-  return section;
-}
-
-async function assertLevelsTable(page: Page, version: (typeof versions)[number]) {
-  const section = await expandSection(page, localization.classification.filterLevels);
-  const table = section.getByRole('table');
-  await expect(table).toBeVisible();
-
+  await expect(levelFilter).toBeVisible();
   const levels = version.levels ?? [];
-  await expect(table.getByRole('row')).toHaveCount(levels.length + 1);
+  await expect(levelFilter.getByRole('checkbox')).toHaveCount(levels.length);
   for (const level of levels) {
-    await expect(table.getByRole('cell', { name: String(level.levelNumber), exact: true }).first()).toBeVisible();
-    await expect(table.getByRole('cell', { name: level.levelName, exact: true }).first()).toBeVisible();
+    await expect(
+      levelFilter.getByRole('checkbox', {
+        name: level.levelName,
+        exact: true,
+      }),
+    ).toBeChecked();
   }
 }
 
@@ -67,11 +59,9 @@ test.describe('/classifications/[id]/codes', () => {
 
   test('clicking chevron expands code A and shows its children', async ({ codesPage }) => {
     await codesPage.getByRole('button', { name: expandLabel(codeA.name) }).click();
-
     const collapseChevron = codesPage.getByRole('button', { name: collapseLabel(codeA.name) });
     await expect(collapseChevron).toBeVisible();
     await expect(collapseChevron).toHaveAttribute('aria-expanded', 'true');
-
     await expect(codesPage.getByRole('button', { name: rowBodyLabel(code01.code, code01.name) })).toBeVisible();
     await expect(codesPage.getByRole('button', { name: rowBodyLabel(code02.code, code02.name) })).toBeVisible();
   });
@@ -79,14 +69,12 @@ test.describe('/classifications/[id]/codes', () => {
   test('clicking chevron again collapses code A', async ({ codesPage }) => {
     await codesPage.getByRole('button', { name: expandLabel(codeA.name) }).click();
     await codesPage.getByRole('button', { name: collapseLabel(codeA.name) }).click();
-
     await expect(codesPage.getByRole('button', { name: rowBodyLabel(code01.code, code01.name) })).not.toBeVisible();
     await expect(codesPage.getByRole('button', { name: rowBodyLabel(code02.code, code02.name) })).not.toBeVisible();
   });
 
   test('clicking a row body selects the code (aria-pressed becomes true)', async ({ codesPage }) => {
     const rowBody = codesPage.getByRole('button', { name: rowBodyLabel(codeA.code, codeA.name) });
-
     await expect(rowBody).toHaveAttribute('aria-pressed', 'false');
     await rowBody.click();
     await expect(rowBody).toHaveAttribute('aria-pressed', 'true');
@@ -96,20 +84,16 @@ test.describe('/classifications/[id]/codes', () => {
     const rowBody = codesPage.getByRole('button', { name: rowBodyLabel(codeA.code, codeA.name) });
     await rowBody.click();
     await expect(rowBody).toHaveAttribute('aria-pressed', 'true');
-
     await codesPage.getByRole('button', { name: collapseLabel(codeA.name) }).click();
-
     await expect(rowBody).toHaveAttribute('aria-pressed', 'true');
   });
 
   test('selecting a different code deselects the previous one', async ({ codesPage }) => {
     const rowBodyA = codesPage.getByRole('button', { name: rowBodyLabel(codeA.code, codeA.name) });
     const rowBodyB = codesPage.getByRole('button', { name: rowBodyLabel('B', 'Bergverksdrift og utvinning') });
-
     await rowBodyA.click();
     await expect(rowBodyA).toHaveAttribute('aria-pressed', 'true');
     await expect(rowBodyB).toHaveAttribute('aria-pressed', 'false');
-
     await rowBodyB.click();
     await expect(rowBodyB).toHaveAttribute('aria-pressed', 'true');
     await expect(rowBodyA).toHaveAttribute('aria-pressed', 'false');
@@ -117,25 +101,19 @@ test.describe('/classifications/[id]/codes', () => {
 
   test('expanding a child node reveals grandchildren', async ({ codesPage }) => {
     await codesPage.getByRole('button', { name: expandLabel(codeA.name) }).click();
-
     const code01Body = codesPage.getByRole('button', { name: rowBodyLabel(code01.code, code01.name) });
     await expect(code01Body).toBeVisible();
-
     await codesPage.getByRole('button', { name: expandLabel(code01.name) }).click();
-
     await expect(codesPage.getByRole('button', { name: rowBodyLabel(code011.code, code011.name) })).toBeVisible();
   });
 
   test('filter input narrows the tree by code', async ({ codesPage }) => {
     const filterInput = codesPage.getByLabel(localization.codeTree.filterLabel);
-
     await filterInput.fill('01');
-
     await expect(codesPage.getByRole('button', { name: rowBodyLabel(codeA.code, codeA.name) })).toBeVisible();
     await expect(
       codesPage.getByRole('button', { name: rowBodyLabel('B', 'Bergverksdrift og utvinning') }),
     ).not.toBeVisible();
-
     await expect(codesPage.getByRole('button', { name: collapseLabel(codeA.name) })).toHaveAttribute(
       'aria-expanded',
       'true',
@@ -145,14 +123,10 @@ test.describe('/classifications/[id]/codes', () => {
 
   test('filter input narrows the tree by name and clear resets it', async ({ codesPage }) => {
     const filterInput = codesPage.getByLabel(localization.codeTree.filterLabel);
-
     await filterInput.fill('skogbruk');
-
     await expect(codesPage.getByRole('button', { name: rowBodyLabel(codeA.code, codeA.name) })).toBeVisible();
     await expect(codesPage.getByRole('button', { name: rowBodyLabel('C', 'Industri') })).not.toBeVisible();
-
     await codesPage.getByRole('button', { name: localization.codeTree.clearFilter }).click();
-
     await expect(
       codesPage.getByRole('button', { name: rowBodyLabel('B', 'Bergverksdrift og utvinning') }),
     ).toBeVisible();
@@ -161,7 +135,6 @@ test.describe('/classifications/[id]/codes', () => {
 
   test('filter input narrows the tree by notes', async ({ codesPage }) => {
     await codesPage.getByLabel(localization.codeTree.filterLabel).fill('bearbeiding');
-
     await expect(codesPage.getByRole('button', { name: rowBodyLabel('C', 'Industri') })).toBeVisible();
     await expect(
       codesPage.getByRole('button', { name: rowBodyLabel('B', 'Bergverksdrift og utvinning') }),
@@ -177,14 +150,11 @@ test.describe('/classifications/[id]/versions/[versionNumber]/codes', () => {
 
   test('version top-level codes are visible and children are collapsed on page load', async ({ page }) => {
     await page.goto(CODES_VERSION_URL);
-
     await expect(page.getByRole('button', { name: rowBodyLabel('A', 'Jordbruk, skogbruk og fiske') })).toBeVisible();
     await expect(page.getByRole('button', { name: rowBodyLabel('B', 'Bergverksdrift og utvinning') })).toBeVisible();
-
     await expect(
       page.getByRole('button', { name: rowBodyLabel('01', 'Jordbruk og tjenester tilknyttet jordbruk') }),
     ).not.toBeVisible();
-
     await expect(
       page.getByRole('button', { name: `${localization.codeTree.expand} Jordbruk, skogbruk og fiske` }),
     ).toBeVisible();
@@ -192,7 +162,6 @@ test.describe('/classifications/[id]/versions/[versionNumber]/codes', () => {
 
   test('displays version level table', async ({ page }) => {
     await page.goto(CODES_VERSION_URL);
-
-    await assertLevelsTable(page, currentVersion!);
+    await assertLevelFilter(page, currentVersion!);
   });
 });

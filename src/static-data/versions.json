@@ -51,6 +51,10 @@
         {
           "levelNumber": 2,
           "levelName": "Industri"
+        },
+        {
+          "levelNumber": 3,
+          "levelName": "Underindustri"
         }
       ],
       "classificationItems": [
