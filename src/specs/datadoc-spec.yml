@@ -31,13 +31,20 @@ paths:
       - Data Files
       operationId: listDataFiles
       parameters:
-      - name: dataset_id
+      - name: dataset-id
         in: query
         explode: false
         schema:
           type: string
           format: uuid
           nullable: true
+      - name: storage-category
+        in: query
+        explode: false
+        schema:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/StorageCategory"
       responses:
         "200":
           description: List Dapla Data Files.
@@ -52,8 +59,6 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/DaplaDataFileDTO"
-      security:
-      - keycloak-token: []
     post:
       tags:
       - Data Files
@@ -67,6 +72,8 @@ paths:
               example:
                 value:
                   file_path: gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person-data_p2021_p2022_v2.parquet
+                  task_id: SHARED:PROD:ssb-staging-dapla-felles-data-delt
+                  job_id: 01JD8XQ2
         required: true
       responses:
         "201":
@@ -98,7 +105,21 @@ paths:
                     violations:
                     - field: classificationReference
                       message: Code incorrect is not a valid classification id
+        "409":
+          description: The supplied job is no longer the active task for the bucket.
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Conflict:
+                  value:
+                    type: about:blank
+                    status: 409
+                    detail: Job 01JD8XQ2 is no longer the active job for task SHARED:PROD:ssb-dapla-example-data-produkt-prod.
+                      The active job is 01JD9ZR7.
       security:
+      - keycloak-token: []
       - metamapper-datadoc-m2m: []
   /data-files/{file-path}:
     get:
@@ -139,8 +160,6 @@ paths:
                     status: 404
                     detail: Not found
                     parameters: {}
-      security:
-      - keycloak-token: []
   /data-products:
     get:
       tags:
@@ -168,8 +187,6 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/DataProductDTO"
-      security:
-      - keycloak-token: []
   /data-products/{short-name}:
     get:
       tags:
@@ -204,26 +221,31 @@ paths:
                     status: 404
                     detail: Not found
                     parameters: {}
-      security:
-      - keycloak-token: []
   /datasets:
     get:
       tags:
       - Datasets
       operationId: listDatasets
       parameters:
-      - name: product_short_name
+      - name: product-short-name
         in: query
         explode: false
         schema:
           type: string
           nullable: true
-      - name: storage_location
+      - name: storage-location
         in: query
         explode: false
         schema:
           type: string
           nullable: true
+      - name: storage-category
+        in: query
+        explode: false
+        schema:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/StorageCategory"
       responses:
         "200":
           description: List Datasets.
@@ -238,8 +260,6 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/DatasetDTO"
-      security:
-      - keycloak-token: []
   /datasets/{id}:
     get:
       tags:
@@ -275,8 +295,6 @@ paths:
                     status: 404
                     detail: Not found
                     parameters: {}
-      security:
-      - keycloak-token: []
     delete:
       tags:
       - Datasets
@@ -310,6 +328,141 @@ paths:
                     parameters: {}
       security:
       - keycloak-token: []
+  /reports/naming-violations:
+    get:
+      tags:
+      - Reports
+      operationId: namingViolations
+      parameters:
+      - name: include-violations
+        in: query
+        explode: false
+        schema:
+          type: boolean
+          default: false
+      responses:
+        "200":
+          description: Naming violation report
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: "#/components/schemas/NamingViolationResponse"
+                - $ref: "#/components/schemas/NamingViolationSummaryResponse"
+              examples:
+                Full report:
+                  value:
+                    reportedAt: 2026-09-16T16:00:00+02:00
+                    numberOfViolations: 3
+                    violations:
+                    - filePath: gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person-data_p2021_p2022_v2.parquet
+                Summary report:
+                  value:
+                    reportedAt: 2026-09-16T16:00:00+02:00
+                    numberOfViolations: 3
+  /reports/rejected-files:
+    get:
+      tags:
+      - Reports
+      operationId: rejectedDataFiles
+      parameters:
+      - name: include-violations
+        in: query
+        explode: false
+        schema:
+          type: boolean
+          default: false
+      responses:
+        "200":
+          description: Rejected files report
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: "#/components/schemas/NamingViolationResponse"
+                - $ref: "#/components/schemas/NamingViolationSummaryResponse"
+              examples:
+                Full report:
+                  value:
+                    reportedAt: 2026-09-16T16:00:00+02:00
+                    numberOfViolations: 3
+                    violations:
+                    - filePath: gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person-data_p2021_p2022_v2.parquet
+                Summary report:
+                  value:
+                    reportedAt: 2026-09-16T16:00:00+02:00
+                    numberOfViolations: 3
+  /tasks/{task-id}:
+    post:
+      tags:
+      - Task Registration
+      operationId: registerTask
+      parameters:
+      - name: task-id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskRegistration"
+            examples:
+              start:
+                value:
+                  command: start
+                  job_id: 01JD8XQ2
+              complete:
+                value:
+                  command: complete
+                  job_id: 01JD8XQ2
+        required: true
+      responses:
+        "200":
+          description: "The command was applied. A start makes the job the only one\
+            \ permitted to write data files for the task, replacing any previously\
+            \ active job. A complete deletes the data files the task had claimed but\
+            \ this job did not report, along with any dataset and data product left\
+            \ empty. Repeating either call with the same job id has no further effect."
+        "400":
+          description: Bad request.
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Bad request:
+                  value:
+                    type: about:blank
+                    status: 400
+                    detail: "Failed to convert argument [example] for value [null]\
+                      \ due to: Error deserializing type: example"
+                Constraint violation:
+                  value:
+                    suppressed: []
+                    parameters: {}
+                    type: https://zalando.github.io/problem/constraint-violation
+                    title: Constraint Violation
+                    status: 400
+                    violations:
+                    - field: classificationReference
+                      message: Code incorrect is not a valid classification id
+        "409":
+          description: The supplied job is no longer the active task for the bucket.
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Conflict:
+                  value:
+                    type: about:blank
+                    status: 409
+                    detail: Job 01JD8XQ2 is no longer the active job for task SHARED:PROD:ssb-dapla-example-data-produkt-prod.
+                      The active job is 01JD9ZR7.
+      security:
+      - metamapper-datadoc-m2m: []
 components:
   schemas:
     Assessment:
@@ -327,9 +480,37 @@ components:
       properties:
         file_path:
           type: string
-      description: Create a Data File. A Data File is a logically defined blob of
-        data from a file system or object storage. Its file path shall follow Dapla's
-        naming conventions.
+          description: The globally unique identifier for the file
+        task_id:
+          type: string
+          description: The task this file is being registered under
+          nullable: true
+        job_id:
+          type: string
+          description: The specific run of the task this file is being registered
+            under
+          nullable: true
+        md5:
+          type: string
+          description: The MD5 checksum of the contents of the file
+          nullable: true
+        size:
+          type: integer
+          description: The size of the file in bytes
+          format: int64
+          nullable: true
+        data_last_modified_at:
+          type: string
+          description: The timestamp of the last update to the file
+          format: date-time
+          nullable: true
+      description: "Create a Data File. A Data File is a logically defined blob of\
+        \ data from a file system or object storage. Its file path shall follow Dapla's\
+        \ naming conventions. \\[taskId\\] and \\[jobId\\] are optional, but must\
+        \ be supplied together. When supplied, the write is only accepted if \\[jobId\\\
+        ] is the active job for \\[taskId\\], as set by task registration, and the\
+        \ file is recorded as claimed by that task in that run. Omit both to write\
+        \ without task tracking."
     DaplaDataFileDTO:
       required:
       - file_name
@@ -359,10 +540,20 @@ components:
             \ by the storage provider."
           format: date-time
           nullable: true
+        file_last_scanned_at:
+          type: string
+          description: The last time we updated metadata for this data file.
+          format: date-time
+          nullable: true
         checksum:
           type: string
           description: "The checksum of the data file, as reported by the storage\
             \ provider. This may be used to detect changes in the data file."
+          nullable: true
+        file_size:
+          type: integer
+          description: The size of the file in bytes
+          format: int64
           nullable: true
         short_description:
           type: string
@@ -505,6 +696,11 @@ components:
           nullable: true
         has_naming_standard_violations:
           type: boolean
+          description: Whether the dataset has naming-standard violations.
+        storage_category:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/StorageCategory"
       description: A Dataset is a group of data files within one product and state
         with the same short description.
     DatasetState:
@@ -528,6 +724,45 @@ components:
       - JSON
       - XML
       - XLSX
+    NamingViolation:
+      required:
+      - path
+      - reasons
+      type: object
+      properties:
+        path:
+          type: string
+        reasons:
+          type: array
+          items:
+            type: string
+    NamingViolationResponse:
+      required:
+      - number_of_violations
+      - reported_at
+      - violations
+      type: object
+      properties:
+        reported_at:
+          type: string
+        number_of_violations:
+          type: integer
+          format: int32
+        violations:
+          type: array
+          items:
+            $ref: "#/components/schemas/NamingViolation"
+    NamingViolationSummaryResponse:
+      required:
+      - number_of_violations
+      - reported_at
+      type: object
+      properties:
+        reported_at:
+          type: string
+        number_of_violations:
+          type: integer
+          format: int32
     PeriodFormat:
       type: string
       description: The category of time period that a data file covers.
@@ -547,6 +782,37 @@ components:
       - SOURCE
       - PRODUCT
       - SHARED
+    TaskCommand:
+      type: string
+      enum:
+      - start
+      - complete
+      - partial
+      - aborted
+      x-enum-descriptions:
+      - The job is now the only one permitted to write data files for the task.
+      - "The job has finished reporting data files for the task. Every file the task\
+        \ had claimed which this job did not report is deleted, along with any dataset\
+        \ and data product left empty. Only send this after an exhaustive, successful\
+        \ listing of the source: an incomplete listing is indistinguishable from data\
+        \ having been removed, and will be acted on as such. The job stays active\
+        \ afterwards. Completing prunes metadata, it does not close the task."
+      - The job has failed before reporting all data files.
+      - The job has aborted before reporting any data files.
+      x-type: String
+    TaskRegistration:
+      required:
+      - command
+      - job_id
+      type: object
+      properties:
+        command:
+          $ref: "#/components/schemas/TaskCommand"
+        job_id:
+          type: string
+      description: "Register a command for a task. \\[jobId\\] is opaque to us: we\
+        \ only ever compare it for equality against the job id supplied with subsequent\
+        \ data file writes."
   securitySchemes:
     keycloak-token:
       type: http

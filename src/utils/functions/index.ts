@@ -1,4 +1,4 @@
-import { Assessment, DatasetState } from '@/libs/data-access/datadoc/models';
+import { Assessment, DatasetState, StorageCategory } from '@/libs/data-access/datadoc/models';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
 import { KlassReference, VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { localization, SupportedLanguage } from '@/libs/language';
@@ -75,6 +75,19 @@ export const convertAssessment = (assessment: Assessment) => {
       return localization.products.assessment.sensitive;
     default:
       assessment satisfies never;
+  }
+};
+
+export const convertStorageCategory = (storageCategory: StorageCategory) => {
+  switch (storageCategory) {
+    case StorageCategory.SHARED:
+      return localization.products.storageCategory.shared;
+    case StorageCategory.PRODUCT:
+      return localization.products.storageCategory.product;
+    case StorageCategory.SOURCE:
+      return localization.products.storageCategory.source;
+    default:
+      storageCategory satisfies never;
   }
 };
 

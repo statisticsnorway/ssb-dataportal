@@ -17,6 +17,12 @@ vi.mock('next/headers', () => ({
   }),
 }));
 
+vi.mock('@/libs/auth/userAuth', () => ({
+  authenticateUser: vi.fn().mockResolvedValue({
+    isAuthenticated: true,
+  }),
+}));
+
 vi.mock('@/libs/language/src/getRequestLanguage', () => ({
   getRequestLanguage: vi.fn().mockResolvedValue('nb'),
 }));
