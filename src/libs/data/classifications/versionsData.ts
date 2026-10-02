@@ -73,7 +73,7 @@ const fetchVersionByIdCached = cache(async function fetchVersionByIdCached(
   }
 });
 
-export async function fetchVersionById(
+export function fetchVersionById(
   id: number,
   language: SupportedLanguage | undefined = 'nb',
   includeFuture: boolean = false,
