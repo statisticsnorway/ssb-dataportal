@@ -23,7 +23,7 @@ import { getUserAgent } from '@/utils/userAgent';
  *
  * @returns A promise that resolves to a configured `SearchApi` instance.
  */
-async function getKlassSearchClient(): Promise<SearchApi> {
+function getKlassSearchClient(): SearchApi {
   const logger = createLogger('klass-search');
   const configParams = {
     headers: {
@@ -71,7 +71,7 @@ export async function fetchSearchResult(searchRequest: SearchRequest): Promise<S
       });
   }
   let searchResult: KlassPagedResourcesSearchResultResource;
-  const api = await getKlassSearchClient();
+  const api = getKlassSearchClient();
   try {
     searchResult = await api.search(searchRequest, {
       cache: 'no-store',
