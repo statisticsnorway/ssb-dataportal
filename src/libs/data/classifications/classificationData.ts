@@ -52,7 +52,7 @@ const FALLBACK_ORDER: SupportedLanguage[] = [SupportedLanguages.Nb, SupportedLan
  */
 async function fetchAllClassificationsForLanguage(language: SupportedLanguage): Promise<ClassificationResource[]> {
   const logger = createLogger('classification-data');
-  const api = await getKlassClassificationsClient();
+  const api = getKlassClassificationsClient();
 
   const params = {
     includeCodelists: true,
@@ -186,7 +186,7 @@ export async function fetchClassificationForLanguage(
     logger.warn('Using static mock data for classifications');
     classification = getClassification(id);
   } else {
-    const api = await getKlassClassificationsClient();
+    const api = getKlassClassificationsClient();
     const params = {
       id,
       language: language.toUpperCase() as ClassificationsLanguageEnum,
