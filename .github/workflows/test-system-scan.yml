@@ -8,7 +8,7 @@ on:
 
 jobs:
   grype-scan:
-    uses: statisticsnorway/metadata-system/.github/workflows/dependency-scan.yaml@scan-dependencies
+    uses: statisticsnorway/metadata-system/.github/workflows/dependency-scan.yaml@v1
     permissions:
       contents: read
       security-events: write
