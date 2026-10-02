@@ -73,10 +73,10 @@ const fetchVersionByIdCached = cache(async function fetchVersionByIdCached(
   }
 });
 
-export function fetchVersionById(
+export async function fetchVersionById(
   id: number,
   language: SupportedLanguage | undefined = 'nb',
   includeFuture: boolean = false,
 ): Promise<ClassificationVersionResource | undefined> {
-  return fetchVersionByIdCached(id, language, includeFuture);
+  return await fetchVersionByIdCached(id, language, includeFuture);
 }
