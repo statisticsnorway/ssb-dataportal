@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { StorageCategory } from './StorageCategory';
+import {
+    StorageCategoryFromJSON,
+    StorageCategoryFromJSONTyped,
+    StorageCategoryToJSON,
+    StorageCategoryToJSONTyped,
+} from './StorageCategory';
 import type { Assessment } from './Assessment';
 import {
     AssessmentFromJSON,
@@ -77,11 +84,17 @@ export interface DatasetDTO {
      */
     owner?: string | null;
     /**
-     * 
+     * Whether the dataset has naming-standard violations.
      * @type {boolean}
      * @memberof DatasetDTO
      */
     has_naming_standard_violations: boolean;
+    /**
+     * 
+     * @type {StorageCategory}
+     * @memberof DatasetDTO
+     */
+    storage_category?: StorageCategory | null;
 }
 
 
@@ -116,6 +129,7 @@ export function DatasetDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'dataset_state': DatasetStateFromJSON(json['dataset_state']),
         'owner': json['owner'] == null ? undefined : json['owner'],
         'has_naming_standard_violations': json['has_naming_standard_violations'],
+        'storage_category': json['storage_category'] == null ? undefined : StorageCategoryFromJSON(json['storage_category']),
     };
 }
 
@@ -138,6 +152,7 @@ export function DatasetDTOToJSONTyped(value?: DatasetDTO | null, ignoreDiscrimin
         'dataset_state': DatasetStateToJSON(value['dataset_state']),
         'owner': value['owner'],
         'has_naming_standard_violations': value['has_naming_standard_violations'],
+        'storage_category': StorageCategoryToJSON(value['storage_category']),
     };
 }
 

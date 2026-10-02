@@ -387,6 +387,12 @@ export const nn = {
     },
     other: 'Anna dataprodukt',
     statistic: 'Statistikkprodukt',
+    storageCategory: {
+      filterLabel: 'Lagringskategori',
+      shared: 'Delt',
+      product: 'Produkt',
+      source: 'Kjelde',
+    },
     typeFilterLabel: 'Dataprodukttype',
     unknown: 'Ukjend produkttype',
   },
