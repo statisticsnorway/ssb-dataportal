@@ -141,30 +141,35 @@ export async function getDataProductByShortName(shortName: string): Promise<Data
 export async function listDatasetsByProductShortNameAndStorageCategory(
   shortName: string,
   storageCategory: StorageCategory,
+  options?: { logErrors?: boolean },
 ): Promise<DatasetDTO[]> {
   const logger = createLogger('datasets');
   logger.info({ shortName, storageCategory }, 'List datasets for product and storage category');
+
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'listDatasetsByProductShortNameAndStorageCategory' }, 'Using static mock data for datasets');
     return staticDatasets.filter(
       (dataset) => dataset.product_short_name === shortName && dataset.storage_category === storageCategory,
     );
   }
+
   try {
     const api = await getClientForApi(DatasetsApi);
     const startTime = Date.now();
-    const rawData = await api.listDatasets(
-      { productShortName: shortName, storageCategory: storageCategory },
-      dataDocFetchOptions,
-    );
-    const durationMs = Date.now() - startTime;
+    const rawData = await api.listDatasets({ productShortName: shortName, storageCategory }, dataDocFetchOptions);
+
     logger.info(
-      { shortName, storageCategory, count: rawData.length, durationMs },
+      { shortName, storageCategory, count: rawData.length, durationMs: Date.now() - startTime },
       'Fetched datasets from API by storage category',
     );
+
     return rawData;
   } catch (error: unknown) {
-    logAndThrowFetchError(logger, error);
+    if (options?.logErrors !== false) {
+      logAndThrowFetchError(logger, error);
+    }
+
+    throw error;
   }
 }
 
@@ -243,22 +248,60 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
  * @returns A promise that resolves to an array of DataProductDTO objects representing the data products with available datasets.
  */
 export async function listDataProductsWithAvailableDatasets(isAuthenticated: boolean): Promise<DataProductDTO[]> {
+  const logger = createLogger('datasets');
   const dataProducts = await listDataProducts();
 
   const products = await Promise.all(
     dataProducts.map(async (dataProduct) => {
-      if (!dataProduct.product_short_name) return null;
+      const shortName = dataProduct.product_short_name;
+      if (!shortName) return null;
 
-      const [datasetsShared, datasetsProduct] = await Promise.all([
-        listDatasetsByProductShortNameAndStorageCategory(dataProduct.product_short_name, StorageCategory.SHARED),
-        isAuthenticated
-          ? listDatasetsByProductShortNameAndStorageCategory(dataProduct.product_short_name, StorageCategory.PRODUCT)
-          : Promise.resolve([]),
+      const [sharedResult] = await Promise.allSettled([
+        listDatasetsByProductShortNameAndStorageCategory(shortName, StorageCategory.SHARED, {
+          logErrors: false,
+        }),
       ]);
 
-      return datasetsShared.length > 0 || datasetsProduct.length > 0 ? dataProduct : null;
+      const datasetsShared = sharedResult?.status === 'fulfilled' ? sharedResult.value : [];
+      const sharedFailed = sharedResult?.status === 'rejected' ? 1 : 0;
+
+      if (datasetsShared.length > 0 || !isAuthenticated) {
+        return {
+          dataProduct,
+          datasetsShared,
+          datasetsProduct: [],
+          failedRequests: sharedFailed,
+        };
+      }
+
+      const [productResult] = await Promise.allSettled([
+        listDatasetsByProductShortNameAndStorageCategory(shortName, StorageCategory.PRODUCT, {
+          logErrors: false,
+        }),
+      ]);
+
+      const datasetsProduct = productResult?.status === 'fulfilled' ? productResult.value : [];
+      const productFailed = productResult?.status === 'rejected' ? 1 : 0;
+
+      return {
+        dataProduct,
+        datasetsShared,
+        datasetsProduct,
+        failedRequests: sharedFailed + productFailed,
+      };
     }),
   );
 
-  return products.filter((product): product is DataProductDTO => product !== null);
+  const failedRequests = products.reduce((count, product) => count + (product?.failedRequests ?? 0), 0);
+
+  if (failedRequests > 0) {
+    logger.warn({ failedRequests }, 'Some dataset requests failed while listing data products');
+  }
+
+  return products
+    .filter(
+      (product): product is NonNullable<typeof product> =>
+        product !== null && (product.datasetsShared.length > 0 || product.datasetsProduct.length > 0),
+    )
+    .map((product) => product.dataProduct);
 }
