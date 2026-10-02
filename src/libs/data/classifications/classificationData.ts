@@ -20,7 +20,7 @@ import { getUserAgent } from '@/utils/userAgent';
 
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
 
-async function getKlassClassificationsClient(): Promise<ClassificationsApi> {
+function getKlassClassificationsClient(): ClassificationsApi {
   const logger = createLogger('classification-data');
   let configParams = {
     headers: {
@@ -52,7 +52,7 @@ const FALLBACK_ORDER: SupportedLanguage[] = [SupportedLanguages.Nb, SupportedLan
  */
 async function fetchAllClassificationsForLanguage(language: SupportedLanguage): Promise<ClassificationResource[]> {
   const logger = createLogger('classification-data');
-  const api = await getKlassClassificationsClient();
+  const api = getKlassClassificationsClient();
 
   const params = {
     includeCodelists: true,
@@ -186,7 +186,7 @@ export async function fetchClassificationForLanguage(
     logger.warn('Using static mock data for classifications');
     classification = getClassification(id);
   } else {
-    const api = await getKlassClassificationsClient();
+    const api = getKlassClassificationsClient();
     const params = {
       id,
       language: language.toUpperCase() as ClassificationsLanguageEnum,
@@ -250,5 +250,5 @@ export async function fetchClassificationById(
   language: SupportedLanguage | undefined = 'nb',
   includeFuture: boolean = false,
 ): Promise<ClassificationWithLanguage> {
-  return fetchClassificationByIdCached(id, language, includeFuture);
+  return await fetchClassificationByIdCached(id, language, includeFuture);
 }

@@ -73,11 +73,17 @@ export function VersionView({
     }
 
     let cancelled = false;
-    fetchVersionById(resolvedVersionId, localization.getLanguage() as 'nb' | 'nn' | 'en', true).then((result) => {
-      if (!cancelled) {
-        setDisplayedVersion(result ?? null);
-      }
-    });
+    void fetchVersionById(resolvedVersionId, localization.getLanguage() as 'nb' | 'nn' | 'en', true)
+      .then((result) => {
+        if (!cancelled) {
+          setDisplayedVersion(result ?? null);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setDisplayedVersion(null);
+        }
+      });
 
     return () => {
       cancelled = true;

@@ -1,16 +1,11 @@
 {
   "name": "ssb-dataportal",
-  "version": "0.21.0",
+  "version": "0.22.0",
   "private": true,
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
       "version": "11.22.0",
-      "onFail": "download"
-    },
-    "runtime": {
-      "name": "node",
-      "version": "lts",
       "onFail": "download"
     }
   },
@@ -46,11 +41,11 @@
     "codegen:datadoc": "openapi-generator-cli generate --generator-key datadoc"
   },
   "dependencies": {
-    "@biomejs/biome": "2.5.13",
+    "@biomejs/biome": "2.5.14",
     "@digdir/designsystemet-react": "1.21.1",
     "@navikt/aksel-icons": "8.16.2",
-    "@next/env": "16.3.5",
-    "@statisticsnorway/design-css": "0.2.2",
+    "@next/env": "16.3.6",
+    "@statisticsnorway/design-css": "0.2.3",
     "@svgr/webpack": "8.1.0",
     "@types/lodash": "4.17.25",
     "@types/node": "26.5.1",

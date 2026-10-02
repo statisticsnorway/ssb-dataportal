@@ -30,12 +30,14 @@ async function example() {
   const config = new Configuration({ 
     // Configure HTTP bearer authorization: metamapper-datadoc-m2m
     accessToken: "YOUR BEARER TOKEN",
+    // Configure HTTP bearer authorization: keycloak-token
+    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new DataFilesApi(config);
 
   const body = {
     // CreateDaplaDataFile
-    createDaplaDataFile: {"file_path":"gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person-data_p2021_p2022_v2.parquet"},
+    createDaplaDataFile: {"file_path":"gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person-data_p2021_p2022_v2.parquet","task_id":"SHARED:PROD:ssb-staging-dapla-felles-data-delt","job_id":"01JD8XQ2"},
   } satisfies CreateOrUpdateDaplaDataFileRequest;
 
   try {
@@ -63,7 +65,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[metamapper-datadoc-m2m](../README.md#metamapper-datadoc-m2m)
+[metamapper-datadoc-m2m](../README.md#metamapper-datadoc-m2m), [keycloak-token](../README.md#keycloak-token)
 
 ### HTTP request headers
 
@@ -77,6 +79,7 @@ example().catch(console.error);
 | **201** | The Dapla Data File did not previously exist but has now been created. |  -  |
 | **200** | The Dapla Data File already exists and was updated with the supplied data. |  -  |
 | **400** | Bad request. |  -  |
+| **409** | The supplied job is no longer the active task for the bucket. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -153,7 +156,7 @@ example().catch(console.error);
 
 ## listDataFiles
 
-> Array&lt;DaplaDataFileDTO&gt; listDataFiles(datasetId)
+> Array&lt;DaplaDataFileDTO&gt; listDataFiles(datasetId, storageCategory)
 
 
 
@@ -177,6 +180,8 @@ async function example() {
   const body = {
     // string (optional)
     datasetId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // StorageCategory (optional)
+    storageCategory: ...,
   } satisfies ListDataFilesRequest;
 
   try {
@@ -197,6 +202,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **datasetId** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **storageCategory** | `StorageCategory` |  | [Optional] [Defaults to `undefined`] [Enum: SOURCE, PRODUCT, SHARED] |
 
 ### Return type
 
