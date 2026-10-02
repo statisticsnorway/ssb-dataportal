@@ -15,6 +15,7 @@ Name | Type
 `dataset_state` | [DatasetState](DatasetState.md)
 `owner` | string
 `has_naming_standard_violations` | boolean
+`storage_category` | [StorageCategory](StorageCategory.md)
 
 ## Example
 
@@ -31,6 +32,7 @@ const example = {
   "dataset_state": null,
   "owner": null,
   "has_naming_standard_violations": null,
+  "storage_category": null,
 } satisfies DatasetDTO
 
 console.log(example)

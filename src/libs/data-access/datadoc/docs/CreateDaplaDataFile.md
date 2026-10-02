@@ -1,13 +1,18 @@
 
 # CreateDaplaDataFile
 
-Create a Data File. A Data File is a logically defined blob of data from a file system or object storage. Its file path shall follow Dapla\'s naming conventions.
+Create a Data File. A Data File is a logically defined blob of data from a file system or object storage. Its file path shall follow Dapla\'s naming conventions. \\[taskId\\] and \\[jobId\\] are optional, but must be supplied together. When supplied, the write is only accepted if \\[jobId\\] is the active job for \\[taskId\\], as set by task registration, and the file is recorded as claimed by that task in that run. Omit both to write without task tracking.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
 `file_path` | string
+`task_id` | string
+`job_id` | string
+`md5` | string
+`size` | number
+`data_last_modified_at` | Date
 
 ## Example
 
@@ -17,6 +22,11 @@ import type { CreateDaplaDataFile } from ''
 // TODO: Update the object below with actual values
 const example = {
   "file_path": null,
+  "task_id": null,
+  "job_id": null,
+  "md5": null,
+  "size": null,
+  "data_last_modified_at": null,
 } satisfies CreateDaplaDataFile
 
 console.log(example)
