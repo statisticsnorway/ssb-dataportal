@@ -13,6 +13,6 @@ const getCachedRequestLanguage = cache(async (): Promise<SupportedLanguage> => {
   return language;
 });
 
-export async function getRequestLanguage(): Promise<SupportedLanguage> {
+export function getRequestLanguage(): Promise<SupportedLanguage> {
   return getCachedRequestLanguage();
 }
