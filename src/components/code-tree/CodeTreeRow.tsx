@@ -88,9 +88,8 @@ function CodeTreeRowComponent({
       </TableCell>
       <TableCell className={`${styles.treeCell} ${styles.nameCell}`}>
         <div className={styles.rowContent}>
-          <div
-            role='button'
-            tabIndex={0}
+          <button
+            type='button'
             className={styles.rowBody}
             aria-label={`${localization.codeTree.selectCode} ${code.code}: ${code.name}`}
             aria-pressed={isSelected}
@@ -98,14 +97,9 @@ function CodeTreeRowComponent({
               if (hasTextSelection()) return;
               activateRow();
             }}
-            onKeyDown={(event) => {
-              if (event.key !== 'Enter' && event.key !== ' ') return;
-              event.preventDefault();
-              activateRow();
-            }}
           >
             <span className={styles.nameLabel}>{code.name}</span>
-          </div>
+          </button>
 
           {code.notes && (
             <button
