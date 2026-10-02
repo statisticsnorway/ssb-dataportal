@@ -12,7 +12,9 @@ Name | Type
 `storage_location_name` | string
 `file_type` | [FileType](FileType.md)
 `data_last_modified_at` | Date
+`file_last_scanned_at` | Date
 `checksum` | string
+`file_size` | number
 `short_description` | string
 `product_type` | [DataProductType](DataProductType.md)
 `product_short_name` | string
@@ -38,7 +40,9 @@ const example = {
   "storage_location_name": null,
   "file_type": null,
   "data_last_modified_at": null,
+  "file_last_scanned_at": null,
   "checksum": null,
+  "file_size": null,
   "short_description": null,
   "product_type": null,
   "product_short_name": null,
