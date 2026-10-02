@@ -1,0 +1,22 @@
+name: Dependency scan
+
+on:
+  push:
+    branches:
+      - chore/remove-dependency-scan
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  grype-scan:
+    uses: statisticsnorway/metadata-system/.github/workflows/dependency-scan.yaml@scan-dependencies
+    permissions:
+      contents: read
+      security-events: write
+      packages: read
+      actions: read
+    with:
+      docker-context: .
+      dockerfile: Dockerfile
+      image: docker build . --file Dockerfile --tag ssb-dataportal:latest
