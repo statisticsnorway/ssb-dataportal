@@ -197,6 +197,7 @@ export const nn = {
     dataProductFilters: 'Dataproduktfilter',
     dataset: 'Datasett',
     sortByMostNamingStandardViolations: 'Flest avvik frå namnestandard',
+    noDatasetAvailable: 'Ingen datasett tilgjengeleg',
   },
   datasetDetail: {
     aboutDataset: 'Om datasettet',

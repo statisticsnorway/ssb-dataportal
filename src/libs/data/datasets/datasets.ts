@@ -82,11 +82,8 @@ export async function getClientForApi<T extends Apis>(api: new (configuration: C
   return new api(new Configuration(configParams));
 }
 
-/**
- * Used in the data products module to fetch the list of data products from the API or static data.
- * @returns A promise that resolves to an array of DataProductDTO objects representing the available data products.
- */
-async function listDataProducts(): Promise<DataProductDTO[]> {
+
+export async function listDataProducts(): Promise<DataProductDTO[]> {
   const logger = createLogger('data-products');
   logger.info('List Data Products');
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
@@ -240,68 +237,4 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
   } catch (error: unknown) {
     logAndThrowFetchError(logger, error);
   }
-}
-
-/**
- * Fetches the list of data products that have available datasets.
- * @param isAuthenticated A boolean indicating whether the user is authenticated.
- * @returns A promise that resolves to an array of DataProductDTO objects representing the data products with available datasets.
- */
-export async function listDataProductsWithAvailableDatasets(isAuthenticated: boolean): Promise<DataProductDTO[]> {
-  const logger = createLogger('datasets');
-  const dataProducts = await listDataProducts();
-
-  const products = await Promise.all(
-    dataProducts.map(async (dataProduct) => {
-      const shortName = dataProduct.product_short_name;
-      if (!shortName) return null;
-
-      const [sharedResult] = await Promise.allSettled([
-        listDatasetsByProductShortNameAndStorageCategory(shortName, StorageCategory.SHARED, {
-          logErrors: false,
-        }),
-      ]);
-
-      const datasetsShared = sharedResult?.status === 'fulfilled' ? sharedResult.value : [];
-      const sharedFailed = sharedResult?.status === 'rejected' ? 1 : 0;
-
-      if (datasetsShared.length > 0 || !isAuthenticated) {
-        return {
-          dataProduct,
-          datasetsShared,
-          datasetsProduct: [],
-          failedRequests: sharedFailed,
-        };
-      }
-
-      const [productResult] = await Promise.allSettled([
-        listDatasetsByProductShortNameAndStorageCategory(shortName, StorageCategory.PRODUCT, {
-          logErrors: false,
-        }),
-      ]);
-
-      const datasetsProduct = productResult?.status === 'fulfilled' ? productResult.value : [];
-      const productFailed = productResult?.status === 'rejected' ? 1 : 0;
-
-      return {
-        dataProduct,
-        datasetsShared,
-        datasetsProduct,
-        failedRequests: sharedFailed + productFailed,
-      };
-    }),
-  );
-
-  const failedRequests = products.reduce((count, product) => count + (product?.failedRequests ?? 0), 0);
-
-  if (failedRequests > 0) {
-    logger.warn({ failedRequests }, 'Some dataset requests failed while listing data products');
-  }
-
-  return products
-    .filter(
-      (product): product is NonNullable<typeof product> =>
-        product !== null && (product.datasetsShared.length > 0 || product.datasetsProduct.length > 0),
-    )
-    .map((product) => product.dataProduct);
 }
