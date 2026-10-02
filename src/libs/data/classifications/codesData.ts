@@ -303,14 +303,16 @@ export async function fetchChangesDownload({
   const api = getCodesClient();
   try {
     const params = { id: classificationId, from, to, language: toKlassLanguage(language) } satisfies ChangesRequest;
-    const response = await api.changesRaw(params, async ({ init }) => ({
-      ...init,
-      ...fetchInit,
-      headers: {
-        ...(init.headers ?? {}),
-        Accept: FILE_DOWNLOAD_ACCEPT[format],
-      },
-    }));
+    const response = await api.changesRaw(params, ({ init }) =>
+      Promise.resolve({
+        ...init,
+        ...fetchInit,
+        headers: {
+          ...(init.headers ?? {}),
+          Accept: FILE_DOWNLOAD_ACCEPT[format],
+        },
+      }),
+    );
     const mimeType = response.raw.headers.get('content-type') ?? FILE_DOWNLOAD_ACCEPT[format];
     const buffer = await response.raw.arrayBuffer();
     const content = decodeTextResponse(buffer, mimeType);
