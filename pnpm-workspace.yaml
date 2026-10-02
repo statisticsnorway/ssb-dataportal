@@ -5,3 +5,5 @@ allowBuilds:
   esbuild: false
   sharp: true
 minimumReleaseAge: 10080
+overrides:
+  playwright-core: "1.63.0"
