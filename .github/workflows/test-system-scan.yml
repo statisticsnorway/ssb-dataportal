@@ -17,4 +17,4 @@ jobs:
     with:
       docker-context: .
       dockerfile: Dockerfile
-      image: docker build . --file Dockerfile --tag ssb-dataportal:latest
+      image: ssb-dataportal:latest
