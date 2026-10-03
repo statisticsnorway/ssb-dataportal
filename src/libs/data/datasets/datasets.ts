@@ -82,7 +82,6 @@ export async function getClientForApi<T extends Apis>(api: new (configuration: C
   return new api(new Configuration(configParams));
 }
 
-
 export async function listDataProducts(): Promise<DataProductDTO[]> {
   const logger = createLogger('data-products');
   logger.info('List Data Products');
@@ -128,7 +127,6 @@ export async function getDataProductByShortName(shortName: string): Promise<Data
     logAndThrowFetchError(logger, error);
   }
 }
-
 /**
  * Fetches the list of datasets for a given data product and storage category.
  * @param shortName The short name of the data product.
@@ -138,35 +136,30 @@ export async function getDataProductByShortName(shortName: string): Promise<Data
 export async function listDatasetsByProductShortNameAndStorageCategory(
   shortName: string,
   storageCategory: StorageCategory,
-  options?: { logErrors?: boolean },
 ): Promise<DatasetDTO[]> {
   const logger = createLogger('datasets');
   logger.info({ shortName, storageCategory }, 'List datasets for product and storage category');
-
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     logger.warn({ fn: 'listDatasetsByProductShortNameAndStorageCategory' }, 'Using static mock data for datasets');
     return staticDatasets.filter(
       (dataset) => dataset.product_short_name === shortName && dataset.storage_category === storageCategory,
     );
   }
-
   try {
     const api = await getClientForApi(DatasetsApi);
     const startTime = Date.now();
-    const rawData = await api.listDatasets({ productShortName: shortName, storageCategory }, dataDocFetchOptions);
-
+    const rawData = await api.listDatasets(
+      { productShortName: shortName, storageCategory: storageCategory },
+      dataDocFetchOptions,
+    );
+    const durationMs = Date.now() - startTime;
     logger.info(
-      { shortName, storageCategory, count: rawData.length, durationMs: Date.now() - startTime },
+      { shortName, storageCategory, count: rawData.length, durationMs },
       'Fetched datasets from API by storage category',
     );
-
     return rawData;
   } catch (error: unknown) {
-    if (options?.logErrors !== false) {
-      logAndThrowFetchError(logger, error);
-    }
-
-    throw error;
+    logAndThrowFetchError(logger, error);
   }
 }
 
