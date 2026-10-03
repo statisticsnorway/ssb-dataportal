@@ -76,19 +76,3 @@ test.describe('authenticated', () => {
     await expect(main).toContainText('Arblonn');
   });
 });
-
-test.describe('unauthenticated', () => {
-  test.beforeEach(async ({}, testInfo) => {
-    test.skip(testInfo.project.name !== 'chrome-unauth');
-  });
-
-  test('Data products page displays only dataproducts with shared datasets', async ({ page }) => {
-    await page.goto(route);
-    await expect(page).toHaveURL(/\/data-products$/);
-    await stabilize();
-    const main = page.getByRole('main');
-
-    await expect(main.getByRole('paragraph')).toContainText('2 treff');
-    await expect(main.getByRole('article', { name: 'Arblonn' })).toContainText('Arblonn');
-  });
-});

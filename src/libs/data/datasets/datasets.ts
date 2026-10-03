@@ -83,10 +83,11 @@ export async function getClientForApi<T extends Apis>(api: new (configuration: C
 }
 
 /**
- * Used in the data products module to fetch the list of data products from the API or static data.
- * @returns A promise that resolves to an array of DataProductDTO objects representing the available data products.
+ * Fetches a list of data products.
+ *
+ * @returns A promise that resolves to an array of DataProductDTO objects representing the fetched data products.
  */
-async function listDataProducts(): Promise<DataProductDTO[]> {
+export async function listDataProducts(): Promise<DataProductDTO[]> {
   const logger = createLogger('data-products');
   logger.info('List Data Products');
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
@@ -131,7 +132,6 @@ export async function getDataProductByShortName(shortName: string): Promise<Data
     logAndThrowFetchError(logger, error);
   }
 }
-
 /**
  * Fetches the list of datasets for a given data product and storage category.
  * @param shortName The short name of the data product.
@@ -235,30 +235,4 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
   } catch (error: unknown) {
     logAndThrowFetchError(logger, error);
   }
-}
-
-/**
- * Fetches the list of data products that have available datasets.
- * @param isAuthenticated A boolean indicating whether the user is authenticated.
- * @returns A promise that resolves to an array of DataProductDTO objects representing the data products with available datasets.
- */
-export async function listDataProductsWithAvailableDatasets(isAuthenticated: boolean): Promise<DataProductDTO[]> {
-  const dataProducts = await listDataProducts();
-
-  const products = await Promise.all(
-    dataProducts.map(async (dataProduct) => {
-      if (!dataProduct.product_short_name) return null;
-
-      const [datasetsShared, datasetsProduct] = await Promise.all([
-        listDatasetsByProductShortNameAndStorageCategory(dataProduct.product_short_name, StorageCategory.SHARED),
-        isAuthenticated
-          ? listDatasetsByProductShortNameAndStorageCategory(dataProduct.product_short_name, StorageCategory.PRODUCT)
-          : Promise.resolve([]),
-      ]);
-
-      return datasetsShared.length > 0 || datasetsProduct.length > 0 ? dataProduct : null;
-    }),
-  );
-
-  return products.filter((product): product is DataProductDTO => product !== null);
 }
