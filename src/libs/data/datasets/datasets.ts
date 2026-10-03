@@ -82,6 +82,11 @@ export async function getClientForApi<T extends Apis>(api: new (configuration: C
   return new api(new Configuration(configParams));
 }
 
+/**
+ * Fetches a list of data products.
+ *
+ * @returns A promise that resolves to an array of DataProductDTO objects representing the fetched data products.
+ */
 export async function listDataProducts(): Promise<DataProductDTO[]> {
   const logger = createLogger('data-products');
   logger.info('List Data Products');
