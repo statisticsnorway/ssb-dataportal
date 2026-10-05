@@ -216,12 +216,15 @@ export function CodeTree({
                   {localization.codeTree.shortNameColumn}
                 </TableHeaderCell>
               ) : null}
+              <TableHeaderCell scope='col' className={styles.treeHeaderNotes}>
+                <span className='ds-sr-only'>{localization.codeTree.notesColumn}</span>
+              </TableHeaderCell>
             </TableRow>
           </TableHead>
           <TableBody role='tree' aria-label={localization.codeTree.label}>
             {topSpacerHeight > 0 && (
               <tr style={{ height: topSpacerHeight }}>
-                <td colSpan={showShortNames ? 3 : 2} className={styles.spacerCell} />
+                <td colSpan={showShortNames ? 4 : 3} className={styles.spacerCell} />
               </tr>
             )}
             {renderedRows.map(({ node, depth }) => (
@@ -239,13 +242,18 @@ export function CodeTree({
             ))}
             {bottomSpacerHeight > 0 && (
               <tr style={{ height: bottomSpacerHeight }}>
-                <td colSpan={showShortNames ? 3 : 2} className={styles.spacerCell} />
+                <td colSpan={showShortNames ? 4 : 3} className={styles.spacerCell} />
               </tr>
             )}
           </TableBody>
         </Table>
       </div>
-      <Dialog open={Boolean(notesCode)} onClose={() => setNotesCode(null)} closeButton={localization.close}>
+      <Dialog
+        open={Boolean(notesCode)}
+        onClose={() => setNotesCode(null)}
+        closeButton={localization.close}
+        closedby={'any'}
+      >
         {notesCode && (
           <>
             <Dialog.Block>

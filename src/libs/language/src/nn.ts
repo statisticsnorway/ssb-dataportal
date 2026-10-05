@@ -148,6 +148,7 @@ export const nn = {
     notesButtonLabel: 'Vis tilleggsinformasjon for',
     showShortNames: 'Vis kortnamn',
     shortNameColumn: 'Kortnamn',
+    notesColumn: 'Tilleggsinformasjon',
   },
   codeSnippet: {
     codeExample: 'Kodeeksempel',

@@ -171,7 +171,7 @@ describe('CodesView', () => {
   it('shows short names by default when a short name differs from the name', () => {
     const shortNameVersion = createVersionWithShortName('Agriculture and related services', 'Agriculture');
     render(<CodesView version={shortNameVersion} />);
-    const checkbox = screen.getByRole('checkbox', {
+    const checkbox = screen.getByRole('switch', {
       name: 'Vis kortnavn',
     });
     expect(checkbox).toBeChecked();
@@ -184,7 +184,7 @@ describe('CodesView', () => {
   it('hides short names by default when all short names equal their names', () => {
     const shortNameVersion = createVersionWithShortName('Agriculture', ' Agriculture ');
     render(<CodesView version={shortNameVersion} />);
-    const checkbox = screen.getByRole('checkbox', {
+    const checkbox = screen.getByRole('switch', {
       name: 'Vis kortnavn',
     });
     expect(checkbox).not.toBeChecked();

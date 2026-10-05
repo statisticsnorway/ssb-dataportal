@@ -102,17 +102,6 @@ function CodeTreeRowComponent({
           >
             <span className={styles.nameLabel}>{code.name}</span>
           </button>
-
-          {code.notes && (
-            <button
-              type='button'
-              className={styles.infoButton}
-              aria-label={`${localization.codeTree.notesButtonLabel} ${code.name}`}
-              onClick={() => onNotes(code)}
-            >
-              <QuestionmarkCircleIcon fontSize='1.75rem' aria-hidden />
-            </button>
-          )}
         </div>
       </TableCell>
       {showShortNames ? (
@@ -120,6 +109,18 @@ function CodeTreeRowComponent({
           <div className={styles.shortNameContent}>{code.shortName?.trim() || '–'}</div>
         </TableCell>
       ) : null}
+      <TableCell className={styles.notesCell}>
+        {code.notes ? (
+          <button
+            type='button'
+            className={styles.infoButton}
+            aria-label={`${localization.codeTree.notesButtonLabel} ${code.name}`}
+            onClick={() => onNotes(code)}
+          >
+            <QuestionmarkCircleIcon fontSize='1.75rem' aria-hidden />
+          </button>
+        ) : null}
+      </TableCell>
     </TableRow>
   );
 }

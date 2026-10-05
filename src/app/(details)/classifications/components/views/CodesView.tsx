@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Checkbox } from '@digdir/designsystemet-react';
+import { Button, Switch } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CodeTree } from '@/components/code-tree';
@@ -106,14 +106,14 @@ function CodesToolbar({
       <div className={styles.searchScope}>
         <CodeSearch searchId='codes-filter-input' filterTerm={filterTerm} setFilterTerm={onFilterTermChange} />
       </div>
-      {hasShortNames ? (
-        <Checkbox
-          label={localization.codeTree.showShortNames}
-          checked={showShortNames}
-          onChange={(event) => onShowShortNamesChange(event.target.checked)}
-        />
-      ) : null}
       <div className={styles.codeTreeToolbar}>
+        {hasShortNames ? (
+          <Switch
+            label={localization.codeTree.showShortNames}
+            checked={showShortNames}
+            onChange={(event) => onShowShortNamesChange(event.target.checked)}
+          />
+        ) : null}
         {hasExpandableNodes ? (
           <Button variant='secondary' onClick={onToggleAll} aria-expanded={allExpanded}>
             {allExpanded ? localization.codeTree.collapseAll : localization.codeTree.expandAll}
