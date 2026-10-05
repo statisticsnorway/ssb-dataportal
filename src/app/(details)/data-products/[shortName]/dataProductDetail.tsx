@@ -53,24 +53,6 @@ export default function DataProductDetail({
     ? [...datasetsShared, ...(datasetsProduct ?? [])]
     : datasetsShared.filter((ds) => !ds.has_naming_standard_violations);
 
-  const assessmentFilters = useMemo<FilterItem[]>(
-    () =>
-      Object.keys(assessmentLabelByValue).map((value) => ({
-        value,
-        label: assessmentLabelByValue[value] ?? value,
-      })),
-    [assessmentLabelByValue],
-  );
-
-  const storageCategoryFilters = useMemo<FilterItem[]>(
-    () =>
-      Object.keys(storageCategoryLabelByValue).map((value) => ({
-        value,
-        label: storageCategoryLabelByValue[value] ?? value,
-      })),
-    [storageCategoryLabelByValue],
-  );
-
   const [selectedAssessments, setSelectedAssessments] = useState<FilterItem[]>([]);
   const [selectedStorageCategories, setSelectedStorageCategories] = useState<FilterItem[]>([]);
   const [sortBy, setSortBy] = useState<DatasetSortOption>('titleAsc');
@@ -88,6 +70,47 @@ export default function DataProductDetail({
       return exists ? prev.filter((f) => f.value !== filter.value) : [...prev, filter];
     });
   };
+
+  const countByAssessment = (datasets: DatasetDTO[]) =>
+    datasets.reduce<Record<string, number>>((counts, dataset) => {
+      const assessment = dataset.assessment;
+      if (typeof assessment === 'string') {
+        counts[assessment] = (counts[assessment] ?? 0) + 1;
+      }
+      return counts;
+    }, {});
+
+  const countByStorageCategory = (datasets: DatasetDTO[]) =>
+    datasets.reduce<Record<string, number>>((counts, dataset) => {
+      const storageCategory = dataset.storage_category;
+      if (typeof storageCategory === 'string') {
+        counts[storageCategory] = (counts[storageCategory] ?? 0) + 1;
+      }
+      return counts;
+    }, {});
+
+  const assessmentCounts = useMemo(() => countByAssessment(visibleDatasets), [visibleDatasets]);
+  const storageCategoryCounts = useMemo(() => countByStorageCategory(visibleDatasets), [visibleDatasets]);
+
+  const assessmentFilters = useMemo<FilterItem[]>(
+    () =>
+      Object.keys(assessmentLabelByValue).map((value) => ({
+        value,
+        label: assessmentLabelByValue[value] ?? value,
+        count: assessmentCounts[value] ?? 0,
+      })),
+    [assessmentLabelByValue, assessmentCounts],
+  );
+
+  const storageCategoryFilters = useMemo<FilterItem[]>(
+    () =>
+      Object.keys(storageCategoryLabelByValue).map((value) => ({
+        value,
+        label: storageCategoryLabelByValue[value] ?? value,
+        count: storageCategoryCounts[value] ?? 0,
+      })),
+    [storageCategoryLabelByValue, storageCategoryCounts],
+  );
 
   const filteredDatasets = useMemo(() => {
     if (selectedAssessments.length === 0 && selectedStorageCategories.length === 0) return visibleDatasets;
@@ -136,7 +159,12 @@ export default function DataProductDetail({
     });
   }, [filteredDatasets, namingStandardViolationsByDatasetId, sortBy]);
 
-  const availableSortOptions = isAuthenticated ? sortOptionsAuthenticated : sortOptionsUnauthenticated;
+  const hasNamingStandardViolations = visibleDatasets.some(
+    (dataset) => dataset.id && (namingStandardViolationsByDatasetId[dataset.id] ?? 0) > 0,
+  );
+
+  const availableSortOptions =
+    isAuthenticated && hasNamingStandardViolations ? sortOptionsAuthenticated : sortOptionsUnauthenticated;
 
   return (
     <div className={`${styles.detailsPage} container`}>
@@ -174,16 +202,23 @@ export default function DataProductDetail({
               <Heading level={2} className={`${styles.sectionHeading} secondaryHeading`}>
                 {localization.dataProductDetail.dataset}
               </Heading>
-              <SortFields
-                sortOptions={availableSortOptions}
-                sortValue={sortBy}
-                sortLabels={{
-                  violationsDesc: localization.dataProductDetail.sortByMostNamingStandardViolations,
-                }}
-                onSortChange={(value) => {
-                  setSortBy(value as DatasetSortOption);
-                }}
-              />
+              <div className={styles.hitsSortGroup}>
+                <p className={styles.numHits}>
+                  {sortedDatasets.length === 0
+                    ? localization.search.noHits
+                    : `${sortedDatasets.length} ${localization.search.hits}`}
+                </p>
+                <SortFields
+                  sortOptions={availableSortOptions}
+                  sortValue={sortBy}
+                  sortLabels={{
+                    violationsDesc: localization.dataProductDetail.sortByMostNamingStandardViolations,
+                  }}
+                  onSortChange={(value) => {
+                    setSortBy(value as DatasetSortOption);
+                  }}
+                />
+              </div>
             </div>
             <div className={styles.datasetList}>
               {sortedDatasets.length > 0 ? (
