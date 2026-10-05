@@ -10,7 +10,7 @@ import { ExpandableTable } from '@/components/expandable-table';
 import { LanguageTag } from '@/components/language-tag';
 import { ClassificationWithLanguage } from '@/libs/data/classifications/classificationData';
 import { ClassificationVersionResource } from '@/libs/data-access/klass/models/ClassificationVersionResource';
-import { localization } from '@/libs/language';
+import { localization, migrationClassificationsBannerDismissedCookieName } from '@/libs/language';
 import { formatLanguages } from '@/utils/functions';
 import { getClassificationDetailsTabForRoute } from '../[id]/tabs';
 import { buildUrl } from '../utils/urls';
@@ -40,6 +40,7 @@ export default function ClassificationDetail({
           <ClosableAlert
             heading={localization.migrationClassifications.header}
             message={localization.migrationClassifications.info}
+            persistDismissalCookieName={migrationClassificationsBannerDismissedCookieName}
           />
         </div>
       </section>

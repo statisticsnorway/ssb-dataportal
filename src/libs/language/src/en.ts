@@ -46,13 +46,8 @@ export const en = {
       publications: 'Publications',
       unitTypes: 'Unit types',
       noChanges: 'No descriptions for changes within this version.',
-      notRelevant: 'Not relevant',
-      number: 'Number',
-      name: 'Name',
-      description: 'Description',
       changelog: 'Changelog',
       date: 'Date',
-      time: 'Time',
       comment: 'Comment',
     },
     filterLevels: 'Filter by level',
@@ -61,17 +56,13 @@ export const en = {
     label: 'Classification',
     language: {
       notSelectedLanguage: 'This classification is not available in the selected language',
-      displayedInLanguage: 'This classification is displayed in {language}',
       missingInSelectedLanguage:
         'This classification is missing content in the selected language, please select another language.',
       contentChangelog: 'The changelog is only available in Norwegian',
     },
-    view: 'View classification',
     type: 'Type',
     codelist: 'Codelist',
     standard: 'Classification',
-    codeListPrefix: 'Codelist for',
-    standardPrefix: 'Classification of',
     emailPlaceholder: 'Your email address',
     subscribe: 'Subscribe',
     subscribeMessageError: 'An error occurred during registration',
@@ -112,11 +103,9 @@ export const en = {
       noTarget: 'No corresponding code',
     },
     variant: {
-      name: 'Name',
       id: 'ID',
       description: 'Description',
       responsible: 'Responsible',
-      owner: 'Owner',
       ownerSection: 'Owner section',
       noVariants: 'This version has no variants',
       numberOfCodesAndLevels: 'The variant contains {numberOfCodes} codes distributed over {numberOfLevels} {level}.',
@@ -141,14 +130,12 @@ export const en = {
     selectCode: 'Select code',
     filterLabel: 'Filter by code or name',
     filterPlaceholder: 'Filter by code or name',
-    filterButton: 'Filter',
     clearFilter: 'Clear filter',
     expandAll: 'Expand all',
     collapseAll: 'Collapse all',
     codeColumn: 'Code',
     nameColumn: 'Name',
     back: 'Back',
-    subcodes: 'Open subcodes',
     notesButtonLabel: 'Show additional information for',
     showShortNames: 'Show short names',
     shortNameColumn: 'Short name',
@@ -167,16 +154,9 @@ export const en = {
     label: 'Cookie banner',
     message: 'We store cookies necessary to keep the website working and secure.',
   },
-
-  comment: 'Comment',
-
   contact: {
-    fallbackTitle: 'Contact us with questions or feedback',
     label: 'Contact',
   },
-
-  context: 'Context',
-
   copy: {
     code: 'Copy code',
     copied: 'Copied',
@@ -202,7 +182,6 @@ export const en = {
   },
   dataProduct: {
     labelPlural: 'Data products',
-    labelSingular: 'Data product',
   },
   dataProductDetail: {
     dataProductFilters: 'Data product filters',
@@ -221,10 +200,7 @@ export const en = {
     namingStandardViolations: 'Number of naming standard violations',
     dataFiles: 'Data files',
     dataCoverageTimeline: 'Available periods',
-    namingStandardViolationCountLabel: 'naming standard violations',
   },
-  documentation: 'Documentation',
-
   editing: {
     created: 'Created',
     updated: 'Last updated',
@@ -326,10 +302,7 @@ export const en = {
     ],
     reportBrokenLink: 'Report broken link',
   },
-
   from: 'From',
-  id: 'ID',
-
   info: {
     aboutDataportal: {
       body: [
@@ -339,10 +312,6 @@ export const en = {
       title: 'About SSB Dataportal',
       toggle: 'Why SSB Dataportal',
     },
-    comingSoon: 'Coming soon',
-    classificationsPrototypeIntro: 'Under development',
-    classificationsPrototypeInfo:
-      'A new and improved view of Klass will be launched during 2026. Until launch, use the current solution at',
     datasetPrototypeIntro: 'Under development',
     datasetPrototypeInfo:
       'This page describes a selection of data at Statistics Norway. Development continues with more data types and more detailed descriptions.',
@@ -355,15 +324,10 @@ export const en = {
     footerPrivacyStatement: 'Privacy statement',
     landingPageSubTitle: "Your gateway to Statistics Norway's public data",
   },
-  language: {
-    notSelectedLanguage: 'This {element} is not available in the selected language',
-  },
   loading: {
     filters: 'Loading filters...',
     results: 'Loading results...',
   },
-
-  loadingVariableDefinitions: 'Loading variable definitions',
   migrationClassifications: {
     header: 'Klass has been moved from ssb.no/klass',
     info: 'You are now on the new Klass service in SSB Dataportal. Please update your bookmarks and saved links.',
@@ -374,26 +338,20 @@ export const en = {
     linkText: 'Find more variable definitions on ssb.no',
   },
   navigateHome: 'Navigate to home page',
-  navigateHomeClassifications: 'Navigate to Classifications main page',
-  navigateHomeVariableDefinitions: 'Navigate to Variable definitions main page',
   next: 'Next',
   no: 'No',
   noDataPlaceholder: '—',
   on: 'on',
   opensInNewTab: 'opens in a new tab',
-
   owner: {
     daplaTeam: 'Dapla Team',
     groups: 'Groups',
-    label: 'Owner',
   },
-
   pageTitle: {
     classifications: 'Classifications',
     dataProducts: 'Data products',
     variableDefinitions: 'Variable definitions',
   },
-
   previous: 'Previous',
   products: {
     assessment: {
@@ -401,7 +359,6 @@ export const en = {
       open: 'Open',
       protected: 'Protected',
       sensitive: 'Sensitive',
-      unknown: 'Unknown value assessment',
     },
     datasetState: {
       processedData: 'Processed data',
@@ -409,7 +366,6 @@ export const en = {
       inputData: 'Input data',
       statistics: 'Statistics',
       sourceData: 'Source data',
-      unknown: 'Unknown dataset state',
     },
     other: 'Other data product',
     statistic: 'Statistical product',
@@ -422,20 +378,13 @@ export const en = {
     typeFilterLabel: 'Data product type',
     unknown: 'Unknown product type',
   },
-  region: 'Region',
-  references: 'References',
-
   search: {
     hits: 'hits',
     label: 'Search',
     noHits: 'Your search returned no hits',
     variableDefinitions: 'Variable definition search hits',
     classifications: 'Classification search hits',
-    dataProducts: 'Data product search hits',
-    datasets: 'Dataset search hits',
-
     textFilter: {
-      search: 'Search',
       label: 'Filter by name',
       tagLabel: 'Name:',
       inputId: 'search-input',
@@ -497,26 +446,18 @@ export const en = {
 
   variableDefinition: {
     aboutVariable: 'About the variable',
-    externalReference: 'External reference',
     comment: 'Comment',
     contact: 'Contact',
     documentation: 'Documentation',
     externalPersonalData: 'Sensitive personal data',
-    fetchWith: 'Get variable definition with',
     id: 'ID',
     internalPersonalData: 'Contains special categories of personal data',
     labelPlural: 'Variable definitions',
-    labelSingular: 'Variable definition',
-    labelWithComment: 'Variable definition with comment',
     mail: 'Email',
-    notFoundAlertText: 'Variable definition not found',
     owner: 'Owner',
     unitTypeInfo:
       'A unit type is the type of objects (units) that statistics are produced for, for example person, enterprise, and election',
-    relevant: 'Relevant variable definitions',
     shortName: 'Short name',
-    viewExternalReference: 'View external reference',
-    viewRelevant: 'View relevant variable definition',
   },
   versions: {
     name: 'Name',
