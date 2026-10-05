@@ -6,4 +6,11 @@ allowBuilds:
   sharp: true
 minimumReleaseAge: 10080
 overrides:
-  playwright-core: "1.63.0"
+  # This transitive dependency is locked to ensure the coverage tool @bgotink/playwright-coverage
+  # uses a compatible Playwright API
+  playwright-core: "catalog:playwright"
+
+catalogs:
+  playwright:
+    "@playwright/test": "1.63.0"
+    "playwright-core": "1.63.0"
