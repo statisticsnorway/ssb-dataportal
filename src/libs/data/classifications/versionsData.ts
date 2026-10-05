@@ -13,7 +13,7 @@ import { getUserAgent } from '@/utils/userAgent';
 
 const ttlSeconds = Number(process.env.KLASS_CACHE_TTL_SECONDS);
 
-async function getKlassVersionsClient(): Promise<VersionsApi> {
+function getKlassVersionsClient(): VersionsApi {
   const logger = createLogger('classification-versions-data');
   let configParams = {
     headers: {
@@ -37,7 +37,7 @@ const fetchVersionByIdCached = cache(async function fetchVersionByIdCached(
   includeFuture: boolean = false,
 ): Promise<ClassificationVersionResource | undefined> {
   const logger = createLogger('classification-versions-data');
-  const api = await getKlassVersionsClient();
+  const api = getKlassVersionsClient();
 
   const params = {
     id,
@@ -78,5 +78,5 @@ export async function fetchVersionById(
   language: SupportedLanguage | undefined = 'nb',
   includeFuture: boolean = false,
 ): Promise<ClassificationVersionResource | undefined> {
-  return fetchVersionByIdCached(id, language, includeFuture);
+  return await fetchVersionByIdCached(id, language, includeFuture);
 }

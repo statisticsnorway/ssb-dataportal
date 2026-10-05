@@ -154,7 +154,7 @@ example().catch(console.error);
 
 ## listDatasets
 
-> Array&lt;DatasetDTO&gt; listDatasets(productShortName, storageLocation)
+> Array&lt;DatasetDTO&gt; listDatasets(productShortName, storageLocation, storageCategory)
 
 
 
@@ -180,6 +180,8 @@ async function example() {
     productShortName: productShortName_example,
     // string (optional)
     storageLocation: storageLocation_example,
+    // StorageCategory (optional)
+    storageCategory: ...,
   } satisfies ListDatasetsRequest;
 
   try {
@@ -201,6 +203,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **productShortName** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **storageLocation** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **storageCategory** | `StorageCategory` |  | [Optional] [Defaults to `undefined`] [Enum: SOURCE, PRODUCT, SHARED] |
 
 ### Return type
 

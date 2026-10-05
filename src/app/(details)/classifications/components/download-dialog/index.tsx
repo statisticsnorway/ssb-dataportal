@@ -203,7 +203,7 @@ function DownloadDialog({
   };
 
   const content = (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={handleClose} closeButton={localization.close}>
       <form onSubmit={handleDownload} noValidate>
         <div className={styles.formFields}>
           {context ? (

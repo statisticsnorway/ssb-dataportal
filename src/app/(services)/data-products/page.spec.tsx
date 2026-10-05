@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { fetchSubjectFieldFilterValues } from '@/libs/data/classifications/codesData';
-import { listDataProductsWithAvailableDatasets } from '@/libs/data/datasets/datasets';
+import { listDataProducts } from '@/libs/data/datasets/datasets';
 import type { DataProductDTO } from '@/libs/data-access/datadoc/models';
 import { KlassCode } from '@/types/klass-codes';
 import DataProductsPage from './page';
@@ -17,6 +17,12 @@ vi.mock('next/headers', () => ({
   }),
 }));
 
+vi.mock('@/libs/auth/userAuth', () => ({
+  authenticateUser: vi.fn().mockResolvedValue({
+    isAuthenticated: true,
+  }),
+}));
+
 vi.mock('@/libs/language/src/getRequestLanguage', () => ({
   getRequestLanguage: vi.fn().mockResolvedValue('nb'),
 }));
@@ -26,7 +32,7 @@ vi.mock('@/libs/data/classifications/codesData', () => ({
 }));
 
 vi.mock('@/libs/data/datasets/datasets', () => ({
-  listDataProductsWithAvailableDatasets: vi.fn(),
+  listDataProducts: vi.fn(),
 }));
 
 vi.mock('@/libs/logger/server-logger', () => ({
@@ -55,7 +61,7 @@ describe('DataProductsPage', () => {
   });
 
   it('passes data products and subject fields to the service page', async () => {
-    vi.mocked(listDataProductsWithAvailableDatasets).mockResolvedValue([
+    vi.mocked(listDataProducts).mockResolvedValue([
       { product_short_name: 'arbstatus', contains_valid_datasets: false },
     ]);
     vi.mocked(fetchSubjectFieldFilterValues).mockResolvedValue([

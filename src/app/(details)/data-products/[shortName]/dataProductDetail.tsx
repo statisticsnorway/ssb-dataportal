@@ -1,6 +1,6 @@
 'use client';
 
-import { Heading } from '@digdir/designsystemet-react';
+import { Alert, Heading } from '@digdir/designsystemet-react';
 import { notFound } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { tabsData } from '@/app/(services)/tabs';
@@ -20,6 +20,11 @@ const getAssessmentLabelByValue = (): Record<string, string> => ({
   SENSITIVE: localization.products.assessment.sensitive,
 });
 
+const getStorageCategoryLabelByValue = (): Record<string, string> => ({
+  SHARED: localization.products.storageCategory.shared,
+  PRODUCT: localization.products.storageCategory.product,
+});
+
 const sortOptionsAuthenticated = ['titleAsc', 'titleDesc', 'violationsDesc'] as const;
 const sortOptionsUnauthenticated = ['titleAsc', 'titleDesc'] as const;
 
@@ -27,32 +32,29 @@ type DatasetSortOption = (typeof sortOptionsAuthenticated)[number];
 
 export default function DataProductDetail({
   dataProduct,
-  datasets,
+  datasetsShared,
+  datasetsProduct,
   namingStandardViolationsByDatasetId,
 }: Readonly<{
   dataProduct: DataProductDTO;
-  datasets: DatasetDTO[];
+  datasetsShared: DatasetDTO[];
+  datasetsProduct?: DatasetDTO[];
   namingStandardViolationsByDatasetId: Record<string, number>;
 }>) {
   const assessmentLabelByValue = getAssessmentLabelByValue();
+  const storageCategoryLabelByValue = getStorageCategoryLabelByValue();
   const { isAuthenticated } = useAuthContext();
 
   if (!isAuthenticated && dataProduct.contains_valid_datasets === false) {
     notFound();
   }
 
-  const visibleDatasets = isAuthenticated ? datasets : datasets.filter((ds) => !ds.has_naming_standard_violations);
-
-  const assessmentFilters = useMemo<FilterItem[]>(
-    () =>
-      Object.keys(assessmentLabelByValue).map((value) => ({
-        value,
-        label: assessmentLabelByValue[value] ?? value,
-      })),
-    [assessmentLabelByValue],
-  );
+  const visibleDatasets = isAuthenticated
+    ? [...datasetsShared, ...(datasetsProduct ?? [])]
+    : datasetsShared.filter((ds) => !ds.has_naming_standard_violations);
 
   const [selectedAssessments, setSelectedAssessments] = useState<FilterItem[]>([]);
+  const [selectedStorageCategories, setSelectedStorageCategories] = useState<FilterItem[]>([]);
   const [sortBy, setSortBy] = useState<DatasetSortOption>('titleAsc');
 
   const toggleAssessment = (filter: FilterItem) => {
@@ -62,15 +64,79 @@ export default function DataProductDetail({
     });
   };
 
-  const filteredDatasets = useMemo(() => {
-    if (selectedAssessments.length === 0) return visibleDatasets;
+  const toggleStorageCategory = (filter: FilterItem) => {
+    setSelectedStorageCategories((prev) => {
+      const exists = prev.some((f) => f.value === filter.value);
+      return exists ? prev.filter((f) => f.value !== filter.value) : [...prev, filter];
+    });
+  };
 
-    const selectedValues = new Set(selectedAssessments.map((f) => f.value));
+  const countByAssessment = (datasets: DatasetDTO[]) =>
+    datasets.reduce<Record<string, number>>((counts, dataset) => {
+      const assessment = dataset.assessment;
+      if (typeof assessment === 'string') {
+        counts[assessment] = (counts[assessment] ?? 0) + 1;
+      }
+      return counts;
+    }, {});
+
+  const countByStorageCategory = (datasets: DatasetDTO[]) =>
+    datasets.reduce<Record<string, number>>((counts, dataset) => {
+      const storageCategory = dataset.storage_category;
+      if (typeof storageCategory === 'string') {
+        counts[storageCategory] = (counts[storageCategory] ?? 0) + 1;
+      }
+      return counts;
+    }, {});
+
+  const assessmentCounts = useMemo(() => countByAssessment(visibleDatasets), [visibleDatasets]);
+  const storageCategoryCounts = useMemo(() => countByStorageCategory(visibleDatasets), [visibleDatasets]);
+
+  const assessmentFilters = useMemo<FilterItem[]>(
+    () =>
+      Object.keys(assessmentLabelByValue).map((value) => ({
+        value,
+        label: assessmentLabelByValue[value] ?? value,
+        count: assessmentCounts[value] ?? 0,
+      })),
+    [assessmentLabelByValue, assessmentCounts],
+  );
+
+  const storageCategoryFilters = useMemo<FilterItem[]>(
+    () =>
+      Object.keys(storageCategoryLabelByValue).map((value) => ({
+        value,
+        label: storageCategoryLabelByValue[value] ?? value,
+        count: storageCategoryCounts[value] ?? 0,
+      })),
+    [storageCategoryLabelByValue, storageCategoryCounts],
+  );
+
+  const filteredDatasets = useMemo(() => {
+    if (selectedAssessments.length === 0 && selectedStorageCategories.length === 0) return visibleDatasets;
+
+    const selectedAssessmentValues = new Set(selectedAssessments.map((f) => f.value));
+    const selectedStorageCategoryValues = new Set(selectedStorageCategories.map((f) => f.value));
+
     return visibleDatasets.filter((dataset) => {
       const assessment = dataset.assessment;
-      return typeof assessment === 'string' && selectedValues.has(assessment);
+      const storageCategory = dataset.storage_category;
+      const assessmentMatches = typeof assessment === 'string' && selectedAssessmentValues.has(assessment);
+      const storageCategoryMatches =
+        typeof storageCategory === 'string' && selectedStorageCategoryValues.has(storageCategory);
+
+      if (selectedAssessments.length > 0 && selectedStorageCategories.length > 0) {
+        return assessmentMatches && storageCategoryMatches;
+      }
+      if (selectedAssessments.length > 0) {
+        return assessmentMatches;
+      }
+      if (selectedStorageCategories.length > 0) {
+        return storageCategoryMatches;
+      }
+      return true;
     });
-  }, [visibleDatasets, selectedAssessments]);
+  }, [visibleDatasets, selectedAssessments, selectedStorageCategories]);
 
   const sortedDatasets = useMemo(() => {
     return [...filteredDatasets].sort((a, b) => {
@@ -93,7 +159,12 @@ export default function DataProductDetail({
     });
   }, [filteredDatasets, namingStandardViolationsByDatasetId, sortBy]);
 
-  const availableSortOptions = isAuthenticated ? sortOptionsAuthenticated : sortOptionsUnauthenticated;
+  const hasNamingStandardViolations = visibleDatasets.some(
+    (dataset) => dataset.id && (namingStandardViolationsByDatasetId[dataset.id] ?? 0) > 0,
+  );
+
+  const availableSortOptions =
+    isAuthenticated && hasNamingStandardViolations ? sortOptionsAuthenticated : sortOptionsUnauthenticated;
 
   return (
     <div className={`${styles.detailsPage} container`}>
@@ -115,6 +186,15 @@ export default function DataProductDetail({
                 selectedItems={selectedAssessments}
                 onFilterChange={toggleAssessment}
               />
+
+              {isAuthenticated && (
+                <CheckboxFilter
+                  filterHeading={localization.products.storageCategory.filterLabel}
+                  filters={storageCategoryFilters}
+                  selectedItems={selectedStorageCategories}
+                  onFilterChange={toggleStorageCategory}
+                />
+              )}
             </FiltersPanel>
           </aside>
           <section className={styles.mainSection}>
@@ -122,25 +202,38 @@ export default function DataProductDetail({
               <Heading level={2} className={`${styles.sectionHeading} secondaryHeading`}>
                 {localization.dataProductDetail.dataset}
               </Heading>
-              <SortFields
-                sortOptions={availableSortOptions}
-                sortValue={sortBy}
-                sortLabels={{
-                  violationsDesc: localization.dataProductDetail.sortByMostNamingStandardViolations,
-                }}
-                onSortChange={(value) => {
-                  setSortBy(value as DatasetSortOption);
-                }}
-              />
+              <div className={styles.hitsSortGroup}>
+                <p className={styles.numHits}>
+                  {sortedDatasets.length === 0
+                    ? localization.search.noHits
+                    : `${sortedDatasets.length} ${localization.search.hits}`}
+                </p>
+                <SortFields
+                  sortOptions={availableSortOptions}
+                  sortValue={sortBy}
+                  sortLabels={{
+                    violationsDesc: localization.dataProductDetail.sortByMostNamingStandardViolations,
+                  }}
+                  onSortChange={(value) => {
+                    setSortBy(value as DatasetSortOption);
+                  }}
+                />
+              </div>
             </div>
             <div className={styles.datasetList}>
-              {sortedDatasets.map((d) => (
-                <DatasetSearchHit
-                  key={d.id ?? `${d.product_short_name}-${d.short_description}`}
-                  dataset={d}
-                  namingStandardViolationsCount={d.id ? (namingStandardViolationsByDatasetId[d.id] ?? 0) : 0}
-                />
-              ))}
+              {sortedDatasets.length > 0 ? (
+                sortedDatasets.map((d) => (
+                  <DatasetSearchHit
+                    key={d.id ?? `${d.product_short_name}-${d.short_description}`}
+                    dataset={d}
+                    namingStandardViolationsCount={d.id ? (namingStandardViolationsByDatasetId[d.id] ?? 0) : 0}
+                  />
+                ))
+              ) : (
+                <Alert data-color={'info'} role='status'>
+                  {localization.dataProductDetail.noDatasetAvailable}
+                </Alert>
+              )}
             </div>
           </section>
         </div>

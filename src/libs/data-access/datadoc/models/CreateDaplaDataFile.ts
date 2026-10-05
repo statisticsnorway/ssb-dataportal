@@ -14,17 +14,47 @@
 
 import { mapValues } from '../runtime';
 /**
- * Create a Data File. A Data File is a logically defined blob of data from a file system or object storage. Its file path shall follow Dapla's naming conventions.
+ * Create a Data File. A Data File is a logically defined blob of data from a file system or object storage. Its file path shall follow Dapla's naming conventions. \[taskId\] and \[jobId\] are optional, but must be supplied together. When supplied, the write is only accepted if \[jobId\] is the active job for \[taskId\], as set by task registration, and the file is recorded as claimed by that task in that run. Omit both to write without task tracking.
  * @export
  * @interface CreateDaplaDataFile
  */
 export interface CreateDaplaDataFile {
     /**
-     * 
+     * The globally unique identifier for the file
      * @type {string}
      * @memberof CreateDaplaDataFile
      */
     file_path: string;
+    /**
+     * The task this file is being registered under
+     * @type {string}
+     * @memberof CreateDaplaDataFile
+     */
+    task_id?: string | null;
+    /**
+     * The specific run of the task this file is being registered under
+     * @type {string}
+     * @memberof CreateDaplaDataFile
+     */
+    job_id?: string | null;
+    /**
+     * The MD5 checksum of the contents of the file
+     * @type {string}
+     * @memberof CreateDaplaDataFile
+     */
+    md5?: string | null;
+    /**
+     * The size of the file in bytes
+     * @type {number}
+     * @memberof CreateDaplaDataFile
+     */
+    size?: number | null;
+    /**
+     * The timestamp of the last update to the file
+     * @type {Date}
+     * @memberof CreateDaplaDataFile
+     */
+    data_last_modified_at?: Date | null;
 }
 
 /**
@@ -46,6 +76,11 @@ export function CreateDaplaDataFileFromJSONTyped(json: any, ignoreDiscriminator:
     return {
         
         'file_path': json['file_path'],
+        'task_id': json['task_id'] == null ? undefined : json['task_id'],
+        'job_id': json['job_id'] == null ? undefined : json['job_id'],
+        'md5': json['md5'] == null ? undefined : json['md5'],
+        'size': json['size'] == null ? undefined : json['size'],
+        'data_last_modified_at': json['data_last_modified_at'] == null ? undefined : (new Date(json['data_last_modified_at'])),
     };
 }
 
@@ -61,6 +96,11 @@ export function CreateDaplaDataFileToJSONTyped(value?: CreateDaplaDataFile | nul
     return {
         
         'file_path': value['file_path'],
+        'task_id': value['task_id'],
+        'job_id': value['job_id'],
+        'md5': value['md5'],
+        'size': value['size'],
+        'data_last_modified_at': value['data_last_modified_at'] == null ? value['data_last_modified_at'] : value['data_last_modified_at'].toISOString(),
     };
 }
 

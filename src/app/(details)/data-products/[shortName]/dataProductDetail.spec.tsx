@@ -1,7 +1,10 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { AppNotFoundState } from '@/components/app-state';
 import type { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
+import { localization } from '@/libs/language';
 import DataProductDetail from './dataProductDetail';
+import NotFound from './not-found';
 
 let isAuthenticatedMock = true;
 
@@ -17,6 +20,14 @@ vi.mock('@/app/authContext', () => ({
 
 vi.mock('@/libs/language', () => ({
   localization: {
+    error: {
+      notFoundTitleDataProductDetails: 'Data product not found',
+      notFoundMessageDataProductDetails: 'The requested data product could not be found.',
+      notFoundHelpListDataProductDetails: ['Check the URL or return to all data products.'],
+    },
+    dataProduct: {
+      labelPlural: 'Data products',
+    },
     tabs: { dataProducts: 'Data products' },
     search: {
       filter: {
@@ -35,6 +46,10 @@ vi.mock('@/libs/language', () => ({
         protected: 'Protected',
         open: 'Open',
         sensitive: 'Sensitive',
+      },
+      storageCategory: {
+        shared: 'Shared',
+        product: 'Product',
       },
     },
     dataProductDetail: {
@@ -128,6 +143,10 @@ vi.mock('./page.module.css', () => ({
   default: new Proxy({}, { get: (_t, p) => String(p) }),
 }));
 
+vi.mock('@/components/app-state', () => ({
+  AppNotFoundState: vi.fn(() => null),
+}));
+
 // --- Test data ---
 const dataProduct = {
   title: 'My Product',
@@ -148,7 +167,11 @@ describe('DataProductDetail', () => {
 
   it('renders title, breadcrumbs, filters and all datasets initially', () => {
     render(
-      <DataProductDetail dataProduct={dataProduct} datasets={datasets} namingStandardViolationsByDatasetId={{}} />,
+      <DataProductDetail
+        dataProduct={dataProduct}
+        datasetsShared={datasets}
+        namingStandardViolationsByDatasetId={{}}
+      />,
     );
 
     expect(screen.getByRole('heading', { level: 1, name: 'My Product' })).toBeInTheDocument();
@@ -161,7 +184,11 @@ describe('DataProductDetail', () => {
 
   it('filters datasets when an assessment checkbox is selected', () => {
     render(
-      <DataProductDetail dataProduct={dataProduct} datasets={datasets} namingStandardViolationsByDatasetId={{}} />,
+      <DataProductDetail
+        dataProduct={dataProduct}
+        datasetsShared={datasets}
+        namingStandardViolationsByDatasetId={{}}
+      />,
     );
 
     const openCheckbox = screen.getByLabelText('Open');
@@ -174,7 +201,11 @@ describe('DataProductDetail', () => {
 
   it('supports multiple selected filters (OR filtering)', () => {
     render(
-      <DataProductDetail dataProduct={dataProduct} datasets={datasets} namingStandardViolationsByDatasetId={{}} />,
+      <DataProductDetail
+        dataProduct={dataProduct}
+        datasetsShared={datasets}
+        namingStandardViolationsByDatasetId={{}}
+      />,
     );
 
     fireEvent.click(screen.getByLabelText('Open'));
@@ -187,7 +218,11 @@ describe('DataProductDetail', () => {
 
   it('toggling a selected filter off shows all datasets again', () => {
     render(
-      <DataProductDetail dataProduct={dataProduct} datasets={datasets} namingStandardViolationsByDatasetId={{}} />,
+      <DataProductDetail
+        dataProduct={dataProduct}
+        datasetsShared={datasets}
+        namingStandardViolationsByDatasetId={{}}
+      />,
     );
 
     const protectedCheckbox = screen.getByLabelText('Protected');
@@ -200,7 +235,7 @@ describe('DataProductDetail', () => {
 
   it('falls back to product_short_name when title is missing', () => {
     const product = { product_short_name: 'fallback-name' } as DataProductDTO;
-    render(<DataProductDetail dataProduct={product} datasets={[]} namingStandardViolationsByDatasetId={{}} />);
+    render(<DataProductDetail dataProduct={product} datasetsShared={[]} namingStandardViolationsByDatasetId={{}} />);
     expect(screen.getByRole('heading', { level: 1, name: 'fallback-name' })).toBeInTheDocument();
   });
 
@@ -208,7 +243,7 @@ describe('DataProductDetail', () => {
     render(
       <DataProductDetail
         dataProduct={dataProduct}
-        datasets={datasets}
+        datasetsShared={datasets}
         namingStandardViolationsByDatasetId={{ '1': 4, '2': 0, '3': 1 }}
       />,
     );
@@ -223,7 +258,7 @@ describe('DataProductDetail', () => {
     render(
       <DataProductDetail
         dataProduct={dataProduct}
-        datasets={datasets}
+        datasetsShared={datasets}
         namingStandardViolationsByDatasetId={{ '1': 1 }}
       />,
     );
@@ -237,7 +272,7 @@ describe('DataProductDetail', () => {
     render(
       <DataProductDetail
         dataProduct={dataProduct}
-        datasets={datasets}
+        datasetsShared={datasets}
         namingStandardViolationsByDatasetId={{ '1': 1 }}
       />,
     );
@@ -251,7 +286,7 @@ describe('DataProductDetail', () => {
     render(
       <DataProductDetail
         dataProduct={dataProduct}
-        datasets={datasets}
+        datasetsShared={datasets}
         namingStandardViolationsByDatasetId={{ '1': 1, '2': 4, '3': 2 }}
       />,
     );
@@ -260,5 +295,26 @@ describe('DataProductDetail', () => {
 
     const hits = screen.getAllByTestId('dataset-hit');
     expect(hits.map((hit) => hit.textContent)).toEqual(['Protected ds', 'Sensitive ds', 'Open ds']);
+  });
+
+  describe('NotFound', () => {
+    beforeEach(() => {
+      vi.clearAllMocks();
+    });
+
+    it('renders the data product not-found state with a link to all data products', () => {
+      render(<NotFound />);
+
+      expect(vi.mocked(AppNotFoundState).mock.calls[0]?.[0]).toEqual(
+        expect.objectContaining({
+          title: localization.error.notFoundTitleDataProductDetails,
+          message: localization.error.notFoundMessageDataProductDetails,
+          helpList: localization.error.notFoundHelpListDataProductDetails,
+          homeHref: '/data-products',
+          homeLabel: localization.dataProduct.labelPlural,
+          showBrokenLinkButton: false,
+        }),
+      );
+    });
   });
 });

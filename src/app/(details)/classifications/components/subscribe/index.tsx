@@ -50,7 +50,7 @@ const SubscribeDialog = ({ classificationId }: { classificationId: number | unde
   return (
     <Dialog.TriggerContext>
       <Dialog.Trigger>{localization.classification.subscribe}</Dialog.Trigger>
-      <Dialog onClose={resetState}>
+      <Dialog onClose={resetState} closeButton={localization.close}>
         <form onSubmit={handleSubscription} noValidate>
           <Field className={styles.field}>
             <Label weight='semibold' htmlFor='subscription-email'>

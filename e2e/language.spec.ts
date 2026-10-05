@@ -19,13 +19,19 @@ test.describe('language picker', () => {
     await page.goto('/');
 
     await page.getByRole('button', { name: LANGUAGE_LABEL }).click();
-    await page.getByRole('button', { name: NN_LABEL }).click();
+    const nynorskOption = page.getByRole('button', { name: NN_LABEL });
+    await expect(nynorskOption).toBeVisible();
+    await nynorskOption.click();
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
     await expect(page.getByRole('heading', { level: 1, name: 'Klassifikasjonar' })).toBeVisible();
 
-    const languageCookie = (await context.cookies()).find((cookie) => cookie.name === languageCookieName);
-    expect(languageCookie?.value).toBe('nn');
+    await expect
+      .poll(async () => {
+        const languageCookie = (await context.cookies()).find((cookie) => cookie.name === languageCookieName);
+        return languageCookie?.value;
+      })
+      .toBe('nn');
 
     await page.reload();
     await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
@@ -56,8 +62,12 @@ test.describe('automatic locale mapping', () => {
   });
 
   const openPageWithLocale = async (browser: Browser, locale: string) => {
+    const language = locale.split('-')[0];
     const context = await browser.newContext({
       locale,
+      extraHTTPHeaders: {
+        'accept-language': `${locale},${language};q=0.9`,
+      },
     });
     await context.clearCookies();
     const page = await context.newPage();

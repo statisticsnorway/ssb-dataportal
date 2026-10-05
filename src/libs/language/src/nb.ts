@@ -193,10 +193,15 @@ export const nb = {
     tooltipStatusDataPresent: 'Fil med data finnes',
     tooltipStatusMissingTargetSegment: 'Ingen fil med data for perioden',
   },
+  dataProduct: {
+    labelPlural: 'Dataprodukter',
+    labelSingular: 'Dataprodukt',
+  },
   dataProductDetail: {
     dataProductFilters: 'Dataproduktfiltre',
     dataset: 'Datasett',
     sortByMostNamingStandardViolations: 'Flest navnestandardavvik',
+    noDatasetAvailable: 'Ingen datasett tilgjengelig',
   },
   datasetDetail: {
     aboutDataset: 'Om datasettet',
@@ -262,6 +267,21 @@ export const nb = {
     notFoundHelpListClassificationId: [
       'sjekke at du har riktig klassifikasjon-id i lenken',
       'gå til oversikten over klassifikasjoner',
+    ],
+    notFoundDataProductDetails: 'Dataprodukt ikke funnet',
+    notFoundTitleDataProductDetails: 'Dataprodukt ikke funnet',
+    notFoundMessageDataProductDetails:
+      'Er det skrivefeil i lenken? Eller har dataproduktet blitt slettet eller flyttet?',
+    notFoundHelpListDataProductDetails: [
+      'sjekke at du har riktig dataprodukt-id i lenken',
+      'gå til oversikten over dataprodukter',
+    ],
+    notFoundTitleDataset: 'Datasett ikke funnet',
+    notFoundMessageDataset: 'Er det skrivefeil i lenken? Eller har datasettet blitt slettet eller flyttet?',
+    notFoundHelpListDataset: [
+      'sjekke at du har riktig datasett-id i lenken',
+      'gå til oversikten over datasett',
+      'gå til oversikten over dataprodukter',
     ],
     notFoundTitleClassificationDetails: 'Klassifikasjon ikke funnet',
     notFoundMessageClassificationDetails:
@@ -388,6 +408,12 @@ export const nb = {
     },
     other: 'Annen dataprodukt',
     statistic: 'Statistikkprodukt',
+    storageCategory: {
+      filterLabel: 'Lagringskategori',
+      shared: 'Delt',
+      product: 'Produkt',
+      source: 'Kilde',
+    },
     typeFilterLabel: 'Dataprodukttype',
     unknown: 'Ukjent produkttype',
   },

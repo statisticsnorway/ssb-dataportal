@@ -11,17 +11,16 @@ import {
   DatasetDTO,
   DatasetDTOFromJSON,
   DatasetsApi,
+  StorageCategory,
 } from '@/libs/data-access/datadoc';
 import dataProducts from '@/static-data/data-products.json';
 import datasetsStatic from '@/static-data/datasets.json';
 import {
   getClientForApi,
   getDataProductByShortName,
-  listDataFilesByDatasetId,
+  listDataFilesByDatasetIdAndStorageCategory,
   listDataProducts,
-  listDataProductsWithAvailableDatasets,
-  listDatasets,
-  listDatasetsByProductShortName,
+  listDatasetsByProductShortNameAndStorageCategory,
 } from './datasets';
 
 vi.mock('server-only', () => ({}));
@@ -75,23 +74,14 @@ describe('datadoc data fetching', () => {
   });
 
   describe('listDataProducts', () => {
-    it('static data', async () => {
-      vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
-      await expect(listDataProducts()).resolves.toContainEqual(DataProductDTOFromJSON(dataProducts[0]));
-      vi.unstubAllEnvs();
-    });
-
-    it('no token available', async () => {
-      process.env.DATADOC_USE_STATIC_DATA = 'false';
-      vi.mocked(getEncodedJwt).mockResolvedValue(undefined);
-      await expect(listDataProducts()).rejects.toEqual(new Error('Could not retrieve access token!'));
-    });
-
     it('mock api call happy path', async () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
+
       vi.spyOn(DataProductsApi.prototype, 'listDataProducts').mockResolvedValue(dataProducts as DataProductDTO[]);
+
       const result = await listDataProducts();
+
       expect(result).toContainEqual((dataProducts as DataProductDTO[])[0]);
     });
   });
@@ -137,16 +127,18 @@ describe('datadoc data fetching', () => {
 
     it('static data', async () => {
       vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
-      await expect(listDatasetsByProductShortName(shortName)).resolves.toContainEqual(testDataset);
+      await expect(
+        listDatasetsByProductShortNameAndStorageCategory(shortName, testDataset.storage_category!),
+      ).resolves.toContainEqual(testDataset);
       vi.unstubAllEnvs();
     });
 
     it('no token available', async () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       vi.mocked(getEncodedJwt).mockResolvedValue(undefined);
-      await expect(listDatasetsByProductShortName(shortName)).rejects.toEqual(
-        new Error('Could not retrieve access token!'),
-      );
+      await expect(
+        listDatasetsByProductShortNameAndStorageCategory(shortName, testDataset.storage_category!),
+      ).rejects.toEqual(new Error('Could not retrieve access token!'));
     });
 
     it('mock api call happy path', async () => {
@@ -154,7 +146,7 @@ describe('datadoc data fetching', () => {
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
       const mockResult = [testDataset];
       vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue(mockResult);
-      const result = await listDatasetsByProductShortName(shortName);
+      const result = await listDatasetsByProductShortNameAndStorageCategory(shortName, testDataset.storage_category!);
       expect(result).toEqual(mockResult);
     });
   });
@@ -163,7 +155,7 @@ describe('datadoc data fetching', () => {
     it('static data uses datafiles/<datasetId>.json and converts dates', async () => {
       vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
 
-      const result = await listDataFilesByDatasetId('id1');
+      const result = await listDataFilesByDatasetIdAndStorageCategory('id1', StorageCategory.SHARED);
       expect(result.length).toBeGreaterThan(0);
       expect(result[0]?.product_short_name).toEqual('arblonn');
       expect(result[0]?.contains_data_from).toBeInstanceOf(Date);
@@ -184,13 +176,15 @@ describe('datadoc data fetching', () => {
       ];
       vi.spyOn(DataFilesApi.prototype, 'listDataFiles').mockResolvedValue(mockResult);
 
-      const result = await listDataFilesByDatasetId('dataset-id');
+      const result = await listDataFilesByDatasetIdAndStorageCategory('dataset-id', StorageCategory.SHARED);
       expect(result).toEqual(mockResult);
     });
     it('static data returns empty array when no file exists', async () => {
       vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
 
-      await expect(listDataFilesByDatasetId('does-not-exist')).resolves.toEqual([]);
+      await expect(
+        listDataFilesByDatasetIdAndStorageCategory('does-not-exist', StorageCategory.SHARED),
+      ).resolves.toEqual([]);
 
       vi.unstubAllEnvs();
     });
@@ -203,88 +197,36 @@ describe('datadoc data fetching', () => {
 
     it('static data', async () => {
       vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
-      await expect(listDatasets()).resolves.toContainEqual(testDataset);
+      await expect(
+        listDatasetsByProductShortNameAndStorageCategory(
+          testDataset.product_short_name as string,
+          testDataset.storage_category!,
+        ),
+      ).resolves.toContainEqual(testDataset);
       vi.unstubAllEnvs();
     });
 
     it('no token available', async () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       vi.mocked(getEncodedJwt).mockResolvedValue(undefined);
-      await expect(listDatasets()).rejects.toEqual(new Error('Could not retrieve access token!'));
+      await expect(
+        listDatasetsByProductShortNameAndStorageCategory(
+          testDataset.product_short_name as string,
+          testDataset.storage_category!,
+        ),
+      ).rejects.toEqual(new Error('Could not retrieve access token!'));
     });
 
     it('mock api call happy path', async () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
       vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue(staticDatasets);
-      const result = await listDatasets();
+      const result = await listDatasetsByProductShortNameAndStorageCategory(
+        testDataset.product_short_name as string,
+        testDataset.storage_category!,
+      );
       expect(result.length).toBeGreaterThan(0);
       expect(result.every((d) => d.storage_location_name)).toBe(true);
-    });
-  });
-
-  describe('dataset product filtering', () => {
-    const testDataset = DatasetDTOFromJSON(datasetsStatic[1]);
-    assert(testDataset);
-
-    it('excludes datasets whose storage location contains produkt', async () => {
-      process.env.DATADOC_USE_STATIC_DATA = 'false';
-      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
-
-      const regularDataset = {
-        ...testDataset,
-        storage_location_name: 'ordinary-storage',
-      };
-      const productDataset = {
-        ...testDataset,
-        storage_location_name: 'Produkt-storage',
-      };
-
-      vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue([regularDataset, productDataset]);
-
-      const result = await listDatasetsByProductShortName(testDataset.product_short_name as string);
-
-      expect(result).toEqual([regularDataset]);
-    });
-
-    it('excludes a data product when all its datasets are product datasets', async () => {
-      process.env.DATADOC_USE_STATIC_DATA = 'false';
-      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
-
-      const product = DataProductDTOFromJSON(dataProducts[0]);
-      assert(product);
-      assert(product.product_short_name);
-
-      const productDataset = {
-        ...testDataset,
-        product_short_name: product.product_short_name,
-        storage_location_name: 'produkt-lager',
-      };
-
-      vi.spyOn(DataProductsApi.prototype, 'listDataProducts').mockResolvedValue([product]);
-      vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue([productDataset]);
-
-      await expect(listDataProductsWithAvailableDatasets()).resolves.toEqual([]);
-    });
-
-    it('keeps a data product when it has at least one non-product dataset', async () => {
-      process.env.DATADOC_USE_STATIC_DATA = 'false';
-      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
-
-      const product = DataProductDTOFromJSON(dataProducts[0]);
-      assert(product);
-      assert(product.product_short_name);
-
-      const regularDataset = {
-        ...testDataset,
-        product_short_name: product.product_short_name,
-        storage_location_name: 'ordinary-storage',
-      };
-
-      vi.spyOn(DataProductsApi.prototype, 'listDataProducts').mockResolvedValue([product]);
-      vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue([regularDataset]);
-
-      await expect(listDataProductsWithAvailableDatasets()).resolves.toEqual([product]);
     });
   });
 });
