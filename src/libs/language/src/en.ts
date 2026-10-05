@@ -390,6 +390,12 @@ export const en = {
     },
     other: 'Other data product',
     statistic: 'Statistical product',
+    storageCategory: {
+      filterLabel: 'Storage category',
+      shared: 'Shared',
+      product: 'Product',
+      source: 'Source',
+    },
     typeFilterLabel: 'Data product type',
     unknown: 'Unknown product type',
   },
