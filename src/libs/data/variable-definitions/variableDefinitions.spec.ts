@@ -3,6 +3,7 @@ import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { VariableDefinitionsApi } from '@/libs/data-access/variable-definitions/internal/apis/VariableDefinitionsApi';
 import { getStaticVariableDefinitions as getStaticVariableDefinitions } from '@/utils/mock-data';
 import {
+  getValidityPeriodsById,
   getVardefClient,
   getVariableDefinitionByShortName,
   listRenderedVariableDefinitions,
@@ -114,6 +115,19 @@ describe('vardef data fetching', () => {
       await expect(getVariableDefinitionByShortName('antall')).rejects.toThrow(
         'No variable definition found for shortName="antall"',
       );
+    });
+
+    it('returns validity periods by id from static data', async () => {
+      vi.stubEnv('VARDEF_USE_STATIC_DATA', 'true');
+      const id = 'uTlh01fK';
+      const validityPeriods = await getValidityPeriodsById(id);
+      expect(validityPeriods).toHaveLength(2);
+      validityPeriods.forEach((vp) => {
+        expect(vp).toHaveProperty('id', id);
+        expect(vp).toHaveProperty('valid_from');
+        expect(vp).toHaveProperty('valid_until');
+      });
+      vi.unstubAllEnvs();
     });
   });
 });

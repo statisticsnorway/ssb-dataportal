@@ -199,10 +199,15 @@ export const en = {
     tooltipStatusDataPresent: 'Data file exists',
     tooltipStatusMissingTargetSegment: 'No file with data for this period',
   },
+  dataProduct: {
+    labelPlural: 'Data products',
+    labelSingular: 'Data product',
+  },
   dataProductDetail: {
     dataProductFilters: 'Data product filters',
     dataset: 'Dataset',
     sortByMostNamingStandardViolations: 'Most naming standard violations',
+    noDatasetAvailable: 'No dataset available',
   },
   datasetDetail: {
     aboutDataset: 'About dataset',
@@ -260,6 +265,21 @@ export const en = {
         '',
         'Description of what did not work:',
       ].join('\n'),
+    notFoundDataProductDetails: 'Data product not found',
+    notFoundTitleDataProductDetails: 'Data product not found',
+    notFoundMessageDataProductDetails: 'Is there a typo in the URL? Or has the data product been deleted or moved?',
+    notFoundHelpListDataProductDetails: [
+      'check that you have the correct data product ID in the URL',
+      'go to the data product overview',
+      'go to the home page',
+    ],
+    notFoundTitleDataset: 'Dataset not found',
+    notFoundMessageDataset: 'Is there a typo in the URL? Or has the dataset been deleted or moved?',
+    notFoundHelpListDataset: [
+      'check that you have the correct dataset ID in the URL',
+      'go to the dataset overview',
+      'go to the data product overview',
+    ],
     notFoundHelpListClassificationDetails: [
       'check that you have the correct classification ID in the URL',
       'go to the classification overview',
@@ -392,6 +412,12 @@ export const en = {
     },
     other: 'Other data product',
     statistic: 'Statistical product',
+    storageCategory: {
+      filterLabel: 'Storage category',
+      shared: 'Shared',
+      product: 'Product',
+      source: 'Source',
+    },
     typeFilterLabel: 'Data product type',
     unknown: 'Unknown product type',
   },
@@ -460,7 +486,10 @@ export const en = {
   yes: 'Yes',
 
   validity: {
-    label: 'Validity',
+    validityPeriods: 'Validity periods',
+    chooseValidityPeriod: 'Select validity period',
+    validityPeriodsInfo:
+      'When a variable definition changes meaning time periods can be set for each distinct meaning. A specific validity period may be chosen below by selecting the date from which it is valid.',
     validFrom: 'Valid from',
     validTo: 'Valid to',
   },

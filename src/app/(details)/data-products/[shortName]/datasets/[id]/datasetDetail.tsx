@@ -21,12 +21,16 @@ import styles from './dataset-page.module.css';
 
 export default function DatasetDetail({
   dataset,
-  dataFiles,
+  dataFilesShared,
+  dataFilesProduct,
 }: Readonly<{
   dataset: DatasetDTO;
-  dataFiles: Array<DaplaDataFileDTO>;
+  dataFilesShared: Array<DaplaDataFileDTO>;
+  dataFilesProduct: Array<DaplaDataFileDTO>;
 }>) {
   const { isAuthenticated } = useAuthContext();
+
+  let dataFiles = isAuthenticated ? [...dataFilesShared, ...dataFilesProduct] : dataFilesShared;
 
   if (!isAuthenticated && dataset.has_naming_standard_violations === true) {
     notFound();

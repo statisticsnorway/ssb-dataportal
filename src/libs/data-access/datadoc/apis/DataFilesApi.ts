@@ -18,6 +18,7 @@ import type {
   CreateDaplaDataFile,
   DaplaDataFileDTO,
   Problem,
+  StorageCategory,
 } from '../models/index';
 import {
     CreateDaplaDataFileFromJSON,
@@ -26,6 +27,8 @@ import {
     DaplaDataFileDTOToJSON,
     ProblemFromJSON,
     ProblemToJSON,
+    StorageCategoryFromJSON,
+    StorageCategoryToJSON,
 } from '../models/index';
 
 export interface CreateOrUpdateDaplaDataFileRequest {
@@ -38,6 +41,7 @@ export interface GetDataFileByFilePathRequest {
 
 export interface ListDataFilesRequest {
     datasetId?: string | null;
+    storageCategory?: StorageCategory | null;
 }
 
 /**
@@ -76,6 +80,7 @@ export interface DataFilesApiInterface {
     /**
      * 
      * @param {string} [datasetId] 
+     * @param {StorageCategory} [storageCategory] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DataFilesApiInterface
@@ -112,6 +117,14 @@ export class DataFilesApi extends runtime.BaseAPI implements DataFilesApiInterfa
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
             const tokenString = await token("metamapper-datadoc-m2m", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("keycloak-token", []);
 
             if (tokenString) {
                 headerParameters["Authorization"] = `Bearer ${tokenString}`;
@@ -186,7 +199,11 @@ export class DataFilesApi extends runtime.BaseAPI implements DataFilesApiInterfa
         const queryParameters: any = {};
 
         if (requestParameters['datasetId'] != null) {
-            queryParameters['dataset_id'] = requestParameters['datasetId'];
+            queryParameters['dataset-id'] = requestParameters['datasetId'];
+        }
+
+        if (requestParameters['storageCategory'] != null) {
+            queryParameters['storage-category'] = requestParameters['storageCategory'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

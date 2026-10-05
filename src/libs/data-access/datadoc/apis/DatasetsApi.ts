@@ -17,12 +17,15 @@ import * as runtime from '../runtime';
 import type {
   DatasetDTO,
   Problem,
+  StorageCategory,
 } from '../models/index';
 import {
     DatasetDTOFromJSON,
     DatasetDTOToJSON,
     ProblemFromJSON,
     ProblemToJSON,
+    StorageCategoryFromJSON,
+    StorageCategoryToJSON,
 } from '../models/index';
 
 export interface DeleteDatasetByIdRequest {
@@ -36,6 +39,7 @@ export interface GetDatasetByIdRequest {
 export interface ListDatasetsRequest {
     productShortName?: string | null;
     storageLocation?: string | null;
+    storageCategory?: StorageCategory | null;
 }
 
 /**
@@ -78,6 +82,7 @@ export interface DatasetsApiInterface {
      * 
      * @param {string} [productShortName] 
      * @param {string} [storageLocation] 
+     * @param {StorageCategory} [storageCategory] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DatasetsApiInterface
@@ -190,11 +195,15 @@ export class DatasetsApi extends runtime.BaseAPI implements DatasetsApiInterface
         const queryParameters: any = {};
 
         if (requestParameters['productShortName'] != null) {
-            queryParameters['product_short_name'] = requestParameters['productShortName'];
+            queryParameters['product-short-name'] = requestParameters['productShortName'];
         }
 
         if (requestParameters['storageLocation'] != null) {
-            queryParameters['storage_location'] = requestParameters['storageLocation'];
+            queryParameters['storage-location'] = requestParameters['storageLocation'];
+        }
+
+        if (requestParameters['storageCategory'] != null) {
+            queryParameters['storage-category'] = requestParameters['storageCategory'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

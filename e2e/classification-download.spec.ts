@@ -27,7 +27,9 @@ test.describe('classification code download', () => {
 
     const formatSelect = dialog.getByLabel(localization.classification.download.formatLabel);
     const languageSelect = dialog.getByLabel(localization.classification.download.languageLabel);
-    const levelSelect = dialog.getByLabel(localization.classification.download.levelLabel);
+    const levelSelect = dialog.getByRole('group', {
+      name: localization.classification.download.levelLabel,
+    });
 
     await expect(formatSelect).toBeVisible();
     await expect(languageSelect).toBeVisible();
@@ -48,7 +50,7 @@ test.describe('classification code download', () => {
 
     await dialog.getByLabel(localization.classification.download.formatLabel).selectOption('xml');
     await dialog.getByLabel(localization.classification.download.languageLabel).selectOption('en');
-    await dialog.getByLabel('Industri').check();
+    await dialog.getByRole('radio', { name: 'Industri', exact: true }).check();
 
     const [download] = await Promise.all([
       codesVersionPage.waitForEvent('download'),
@@ -70,7 +72,7 @@ test.describe('classification code download', () => {
 
     await dialog.getByLabel(localization.classification.download.formatLabel).selectOption('xml');
     await dialog.getByLabel(localization.classification.download.languageLabel).selectOption('en');
-    await dialog.getByLabel('Industri').check();
+    await dialog.getByRole('radio', { name: 'Industri', exact: true }).check();
 
     await expect(codesPage).toHaveURL(/\/download\?v=1&format=xml&language=en&level=2$/);
 
@@ -93,7 +95,7 @@ test.describe('classification code download', () => {
     await expect(dialog).toBeVisible();
     await expect(codesPage).toHaveURL(/\/codes\/download\?v=1&format=csv&language=nb$/);
 
-    await dialog.getByRole('button', { name: 'Lukk dialogvindu' }).click();
+    await dialog.getByRole('button', { name: localization.close }).click();
 
     await expect(dialog).not.toBeVisible();
     await expect(codesPage).toHaveURL(/\/codes$/);

@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { mapChanges } from '@/app/(details)/classifications/utils/details';
 import { buildDownloadHref } from '@/app/(details)/classifications/utils/download-urls';
 import { AppErrorState } from '@/components/app-state';
+import { ClassificationTable } from '@/components/classification-table';
+import { ExpandableTable } from '@/components/expandable-table';
 import { LanguageTag } from '@/components/language-tag';
 import { type FetchChangesResult, fetchChanges } from '@/libs/data/classifications/codesData';
 import {
@@ -16,9 +18,7 @@ import { SupportedLanguages } from '@/libs/data-access/variable-definitions/inte
 import { localization } from '@/libs/language';
 import { getDayBeforeDate } from '@/utils/dates';
 import { sortDatesDescendingSafe } from '@/utils/sort';
-import { ClassificationTable } from '../classification-table';
 import { CorrespondenceTable } from '../correspondence-table';
-import { ExpandableTable } from '../expandable-table';
 import styles from './views.module.css';
 
 export default function ChangesView({

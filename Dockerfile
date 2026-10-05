@@ -3,7 +3,7 @@
 # Based on example from: https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
 
 # node 24
-FROM node@sha256:6dac556d980b7f0e5498d08f08cee0ca67798b4ad6c23964a9214920e67758d0 AS base
+FROM node@sha256:a723b54c35a76e947095a20a67d39585bb09c862e6b1adeb8a9f518f95e34fb0 AS base
 
 RUN npm install -g pnpm@11.9.0
 
@@ -27,7 +27,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN pnpm run build;
 
 # Production image, copy all the files and run next
-FROM gcr.io/distroless/nodejs26-debian13@sha256:2b8aeb6334dbad357860d17bd8868128bfb2514d6af31cfbc77a2268cb344a51 AS runner
+FROM gcr.io/distroless/nodejs26-debian13@sha256:3535dc89b77aad3c749e90e81b84d5b0af721fe491930294de6d6d2d6a34e67f AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production

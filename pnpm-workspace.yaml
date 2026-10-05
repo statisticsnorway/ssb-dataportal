@@ -1,15 +1,16 @@
 allowBuilds:
-  '@nestjs/core': false
-  '@openapitools/openapi-generator-cli': false
-  '@parcel/watcher': true
+  "@nestjs/core": false
+  "@openapitools/openapi-generator-cli": false
+  "@parcel/watcher": true
   esbuild: false
   sharp: true
 minimumReleaseAge: 10080
-minimumReleaseAgeExclude:
-  - '@playwright/test@1.61.1'
-  - playwright-core@1.61.1
-  - playwright@1.61.1
 overrides:
-  # Override transitive vulnerable dependency
-  sharp: '0.35.4'
-  playwright-core: 1.61.1
+  # This transitive dependency is locked to ensure the coverage tool @bgotink/playwright-coverage
+  # uses a compatible Playwright API
+  playwright-core: "catalog:playwright"
+
+catalogs:
+  playwright:
+    "@playwright/test": "1.63.0"
+    "playwright-core": "1.63.0"

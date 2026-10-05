@@ -24,7 +24,7 @@ test.describe('unauthenticated', () => {
 
   test('blocks dataset with naming standard violations', async ({ page }) => {
     await page.goto(VIOLATING_DATASET);
-    await expect(page.getByRole('heading', { name: 'Siden finnes ikke' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: localization.error.notFoundTitleDataset })).toBeVisible();
   });
 });
 

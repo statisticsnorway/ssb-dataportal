@@ -1,9 +1,12 @@
+apis/ValidityPeriodsApi.ts
 apis/VariableDefinitionsApi.ts
 apis/index.ts
-docs/VariableDefinitionsApi.md
 index.ts
 models/CompleteView.ts
 models/Contact.ts
+models/CreateDraft.ts
+models/CreatePatch.ts
+models/CreateValidityPeriod.ts
 models/KlassReference.ts
 models/LanguageStringType.ts
 models/ListVariableDefinitions200ResponseInner.ts

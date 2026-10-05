@@ -26,7 +26,7 @@ vi.mock('next/navigation', () => ({
   useParams: () => ({}),
 }));
 
-vi.mock('@/app/(details)/classifications/components/classification-table', () => ({
+vi.mock('@/components/classification-table', () => ({
   ClassificationTable: ({ content }: { content: unknown[] }) => (
     <div data-testid='classification-table'>rows: {content.length}</div>
   ),

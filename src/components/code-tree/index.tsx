@@ -245,7 +245,7 @@ export function CodeTree({
           </TableBody>
         </Table>
       </div>
-      <Dialog open={Boolean(notesCode)} onClose={() => setNotesCode(null)}>
+      <Dialog open={Boolean(notesCode)} onClose={() => setNotesCode(null)} closeButton={localization.close}>
         {notesCode && (
           <>
             <Dialog.Block>

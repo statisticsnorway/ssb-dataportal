@@ -93,11 +93,23 @@ export interface DaplaDataFileDTO {
      */
     data_last_modified_at?: Date | null;
     /**
+     * The last time we updated metadata for this data file.
+     * @type {Date}
+     * @memberof DaplaDataFileDTO
+     */
+    file_last_scanned_at?: Date | null;
+    /**
      * The checksum of the data file, as reported by the storage provider. This may be used to detect changes in the data file.
      * @type {string}
      * @memberof DaplaDataFileDTO
      */
     checksum?: string | null;
+    /**
+     * The size of the file in bytes
+     * @type {number}
+     * @memberof DaplaDataFileDTO
+     */
+    file_size?: number | null;
     /**
      * A short description of the data file, sourced from the file path. \[Defined in the Dapla Manual.\](https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn)
      * @type {string}
@@ -199,7 +211,9 @@ export function DaplaDataFileDTOFromJSONTyped(json: any, ignoreDiscriminator: bo
         'storage_location_name': json['storage_location_name'] == null ? undefined : json['storage_location_name'],
         'file_type': json['file_type'] == null ? undefined : FileTypeFromJSON(json['file_type']),
         'data_last_modified_at': json['data_last_modified_at'] == null ? undefined : (new Date(json['data_last_modified_at'])),
+        'file_last_scanned_at': json['file_last_scanned_at'] == null ? undefined : (new Date(json['file_last_scanned_at'])),
         'checksum': json['checksum'] == null ? undefined : json['checksum'],
+        'file_size': json['file_size'] == null ? undefined : json['file_size'],
         'short_description': json['short_description'] == null ? undefined : json['short_description'],
         'product_type': json['product_type'] == null ? undefined : DataProductTypeFromJSON(json['product_type']),
         'product_short_name': json['product_short_name'] == null ? undefined : json['product_short_name'],
@@ -231,7 +245,9 @@ export function DaplaDataFileDTOToJSONTyped(value?: DaplaDataFileDTO | null, ign
         'storage_location_name': value['storage_location_name'],
         'file_type': FileTypeToJSON(value['file_type']),
         'data_last_modified_at': value['data_last_modified_at'] == null ? value['data_last_modified_at'] : value['data_last_modified_at'].toISOString(),
+        'file_last_scanned_at': value['file_last_scanned_at'] == null ? value['file_last_scanned_at'] : value['file_last_scanned_at'].toISOString(),
         'checksum': value['checksum'],
+        'file_size': value['file_size'],
         'short_description': value['short_description'],
         'product_type': DataProductTypeToJSON(value['product_type']),
         'product_short_name': value['product_short_name'],
