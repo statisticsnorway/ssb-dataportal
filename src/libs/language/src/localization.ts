@@ -5,6 +5,11 @@ import { nn } from './nn';
 
 export const languageCookieName = 'ssb-dataportal-language';
 export const cookieBannerDismissedCookieName = 'ssb-dataportal-cookie-banner-dismissed';
+export const migrationVariableDefinitionsBannerDismissedCookieName =
+  'ssb-dataportal-migration-variable-definitions-banner-dismissed';
+export const migrationClassificationsBannerDismissedCookieName =
+  'ssb-dataportal-migration-classifications-banner-dismissed';
+export const datasetPrototypeBannerDismissedCookieName = 'ssb-dataportal-dataset-prototype-banner-dismissed';
 const preferenceCookieMaxAge = 31536000;
 
 export const supportedLanguages = ['nb', 'nn', 'en'] as const;

@@ -334,9 +334,6 @@ export const nb = {
       toggle: 'Hvorfor SSB Dataportal',
     },
     comingSoon: 'Kommer snart',
-    classificationsPrototypeIntro: 'Under utvikling',
-    classificationsPrototypeInfo:
-      'En ny og forbedret visning av Klass lanseres ila 2026. Frem til lansering må du bruke dagens løsning på',
     datasetPrototypeIntro: 'Under utvikling',
     datasetPrototypeInfo:
       'Denne siden beskriver et utvalg av data i SSB. Utvikling fortsetter med flere typer data og mer detaljerte beskrivelser.',
@@ -348,9 +345,6 @@ export const nb = {
     footerAccessibilityStatement: 'Tilgjengelighetserklæring',
     footerPrivacyStatement: 'Personvernerklæring',
     landingPageSubTitle: 'Din inngang til SSBs felles kunnskap om data',
-  },
-  language: {
-    notSelectedLanguage: 'Denne {item} er ikke tilgjengelig på valgt språk',
   },
 
   loading: {

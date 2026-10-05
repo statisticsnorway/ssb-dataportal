@@ -337,9 +337,6 @@ export const en = {
       toggle: 'Why SSB Dataportal',
     },
     comingSoon: 'Coming soon',
-    classificationsPrototypeIntro: 'Under development',
-    classificationsPrototypeInfo:
-      'A new and improved view of Klass will be launched during 2026. Until launch, use the current solution at',
     datasetPrototypeIntro: 'Under development',
     datasetPrototypeInfo:
       'This page describes a selection of data at Statistics Norway. Development continues with more data types and more detailed descriptions.',
@@ -351,9 +348,6 @@ export const en = {
     footerAccessibilityStatement: 'Accessibility statement',
     footerPrivacyStatement: 'Privacy statement',
     landingPageSubTitle: "Your gateway to Statistics Norway's public data",
-  },
-  language: {
-    notSelectedLanguage: 'This {element} is not available in the selected language',
   },
   loading: {
     filters: 'Loading filters...',

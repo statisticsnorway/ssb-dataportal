@@ -334,9 +334,6 @@ export const nn = {
       toggle: 'Kvifor SSB Dataportal',
     },
     comingSoon: 'Kjem snart',
-    classificationsPrototypeIntro: 'Under utvikling',
-    classificationsPrototypeInfo:
-      'Ei ny og forbetra vising av Klass blir lansert i løpet av 2026. Fram til lansering må du bruke dagens løysing på',
     datasetPrototypeIntro: 'Under utvikling',
     datasetPrototypeInfo:
       'Denne sida skildrar eit utval av data i SSB. Utviklinga held fram med fleire datatypar og meir detaljerte skildringar.',
@@ -348,9 +345,6 @@ export const nn = {
     footerAccessibilityStatement: 'Tilgjengelegheitserklæring',
     footerPrivacyStatement: 'Personvernerklæring',
     landingPageSubTitle: 'Di inngang til SSBs felles kunnskap om data',
-  },
-  language: {
-    notSelectedLanguage: 'Dette {elementet} er ikkje tilgjengeleg på valt språk',
   },
   loading: {
     filters: 'Lastar filter ...',
