@@ -9,11 +9,18 @@ import styles from './alerts.module.css';
 interface ClosableAlertProps {
   heading?: ReactNode;
   message?: ReactNode;
+  extraContent?: ReactNode;
   color?: 'info' | 'success' | 'warning' | 'danger';
   onClose?: () => void;
 }
 
-export function ClosableAlert({ heading, message, color = 'info', onClose }: Readonly<ClosableAlertProps>) {
+export function ClosableAlert({
+  heading,
+  message,
+  extraContent,
+  color = 'info',
+  onClose,
+}: Readonly<ClosableAlertProps>) {
   const [visible, setVisible] = useState(true);
 
   return (
@@ -29,6 +36,7 @@ export function ClosableAlert({ heading, message, color = 'info', onClose }: Rea
             {message}
           </Paragraph>
         )}
+        {extraContent && <div className={styles.extraContent}>{extraContent}</div>}
         <Button
           className={styles.closeButton}
           data-color='secondary'
