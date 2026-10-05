@@ -2,15 +2,18 @@
 
 import { Alert, Button, Heading, Paragraph } from '@digdir/designsystemet-react';
 import { XMarkIcon } from '@navikt/aksel-icons';
-import { type ReactNode, useState } from 'react';
-import { localization } from '@/libs/language/src/localization';
+import { type ReactNode, useEffect, useState } from 'react';
+import { getCookieValue, localization, setPreferenceCookie } from '@/libs/language';
 import styles from './alerts.module.css';
+
+const dismissedValue = 'true';
 
 interface ClosableAlertProps {
   heading?: ReactNode;
   message?: ReactNode;
   extraContent?: ReactNode;
   color?: 'info' | 'success' | 'warning' | 'danger';
+  persistDismissalCookieName?: string;
   onClose?: () => void;
 }
 
@@ -19,9 +22,27 @@ export function ClosableAlert({
   message,
   extraContent,
   color = 'info',
+  persistDismissalCookieName,
   onClose,
 }: Readonly<ClosableAlertProps>) {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(!persistDismissalCookieName);
+  const [isReady, setIsReady] = useState(!persistDismissalCookieName);
+  const [dismissedOnLoad, setDismissedOnLoad] = useState(false);
+
+  useEffect(() => {
+    if (!persistDismissalCookieName) {
+      return;
+    }
+
+    const isDismissed = getCookieValue(persistDismissalCookieName) === dismissedValue;
+    setVisible(!isDismissed);
+    setDismissedOnLoad(isDismissed);
+    setIsReady(true);
+  }, [persistDismissalCookieName]);
+
+  if (!isReady || dismissedOnLoad) {
+    return null;
+  }
 
   return (
     <div className={`${styles.alertWrap} ${visible ? '' : styles.alertWrapClosing}`}>
@@ -44,6 +65,9 @@ export function ClosableAlert({
           icon
           aria-label={localization.close}
           onClick={() => {
+            if (persistDismissalCookieName) {
+              setPreferenceCookie(persistDismissalCookieName, dismissedValue);
+            }
             setVisible(false);
             onClose?.();
           }}

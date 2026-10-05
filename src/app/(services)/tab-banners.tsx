@@ -1,7 +1,12 @@
 import { type FC } from 'react';
 import { ClosableAlert } from '@/components/alerts';
 import { ExternalLink } from '@/components/link-components/externalLink';
-import { localization } from '@/libs/language';
+import {
+  datasetPrototypeBannerDismissedCookieName,
+  localization,
+  migrationClassificationsBannerDismissedCookieName,
+  migrationVariableDefinitionsBannerDismissedCookieName,
+} from '@/libs/language';
 import { tabsData } from './tabs';
 
 const VariableDefinitionsBanner: FC = () => (
@@ -14,17 +19,23 @@ const VariableDefinitionsBanner: FC = () => (
         linkText={`${' '}${localization.migrationVariableDefinitions.linkText}`}
       />
     }
+    persistDismissalCookieName={migrationVariableDefinitionsBannerDismissedCookieName}
   />
 );
 
 const DataProductsBanner: FC = () => (
-  <ClosableAlert heading={localization.info.datasetPrototypeIntro} message={localization.info.datasetPrototypeInfo} />
+  <ClosableAlert
+    heading={localization.info.datasetPrototypeIntro}
+    message={localization.info.datasetPrototypeInfo}
+    persistDismissalCookieName={datasetPrototypeBannerDismissedCookieName}
+  />
 );
 
 const ClassificationsBanner: FC = () => (
   <ClosableAlert
     heading={localization.migrationClassifications.header}
     message={localization.migrationClassifications.info}
+    persistDismissalCookieName={migrationClassificationsBannerDismissedCookieName}
   />
 );
 
