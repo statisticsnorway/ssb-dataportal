@@ -36,6 +36,7 @@ export interface CodeTreeProps {
   onChange?: (code: KlassCode) => void;
   toolbar?: (controls: { allExpanded: boolean; hasExpandableNodes: boolean; toggleAll: () => void }) => ReactNode;
   autoExpandAll?: boolean;
+  showShortNames?: boolean;
 }
 
 /** Recursively collects the code string of every node that has at least one child. */
@@ -123,7 +124,13 @@ function useWindowVirtualizedRows(
  * - Row-body clicks select a code (aria-pressed); chevron clicks toggle expansion.
  * - Purely presentational — no data fetching.
  */
-export function CodeTree({ codes, onChange, toolbar, autoExpandAll = false }: Readonly<CodeTreeProps>) {
+export function CodeTree({
+  codes,
+  onChange,
+  toolbar,
+  autoExpandAll = false,
+  showShortNames = false,
+}: Readonly<CodeTreeProps>) {
   const tree = useMemo(() => buildCodeTree(codes), [codes]);
   const allParentCodes = useMemo(() => collectParentCodes(tree), [tree]);
 
@@ -204,12 +211,17 @@ export function CodeTree({ codes, onChange, toolbar, autoExpandAll = false }: Re
               <TableHeaderCell scope='col' className={styles.treeHeaderName}>
                 {localization.codeTree.nameColumn}
               </TableHeaderCell>
+              {showShortNames ? (
+                <TableHeaderCell scope='col' className={styles.treeHeaderShortName}>
+                  {localization.codeTree.shortNameColumn}
+                </TableHeaderCell>
+              ) : null}
             </TableRow>
           </TableHead>
           <TableBody role='tree' aria-label={localization.codeTree.label}>
             {topSpacerHeight > 0 && (
               <tr style={{ height: topSpacerHeight }}>
-                <td colSpan={2} className={styles.spacerCell} />
+                <td colSpan={showShortNames ? 3 : 2} className={styles.spacerCell} />
               </tr>
             )}
             {renderedRows.map(({ node, depth }) => (
@@ -219,6 +231,7 @@ export function CodeTree({ codes, onChange, toolbar, autoExpandAll = false }: Re
                 depth={depth}
                 isExpanded={expandedCodes.has(node.code.code)}
                 isSelected={selectedCode === node.code.code}
+                showShortNames={showShortNames}
                 onToggle={handleToggle}
                 onChange={handleChange}
                 onNotes={setNotesCode}
@@ -226,7 +239,7 @@ export function CodeTree({ codes, onChange, toolbar, autoExpandAll = false }: Re
             ))}
             {bottomSpacerHeight > 0 && (
               <tr style={{ height: bottomSpacerHeight }}>
-                <td colSpan={2} className={styles.spacerCell} />
+                <td colSpan={showShortNames ? 3 : 2} className={styles.spacerCell} />
               </tr>
             )}
           </TableBody>

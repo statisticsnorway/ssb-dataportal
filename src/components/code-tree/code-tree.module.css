@@ -14,7 +14,8 @@
 }
 
 .treeHeaderCode,
-.treeHeaderName {
+.treeHeaderName,
+.treeHeaderShortName {
   padding: var(--ds-size-2) var(--ds-size-3);
   border-bottom: var(--ds-border-width-default) solid var(--ds-color-secondary-border-subtle);
   background: var(--ds-color-secondary-surface-tinted);

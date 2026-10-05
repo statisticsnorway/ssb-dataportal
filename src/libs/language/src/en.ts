@@ -150,6 +150,8 @@ export const en = {
     back: 'Back',
     subcodes: 'Open subcodes',
     notesButtonLabel: 'Show additional information for',
+    showShortNames: 'Show short names',
+    shortNameColumn: 'Short name',
   },
   codeSnippet: {
     codeExample: 'Example code',

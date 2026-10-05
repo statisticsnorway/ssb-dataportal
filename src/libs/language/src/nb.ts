@@ -146,6 +146,8 @@ export const nb = {
     back: 'Tilbake',
     subcodes: 'Åpne underkoder',
     notesButtonLabel: 'Vis tilleggsinformasjon for',
+    showShortNames: 'Vis kortnavn',
+    shortNameColumn: 'Kortnavn',
   },
   codeSnippet: {
     codeExample: 'Kodeeksempel',

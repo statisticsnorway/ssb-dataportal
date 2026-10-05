@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@digdir/designsystemet-react';
+import { Button, Checkbox } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CodeTree } from '@/components/code-tree';
@@ -33,6 +33,9 @@ interface CodesToolbarProps {
   onFilterClear: () => void;
   showDownloadButton: boolean;
   onOpenDownloadRoute: () => void;
+  hasShortNames: boolean;
+  showShortNames: boolean;
+  onShowShortNamesChange: (checked: boolean) => void;
 }
 
 function toDateString(value?: string | Date | null): string | undefined {
@@ -94,12 +97,22 @@ function CodesToolbar({
   onFilterTermChange,
   showDownloadButton,
   onOpenDownloadRoute,
+  hasShortNames,
+  showShortNames,
+  onShowShortNamesChange,
 }: Readonly<CodesToolbarProps>) {
   return (
     <div className={styles.codesTools}>
       <div className={styles.searchScope}>
         <CodeSearch searchId='codes-filter-input' filterTerm={filterTerm} setFilterTerm={onFilterTermChange} />
       </div>
+      {hasShortNames ? (
+        <Checkbox
+          label={localization.codeTree.showShortNames}
+          checked={showShortNames}
+          onChange={(event) => onShowShortNamesChange(event.target.checked)}
+        />
+      ) : null}
       <div className={styles.codeTreeToolbar}>
         {hasExpandableNodes ? (
           <Button variant='secondary' onClick={onToggleAll} aria-expanded={allExpanded}>
@@ -186,6 +199,23 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
     [handleLevelToggle],
   );
 
+  const hasShortNames = useMemo(() => mappedCodes.some(({ shortName }) => Boolean(shortName?.trim())), [mappedCodes]);
+
+  const hasDistinctShortNames = useMemo(
+    () =>
+      mappedCodes.some(({ name, shortName }) => {
+        const normalizedShortName = shortName?.trim();
+        return Boolean(normalizedShortName && normalizedShortName !== name.trim());
+      }),
+    [mappedCodes],
+  );
+
+  const [showShortNames, setShowShortNames] = useState(hasDistinctShortNames);
+
+  useEffect(() => {
+    setShowShortNames(hasDistinctShortNames);
+  }, [version.id, hasDistinctShortNames]);
+
   const renderToolbar = useCallback(
     ({
       allExpanded,
@@ -205,9 +235,12 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
         onFilterClear={() => setFilterTerm('')}
         showDownloadButton={showDownloadButton}
         onOpenDownloadRoute={handleOpenDownloadRoute}
+        hasShortNames={hasShortNames}
+        showShortNames={showShortNames}
+        onShowShortNamesChange={setShowShortNames}
       />
     ),
-    [filterTerm, showDownloadButton, handleOpenDownloadRoute],
+    [filterTerm, hasShortNames, showShortNames, showDownloadButton, handleOpenDownloadRoute],
   );
 
   return (
@@ -232,7 +265,12 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
           onFilterChange={handleLevelFilterChange}
         />
       ) : null}
-      <CodeTree codes={filteredCodes} toolbar={renderToolbar} autoExpandAll={filterTerm.trim().length > 0} />
+      <CodeTree
+        codes={filteredCodes}
+        toolbar={renderToolbar}
+        autoExpandAll={filterTerm.trim().length > 0}
+        showShortNames={showShortNames}
+      />
     </div>
   );
 }

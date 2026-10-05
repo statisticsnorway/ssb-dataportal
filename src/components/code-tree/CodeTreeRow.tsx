@@ -12,6 +12,7 @@ interface CodeTreeRowProps {
   depth: number;
   isExpanded: boolean;
   isSelected: boolean;
+  showShortNames: boolean;
   onToggle: (code: string) => void;
   onChange: (code: KlassCode) => void;
   onNotes: (code: KlassCode) => void;
@@ -33,6 +34,7 @@ function CodeTreeRowComponent({
   depth,
   isExpanded,
   isSelected,
+  showShortNames,
   onToggle,
   onChange,
   onNotes,
@@ -88,9 +90,8 @@ function CodeTreeRowComponent({
       </TableCell>
       <TableCell className={`${styles.treeCell} ${styles.nameCell}`}>
         <div className={styles.rowContent}>
-          <div
-            role='button'
-            tabIndex={0}
+          <button
+            type='button'
             className={styles.rowBody}
             aria-label={`${localization.codeTree.selectCode} ${code.code}: ${code.name}`}
             aria-pressed={isSelected}
@@ -98,14 +99,9 @@ function CodeTreeRowComponent({
               if (hasTextSelection()) return;
               activateRow();
             }}
-            onKeyDown={(event) => {
-              if (event.key !== 'Enter' && event.key !== ' ') return;
-              event.preventDefault();
-              activateRow();
-            }}
           >
             <span className={styles.nameLabel}>{code.name}</span>
-          </div>
+          </button>
 
           {code.notes && (
             <button
@@ -119,6 +115,11 @@ function CodeTreeRowComponent({
           )}
         </div>
       </TableCell>
+      {showShortNames ? (
+        <TableCell className={`${styles.treeCell} ${styles.shortNameCell}`}>
+          <div className={styles.shortNameContent}>{code.shortName?.trim() || '–'}</div>
+        </TableCell>
+      ) : null}
     </TableRow>
   );
 }
@@ -136,6 +137,7 @@ function propsAreEqual(prev: Readonly<CodeTreeRowProps>, next: Readonly<CodeTree
     prev.depth === next.depth &&
     prev.isExpanded === next.isExpanded &&
     prev.isSelected === next.isSelected &&
+    prev.showShortNames === next.showShortNames &&
     prev.onToggle === next.onToggle &&
     prev.onChange === next.onChange &&
     prev.onNotes === next.onNotes
