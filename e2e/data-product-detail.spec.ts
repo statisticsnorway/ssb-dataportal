@@ -59,6 +59,15 @@ test.describe('unauthenticated', () => {
     if (testInfo.project.name !== 'chrome-unauth') testInfo.skip();
   });
 
+  test('Display alert if no shared datasets', async ({ page }) => {
+    await page.goto('/data-products/ameld');
+    await stabilize();
+
+    const main = page.getByRole('main');
+    const alert = main.getByRole('status');
+    await expect(alert).toBeVisible();
+  });
+
   test('Filtered by storage category is not visible when unauthenticated', async ({ page }) => {
     await page.goto('/data-products/arbstatus');
     await stabilize();

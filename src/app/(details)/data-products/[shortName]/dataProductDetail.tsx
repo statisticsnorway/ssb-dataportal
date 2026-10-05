@@ -1,6 +1,6 @@
 'use client';
 
-import { Heading } from '@digdir/designsystemet-react';
+import { Alert, Heading } from '@digdir/designsystemet-react';
 import { notFound } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { tabsData } from '@/app/(services)/tabs';
@@ -186,13 +186,19 @@ export default function DataProductDetail({
               />
             </div>
             <div className={styles.datasetList}>
-              {sortedDatasets.map((d) => (
-                <DatasetSearchHit
-                  key={d.id ?? `${d.product_short_name}-${d.short_description}`}
-                  dataset={d}
-                  namingStandardViolationsCount={d.id ? (namingStandardViolationsByDatasetId[d.id] ?? 0) : 0}
-                />
-              ))}
+              {sortedDatasets.length > 0 ? (
+                sortedDatasets.map((d) => (
+                  <DatasetSearchHit
+                    key={d.id ?? `${d.product_short_name}-${d.short_description}`}
+                    dataset={d}
+                    namingStandardViolationsCount={d.id ? (namingStandardViolationsByDatasetId[d.id] ?? 0) : 0}
+                  />
+                ))
+              ) : (
+                <Alert data-color={'info'} role='status'>
+                  {localization.dataProductDetail.noDatasetAvailable}
+                </Alert>
+              )}
             </div>
           </section>
         </div>

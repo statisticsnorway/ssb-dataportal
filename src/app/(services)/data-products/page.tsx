@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
-import { authenticateUser } from '@/libs/auth/userAuth';
 import { fetchSubjectFieldFilterValues } from '@/libs/data/classifications/codesData';
-import { listDataProductsWithAvailableDatasets } from '@/libs/data/datasets/datasets';
+import { listDataProducts } from '@/libs/data/datasets/datasets';
 import { localization } from '@/libs/language';
 import { getRequestLanguage } from '@/libs/language/src/getRequestLanguage';
 import { createLogger } from '@/libs/logger/server-logger';
@@ -20,8 +19,7 @@ export default async function DataProducts({
   const language = await getRequestLanguage();
   const logger = createLogger('data-products-discover-page');
   logger.info({ params }, 'Data products page access');
-  const auth = await authenticateUser();
-  const dataProducts = await listDataProductsWithAvailableDatasets(auth.isAuthenticated);
+  const dataProducts = await listDataProducts();
   const subjectFields = await fetchSubjectFieldFilterValues(language);
   return <DataProductsServicePage dataProducts={dataProducts} subjectFields={subjectFields} />;
 }
