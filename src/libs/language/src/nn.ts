@@ -261,8 +261,7 @@ export const nn = {
       ].join('\n'),
     notFoundDataProductDetails: 'Dataprodukt ikkje funnen',
     notFoundTitleDataProductDetails: 'Dataprodukt ikkje funnen',
-    notFoundMessageDataProductDetails:
-      'Er det skrivefeil i lenkja? Eller har dataproduktet blitt sletta eller flytta?',
+    notFoundMessageDataProductDetails: 'Er det skrivefeil i lenkja? Eller har dataproduktet blitt sletta eller flytta?',
     notFoundHelpListDataProductDetails: [
       'sjekke at du har riktig dataprodukt-id i lenkja',
       'gå til oversikta over dataprodukt',

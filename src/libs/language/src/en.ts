@@ -265,8 +265,7 @@ export const en = {
       ].join('\n'),
     notFoundDataProductDetails: 'Data product not found',
     notFoundTitleDataProductDetails: 'Data product not found',
-    notFoundMessageDataProductDetails:
-      'Is there a typo in the URL? Or has the data product been deleted or moved?',
+    notFoundMessageDataProductDetails: 'Is there a typo in the URL? Or has the data product been deleted or moved?',
     notFoundHelpListDataProductDetails: [
       'check that you have the correct data product ID in the URL',
       'go to the data product overview',
