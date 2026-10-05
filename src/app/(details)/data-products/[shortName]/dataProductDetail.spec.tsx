@@ -1,7 +1,10 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { AppNotFoundState } from '@/components/app-state';
 import type { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
+import { localization } from '@/libs/language';
 import DataProductDetail from './dataProductDetail';
+import NotFound from './not-found';
 
 let isAuthenticatedMock = true;
 
@@ -17,6 +20,14 @@ vi.mock('@/app/authContext', () => ({
 
 vi.mock('@/libs/language', () => ({
   localization: {
+    error: {
+      notFoundTitleDataProductDetails: 'Data product not found',
+      notFoundMessageDataProductDetails: 'The requested data product could not be found.',
+      notFoundHelpListDataProductDetails: ['Check the URL or return to all data products.'],
+    },
+    dataProduct: {
+      labelPlural: 'Data products',
+    },
     tabs: { dataProducts: 'Data products' },
     search: {
       filter: {
@@ -130,6 +141,10 @@ vi.mock('./components/DatasetSearchHit', () => ({
 
 vi.mock('./page.module.css', () => ({
   default: new Proxy({}, { get: (_t, p) => String(p) }),
+}));
+
+vi.mock('@/components/app-state', () => ({
+  AppNotFoundState: vi.fn(() => null),
 }));
 
 // --- Test data ---
@@ -280,5 +295,26 @@ describe('DataProductDetail', () => {
 
     const hits = screen.getAllByTestId('dataset-hit');
     expect(hits.map((hit) => hit.textContent)).toEqual(['Protected ds', 'Sensitive ds', 'Open ds']);
+  });
+
+  describe('NotFound', () => {
+    beforeEach(() => {
+      vi.clearAllMocks();
+    });
+
+    it('renders the data product not-found state with a link to all data products', () => {
+      render(<NotFound />);
+
+      expect(vi.mocked(AppNotFoundState).mock.calls[0]?.[0]).toEqual(
+        expect.objectContaining({
+          title: localization.error.notFoundTitleDataProductDetails,
+          message: localization.error.notFoundMessageDataProductDetails,
+          helpList: localization.error.notFoundHelpListDataProductDetails,
+          homeHref: '/data-products',
+          homeLabel: localization.dataProduct.labelPlural,
+          showBrokenLinkButton: false,
+        }),
+      );
+    });
   });
 });

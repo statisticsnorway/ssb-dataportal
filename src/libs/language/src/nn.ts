@@ -193,6 +193,10 @@ export const nn = {
     tooltipStatusDataPresent: 'Fil med data finst',
     tooltipStatusMissingTargetSegment: 'Ingen fil med data for perioden',
   },
+  dataProduct: {
+    labelPlural: 'Dataprodukt',
+    labelSingular: 'Dataprodukt',
+  },
   dataProductDetail: {
     dataProductFilters: 'Dataproduktfilter',
     dataset: 'Datasett',
@@ -255,6 +259,22 @@ export const nn = {
         '',
         'Skildring av kva som ikkje fungerte:',
       ].join('\n'),
+    notFoundDataProductDetails: 'Dataprodukt ikkje funnen',
+    notFoundTitleDataProductDetails: 'Dataprodukt ikkje funnen',
+    notFoundMessageDataProductDetails:
+      'Er det skrivefeil i lenkja? Eller har dataproduktet blitt sletta eller flytta?',
+    notFoundHelpListDataProductDetails: [
+      'sjekke at du har riktig dataprodukt-id i lenkja',
+      'gå til oversikta over dataprodukt',
+      'gå til framsida',
+    ],
+    notFoundTitleDataset: 'Datasett ikkje funnen',
+    notFoundMessageDataset: 'Er det skrivefeil i lenkja? Eller har datasettet blitt sletta eller flytta?',
+    notFoundHelpListDataset: [
+      'sjekke at du har riktig datasett-id i lenkja',
+      'gå til oversikta over datasett',
+      'gå til oversikta over dataprodukt',
+    ],
     notFoundHelpListClassificationDetails: [
       'sjekke at du har riktig klassifikasjon-id i lenkja',
       'gå til oversikta over klassifikasjonar',
