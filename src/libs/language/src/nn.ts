@@ -43,14 +43,9 @@ export const nn = {
       langNB: 'Bokmål',
       langNN: 'Nynorsk',
       langNO: 'Norsk',
-      number: 'Nummer',
       noChanges: 'Inga skildring av endringar innanfor denne versjonen.',
-      notRelevant: 'Ikkje relevant',
-      name: 'Namn',
-      description: 'Skildring',
       changelog: 'Endringslogg',
       date: 'Dato',
-      time: 'Klokkeslett',
       comment: 'Kommentar',
     },
     filterLevels: 'Filtrer på nivå',
@@ -59,16 +54,12 @@ export const nn = {
     label: 'Klassifikasjon',
     language: {
       notSelectedLanguage: 'Denne klassifikasjonen er ikkje tilgjengeleg på valt språk',
-      displayedInLanguage: 'Denne klassifikasjonen viser innhald på {language}',
       missingInSelectedLanguage: 'Denne klassifikasjonen manglar innhald på valt språk, vel eit anna språk.',
       contentChangelog: 'Endringsloggen er kun tilgjengeleg på norsk',
     },
-    view: 'Sjå klassifikasjon',
     type: 'Type',
     codelist: 'Kodeliste',
     standard: 'Standard',
-    codeListPrefix: 'Kodeliste for',
-    standardPrefix: 'Standard for',
     emailPlaceholder: 'Di e-postadresse',
     subscribe: 'Abonner',
     subscribeMessageError: 'Det oppstod ein feil under registrering',
@@ -108,11 +99,9 @@ export const nn = {
       noTarget: 'Ingen tilsvarande kode',
     },
     variant: {
-      name: 'Namn',
       id: 'ID',
       description: 'Skildring',
       responsible: 'Ansvarleg',
-      owner: 'Eigar',
       ownerSection: 'Eigarseksjon',
       noVariants: 'Denne versjonen har ingen variantar',
       numberOfCodesAndLevels: 'Varianten inneheld {numberOfCodes} kodar fordelt over {numberOfLevels} {level}.',
@@ -137,14 +126,12 @@ export const nn = {
     selectCode: 'Vel kode',
     filterLabel: 'Filtrer på kode eller namn',
     filterPlaceholder: 'Filtrer på kode eller namn',
-    filterButton: 'Filtrer',
     clearFilter: 'Fjern filter',
     expandAll: 'Opne alle',
     collapseAll: 'Lukk alle',
     codeColumn: 'Kode',
     nameColumn: 'Namn',
     back: 'Tilbake',
-    subcodes: 'Opne underkodar',
     notesButtonLabel: 'Vis tilleggsinformasjon for',
   },
   codeSnippet: {
@@ -160,16 +147,9 @@ export const nn = {
     label: 'Informasjonskapsel-kunngjering',
     message: 'Vi lagrar nødvendige informasjonskapslar som gjer at nettsida fungerer og er trygg.',
   },
-
-  comment: 'Kommentar',
-
   contact: {
-    fallbackTitle: 'Ta kontakt med spørsmål eller innspel',
     label: 'Kontakt',
   },
-
-  context: 'Kontekst',
-
   copy: {
     code: 'Kopier kode',
     copied: 'Kopiert',
@@ -195,7 +175,6 @@ export const nn = {
   },
   dataProduct: {
     labelPlural: 'Dataprodukt',
-    labelSingular: 'Dataprodukt',
   },
   dataProductDetail: {
     dataProductFilters: 'Dataproduktfilter',
@@ -214,10 +193,7 @@ export const nn = {
     namingStandardViolations: 'Tal på avvik frå namnestandard',
     dataFiles: 'Datafiler',
     dataCoverageTimeline: 'Tilgjengelege periodar',
-    namingStandardViolationCountLabel: 'avvik frå namnestandard',
   },
-  documentation: 'Dokumentasjon',
-
   editing: {
     created: 'Oppretta',
     updated: 'Sist oppdatert',
@@ -320,10 +296,7 @@ export const nn = {
     ],
     reportBrokenLink: 'Meld frå om øydelagd lenkje',
   },
-
   from: 'Frå',
-  id: 'ID',
-
   info: {
     aboutDataportal: {
       body: [
@@ -333,7 +306,6 @@ export const nn = {
       title: 'Om SSB Dataportal',
       toggle: 'Kvifor SSB Dataportal',
     },
-    comingSoon: 'Kjem snart',
     datasetPrototypeIntro: 'Under utvikling',
     datasetPrototypeInfo:
       'Denne sida skildrar eit utval av data i SSB. Utviklinga held fram med fleire datatypar og meir detaljerte skildringar.',
@@ -350,8 +322,6 @@ export const nn = {
     filters: 'Lastar filter ...',
     results: 'Lastar resultat ...',
   },
-
-  loadingVariableDefinitions: 'Lastar variabeldefinisjonar',
   migrationClassifications: {
     header: 'Klass er flytta frå ssb.no/klass',
     info: 'Du er no på den nye tenesta Klass i SSB Dataportal. Oppdater gjerne bokmerke og lagra lenkjer.',
@@ -362,26 +332,20 @@ export const nn = {
     linkText: 'Finn fleire variabeldefinisjonar på ssb.no',
   },
   navigateHome: 'Naviger til framsida',
-  navigateHomeClassifications: 'Naviger til hovudsida Klassifikasjonar',
-  navigateHomeVariableDefinitions: 'Naviger til hovudsida Variabeldefinisjonar',
   next: 'Neste',
   no: 'Nei',
   noDataPlaceholder: '—',
   on: 'på',
   opensInNewTab: 'opnast i ny fane',
-
   owner: {
     daplaTeam: 'Dapla Team',
     groups: 'Grupper',
-    label: 'Eigar',
   },
-
   pageTitle: {
     classifications: 'Klassifikasjoner',
     dataProducts: 'Dataprodukter',
     variableDefinitions: 'Variabeldefinisjonar',
   },
-
   previous: 'Førre',
   products: {
     assessment: {
@@ -389,7 +353,6 @@ export const nn = {
       open: 'Open',
       protected: 'Skjerma',
       sensitive: 'Sensitiv',
-      unknown: 'Ukjend verdivurdering',
     },
     datasetState: {
       processedData: 'Klargjorde data',
@@ -397,7 +360,6 @@ export const nn = {
       inputData: 'Inndata',
       statistics: 'Statistikk',
       sourceData: 'Kjeldedata',
-      unknown: 'Ukjend datasettstatus',
     },
     other: 'Anna dataprodukt',
     statistic: 'Statistikkprodukt',
@@ -410,20 +372,13 @@ export const nn = {
     typeFilterLabel: 'Dataprodukttype',
     unknown: 'Ukjend produkttype',
   },
-  region: 'Region',
-  references: 'Referansar',
-
   search: {
     hits: 'treff',
     label: 'Søk',
     noHits: 'Søket ditt ga ingen treff',
     variableDefinitions: 'Søketreff variabeldefinisjonar',
     classifications: 'Søketreff klassifikasjonar',
-    dataProducts: 'Søketreff dataprodukter',
-    datasets: 'Søketreff datasett',
-
     textFilter: {
-      search: 'Søk',
       label: 'Filtrer på namn',
       tagLabel: 'Namn:',
       inputId: 'søk-input',
@@ -485,26 +440,18 @@ export const nn = {
 
   variableDefinition: {
     aboutVariable: 'Om variabelen',
-    externalReference: 'Ekstern referanse',
     comment: 'Kommentar',
     contact: 'Kontakt',
     documentation: 'Dokumentasjon',
     externalPersonalData: 'Sensitive personopplysningar',
-    fetchWith: 'Hent variabeldefinisjon med',
     id: 'ID',
     internalPersonalData: 'Inneheld særlege kategoriar av personopplysningar',
     labelPlural: 'Variabeldefinisjonar',
-    labelSingular: 'Variabeldefinisjon',
-    labelWithComment: 'Variabeldefinisjon med kommentar',
     mail: 'E-post',
-    notFoundAlertText: 'Variabeldefinisjon ikkje funnen',
     owner: 'Eigar',
     unitTypeInfo:
       'Ein einingstype er typen objekt (einingar) det blir laga statistikk om, til dømes person, føretak og val',
-    relevant: 'Relevante variabeldefinisjonar',
     shortName: 'Kortnamn',
-    viewExternalReference: 'Sjå ekstern referanse',
-    viewRelevant: 'Sjå relevant variabeldefinisjon',
   },
   versions: {
     name: 'Namn',

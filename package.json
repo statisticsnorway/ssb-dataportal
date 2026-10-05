@@ -27,6 +27,7 @@
     "lint:check": "biome check .",
     "lint:fix": "biome check --write  .",
     "lint:dead-code": "fallow dead-code",
+    "lint:unused-language-texts": "node --experimental-strip-types scripts/find-unused-nb-fields.mjs",
     "format:check": "biome format  .",
     "format:fix": "biome format --write . ",
     "setup:dev": "pnpm install && which pre-commit && pre-commit install",
