@@ -26,12 +26,6 @@ vi.mock('next/navigation', () => ({
   useParams: () => ({}),
 }));
 
-vi.mock('@/components/classification-table', () => ({
-  ClassificationTable: ({ content }: { content: unknown[] }) => (
-    <div data-testid='classification-table'>rows: {content.length}</div>
-  ),
-}));
-
 vi.mock('./views/VersionView', () => ({
   VersionView: ({ children }: { children: React.ReactNode }) => <div data-testid='version-view'>{children}</div>,
 }));
@@ -43,23 +37,26 @@ vi.mock('next/link', () => ({
 }));
 
 describe('Classification details page', () => {
-  it('renders ClassificationVersionTable with mapped versions', () => {
+  it('renders version links with mapped versions', () => {
     render(
       <ClassificationDetail classification={classification} classificationVersion={null}>
         {null}
       </ClassificationDetail>,
     );
-    expect(screen.getByTestId('classification-table')).toBeDefined();
+    for (const version of classification.versions ?? []) {
+      expect(screen.getByText(version.name!)).toBeDefined();
+    }
   });
 
-  it('passes correct number of rows to ClassificationVersionTable', () => {
+  it('renders the expected number of version links', () => {
     render(
       <ClassificationDetail classification={classification} classificationVersion={null}>
         {null}
       </ClassificationDetail>,
     );
     const expected = classification.versions?.length ?? 0;
-    expect(screen.getByTestId('classification-table').textContent).toBe(`rows: ${expected}`);
+    const versionLinks = document.querySelectorAll(`a[href^="/classifications/${classification.id}/versions/"]`);
+    expect(versionLinks.length).toBe(expected);
   });
 
   it('renders the classification name as the primary heading', () => {
@@ -139,7 +136,8 @@ describe('Classification details page', () => {
         {null}
       </ClassificationDetail>,
     );
-    expect(screen.getByTestId('classification-table').textContent).toBe('rows: 0');
+    const versionLinks = document.querySelectorAll(`a[href^="/classifications/${classification.id}/versions/"]`);
+    expect(versionLinks.length).toBe(0);
   });
   it('renders correct html lang when fallback language is used', () => {
     const withFallback = {
