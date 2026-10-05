@@ -19,7 +19,7 @@ export function VersionPicker({ classification, tab }: Readonly<VersionPickerPro
   return (
     <Dropdown.TriggerContext>
       <Dropdown.Trigger variant='secondary'>
-        {open ? <ChevronDownIcon aria-hidden /> : <ChevronUpIcon aria-hidden />}
+        {open ? <ChevronUpIcon aria-hidden /> : <ChevronDownIcon aria-hidden />}
         {localization.classificationDetails.versions}
       </Dropdown.Trigger>
       <Dropdown
