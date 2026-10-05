@@ -315,9 +315,6 @@ export const nn = {
       toggle: 'Kvifor SSB Dataportal',
     },
     comingSoon: 'Kjem snart',
-    classificationsPrototypeIntro: 'Under utvikling',
-    classificationsPrototypeInfo:
-      'Ei ny og forbetra vising av Klass blir lansert i løpet av 2026. Fram til lansering må du bruke dagens løysing på',
     datasetPrototypeIntro: 'Under utvikling',
     datasetPrototypeInfo:
       'Denne sida skildrar eit utval av data i SSB. Utviklinga held fram med fleire datatypar og meir detaljerte skildringar.',

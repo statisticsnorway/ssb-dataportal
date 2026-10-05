@@ -318,9 +318,6 @@ export const en = {
       toggle: 'Why SSB Dataportal',
     },
     comingSoon: 'Coming soon',
-    classificationsPrototypeIntro: 'Under development',
-    classificationsPrototypeInfo:
-      'A new and improved view of Klass will be launched during 2026. Until launch, use the current solution at',
     datasetPrototypeIntro: 'Under development',
     datasetPrototypeInfo:
       'This page describes a selection of data at Statistics Norway. Development continues with more data types and more detailed descriptions.',
