@@ -327,9 +327,6 @@ export const nn = {
     footerPrivacyStatement: 'Personvernerklæring',
     landingPageSubTitle: 'Di inngang til SSBs felles kunnskap om data',
   },
-  language: {
-    notSelectedLanguage: 'Dette {elementet} er ikkje tilgjengeleg på valt språk',
-  },
   loading: {
     filters: 'Lastar filter ...',
     results: 'Lastar resultat ...',

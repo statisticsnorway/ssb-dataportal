@@ -330,9 +330,6 @@ export const en = {
     footerPrivacyStatement: 'Privacy statement',
     landingPageSubTitle: "Your gateway to Statistics Norway's public data",
   },
-  language: {
-    notSelectedLanguage: 'This {element} is not available in the selected language',
-  },
   loading: {
     filters: 'Loading filters...',
     results: 'Loading results...',
