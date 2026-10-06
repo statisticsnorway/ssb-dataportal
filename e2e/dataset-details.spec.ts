@@ -36,8 +36,9 @@ test.describe('authenticated', () => {
   test('includes files which violate the naming standard', async ({ page }) => {
     await page.goto(EXAMPLE_DATASET);
     await page.getByRole('button', { name: 'H1 2017' }).click();
-    await expect(page.getByRole('button', { name: 'Navnestandardavvik' })).toBeVisible();
-    await page.getByRole('button', { name: 'Navnestandardavvik' }).click();
+    const namingViolationsButton = page.getByRole('button', { name: /^1\b/ });
+    await expect(namingViolationsButton).toBeVisible();
+    await namingViolationsButton.click();
     await expect(page.getByText('invalid', { exact: true })).toBeVisible();
   });
 
