@@ -12,6 +12,7 @@ interface CodeTreeRowProps {
   depth: number;
   isExpanded: boolean;
   isSelected: boolean;
+  showShortNames: boolean;
   onToggle: (code: string) => void;
   onChange: (code: KlassCode) => void;
   onNotes: (code: KlassCode) => void;
@@ -33,6 +34,7 @@ function CodeTreeRowComponent({
   depth,
   isExpanded,
   isSelected,
+  showShortNames,
   onToggle,
   onChange,
   onNotes,
@@ -100,18 +102,24 @@ function CodeTreeRowComponent({
           >
             <span className={styles.nameLabel}>{code.name}</span>
           </button>
-
-          {code.notes && (
-            <button
-              type='button'
-              className={styles.infoButton}
-              aria-label={`${localization.codeTree.notesButtonLabel} ${code.name}`}
-              onClick={() => onNotes(code)}
-            >
-              <QuestionmarkCircleIcon fontSize='1.75rem' aria-hidden />
-            </button>
-          )}
         </div>
+      </TableCell>
+      {showShortNames ? (
+        <TableCell className={`${styles.treeCell} ${styles.shortNameCell}`}>
+          <div className={styles.shortNameContent}>{code.shortName?.trim() || '–'}</div>
+        </TableCell>
+      ) : null}
+      <TableCell className={styles.notesCell}>
+        {code.notes ? (
+          <button
+            type='button'
+            className={styles.infoButton}
+            aria-label={`${localization.codeTree.notesButtonLabel} ${code.name}`}
+            onClick={() => onNotes(code)}
+          >
+            <QuestionmarkCircleIcon fontSize='1.75rem' aria-hidden />
+          </button>
+        ) : null}
       </TableCell>
     </TableRow>
   );
@@ -130,6 +138,7 @@ function propsAreEqual(prev: Readonly<CodeTreeRowProps>, next: Readonly<CodeTree
     prev.depth === next.depth &&
     prev.isExpanded === next.isExpanded &&
     prev.isSelected === next.isSelected &&
+    prev.showShortNames === next.showShortNames &&
     prev.onToggle === next.onToggle &&
     prev.onChange === next.onChange &&
     prev.onNotes === next.onNotes

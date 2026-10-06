@@ -137,6 +137,9 @@ export const en = {
     nameColumn: 'Name',
     back: 'Back',
     notesButtonLabel: 'Show additional information for',
+    showShortNames: 'Show short names',
+    shortNameColumn: 'Short name',
+    notesColumn: 'Additional information',
   },
   codeSnippet: {
     codeExample: 'Example code',

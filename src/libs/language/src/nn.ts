@@ -133,6 +133,9 @@ export const nn = {
     nameColumn: 'Namn',
     back: 'Tilbake',
     notesButtonLabel: 'Vis tilleggsinformasjon for',
+    showShortNames: 'Vis kortnamn',
+    shortNameColumn: 'Kortnamn',
+    notesColumn: 'Tilleggsinformasjon',
   },
   codeSnippet: {
     codeExample: 'Kodeeksempel',

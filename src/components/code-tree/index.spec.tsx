@@ -11,7 +11,11 @@ vi.mock('@digdir/designsystemet-react', () => ({
       {children}
     </button>
   ),
-  Table: ({ children, ...props }: any) => <table {...props}>{children}</table>,
+  Table: ({ children, className, 'aria-label': ariaLabel }: any) => (
+    <table className={className} aria-label={ariaLabel}>
+      {children}
+    </table>
+  ),
   TableBody: ({ children, ...props }: any) => <tbody {...props}>{children}</tbody>,
   TableCell: ({ children, ...props }: any) => <td {...props}>{children}</td>,
   TableHead: ({ children, ...props }: any) => <thead {...props}>{children}</thead>,
@@ -45,6 +49,21 @@ const NESTED_CODES: KlassCode[] = [
   makeCode({ code: 'B', level: '1' }),
 ];
 
+const SHORT_NAME_CODES: KlassCode[] = [
+  makeCode({
+    code: 'A',
+    level: '1',
+    name: 'Agriculture and related services',
+    shortName: 'Agriculture',
+  }),
+  makeCode({
+    code: 'B',
+    level: '1',
+    name: 'Forestry',
+    shortName: undefined,
+  }),
+];
+
 describe('CodeTree', () => {
   it('renders an empty tree when codes is empty', () => {
     render(<CodeTree codes={[]} />);
@@ -63,6 +82,23 @@ describe('CodeTree', () => {
     render(<CodeTree codes={FLAT_CODES} />);
     expect(screen.getByRole('button', { name: /Velg kode A/ })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Velg kode B/ })).toBeInTheDocument();
+  });
+
+  it('does not render the short-name column by default', () => {
+    render(<CodeTree codes={SHORT_NAME_CODES} />);
+    expect(screen.queryByRole('columnheader', { name: 'Kortnavn' })).not.toBeInTheDocument();
+    expect(screen.queryByText('Agriculture')).not.toBeInTheDocument();
+  });
+
+  it('renders the short-name column when enabled', () => {
+    render(<CodeTree codes={SHORT_NAME_CODES} showShortNames />);
+    expect(screen.getByRole('columnheader', { name: 'Kortnavn' })).toBeInTheDocument();
+    expect(screen.getByText('Agriculture')).toBeInTheDocument();
+  });
+
+  it('renders a dash when a code has no short name', () => {
+    render(<CodeTree codes={SHORT_NAME_CODES} showShortNames />);
+    expect(screen.getByText('–')).toBeInTheDocument();
   });
 
   it('shows the expand-all toolbar button when parent codes exist', () => {
