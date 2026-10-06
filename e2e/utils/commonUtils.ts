@@ -1,7 +1,6 @@
 import { expect } from '@bgotink/playwright-coverage';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { Locator, Page } from '@playwright/test';
-import { languageButton } from './variables';
 
 export async function checkCheckbox(checkboxLocator: Locator) {
   await expect(checkboxLocator).toBeVisible();
@@ -44,6 +43,26 @@ export const CODES_PREV_VERSION_URL_CODES = buildUrl({
 });
 
 export async function switchLanguage(page: Page, languageName: string) {
-  await page.getByRole('button', { name: languageButton }).click();
-  await page.getByRole('button', { name: languageName }).click();
+  const languageMap: Record<string, 'nb' | 'nn' | 'en'> = {
+    'Norsk bokmål': 'nb',
+    'Norsk nynorsk': 'nn',
+    English: 'en',
+  };
+
+  const languageCode = languageMap[languageName];
+
+  if (!languageCode) {
+    throw new Error(`Unsupported language name: "${languageName}"`);
+  }
+
+  const url = new URL(page.url());
+  await page.context().addCookies([
+    {
+      name: 'ssb-dataportal-language',
+      value: languageCode,
+      url: `${url.protocol}//${url.host}`,
+    },
+  ]);
+
+  await page.reload();
 }
