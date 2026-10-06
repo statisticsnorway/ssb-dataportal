@@ -17,7 +17,9 @@ async function openChangesTab(
 ) {
   const page = await classificationDetailsPage(id);
   if (versionId !== undefined) {
-    await page.goto(buildUrl({ classificationId: id, versionId, tab: 'changes' }), { waitUntil: 'domcontentloaded' });
+    await page.goto(buildUrl({ classificationId: id, versionId, tab: 'changes' }), {
+      waitUntil: 'domcontentloaded',
+    });
     await expect(page).toHaveURL(buildUrl({ classificationId: id, versionId, tab: 'changes' }));
     return page;
   }
