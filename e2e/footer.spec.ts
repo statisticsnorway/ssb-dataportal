@@ -12,17 +12,19 @@ test.describe('footer', () => {
 
   test('Klassifikasjoner API documentation link is visible in the footer', async ({ page }) => {
     const footer = page.getByRole('contentinfo');
-    await expect(footer.getByRole('link', { name: localization.apiDocKlass })).toBeVisible();
+    await expect(footer.locator('a[href="https://data.test.ssb.no/api/klass/swagger-ui/index.html"]')).toBeVisible();
   });
 
   test('Vardef API documentation link is visible in the footer', async ({ page }) => {
     const footer = page.getByRole('contentinfo');
-    await expect(footer.getByRole('link', { name: localization.apiDocVardef })).toBeVisible();
+    await expect(
+      footer.locator('a[href="https://metadata.test.ssb.no/docs/swagger/variable-definitions"]'),
+    ).toBeVisible();
   });
 
   test('Accessibility statement link is visible in the footer', async ({ page }) => {
     const footer = page.getByRole('contentinfo');
-    await expect(footer.getByRole('link', { name: localization.info.footerAccessibilityStatement })).toBeVisible();
+    await expect(footer.locator(`a[href="${ACCESSIBILITY_STATEMENT_URL}"]`)).toBeVisible();
   });
 
   test('Vardef API documentation link points to the test docs URL from test environment', async ({ page }) => {

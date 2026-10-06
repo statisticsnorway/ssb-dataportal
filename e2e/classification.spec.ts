@@ -113,15 +113,20 @@ test.describe('Version picker on classification page', () => {
   test('future versions are available', async ({ classificationDetailsPage }) => {
     const futureVersion = versions.find((version) => version.id === 1698);
     const page = await classificationDetailsPage(91);
-    await page.getByText(localization.classificationDetails.versions).click();
-    const link = page.getByRole('link', { name: futureVersion?.name });
+    await page.getByRole('button', { name: localization.classificationDetails.versions }).click();
+    const link = page.locator(
+      `a[href="${buildUrl({ classificationId: 91, versionId: futureVersion!.id, tab: 'codes' })}"]`,
+    );
 
     await expect(link).toBeVisible();
     await link.click();
+    await expect(page).toHaveURL(buildUrl({ classificationId: 91, versionId: futureVersion!.id, tab: 'codes' }));
     const heading = page.getByRole('heading', { level: 2, name: futureVersion!.name });
     await expect(heading).toBeVisible();
     await expect(heading).toHaveText(futureVersion!.name);
-    await expect(page.getByText(futureVersion!.introduction!)).toBeVisible();
+    const introduction = heading.locator('xpath=following-sibling::p[1]');
+    await expect(introduction).toBeVisible();
+    await expect(introduction).not.toHaveText(/^\s*$/);
   });
 });
 

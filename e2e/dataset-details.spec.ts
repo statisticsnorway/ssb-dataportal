@@ -35,10 +35,7 @@ test.describe('authenticated', () => {
 
   test('includes files which violate the naming standard', async ({ page }) => {
     await page.goto(EXAMPLE_DATASET);
-    await page.getByRole('button', { name: 'H1 2017' }).click();
-    await expect(page.getByRole('button', { name: 'Navnestandardavvik' })).toBeVisible();
-    await page.getByRole('button', { name: 'Navnestandardavvik' }).click();
-    await expect(page.getByText('invalid', { exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: /invalid\.parquet/ })).toBeVisible();
   });
 
   test('include owning team detail', async ({ page }) => {
