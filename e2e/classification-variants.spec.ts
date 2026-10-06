@@ -26,7 +26,7 @@ async function gotoVariants(page: Page, url: string) {
 }
 
 async function goBackToVariants(page: Page, url: string) {
-  const backLink = page.locator(`a[href="${url}"]`).filter({ hasText: localization.codeTree.back });
+  const backLink = page.locator(`a[href="${url}"]`, { has: page.locator('svg[aria-hidden="true"]') });
   await expect(backLink).toBeVisible();
   await backLink.click();
   await expect(page).toHaveURL(url);
