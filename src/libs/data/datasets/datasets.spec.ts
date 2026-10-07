@@ -163,6 +163,7 @@ describe('datadoc data fetching', () => {
       assert(secondDataset);
 
       const listDatasetsSpy = vi.spyOn(DatasetsApi.prototype, 'listDatasets');
+      const totalDatasets = 2;
       listDatasetsSpy
         .mockResolvedValueOnce({
           datasets: [testDataset],
@@ -185,6 +186,7 @@ describe('datadoc data fetching', () => {
       );
 
       expect(result).toEqual([testDataset, secondDataset]);
+      expect(result).toHaveLength(totalDatasets);
       expect(listDatasetsSpy).toHaveBeenCalledTimes(2);
       expect(listDatasetsSpy).toHaveBeenNthCalledWith(1, expect.objectContaining({ page: 0 }), expect.anything());
       expect(listDatasetsSpy).toHaveBeenNthCalledWith(2, expect.objectContaining({ page: 1 }), expect.anything());

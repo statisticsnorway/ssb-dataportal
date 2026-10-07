@@ -168,6 +168,9 @@ export async function listDatasetsByProductShortNameAndStorageCategory(
       if (!response.has_next) break;
       page = response.page + 1;
     }
+    if (allDatasets.length !== totalDatasets) {
+      throw new Error(`Expected ${totalDatasets} datasets, but fetched ${allDatasets.length}`);
+    }
     const durationMs = Date.now() - startTime;
     logger.info(
       { shortName, storageCategory, count: allDatasets.length, totalDatasets, durationMs },
