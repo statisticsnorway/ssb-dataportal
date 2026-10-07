@@ -154,11 +154,12 @@ export async function listDatasetsByProductShortNameAndStorageCategory(
     const api = await getClientForApi(DatasetsApi);
     const startTime = Date.now();
     const allDatasets: DatasetDTO[] = [];
+    const pageSize = 100;
     let page = 0;
     let totalDatasets = 0;
     while (true) {
       const response = await api.listDatasets(
-        { productShortName: shortName, storageCategory, page },
+        { productShortName: shortName, storageCategory, page, size: pageSize },
         dataDocFetchOptions,
       );
 
