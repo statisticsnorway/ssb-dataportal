@@ -216,7 +216,7 @@ describe('datadoc data fetching', () => {
           naming_standard_violations: [],
         } as DaplaDataFileDTO,
       ];
-      
+
       vi.spyOn(DataFilesApi.prototype, 'listDataFiles').mockResolvedValue({
         data_files: mockResult,
         total_data_files: mockResult.length,
