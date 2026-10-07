@@ -156,7 +156,7 @@ example().catch(console.error);
 
 ## listDataFiles
 
-> Array&lt;DaplaDataFileDTO&gt; listDataFiles(datasetId, storageCategory)
+> DaplaDataFilePageResponse listDataFiles(datasetId, storageCategory, page, pageSize)
 
 
 
@@ -182,6 +182,10 @@ async function example() {
     datasetId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
     // StorageCategory (optional)
     storageCategory: ...,
+    // number (optional)
+    page: 56,
+    // number (optional)
+    pageSize: 56,
   } satisfies ListDataFilesRequest;
 
   try {
@@ -203,10 +207,12 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **datasetId** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **storageCategory** | `StorageCategory` |  | [Optional] [Defaults to `undefined`] [Enum: SOURCE, PRODUCT, SHARED] |
+| **page** | `number` |  | [Optional] [Defaults to `0`] |
+| **pageSize** | `number` |  | [Optional] [Defaults to `100`] |
 
 ### Return type
 
-[**Array&lt;DaplaDataFileDTO&gt;**](DaplaDataFileDTO.md)
+[**DaplaDataFilePageResponse**](DaplaDataFilePageResponse.md)
 
 ### Authorization
 

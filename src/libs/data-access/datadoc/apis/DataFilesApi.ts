@@ -17,6 +17,7 @@ import * as runtime from '../runtime';
 import type {
   CreateDaplaDataFile,
   DaplaDataFileDTO,
+  DaplaDataFilePageResponse,
   Problem,
   StorageCategory,
 } from '../models/index';
@@ -25,6 +26,8 @@ import {
     CreateDaplaDataFileToJSON,
     DaplaDataFileDTOFromJSON,
     DaplaDataFileDTOToJSON,
+    DaplaDataFilePageResponseFromJSON,
+    DaplaDataFilePageResponseToJSON,
     ProblemFromJSON,
     ProblemToJSON,
     StorageCategoryFromJSON,
@@ -42,6 +45,8 @@ export interface GetDataFileByFilePathRequest {
 export interface ListDataFilesRequest {
     datasetId?: string | null;
     storageCategory?: StorageCategory | null;
+    page?: number;
+    pageSize?: number;
 }
 
 /**
@@ -81,15 +86,17 @@ export interface DataFilesApiInterface {
      * 
      * @param {string} [datasetId] 
      * @param {StorageCategory} [storageCategory] 
+     * @param {number} [page] 
+     * @param {number} [pageSize] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DataFilesApiInterface
      */
-    listDataFilesRaw(requestParameters: ListDataFilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DaplaDataFileDTO>>>;
+    listDataFilesRaw(requestParameters: ListDataFilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DaplaDataFilePageResponse>>;
 
     /**
      */
-    listDataFiles(requestParameters: ListDataFilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DaplaDataFileDTO>>;
+    listDataFiles(requestParameters: ListDataFilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DaplaDataFilePageResponse>;
 
 }
 
@@ -195,7 +202,7 @@ export class DataFilesApi extends runtime.BaseAPI implements DataFilesApiInterfa
 
     /**
      */
-    async listDataFilesRaw(requestParameters: ListDataFilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DaplaDataFileDTO>>> {
+    async listDataFilesRaw(requestParameters: ListDataFilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DaplaDataFilePageResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters['datasetId'] != null) {
@@ -204,6 +211,14 @@ export class DataFilesApi extends runtime.BaseAPI implements DataFilesApiInterfa
 
         if (requestParameters['storageCategory'] != null) {
             queryParameters['storage-category'] = requestParameters['storageCategory'];
+        }
+
+        if (requestParameters['page'] != null) {
+            queryParameters['page'] = requestParameters['page'];
+        }
+
+        if (requestParameters['pageSize'] != null) {
+            queryParameters['page-size'] = requestParameters['pageSize'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -226,12 +241,12 @@ export class DataFilesApi extends runtime.BaseAPI implements DataFilesApiInterfa
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(DaplaDataFileDTOFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => DaplaDataFilePageResponseFromJSON(jsonValue));
     }
 
     /**
      */
-    async listDataFiles(requestParameters: ListDataFilesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DaplaDataFileDTO>> {
+    async listDataFiles(requestParameters: ListDataFilesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DaplaDataFilePageResponse> {
         const response = await this.listDataFilesRaw(requestParameters, initOverrides);
         return await response.value();
     }

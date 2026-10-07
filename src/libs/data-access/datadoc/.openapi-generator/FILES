@@ -7,6 +7,7 @@ apis/index.ts
 docs/Assessment.md
 docs/CreateDaplaDataFile.md
 docs/DaplaDataFileDTO.md
+docs/DaplaDataFilePageResponse.md
 docs/DataFilesApi.md
 docs/DataProductDTO.md
 docs/DataProductType.md
@@ -31,6 +32,7 @@ index.ts
 models/Assessment.ts
 models/CreateDaplaDataFile.ts
 models/DaplaDataFileDTO.ts
+models/DaplaDataFilePageResponse.ts
 models/DataProductDTO.ts
 models/DataProductType.ts
 models/DatasetDTO.ts
