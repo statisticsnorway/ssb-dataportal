@@ -204,8 +204,8 @@ importers:
         specifier: 2.5.14
         version: 2.5.14
       '@digdir/designsystemet-react':
-        specifier: 1.21.1
-        version: 1.21.1(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+        specifier: 1.23.0
+        version: 1.23.0(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@navikt/aksel-icons':
         specifier: 8.16.2
         version: 8.16.2
@@ -274,8 +274,8 @@ importers:
         specifier: 0.3.2
         version: 0.3.2(@playwright/test@1.63.0)
       '@digdir/designsystemet-web':
-        specifier: 1.21.1
-        version: 1.21.1
+        specifier: 1.23.0
+        version: 1.23.0
       '@openapitools/openapi-generator-cli':
         specifier: 2.41.0
         version: 2.41.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)
@@ -1034,8 +1034,8 @@ packages:
   '@digdir/designsystemet-css@1.21.1':
     resolution: {integrity: sha512-k01KHaYmkze7tYBt1S/XVPC5UzPIYrpH8pQJzMtRo9WX3EHSPy7llwuFeRvnP4RT3ctDowaIi3s3S3pHIAKevw==}
 
-  '@digdir/designsystemet-react@1.21.1':
-    resolution: {integrity: sha512-qj16MTvK3xxzwnOduM4jDJpDzNAPE5gXA2n2bZQEfBCveDsi4gPWf/ZgbnIkBZUZoKl6QAx8wFUoXDR5qF+vHw==}
+  '@digdir/designsystemet-react@1.23.0':
+    resolution: {integrity: sha512-ejVfuutPGRjtLBNAiWGdKNGS4SFjBYd94VhonaWB2mMBcPkTcGvHtl1zLjKNmx255mlaunk2LuHOZ9x9z93YBw==}
     peerDependencies:
       react: '>=18.3.1 || ^19.0.0'
       react-dom: '>=18.3.1 || ^19.0.0'
@@ -1043,8 +1043,11 @@ packages:
   '@digdir/designsystemet-types@1.21.1':
     resolution: {integrity: sha512-kRkZb+XGIVzPseVnWGi1aryfBenpSh/U0QvaOWmH2MNTIrY+/OHqKaVU1x71lo/XFAlhlwpPrhqqJoaNMxvxsA==}
 
-  '@digdir/designsystemet-web@1.21.1':
-    resolution: {integrity: sha512-+xwlgZkMokN8svF71sdf+DfOFYjgNFiOINYJx1Vo844RAsmM1Xxij79ln2PbwjZJrklXIwWVWGAK4xE3gKg8bw==}
+  '@digdir/designsystemet-types@1.23.0':
+    resolution: {integrity: sha512-fUDl1bMAWlV2pyo1GlWaN5heuVZNdNMW3/hEgzmYxQcCtaq0g8lNKsUt2GZEeWR5vKE1dfxahsOdKW1E9Udpyg==}
+
+  '@digdir/designsystemet-web@1.23.0':
+    resolution: {integrity: sha512-XaCVAw7W84PXjSt2RqJVTWIpl9/5zeazTqL3nsIwud3+bfH1mvyo5UeE8GVTFsC23LXmprjjDZG1ySD2Xuo4yw==}
 
   '@emnapi/runtime@1.11.3':
     resolution: {integrity: sha512-Xz4Tpyki7XyrpbUK1jR1AhdAdaXyhhY4lZ3neLodmhpuWfy2PAQN5B46sAiU4liOXGLkHypn/qU+jvfWSCYYLA==}
@@ -1098,14 +1101,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@floating-ui/core@1.7.5':
-    resolution: {integrity: sha512-1Ih4WTWyw0+lKyFMcBHGbb5U5FtuHJuujoyyr5zTaWS5EYMeT6Jb2AuDeftsCsEuchO+mM2ij5+q9crhydzLhQ==}
-
   '@floating-ui/core@1.8.0':
     resolution: {integrity: sha512-0CIZ5itps/8x7BG8dEIhs53BvCUH2PCoogtakwRTut+Arm58sJooJ0AuZhLw2HJYIR5cMLNPBSS728sPho2khQ==}
-
-  '@floating-ui/dom@1.7.6':
-    resolution: {integrity: sha512-9gZSAI5XM36880PPMm//9dfiEngYoC6Am2izES1FF406YFsjvyBMmeJ2g4SAju3xWwtuynNRFL2s9hgxpLI5SQ==}
 
   '@floating-ui/dom@1.8.0':
     resolution: {integrity: sha512-yXSrzeHZBTZadLOlfyhCkJHNeLJnHRnRInwdZ40L7ZiaAtrBwoYlsDrX3v5zB1Utk7CLfzcOVnVVWoXEky7Ceg==}
@@ -1121,9 +1118,6 @@ packages:
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
-
-  '@floating-ui/utils@0.2.11':
-    resolution: {integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==}
 
   '@floating-ui/utils@0.2.12':
     resolution: {integrity: sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==}
@@ -1984,8 +1978,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@u-elements/u-combobox@2.1.4':
-    resolution: {integrity: sha512-zlKAGPtJUOpuKRrraSfpT+08z+cbOBvP3tT6RDlY23oN0bpy1apVBXMdiYIR8lxRzVe2C/siK8yvSO5BA32Rsw==}
+  '@u-elements/u-combobox@2.1.5':
+    resolution: {integrity: sha512-SnuSbE0OSSSut41tZYtLClXifWXO29n3Y+D2EBNRlbVUuSfcgG46yrOjiwbwxkfAX6WpJ6UciMwSHGW3xcegMA==}
 
   '@u-elements/u-datalist@2.0.3':
     resolution: {integrity: sha512-1/N53P9CtmpTQQN/S8fQG0JEQqQmpAmAVhuPTskycrn74DJUdi2lKYdyGW7X4tg6ANsi4iGLn5Bv3NLHoCrzIg==}
@@ -4872,10 +4866,10 @@ snapshots:
     dependencies:
       '@digdir/designsystemet-types': 1.21.1
 
-  '@digdir/designsystemet-react@1.21.1(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
+  '@digdir/designsystemet-react@1.23.0(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
     dependencies:
-      '@digdir/designsystemet-types': 1.21.1
-      '@digdir/designsystemet-web': 1.21.1
+      '@digdir/designsystemet-types': 1.23.0
+      '@digdir/designsystemet-web': 1.23.0
       '@floating-ui/dom': 1.8.0
       '@floating-ui/react': 0.26.23(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@navikt/aksel-icons': 8.16.2
@@ -4889,10 +4883,12 @@ snapshots:
 
   '@digdir/designsystemet-types@1.21.1': {}
 
-  '@digdir/designsystemet-web@1.21.1':
+  '@digdir/designsystemet-types@1.23.0': {}
+
+  '@digdir/designsystemet-web@1.23.0':
     dependencies:
       '@floating-ui/dom': 1.8.0
-      '@u-elements/u-combobox': 2.1.4
+      '@u-elements/u-combobox': 2.1.5
       '@u-elements/u-datalist': 2.0.3
       '@u-elements/u-details': 1.0.0
       '@u-elements/u-tabs': 1.0.4
@@ -4928,18 +4924,9 @@ snapshots:
   '@fallow-cli/win32-x64-msvc@3.25.0':
     optional: true
 
-  '@floating-ui/core@1.7.5':
-    dependencies:
-      '@floating-ui/utils': 0.2.11
-
   '@floating-ui/core@1.8.0':
     dependencies:
       '@floating-ui/utils': 0.2.12
-
-  '@floating-ui/dom@1.7.6':
-    dependencies:
-      '@floating-ui/core': 1.7.5
-      '@floating-ui/utils': 0.2.11
 
   '@floating-ui/dom@1.8.0':
     dependencies:
@@ -4948,19 +4935,17 @@ snapshots:
 
   '@floating-ui/react-dom@2.1.8(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
     dependencies:
-      '@floating-ui/dom': 1.7.6
+      '@floating-ui/dom': 1.8.0
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
 
   '@floating-ui/react@0.26.23(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
     dependencies:
       '@floating-ui/react-dom': 2.1.8(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
-      '@floating-ui/utils': 0.2.11
+      '@floating-ui/utils': 0.2.12
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
       tabbable: 6.4.0
-
-  '@floating-ui/utils@0.2.11': {}
 
   '@floating-ui/utils@0.2.12': {}
 
@@ -5641,7 +5626,7 @@ snapshots:
   '@typescript/typescript-win32-x64@7.0.2':
     optional: true
 
-  '@u-elements/u-combobox@2.1.4': {}
+  '@u-elements/u-combobox@2.1.5': {}
 
   '@u-elements/u-datalist@2.0.3': {}
 
