@@ -145,7 +145,13 @@ describe('datadoc data fetching', () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
       const mockResult = [testDataset];
-      vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue(mockResult);
+      vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue({
+        datasets: mockResult,
+        total_datasets: mockResult.length,
+        page: 0,
+        page_size: 100,
+        has_next: false,
+      });
       const result = await listDatasetsByProductShortNameAndStorageCategory(shortName, testDataset.storage_category!);
       expect(result).toEqual(mockResult);
     });
@@ -220,7 +226,13 @@ describe('datadoc data fetching', () => {
     it('mock api call happy path', async () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
-      vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue(staticDatasets);
+      vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue({
+        datasets: staticDatasets,
+        total_datasets: staticDatasets.length,
+        page: 0,
+        page_size: 100,
+        has_next: false,
+      });
       const result = await listDatasetsByProductShortNameAndStorageCategory(
         testDataset.product_short_name as string,
         testDataset.storage_category!,
