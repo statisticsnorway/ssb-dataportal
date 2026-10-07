@@ -159,7 +159,7 @@ export async function listDatasetsByProductShortNameAndStorageCategory(
     let totalDatasets = 0;
     while (true) {
       const response = await api.listDatasets(
-        { productShortName: shortName, storageCategory, page, size: pageSize },
+        { productShortName: shortName, storageCategory, page, pageSize },
         dataDocFetchOptions,
       );
 

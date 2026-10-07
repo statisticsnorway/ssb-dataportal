@@ -11,7 +11,7 @@ All URIs are relative to *http://localhost*
 
 ## namingViolations
 
-> NamingViolations200Response namingViolations(includeViolations, page, size)
+> NamingViolations200Response namingViolations(includeViolations, page, pageSize)
 
 
 
@@ -38,7 +38,7 @@ async function example() {
     // number (optional)
     page: 56,
     // number (optional)
-    size: 56,
+    pageSize: 56,
   } satisfies NamingViolationsRequest;
 
   try {
@@ -60,7 +60,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **includeViolations** | `boolean` |  | [Optional] [Defaults to `false`] |
 | **page** | `number` |  | [Optional] [Defaults to `0`] |
-| **size** | `number` |  | [Optional] [Defaults to `100`] |
+| **pageSize** | `number` |  | [Optional] [Defaults to `100`] |
 
 ### Return type
 
@@ -86,7 +86,7 @@ example().catch(console.error);
 
 ## rejectedDataFiles
 
-> NamingViolations200Response rejectedDataFiles(includeViolations, page, size)
+> NamingViolations200Response rejectedDataFiles(includeViolations, page, pageSize)
 
 
 
@@ -113,7 +113,7 @@ async function example() {
     // number (optional)
     page: 56,
     // number (optional)
-    size: 56,
+    pageSize: 56,
   } satisfies RejectedDataFilesRequest;
 
   try {
@@ -135,7 +135,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **includeViolations** | `boolean` |  | [Optional] [Defaults to `false`] |
 | **page** | `number` |  | [Optional] [Defaults to `0`] |
-| **size** | `number` |  | [Optional] [Defaults to `100`] |
+| **pageSize** | `number` |  | [Optional] [Defaults to `100`] |
 
 ### Return type
 

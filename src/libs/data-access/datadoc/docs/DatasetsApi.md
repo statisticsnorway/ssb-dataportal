@@ -154,7 +154,7 @@ example().catch(console.error);
 
 ## listDatasets
 
-> DatasetPageResponse listDatasets(productShortName, storageLocation, storageCategory, page, size)
+> DatasetPageResponse listDatasets(productShortName, storageLocation, storageCategory, page, pageSize)
 
 
 
@@ -185,7 +185,7 @@ async function example() {
     // number (optional)
     page: 56,
     // number (optional)
-    size: 56,
+    pageSize: 56,
   } satisfies ListDatasetsRequest;
 
   try {
@@ -209,7 +209,7 @@ example().catch(console.error);
 | **storageLocation** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **storageCategory** | `StorageCategory` |  | [Optional] [Defaults to `undefined`] [Enum: SOURCE, PRODUCT, SHARED] |
 | **page** | `number` |  | [Optional] [Defaults to `0`] |
-| **size** | `number` |  | [Optional] [Defaults to `100`] |
+| **pageSize** | `number` |  | [Optional] [Defaults to `100`] |
 
 ### Return type
 

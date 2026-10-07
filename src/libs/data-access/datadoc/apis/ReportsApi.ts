@@ -25,13 +25,13 @@ import {
 export interface NamingViolationsRequest {
     includeViolations?: boolean;
     page?: number;
-    size?: number;
+    pageSize?: number;
 }
 
 export interface RejectedDataFilesRequest {
     includeViolations?: boolean;
     page?: number;
-    size?: number;
+    pageSize?: number;
 }
 
 /**
@@ -45,7 +45,7 @@ export interface ReportsApiInterface {
      * 
      * @param {boolean} [includeViolations] 
      * @param {number} [page] 
-     * @param {number} [size] 
+     * @param {number} [pageSize] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApiInterface
@@ -60,7 +60,7 @@ export interface ReportsApiInterface {
      * 
      * @param {boolean} [includeViolations] 
      * @param {number} [page] 
-     * @param {number} [size] 
+     * @param {number} [pageSize] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApiInterface
@@ -91,8 +91,8 @@ export class ReportsApi extends runtime.BaseAPI implements ReportsApiInterface {
             queryParameters['page'] = requestParameters['page'];
         }
 
-        if (requestParameters['size'] != null) {
-            queryParameters['size'] = requestParameters['size'];
+        if (requestParameters['pageSize'] != null) {
+            queryParameters['page-size'] = requestParameters['pageSize'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -138,8 +138,8 @@ export class ReportsApi extends runtime.BaseAPI implements ReportsApiInterface {
             queryParameters['page'] = requestParameters['page'];
         }
 
-        if (requestParameters['size'] != null) {
-            queryParameters['size'] = requestParameters['size'];
+        if (requestParameters['pageSize'] != null) {
+            queryParameters['page-size'] = requestParameters['pageSize'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

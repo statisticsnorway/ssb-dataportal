@@ -253,7 +253,7 @@ paths:
           type: integer
           format: int32
           default: 0
-      - name: size
+      - name: page-size
         in: query
         explode: false
         schema:
@@ -357,7 +357,7 @@ paths:
           type: integer
           format: int32
           default: 0
-      - name: size
+      - name: page-size
         in: query
         explode: false
         schema:
@@ -403,7 +403,7 @@ paths:
           type: integer
           format: int32
           default: 0
-      - name: size
+      - name: page-size
         in: query
         explode: false
         schema:

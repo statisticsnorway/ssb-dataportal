@@ -44,7 +44,7 @@ export interface ListDatasetsRequest {
     storageLocation?: string | null;
     storageCategory?: StorageCategory | null;
     page?: number;
-    size?: number;
+    pageSize?: number;
 }
 
 /**
@@ -89,7 +89,7 @@ export interface DatasetsApiInterface {
      * @param {string} [storageLocation] 
      * @param {StorageCategory} [storageCategory] 
      * @param {number} [page] 
-     * @param {number} [size] 
+     * @param {number} [pageSize] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DatasetsApiInterface
@@ -217,8 +217,8 @@ export class DatasetsApi extends runtime.BaseAPI implements DatasetsApiInterface
             queryParameters['page'] = requestParameters['page'];
         }
 
-        if (requestParameters['size'] != null) {
-            queryParameters['size'] = requestParameters['size'];
+        if (requestParameters['pageSize'] != null) {
+            queryParameters['page-size'] = requestParameters['pageSize'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
