@@ -11,7 +11,7 @@ All URIs are relative to *http://localhost*
 
 ## namingViolations
 
-> NamingViolations200Response namingViolations(includeViolations)
+> NamingViolations200Response namingViolations(includeViolations, page, pageSize)
 
 
 
@@ -35,6 +35,10 @@ async function example() {
   const body = {
     // boolean (optional)
     includeViolations: true,
+    // number (optional)
+    page: 56,
+    // number (optional)
+    pageSize: 56,
   } satisfies NamingViolationsRequest;
 
   try {
@@ -55,6 +59,8 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **includeViolations** | `boolean` |  | [Optional] [Defaults to `false`] |
+| **page** | `number` |  | [Optional] [Defaults to `0`] |
+| **pageSize** | `number` |  | [Optional] [Defaults to `100`] |
 
 ### Return type
 
@@ -80,7 +86,7 @@ example().catch(console.error);
 
 ## rejectedDataFiles
 
-> NamingViolations200Response rejectedDataFiles(includeViolations)
+> NamingViolations200Response rejectedDataFiles(includeViolations, page, pageSize)
 
 
 
@@ -104,6 +110,10 @@ async function example() {
   const body = {
     // boolean (optional)
     includeViolations: true,
+    // number (optional)
+    page: 56,
+    // number (optional)
+    pageSize: 56,
   } satisfies RejectedDataFilesRequest;
 
   try {
@@ -124,6 +134,8 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **includeViolations** | `boolean` |  | [Optional] [Defaults to `false`] |
+| **page** | `number` |  | [Optional] [Defaults to `0`] |
+| **pageSize** | `number` |  | [Optional] [Defaults to `100`] |
 
 ### Return type
 

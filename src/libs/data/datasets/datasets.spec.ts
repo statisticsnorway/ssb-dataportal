@@ -145,9 +145,51 @@ describe('datadoc data fetching', () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
       const mockResult = [testDataset];
-      vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue(mockResult);
+      vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue({
+        datasets: mockResult,
+        total_datasets: mockResult.length,
+        page: 0,
+        page_size: 100,
+        has_next: false,
+      });
       const result = await listDatasetsByProductShortNameAndStorageCategory(shortName, testDataset.storage_category!);
       expect(result).toEqual(mockResult);
+    });
+    it('fetches and combines all API pages', async () => {
+      process.env.DATADOC_USE_STATIC_DATA = 'false';
+      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
+
+      const secondDataset = DatasetDTOFromJSON(datasetsStatic[2]);
+      assert(secondDataset);
+
+      const listDatasetsSpy = vi.spyOn(DatasetsApi.prototype, 'listDatasets');
+      const totalDatasets = 2;
+      listDatasetsSpy
+        .mockResolvedValueOnce({
+          datasets: [testDataset],
+          total_datasets: 2,
+          page: 0,
+          page_size: 100,
+          has_next: true,
+        })
+        .mockResolvedValueOnce({
+          datasets: [secondDataset],
+          total_datasets: 2,
+          page: 1,
+          page_size: 100,
+          has_next: false,
+        });
+
+      const result = await listDatasetsByProductShortNameAndStorageCategory(
+        testDataset.product_short_name as string,
+        testDataset.storage_category!,
+      );
+
+      expect(result).toEqual([testDataset, secondDataset]);
+      expect(result).toHaveLength(totalDatasets);
+      expect(listDatasetsSpy).toHaveBeenCalledTimes(2);
+      expect(listDatasetsSpy).toHaveBeenNthCalledWith(1, expect.objectContaining({ page: 0 }), expect.anything());
+      expect(listDatasetsSpy).toHaveBeenNthCalledWith(2, expect.objectContaining({ page: 1 }), expect.anything());
     });
   });
 
@@ -220,7 +262,13 @@ describe('datadoc data fetching', () => {
     it('mock api call happy path', async () => {
       process.env.DATADOC_USE_STATIC_DATA = 'false';
       process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
-      vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue(staticDatasets);
+      vi.spyOn(DatasetsApi.prototype, 'listDatasets').mockResolvedValue({
+        datasets: staticDatasets,
+        total_datasets: staticDatasets.length,
+        page: 0,
+        page_size: 100,
+        has_next: false,
+      });
       const result = await listDatasetsByProductShortNameAndStorageCategory(
         testDataset.product_short_name as string,
         testDataset.storage_category!,

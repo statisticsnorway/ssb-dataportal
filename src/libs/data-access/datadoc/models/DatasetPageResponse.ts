@@ -13,104 +13,95 @@
  */
 
 import { mapValues } from '../runtime';
-import type { NamingViolation } from './NamingViolation';
+import type { DatasetDTO } from './DatasetDTO';
 import {
-    NamingViolationFromJSON,
-    NamingViolationFromJSONTyped,
-    NamingViolationToJSON,
-    NamingViolationToJSONTyped,
-} from './NamingViolation';
+    DatasetDTOFromJSON,
+    DatasetDTOFromJSONTyped,
+    DatasetDTOToJSON,
+    DatasetDTOToJSONTyped,
+} from './DatasetDTO';
 
 /**
  * 
  * @export
- * @interface NamingViolationResponse
+ * @interface DatasetPageResponse
  */
-export interface NamingViolationResponse {
+export interface DatasetPageResponse {
     /**
      * 
-     * @type {string}
-     * @memberof NamingViolationResponse
+     * @type {Array<DatasetDTO>}
+     * @memberof DatasetPageResponse
      */
-    reported_at: string;
+    datasets: Array<DatasetDTO>;
     /**
      * 
      * @type {number}
-     * @memberof NamingViolationResponse
+     * @memberof DatasetPageResponse
      */
-    number_of_violations: number;
-    /**
-     * 
-     * @type {Array<NamingViolation>}
-     * @memberof NamingViolationResponse
-     */
-    violations: Array<NamingViolation>;
+    total_datasets: number;
     /**
      * 
      * @type {number}
-     * @memberof NamingViolationResponse
+     * @memberof DatasetPageResponse
      */
     page: number;
     /**
      * 
      * @type {number}
-     * @memberof NamingViolationResponse
+     * @memberof DatasetPageResponse
      */
     page_size: number;
     /**
      * 
      * @type {boolean}
-     * @memberof NamingViolationResponse
+     * @memberof DatasetPageResponse
      */
     has_next: boolean;
 }
 
 /**
- * Check if a given object implements the NamingViolationResponse interface.
+ * Check if a given object implements the DatasetPageResponse interface.
  */
-export function instanceOfNamingViolationResponse(value: object): value is NamingViolationResponse {
-    if (!('reported_at' in value) || value['reported_at'] === undefined) return false;
-    if (!('number_of_violations' in value) || value['number_of_violations'] === undefined) return false;
-    if (!('violations' in value) || value['violations'] === undefined) return false;
+export function instanceOfDatasetPageResponse(value: object): value is DatasetPageResponse {
+    if (!('datasets' in value) || value['datasets'] === undefined) return false;
+    if (!('total_datasets' in value) || value['total_datasets'] === undefined) return false;
     if (!('page' in value) || value['page'] === undefined) return false;
     if (!('page_size' in value) || value['page_size'] === undefined) return false;
     if (!('has_next' in value) || value['has_next'] === undefined) return false;
     return true;
 }
 
-export function NamingViolationResponseFromJSON(json: any): NamingViolationResponse {
-    return NamingViolationResponseFromJSONTyped(json, false);
+export function DatasetPageResponseFromJSON(json: any): DatasetPageResponse {
+    return DatasetPageResponseFromJSONTyped(json, false);
 }
 
-export function NamingViolationResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): NamingViolationResponse {
+export function DatasetPageResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): DatasetPageResponse {
     if (json == null) {
         return json;
     }
     return {
         
-        'reported_at': json['reported_at'],
-        'number_of_violations': json['number_of_violations'],
-        'violations': ((json['violations'] as Array<any>).map(NamingViolationFromJSON)),
+        'datasets': ((json['datasets'] as Array<any>).map(DatasetDTOFromJSON)),
+        'total_datasets': json['total_datasets'],
         'page': json['page'],
         'page_size': json['page_size'],
         'has_next': json['has_next'],
     };
 }
 
-export function NamingViolationResponseToJSON(json: any): NamingViolationResponse {
-    return NamingViolationResponseToJSONTyped(json, false);
+export function DatasetPageResponseToJSON(json: any): DatasetPageResponse {
+    return DatasetPageResponseToJSONTyped(json, false);
 }
 
-export function NamingViolationResponseToJSONTyped(value?: NamingViolationResponse | null, ignoreDiscriminator: boolean = false): any {
+export function DatasetPageResponseToJSONTyped(value?: DatasetPageResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
         
-        'reported_at': value['reported_at'],
-        'number_of_violations': value['number_of_violations'],
-        'violations': ((value['violations'] as Array<any>).map(NamingViolationToJSON)),
+        'datasets': ((value['datasets'] as Array<any>).map(DatasetDTOToJSON)),
+        'total_datasets': value['total_datasets'],
         'page': value['page'],
         'page_size': value['page_size'],
         'has_next': value['has_next'],

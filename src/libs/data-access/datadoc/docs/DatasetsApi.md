@@ -154,7 +154,7 @@ example().catch(console.error);
 
 ## listDatasets
 
-> Array&lt;DatasetDTO&gt; listDatasets(productShortName, storageLocation, storageCategory)
+> DatasetPageResponse listDatasets(productShortName, storageLocation, storageCategory, page, pageSize)
 
 
 
@@ -182,6 +182,10 @@ async function example() {
     storageLocation: storageLocation_example,
     // StorageCategory (optional)
     storageCategory: ...,
+    // number (optional)
+    page: 56,
+    // number (optional)
+    pageSize: 56,
   } satisfies ListDatasetsRequest;
 
   try {
@@ -204,10 +208,12 @@ example().catch(console.error);
 | **productShortName** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **storageLocation** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **storageCategory** | `StorageCategory` |  | [Optional] [Defaults to `undefined`] [Enum: SOURCE, PRODUCT, SHARED] |
+| **page** | `number` |  | [Optional] [Defaults to `0`] |
+| **pageSize** | `number` |  | [Optional] [Defaults to `100`] |
 
 ### Return type
 
-[**Array&lt;DatasetDTO&gt;**](DatasetDTO.md)
+[**DatasetPageResponse**](DatasetPageResponse.md)
 
 ### Authorization
 

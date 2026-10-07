@@ -6,6 +6,7 @@ export * from './DaplaDataFileDTO';
 export * from './DataProductDTO';
 export * from './DataProductType';
 export * from './DatasetDTO';
+export * from './DatasetPageResponse';
 export * from './DatasetState';
 export * from './FileType';
 export * from './NamingViolation';

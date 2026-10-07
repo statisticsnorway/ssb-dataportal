@@ -9,6 +9,9 @@ Name | Type
 `reported_at` | string
 `number_of_violations` | number
 `violations` | [Array&lt;NamingViolation&gt;](NamingViolation.md)
+`page` | number
+`page_size` | number
+`has_next` | boolean
 
 ## Example
 
@@ -20,6 +23,9 @@ const example = {
   "reported_at": null,
   "number_of_violations": null,
   "violations": null,
+  "page": null,
+  "page_size": null,
+  "has_next": null,
 } satisfies NamingViolations200Response
 
 console.log(example)

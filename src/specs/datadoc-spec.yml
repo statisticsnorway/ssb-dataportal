@@ -246,20 +246,30 @@ paths:
           nullable: true
           allOf:
           - $ref: "#/components/schemas/StorageCategory"
+      - name: page
+        in: query
+        explode: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: page-size
+        in: query
+        explode: false
+        schema:
+          type: integer
+          format: int32
+          default: 100
       responses:
         "200":
           description: List Datasets.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/DatasetDTO"
+                $ref: "#/components/schemas/DatasetPageResponse"
             application/problem+json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/DatasetDTO"
+                $ref: "#/components/schemas/DatasetPageResponse"
   /datasets/{id}:
     get:
       tags:
@@ -340,6 +350,20 @@ paths:
         schema:
           type: boolean
           default: false
+      - name: page
+        in: query
+        explode: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: page-size
+        in: query
+        explode: false
+        schema:
+          type: integer
+          format: int32
+          default: 100
       responses:
         "200":
           description: Naming violation report
@@ -372,6 +396,20 @@ paths:
         schema:
           type: boolean
           default: false
+      - name: page
+        in: query
+        explode: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: page-size
+        in: query
+        explode: false
+        schema:
+          type: integer
+          format: int32
+          default: 100
       responses:
         "200":
           description: Rejected files report
@@ -703,6 +741,30 @@ components:
           - $ref: "#/components/schemas/StorageCategory"
       description: A Dataset is a group of data files within one product and state
         with the same short description.
+    DatasetPageResponse:
+      required:
+      - datasets
+      - has_next
+      - page
+      - page_size
+      - total_datasets
+      type: object
+      properties:
+        datasets:
+          type: array
+          items:
+            $ref: "#/components/schemas/DatasetDTO"
+        total_datasets:
+          type: integer
+          format: int64
+        page:
+          type: integer
+          format: int32
+        page_size:
+          type: integer
+          format: int32
+        has_next:
+          type: boolean
     DatasetState:
       type: string
       description: Represents the processing state of a dataset as expressed in the
@@ -738,7 +800,10 @@ components:
             type: string
     NamingViolationResponse:
       required:
+      - has_next
       - number_of_violations
+      - page
+      - page_size
       - reported_at
       - violations
       type: object
@@ -747,11 +812,19 @@ components:
           type: string
         number_of_violations:
           type: integer
-          format: int32
+          format: int64
         violations:
           type: array
           items:
             $ref: "#/components/schemas/NamingViolation"
+        page:
+          type: integer
+          format: int32
+        page_size:
+          type: integer
+          format: int32
+        has_next:
+          type: boolean
     NamingViolationSummaryResponse:
       required:
       - number_of_violations
@@ -762,7 +835,7 @@ components:
           type: string
         number_of_violations:
           type: integer
-          format: int32
+          format: int64
     PeriodFormat:
       type: string
       description: The category of time period that a data file covers.

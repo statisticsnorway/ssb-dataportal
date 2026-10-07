@@ -153,16 +153,31 @@ export async function listDatasetsByProductShortNameAndStorageCategory(
   try {
     const api = await getClientForApi(DatasetsApi);
     const startTime = Date.now();
-    const rawData = await api.listDatasets(
-      { productShortName: shortName, storageCategory: storageCategory },
-      dataDocFetchOptions,
-    );
+    const allDatasets: DatasetDTO[] = [];
+    const pageSize = 100;
+    let page = 0;
+    let totalDatasets = 0;
+    while (true) {
+      const response = await api.listDatasets(
+        { productShortName: shortName, storageCategory, page, pageSize },
+        dataDocFetchOptions,
+      );
+
+      allDatasets.push(...response.datasets);
+      totalDatasets = response.total_datasets;
+
+      if (!response.has_next) break;
+      page = response.page + 1;
+    }
+    if (allDatasets.length !== totalDatasets) {
+      throw new Error(`Expected ${totalDatasets} datasets, but fetched ${allDatasets.length}`);
+    }
     const durationMs = Date.now() - startTime;
     logger.info(
-      { shortName, storageCategory, count: rawData.length, durationMs },
+      { shortName, storageCategory, count: allDatasets.length, totalDatasets, durationMs },
       'Fetched datasets from API by storage category',
     );
-    return rawData;
+    return allDatasets;
   } catch (error: unknown) {
     logAndThrowFetchError(logger, error);
   }
