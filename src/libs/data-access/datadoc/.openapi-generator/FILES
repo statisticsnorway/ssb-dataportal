@@ -12,6 +12,7 @@ docs/DataProductDTO.md
 docs/DataProductType.md
 docs/DataProductsApi.md
 docs/DatasetDTO.md
+docs/DatasetPageResponse.md
 docs/DatasetState.md
 docs/DatasetsApi.md
 docs/FileType.md
@@ -33,6 +34,7 @@ models/DaplaDataFileDTO.ts
 models/DataProductDTO.ts
 models/DataProductType.ts
 models/DatasetDTO.ts
+models/DatasetPageResponse.ts
 models/DatasetState.ts
 models/FileType.ts
 models/NamingViolation.ts

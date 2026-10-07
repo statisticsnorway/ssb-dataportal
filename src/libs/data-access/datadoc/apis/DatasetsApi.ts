@@ -16,12 +16,15 @@
 import * as runtime from '../runtime';
 import type {
   DatasetDTO,
+  DatasetPageResponse,
   Problem,
   StorageCategory,
 } from '../models/index';
 import {
     DatasetDTOFromJSON,
     DatasetDTOToJSON,
+    DatasetPageResponseFromJSON,
+    DatasetPageResponseToJSON,
     ProblemFromJSON,
     ProblemToJSON,
     StorageCategoryFromJSON,
@@ -40,6 +43,8 @@ export interface ListDatasetsRequest {
     productShortName?: string | null;
     storageLocation?: string | null;
     storageCategory?: StorageCategory | null;
+    page?: number;
+    size?: number;
 }
 
 /**
@@ -83,15 +88,17 @@ export interface DatasetsApiInterface {
      * @param {string} [productShortName] 
      * @param {string} [storageLocation] 
      * @param {StorageCategory} [storageCategory] 
+     * @param {number} [page] 
+     * @param {number} [size] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DatasetsApiInterface
      */
-    listDatasetsRaw(requestParameters: ListDatasetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DatasetDTO>>>;
+    listDatasetsRaw(requestParameters: ListDatasetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatasetPageResponse>>;
 
     /**
      */
-    listDatasets(requestParameters: ListDatasetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DatasetDTO>>;
+    listDatasets(requestParameters: ListDatasetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatasetPageResponse>;
 
 }
 
@@ -191,7 +198,7 @@ export class DatasetsApi extends runtime.BaseAPI implements DatasetsApiInterface
 
     /**
      */
-    async listDatasetsRaw(requestParameters: ListDatasetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DatasetDTO>>> {
+    async listDatasetsRaw(requestParameters: ListDatasetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatasetPageResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters['productShortName'] != null) {
@@ -204,6 +211,14 @@ export class DatasetsApi extends runtime.BaseAPI implements DatasetsApiInterface
 
         if (requestParameters['storageCategory'] != null) {
             queryParameters['storage-category'] = requestParameters['storageCategory'];
+        }
+
+        if (requestParameters['page'] != null) {
+            queryParameters['page'] = requestParameters['page'];
+        }
+
+        if (requestParameters['size'] != null) {
+            queryParameters['size'] = requestParameters['size'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -226,12 +241,12 @@ export class DatasetsApi extends runtime.BaseAPI implements DatasetsApiInterface
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(DatasetDTOFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => DatasetPageResponseFromJSON(jsonValue));
     }
 
     /**
      */
-    async listDatasets(requestParameters: ListDatasetsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DatasetDTO>> {
+    async listDatasets(requestParameters: ListDatasetsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatasetPageResponse> {
         const response = await this.listDatasetsRaw(requestParameters, initOverrides);
         return await response.value();
     }
