@@ -2,11 +2,13 @@
 
 import { Alert, Heading } from '@digdir/designsystemet-react';
 import { notFound } from 'next/navigation';
+import { parseAsString, useQueryState } from 'nuqs';
 import { useMemo, useState } from 'react';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { CheckboxFilter, FiltersPanel } from '@/components/filters';
+import { TextFilter } from '@/components/filters/text-filter';
 import { SortFields } from '@/components/sort-fields';
 import { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
 import { localization } from '@/libs/language';
@@ -111,32 +113,35 @@ export default function DataProductDetail({
       })),
     [storageCategoryLabelByValue, storageCategoryCounts],
   );
+  const [textFilterValue, setTextFilterValue] = useQueryState('q', parseAsString.withDefault(''));
+
+  const handleTextFilterChange = (value: string) => {
+    setTextFilterValue(value || null);
+  };
 
   const filteredDatasets = useMemo(() => {
-    if (selectedAssessments.length === 0 && selectedStorageCategories.length === 0) return visibleDatasets;
-
+    const normalizedQuery = textFilterValue.trim().toLocaleLowerCase('nb');
     const selectedAssessmentValues = new Set(selectedAssessments.map((f) => f.value));
     const selectedStorageCategoryValues = new Set(selectedStorageCategories.map((f) => f.value));
 
     return visibleDatasets.filter((dataset) => {
+      const matchesText =
+        normalizedQuery.length === 0 ||
+        dataset.short_description?.toLocaleLowerCase('nb').includes(normalizedQuery) ||
+        dataset.id?.toLocaleLowerCase('nb').includes(normalizedQuery);
+
       const assessment = dataset.assessment;
       const storageCategory = dataset.storage_category;
       const assessmentMatches = typeof assessment === 'string' && selectedAssessmentValues.has(assessment);
       const storageCategoryMatches =
         typeof storageCategory === 'string' && selectedStorageCategoryValues.has(storageCategory);
 
-      if (selectedAssessments.length > 0 && selectedStorageCategories.length > 0) {
-        return assessmentMatches && storageCategoryMatches;
-      }
-      if (selectedAssessments.length > 0) {
-        return assessmentMatches;
-      }
-      if (selectedStorageCategories.length > 0) {
-        return storageCategoryMatches;
-      }
-      return true;
+      const matchesAssessment = selectedAssessments.length === 0 || assessmentMatches;
+      const matchesStorageCategory = selectedStorageCategories.length === 0 || storageCategoryMatches;
+
+      return matchesText && matchesAssessment && matchesStorageCategory;
     });
-  }, [visibleDatasets, selectedAssessments, selectedStorageCategories]);
+  }, [visibleDatasets, textFilterValue, selectedAssessments, selectedStorageCategories]);
 
   const sortedDatasets = useMemo(() => {
     return [...filteredDatasets].sort((a, b) => {
@@ -180,6 +185,11 @@ export default function DataProductDetail({
         <div className={styles.searchHitsContainerWrapper}>
           <aside className={styles.filterSection} aria-label={localization.dataProductDetail.dataProductFilters}>
             <FiltersPanel heading={localization.search.filter.label}>
+              <TextFilter
+                label={localization.search.textFilter.label}
+                searchTerm={textFilterValue}
+                setSearchTerm={handleTextFilterChange}
+              />
               <CheckboxFilter
                 filterHeading={localization.products.assessment.filterLabel}
                 filters={assessmentFilters}
