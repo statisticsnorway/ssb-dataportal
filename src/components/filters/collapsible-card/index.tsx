@@ -1,8 +1,6 @@
-import { Button, Card, Fieldset, FieldsetLegend } from '@digdir/designsystemet-react';
-import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
-import { ReactNode, useState } from 'react';
-import { localization } from '@/libs/language/src/localization';
-import { sanitizeId } from '@/utils/functions';
+import { Card, Details, DetailsSummary, Fieldset } from '@digdir/designsystemet-react';
+import type { ReactNode } from 'react';
+import { useId, useState } from 'react';
 import styles from './collapsable-card.module.css';
 
 interface CollapsibleCardProps {
@@ -38,36 +36,29 @@ export function CollapsibleCard({
   toggleButtonClassName = '',
 }: Readonly<CollapsibleCardProps>) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-
-  const toggleOpen = () => setIsOpen((prev) => !prev);
-  const headingId = `collapsible-${sanitizeId(heading)}-heading`;
-  const panelId = `collapsible-${sanitizeId(heading)}-panel`;
-  const hiddenClassName = isOpen ? '' : styles.hidden;
+  const panelId = useId();
 
   return (
-    <Card className={`${styles.filterCard} ${cardClassName} ${hiddenClassName}`}>
-      <Fieldset aria-labelledby={headingId}>
-        <FieldsetLegend className={styles.filterHeader} id={headingId}>
-          <Button
+    <Card className={`${styles.filterCard} ${cardClassName}`}>
+      <Fieldset className={styles.fieldset} aria-label={heading}>
+        <Details
+          className={styles.details}
+          defaultOpen={defaultOpen}
+          onToggle={(event) => setIsOpen((event.currentTarget as HTMLDetailsElement).open)}
+        >
+          <DetailsSummary
+            id={`${panelId}-heading`}
             className={`${styles.toggleFilter} ${toggleButtonClassName}`}
-            onClick={toggleOpen}
+            role='button'
             aria-expanded={isOpen}
-            aria-controls={panelId}
+            aria-controls={`${panelId}-content`}
           >
             {heading}
-            {isOpen ? (
-              <ChevronDownIcon title={localization.search.filter.close} className={styles.chevronUpDown} />
-            ) : (
-              <ChevronUpIcon title={localization.search.filter.open} className={styles.chevronUpDown} />
-            )}
-          </Button>
-        </FieldsetLegend>
-
-        {isOpen && (
-          <div id={panelId} className={`${styles.filterItems} ${contentClassName}`}>
+          </DetailsSummary>
+          <div id={`${panelId}-content`} className={`${styles.filterItems} ${contentClassName}`}>
             {children}
           </div>
-        )}
+        </Details>
       </Fieldset>
     </Card>
   );
