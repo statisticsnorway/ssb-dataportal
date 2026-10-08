@@ -3,7 +3,7 @@
   padding-block: 0.5rem;
 }
 
-.checkboxFilterItems:has(.checkbox:first-child:hover)::before {
+.checkboxFilterItems:has(> .checkbox:first-child:hover)::before {
   position: absolute;
   inset-block-start: 0;
   inset-inline: 0;
@@ -13,7 +13,7 @@
   pointer-events: none;
 }
 
-.checkboxFilterItems:has(.checkbox:last-child:hover)::after {
+.checkboxFilterItems:has(> .checkbox:last-child:hover)::after {
   position: absolute;
   inset-block-end: 0;
   inset-inline: 0;
@@ -42,4 +42,31 @@
 
 .checkbox:hover {
   background-color: var(--ds-color-surface-hover);
+}
+
+.nestedFilter {
+  margin: 0.25rem 1rem 0.75rem 2.75rem;
+  border-inline-start: 2px solid var(--ds-color-neutral-border-subtle);
+}
+
+.nestedCheckboxFilter {
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.nestedCheckboxFilterHeading {
+  padding: 0;
+  padding-inline-start: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.nestedCheckboxFilterItems {
+  margin-block-start: 0.25rem;
+}
+
+.nestedCheckboxFilterItems .checkbox {
+  padding-inline: 1rem 0;
 }

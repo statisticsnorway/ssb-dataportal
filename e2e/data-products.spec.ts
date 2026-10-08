@@ -62,12 +62,15 @@ test.describe('authenticated', () => {
     await stabilize();
 
     const main = page.getByRole('main');
-    const subjectCheckbox = (name: string) => page.getByRole('checkbox', { name });
+    const productTypeFilters = main.getByRole('group', { name: localization.products.typeFilterLabel });
+    const subjectFilters = productTypeFilters.getByRole('group', { name: localization.subjectArea });
+    const subjectCheckbox = (name: string) => subjectFilters.getByRole('checkbox', { name });
 
+    await expect(subjectFilters).toBeVisible();
     await subjectCheckbox('Arbeid og lønn').check();
-    await expect(main.getByRole('paragraph')).toContainText('2 treff');
+    await expect(main.getByRole('paragraph')).toContainText('1 treff');
     await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
-    await expect(main).toContainText('Arblonn');
+    await expect(main).not.toContainText('Arblonn');
     await expect(main).not.toContainText('Ameldingen');
 
     await subjectCheckbox('Arbeid og lønn').uncheck();

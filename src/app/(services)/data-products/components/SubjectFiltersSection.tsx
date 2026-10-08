@@ -1,5 +1,5 @@
 import { Spinner } from '@digdir/designsystemet-react';
-import { CheckboxFilter } from '@/components/filters';
+import { NestedCheckboxFilter } from '@/components/filters';
 import { localization } from '@/libs/language';
 import { FilterItem } from '@/types/filters';
 import { mapSelectedSubjectFilters } from '@/utils/classifications/filterAndSortClassifications';
@@ -14,11 +14,12 @@ export const SubjectFiltersSection = ({ onFilterChange }: SubjectFiltersSectionP
   const selectedItems = mapSelectedSubjectFilters(selectedSubjectCodes, subjectFields);
 
   return (
-    <CheckboxFilter
+    <NestedCheckboxFilter
       filterHeading={localization.subjectArea}
       filters={subjectFieldFilters}
       selectedItems={selectedItems}
       onFilterChange={onFilterChange}
+      visuallyHideHeading
     />
   );
 };

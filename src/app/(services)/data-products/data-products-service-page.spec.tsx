@@ -154,21 +154,27 @@ describe('DataProductsServicePage', () => {
     expect(within(cards[1]!).getByLabelText(localization.subjectArea)).toHaveTextContent('Bank og finansmarked');
   });
 
-  it('renders subject field checkboxes with counts', () => {
+  it('renders subject field filters nested under product type with statistical product counts', () => {
     renderPage({ subjectFields });
-    const workAndPayFilter = screen.getByRole('checkbox', { name: 'Arbeid og lønn (1)' });
-    const bankingFilter = screen.getByRole('checkbox', { name: 'Bank og finansmarked (1)' });
-    expect(screen.getByRole('group', { name: new RegExp(localization.subjectArea) })).toBeInTheDocument();
+    const productTypeFilters = screen.getByRole('group', {
+      name: new RegExp(localization.products.typeFilterLabel),
+    });
+    const subjectFilters = within(productTypeFilters).getByRole('group', {
+      name: new RegExp(localization.subjectArea),
+    });
+    expect(within(subjectFilters).getByText(localization.subjectArea)).toHaveClass('ds-sr-only');
+    const workAndPayFilter = within(subjectFilters).getByRole('checkbox', { name: 'Arbeid og lønn (1)' });
+    const bankingFilter = within(subjectFilters).getByRole('checkbox', { name: 'Bank og finansmarked (0)' });
     expect(workAndPayFilter).not.toBeChecked();
     expect(bankingFilter).not.toBeChecked();
-    expect(screen.getByRole('checkbox', { name: 'Helse (0)' })).toBeInTheDocument();
+    expect(within(subjectFilters).getByRole('checkbox', { name: 'Helse (0)' })).toBeInTheDocument();
   });
 
-  it('filters data products by selected subject fields', () => {
+  it('filters statistical products by selected subject fields', () => {
     renderPage({ subjectFields });
     const main = screen.getByRole('main');
     const workAndPayFilter = screen.getByRole('checkbox', { name: 'Arbeid og lønn (1)' });
-    const bankingFilter = screen.getByRole('checkbox', { name: 'Bank og finansmarked (1)' });
+    const bankingFilter = screen.getByRole('checkbox', { name: 'Bank og finansmarked (0)' });
 
     fireEvent.click(workAndPayFilter);
     expect(main).toHaveTextContent('1 treff');
@@ -176,14 +182,13 @@ describe('DataProductsServicePage', () => {
     expect(main).not.toHaveTextContent('Ameldingen');
 
     fireEvent.click(bankingFilter);
-    expect(main).toHaveTextContent('2 treff');
+    expect(main).toHaveTextContent('1 treff');
     expect(main).toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
-    expect(main).toHaveTextContent('Ameldingen');
+    expect(main).not.toHaveTextContent('Ameldingen');
 
     fireEvent.click(workAndPayFilter);
-    expect(main).toHaveTextContent('1 treff');
-    expect(main).toHaveTextContent('Ameldingen');
-    expect(main).not.toHaveTextContent('Tilknytning til arbeid, utdanning og velferdsordninger');
+    expect(main).toHaveTextContent('0 treff');
+    expect(main).toHaveTextContent(localization.search.noHits);
 
     fireEvent.click(bankingFilter);
     expect(main).toHaveTextContent('2 treff');
@@ -261,7 +266,7 @@ describe('URL state', () => {
   it('updates subjects parameters when subject filters change', async () => {
     const onUrlUpdate = vi.fn<(event: UrlUpdateEvent) => void>();
     renderPage({ subjectFields }, '', onUrlUpdate);
-    fireEvent.click(screen.getByRole('checkbox', { name: 'Bank og finansmarked (1)' }));
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Bank og finansmarked (0)' }));
     await waitFor(() => {
       expect(onUrlUpdate).toHaveBeenCalled();
     });

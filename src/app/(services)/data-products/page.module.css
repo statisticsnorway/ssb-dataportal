@@ -3,3 +3,10 @@
   flex-direction: column;
   gap: 1rem;
 }
+
+@media (min-width: 768px) {
+  .dataProductsFilterSection {
+    --filter-section-flex-basis: 340px;
+    --filter-section-max-width: 340px;
+  }
+}
