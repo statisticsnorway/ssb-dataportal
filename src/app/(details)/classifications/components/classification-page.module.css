@@ -28,6 +28,7 @@
   text-align: left;
   word-break: auto-phrase;
   text-wrap: wrap;
+  white-space: pre-wrap;
   overflow-wrap: break-word;
   hyphens: auto;
   margin: 1rem 0;

@@ -3,6 +3,7 @@
 export * from './Assessment';
 export * from './CreateDaplaDataFile';
 export * from './DaplaDataFileDTO';
+export * from './DaplaDataFilePageResponse';
 export * from './DataProductDTO';
 export * from './DataProductType';
 export * from './DatasetDTO';
