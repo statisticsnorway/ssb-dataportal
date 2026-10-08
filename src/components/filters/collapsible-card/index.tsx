@@ -1,6 +1,7 @@
 import { Card, Details, DetailsSummary, Fieldset } from '@digdir/designsystemet-react';
 import type { ReactNode } from 'react';
-import { useId, useState } from 'react';
+import { useState } from 'react';
+import { sanitizeId } from '@/utils/functions';
 import styles from './collapsable-card.module.css';
 
 interface CollapsibleCardProps {
@@ -36,7 +37,8 @@ export function CollapsibleCard({
   toggleButtonClassName = '',
 }: Readonly<CollapsibleCardProps>) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  const panelId = useId();
+  const headingId = `collapsible-${sanitizeId(heading)}-heading`;
+  const panelId = `collapsible-${sanitizeId(heading)}-panel`;
 
   return (
     <Card className={`${styles.filterCard} ${cardClassName}`}>
@@ -47,15 +49,15 @@ export function CollapsibleCard({
           onToggle={(event) => setIsOpen((event.currentTarget as HTMLDetailsElement).open)}
         >
           <DetailsSummary
-            id={`${panelId}-heading`}
+            id={headingId}
             className={`${styles.toggleFilter} ${toggleButtonClassName}`}
             role='button'
             aria-expanded={isOpen}
-            aria-controls={`${panelId}-content`}
+            aria-controls={panelId}
           >
             {heading}
           </DetailsSummary>
-          <div id={`${panelId}-content`} className={`${styles.filterItems} ${contentClassName}`}>
+          <div id={panelId} className={`${styles.filterItems} ${contentClassName}`}>
             {children}
           </div>
         </Details>
