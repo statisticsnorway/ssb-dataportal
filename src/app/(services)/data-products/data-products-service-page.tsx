@@ -5,6 +5,7 @@ import { Suspense, useMemo } from 'react';
 import { useAuthContext } from '@/app/authContext';
 import { CheckboxFilter, FiltersPanel } from '@/components/filters';
 import { FilterTagsSection } from '@/components/filters/filter-tags-section';
+import { TextFilter } from '@/components/filters/text-filter';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
 import { type DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
 import { localization } from '@/libs/language';
@@ -78,12 +79,21 @@ export const DataProductsServicePage = ({
 }: DataProductsServicePageProps) => {
   const { isAuthenticated } = useAuthContext();
 
-  const [{ productTypes, subjects }, setQueryState] = useQueryStates({
+  const [{ productTypes, subjects, q: textFilterValue }, setQueryState] = useQueryStates({
+    q: parseAsString.withDefault(''),
     productTypes: parseAsArrayOf(parseAsString).withDefault([]),
     subjects: parseAsArrayOf(parseAsString).withDefault([]),
   });
 
+  const handleTextFilterChange = (value: string) => {
+    updateQuery({ q: value || null });
+  };
+
   dataProducts = dataProducts.filter((dp) => isAuthenticated || dp.contains_valid_datasets !== false);
+  if (textFilterValue) {
+    const lowerTextFilterValue = textFilterValue.toLowerCase();
+    dataProducts = dataProducts.filter((dp) => dp.product_short_name?.toLowerCase().includes(lowerTextFilterValue));
+  }
 
   const productTypeFilters = useMemo<FilterItem[]>(() => {
     const counts = countByProductType(dataProducts);
@@ -202,6 +212,11 @@ export const DataProductsServicePage = ({
         infoContent={<FilterTagsSection tags={filterTags} onRemoveTag={removeFilter} onClearAll={clearAll} />}
         asideContent={
           <FiltersPanel heading={localization.search.filter.label}>
+            <TextFilter
+              label={localization.search.textFilter.label}
+              searchTerm={textFilterValue}
+              setSearchTerm={handleTextFilterChange}
+            />
             <CheckboxFilter
               filterHeading={localization.products.typeFilterLabel}
               filters={productTypeFilters}
