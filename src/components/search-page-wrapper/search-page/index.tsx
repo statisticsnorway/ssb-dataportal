@@ -6,6 +6,7 @@ import styles from './search-page.module.css';
 interface SearchPageProps {
   infoContent?: ReactNode;
   asideContent?: ReactNode;
+  asideClassName?: string;
   searchResult?: ReactElement;
   controlsContent?: ReactNode;
   totalHits?: ReactNode;
@@ -22,6 +23,7 @@ interface SearchPageProps {
  *
  * @param infoContent     Optional content displayed above results (e.g. tags or info)
  * @param asideContent    Optional sidebar content for filters
+ * @param asideClassName  Optional class name for customizing the filter sidebar
  * @param searchResult    Rendered search results
  * @param controlsContent Sorting or control UI for the results list
  * @param totalHits       Total number of search results
@@ -30,6 +32,7 @@ interface SearchPageProps {
 const SearchPage: FC<SearchPageProps> = ({
   infoContent,
   asideContent,
+  asideClassName,
   searchResult,
   controlsContent,
   totalHits,
@@ -56,7 +59,7 @@ const SearchPage: FC<SearchPageProps> = ({
         <div className={`${styles.pageContainer} container`}>
           <div className={styles.searchHitsContainerWrapper}>
             {asideContent ? (
-              <aside className={styles.filterSection} aria-label='Filters'>
+              <aside className={`${styles.filterSection} ${asideClassName ?? ''}`} aria-label='Filters'>
                 {asideContent}
               </aside>
             ) : null}

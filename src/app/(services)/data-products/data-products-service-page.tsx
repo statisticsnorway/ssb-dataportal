@@ -63,6 +63,8 @@ const getProductTypeLabel = (productType: ProductTypeFilterValue) => {
 
 const countProductsBySubjectField = (dataProducts: DataProductDTO[]) => {
   return dataProducts.reduce<Record<string, Set<string>>>((counts, dataProduct, index) => {
+    if (dataProduct.product_type !== DataProductType.STATISTIC_PRODUCT) return counts;
+
     const productKey = dataProduct.product_short_name ?? String(index);
     const subjectFieldCodes = new Set(getSubjectFieldCodes(dataProduct));
     subjectFieldCodes.forEach((code) => {
@@ -173,7 +175,9 @@ export const DataProductsServicePage = ({
 
       const subjectFieldCodes = getSubjectFieldCodes(dataProduct);
       const matchesSubjectField =
-        selectedSubjectFields.size === 0 || subjectFieldCodes.some((code) => selectedSubjectFields.has(code));
+        selectedSubjectFields.size === 0 ||
+        (dataProduct.product_type === DataProductType.STATISTIC_PRODUCT &&
+          subjectFieldCodes.some((code) => selectedSubjectFields.has(code)));
 
       return matchesProductType && matchesSubjectField;
     });
@@ -198,6 +202,7 @@ export const DataProductsServicePage = ({
       <SearchPage
         tabsId={tabsData.DataProducts.id}
         header={localization.tabs.dataProducts}
+        asideClassName={styles.dataProductsFilterSection}
         totalHits={filteredDataProducts.length}
         infoContent={<FilterTagsSection tags={filterTags} onRemoveTag={removeFilter} onClearAll={clearAll} />}
         asideContent={
@@ -207,10 +212,14 @@ export const DataProductsServicePage = ({
               filters={productTypeFilters}
               selectedItems={selectedProductTypeFilters}
               onFilterChange={handleProductTypeFilterChange}
+              nestedContentByValue={{
+                [DataProductType.STATISTIC_PRODUCT]: (
+                  <Suspense fallback={<SubjectFiltersSectionFallback />}>
+                    <SubjectFiltersSection onFilterChange={toggleSubject} />
+                  </Suspense>
+                ),
+              }}
             />
-            <Suspense fallback={<SubjectFiltersSectionFallback />}>
-              <SubjectFiltersSection onFilterChange={toggleSubject} />
-            </Suspense>
           </FiltersPanel>
         }
         searchResult={
