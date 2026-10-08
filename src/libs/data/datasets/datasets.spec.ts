@@ -216,7 +216,14 @@ describe('datadoc data fetching', () => {
           naming_standard_violations: [],
         } as DaplaDataFileDTO,
       ];
-      vi.spyOn(DataFilesApi.prototype, 'listDataFiles').mockResolvedValue(mockResult);
+
+      vi.spyOn(DataFilesApi.prototype, 'listDataFiles').mockResolvedValue({
+        data_files: mockResult,
+        total_data_files: mockResult.length,
+        page: 0,
+        page_size: 100,
+        has_next: false,
+      });
 
       const result = await listDataFilesByDatasetIdAndStorageCategory('dataset-id', StorageCategory.SHARED);
       expect(result).toEqual(mockResult);
