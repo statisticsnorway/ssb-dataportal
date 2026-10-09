@@ -1,11 +1,13 @@
 'use client';
 
-import { parseAsArrayOf, parseAsString, useQueryStates } from 'nuqs';
+import { parseAsArrayOf, parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs';
 import { Suspense, useMemo } from 'react';
 import { useAuthContext } from '@/app/authContext';
 import { CheckboxFilter, FiltersPanel } from '@/components/filters';
 import { FilterTagsSection } from '@/components/filters/filter-tags-section';
+import { TextFilter } from '@/components/filters/text-filter';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
+import { SortFields } from '@/components/sort-fields';
 import { type DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
 import { localization } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
@@ -77,27 +79,42 @@ export const DataProductsServicePage = ({
   subjectFields = EMPTY_SUBJECT_FIELDS,
 }: DataProductsServicePageProps) => {
   const { isAuthenticated } = useAuthContext();
-
-  const [{ productTypes, subjects }, setQueryState] = useQueryStates({
+  const [{ productTypes, subjects, q: textFilterValue, sort }, setQueryState] = useQueryStates({
+    q: parseAsString.withDefault(''),
+    sort: parseAsStringLiteral(['titleAsc', 'titleDesc']).withDefault('titleAsc'),
     productTypes: parseAsArrayOf(parseAsString).withDefault([]),
     subjects: parseAsArrayOf(parseAsString).withDefault([]),
   });
 
-  dataProducts = dataProducts.filter((dp) => isAuthenticated || dp.contains_valid_datasets !== false);
+  const visibleDataProducts = useMemo(
+    () => dataProducts.filter((dataProduct) => isAuthenticated || dataProduct.contains_valid_datasets !== false),
+    [dataProducts, isAuthenticated],
+  );
+
+  const textFilteredDataProducts = useMemo(() => {
+    const query = textFilterValue.trim().toLocaleLowerCase('nb');
+
+    if (!query) return visibleDataProducts;
+
+    return visibleDataProducts.filter(
+      (dataProduct) =>
+        dataProduct.product_short_name?.toLocaleLowerCase('nb').includes(query) ||
+        dataProduct.title?.toLocaleLowerCase('nb').includes(query),
+    );
+  }, [visibleDataProducts, textFilterValue]);
 
   const productTypeFilters = useMemo<FilterItem[]>(() => {
-    const counts = countByProductType(dataProducts);
-    return dataProductTypeOrder
-      .filter((productType) => counts[productType] != null)
-      .map((productType) => ({
-        label: getProductTypeLabel(productType),
-        value: productType,
-        count: counts[productType],
-      }));
-  }, [dataProducts]);
+    const counts = countByProductType(textFilteredDataProducts);
+
+    return dataProductTypeOrder.map((productType) => ({
+      label: getProductTypeLabel(productType),
+      value: productType,
+      count: counts[productType] ?? 0,
+    }));
+  }, [textFilteredDataProducts]);
 
   const subjectFieldFilters = useMemo<FilterItem[]>(() => {
-    const counts = countProductsBySubjectField(dataProducts);
+    const counts = countProductsBySubjectField(textFilteredDataProducts);
     return subjectFields
       .filter((subjectField) => !subjectField.parentCode)
       .map((subjectField) => ({
@@ -106,12 +123,16 @@ export const DataProductsServicePage = ({
         count: counts[String(subjectField.code)]?.size ?? 0,
       }))
       .sort((a, b) => a.label.localeCompare(b.label, 'nb'));
-  }, [dataProducts, subjectFields]);
+  }, [textFilteredDataProducts, subjectFields]);
 
   const updateQuery = (update: Parameters<typeof setQueryState>[0]) =>
     setQueryState(update).catch((error) => {
       clientLogger.error('Failed to update query state', error);
     });
+
+  const handleTextFilterChange = (value: string) => {
+    updateQuery({ q: value || null });
+  };
 
   const toggleSubject = (filter: FilterItem) => {
     const nextSubjects = toggleValue(subjects, filter.value);
@@ -137,60 +158,71 @@ export const DataProductsServicePage = ({
 
     tags.push(
       ...subjects.map((code) => {
-        const subject = subjectFields?.find((item) => String(item.code) === code);
+        const subject = subjectFields.find((item) => String(item.code) === code);
         return { value: code, label: subject ? String(subject.name) : code };
       }),
     );
     return tags;
   }, [selectedProductTypeFilters, subjects, subjectFields]);
 
-  const removeFilter = async (tag: FilterItem) => {
-    const nextProductTypes = productTypes.filter((v) => v !== tag.value);
+  const removeFilter = (tag: FilterItem) => {
+    const nextProductTypes = productTypes.filter((value) => value !== tag.value);
     const nextSubjects = subjects.filter((value) => value !== tag.value);
 
-    await setQueryState({
+    updateQuery({
       productTypes: nextProductTypes.length > 0 ? nextProductTypes : null,
       subjects: nextSubjects.length > 0 ? nextSubjects : null,
     });
+
     scrollToFilterTags();
   };
 
   const clearAll = async () => {
     await setQueryState({
+      q: null,
       productTypes: null,
       subjects: null,
     });
     scrollToFilterTags();
   };
 
-  const filteredDataProducts = useMemo(() => {
-    const selectedProductTypes = new Set(productTypes);
-    const selectedSubjectFields = new Set(subjects);
+  const getDataProductTitle = (dataProduct: DataProductDTO): string =>
+    dataProduct.title ?? dataProduct.product_short_name ?? '';
 
-    return dataProducts.filter((dataProduct) => {
-      const matchesProductType =
-        selectedProductTypes.size === 0 || selectedProductTypes.has(getProductTypeFilterValue(dataProduct));
+  const filteredDataProducts = useMemo(
+    () =>
+      textFilteredDataProducts
+        .filter((dataProduct) => {
+          const matchesProductType =
+            productTypes.length === 0 || productTypes.includes(getProductTypeFilterValue(dataProduct));
 
-      const subjectFieldCodes = getSubjectFieldCodes(dataProduct);
-      const matchesSubjectField =
-        selectedSubjectFields.size === 0 || subjectFieldCodes.some((code) => selectedSubjectFields.has(code));
+          const matchesSubject =
+            subjects.length === 0 || getSubjectFieldCodes(dataProduct).some((code) => subjects.includes(code));
 
-      return matchesProductType && matchesSubjectField;
-    });
-  }, [dataProducts, productTypes, subjects]);
+          return matchesProductType && matchesSubject;
+        })
+        .toSorted((a, b) => {
+          const comparison = getDataProductTitle(a).localeCompare(getDataProductTitle(b), 'nb-NO', {
+            sensitivity: 'base',
+          });
+
+          return sort === 'titleDesc' ? -comparison : comparison;
+        }),
+    [textFilteredDataProducts, productTypes, subjects, sort],
+  );
 
   const handleProductTypeFilterChange = (filter: FilterItem) => {
-    const nextProductTypes = productTypes.includes(filter.value)
-      ? productTypes.filter((value) => value !== filter.value)
-      : [...productTypes, filter.value];
-    setQueryState({ productTypes: nextProductTypes.length > 0 ? nextProductTypes : null }).then(() => {
-      scrollToFilterTags();
+    const nextProductTypes = toggleValue(productTypes, filter.value);
+
+    updateQuery({
+      productTypes: nextProductTypes.length > 0 ? nextProductTypes : null,
     });
+    scrollToFilterTags();
   };
 
   return (
     <DataProductsProvider
-      dataProducts={dataProducts}
+      dataProducts={visibleDataProducts}
       subjectFields={subjectFields}
       subjectFieldFilters={subjectFieldFilters}
       selectedSubjectCodes={subjects}
@@ -199,9 +231,35 @@ export const DataProductsServicePage = ({
         tabsId={tabsData.DataProducts.id}
         header={localization.tabs.dataProducts}
         totalHits={filteredDataProducts.length}
-        infoContent={<FilterTagsSection tags={filterTags} onRemoveTag={removeFilter} onClearAll={clearAll} />}
+        infoContent={
+          <FilterTagsSection
+            tags={filterTags}
+            onRemoveTag={removeFilter}
+            onClearAll={clearAll}
+            searchTerm={textFilterValue}
+            onClearSearch={() => {
+              updateQuery({ q: null });
+              scrollToFilterTags();
+            }}
+          />
+        }
+        controlsContent={
+          <SortFields
+            sortOptions={['titleAsc', 'titleDesc']}
+            sortValue={sort}
+            onSortChange={(value: 'titleAsc' | 'titleDesc') => {
+              updateQuery({ sort: value });
+              scrollToFilterTags();
+            }}
+          />
+        }
         asideContent={
           <FiltersPanel heading={localization.search.filter.label}>
+            <TextFilter
+              label={localization.search.textFilter.label}
+              searchTerm={textFilterValue}
+              setSearchTerm={handleTextFilterChange}
+            />
             <CheckboxFilter
               filterHeading={localization.products.typeFilterLabel}
               filters={productTypeFilters}
@@ -220,7 +278,7 @@ export const DataProductsServicePage = ({
             <div className={styles.searchResultList}>
               {filteredDataProducts.map((dataProduct, index) => (
                 <DataProductSearchHit
-                  key={dataProduct.product_short_name || index}
+                  key={dataProduct.product_short_name ?? dataProduct.title ?? `product-${index}`}
                   dataProduct={dataProduct}
                   subjectFields={subjectFields}
                 />

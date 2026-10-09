@@ -7,6 +7,17 @@ test.describe('authenticated', () => {
     if (testInfo.project.name === 'chrome-unauth') testInfo.skip();
   });
 
+  test('Data products can be sorted by naming standard violations', async ({ page }) => {
+    await page.goto('/data-products/ameld');
+    await stabilize();
+
+    const main = page.getByRole('main');
+
+    await main.getByRole('combobox', { name: localization.search.sort.label }).selectOption('violationsDesc');
+
+    await expect(main.getByRole('paragraph')).toContainText('2 treff');
+  });
+
   test('Data product datasets can be filtered by assessment', async ({ page }) => {
     await page.goto('/data-products/arbstatus');
     await stabilize();
