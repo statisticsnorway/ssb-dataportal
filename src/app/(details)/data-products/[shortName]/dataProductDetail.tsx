@@ -18,41 +18,54 @@ import { scrollToFilterTags } from '@/utils/scrollToFilterTags';
 import { DatasetSearchHit } from './components/DatasetSearchHit';
 import styles from './page.module.css';
 
-const getAssessmentLabelByValue = (): Record<string, string> => ({
+interface DataProductDetailContentProps {
+  dataProduct: DataProductDTO;
+  datasetsShared: DatasetDTO[];
+  datasetsProduct?: DatasetDTO[];
+  namingStandardViolationsByDatasetId: Record<string, number>;
+}
+
+const assessmentFilterValues = ['PROTECTED', 'OPEN', 'SENSITIVE'] as const;
+const storageCategoryFilterValues = ['SHARED', 'PRODUCT'] as const;
+
+const assessmentLabelByValue: Record<string, string> = {
   PROTECTED: localization.products.assessment.protected,
   OPEN: localization.products.assessment.open,
   SENSITIVE: localization.products.assessment.sensitive,
-});
+};
 
-const getStorageCategoryLabelByValue = (): Record<string, string> => ({
+const storageCategoryLabelByValue: Record<string, string> = {
   SHARED: localization.products.storageCategory.shared,
   PRODUCT: localization.products.storageCategory.product,
-});
+};
 
 const sortOptionsAuthenticated = ['titleAsc', 'titleDesc', 'violationsDesc'] as const;
 const sortOptionsUnauthenticated = ['titleAsc', 'titleDesc'] as const;
 
 type DatasetSortOption = (typeof sortOptionsAuthenticated)[number];
 
-export default function DataProductDetail({
+/**
+ * The DataProductDetail component is responsible for rendering the details of a data product, including its datasets and associated filters.
+ * @param props The props for the DataProductDetail component, including the data product and its datasets.
+ * @returns The rendered DataProductDetail component.
+ */
+export default function DataProductDetail(props: Readonly<DataProductDetailContentProps>) {
+  const { isAuthenticated } = useAuthContext();
+
+  if (!isAuthenticated && props.dataProduct.contains_valid_datasets === false) {
+    notFound();
+  }
+
+  return <DataProductDetailContent {...props} isAuthenticated={isAuthenticated} />;
+}
+
+function DataProductDetailContent({
+  isAuthenticated,
   dataProduct,
   datasetsShared,
   datasetsProduct,
   namingStandardViolationsByDatasetId,
-}: Readonly<{
-  dataProduct: DataProductDTO;
-  datasetsShared: DatasetDTO[];
-  datasetsProduct?: DatasetDTO[];
-  namingStandardViolationsByDatasetId: Record<string, number>;
-}>) {
-  const assessmentLabelByValue = getAssessmentLabelByValue();
-  const storageCategoryLabelByValue = getStorageCategoryLabelByValue();
-  const { isAuthenticated } = useAuthContext();
-
-  if (!isAuthenticated && dataProduct.contains_valid_datasets === false) {
-    notFound();
-  }
-
+}: Readonly<DataProductDetailContentProps & { isAuthenticated: boolean }>) {
   const visibleDatasets = useMemo(
     () =>
       isAuthenticated
@@ -77,9 +90,8 @@ export default function DataProductDetail({
   const handleTextFilterChange = (value: string) => {
     updateQuery({ q: value || null });
   };
-
   const toggleAssessment = (filter: FilterItem) => {
-    setQueryState({
+    updateQuery({
       assessments: assessments.includes(filter.value)
         ? assessments.filter((value) => value !== filter.value)
         : [...assessments, filter.value],
@@ -87,7 +99,7 @@ export default function DataProductDetail({
   };
 
   const toggleStorageCategory = (filter: FilterItem) => {
-    setQueryState({
+    updateQuery({
       storageCategories: storageCategories.includes(filter.value)
         ? storageCategories.filter((value) => value !== filter.value)
         : [...storageCategories, filter.value],
@@ -125,36 +137,37 @@ export default function DataProductDetail({
         dataset.id?.toLocaleLowerCase('nb').includes(normalizedQuery),
     );
   }, [visibleDatasets, textFilterValue]);
+
   const assessmentCounts = useMemo(() => countByAssessment(textFilteredDatasets), [textFilteredDatasets]);
 
   const storageCategoryCounts = useMemo(() => countByStorageCategory(textFilteredDatasets), [textFilteredDatasets]);
+
   const assessmentFilters = useMemo<FilterItem[]>(
     () =>
-      Object.entries(assessmentCounts).map(([value, count]) => ({
+      assessmentFilterValues.map((value) => ({
         value,
         label: assessmentLabelByValue[value] ?? value,
-        count,
+        count: assessmentCounts[value] ?? 0,
       })),
-    [assessmentCounts, assessmentLabelByValue],
+    [assessmentCounts],
   );
 
   const storageCategoryFilters = useMemo<FilterItem[]>(
     () =>
-      Object.entries(storageCategoryCounts).map(([value, count]) => ({
+      storageCategoryFilterValues.map((value) => ({
         value,
         label: storageCategoryLabelByValue[value] ?? value,
-        count,
+        count: storageCategoryCounts[value] ?? 0,
       })),
-    [storageCategoryCounts, storageCategoryLabelByValue],
+    [storageCategoryCounts],
   );
-
   const selectedAssessmentFilters = useMemo<FilterItem[]>(
     () =>
       assessments.map((value) => ({
         value,
         label: assessmentLabelByValue[value] ?? value,
       })),
-    [assessments, assessmentLabelByValue],
+    [assessments],
   );
 
   const selectedStorageCategoryFilters = useMemo<FilterItem[]>(
@@ -163,7 +176,7 @@ export default function DataProductDetail({
         value,
         label: storageCategoryLabelByValue[value] ?? value,
       })),
-    [storageCategories, storageCategoryLabelByValue],
+    [storageCategories],
   );
 
   const filterTags = useMemo(
