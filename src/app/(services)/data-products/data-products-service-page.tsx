@@ -185,6 +185,10 @@ export const DataProductsServicePage = ({
     });
     scrollToFilterTags();
   };
+
+  const getDataProductTitle = (dataProduct: DataProductDTO): string =>
+    dataProduct.title ?? dataProduct.product_short_name ?? '';
+
   const filteredDataProducts = useMemo(
     () =>
       textFilteredDataProducts
@@ -198,7 +202,7 @@ export const DataProductsServicePage = ({
           return matchesProductType && matchesSubject;
         })
         .toSorted((a, b) => {
-          const comparison = (a.product_short_name ?? '').localeCompare(b.product_short_name ?? '', 'nb', {
+          const comparison = getDataProductTitle(a).localeCompare(getDataProductTitle(b), 'nb-NO', {
             sensitivity: 'base',
           });
 

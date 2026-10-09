@@ -75,4 +75,33 @@ test.describe('authenticated', () => {
     await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
     await expect(main).toContainText('Arblonn');
   });
+  test('Data products can be sorted alphabetically', async ({ page }) => {
+    await page.goto(route);
+    await stabilize();
+
+    const main = page.getByRole('main');
+    const sort = main.getByRole('combobox', { name: localization.search.sort.label });
+    const productLinks = main.locator('a[href^="/data-products/"]');
+
+    await sort.selectOption('titleAsc');
+
+    const ascendingTitles = await productLinks.allTextContents();
+    expect(ascendingTitles).toEqual([...ascendingTitles].sort((a, b) => a.localeCompare(b, 'nb')));
+
+    await sort.selectOption('titleDesc');
+
+    const descendingTitles = await productLinks.allTextContents();
+    expect(descendingTitles).toEqual([...descendingTitles].sort((a, b) => b.localeCompare(a, 'nb')));
+  });
+
+  test('Data products can be sorted by naming standard violations', async ({ page }) => {
+    await page.goto(route);
+    await stabilize();
+
+    const main = page.getByRole('main');
+
+    await main.getByRole('combobox', { name: localization.search.sort.label }).selectOption('violationsDesc');
+
+    await expect(main.getByRole('paragraph')).toContainText('4 treff');
+  });
 });
