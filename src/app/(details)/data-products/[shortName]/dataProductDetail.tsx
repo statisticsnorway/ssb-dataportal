@@ -10,7 +10,7 @@ import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { CheckboxFilter, FiltersPanel, FilterTagsSection } from '@/components/filters';
 import { TextFilter } from '@/components/filters/text-filter';
 import { SortFields } from '@/components/sort-fields';
-import { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
+import { Assessment, DataProductDTO, DatasetDTO, StorageCategory } from '@/libs/data-access/datadoc/models';
 import { localization } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
 import { FilterItem } from '@/types/filters';
@@ -25,19 +25,8 @@ interface DataProductDetailContentProps {
   namingStandardViolationsByDatasetId: Record<string, number>;
 }
 
-const assessmentFilterValues = ['PROTECTED', 'OPEN', 'SENSITIVE'] as const;
-const storageCategoryFilterValues = ['SHARED', 'PRODUCT'] as const;
-
-const assessmentLabelByValue: Record<string, string> = {
-  PROTECTED: localization.products.assessment.protected,
-  OPEN: localization.products.assessment.open,
-  SENSITIVE: localization.products.assessment.sensitive,
-};
-
-const storageCategoryLabelByValue: Record<string, string> = {
-  SHARED: localization.products.storageCategory.shared,
-  PRODUCT: localization.products.storageCategory.product,
-};
+const assessmentFilterValues = [Assessment.PROTECTED, Assessment.OPEN, Assessment.SENSITIVE];
+const storageCategoryFilterValues = [StorageCategory.PRODUCT, StorageCategory.SHARED];
 
 const sortOptionsAuthenticated = ['titleAsc', 'titleDesc', 'violationsDesc'] as const;
 const sortOptionsUnauthenticated = ['titleAsc', 'titleDesc'] as const;
@@ -73,6 +62,17 @@ function DataProductDetailContent({
         : datasetsShared.filter((dataset) => !dataset.has_naming_standard_violations),
     [isAuthenticated, datasetsProduct, datasetsShared],
   );
+
+  const assessmentLabelByValue: Record<string, string> = {
+    [Assessment.PROTECTED]: localization.products.assessment.protected,
+    [Assessment.OPEN]: localization.products.assessment.open,
+    [Assessment.SENSITIVE]: localization.products.assessment.sensitive,
+  };
+
+  const storageCategoryLabelByValue: Record<string, string> = {
+    [StorageCategory.SHARED]: localization.products.storageCategory.shared,
+    [StorageCategory.PRODUCT]: localization.products.storageCategory.product,
+  };
 
   const [{ assessments, storageCategories, q: textFilterValue }, setQueryState] = useQueryStates({
     q: parseAsString.withDefault(''),
@@ -149,7 +149,7 @@ function DataProductDetailContent({
         label: assessmentLabelByValue[value] ?? value,
         count: assessmentCounts[value] ?? 0,
       })),
-    [assessmentCounts],
+    [assessmentCounts, assessmentLabelByValue],
   );
 
   const storageCategoryFilters = useMemo<FilterItem[]>(
@@ -159,7 +159,7 @@ function DataProductDetailContent({
         label: storageCategoryLabelByValue[value] ?? value,
         count: storageCategoryCounts[value] ?? 0,
       })),
-    [storageCategoryCounts],
+    [storageCategoryCounts, storageCategoryLabelByValue],
   );
   const selectedAssessmentFilters = useMemo<FilterItem[]>(
     () =>
@@ -167,7 +167,7 @@ function DataProductDetailContent({
         value,
         label: assessmentLabelByValue[value] ?? value,
       })),
-    [assessments],
+    [assessments, assessmentLabelByValue],
   );
 
   const selectedStorageCategoryFilters = useMemo<FilterItem[]>(
@@ -176,7 +176,7 @@ function DataProductDetailContent({
         value,
         label: storageCategoryLabelByValue[value] ?? value,
       })),
-    [storageCategories],
+    [storageCategories, storageCategoryLabelByValue],
   );
 
   const filterTags = useMemo(
