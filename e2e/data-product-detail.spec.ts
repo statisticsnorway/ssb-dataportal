@@ -48,9 +48,11 @@ test.describe('authenticated', () => {
     await page.goto('/data-products/arbstatus');
     await stabilize();
 
-    const main = page.getByRole('main');
-    const productFilter = main.getByRole('checkbox', { name: localization.products.storageCategory.product });
-    const sharedFilter = main.getByRole('checkbox', { name: localization.products.storageCategory.shared });
+    await expect(page).toHaveURL(/\/data-products\/arbstatus/);
+    await expect(page.getByRole('main')).toBeVisible();
+
+    const productFilter = page.getByRole('checkbox', { name: localization.products.storageCategory.product });
+    const sharedFilter = page.getByRole('checkbox', { name: localization.products.storageCategory.shared });
 
     await productFilter.check();
     const heading1 = page.getByRole('heading', { name: 'Arbeidsstatus datasett 3' });
