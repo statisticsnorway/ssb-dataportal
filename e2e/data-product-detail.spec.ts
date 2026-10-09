@@ -50,7 +50,7 @@ test.describe('authenticated', () => {
 
     await expect(page).toHaveURL(/\/data-products\/arbstatus/);
     await expect(page.getByRole('main')).toBeVisible();
-    
+
     const productFilter = page.getByRole('checkbox', { name: localization.products.storageCategory.product });
     const sharedFilter = page.getByRole('checkbox', { name: localization.products.storageCategory.shared });
 
