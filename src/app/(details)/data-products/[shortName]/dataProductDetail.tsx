@@ -73,7 +73,7 @@ function DataProductDetailContent({
     [StorageCategory.SHARED]: localization.products.storageCategory.shared,
     [StorageCategory.PRODUCT]: localization.products.storageCategory.product,
   };
-  
+
   const [{ assessments, storageCategories, q: textFilterValue }, setQueryState] = useQueryStates({
     q: parseAsString.withDefault(''),
     assessments: parseAsArrayOf(parseAsString).withDefault([]),
@@ -149,7 +149,7 @@ function DataProductDetailContent({
         label: assessmentLabelByValue[value] ?? value,
         count: assessmentCounts[value] ?? 0,
       })),
-    [assessmentCounts],
+    [assessmentCounts, assessmentLabelByValue],
   );
 
   const storageCategoryFilters = useMemo<FilterItem[]>(
@@ -159,7 +159,7 @@ function DataProductDetailContent({
         label: storageCategoryLabelByValue[value] ?? value,
         count: storageCategoryCounts[value] ?? 0,
       })),
-    [storageCategoryCounts],
+    [storageCategoryCounts, storageCategoryLabelByValue],
   );
   const selectedAssessmentFilters = useMemo<FilterItem[]>(
     () =>
@@ -167,7 +167,7 @@ function DataProductDetailContent({
         value,
         label: assessmentLabelByValue[value] ?? value,
       })),
-    [assessments],
+    [assessments, assessmentLabelByValue],
   );
 
   const selectedStorageCategoryFilters = useMemo<FilterItem[]>(
@@ -176,7 +176,7 @@ function DataProductDetailContent({
         value,
         label: storageCategoryLabelByValue[value] ?? value,
       })),
-    [storageCategories],
+    [storageCategories, storageCategoryLabelByValue],
   );
 
   const filterTags = useMemo(
