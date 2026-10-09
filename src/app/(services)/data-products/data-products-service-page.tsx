@@ -198,7 +198,7 @@ export const DataProductsServicePage = ({
           return matchesProductType && matchesSubject;
         })
         .toSorted((a, b) => {
-          const comparison = (a.product_short_name?? '').localeCompare(b.product_short_name ?? '', 'nb', {
+          const comparison = (a.product_short_name ?? '').localeCompare(b.product_short_name ?? '', 'nb', {
             sensitivity: 'base',
           });
 
