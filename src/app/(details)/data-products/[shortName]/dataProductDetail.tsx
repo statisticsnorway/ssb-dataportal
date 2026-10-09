@@ -2,17 +2,19 @@
 
 import { Alert, Heading } from '@digdir/designsystemet-react';
 import { notFound } from 'next/navigation';
-import { parseAsString, useQueryState } from 'nuqs';
+import { parseAsArrayOf, parseAsString, useQueryStates } from 'nuqs';
 import { useMemo, useState } from 'react';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
-import { CheckboxFilter, FiltersPanel } from '@/components/filters';
+import { CheckboxFilter, FiltersPanel, FilterTagsSection } from '@/components/filters';
 import { TextFilter } from '@/components/filters/text-filter';
 import { SortFields } from '@/components/sort-fields';
 import { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
 import { localization } from '@/libs/language';
+import { clientLogger } from '@/libs/logger/client-logger';
 import { FilterItem } from '@/types/filters';
+import { scrollToFilterTags } from '@/utils/scrollToFilterTags';
 import { DatasetSearchHit } from './components/DatasetSearchHit';
 import styles from './page.module.css';
 
@@ -51,25 +53,44 @@ export default function DataProductDetail({
     notFound();
   }
 
-  const visibleDatasets = isAuthenticated
-    ? [...datasetsShared, ...(datasetsProduct ?? [])]
-    : datasetsShared.filter((ds) => !ds.has_naming_standard_violations);
+  const visibleDatasets = useMemo(
+    () =>
+      isAuthenticated
+        ? [...datasetsShared, ...(datasetsProduct ?? [])]
+        : datasetsShared.filter((dataset) => !dataset.has_naming_standard_violations),
+    [isAuthenticated, datasetsProduct, datasetsShared],
+  );
 
-  const [selectedAssessments, setSelectedAssessments] = useState<FilterItem[]>([]);
-  const [selectedStorageCategories, setSelectedStorageCategories] = useState<FilterItem[]>([]);
+  const [{ assessments, storageCategories, q: textFilterValue }, setQueryState] = useQueryStates({
+    q: parseAsString.withDefault(''),
+    assessments: parseAsArrayOf(parseAsString).withDefault([]),
+    storageCategories: parseAsArrayOf(parseAsString).withDefault([]),
+  });
+
   const [sortBy, setSortBy] = useState<DatasetSortOption>('titleAsc');
 
+  const updateQuery = (update: Parameters<typeof setQueryState>[0]) =>
+    setQueryState(update).catch((error) => {
+      clientLogger.error('Failed to update query state', error);
+    });
+
+  const handleTextFilterChange = (value: string) => {
+    updateQuery({ q: value || null });
+  };
+
   const toggleAssessment = (filter: FilterItem) => {
-    setSelectedAssessments((prev) => {
-      const exists = prev.some((f) => f.value === filter.value);
-      return exists ? prev.filter((f) => f.value !== filter.value) : [...prev, filter];
+    setQueryState({
+      assessments: assessments.includes(filter.value)
+        ? assessments.filter((value) => value !== filter.value)
+        : [...assessments, filter.value],
     });
   };
 
   const toggleStorageCategory = (filter: FilterItem) => {
-    setSelectedStorageCategories((prev) => {
-      const exists = prev.some((f) => f.value === filter.value);
-      return exists ? prev.filter((f) => f.value !== filter.value) : [...prev, filter];
+    setQueryState({
+      storageCategories: storageCategories.includes(filter.value)
+        ? storageCategories.filter((value) => value !== filter.value)
+        : [...storageCategories, filter.value],
     });
   };
 
@@ -91,57 +112,96 @@ export default function DataProductDetail({
       return counts;
     }, {});
 
-  const assessmentCounts = useMemo(() => countByAssessment(visibleDatasets), [visibleDatasets]);
-  const storageCategoryCounts = useMemo(() => countByStorageCategory(visibleDatasets), [visibleDatasets]);
+  const textFilteredDatasets = useMemo(() => {
+    const normalizedQuery = textFilterValue.trim().toLocaleLowerCase('nb');
 
+    if (!normalizedQuery) {
+      return visibleDatasets;
+    }
+
+    return visibleDatasets.filter(
+      (dataset) =>
+        dataset.short_description?.toLocaleLowerCase('nb').includes(normalizedQuery) ||
+        dataset.id?.toLocaleLowerCase('nb').includes(normalizedQuery),
+    );
+  }, [visibleDatasets, textFilterValue]);
+  const assessmentCounts = useMemo(() => countByAssessment(textFilteredDatasets), [textFilteredDatasets]);
+
+  const storageCategoryCounts = useMemo(() => countByStorageCategory(textFilteredDatasets), [textFilteredDatasets]);
   const assessmentFilters = useMemo<FilterItem[]>(
     () =>
-      Object.keys(assessmentLabelByValue).map((value) => ({
+      Object.entries(assessmentCounts).map(([value, count]) => ({
         value,
         label: assessmentLabelByValue[value] ?? value,
-        count: assessmentCounts[value] ?? 0,
+        count,
       })),
-    [assessmentLabelByValue, assessmentCounts],
+    [assessmentCounts, assessmentLabelByValue],
   );
 
   const storageCategoryFilters = useMemo<FilterItem[]>(
     () =>
-      Object.keys(storageCategoryLabelByValue).map((value) => ({
+      Object.entries(storageCategoryCounts).map(([value, count]) => ({
         value,
         label: storageCategoryLabelByValue[value] ?? value,
-        count: storageCategoryCounts[value] ?? 0,
+        count,
       })),
-    [storageCategoryLabelByValue, storageCategoryCounts],
+    [storageCategoryCounts, storageCategoryLabelByValue],
   );
-  const [textFilterValue, setTextFilterValue] = useQueryState('q', parseAsString.withDefault(''));
 
-  const handleTextFilterChange = (value: string) => {
-    setTextFilterValue(value || null);
+  const selectedAssessmentFilters = useMemo<FilterItem[]>(
+    () =>
+      assessments.map((value) => ({
+        value,
+        label: assessmentLabelByValue[value] ?? value,
+      })),
+    [assessments, assessmentLabelByValue],
+  );
+
+  const selectedStorageCategoryFilters = useMemo<FilterItem[]>(
+    () =>
+      storageCategories.map((value) => ({
+        value,
+        label: storageCategoryLabelByValue[value] ?? value,
+      })),
+    [storageCategories, storageCategoryLabelByValue],
+  );
+
+  const filterTags = useMemo(
+    () => [...selectedAssessmentFilters, ...selectedStorageCategoryFilters],
+    [selectedAssessmentFilters, selectedStorageCategoryFilters],
+  );
+
+  const removeFilter = (filter: FilterItem) => {
+    updateQuery({
+      assessments: assessments.filter((value) => value !== filter.value),
+      storageCategories: storageCategories.filter((value) => value !== filter.value),
+    });
+    scrollToFilterTags();
   };
 
-  const filteredDatasets = useMemo(() => {
-    const normalizedQuery = textFilterValue.trim().toLocaleLowerCase('nb');
-    const selectedAssessmentValues = new Set(selectedAssessments.map((f) => f.value));
-    const selectedStorageCategoryValues = new Set(selectedStorageCategories.map((f) => f.value));
-
-    return visibleDatasets.filter((dataset) => {
-      const matchesText =
-        normalizedQuery.length === 0 ||
-        dataset.short_description?.toLocaleLowerCase('nb').includes(normalizedQuery) ||
-        dataset.id?.toLocaleLowerCase('nb').includes(normalizedQuery);
-
-      const assessment = dataset.assessment;
-      const storageCategory = dataset.storage_category;
-      const assessmentMatches = typeof assessment === 'string' && selectedAssessmentValues.has(assessment);
-      const storageCategoryMatches =
-        typeof storageCategory === 'string' && selectedStorageCategoryValues.has(storageCategory);
-
-      const matchesAssessment = selectedAssessments.length === 0 || assessmentMatches;
-      const matchesStorageCategory = selectedStorageCategories.length === 0 || storageCategoryMatches;
-
-      return matchesText && matchesAssessment && matchesStorageCategory;
+  const clearAll = async () => {
+    await setQueryState({
+      q: null,
+      assessments: null,
+      storageCategories: null,
     });
-  }, [visibleDatasets, textFilterValue, selectedAssessments, selectedStorageCategories]);
+    scrollToFilterTags();
+  };
+  const filteredDatasets = useMemo(
+    () =>
+      textFilteredDatasets.filter((dataset) => {
+        const matchesAssessment =
+          assessments.length === 0 ||
+          (typeof dataset.assessment === 'string' && assessments.includes(dataset.assessment));
+
+        const matchesStorageCategory =
+          storageCategories.length === 0 ||
+          (typeof dataset.storage_category === 'string' && storageCategories.includes(dataset.storage_category));
+
+        return matchesAssessment && matchesStorageCategory;
+      }),
+    [textFilteredDatasets, assessments, storageCategories],
+  );
 
   const sortedDatasets = useMemo(() => {
     return [...filteredDatasets].sort((a, b) => {
@@ -193,25 +253,36 @@ export default function DataProductDetail({
               <CheckboxFilter
                 filterHeading={localization.products.assessment.filterLabel}
                 filters={assessmentFilters}
-                selectedItems={selectedAssessments}
+                selectedItems={selectedAssessmentFilters}
                 onFilterChange={toggleAssessment}
               />
-
               {isAuthenticated && (
                 <CheckboxFilter
                   filterHeading={localization.products.storageCategory.filterLabel}
                   filters={storageCategoryFilters}
-                  selectedItems={selectedStorageCategories}
+                  selectedItems={selectedStorageCategoryFilters}
                   onFilterChange={toggleStorageCategory}
                 />
               )}
             </FiltersPanel>
           </aside>
           <section className={styles.mainSection}>
-            <div className={styles.controlsSection}>
-              <Heading level={2} className={`${styles.sectionHeading} secondaryHeading`}>
-                {localization.dataProductDetail.dataset}
-              </Heading>
+            <div className={styles.hitsAndSort}>
+              <div className={styles.filterTags}>
+                <Heading level={2} className={`${styles.sectionHeading} secondaryHeading`}>
+                  {localization.dataProductDetail.dataset}
+                </Heading>
+                <FilterTagsSection
+                  tags={filterTags}
+                  onRemoveTag={removeFilter}
+                  onClearAll={clearAll}
+                  searchTerm={textFilterValue}
+                  onClearSearch={() => {
+                    updateQuery({ q: null });
+                    scrollToFilterTags();
+                  }}
+                />
+              </div>
               <div className={styles.hitsSortGroup}>
                 <p className={styles.numHits}>
                   {sortedDatasets.length === 0

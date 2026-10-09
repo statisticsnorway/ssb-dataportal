@@ -1,12 +1,13 @@
 'use client';
 
-import { parseAsArrayOf, parseAsString, useQueryStates } from 'nuqs';
+import { parseAsArrayOf, parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs';
 import { Suspense, useMemo } from 'react';
 import { useAuthContext } from '@/app/authContext';
 import { CheckboxFilter, FiltersPanel } from '@/components/filters';
 import { FilterTagsSection } from '@/components/filters/filter-tags-section';
 import { TextFilter } from '@/components/filters/text-filter';
 import { SearchPage } from '@/components/search-page-wrapper/search-page';
+import { SortFields } from '@/components/sort-fields';
 import { type DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
 import { localization } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
@@ -78,25 +79,32 @@ export const DataProductsServicePage = ({
   subjectFields = EMPTY_SUBJECT_FIELDS,
 }: DataProductsServicePageProps) => {
   const { isAuthenticated } = useAuthContext();
-
-  const [{ productTypes, subjects, q: textFilterValue }, setQueryState] = useQueryStates({
+  const [{ productTypes, subjects, q: textFilterValue, sort }, setQueryState] = useQueryStates({
     q: parseAsString.withDefault(''),
+    sort: parseAsStringLiteral(['titleAsc', 'titleDesc']).withDefault('titleAsc'),
     productTypes: parseAsArrayOf(parseAsString).withDefault([]),
     subjects: parseAsArrayOf(parseAsString).withDefault([]),
   });
 
-  const handleTextFilterChange = (value: string) => {
-    updateQuery({ q: value || null });
-  };
+  const visibleDataProducts = useMemo(
+    () => dataProducts.filter((dataProduct) => isAuthenticated || dataProduct.contains_valid_datasets !== false),
+    [dataProducts, isAuthenticated],
+  );
 
-  dataProducts = dataProducts.filter((dp) => isAuthenticated || dp.contains_valid_datasets !== false);
-  if (textFilterValue) {
-    const lowerTextFilterValue = textFilterValue.toLowerCase();
-    dataProducts = dataProducts.filter((dp) => dp.product_short_name?.toLowerCase().includes(lowerTextFilterValue));
-  }
+  const textFilteredDataProducts = useMemo(() => {
+    const query = textFilterValue.trim().toLocaleLowerCase('nb');
+
+    if (!query) return visibleDataProducts;
+
+    return visibleDataProducts.filter(
+      (dataProduct) =>
+        dataProduct.product_short_name?.toLocaleLowerCase('nb').includes(query) ||
+        dataProduct.title?.toLocaleLowerCase('nb').includes(query),
+    );
+  }, [visibleDataProducts, textFilterValue]);
 
   const productTypeFilters = useMemo<FilterItem[]>(() => {
-    const counts = countByProductType(dataProducts);
+    const counts = countByProductType(textFilteredDataProducts);
     return dataProductTypeOrder
       .filter((productType) => counts[productType] != null)
       .map((productType) => ({
@@ -104,10 +112,10 @@ export const DataProductsServicePage = ({
         value: productType,
         count: counts[productType],
       }));
-  }, [dataProducts]);
+  }, [textFilteredDataProducts]);
 
   const subjectFieldFilters = useMemo<FilterItem[]>(() => {
-    const counts = countProductsBySubjectField(dataProducts);
+    const counts = countProductsBySubjectField(textFilteredDataProducts);
     return subjectFields
       .filter((subjectField) => !subjectField.parentCode)
       .map((subjectField) => ({
@@ -116,12 +124,16 @@ export const DataProductsServicePage = ({
         count: counts[String(subjectField.code)]?.size ?? 0,
       }))
       .sort((a, b) => a.label.localeCompare(b.label, 'nb'));
-  }, [dataProducts, subjectFields]);
+  }, [textFilteredDataProducts, subjectFields]);
 
   const updateQuery = (update: Parameters<typeof setQueryState>[0]) =>
     setQueryState(update).catch((error) => {
       clientLogger.error('Failed to update query state', error);
     });
+
+  const handleTextFilterChange = (value: string) => {
+    updateQuery({ q: value || null });
+  };
 
   const toggleSubject = (filter: FilterItem) => {
     const nextSubjects = toggleValue(subjects, filter.value);
@@ -167,27 +179,33 @@ export const DataProductsServicePage = ({
 
   const clearAll = async () => {
     await setQueryState({
+      q: null,
       productTypes: null,
       subjects: null,
     });
     scrollToFilterTags();
   };
+  const filteredDataProducts = useMemo(
+    () =>
+      textFilteredDataProducts
+        .filter((dataProduct) => {
+          const matchesProductType =
+            productTypes.length === 0 || productTypes.includes(getProductTypeFilterValue(dataProduct));
 
-  const filteredDataProducts = useMemo(() => {
-    const selectedProductTypes = new Set(productTypes);
-    const selectedSubjectFields = new Set(subjects);
+          const matchesSubject =
+            subjects.length === 0 || getSubjectFieldCodes(dataProduct).some((code) => subjects.includes(code));
 
-    return dataProducts.filter((dataProduct) => {
-      const matchesProductType =
-        selectedProductTypes.size === 0 || selectedProductTypes.has(getProductTypeFilterValue(dataProduct));
+          return matchesProductType && matchesSubject;
+        })
+        .toSorted((a, b) => {
+          const comparison = (a.product_short_name?? '').localeCompare(b.product_short_name ?? '', 'nb', {
+            sensitivity: 'base',
+          });
 
-      const subjectFieldCodes = getSubjectFieldCodes(dataProduct);
-      const matchesSubjectField =
-        selectedSubjectFields.size === 0 || subjectFieldCodes.some((code) => selectedSubjectFields.has(code));
-
-      return matchesProductType && matchesSubjectField;
-    });
-  }, [dataProducts, productTypes, subjects]);
+          return sort === 'titleDesc' ? -comparison : comparison;
+        }),
+    [textFilteredDataProducts, productTypes, subjects, sort],
+  );
 
   const handleProductTypeFilterChange = (filter: FilterItem) => {
     const nextProductTypes = productTypes.includes(filter.value)
@@ -200,7 +218,7 @@ export const DataProductsServicePage = ({
 
   return (
     <DataProductsProvider
-      dataProducts={dataProducts}
+      dataProducts={visibleDataProducts}
       subjectFields={subjectFields}
       subjectFieldFilters={subjectFieldFilters}
       selectedSubjectCodes={subjects}
@@ -209,7 +227,28 @@ export const DataProductsServicePage = ({
         tabsId={tabsData.DataProducts.id}
         header={localization.tabs.dataProducts}
         totalHits={filteredDataProducts.length}
-        infoContent={<FilterTagsSection tags={filterTags} onRemoveTag={removeFilter} onClearAll={clearAll} />}
+        infoContent={
+          <FilterTagsSection
+            tags={filterTags}
+            onRemoveTag={removeFilter}
+            onClearAll={clearAll}
+            searchTerm={textFilterValue}
+            onClearSearch={() => {
+              updateQuery({ q: null });
+              scrollToFilterTags();
+            }}
+          />
+        }
+        controlsContent={
+          <SortFields
+            sortOptions={['titleAsc', 'titleDesc']}
+            sortValue={sort}
+            onSortChange={(value: 'titleAsc' | 'titleDesc') => {
+              updateQuery({ sort: value });
+              scrollToFilterTags();
+            }}
+          />
+        }
         asideContent={
           <FiltersPanel heading={localization.search.filter.label}>
             <TextFilter
