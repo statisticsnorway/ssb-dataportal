@@ -105,13 +105,12 @@ export const DataProductsServicePage = ({
 
   const productTypeFilters = useMemo<FilterItem[]>(() => {
     const counts = countByProductType(textFilteredDataProducts);
-    return dataProductTypeOrder
-      .filter((productType) => counts[productType] != null)
-      .map((productType) => ({
-        label: getProductTypeLabel(productType),
-        value: productType,
-        count: counts[productType],
-      }));
+
+    return dataProductTypeOrder.map((productType) => ({
+      label: getProductTypeLabel(productType),
+      value: productType,
+      count: counts[productType] ?? 0,
+    }));
   }, [textFilteredDataProducts]);
 
   const subjectFieldFilters = useMemo<FilterItem[]>(() => {
@@ -159,21 +158,22 @@ export const DataProductsServicePage = ({
 
     tags.push(
       ...subjects.map((code) => {
-        const subject = subjectFields?.find((item) => String(item.code) === code);
+        const subject = subjectFields.find((item) => String(item.code) === code);
         return { value: code, label: subject ? String(subject.name) : code };
       }),
     );
     return tags;
   }, [selectedProductTypeFilters, subjects, subjectFields]);
 
-  const removeFilter = async (tag: FilterItem) => {
-    const nextProductTypes = productTypes.filter((v) => v !== tag.value);
+  const removeFilter = (tag: FilterItem) => {
+    const nextProductTypes = productTypes.filter((value) => value !== tag.value);
     const nextSubjects = subjects.filter((value) => value !== tag.value);
 
-    await setQueryState({
+    updateQuery({
       productTypes: nextProductTypes.length > 0 ? nextProductTypes : null,
       subjects: nextSubjects.length > 0 ? nextSubjects : null,
     });
+
     scrollToFilterTags();
   };
 
@@ -208,12 +208,12 @@ export const DataProductsServicePage = ({
   );
 
   const handleProductTypeFilterChange = (filter: FilterItem) => {
-    const nextProductTypes = productTypes.includes(filter.value)
-      ? productTypes.filter((value) => value !== filter.value)
-      : [...productTypes, filter.value];
-    setQueryState({ productTypes: nextProductTypes.length > 0 ? nextProductTypes : null }).then(() => {
-      scrollToFilterTags();
+    const nextProductTypes = toggleValue(productTypes, filter.value);
+
+    updateQuery({
+      productTypes: nextProductTypes.length > 0 ? nextProductTypes : null,
     });
+    scrollToFilterTags();
   };
 
   return (
@@ -274,7 +274,7 @@ export const DataProductsServicePage = ({
             <div className={styles.searchResultList}>
               {filteredDataProducts.map((dataProduct, index) => (
                 <DataProductSearchHit
-                  key={dataProduct.product_short_name || index}
+                  key={dataProduct.product_short_name ?? dataProduct.title ?? `product-${index}`}
                   dataProduct={dataProduct}
                   subjectFields={subjectFields}
                 />
