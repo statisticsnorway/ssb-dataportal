@@ -94,14 +94,6 @@
     margin-left: auto;
   }
 
-  .searchHitsContainerWrapper {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: var(--medium-gap);
-    transition: height 0.2s ease;
-  }
-
   .filterSection {
     flex: 3 3 auto;
     gap: var(--small-gap);
