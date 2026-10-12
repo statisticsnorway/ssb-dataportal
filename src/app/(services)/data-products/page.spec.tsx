@@ -85,13 +85,23 @@ describe('DataProductsPage', () => {
     expect(screen.getByText(/1 data products and 1 subject fields/)).toBeInTheDocument();
   });
 
-  it('passes example filter help text when static data is enabled', async () => {
-    vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
+  it('passes example filter help text when the feature flag is enabled', async () => {
+    vi.stubEnv('DATA_PRODUCT_FILTER_HELP_ENABLED', 'true');
     vi.mocked(listDataProducts).mockResolvedValue([]);
     vi.mocked(fetchSubjectFieldFilterValues).mockResolvedValue([]);
 
     render(await DataProductsPage({ searchParams }));
 
     expect(screen.getByText('Hva er et statistikkprodukt?')).toBeInTheDocument();
+  });
+
+  it('does not pass filter help text when the feature flag is disabled', async () => {
+    vi.stubEnv('DATA_PRODUCT_FILTER_HELP_ENABLED', 'false');
+    vi.mocked(listDataProducts).mockResolvedValue([]);
+    vi.mocked(fetchSubjectFieldFilterValues).mockResolvedValue([]);
+
+    render(await DataProductsPage({ searchParams }));
+
+    expect(screen.queryByText('Hva er et statistikkprodukt?')).not.toBeInTheDocument();
   });
 });

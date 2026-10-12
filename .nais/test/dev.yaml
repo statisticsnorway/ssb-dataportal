@@ -42,6 +42,8 @@ spec:
       value: "true"
     - name: DATADOC_USE_STATIC_DATA
       value: "false"
+    - name: DATA_PRODUCT_FILTER_HELP_ENABLED
+      value: "true"
     - name: DATADOC_USE_M2M_TOKEN
       value: "true"
     - name: KEYCLOAK_HOST

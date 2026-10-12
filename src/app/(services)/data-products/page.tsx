@@ -24,7 +24,7 @@ export default async function DataProducts({
   const dataProducts = await listDataProducts();
   const subjectFields = await fetchSubjectFieldFilterValues(language);
   const statisticProductFilterHelp: FilterHelpText | undefined =
-    process.env.DATADOC_USE_STATIC_DATA === 'true' ? filterHelpTextMock[language] : undefined;
+    process.env.DATA_PRODUCT_FILTER_HELP_ENABLED === 'true' ? filterHelpTextMock[language] : undefined;
 
   return (
     <DataProductsServicePage
