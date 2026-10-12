@@ -1,35 +1,40 @@
-.filterHeader {
-  background-color: var(--ds-color-surface-tinted);
-  width: 100%;
+.filterCard {
+  padding: 0;
 }
 
-.filterCard {
-  padding: 0 0;
+.fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.details {
+  border: 0;
 }
 
 .toggleFilter {
+  box-sizing: border-box;
   background-color: var(--ds-color-surface-tinted);
   width: 100%;
-  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  font-family: var(--font-open-sans), sans-serif;
+  font-size: inherit;
   color: black;
-  font-weight: 700;
+  font-weight: 600;
+  line-height: var(--ds-line-height-sm);
+  text-align: inherit;
 }
 
 .toggleFilter:hover {
   background-color: var(--ds-color-surface-hover);
 }
 
-.hidden {
-  padding-bottom: 0;
-}
-
-.chevronUpDown {
-  color: var(--text-color-primary);
-  font-size: 2rem;
-  margin-left: 0.5rem;
-}
-
 .filterItems {
-  margin-top: 0;
   padding-block: 0.5rem;
+  padding-inline: 0;
+}
+
+.details > .filterItems {
+  margin: 0;
 }
