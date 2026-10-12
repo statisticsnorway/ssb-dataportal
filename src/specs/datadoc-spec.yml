@@ -45,20 +45,30 @@ paths:
           nullable: true
           allOf:
           - $ref: "#/components/schemas/StorageCategory"
+      - name: page
+        in: query
+        explode: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: page-size
+        in: query
+        explode: false
+        schema:
+          type: integer
+          format: int32
+          default: 100
       responses:
         "200":
           description: List Dapla Data Files.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/DaplaDataFileDTO"
+                $ref: "#/components/schemas/DaplaDataFilePageResponse"
             application/problem+json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/DaplaDataFileDTO"
+                $ref: "#/components/schemas/DaplaDataFilePageResponse"
     post:
       tags:
       - Data Files
@@ -658,6 +668,30 @@ components:
         defined blob of data from a file system or object storage. Its file path shall
         follow Dapla's naming conventions. This model is used to represent a data
         file to clients.
+    DaplaDataFilePageResponse:
+      required:
+      - data_files
+      - has_next
+      - page
+      - page_size
+      - total_data_files
+      type: object
+      properties:
+        data_files:
+          type: array
+          items:
+            $ref: "#/components/schemas/DaplaDataFileDTO"
+        total_data_files:
+          type: integer
+          format: int64
+        page:
+          type: integer
+          format: int32
+        page_size:
+          type: integer
+          format: int32
+        has_next:
+          type: boolean
     DataProductDTO:
       required:
       - contains_valid_datasets

@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { NuqsTestingAdapter } from 'nuqs/adapters/testing';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { AppNotFoundState } from '@/components/app-state';
 import type { DataProductDTO, DatasetDTO } from '@/libs/data-access/datadoc/models';
@@ -7,6 +8,11 @@ import DataProductDetail from './dataProductDetail';
 import NotFound from './not-found';
 
 let isAuthenticatedMock = true;
+
+const renderWithNuqs = (ui: React.ReactElement) =>
+  render(ui, {
+    wrapper: ({ children }) => <NuqsTestingAdapter>{children}</NuqsTestingAdapter>,
+  });
 
 vi.mock('server-only', () => ({}));
 vi.mock('@/app/authContext', () => ({
@@ -32,6 +38,9 @@ vi.mock('@/libs/language', () => ({
     search: {
       filter: {
         label: 'Filters',
+      },
+      textFilter: {
+        label: 'Search',
       },
       sort: {
         label: 'Sort',
@@ -95,6 +104,21 @@ vi.mock('@/components/filters', () => {
   const FiltersPanel = ({ children }: { children: React.ReactNode }) => (
     <div data-testid='filters-panel'>{children}</div>
   );
+  const FilterTagsSection = ({
+    tags,
+    onRemoveTag,
+  }: {
+    tags: { value: string; label: string }[];
+    onRemoveTag: (tag: { value: string; label: string }) => void;
+  }) => (
+    <div data-testid='filter-tags'>
+      {tags.map((tag) => (
+        <button key={tag.value} type='button' onClick={() => onRemoveTag(tag)}>
+          {tag.label}
+        </button>
+      ))}
+    </div>
+  );
 
   const CheckboxFilter = ({
     filterHeading,
@@ -103,9 +127,9 @@ vi.mock('@/components/filters', () => {
     onFilterChange,
   }: {
     filterHeading: string;
-    filters: { value: string; label: string }[];
+    filters: { value: string; label: string; count: number }[];
     selectedItems: { value: string; label: string }[];
-    onFilterChange: (filter: { value: string; label: string }) => void;
+    onFilterChange: (filter: { value: string; label: string; count: number }) => void;
   }) => (
     <fieldset>
       <legend>{filterHeading}</legend>
@@ -114,6 +138,7 @@ vi.mock('@/components/filters', () => {
           <input
             type='checkbox'
             checked={selectedItems.some((s) => s.value === f.value)}
+            data-count={f.count}
             onChange={() => onFilterChange(f)}
           />
           {f.label}
@@ -122,7 +147,7 @@ vi.mock('@/components/filters', () => {
     </fieldset>
   );
 
-  return { CheckboxFilter, FiltersPanel };
+  return { CheckboxFilter, FiltersPanel, FilterTagsSection };
 });
 
 vi.mock('./components/DatasetSearchHit', () => ({
@@ -166,7 +191,7 @@ describe('DataProductDetail', () => {
   });
 
   it('renders title, breadcrumbs, filters and all datasets initially', () => {
-    render(
+    renderWithNuqs(
       <DataProductDetail
         dataProduct={dataProduct}
         datasetsShared={datasets}
@@ -183,7 +208,7 @@ describe('DataProductDetail', () => {
   });
 
   it('filters datasets when an assessment checkbox is selected', () => {
-    render(
+    renderWithNuqs(
       <DataProductDetail
         dataProduct={dataProduct}
         datasetsShared={datasets}
@@ -200,7 +225,7 @@ describe('DataProductDetail', () => {
   });
 
   it('supports multiple selected filters (OR filtering)', () => {
-    render(
+    renderWithNuqs(
       <DataProductDetail
         dataProduct={dataProduct}
         datasetsShared={datasets}
@@ -217,7 +242,7 @@ describe('DataProductDetail', () => {
   });
 
   it('toggling a selected filter off shows all datasets again', () => {
-    render(
+    renderWithNuqs(
       <DataProductDetail
         dataProduct={dataProduct}
         datasetsShared={datasets}
@@ -235,12 +260,14 @@ describe('DataProductDetail', () => {
 
   it('falls back to product_short_name when title is missing', () => {
     const product = { product_short_name: 'fallback-name' } as DataProductDTO;
-    render(<DataProductDetail dataProduct={product} datasetsShared={[]} namingStandardViolationsByDatasetId={{}} />);
+    renderWithNuqs(
+      <DataProductDetail dataProduct={product} datasetsShared={[]} namingStandardViolationsByDatasetId={{}} />,
+    );
     expect(screen.getByRole('heading', { level: 1, name: 'fallback-name' })).toBeInTheDocument();
   });
 
   it('passes naming standard violation counts to dataset cards', () => {
-    render(
+    renderWithNuqs(
       <DataProductDetail
         dataProduct={dataProduct}
         datasetsShared={datasets}
@@ -254,8 +281,25 @@ describe('DataProductDetail', () => {
     expect(hits[2]).toHaveAttribute('data-violations', '1');
   });
 
+  it('shows all possible filters, including filters with a zero count', () => {
+    renderWithNuqs(
+      <DataProductDetail
+        dataProduct={dataProduct}
+        datasetsShared={datasets}
+        namingStandardViolationsByDatasetId={{}}
+      />,
+    );
+
+    expect(screen.getByLabelText('Open')).toHaveAttribute('data-count', '1');
+    expect(screen.getByLabelText('Protected')).toHaveAttribute('data-count', '1');
+    expect(screen.getByLabelText('Sensitive')).toHaveAttribute('data-count', '1');
+
+    expect(screen.getByLabelText('Shared')).toHaveAttribute('data-count', '0');
+    expect(screen.getByLabelText('Product')).toHaveAttribute('data-count', '0');
+  });
+
   it('shows sorting controls for authenticated users', () => {
-    render(
+    renderWithNuqs(
       <DataProductDetail
         dataProduct={dataProduct}
         datasetsShared={datasets}
@@ -269,7 +313,7 @@ describe('DataProductDetail', () => {
   it('shows only alphabetical sort options for unauthenticated users', () => {
     isAuthenticatedMock = false;
 
-    render(
+    renderWithNuqs(
       <DataProductDetail
         dataProduct={dataProduct}
         datasetsShared={datasets}
@@ -283,7 +327,7 @@ describe('DataProductDetail', () => {
   });
 
   it('sorts datasets by naming standard violations when selected', () => {
-    render(
+    renderWithNuqs(
       <DataProductDetail
         dataProduct={dataProduct}
         datasetsShared={datasets}

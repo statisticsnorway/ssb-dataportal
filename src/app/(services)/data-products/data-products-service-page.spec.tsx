@@ -148,10 +148,18 @@ describe('DataProductsServicePage', () => {
 
   it('renders subject area tags in the search results', () => {
     renderPage({ subjectFields });
-    const cards = screen.getAllByRole('article');
-    expect(cards).toHaveLength(2);
-    expect(within(cards[0]!).getByLabelText(localization.subjectArea)).toHaveTextContent('Arbeid og lønn');
-    expect(within(cards[1]!).getByLabelText(localization.subjectArea)).toHaveTextContent('Bank og finansmarked');
+
+    const workCard = screen
+      .getAllByRole('article')
+      .find((card) => card.textContent?.includes('Tilknytning til arbeid'));
+
+    const bankingCard = screen.getAllByRole('article').find((card) => card.textContent?.includes('Ameldingen'));
+
+    expect(workCard).toBeDefined();
+    expect(bankingCard).toBeDefined();
+
+    expect(within(workCard!).getByLabelText(localization.subjectArea)).toHaveTextContent('Arbeid og lønn');
+    expect(within(bankingCard!).getByLabelText(localization.subjectArea)).toHaveTextContent('Bank og finansmarked');
   });
 
   it('renders subject field checkboxes with counts', () => {

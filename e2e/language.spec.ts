@@ -1,7 +1,8 @@
 import { expect, test } from '@bgotink/playwright-coverage';
 import { Browser } from '@playwright/test';
 import { languageCookieName } from '@/libs/language/src/localization';
-import { EN_LABEL, LANGUAGE_LABEL, NB_LABEL, NN_LABEL } from '@/components/language-picker/constants';
+import { EN_LABEL, LANGUAGE_LABEL, NN_LABEL } from '@/components/language-picker/constants';
+import { stabilize } from './utils/commonUtils';
 
 test.describe('language picker', () => {
   test.use({
@@ -109,5 +110,32 @@ test.describe('automatic locale mapping', () => {
     await expect(page.getByRole('heading', { level: 1, name: 'Classifications' })).toBeVisible();
 
     await context.close();
+  });
+
+  test('translates dataproduct filter labels', async ({ page }) => {
+    await page.goto('/data-products/ameld');
+    await stabilize();
+
+    const main = page.getByRole('main');
+
+    await page.getByRole('button', { name: LANGUAGE_LABEL }).click();
+    const nynorskOption = page.getByRole('button', { name: NN_LABEL });
+    await expect(nynorskOption).toBeVisible();
+    await nynorskOption.click();
+
+    await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
+    await expect(main.getByRole('checkbox', { name: 'Skjerma' })).toBeVisible();
+    await expect(main.getByRole('checkbox', { name: 'Open' })).toBeVisible();
+    await expect(main.getByRole('checkbox', { name: 'Sensitiv' })).toBeVisible();
+
+    await page.getByRole('button', { name: LANGUAGE_LABEL }).click();
+    const englishOption = page.getByRole('button', { name: EN_LABEL });
+    await expect(englishOption).toBeVisible();
+    await englishOption.click();
+
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await expect(main.getByRole('checkbox', { name: 'Protected' })).toBeVisible();
+    await expect(main.getByRole('checkbox', { name: 'Open' })).toBeVisible();
+    await expect(main.getByRole('checkbox', { name: 'Sensitive' })).toBeVisible();
   });
 });

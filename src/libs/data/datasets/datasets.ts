@@ -221,9 +221,29 @@ export async function listDataFilesByDatasetIdAndStorageCategory(
 
   try {
     const api = await getClientForApi(DataFilesApi);
-    const dto = await api.listDataFiles({ datasetId, storageCategory }, dataDocFetchOptions);
-    logger.info({ storageCategory, count: dto.length }, 'Fetched data files from API by storage category');
-    return dto;
+    const startTime = Date.now();
+    const allDataFiles: DaplaDataFileDTO[] = [];
+    const pageSize = 100;
+    let page = 0;
+    let totalDataFiles = 0;
+    while (true) {
+      const response = await api.listDataFiles({ datasetId, storageCategory, page, pageSize }, dataDocFetchOptions);
+
+      allDataFiles.push(...response.data_files);
+      totalDataFiles = response.total_data_files;
+
+      if (!response.has_next) break;
+      page = response.page + 1;
+    }
+    if (allDataFiles.length !== totalDataFiles) {
+      throw new Error(`Expected ${totalDataFiles} data files, but fetched ${allDataFiles.length}`);
+    }
+    const durationMs = Date.now() - startTime;
+    logger.info(
+      { storageCategory, count: allDataFiles.length, totalDataFiles, durationMs },
+      'Fetched data files from API by storage category',
+    );
+    return allDataFiles;
   } catch (error: unknown) {
     logAndThrowFetchError(logger, error);
   }
