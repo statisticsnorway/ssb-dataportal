@@ -38,3 +38,88 @@
 .details > .filterItems {
   margin: 0;
 }
+
+.flatFilterCard {
+  --flat-filter-rail-inline-start: 1.875rem;
+
+  border: 0;
+  border-block-start: 1px solid var(--ds-color-neutral-border-subtle);
+  border-radius: 0;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.flatFilterCard:last-child {
+  border-block-end: 1px solid var(--ds-color-neutral-border-subtle);
+}
+
+.flatDetails {
+  --dsc-details-background: transparent;
+  --dsc-details-summary-background: transparent;
+  --dsc-details-summary-background--open: transparent;
+  --dsc-details-summary-background--hover: var(--ds-color-surface-hover);
+}
+
+.flatToggleFilter {
+  gap: 0.5rem;
+  background-color: transparent;
+  color: rgb(41, 44, 48);
+  font-family: var(--font-open-sans), sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.09px;
+}
+
+.flatToggleFilter:hover,
+.flatToggleFilter:focus-visible {
+  background-color: var(--ds-color-surface-hover);
+}
+
+.flatToggleFilter::before {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex: 0 0 auto;
+  mask: none;
+  background: var(--ds-color-surface-tinted);
+  border-radius: 50%;
+}
+
+.flatToggleFilter::after {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 1.125rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: var(--text-color-primary);
+  content: "";
+  mask: 50% / contain no-repeat var(--dsc-details-icon-url);
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.flatDetails[open] > .flatToggleFilter::before {
+  rotate: none;
+}
+
+.flatDetails[open] > .flatToggleFilter::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.flatToggleFilter:hover::before,
+.flatToggleFilter:focus-visible::before {
+  background-color: var(--ds-color-secondary-base-default);
+}
+
+.flatToggleFilter:hover::after,
+.flatToggleFilter:focus-visible::after {
+  background-color: white;
+}
+
+.details > .flatFilterItems {
+  margin-block: 0.5rem;
+  margin-inline-start: var(--flat-filter-rail-inline-start);
+  padding-block-start: 0;
+  padding-inline-start: 0.75rem;
+  border-inline-start: 2px solid var(--ds-color-neutral-border-subtle);
+}

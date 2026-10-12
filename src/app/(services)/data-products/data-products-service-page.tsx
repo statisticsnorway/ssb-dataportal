@@ -1,5 +1,6 @@
 'use client';
 
+import { Details } from '@digdir/designsystemet-react';
 import { parseAsArrayOf, parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs';
 import { Suspense, useMemo } from 'react';
 import { useAuthContext } from '@/app/authContext';
@@ -11,7 +12,7 @@ import { SortFields } from '@/components/sort-fields';
 import { type DataProductDTO, DataProductType } from '@/libs/data-access/datadoc/models';
 import { localization } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
-import type { FilterItem } from '@/types/filters';
+import type { FilterHelpText, FilterItem } from '@/types/filters';
 import { KlassCode } from '@/types/klass-codes';
 import { getParentCode } from '@/utils/functions';
 import { scrollToFilterTags } from '@/utils/scrollToFilterTags';
@@ -24,6 +25,7 @@ import styles from './page.module.css';
 interface DataProductsServicePageProps {
   readonly dataProducts: DataProductDTO[];
   readonly subjectFields?: KlassCode[];
+  readonly statisticProductFilterHelp?: FilterHelpText;
 }
 
 const UNKNOWN_PRODUCT_TYPE = 'UNKNOWN_PRODUCT_TYPE';
@@ -65,6 +67,8 @@ const getProductTypeLabel = (productType: ProductTypeFilterValue) => {
 
 const countProductsBySubjectField = (dataProducts: DataProductDTO[]) => {
   return dataProducts.reduce<Record<string, Set<string>>>((counts, dataProduct, index) => {
+    if (dataProduct.product_type !== DataProductType.STATISTIC_PRODUCT) return counts;
+
     const productKey = dataProduct.product_short_name ?? String(index);
     const subjectFieldCodes = new Set(getSubjectFieldCodes(dataProduct));
     subjectFieldCodes.forEach((code) => {
@@ -77,6 +81,7 @@ const countProductsBySubjectField = (dataProducts: DataProductDTO[]) => {
 export const DataProductsServicePage = ({
   dataProducts,
   subjectFields = EMPTY_SUBJECT_FIELDS,
+  statisticProductFilterHelp,
 }: DataProductsServicePageProps) => {
   const { isAuthenticated } = useAuthContext();
   const [{ productTypes, subjects, q: textFilterValue, sort }, setQueryState] = useQueryStates({
@@ -85,6 +90,14 @@ export const DataProductsServicePage = ({
     productTypes: parseAsArrayOf(parseAsString).withDefault([]),
     subjects: parseAsArrayOf(parseAsString).withDefault([]),
   });
+
+  const activeProductTypes = useMemo(
+    () =>
+      subjects.length > 0 && !productTypes.includes(DataProductType.STATISTIC_PRODUCT)
+        ? [DataProductType.STATISTIC_PRODUCT, ...productTypes]
+        : productTypes,
+    [productTypes, subjects],
+  );
 
   const visibleDataProducts = useMemo(
     () => dataProducts.filter((dataProduct) => isAuthenticated || dataProduct.contains_valid_datasets !== false),
@@ -143,14 +156,14 @@ export const DataProductsServicePage = ({
 
   const selectedProductTypeFilters = useMemo<FilterItem[]>(
     () =>
-      productTypes.map((value) => {
+      activeProductTypes.map((value) => {
         const filter = productTypeFilters.find((item) => item.value === value);
         return {
           label: filter?.label ?? value,
           value,
         };
       }),
-    [productTypeFilters, productTypes],
+    [activeProductTypes, productTypeFilters],
   );
 
   const filterTags = useMemo<FilterItem[]>(() => {
@@ -167,7 +180,8 @@ export const DataProductsServicePage = ({
 
   const removeFilter = (tag: FilterItem) => {
     const nextProductTypes = productTypes.filter((value) => value !== tag.value);
-    const nextSubjects = subjects.filter((value) => value !== tag.value);
+    const nextSubjects =
+      tag.value === DataProductType.STATISTIC_PRODUCT ? [] : subjects.filter((value) => value !== tag.value);
 
     updateQuery({
       productTypes: nextProductTypes.length > 0 ? nextProductTypes : null,
@@ -193,13 +207,14 @@ export const DataProductsServicePage = ({
     () =>
       textFilteredDataProducts
         .filter((dataProduct) => {
-          const matchesProductType =
-            productTypes.length === 0 || productTypes.includes(getProductTypeFilterValue(dataProduct));
+          if (activeProductTypes.length === 0) return true;
 
-          const matchesSubject =
-            subjects.length === 0 || getSubjectFieldCodes(dataProduct).some((code) => subjects.includes(code));
+          const productType = getProductTypeFilterValue(dataProduct);
+          if (!activeProductTypes.includes(productType)) return false;
 
-          return matchesProductType && matchesSubject;
+          if (productType !== DataProductType.STATISTIC_PRODUCT || subjects.length === 0) return true;
+
+          return getSubjectFieldCodes(dataProduct).some((code) => subjects.includes(code));
         })
         .toSorted((a, b) => {
           const comparison = getDataProductTitle(a).localeCompare(getDataProductTitle(b), 'nb-NO', {
@@ -208,14 +223,19 @@ export const DataProductsServicePage = ({
 
           return sort === 'titleDesc' ? -comparison : comparison;
         }),
-    [textFilteredDataProducts, productTypes, subjects, sort],
+    [activeProductTypes, textFilteredDataProducts, subjects, sort],
   );
 
   const handleProductTypeFilterChange = (filter: FilterItem) => {
-    const nextProductTypes = toggleValue(productTypes, filter.value);
+    const isSelected = activeProductTypes.includes(filter.value as ProductTypeFilterValue);
+    const nextProductTypes = isSelected
+      ? productTypes.filter((value) => value !== filter.value)
+      : [...productTypes, filter.value];
+    const nextSubjects = isSelected && filter.value === DataProductType.STATISTIC_PRODUCT ? [] : subjects;
 
     updateQuery({
       productTypes: nextProductTypes.length > 0 ? nextProductTypes : null,
+      subjects: nextSubjects.length > 0 ? nextSubjects : null,
     });
     scrollToFilterTags();
   };
@@ -230,6 +250,7 @@ export const DataProductsServicePage = ({
       <SearchPage
         tabsId={tabsData.DataProducts.id}
         header={localization.tabs.dataProducts}
+        asideClassName={styles.dataProductsFilterSection}
         totalHits={filteredDataProducts.length}
         infoContent={
           <FilterTagsSection
@@ -254,21 +275,37 @@ export const DataProductsServicePage = ({
           />
         }
         asideContent={
-          <FiltersPanel heading={localization.search.filter.label}>
+          <FiltersPanel heading={localization.search.filter.label} visuallyHideHeading>
             <TextFilter
               label={localization.search.textFilter.label}
               searchTerm={textFilterValue}
               setSearchTerm={handleTextFilterChange}
+              variant='flat'
+              defaultOpen={false}
             />
             <CheckboxFilter
               filterHeading={localization.products.typeFilterLabel}
               filters={productTypeFilters}
               selectedItems={selectedProductTypeFilters}
               onFilterChange={handleProductTypeFilterChange}
+              variant='flat'
+              defaultOpen={false}
+              nestedContentByValue={{
+                [DataProductType.STATISTIC_PRODUCT]: (
+                  <>
+                    {statisticProductFilterHelp && (
+                      <Details className={styles.filterHelpText}>
+                        <Details.Summary>{statisticProductFilterHelp.heading}</Details.Summary>
+                        <Details.Content>{statisticProductFilterHelp.text}</Details.Content>
+                      </Details>
+                    )}
+                    <Suspense fallback={<SubjectFiltersSectionFallback />}>
+                      <SubjectFiltersSection onFilterChange={toggleSubject} />
+                    </Suspense>
+                  </>
+                ),
+              }}
             />
-            <Suspense fallback={<SubjectFiltersSectionFallback />}>
-              <SubjectFiltersSection onFilterChange={toggleSubject} />
-            </Suspense>
           </FiltersPanel>
         }
         searchResult={

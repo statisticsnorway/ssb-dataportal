@@ -7,11 +7,25 @@ interface TextFilterProps {
   label: string;
   searchTerm: string;
   setSearchTerm: (value: string) => void;
+  variant?: 'card' | 'flat';
+  defaultOpen?: boolean;
 }
 
-export function TextFilter({ label, searchTerm, setSearchTerm }: Readonly<TextFilterProps>) {
+/**
+ * Renders a collapsible text search filter.
+ *
+ * @param variant - Whether the filter uses the card or flat presentation.
+ * @param defaultOpen - Whether the filter is initially expanded.
+ */
+export function TextFilter({
+  label,
+  searchTerm,
+  setSearchTerm,
+  variant = 'card',
+  defaultOpen = true,
+}: Readonly<TextFilterProps>) {
   return (
-    <CollapsibleCard heading={label}>
+    <CollapsibleCard heading={label} variant={variant} defaultOpen={defaultOpen}>
       <div className={styles.searchScope}>
         <Search>
           <Search.Input
