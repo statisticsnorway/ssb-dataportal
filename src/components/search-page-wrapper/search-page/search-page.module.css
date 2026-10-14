@@ -67,9 +67,9 @@
   }
 
   .filterSection {
-    flex: 3 3 auto;
+    flex: 3 3 var(--filter-section-flex-basis, auto);
     gap: var(--small-gap);
-    max-width: 300px;
+    max-width: var(--filter-section-max-width, 300px);
   }
 
   .mainSection {

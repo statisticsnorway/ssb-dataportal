@@ -3,3 +3,34 @@
   flex-direction: column;
   gap: 1rem;
 }
+
+aside.dataProductsFilterSection {
+  gap: 0;
+}
+
+.filterHelpText {
+  margin: 0 0.5rem 0.5rem 0.75rem;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.filterHelpText > summary {
+  background-color: transparent;
+  font-weight: var(--font-weight-medium);
+}
+
+.filterHelpText[open] > :last-child {
+  margin-inline-start: calc(var(--ds-size-4) + 0.75rem);
+  margin-block-start: 0.5rem;
+  padding-inline-start: 0.75rem;
+  border-inline-start: 2px solid var(--ds-color-neutral-border-subtle);
+}
+
+@media (min-width: 768px) {
+  aside.dataProductsFilterSection {
+    --filter-section-flex-basis: 340px;
+    --filter-section-max-width: 340px;
+  }
+}

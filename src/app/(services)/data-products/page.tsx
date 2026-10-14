@@ -4,6 +4,8 @@ import { listDataProducts } from '@/libs/data/datasets/datasets';
 import { localization } from '@/libs/language';
 import { getRequestLanguage } from '@/libs/language/src/getRequestLanguage';
 import { createLogger } from '@/libs/logger/server-logger';
+import filterHelpTextMock from '@/static-data/data-product-filter-help.json';
+import type { FilterHelpText } from '@/types/filters';
 import { DataProductsServicePage } from './data-products-service-page';
 
 export const metadata: Metadata = {
@@ -21,5 +23,14 @@ export default async function DataProducts({
   logger.info({ params }, 'Data products page access');
   const dataProducts = await listDataProducts();
   const subjectFields = await fetchSubjectFieldFilterValues(language);
-  return <DataProductsServicePage dataProducts={dataProducts} subjectFields={subjectFields} />;
+  const statisticProductFilterHelp: FilterHelpText | undefined =
+    process.env.DATA_PRODUCT_FILTER_HELP_ENABLED === 'true' ? filterHelpTextMock[language] : undefined;
+
+  return (
+    <DataProductsServicePage
+      dataProducts={dataProducts}
+      subjectFields={subjectFields}
+      statisticProductFilterHelp={statisticProductFilterHelp}
+    />
+  );
 }

@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { fetchSubjectFieldFilterValues } from '@/libs/data/classifications/codesData';
 import { listDataProducts } from '@/libs/data/datasets/datasets';
 import type { DataProductDTO } from '@/libs/data-access/datadoc/models';
+import type { FilterHelpText } from '@/types/filters';
 import { KlassCode } from '@/types/klass-codes';
 import DataProductsPage from './page';
 
@@ -43,12 +44,15 @@ vi.mock('./data-products-service-page', () => ({
   DataProductsServicePage: ({
     dataProducts,
     subjectFields,
+    statisticProductFilterHelp,
   }: {
     dataProducts: DataProductDTO[];
     subjectFields: KlassCode[];
+    statisticProductFilterHelp?: FilterHelpText;
   }) => (
     <div>
       {dataProducts.length} data products and {subjectFields.length} subject fields
+      {statisticProductFilterHelp && <span>{statisticProductFilterHelp.heading}</span>}
     </div>
   ),
 }));
@@ -58,6 +62,10 @@ const searchParams = Promise.resolve({});
 describe('DataProductsPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
   });
 
   it('passes data products and subject fields to the service page', async () => {
@@ -75,5 +83,25 @@ describe('DataProductsPage', () => {
     ]);
     render(await DataProductsPage({ searchParams }));
     expect(screen.getByText(/1 data products and 1 subject fields/)).toBeInTheDocument();
+  });
+
+  it('passes example filter help text when the feature flag is enabled', async () => {
+    vi.stubEnv('DATA_PRODUCT_FILTER_HELP_ENABLED', 'true');
+    vi.mocked(listDataProducts).mockResolvedValue([]);
+    vi.mocked(fetchSubjectFieldFilterValues).mockResolvedValue([]);
+
+    render(await DataProductsPage({ searchParams }));
+
+    expect(screen.getByText('Hva er et statistikkprodukt?')).toBeInTheDocument();
+  });
+
+  it('does not pass filter help text when the feature flag is disabled', async () => {
+    vi.stubEnv('DATA_PRODUCT_FILTER_HELP_ENABLED', 'false');
+    vi.mocked(listDataProducts).mockResolvedValue([]);
+    vi.mocked(fetchSubjectFieldFilterValues).mockResolvedValue([]);
+
+    render(await DataProductsPage({ searchParams }));
+
+    expect(screen.queryByText('Hva er et statistikkprodukt?')).not.toBeInTheDocument();
   });
 });

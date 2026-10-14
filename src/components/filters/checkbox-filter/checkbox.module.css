@@ -3,7 +3,7 @@
   padding-block: 0.5rem;
 }
 
-.checkboxFilterItems:has(.checkbox:first-child:hover)::before {
+.checkboxFilterItems:not(.flatCheckboxFilterItems):has(> .checkboxItem:first-child .checkbox:hover)::before {
   position: absolute;
   inset-block-start: 0;
   inset-inline: 0;
@@ -13,7 +13,7 @@
   pointer-events: none;
 }
 
-.checkboxFilterItems:has(.checkbox:last-child:hover)::after {
+.checkboxFilterItems:not(.flatCheckboxFilterItems):has(> .checkboxItem:last-child .checkbox:hover)::after {
   position: absolute;
   inset-block-end: 0;
   inset-inline: 0;
@@ -31,6 +31,10 @@
   width: 100%;
 }
 
+.checkboxItem {
+  min-width: 0;
+}
+
 .headingSemibold {
   font-family: var(--font-open-sans), sans-serif;
   font-weight: 600;
@@ -42,4 +46,34 @@
 
 .checkbox:hover {
   background-color: var(--ds-color-surface-hover);
+}
+
+.flatCheckboxFilterItems .checkbox:hover {
+  background-color: transparent;
+}
+
+.nestedFilter {
+  margin: 0.25rem 0.5rem 0.75rem 1.25rem;
+}
+
+.nestedCheckboxFilter {
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.nestedCheckboxFilterHeading {
+  padding: 0;
+  padding-inline-start: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.nestedCheckboxFilterItems {
+  margin-block-start: 0.25rem;
+}
+
+.nestedCheckboxFilterItems .checkbox {
+  padding-inline: 1rem 0;
 }

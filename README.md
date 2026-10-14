@@ -127,6 +127,7 @@ Configuration is primarily source from `.env*` files. This may be overridden in 
 | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | `METADATA_API_BASE_PATH`           | Which Metadata API instance to point to. Can be set to `http://localhost:8081` to work with a local instance                               |
 | `DATADOC_USE_STATIC_DATA`          | `true` to use the static data product and dataset data from the repo. Otherwise the data will be retrieved from a live instance.           |
+| `DATA_PRODUCT_FILTER_HELP_ENABLED` | `true` to show the optional help text for the statistical product filter.                                                                 |
 | `VARDEF_USE_STATIC_DATA`           | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance.                                    |
 | `KLASS_BASE_PATH`                  | Which Klass instance to point to. Can be set to `http://localhost:8080` to work with a local instance                                      |
 | `KLASS_USE_STATIC_DATA`            | `true` to use the static data from the repo. Otherwise the data will be retrieved from a live instance. Codes are only mocked for id 2003. |

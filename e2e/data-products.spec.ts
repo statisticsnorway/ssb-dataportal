@@ -38,6 +38,7 @@ test.describe('authenticated', () => {
     await stabilize();
 
     const main = page.getByRole('main');
+    await main.getByRole('button', { name: new RegExp(localization.products.typeFilterLabel) }).click();
     const statisticProductFilter = main.getByRole('checkbox', { name: 'Statistikkprodukt' });
     const otherProductFilter = main.getByRole('checkbox', { name: 'Annen dataprodukt' });
 
@@ -62,17 +63,28 @@ test.describe('authenticated', () => {
     await stabilize();
 
     const main = page.getByRole('main');
-    const subjectCheckbox = (name: string) => page.getByRole('checkbox', { name });
+    const productTypeFilters = main.getByRole('group', { name: localization.products.typeFilterLabel });
+    await productTypeFilters.getByRole('button', { name: new RegExp(localization.products.typeFilterLabel) }).click();
+    const subjectFilters = productTypeFilters.getByRole('group', { name: localization.subjectArea });
+    const subjectCheckbox = (name: string) => subjectFilters.getByRole('checkbox', { name });
+    const statisticProductFilter = productTypeFilters.getByRole('checkbox', { name: 'Statistikkprodukt' });
 
+    await expect(subjectFilters).not.toBeVisible();
+    await statisticProductFilter.check();
+    await expect(subjectFilters).toBeVisible();
     await subjectCheckbox('Arbeid og lønn').check();
-    await expect(main.getByRole('paragraph')).toContainText('2 treff');
+    await expect(main.getByRole('paragraph')).toContainText('1 treff');
     await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
-    await expect(main).toContainText('Arblonn');
+    await expect(main).not.toContainText('Arblonn');
     await expect(main).not.toContainText('Ameldingen');
 
     await subjectCheckbox('Arbeid og lønn').uncheck();
-    await expect(main.getByRole('paragraph')).toContainText('4 treff');
+    await expect(main.getByRole('paragraph')).toContainText('1 treff');
     await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
+
+    await statisticProductFilter.uncheck();
+    await expect(subjectFilters).not.toBeVisible();
+    await expect(main.getByRole('paragraph')).toContainText('4 treff');
     await expect(main).toContainText('Arblonn');
   });
   test('Data products can be sorted alphabetically', async ({ page }) => {

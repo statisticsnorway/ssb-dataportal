@@ -8,6 +8,7 @@ interface CollapsibleCardProps {
   heading: string;
   children: ReactNode;
   defaultOpen?: boolean;
+  variant?: 'card' | 'flat';
   cardClassName?: string;
   contentClassName?: string;
   toggleButtonClassName?: string;
@@ -23,8 +24,10 @@ interface CollapsibleCardProps {
  * @param props.heading - The title displayed at the top of the card.
  * @param props.children - The content shown inside the card when expanded.
  * @param props.defaultOpen - Whether the card is open by default. Defaults to `true`.
+ * @param props.variant - Whether the component uses the card or flat filter presentation.
  * @param props.cardClassName - Optional additional class names applied to the Card.
  * @param props.contentClassName - Optional additional class names applied to the content container.
+ * @param props.toggleButtonClassName - Optional additional class names applied to the toggle button.
  *
  * @returns A collapsible card UI component.
  */
@@ -32,6 +35,7 @@ export function CollapsibleCard({
   heading,
   children,
   defaultOpen = true,
+  variant = 'card',
   cardClassName = '',
   contentClassName = '',
   toggleButtonClassName = '',
@@ -39,25 +43,29 @@ export function CollapsibleCard({
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const headingId = `collapsible-${sanitizeId(heading)}-heading`;
   const panelId = `collapsible-${sanitizeId(heading)}-panel`;
+  const isFlat = variant === 'flat';
 
   return (
-    <Card className={`${styles.filterCard} ${cardClassName}`}>
+    <Card className={`${styles.filterCard} ${isFlat ? styles.flatFilterCard : ''} ${cardClassName}`}>
       <Fieldset className={styles.fieldset} aria-label={heading}>
         <Details
-          className={styles.details}
+          className={`${styles.details} ${isFlat ? styles.flatDetails : ''}`}
           defaultOpen={defaultOpen}
           onToggle={(event) => setIsOpen((event.currentTarget as HTMLDetailsElement).open)}
         >
           <DetailsSummary
             id={headingId}
-            className={`${styles.toggleFilter} ${toggleButtonClassName}`}
+            className={`${styles.toggleFilter} ${isFlat ? styles.flatToggleFilter : ''} ${toggleButtonClassName}`}
             role='button'
             aria-expanded={isOpen}
             aria-controls={panelId}
           >
             {heading}
           </DetailsSummary>
-          <div id={panelId} className={`${styles.filterItems} ${contentClassName}`}>
+          <div
+            id={panelId}
+            className={`${styles.filterItems} ${isFlat ? styles.flatFilterItems : ''} ${contentClassName}`}
+          >
             {children}
           </div>
         </Details>

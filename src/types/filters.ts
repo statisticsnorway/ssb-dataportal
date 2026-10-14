@@ -4,3 +4,8 @@ export interface FilterItem {
   count?: number;
   category?: string;
 }
+
+export interface FilterHelpText {
+  heading: string;
+  text: string;
+}
