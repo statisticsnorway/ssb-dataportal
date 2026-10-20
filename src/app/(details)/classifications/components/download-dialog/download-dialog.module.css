@@ -1,7 +1,6 @@
 .formFields {
   display: grid;
   gap: var(--ds-size-3);
-  margin-block-end: var(--ds-size-4);
 }
 
 .contextInfo {
@@ -24,7 +23,12 @@
 }
 
 .actions {
+  border-block-start: 1px solid var(--ds-color-neutral-border-subtle);
   display: flex;
   gap: var(--ds-size-3);
-  justify-content: flex-end;
+  justify-content: flex-start;
+  margin-block-start: var(--ds-size-3);
+  margin-inline: calc(-1 * var(--ds-size-6));
+  padding-block-start: var(--ds-size-4);
+  padding-inline: var(--ds-size-6);
 }
