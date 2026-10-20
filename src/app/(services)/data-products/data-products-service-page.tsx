@@ -280,16 +280,12 @@ export const DataProductsServicePage = ({
               label={localization.search.textFilter.label}
               searchTerm={textFilterValue}
               setSearchTerm={handleTextFilterChange}
-              variant='flat'
-              defaultOpen={false}
             />
             <CheckboxFilter
               filterHeading={localization.products.typeFilterLabel}
               filters={productTypeFilters}
               selectedItems={selectedProductTypeFilters}
               onFilterChange={handleProductTypeFilterChange}
-              variant='flat'
-              defaultOpen={false}
               nestedContentByValue={{
                 [DataProductType.STATISTIC_PRODUCT]: (
                   <>

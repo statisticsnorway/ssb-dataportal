@@ -30,8 +30,6 @@ export const StatusFiltersSection = ({
       filters={useStatusCounts(variablesPromise)}
       selectedItems={selectedItems}
       onFilterChange={onFilterChange}
-      variant='flat'
-      defaultOpen={false}
     />
   );
 };

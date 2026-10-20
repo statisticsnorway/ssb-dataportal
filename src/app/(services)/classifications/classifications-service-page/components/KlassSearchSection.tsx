@@ -12,8 +12,6 @@ export const KlassSearchSection = ({ query, onQueryChange }: KlassSearchSectionP
       label={localization.search.label}
       searchTerm={query ?? ''}
       setSearchTerm={(value: string) => onQueryChange(value)}
-      variant='flat'
-      defaultOpen={false}
     />
   );
 };

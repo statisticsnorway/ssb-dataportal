@@ -140,8 +140,6 @@ const VariableDefinitionsServicePage = ({
             <TextFilter
               label={localization.search.textFilter.label}
               searchTerm={q}
-              variant='flat'
-              defaultOpen={false}
               setSearchTerm={(value) => {
                 setQueryState({
                   q: value || null,
