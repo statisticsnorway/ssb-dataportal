@@ -86,7 +86,7 @@ test.describe('unauthenticated', () => {
   test('Filtered by storage category is not visible when unauthenticated', async ({ page }) => {
     await page.goto('/data-products/arbstatus');
     await stabilize();
-    await expandFilterGroups(page);
+    await expandFilterGroups(page, 2);
 
     const main = page.getByRole('main');
 
