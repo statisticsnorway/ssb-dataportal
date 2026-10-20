@@ -57,6 +57,8 @@ export const SubjectFiltersSection = ({
       filters={statusesWithCount}
       selectedItems={selectedItems}
       onFilterChange={onFilterChange}
+      variant='flat'
+      defaultOpen={false}
     />
   );
 };

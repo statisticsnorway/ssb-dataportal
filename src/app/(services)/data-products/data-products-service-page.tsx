@@ -275,7 +275,7 @@ export const DataProductsServicePage = ({
           />
         }
         asideContent={
-          <FiltersPanel heading={localization.search.filter.label} visuallyHideHeading>
+          <FiltersPanel heading={localization.search.filter.label}>
             <TextFilter
               label={localization.search.textFilter.label}
               searchTerm={textFilterValue}

@@ -1,5 +1,6 @@
 import { Heading } from '@digdir/designsystemet-react';
 import { ReactNode } from 'react';
+import styles from './filters-panel.module.css';
 
 interface FiltersPanelProps {
   heading: string;
@@ -17,7 +18,11 @@ interface FiltersPanelProps {
 const FiltersPanel = ({ heading, children, visuallyHideHeading = false }: FiltersPanelProps) => {
   return (
     <>
-      <Heading className={visuallyHideHeading ? 'ds-sr-only' : 'secondaryHeading'} level={2} data-size='sm'>
+      <Heading
+        className={visuallyHideHeading ? 'ds-sr-only' : `secondaryHeading ${styles.heading}`}
+        level={2}
+        data-size='sm'
+      >
         {heading}
       </Heading>
       {children}

@@ -35,6 +35,8 @@ export const SubjectFiltersSection = ({ onFilterChange }: SubjectFiltersSectionP
       filters={subjectFilterItems}
       selectedItems={selectedItems}
       onFilterChange={onFilterChange}
+      variant='flat'
+      defaultOpen={false}
     />
   );
 };

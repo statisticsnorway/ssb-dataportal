@@ -262,12 +262,16 @@ function DataProductDetailContent({
                 label={localization.search.textFilter.label}
                 searchTerm={textFilterValue}
                 setSearchTerm={handleTextFilterChange}
+                variant='flat'
+                defaultOpen={false}
               />
               <CheckboxFilter
                 filterHeading={localization.products.assessment.filterLabel}
                 filters={assessmentFilters}
                 selectedItems={selectedAssessmentFilters}
                 onFilterChange={toggleAssessment}
+                variant='flat'
+                defaultOpen={false}
               />
               {isAuthenticated && (
                 <CheckboxFilter
@@ -275,6 +279,8 @@ function DataProductDetailContent({
                   filters={storageCategoryFilters}
                   selectedItems={selectedStorageCategoryFilters}
                   onFilterChange={toggleStorageCategory}
+                  variant='flat'
+                  defaultOpen={false}
                 />
               )}
             </FiltersPanel>
