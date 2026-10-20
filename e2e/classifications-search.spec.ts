@@ -3,9 +3,10 @@ import { expect, test } from './fixtures/classifications.fixture';
 import searchResultsMock from '@/static-data/klass-search-results.json';
 import { SearchResultResource } from '@/libs/data-access/klass';
 import { Page } from '@playwright/test';
-import { checkCheckbox } from './utils/commonUtils';
+import { checkCheckbox, expandFilterGroups } from './utils/commonUtils';
 import { CODELIST, REMOVE_STANDARD, STANDARD } from './utils/variables';
 import { stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
+import { stabilize } from './utils/commonUtils';
 
 const searchTerm = 'Næring';
 const searchTermVariant = 'næri';
@@ -27,9 +28,17 @@ const getLocators = (page: Page) => ({
   subjectCheckbox: (name: string) => page.getByRole('checkbox', { name }),
 });
 
-test('Search box is visible', async ({ classificationsPage }) => {
-  const { searchBox } = getLocators(classificationsPage);
-  await expect(searchBox).toBeVisible();
+test('Type filter starts open and search filter can be expanded', async ({ page }) => {
+  await page.goto('/classifications');
+  await stabilize();
+
+  const typeFilter = page.getByRole('button', { name: localization.classification.type });
+  await expect(typeFilter).toHaveAttribute('aria-expanded', 'true');
+
+  const searchFilter = page.getByRole('button', { name: localization.search.label });
+  await expect(searchFilter).toHaveAttribute('aria-expanded', 'false');
+  await searchFilter.click();
+  await expect(page.getByRole('searchbox', { name: localization.search.label })).toBeVisible();
 });
 
 test('Initial page shows all results', async ({ classificationsPage }) => {
@@ -43,6 +52,7 @@ test.describe('When searching with a term', () => {
   test.beforeEach(async ({ classificationsPage }) => {
     // Remove default set filter
     await classificationsPage.getByRole('button', { name: REMOVE_STANDARD }).click();
+    await expandFilterGroups(classificationsPage);
     const { searchBox } = getLocators(classificationsPage);
     await searchBox.fill(searchTerm);
   });
@@ -128,6 +138,7 @@ test.describe('When searching with a term', () => {
 test('search term variant returns same results', async ({ classificationsPage }) => {
   // Remove default set filter
   await classificationsPage.getByRole('button', { name: REMOVE_STANDARD }).click();
+  await expandFilterGroups(classificationsPage);
   const { searchBox } = getLocators(classificationsPage);
   await searchBox.fill(searchTermVariant);
   const { main } = getLocators(classificationsPage);

@@ -1,7 +1,7 @@
 import { Page, TestInfo } from '@playwright/test';
 import { test as base, expect } from '@bgotink/playwright-coverage';
 import { tabsData } from '@/app/(services)/tabs';
-import { stabilize } from '../utils/commonUtils';
+import { expandFilterGroups, stabilize } from '../utils/commonUtils';
 import { CLASSIFICATIONS_URL } from '../utils/variables';
 
 export const test = base.extend<{
@@ -12,6 +12,7 @@ export const test = base.extend<{
     await page.goto(tabsData.Classifications.route);
     await expect(page).toHaveURL(CLASSIFICATIONS_URL);
     await stabilize();
+    await expandFilterGroups(page);
     await use(page);
   },
 });

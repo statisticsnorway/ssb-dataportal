@@ -1,5 +1,5 @@
 import { localization } from '@/libs/language';
-import { checkCheckbox, switchLanguage } from './utils/commonUtils';
+import { checkCheckbox, expandFilterGroups, switchLanguage } from './utils/commonUtils';
 import { expect, test } from './fixtures/classifications.fixture';
 import classificationsMock from '@/static-data/classifications.json';
 import { stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
@@ -165,6 +165,7 @@ test.describe('Classifications URL state', () => {
 
   test('hydrates UI from shared URL', async ({ classificationsPage }) => {
     await classificationsPage.goto(`${CLASSIFICATIONS_URL}&sort=titleDesc&subjects=al`);
+    await expandFilterGroups(classificationsPage);
     await expect(classificationsPage.getByLabel(localization.search.sort.label)).toHaveValue('titleDesc');
     await expect(classificationsPage.getByRole('checkbox', { name: arbeidOgLonn })).toBeChecked();
     await expect(classificationsPage.getByRole('listitem').filter({ hasText: arbeidOgLonn })).toBeVisible();
@@ -173,6 +174,7 @@ test.describe('Classifications URL state', () => {
   test('keeps URL state after refresh', async ({ classificationsPage }) => {
     await classificationsPage.goto(`${CLASSIFICATIONS_URL}&sort=titleDesc&subjects=al`);
     await classificationsPage.reload();
+    await expandFilterGroups(classificationsPage);
     await expect(classificationsPage.getByLabel(localization.search.sort.label)).toHaveValue('titleDesc');
     await expect(classificationsPage.getByRole('checkbox', { name: arbeidOgLonn })).toBeChecked();
   });
@@ -205,6 +207,7 @@ test.describe('Classifications - type filter', () => {
   test('selecting Kodeliste shows only code list results', async ({ classificationsPage }) => {
     // Remove default set filter
     await classificationsPage.getByRole('button', { name: REMOVE_STANDARD }).click();
+    await expandFilterGroups(classificationsPage);
     await classificationsPage.getByRole('checkbox', { name: localization.classification.codelist }).check();
     await expect(classificationsPage).toHaveURL(`classifications?types=${ClassificationType.Codelist}`);
     await expect(classificationsPage.getByRole('article')).toHaveCount(2);
@@ -212,6 +215,7 @@ test.describe('Classifications - type filter', () => {
 
   test('hydrates type filter from shared URL', async ({ classificationsPage }) => {
     await classificationsPage.goto(`classifications?types=${ClassificationType.Codelist}`);
+    await expandFilterGroups(classificationsPage);
     await expect(
       classificationsPage.getByRole('checkbox', { name: localization.classification.codelist }),
     ).toBeChecked();
