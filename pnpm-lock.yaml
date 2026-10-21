@@ -213,17 +213,17 @@ importers:
         specifier: 16.3.6
         version: 16.3.6
       '@statisticsnorway/design-css':
-        specifier: 0.2.3
-        version: 0.2.3
+        specifier: 0.2.4
+        version: 0.2.4
       '@svgr/webpack':
         specifier: 8.1.0
         version: 8.1.0(supports-color@10.2.2)(typescript@7.0.2)
       '@types/lodash':
-        specifier: 4.17.25
-        version: 4.17.25
+        specifier: 4.17.26
+        version: 4.17.26
       '@types/node':
-        specifier: 26.5.1
-        version: 26.5.1
+        specifier: 26.6.5
+        version: 26.6.5
       '@types/react':
         specifier: 19.3.0
         version: 19.3.0
@@ -241,13 +241,13 @@ importers:
         version: 6.2.12
       next:
         specifier: 16.3.8
-        version: 16.3.8(@babel/core@7.29.0(supports-color@10.2.2))(@playwright/test@1.63.0)(@types/node@26.5.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.100.0)
+        version: 16.3.8(@babel/core@7.29.0(supports-color@10.2.2))(@playwright/test@1.63.0)(@types/node@26.6.5)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.100.0)
       nuqs:
-        specifier: 2.10.1
-        version: 2.10.1(next@16.3.8(@babel/core@7.29.0(supports-color@10.2.2))(@playwright/test@1.63.0)(@types/node@26.5.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.100.0))(react@19.3.0)
+        specifier: 2.10.2
+        version: 2.10.2(next@16.3.8(@babel/core@7.29.0(supports-color@10.2.2))(@playwright/test@1.63.0)(@types/node@26.6.5)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.100.0))(react@19.3.0)
       pino:
-        specifier: 10.3.1
-        version: 10.3.1
+        specifier: 10.4.0
+        version: 10.4.0
       react:
         specifier: 19.3.0
         version: 19.3.0
@@ -255,11 +255,11 @@ importers:
         specifier: 19.3.0
         version: 19.3.0(react@19.3.0)
       react-localization:
-        specifier: 2.0.6
-        version: 2.0.6(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+        specifier: 2.1.0
+        version: 2.1.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       react-syntax-highlighter:
-        specifier: 16.1.1
-        version: 16.1.1(react@19.3.0)
+        specifier: 16.1.2
+        version: 16.1.2(react@19.3.0)
       server-only:
         specifier: 0.0.1
         version: 0.0.1
@@ -308,22 +308,22 @@ importers:
         version: 30.1.1
       node:
         specifier: runtime:lts
-        version: runtime:24.21.0
+        version: runtime:24.22.0
       pino-pretty:
         specifier: 13.1.3
         version: 13.1.3
       ts-node:
         specifier: 10.9.2
-        version: 10.9.2(@types/node@26.5.1)(typescript@7.0.2)
+        version: 10.9.2(@types/node@26.6.5)(typescript@7.0.2)
       typescript-plugin-css-modules:
         specifier: 5.2.0
-        version: 5.2.0(supports-color@10.2.2)(ts-node@10.9.2(@types/node@26.5.1)(typescript@7.0.2))(typescript@7.0.2)
+        version: 5.2.0(supports-color@10.2.2)(ts-node@10.9.2(@types/node@26.6.5)(typescript@7.0.2))(typescript@7.0.2)
       vite:
         specifier: 8.3.1
-        version: 8.3.1(@types/node@26.5.1)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2))
+        version: 8.3.1(@types/node@26.6.5)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2))
       vitest:
         specifier: 5.0.3
-        version: 5.0.3(@types/node@26.5.1)(@vitest/coverage-v8@5.0.3)(jsdom@30.1.1)(vite@8.3.1(@types/node@26.5.1)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2)))
+        version: 5.0.3(@types/node@26.6.5)(@vitest/coverage-v8@5.0.3)(jsdom@30.1.1)(vite@8.3.1(@types/node@26.6.5)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2)))
 
 packages:
 
@@ -895,10 +895,6 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
-  '@babel/runtime@7.29.2':
-    resolution: {integrity: sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==}
-    engines: {node: '>=6.9.0'}
-
   '@babel/runtime@7.29.7':
     resolution: {integrity: sha512-Nq8OhGWiZIZGV6hLHoyAKLLcJihP/xFeBMGJoUrxTX2psI8dCifzLhZISFb+VWS3wFMRDmCGw5R+dOySCqPLhw==}
     engines: {node: '>=6.9.0'}
@@ -1031,17 +1027,14 @@ packages:
     resolution: {integrity: sha512-bPlN9S9O1A0euCpEWE4qnvB5YDuyYVsUTrxSgmAM1Is0j4tICHoVyOVAXfWMP/kS9ZrjvyIXWV2PmomiAXXqOw==}
     engines: {node: '>=20.19.0'}
 
-  '@digdir/designsystemet-css@1.21.1':
-    resolution: {integrity: sha512-k01KHaYmkze7tYBt1S/XVPC5UzPIYrpH8pQJzMtRo9WX3EHSPy7llwuFeRvnP4RT3ctDowaIi3s3S3pHIAKevw==}
+  '@digdir/designsystemet-css@1.23.0':
+    resolution: {integrity: sha512-OuqjDBxKl81K+X/5bDj2RydTq2+97kgImanjJOTB6uKe19mmEmnE22uLYuP6QWTjzU9LuBF5nTApM9zTtkRvSw==}
 
   '@digdir/designsystemet-react@1.23.0':
     resolution: {integrity: sha512-ejVfuutPGRjtLBNAiWGdKNGS4SFjBYd94VhonaWB2mMBcPkTcGvHtl1zLjKNmx255mlaunk2LuHOZ9x9z93YBw==}
     peerDependencies:
       react: '>=18.3.1 || ^19.0.0'
       react-dom: '>=18.3.1 || ^19.0.0'
-
-  '@digdir/designsystemet-types@1.21.1':
-    resolution: {integrity: sha512-kRkZb+XGIVzPseVnWGi1aryfBenpSh/U0QvaOWmH2MNTIrY+/OHqKaVU1x71lo/XFAlhlwpPrhqqJoaNMxvxsA==}
 
   '@digdir/designsystemet-types@1.23.0':
     resolution: {integrity: sha512-fUDl1bMAWlV2pyo1GlWaN5heuVZNdNMW3/hEgzmYxQcCtaq0g8lNKsUt2GZEeWR5vKE1dfxahsOdKW1E9Udpyg==}
@@ -1655,8 +1648,8 @@ packages:
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
-  '@statisticsnorway/design-css@0.2.3':
-    resolution: {integrity: sha512-VKeTnHGOJROjK7RIis6BKOp1+YWX0qzwDahMOvDkKqGyqtq7ud2CiUiCAYzP0zJN2bGHAFi5Fv8SYJFotV/Brg==}
+  '@statisticsnorway/design-css@0.2.4':
+    resolution: {integrity: sha512-HyyAKyycILBuRslOS6jOyNkGObfo7SE8XlNY8Jr6zoANUq3CeU612ywZGSKurT2dgCDhx2wXt9yNb9Ade8TaHA==}
 
   '@svgr/babel-plugin-add-jsx-attribute@8.0.0':
     resolution: {integrity: sha512-b9MIk7yhdS1pMCZM8VeNfUlSKVRhsHZNMl5O9SfaX0l0t5wjdgu4IDzGB8bpnGBBOjGST3rRFVsaaEtI4W6f7g==}
@@ -1820,8 +1813,8 @@ packages:
   '@types/istanbul-lib-coverage@2.0.6':
     resolution: {integrity: sha512-2QF/t/auWm0lsy8XtKVPG19v3sSOQlJe/YHZgfjb/KBBHOGSV+J2q/S671rcq9uTBrLAXmZpqJiaQbMT+zNU1w==}
 
-  '@types/lodash@4.17.25':
-    resolution: {integrity: sha512-+K1NIO8I+F9/wNulfVvu23QYd0Pe9/OCqRrim4NoYIf1VoEDL90Ve4ClzpyqBLc7NpGGWRvYNCKZ1BE/Jpf8dQ==}
+  '@types/lodash@4.17.26':
+    resolution: {integrity: sha512-48NWfiY6oNcKOh47Z4h+sIvwcQR91h6KPhaYKgeMIrkT2jV82Gy90SErj60vW8jQbeMSOSbhIv3bZ7JoqPPVhA==}
 
   '@types/mute-stream@0.0.4':
     resolution: {integrity: sha512-CPM9nzrCPPJHQNA9keH9CVkVI+WR5kMa+7XEs5jcGQ0VoAGnLv242w8lIVgwAEfmE4oufJRaTc9PNLQl0ioAow==}
@@ -1831,6 +1824,9 @@ packages:
 
   '@types/node@26.5.1':
     resolution: {integrity: sha512-CzNm2FezW4VR/LjG6yUdiEgLE/rAQ9Slj5gCu/C2VrdcW7I0ahNZ8DRbHT7zOZ6r3ONgd/bsQIeSaoDGrd1C6g==}
+
+  '@types/node@26.6.5':
+    resolution: {integrity: sha512-uMzsv9stDdofIZBx4UGh4Z9ZgXnGC9seRDscilBcTHAeOFk67MZg/k9bWVfO+bk4qZmG+l52hRnLwUiH2LnJTg==}
 
   '@types/postcss-modules-local-by-default@4.0.2':
     resolution: {integrity: sha512-CtYCcD+L+trB3reJPny+bKWKMzPfxEyQpKIwit7kErnOexf5/faaGpkFy4I5AwbV4hp1sk7/aTg0tt0B67VkLQ==}
@@ -2898,8 +2894,8 @@ packages:
     resolution: {integrity: sha512-v5xlu8eHD1+6r8EHTg6hfmO97LN8ugKtiXcy5e6oN72iD2r6u0RPfLl6fxM+7Wnh2ZRq15o0russMst44WauPA==}
     engines: {node: '>=13.2.0'}
 
-  localized-strings@2.0.3:
-    resolution: {integrity: sha512-eCSC9qK+dRrU9f9xA2glwooQCM5alK//Zj0DyKswZCBAbeefyrdplp6KQiKFeeuFu9K3QbfCQ+0Kdo0cABP6Ww==}
+  localized-strings@2.1.2:
+    resolution: {integrity: sha512-SPBsWSV67GUkjJh7nHSJO7+I8thPWthpk2cycQEzMxRibibWTu4LZceTvIGaYS9vburd+D0KBO20b14WgtQ5Vg==}
 
   lodash.camelcase@4.3.0:
     resolution: {integrity: sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==}
@@ -3072,7 +3068,7 @@ packages:
     resolution: {integrity: sha512-GYVXHE2KnrzAfsAjl4uP++evGFCrAU1jta4ubEjIG7YWt/64Gqv66a30yKwWczVjA6j3bM4nBwH7Pk1JmDHaxQ==}
     engines: {node: '>=18'}
 
-  node@runtime:24.21.0:
+  node@runtime:24.22.0:
     resolution:
       type: variations
       variants:
@@ -3080,9 +3076,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-rseyRkr7mfB4wZywbSAdVDvTsxHLoHEoK84bF8l+WLs=
+            integrity: sha256-y7HWJfv6YbI/1KlJ6kHJsIu3kF+8dUA7sR1LzKc6VWY=
             type: binary
-            url: https://nodejs.org/download/release/v24.21.0/node-v24.21.0-aix-ppc64.tar.gz
+            url: https://nodejs.org/download/release/v24.22.0/node-v24.22.0-aix-ppc64.tar.gz
           targets:
             - cpu: ppc64
               os: aix
@@ -3090,9 +3086,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-vtfupTJeEQjzLOUijd1qXw8IpJnuQqp0Qq6lg3AvYFc=
+            integrity: sha256-apck2bUKXyK0gWze1EG1qNndrlRhkaXlt++lpeLuJtU=
             type: binary
-            url: https://nodejs.org/download/release/v24.21.0/node-v24.21.0-darwin-arm64.tar.gz
+            url: https://nodejs.org/download/release/v24.22.0/node-v24.22.0-darwin-arm64.tar.gz
           targets:
             - cpu: arm64
               os: darwin
@@ -3100,9 +3096,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-FGLLOzBGuBXPjqQ209pFDsGp8R2sflpGsK2lMF1+gJc=
+            integrity: sha256-SV4/JzxkXzxGd9Q4MEzfxwFynqXexXKPXI52ot7OS5E=
             type: binary
-            url: https://nodejs.org/download/release/v24.21.0/node-v24.21.0-darwin-x64.tar.gz
+            url: https://nodejs.org/download/release/v24.22.0/node-v24.22.0-darwin-x64.tar.gz
           targets:
             - cpu: x64
               os: darwin
@@ -3110,9 +3106,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-ckKCw7Q67JmKqVJzgEZbRdIp4CG1gDX19PYwleq/5dU=
+            integrity: sha256-t+eZHVQHgVrfp0oqnNTbaDVSyM4y/0opXCLpcoScP10=
             type: binary
-            url: https://nodejs.org/download/release/v24.21.0/node-v24.21.0-linux-arm64.tar.gz
+            url: https://nodejs.org/download/release/v24.22.0/node-v24.22.0-linux-arm64.tar.gz
           targets:
             - cpu: arm64
               os: linux
@@ -3120,9 +3116,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-UcXVMGbukpILYXg7A7Buy5nzZhFg97Fcp36EdBFaZ7w=
+            integrity: sha256-jLp7v2iam1imXlgRFG6o0B5J0H5x97hGLk9v/NfS5/0=
             type: binary
-            url: https://nodejs.org/download/release/v24.21.0/node-v24.21.0-linux-ppc64le.tar.gz
+            url: https://nodejs.org/download/release/v24.22.0/node-v24.22.0-linux-ppc64le.tar.gz
           targets:
             - cpu: ppc64le
               os: linux
@@ -3130,9 +3126,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-Xy+jdCLgx13jXBaG/lHXgyTywqj+LMI5pB2cAAop2Tg=
+            integrity: sha256-WQFxj1Uf+qduJQny1hLVvhb6ic3fvi1gEyXBDify0rY=
             type: binary
-            url: https://nodejs.org/download/release/v24.21.0/node-v24.21.0-linux-s390x.tar.gz
+            url: https://nodejs.org/download/release/v24.22.0/node-v24.22.0-linux-s390x.tar.gz
           targets:
             - cpu: s390x
               os: linux
@@ -3140,9 +3136,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-PWNAX8ZaDS0pdsHwvC/Se7C9ByEkaecFqsPwOuWrTJw=
+            integrity: sha256-qVoPryjW98STA28FWdbTK3uMeaoG5BWxJ4L5aUaERIQ=
             type: binary
-            url: https://nodejs.org/download/release/v24.21.0/node-v24.21.0-linux-x64-musl.tar.gz
+            url: https://nodejs.org/download/release/v24.22.0/node-v24.22.0-linux-x64-musl.tar.gz
           targets:
             - cpu: x64
               os: linux
@@ -3151,9 +3147,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-bh24fvWLiBnl1UAu/xU2SRsY7djre+5e94l4duiNxf8=
+            integrity: sha256-KOoKQ43poTvXiR/XWO7mx4Ge6K9UQt/Y1FvWXlbUIow=
             type: binary
-            url: https://nodejs.org/download/release/v24.21.0/node-v24.21.0-linux-x64.tar.gz
+            url: https://nodejs.org/download/release/v24.22.0/node-v24.22.0-linux-x64.tar.gz
           targets:
             - cpu: x64
               os: linux
@@ -3161,10 +3157,10 @@ packages:
             archive: zip
             bin:
               node: node.exe
-            integrity: sha256-h3mxveHTn41CDjtXqmV7OYka9DTT3kSpGQRM7AZ4WSE=
-            prefix: node-v24.21.0-win-arm64
+            integrity: sha256-OlwgmlvFnmWzvA+hPtXhZqJr09VTMoR/SYt2sDdAjWE=
+            prefix: node-v24.22.0-win-arm64
             type: binary
-            url: https://nodejs.org/download/release/v24.21.0/node-v24.21.0-win-arm64.zip
+            url: https://nodejs.org/download/release/v24.22.0/node-v24.22.0-win-arm64.zip
           targets:
             - cpu: arm64
               os: win32
@@ -3172,10 +3168,10 @@ packages:
             archive: zip
             bin:
               node: node.exe
-            integrity: sha256-FY92hbRN5R9sDfHRU1JsvNPhvHOajfxgdyHO913p5UE=
-            prefix: node-v24.21.0-win-x64
+            integrity: sha256-+Wg6GYd+EqmxZzBcjbcQQNgSh2NZ3iHw0ul8PzIfgMM=
+            prefix: node-v24.22.0-win-x64
             type: binary
-            url: https://nodejs.org/download/release/v24.21.0/node-v24.21.0-win-x64.zip
+            url: https://nodejs.org/download/release/v24.22.0/node-v24.22.0-win-x64.zip
           targets:
             - cpu: x64
               os: win32
@@ -3183,9 +3179,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-MEiwgR4VjKDYZytZyDmGF2PhREkpgNjSmzad/uRXR+Q=
+            integrity: sha256-aBKlPls3+8MkdtbDURA40rw7vRs7s0jWwE3Sxwocj0o=
             type: binary
-            url: https://unofficial-builds.nodejs.org/download/release/v24.21.0/node-v24.21.0-linux-arm64-musl.tar.gz
+            url: https://unofficial-builds.nodejs.org/download/release/v24.22.0/node-v24.22.0-linux-arm64-musl.tar.gz
           targets:
             - cpu: arm64
               os: linux
@@ -3194,21 +3190,21 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-AacT402pjntNKjGR7nyj+T3QOE0aLvI8N5shYe5uEzo=
+            integrity: sha256-cs0lP74MJTnVIgjtCY1Ht4/ywyunYpXY5rWwzgZ9y6U=
             type: binary
-            url: https://unofficial-builds.nodejs.org/download/release/v24.21.0/node-v24.21.0-linux-x64-musl.tar.gz
+            url: https://unofficial-builds.nodejs.org/download/release/v24.22.0/node-v24.22.0-linux-x64-musl.tar.gz
           targets:
             - cpu: x64
               os: linux
               libc: musl
-    version: 24.21.0
+    version: 24.22.0
     hasBin: true
 
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
-  nuqs@2.10.1:
-    resolution: {integrity: sha512-7lPZrPJVOsD0VvfQSKtodYBBPGPLsLzkFU8ueYIap9yMMJvSw6UC12p8luA5NW7aKe7AbPHKxcxb3OluH6iAJA==}
+  nuqs@2.10.2:
+    resolution: {integrity: sha512-HaLMCr9H2wywEnTu3j+QW98EteDT3Kfmx3SJJ6JfcvCvkFi/g/fKd/oCXa5DF0x1s1l4zcFtzsq9bflj6RcM6A==}
     peerDependencies:
       '@remix-run/react': '>=2'
       '@tanstack/react-router': ^1
@@ -3310,8 +3306,8 @@ packages:
   pino-std-serializers@7.1.0:
     resolution: {integrity: sha512-BndPH67/JxGExRgiX1dX0w1FvZck5Wa4aal9198SrRhZjH3GxKQUKIBnYJTdj2HDN3UQAS06HlfcSbQj2OHmaw==}
 
-  pino@10.3.1:
-    resolution: {integrity: sha512-r34yH/GlQpKZbU1BvFFqOjhISRo1MNx1tWYsYvmj6KIRHSPMT2+yHOEb1SG6NMvRoHRF0a07kCOox/9yakl1vg==}
+  pino@10.4.0:
+    resolution: {integrity: sha512-bk1ZMTwG/Vymx+zPoa28MhNzucFvXJWp3csrSuxuHPSMeUettaCoQ5Jvg07mtC4JGNpcfTwz41oVCnNgBK9+vA==}
     hasBin: true
 
   playwright-core@1.63.0:
@@ -3437,8 +3433,8 @@ packages:
   react-is@17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
 
-  react-localization@2.0.6:
-    resolution: {integrity: sha512-+UIJ8Dm/Bfdrz38u4d6rgW2Ip9TP9uetUp1WgTrWibgPoJXnclAgPafWL26NbBzuxmOxo9UIRqOKWY/MBJmNdQ==}
+  react-localization@2.1.0:
+    resolution: {integrity: sha512-Jjf7s5iK6hmZqU1CFNHlkI3ASwnG6fPkPptIdiaw/1J9dd+K0cTMs9T/pbiJPcb6cOejP3JYtMniZPB/XwVGWA==}
     peerDependencies:
       react: '>=19.0.0'
       react-dom: '>=19.0.0'
@@ -3448,8 +3444,8 @@ packages:
       react-dom:
         optional: true
 
-  react-syntax-highlighter@16.1.1:
-    resolution: {integrity: sha512-PjVawBGy80C6YbC5DDZJeUjBmC7skaoEUdvfFQediQHgCL7aKyVHe57SaJGfQsloGDac+gCpTfRdtxzWWKmCXA==}
+  react-syntax-highlighter@16.1.2:
+    resolution: {integrity: sha512-4dM0+mYtfnhgwYWAvFx56fgyjIYk2yFopfiICFvMDhRfeSGRNd+ngFALdPD9q7llyGAmiE6pzOSOwI8Lf9ca1w==}
     engines: {node: '>= 16.20.2'}
     peerDependencies:
       react: '>= 0.14.0'
@@ -3461,10 +3457,6 @@ packages:
   readdirp@5.0.0:
     resolution: {integrity: sha512-9u/XQ1pvrQtYyMpZe7DXKv2p5CNvyVwzUB6uhLAnQwHMSgKMBR62lc7AHljaeteeHXn11XTAaLLUVZYVZyuRBQ==}
     engines: {node: '>= 20.19.0'}
-
-  real-require@0.2.0:
-    resolution: {integrity: sha512-57frrGM/OCTLqLOAh0mhVA9VBMHd+9U7Zb2THMGdBUoZVOtGbJzjxsYGDJ3A9AYYCP4hn6y1TVbaOfzWtm5GFg==}
-    engines: {node: '>= 12.13.0'}
 
   real-require@1.0.0:
     resolution: {integrity: sha512-P4nbQYQfePJxRSmY+v/KINxVucm4NF3p3s7pJveMTtom52FR4YGltUQLB8idDXwDDWW+eYrWDFbuzUnjoWHF7g==}
@@ -4746,8 +4738,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/runtime@7.29.2': {}
-
   '@babel/runtime@7.29.7': {}
 
   '@babel/template@7.28.6':
@@ -4859,9 +4849,9 @@ snapshots:
 
   '@csstools/css-tokenizer@4.0.1': {}
 
-  '@digdir/designsystemet-css@1.21.1':
+  '@digdir/designsystemet-css@1.23.0':
     dependencies:
-      '@digdir/designsystemet-types': 1.21.1
+      '@digdir/designsystemet-types': 1.23.0
 
   '@digdir/designsystemet-react@1.23.0(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
     dependencies:
@@ -4877,8 +4867,6 @@ snapshots:
       react-dom: 19.3.0(react@19.3.0)
     transitivePeerDependencies:
       - '@types/react'
-
-  '@digdir/designsystemet-types@1.21.1': {}
 
   '@digdir/designsystemet-types@1.23.0': {}
 
@@ -5343,9 +5331,9 @@ snapshots:
 
   '@standard-schema/spec@1.1.0': {}
 
-  '@statisticsnorway/design-css@0.2.3':
+  '@statisticsnorway/design-css@0.2.4':
     dependencies:
-      '@digdir/designsystemet-css': 1.21.1
+      '@digdir/designsystemet-css': 1.23.0
 
   '@svgr/babel-plugin-add-jsx-attribute@8.0.0(@babel/core@7.29.0(supports-color@10.2.2))':
     dependencies:
@@ -5473,7 +5461,7 @@ snapshots:
       picocolors: 1.1.1
       redent: 3.0.0
     optionalDependencies:
-      vitest: 5.0.3(@types/node@26.5.1)(@vitest/coverage-v8@5.0.3)(jsdom@30.1.1)(vite@8.3.1(@types/node@26.5.1)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2)))
+      vitest: 5.0.3(@types/node@26.6.5)(@vitest/coverage-v8@5.0.3)(jsdom@30.1.1)(vite@8.3.1(@types/node@26.6.5)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2)))
 
   '@testing-library/react@16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
     dependencies:
@@ -5523,7 +5511,7 @@ snapshots:
 
   '@types/istanbul-lib-coverage@2.0.6': {}
 
-  '@types/lodash@4.17.25': {}
+  '@types/lodash@4.17.26': {}
 
   '@types/mute-stream@0.0.4':
     dependencies:
@@ -5534,6 +5522,10 @@ snapshots:
       undici-types: 6.21.0
 
   '@types/node@26.5.1':
+    dependencies:
+      undici-types: 8.9.0
+
+  '@types/node@26.6.5':
     dependencies:
       undici-types: 8.9.0
 
@@ -5643,7 +5635,7 @@ snapshots:
       obug: 2.2.1
       std-env: 4.2.0
       tinyrainbow: 3.1.1
-      vitest: 5.0.3(@types/node@26.5.1)(@vitest/coverage-v8@5.0.3)(jsdom@30.1.1)(vite@8.3.1(@types/node@26.5.1)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2)))
+      vitest: 5.0.3(@types/node@26.6.5)(@vitest/coverage-v8@5.0.3)(jsdom@30.1.1)(vite@8.3.1(@types/node@26.6.5)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2)))
 
   '@vitest/istanbul-lib-coverage@1.0.1': {}
 
@@ -5651,14 +5643,14 @@ snapshots:
     dependencies:
       '@vitest/istanbul-lib-coverage': 1.0.1
 
-  '@vitest/mocker@5.0.3(vite@8.3.1(@types/node@26.5.1)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2)))':
+  '@vitest/mocker@5.0.3(vite@8.3.1(@types/node@26.6.5)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2)))':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       '@vitest/spy': 5.0.3
       estree-walker: 3.0.3
       magic-string: 1.4.1
     optionalDependencies:
-      vite: 8.3.1(@types/node@26.5.1)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2))
+      vite: 8.3.1(@types/node@26.6.5)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2))
 
   '@vitest/spy@5.0.3': {}
 
@@ -6489,7 +6481,7 @@ snapshots:
 
   load-esm@1.0.3: {}
 
-  localized-strings@2.0.3: {}
+  localized-strings@2.1.2: {}
 
   lodash.camelcase@4.3.0: {}
 
@@ -6591,7 +6583,7 @@ snapshots:
 
   netmask@2.1.1: {}
 
-  next@16.3.8(@babel/core@7.29.0(supports-color@10.2.2))(@playwright/test@1.63.0)(@types/node@26.5.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.100.0):
+  next@16.3.8(@babel/core@7.29.0(supports-color@10.2.2))(@playwright/test@1.63.0)(@types/node@26.6.5)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.100.0):
     dependencies:
       '@next/env': 16.3.8
       '@swc/helpers': 0.5.23
@@ -6612,7 +6604,7 @@ snapshots:
       '@next/swc-win32-x64-msvc': 16.3.8
       '@playwright/test': 1.63.0
       sass: 1.100.0
-      sharp: 0.35.4(@types/node@26.5.1)
+      sharp: 0.35.4(@types/node@26.6.5)
     transitivePeerDependencies:
       - '@babel/core'
       - '@types/node'
@@ -6640,18 +6632,18 @@ snapshots:
 
   node-releases@2.0.46: {}
 
-  node@runtime:24.21.0: {}
+  node@runtime:24.22.0: {}
 
   nth-check@2.1.1:
     dependencies:
       boolbase: 1.0.0
 
-  nuqs@2.10.1(next@16.3.8(@babel/core@7.29.0(supports-color@10.2.2))(@playwright/test@1.63.0)(@types/node@26.5.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.100.0))(react@19.3.0):
+  nuqs@2.10.2(next@16.3.8(@babel/core@7.29.0(supports-color@10.2.2))(@playwright/test@1.63.0)(@types/node@26.6.5)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.100.0))(react@19.3.0):
     dependencies:
       '@standard-schema/spec': 1.1.0
       react: 19.3.0
     optionalDependencies:
-      next: 16.3.8(@babel/core@7.29.0(supports-color@10.2.2))(@playwright/test@1.63.0)(@types/node@26.5.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.100.0)
+      next: 16.3.8(@babel/core@7.29.0(supports-color@10.2.2))(@playwright/test@1.63.0)(@types/node@26.6.5)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.100.0)
 
   obug@2.2.1: {}
 
@@ -6753,7 +6745,7 @@ snapshots:
 
   pino-std-serializers@7.1.0: {}
 
-  pino@10.3.1:
+  pino@10.4.0:
     dependencies:
       '@pinojs/redact': 0.4.0
       atomic-sleep: 1.0.0
@@ -6762,7 +6754,7 @@ snapshots:
       pino-std-serializers: 7.1.0
       process-warning: 5.0.0
       quick-format-unescaped: 4.0.4
-      real-require: 0.2.0
+      real-require: 1.0.0
       safe-stable-stringify: 2.5.0
       sonic-boom: 4.2.1
       thread-stream: 4.2.0
@@ -6777,13 +6769,13 @@ snapshots:
     dependencies:
       playwright-core: 1.63.0
 
-  postcss-load-config@3.1.4(postcss@8.5.15)(ts-node@10.9.2(@types/node@26.5.1)(typescript@7.0.2)):
+  postcss-load-config@3.1.4(postcss@8.5.15)(ts-node@10.9.2(@types/node@26.6.5)(typescript@7.0.2)):
     dependencies:
       lilconfig: 2.1.0
       yaml: 1.10.3
     optionalDependencies:
       postcss: 8.5.15
-      ts-node: 10.9.2(@types/node@26.5.1)(typescript@7.0.2)
+      ts-node: 10.9.2(@types/node@26.6.5)(typescript@7.0.2)
 
   postcss-modules-extract-imports@3.1.0(postcss@8.5.15):
     dependencies:
@@ -6883,16 +6875,16 @@ snapshots:
 
   react-is@17.0.2: {}
 
-  react-localization@2.0.6(react-dom@19.3.0(react@19.3.0))(react@19.3.0):
+  react-localization@2.1.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0):
     dependencies:
-      localized-strings: 2.0.3
+      localized-strings: 2.1.2
     optionalDependencies:
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
 
-  react-syntax-highlighter@16.1.1(react@19.3.0):
+  react-syntax-highlighter@16.1.2(react@19.3.0):
     dependencies:
-      '@babel/runtime': 7.29.2
+      '@babel/runtime': 7.29.7
       highlight.js: 10.7.3
       highlightjs-vue: 1.0.0
       lowlight: 1.20.0
@@ -6903,8 +6895,6 @@ snapshots:
   react@19.3.0: {}
 
   readdirp@5.0.0: {}
-
-  real-require@0.2.0: {}
 
   real-require@1.0.0: {}
 
@@ -7018,7 +7008,7 @@ snapshots:
 
   server-only@0.0.1: {}
 
-  sharp@0.35.4(@types/node@26.5.1):
+  sharp@0.35.4(@types/node@26.6.5):
     dependencies:
       '@img/colour': 1.1.0
       detect-libc: 2.1.2
@@ -7049,7 +7039,7 @@ snapshots:
       '@img/sharp-win32-arm64': 0.35.4
       '@img/sharp-win32-ia32': 0.35.4
       '@img/sharp-win32-x64': 0.35.4
-      '@types/node': 26.5.1
+      '@types/node': 26.6.5
     optional: true
 
   shell-quote@1.9.0: {}
@@ -7209,14 +7199,14 @@ snapshots:
 
   tree-kill@1.2.2: {}
 
-  ts-node@10.9.2(@types/node@26.5.1)(typescript@7.0.2):
+  ts-node@10.9.2(@types/node@26.6.5)(typescript@7.0.2):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.12
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 26.5.1
+      '@types/node': 26.6.5
       acorn: 8.16.0
       acorn-walk: 8.3.5
       arg: 4.1.3
@@ -7237,7 +7227,7 @@ snapshots:
 
   type-fest@0.21.3: {}
 
-  typescript-plugin-css-modules@5.2.0(supports-color@10.2.2)(ts-node@10.9.2(@types/node@26.5.1)(typescript@7.0.2))(typescript@7.0.2):
+  typescript-plugin-css-modules@5.2.0(supports-color@10.2.2)(ts-node@10.9.2(@types/node@26.6.5)(typescript@7.0.2))(typescript@7.0.2):
     dependencies:
       '@types/postcss-modules-local-by-default': 4.0.2
       '@types/postcss-modules-scope': 3.0.4
@@ -7246,7 +7236,7 @@ snapshots:
       less: 4.6.4
       lodash.camelcase: 4.3.0
       postcss: 8.5.15
-      postcss-load-config: 3.1.4(postcss@8.5.15)(ts-node@10.9.2(@types/node@26.5.1)(typescript@7.0.2))
+      postcss-load-config: 3.1.4(postcss@8.5.15)(ts-node@10.9.2(@types/node@26.6.5)(typescript@7.0.2))
       postcss-modules-extract-imports: 3.1.0(postcss@8.5.15)
       postcss-modules-local-by-default: 4.2.0(postcss@8.5.15)
       postcss-modules-scope: 3.2.1(postcss@8.5.15)
@@ -7325,7 +7315,7 @@ snapshots:
       '@types/istanbul-lib-coverage': 2.0.6
       convert-source-map: 2.0.0
 
-  vite@8.3.1(@types/node@26.5.1)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2)):
+  vite@8.3.1(@types/node@26.6.5)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2)):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
@@ -7333,16 +7323,16 @@ snapshots:
       rolldown: 1.2.11
       tinyglobby: 0.2.17
     optionalDependencies:
-      '@types/node': 26.5.1
+      '@types/node': 26.6.5
       fsevents: 2.3.3
       less: 4.6.4
       sass: 1.100.0
       stylus: 0.62.0(supports-color@10.2.2)
 
-  vitest@5.0.3(@types/node@26.5.1)(@vitest/coverage-v8@5.0.3)(jsdom@30.1.1)(vite@8.3.1(@types/node@26.5.1)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2))):
+  vitest@5.0.3(@types/node@26.6.5)(@vitest/coverage-v8@5.0.3)(jsdom@30.1.1)(vite@8.3.1(@types/node@26.6.5)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2))):
     dependencies:
       '@types/chai': 5.2.3
-      '@vitest/mocker': 5.0.3(vite@8.3.1(@types/node@26.5.1)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2)))
+      '@vitest/mocker': 5.0.3(vite@8.3.1(@types/node@26.6.5)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2)))
       chai: 6.2.2
       es-module-lexer: 2.3.2
       expect-type: 1.4.0
@@ -7353,10 +7343,10 @@ snapshots:
       tinybench: 6.1.4
       tinyexec: 1.3.0
       tinyglobby: 0.2.17
-      vite: 8.3.1(@types/node@26.5.1)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2))
+      vite: 8.3.1(@types/node@26.6.5)(less@4.6.4)(sass@1.100.0)(stylus@0.62.0(supports-color@10.2.2))
       why-is-node-running: 3.2.1
     optionalDependencies:
-      '@types/node': 26.5.1
+      '@types/node': 26.6.5
       '@vitest/coverage-v8': 5.0.3(vitest@5.0.3)
       jsdom: 30.1.1
     transitivePeerDependencies:
