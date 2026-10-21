@@ -196,5 +196,15 @@
     "dataset_state": "PROCESSED_DATA",
     "owner": "arbmark-register",
     "storage_category": "PRODUCT"
+  },
+  {
+    "id": "id14",
+    "storage_location_name": "ssb-utd-nudb-data-delt-utdanning-prod",
+    "product_short_name": "nudb-data",
+    "short_description": "eksamen",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "utd-nudb",
+    "storage_category": "PRODUCT"
   }
 ]

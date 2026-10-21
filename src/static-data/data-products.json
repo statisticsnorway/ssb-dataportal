@@ -25,5 +25,11 @@
     "product_short_name": "invalid",
     "title": "All data files are invalid",
     "contains_valid_datasets": false
+  },
+  {
+    "product_type": "OTHER_DATA_PRODUCT",
+    "product_short_name": "nudb-data",
+    "title": null,
+    "contains_valid_datasets": true
   }
 ]
