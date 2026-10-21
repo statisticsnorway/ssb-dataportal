@@ -45,7 +45,7 @@ export const DataFileSearchHit = ({ dataFile }: DataFileSearchHitProps) => {
       tagsList=<>
         <Tag data-color='magic'>{formatPeriodString(dataFile)}</Tag>
         <Tag data-color='magic'>
-          {dataFile.data_file_version ? `Versjon ${dataFile.data_file_version}` : 'Ikke versjonert'}
+          {dataFile.data_file_version != null ? `Versjon ${dataFile.data_file_version}` : 'Ikke versjonert'}
         </Tag>
         <Tag data-color='magic'>{dataFile.file_type}</Tag>
         <CopyTag text={dataFile.file_path ?? 'undefined'} copyType='file_path' />
