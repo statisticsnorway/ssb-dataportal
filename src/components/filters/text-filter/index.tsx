@@ -14,15 +14,15 @@ interface TextFilterProps {
 /**
  * Renders a collapsible text search filter.
  *
- * @param variant - Whether the filter uses the card or flat presentation.
- * @param defaultOpen - Whether the filter is initially expanded.
+ * @param variant - Whether the filter uses the card or flat presentation. Defaults to `flat`.
+ * @param defaultOpen - Whether the filter is initially expanded. Defaults to `false`.
  */
 export function TextFilter({
   label,
   searchTerm,
   setSearchTerm,
-  variant = 'card',
-  defaultOpen = true,
+  variant = 'flat',
+  defaultOpen = false,
 }: Readonly<TextFilterProps>) {
   return (
     <CollapsibleCard heading={label} variant={variant} defaultOpen={defaultOpen}>

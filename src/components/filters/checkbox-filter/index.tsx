@@ -74,10 +74,10 @@ const CheckboxItems = ({ filters, selectedItems, onFilterChange, nestedContentBy
  * @param selectedItems - Array of currently selected filter items.
  * @param onFilterChange - Callback fired when selection changes. Receives the changed `FilterItem`.
  * @param nestedContentByValue - Maps filter values to optional collapsible content rendered below the corresponding option.
- * @param variant - Controls whether the filter is presented as a card or a flat section.
- * @param defaultOpen - Whether the filter section is initially expanded.
+ * @param variant - Controls whether the filter is presented as a card or a flat section. Defaults to `flat`.
+ * @param defaultOpen - Whether the filter section is initially expanded. Defaults to `false`.
  *
- * @returns A Card collapsible card component with checkboxes for filtering.
+ * @returns A collapsible filter with checkboxes.
  */
 export const CheckboxFilter = ({
   filterHeading,
@@ -85,8 +85,8 @@ export const CheckboxFilter = ({
   selectedItems,
   onFilterChange,
   nestedContentByValue,
-  variant = 'card',
-  defaultOpen = true,
+  variant = 'flat',
+  defaultOpen = false,
 }: CheckboxFilterProps) => {
   return (
     <CollapsibleCard

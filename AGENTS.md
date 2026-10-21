@@ -63,3 +63,13 @@ pnpm test:e2e:accessibility / :headed / :ui / :generate
 - Pre-commit (biome format+lint) is installed via `uv tool install pre-commit`; it excludes snapshots and `src/libs/data-access/`.
 - CI runs: lint -> format -> dead-code -> `next typegen` + `tsc` -> prod build -> vitest coverage -> sharded playwright -> SonarQube. Verify all before pushing.
 - Releases: `pnpm version patch|minor|major`, commit `Bump version x.x.x -> y.y.y`, merge PR to main. Docker build uses `output: 'standalone'` + distroless runner.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

@@ -15,6 +15,7 @@ import { FilterItem } from '@/types/filters';
 import { KlassCode } from '@/types/klass-codes';
 import { sortTypes } from '@/types/sort';
 import { scrollToFilterTags } from '@/utils/scrollToFilterTags';
+import styles from '../../service-page.module.css';
 import { tabsData } from '../../tabs';
 import { ResultsCount } from './components/ResultsCount';
 import { ResultsSection } from './components/ResultsSection';
@@ -133,6 +134,7 @@ const VariableDefinitionsServicePage = ({
       <SearchPage
         tabsId={tabsData.VariableDefinitions.id}
         header={localization.tabs.variableDefinitions}
+        asideClassName={styles.compactFilterSection}
         asideContent={
           <FiltersPanel heading={localization.search.filter.label}>
             <TextFilter

@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures/unauth.fixture';
 import { tabsData } from '@/app/(services)/tabs';
 import { localization } from '@/libs/language';
-import { stabilize } from './utils/commonUtils';
+import { expandFilterGroups, stabilize } from './utils/commonUtils';
 import { statuses } from './utils/variables';
 
 test.describe('unauthenticated variable definitions list', () => {
@@ -32,6 +32,7 @@ test.describe('Variable definitions URL state', () => {
 
   test('updates URL when selecting filter', async ({ page }) => {
     await page.goto('/variable-definitions');
+    await expandFilterGroups(page);
     await page.getByRole('checkbox', { name: /Utkast/ }).click();
     await expect(page).toHaveURL(/status=DRAFT/);
   });

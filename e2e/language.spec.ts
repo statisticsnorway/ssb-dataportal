@@ -2,7 +2,7 @@ import { expect, test } from '@bgotink/playwright-coverage';
 import { Browser } from '@playwright/test';
 import { languageCookieName } from '@/libs/language/src/localization';
 import { EN_LABEL, LANGUAGE_LABEL, NN_LABEL } from '@/components/language-picker/constants';
-import { stabilize } from './utils/commonUtils';
+import { expandFilterGroups, stabilize } from './utils/commonUtils';
 
 test.describe('language picker', () => {
   test.use({
@@ -124,6 +124,7 @@ test.describe('automatic locale mapping', () => {
     await nynorskOption.click();
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'nn');
+    await expandFilterGroups(page);
     await expect(main.getByRole('checkbox', { name: 'Skjerma' })).toBeVisible();
     await expect(main.getByRole('checkbox', { name: 'Open' })).toBeVisible();
     await expect(main.getByRole('checkbox', { name: 'Sensitiv' })).toBeVisible();
@@ -134,6 +135,7 @@ test.describe('automatic locale mapping', () => {
     await englishOption.click();
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await expandFilterGroups(page);
     await expect(main.getByRole('checkbox', { name: 'Protected' })).toBeVisible();
     await expect(main.getByRole('checkbox', { name: 'Open' })).toBeVisible();
     await expect(main.getByRole('checkbox', { name: 'Sensitive' })).toBeVisible();

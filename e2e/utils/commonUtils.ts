@@ -9,6 +9,18 @@ export async function checkCheckbox(checkboxLocator: Locator) {
   await expect(checkboxLocator).toBeChecked();
 }
 
+export async function expandFilterGroups(page: Page, expectedGroupCount = 3) {
+  const filterPanel = page.getByRole('complementary').first();
+  const filterGroups = filterPanel.locator('details > summary');
+  await expect(filterGroups).toHaveCount(expectedGroupCount);
+
+  const collapsedGroups = filterPanel.locator('details:not([open]) > summary');
+
+  while ((await collapsedGroups.count()) > 0) {
+    await collapsedGroups.first().click();
+  }
+}
+
 export async function stabilize(ms = 200) {
   await new Promise((r) => setTimeout(r, ms));
 }

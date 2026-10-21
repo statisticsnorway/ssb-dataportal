@@ -1,6 +1,6 @@
 import { localization } from '@/libs/language';
 import { expect, test } from './fixtures/variableDefinitions.fixture';
-import { checkCheckbox } from './utils/commonUtils';
+import { checkCheckbox, expandFilterGroups } from './utils/commonUtils';
 import { statuses, variables } from './utils/variables';
 
 test('Filter by subject field displays tags (listitem) and close button (x)', async ({ variableDefinitionsPage }) => {
@@ -274,6 +274,7 @@ test.describe('Variable definitions URL state', () => {
 
   test('hydrates UI from shared URL', async ({ variableDefinitionsPage }) => {
     await variableDefinitionsPage.goto('/variable-definitions?q=Baderom&subjects=be&sort=titleDesc');
+    await expandFilterGroups(variableDefinitionsPage);
     await expect(
       variableDefinitionsPage.getByRole('complementary', { name: 'Filters' }).getByRole('searchbox', {
         name: localization.search.textFilter.label,
@@ -287,6 +288,7 @@ test.describe('Variable definitions URL state', () => {
   test('keeps URL state after refresh', async ({ variableDefinitionsPage }) => {
     await variableDefinitionsPage.goto('/variable-definitions?q=Baderom&subjects=be&sort=titleDesc');
     await variableDefinitionsPage.reload();
+    await expandFilterGroups(variableDefinitionsPage);
     await expect(
       variableDefinitionsPage
         .getByRole('complementary', { name: 'Filters' })
@@ -301,6 +303,7 @@ test.describe('Variable definitions URL state', () => {
 
   test('hydrates shared URL with search, filters and sorting', async ({ variableDefinitionsPage }) => {
     await variableDefinitionsPage.goto('/variable-definitions?q=inntekt&subjects=al&status=DRAFT&sort=titleDesc');
+    await expandFilterGroups(variableDefinitionsPage);
     await expect(
       variableDefinitionsPage.getByRole('complementary', { name: 'Filters' }).getByRole('searchbox', {
         name: localization.search.textFilter.label,

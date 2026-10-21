@@ -9,6 +9,20 @@ const statisticalProduct = {
 };
 
 describe('CheckboxFilter', () => {
+  it('is flat and collapsed by default', () => {
+    const { container } = render(
+      <CheckboxFilter
+        filterHeading='Dataprodukttype'
+        filters={[statisticalProduct]}
+        selectedItems={[]}
+        onFilterChange={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByRole('button', { name: 'Dataprodukttype' })).toHaveAttribute('aria-expanded', 'false');
+    expect(container.querySelector('[class*="flatFilterCard"]')).toBeInTheDocument();
+  });
+
   it('shows nested content only while the parent checkbox is selected', () => {
     const onFilterChange = vi.fn();
     const { rerender } = render(
@@ -17,6 +31,7 @@ describe('CheckboxFilter', () => {
         filters={[statisticalProduct]}
         selectedItems={[]}
         onFilterChange={onFilterChange}
+        defaultOpen
         nestedContentByValue={{
           STATISTIC_PRODUCT: <div>Statistikkområder</div>,
         }}
@@ -33,6 +48,7 @@ describe('CheckboxFilter', () => {
         filters={[statisticalProduct]}
         selectedItems={[statisticalProduct]}
         onFilterChange={onFilterChange}
+        defaultOpen
         nestedContentByValue={{
           STATISTIC_PRODUCT: <div>Statistikkområder</div>,
         }}

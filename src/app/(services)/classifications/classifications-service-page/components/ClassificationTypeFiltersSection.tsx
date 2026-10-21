@@ -34,6 +34,7 @@ export const ClassificationTypeFiltersSection = ({ onFilterChange }: Classificat
       filters={filterItems}
       selectedItems={selectedItems}
       onFilterChange={onFilterChange}
+      defaultOpen
     />
   );
 };

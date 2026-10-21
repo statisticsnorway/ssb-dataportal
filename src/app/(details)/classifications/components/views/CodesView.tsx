@@ -263,6 +263,8 @@ export function CodesView({ version, classificationId, isVariantDownload }: Read
           filters={levelFilters}
           selectedItems={selectedLevelFilters}
           onFilterChange={handleLevelFilterChange}
+          variant='card'
+          defaultOpen
         />
       ) : null}
       <CodeTree

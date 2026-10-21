@@ -1,6 +1,6 @@
 import { localization } from '@/libs/language';
 import { test, expect } from '@bgotink/playwright-coverage';
-import { stabilize } from './utils/commonUtils';
+import { expandFilterGroups, stabilize } from './utils/commonUtils';
 
 test.describe('authenticated', () => {
   test.beforeEach(async ({}, testInfo) => {
@@ -21,6 +21,7 @@ test.describe('authenticated', () => {
   test('Data product datasets can be filtered by assessment', async ({ page }) => {
     await page.goto('/data-products/arbstatus');
     await stabilize();
+    await expandFilterGroups(page);
 
     const main = page.getByRole('main');
     const protectedFilter = main.getByRole('checkbox', { name: localization.products.assessment.protected });
@@ -47,6 +48,7 @@ test.describe('authenticated', () => {
   test('Data product datasets can be filtered by storage category', async ({ page }) => {
     await page.goto('/data-products/arbstatus');
     await stabilize();
+    await expandFilterGroups(page);
 
     await expect(page).toHaveURL(/\/data-products\/arbstatus/);
     await expect(page.getByRole('main')).toBeVisible();
@@ -84,6 +86,7 @@ test.describe('unauthenticated', () => {
   test('Filtered by storage category is not visible when unauthenticated', async ({ page }) => {
     await page.goto('/data-products/arbstatus');
     await stabilize();
+    await expandFilterGroups(page, 2);
 
     const main = page.getByRole('main');
 

@@ -17,6 +17,7 @@ import { KlassCode } from '@/types/klass-codes';
 import { SortTypes, sortTypes } from '@/types/sort';
 import { getLabelForClassificationType } from '@/utils/classifications/classificationHelpers';
 import { scrollToFilterTags } from '@/utils/scrollToFilterTags';
+import styles from '../../service-page.module.css';
 import { tabsData } from '../../tabs';
 import { ClassificationTypeFiltersSection } from './components/ClassificationTypeFiltersSection';
 import { ClassificationProvider } from './components/classificationContext';
@@ -158,6 +159,7 @@ const ClassificationsServicePage = ({
       <SearchPage
         tabsId={tabsData.Classifications.id}
         header={localization.tabs.classifications}
+        asideClassName={styles.compactFilterSection}
         asideContent={
           <FiltersPanel heading={localization.search.filter.filterAndSearch}>
             <Suspense fallback={null}>
