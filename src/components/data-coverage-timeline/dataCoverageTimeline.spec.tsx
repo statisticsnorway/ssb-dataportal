@@ -135,4 +135,28 @@ describe('DataCoverageTimeline', () => {
     expect(screen.getByText('2023')).toBeInTheDocument();
     expect(screen.getByText('2024')).toBeInTheDocument();
   });
+
+  it('renders timeline for collected datasets spanning across multiple years', () => {
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/eksamen_p1998_p2025_v2.parquet',
+        from: new Date('1998-01-01T00:00:00'),
+        until: new Date('2025-12-31T23:59:59'),
+        periodType: PeriodFormat.YEAR,
+      }),
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/eksamen_p1998_p2024_v0.parquet',
+        from: new Date('1998-01-01T00:00:00'),
+        until: new Date('2024-12-31T23:59:59'),
+        periodType: PeriodFormat.YEAR,
+      }),
+    ];
+
+    render(<DataCoverageTimeline {...buildTimelineData(data)} />);
+
+    expect(screen.getByRole('heading', { name: localization.datasetDetail.dataCoverageTimeline })).toBeInTheDocument();
+    expect(screen.getByText('1998')).toBeInTheDocument();
+    expect(screen.getByText('2024')).toBeInTheDocument();
+    expect(screen.getByText('2025')).toBeInTheDocument();
+  });
 });
