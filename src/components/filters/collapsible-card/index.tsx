@@ -62,11 +62,10 @@ export function CollapsibleCard({
           >
             {heading}
           </DetailsSummary>
-          <div
-            id={panelId}
-            className={`${styles.filterItems} ${isFlat ? styles.flatFilterItems : ''} ${contentClassName}`}
-          >
-            {children}
+          <div id={panelId} className={styles.filterContentTransition} inert={!isOpen}>
+            <div className={`${styles.filterItems} ${isFlat ? styles.flatFilterItems : ''} ${contentClassName}`}>
+              {children}
+            </div>
           </div>
         </Details>
       </Fieldset>

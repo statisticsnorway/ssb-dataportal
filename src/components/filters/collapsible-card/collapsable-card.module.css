@@ -13,6 +13,17 @@
   border: 0;
 }
 
+.filterContentTransition {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.details[open] > .filterContentTransition {
+  grid-template-rows: 1fr;
+}
+
 .toggleFilter {
   box-sizing: border-box;
   background-color: var(--ds-color-surface-tinted);
@@ -31,11 +42,22 @@
 }
 
 .filterItems {
-  padding-block: 0.5rem;
+  min-height: 0;
+  overflow: hidden;
+  padding-block: 0;
   padding-inline: 0;
+  transition: padding-block 0.3s ease;
 }
 
-.details > .filterItems {
+.filterContentTransition > .filterItems {
+  padding-block: 0;
+}
+
+.details[open] > .filterContentTransition > .filterItems {
+  padding-block: 0.5rem;
+}
+
+.details > .filterContentTransition > .filterItems {
   margin: 0;
 }
 
@@ -116,10 +138,21 @@
   background-color: white;
 }
 
-.details > .flatFilterItems {
-  margin-block: 0.5rem;
+.details > .filterContentTransition > .flatFilterItems {
+  margin-block: 0;
   margin-inline-start: var(--flat-filter-rail-inline-start);
-  padding-block-start: 0;
+  padding-block: 0;
   padding-inline-start: 0.75rem;
   border-inline-start: 2px solid var(--ds-color-neutral-border-subtle);
+}
+
+.details[open] > .filterContentTransition > .flatFilterItems {
+  padding-block: 0.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filterContentTransition,
+  .filterItems {
+    transition: none;
+  }
 }
