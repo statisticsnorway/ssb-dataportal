@@ -26,6 +26,11 @@
   text-align: inherit;
 }
 
+.toggleFilter::before {
+  align-self: center;
+  translate: none;
+}
+
 .toggleFilter:hover {
   background-color: var(--ds-color-surface-hover);
 }
@@ -77,6 +82,8 @@
 }
 
 .flatToggleFilter::before {
+  align-self: center;
+  translate: none;
   width: 1.75rem;
   height: 1.75rem;
   flex: 0 0 auto;
