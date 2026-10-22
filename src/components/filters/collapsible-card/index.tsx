@@ -47,7 +47,7 @@ export function CollapsibleCard({
 
   return (
     <Card className={`${styles.filterCard} ${isFlat ? styles.flatFilterCard : ''} ${cardClassName}`}>
-      <Fieldset className={styles.fieldset} aria-label={heading}>
+      <Fieldset className={styles.fieldset}>
         <FieldsetLegend className='ds-sr-only'>{heading}</FieldsetLegend>
         <Details
           className={`${styles.details} ${isFlat ? styles.flatDetails : ''}`}
