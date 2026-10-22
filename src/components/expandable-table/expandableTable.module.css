@@ -10,6 +10,11 @@
   flex-wrap: wrap;
 }
 
+.details > :where(summary, u-summary)::before {
+  align-self: center;
+  translate: none;
+}
+
 .table {
   margin: 0;
 }
