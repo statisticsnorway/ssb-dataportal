@@ -130,7 +130,6 @@ export const en = {
     selectCode: 'Select code',
     filterLabel: 'Filter by code or name',
     filterPlaceholder: 'Filter by code or name',
-    clearFilter: 'Clear filter',
     expandAll: 'Expand all',
     collapseAll: 'Collapse all',
     codeColumn: 'Code',
