@@ -17,7 +17,7 @@ const CodeSearch = ({ searchId, filterTerm, setFilterTerm }: CodeSearchProps) =>
           value={filterTerm}
           onChange={(event) => setFilterTerm(event.target.value)}
         />
-        <Search.Clear aria-label={localization.codeTree.clearFilter} onClick={() => setFilterTerm('')} />
+        <Search.Clear onClick={() => setFilterTerm('')} />
       </Search>
     </Field>
   );

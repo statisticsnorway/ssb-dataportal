@@ -104,7 +104,7 @@ describe('CorrespondenceTable', () => {
     expect(screen.getByText('01.479')).toBeInTheDocument();
     expect(screen.getByText('01.620')).toBeInTheDocument();
     expect(screen.queryByText('02.110')).not.toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: 'Fjern filter' }));
+    await user.click(screen.getByRole('button', { name: '' }));
     expect(screen.getByText('02.110')).toBeInTheDocument();
     expect(screen.getAllByText('01.490')).toHaveLength(2);
   });
