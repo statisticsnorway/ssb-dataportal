@@ -1,3 +1,5 @@
 export const scrollToFilterTags = () => {
-  document.getElementById('filter-tags-section')?.scrollIntoView?.({ behavior: 'instant', block: 'start' });
+  const filterTagsSection =
+    document.getElementById('filter-tags-section') ?? document.getElementById('filter-tags-sidebar-section');
+  filterTagsSection?.scrollIntoView?.({ behavior: 'instant', block: 'start' });
 };

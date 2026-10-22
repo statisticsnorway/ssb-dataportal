@@ -1,8 +1,8 @@
 'use client';
 
-import { Details, Heading, Paragraph, Tabs } from '@digdir/designsystemet-react';
+import { Details, Dropdown, Heading, Paragraph, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { localization } from '@/libs/language';
 import styles from './search-layout.module.css';
 import { tabBanners } from './tab-banners';
@@ -11,6 +11,7 @@ import { getTabForRoute, tabsData } from './tabs';
 export default function SearchLayout({ children }: Readonly<{ children: ReactNode }>) {
   const pathname = usePathname();
   const router = useRouter();
+  const [isSectionSwitcherOpen, setIsSectionSwitcherOpen] = useState(false);
 
   const activeTab = getTabForRoute(pathname) ?? tabsData.VariableDefinitions;
   const ActiveBanner = tabBanners[activeTab.id];
@@ -65,6 +66,39 @@ export default function SearchLayout({ children }: Readonly<{ children: ReactNod
           ))}
         </Tabs.List>
       </nav>
+      <div className={`${styles.mobileCategorySwitcher} container`}>
+        <div className={styles.categoryDetails}>
+          <span className={styles.currentCategory} aria-current='page'>
+            {activeTab.label}
+          </span>
+        </div>
+        <Dropdown.TriggerContext>
+          <Dropdown.Trigger>{localization.tabs.switchSection}</Dropdown.Trigger>
+          <Dropdown
+            placement='bottom-end'
+            open={isSectionSwitcherOpen}
+            onOpen={() => setIsSectionSwitcherOpen(true)}
+            onClose={() => setIsSectionSwitcherOpen(false)}
+          >
+            <Dropdown.List>
+              {Object.values(tabsData)
+                .filter((tab) => tab.id !== activeTab.id)
+                .map((tab) => (
+                  <Dropdown.Item key={tab.id}>
+                    <Dropdown.Button
+                      onClick={() => {
+                        setIsSectionSwitcherOpen(false);
+                        router.push(tab.route);
+                      }}
+                    >
+                      {tab.label}
+                    </Dropdown.Button>
+                  </Dropdown.Item>
+                ))}
+            </Dropdown.List>
+          </Dropdown>
+        </Dropdown.TriggerContext>
+      </div>
       {children}
     </Tabs>
   );

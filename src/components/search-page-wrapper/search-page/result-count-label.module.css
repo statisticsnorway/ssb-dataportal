@@ -1,0 +1,7 @@
+.mobileLabel {
+  display: inline;
+}
+
+.desktopLabel {
+  display: none;
+}

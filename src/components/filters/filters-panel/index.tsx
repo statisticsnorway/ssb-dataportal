@@ -5,6 +5,7 @@ import styles from './filters-panel.module.css';
 interface FiltersPanelProps {
   heading: string;
   children: ReactNode;
+  afterHeading?: ReactNode;
   visuallyHideHeading?: boolean;
 }
 
@@ -12,10 +13,11 @@ interface FiltersPanelProps {
  * FiltersPanel component renders its children inside a panel.
  *
  * @param heading - Heading used to label the filter panel.
- * @param children - React nodes to display inside the panel.
+ * @param afterHeading - Optional content shown directly below the heading and before filter controls.
+ * @param children - Filter controls displayed inside the panel.
  * @param visuallyHideHeading - Whether the heading should only be available to assistive technology.
  */
-const FiltersPanel = ({ heading, children, visuallyHideHeading = false }: FiltersPanelProps) => {
+const FiltersPanel = ({ heading, children, afterHeading, visuallyHideHeading = false }: FiltersPanelProps) => {
   return (
     <>
       <Heading
@@ -25,6 +27,7 @@ const FiltersPanel = ({ heading, children, visuallyHideHeading = false }: Filter
       >
         {heading}
       </Heading>
+      {afterHeading}
       {children}
     </>
   );

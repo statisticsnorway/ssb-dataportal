@@ -145,6 +145,18 @@ const ClassificationsServicePage = ({
     scrollToFilterTags();
   };
 
+  const infoContent = (
+    <Suspense fallback={null}>
+      <FilterTagsSection tags={filterTags} onRemoveTag={removeFilter} onClearAll={clearAll} />
+    </Suspense>
+  );
+
+  const sidebarInfoContent = (
+    <section id='filter-tags-sidebar-section' data-filter-tags-sidebar aria-label={localization.filterTag.sectionLabel}>
+      {infoContent}
+    </section>
+  );
+
   return (
     <ClassificationProvider
       classificationsPromise={classificationsPromise}
@@ -160,8 +172,12 @@ const ClassificationsServicePage = ({
         tabsId={tabsData.Classifications.id}
         header={localization.tabs.classifications}
         asideClassName={styles.compactFilterSection}
+        activeFilterCount={filterTags.length}
+        clearFilters={clearAll}
+        filterDialogTitle={localization.search.filter.filterAndSearch}
+        infoContentInAside
         asideContent={
-          <FiltersPanel heading={localization.search.filter.filterAndSearch}>
+          <FiltersPanel heading={localization.search.filter.filterAndSearch} afterHeading={sidebarInfoContent}>
             <Suspense fallback={null}>
               <KlassSearchSection
                 query={q}
@@ -184,11 +200,7 @@ const ClassificationsServicePage = ({
             <ResultsCount language={language} />
           </Suspense>
         }
-        infoContent={
-          <Suspense fallback={null}>
-            <FilterTagsSection tags={filterTags} onRemoveTag={removeFilter} onClearAll={clearAll} />
-          </Suspense>
-        }
+        infoContent={infoContent}
         controlsContent={
           <SortFields
             sortOptions={sortTypes}

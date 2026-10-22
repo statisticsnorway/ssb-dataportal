@@ -352,6 +352,10 @@ export const en = {
     dataProducts: 'Data products',
     variableDefinitions: 'Variable definitions',
   },
+  pagination: {
+    navigation: 'Page navigation',
+    page: 'Page',
+  },
   previous: 'Previous',
   products: {
     assessment: {
@@ -380,6 +384,7 @@ export const en = {
   },
   search: {
     hits: 'hits',
+    hitsCount: 'Number of results',
     label: 'Search',
     noHits: 'Your search returned no hits',
     variableDefinitions: 'Variable definition search hits',
@@ -395,6 +400,7 @@ export const en = {
       label: 'Filter',
       filterAndSearch: 'Filter and search',
       open: 'Open filter',
+      showResults: 'Show results',
     },
 
     sort: {
@@ -428,6 +434,7 @@ export const en = {
     ariaLabel: 'Catalog navigation',
     classifications: 'Classifications',
     dataProducts: 'Data products',
+    switchSection: 'Switch section',
     variableDefinitions: 'Variable definitions',
   },
 

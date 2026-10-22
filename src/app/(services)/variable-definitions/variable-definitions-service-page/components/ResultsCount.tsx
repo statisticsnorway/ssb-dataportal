@@ -1,5 +1,5 @@
+import { ResultCountLabel } from '@/components/search-page-wrapper/search-page/ResultCountLabel';
 import { useFilteredVariables } from '@/hooks/useFilteredVariables';
-import { localization } from '@/libs/language/src/localization';
 import { useVariableDefinitionsContext } from './variableDefinitionContext';
 
 /**
@@ -25,8 +25,5 @@ export const ResultsCount = () => {
 
   if (error) return null;
 
-  const totalHits = filteredVariables.length;
-  if (totalHits === 0) return localization.search.noHits;
-
-  return `${totalHits} ${localization.search.hits}`;
+  return <ResultCountLabel count={filteredVariables.length} />;
 };

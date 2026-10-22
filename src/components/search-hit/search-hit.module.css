@@ -23,6 +23,15 @@
   gap: var(--small-gap);
 }
 
+@media (max-width: 719px) {
+  .tagsList > * {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+}
+
 .hasNotValueInSelectedLanguage {
   display: flex;
   flex-direction: row-reverse;

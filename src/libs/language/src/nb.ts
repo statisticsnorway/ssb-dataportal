@@ -348,6 +348,10 @@ export const nb = {
     dataProducts: 'Dataprodukter',
     variableDefinitions: 'Variabeldefinisjoner',
   },
+  pagination: {
+    navigation: 'Sidenavigasjon',
+    page: 'Side',
+  },
   previous: 'Forrige',
   products: {
     assessment: {
@@ -376,6 +380,7 @@ export const nb = {
   },
   search: {
     hits: 'treff',
+    hitsCount: 'Antall treff',
     label: 'Søk',
     noHits: 'Ditt søk ga ingen treff',
     variableDefinitions: 'Søketreff variabeldefinisjoner',
@@ -390,6 +395,7 @@ export const nb = {
       label: 'Filter',
       filterAndSearch: 'Filter og søk',
       open: 'Åpne filter',
+      showResults: 'Vis resultater',
     },
     sort: {
       label: 'Sortering',
@@ -422,6 +428,7 @@ export const nb = {
     ariaLabel: 'Navigasjon kataloger',
     classifications: 'Klassifikasjoner',
     dataProducts: 'Dataprodukter',
+    switchSection: 'Bytt område',
     variableDefinitions: 'Variabeldefinisjoner',
   },
 

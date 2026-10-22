@@ -122,6 +122,31 @@ const VariableDefinitionsServicePage = ({
     });
   };
 
+  const infoContent = (
+    <Suspense fallback={null}>
+      <FilterTagsSection
+        tags={filterTags}
+        onRemoveTag={removeFilter}
+        onClearAll={clearAll}
+        searchTerm={q}
+        onClearSearch={() => {
+          setQueryState({
+            q: null,
+            page: 1,
+          }).then(() => {
+            scrollToFilterTags();
+          });
+        }}
+      />
+    </Suspense>
+  );
+
+  const sidebarInfoContent = (
+    <section id='filter-tags-sidebar-section' data-filter-tags-sidebar aria-label={localization.filterTag.sectionLabel}>
+      {infoContent}
+    </section>
+  );
+
   return (
     <VariableDefinitionsProvider
       variablesPromise={variablesPromise}
@@ -135,8 +160,12 @@ const VariableDefinitionsServicePage = ({
         tabsId={tabsData.VariableDefinitions.id}
         header={localization.tabs.variableDefinitions}
         asideClassName={styles.compactFilterSection}
+        activeFilterCount={filterTags.length + Number(q.trim().length > 0)}
+        clearFilters={clearAll}
+        filterDialogTitle={localization.search.filter.label}
+        infoContentInAside
         asideContent={
-          <FiltersPanel heading={localization.search.filter.label}>
+          <FiltersPanel heading={localization.search.filter.label} afterHeading={sidebarInfoContent}>
             <TextFilter
               label={localization.search.textFilter.label}
               searchTerm={q}
@@ -173,24 +202,7 @@ const VariableDefinitionsServicePage = ({
             <ResultsCount />
           </Suspense>
         }
-        infoContent={
-          <Suspense fallback={null}>
-            <FilterTagsSection
-              tags={filterTags}
-              onRemoveTag={removeFilter}
-              onClearAll={clearAll}
-              searchTerm={q}
-              onClearSearch={() => {
-                setQueryState({
-                  q: null,
-                  page: 1,
-                }).then(() => {
-                  scrollToFilterTags();
-                });
-              }}
-            />
-          </Suspense>
-        }
+        infoContent={infoContent}
         controlsContent={
           <SortFields
             sortOptions={sortTypes}

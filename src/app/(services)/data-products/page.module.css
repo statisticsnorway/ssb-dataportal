@@ -28,7 +28,7 @@ aside.dataProductsFilterSection {
   border-inline-start: 2px solid var(--ds-color-neutral-border-subtle);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 720px) {
   aside.dataProductsFilterSection {
     --filter-section-flex-basis: 340px;
     --filter-section-max-width: 340px;

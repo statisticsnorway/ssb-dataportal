@@ -5,6 +5,10 @@
   margin-bottom: var(--ds-size-4);
 }
 
+.tabsPanel {
+  padding-inline: 0;
+}
+
 .mainSection {
   flex: 1 1 0;
 }
@@ -34,8 +38,24 @@
   flex-wrap: wrap;
 }
 
+.mobileControls {
+  display: contents;
+}
+
+.sortControls {
+  display: block;
+}
+
+.mobileControls > * {
+  margin: 0;
+}
+
 .hitsSortGroup > * {
   margin: 0;
+}
+
+.mobileFilterButton {
+  display: none;
 }
 
 .filterSection {
@@ -51,11 +71,102 @@
   margin-top: 0;
 }
 
-@media (min-width: 768px) {
+.filterSection [data-filter-tags-sidebar]:has(> ul) {
+  margin-block-end: var(--small-gap);
+}
+
+.filterDialog {
+  box-sizing: border-box;
+  inset: auto 0 0;
+  width: 100vw;
+  max-width: none;
+  height: min(80dvh, 48rem);
+  max-height: 85dvh;
+  margin: 0 auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+}
+
+.filterDialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.filterDialogContent {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.filterDialogHeader {
+  flex: 0 0 auto;
+  padding: 1rem;
+}
+
+.filterDialogHeader h2 {
+  margin: 0;
+}
+
+.filterDialogBody {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1rem 0;
+}
+
+.filterDialogFilters > h2:first-child {
+  display: none;
+}
+
+.filterDialogFilters [data-filter-tags-sidebar] {
+  display: none;
+}
+
+.filterDialogFooter {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--ds-color-neutral-border-subtle);
+  background-color: var(--ds-color-surface-default);
+}
+
+.filterDialogActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-inline-start: auto;
+}
+
+@media (min-width: 720px) {
   .hitsAndSort {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .hitsSortGroup,
+  .mobileControls {
+    display: contents;
+  }
+
+  .infoSection {
+    order: 0;
+  }
+
+  .numHits {
+    order: 0;
+    margin-inline-start: 0;
+    font-size: 1.125rem;
+  }
+
+  .sortControls {
+    order: 1;
   }
 
   .searchHitsContainerWrapper {
@@ -75,5 +186,61 @@
   .mainSection {
     flex: 6 6 auto;
     min-width: 0;
+  }
+}
+
+@media (max-width: 719px) {
+  .tabsPanel {
+    padding: 0;
+  }
+
+  .filterSection {
+    display: none;
+  }
+
+  .hitsAndSort {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 0;
+  }
+
+  .hitsSortGroup {
+    display: contents;
+  }
+
+  .mobileControls {
+    --mobile-controls-padding: var(--small-gap);
+    --mobile-control-radius: calc(var(--border-radius-lg) - var(--mobile-controls-padding));
+
+    grid-row: 1;
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--mobile-controls-padding);
+    border-radius: var(--border-radius-lg);
+    background-color: var(--ds-color-surface-default);
+  }
+
+  .mobileControls .sortControls,
+  .mobileControls .sortControls section,
+  .mobileControls .sortControls select {
+    width: 100%;
+  }
+
+  .mobileControls .sortControls select,
+  .mobileControls .mobileFilterButton {
+    border-radius: var(--mobile-control-radius);
+  }
+
+  .numHits {
+    grid-row: 2;
+  }
+
+  .mobileFilterButton {
+    display: flex;
+    width: 100%;
   }
 }

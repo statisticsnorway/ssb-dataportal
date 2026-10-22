@@ -1,5 +1,6 @@
 import { use, useMemo } from 'react';
-import { localization, SupportedLanguage } from '@/libs/language';
+import { ResultCountLabel } from '@/components/search-page-wrapper/search-page/ResultCountLabel';
+import { SupportedLanguage } from '@/libs/language';
 import {
   filterAndSortClassifications,
   mapSearchResultsToClassifications,
@@ -55,6 +56,5 @@ export const ResultsCount = ({ language }: Readonly<ResultsCountProps>) => {
     [baseClassifications, selectedSubjectCodes, sortOption, selectedClassificationTypes],
   );
 
-  if (totalHits === 0) return localization.search.noHits;
-  return `${totalHits} ${localization.search.hits}`;
+  return <ResultCountLabel count={totalHits} />;
 };

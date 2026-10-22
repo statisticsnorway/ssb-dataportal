@@ -44,6 +44,17 @@ describe('services layout', () => {
     );
   });
 
+  it('shows the active discovery category and links to the other categories on mobile', () => {
+    mocks.pathname = '/data-products';
+    renderLayout();
+
+    expect(screen.getByText(localization.tabs.dataProducts, { selector: 'span' })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
+    expect(screen.getByRole('button', { name: localization.tabs.switchSection })).toBeInTheDocument();
+  });
+
   it.each([
     ['/variable-definitions', localization.migrationVariableDefinitions.header],
     ['/data-products', localization.info.datasetPrototypeIntro],

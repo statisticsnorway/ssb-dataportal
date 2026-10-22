@@ -240,6 +240,25 @@ export const DataProductsServicePage = ({
     scrollToFilterTags();
   };
 
+  const infoContent = (
+    <FilterTagsSection
+      tags={filterTags}
+      onRemoveTag={removeFilter}
+      onClearAll={clearAll}
+      searchTerm={textFilterValue}
+      onClearSearch={() => {
+        updateQuery({ q: null });
+        scrollToFilterTags();
+      }}
+    />
+  );
+
+  const sidebarInfoContent = (
+    <section id='filter-tags-sidebar-section' data-filter-tags-sidebar aria-label={localization.filterTag.sectionLabel}>
+      {infoContent}
+    </section>
+  );
+
   return (
     <DataProductsProvider
       dataProducts={visibleDataProducts}
@@ -251,19 +270,12 @@ export const DataProductsServicePage = ({
         tabsId={tabsData.DataProducts.id}
         header={localization.tabs.dataProducts}
         asideClassName={styles.dataProductsFilterSection}
+        activeFilterCount={filterTags.length + Number(textFilterValue.trim().length > 0)}
+        clearFilters={clearAll}
+        filterDialogTitle={localization.search.filter.label}
+        infoContentInAside
         totalHits={filteredDataProducts.length}
-        infoContent={
-          <FilterTagsSection
-            tags={filterTags}
-            onRemoveTag={removeFilter}
-            onClearAll={clearAll}
-            searchTerm={textFilterValue}
-            onClearSearch={() => {
-              updateQuery({ q: null });
-              scrollToFilterTags();
-            }}
-          />
-        }
+        infoContent={infoContent}
         controlsContent={
           <SortFields
             sortOptions={['titleAsc', 'titleDesc']}
@@ -275,7 +287,7 @@ export const DataProductsServicePage = ({
           />
         }
         asideContent={
-          <FiltersPanel heading={localization.search.filter.label}>
+          <FiltersPanel heading={localization.search.filter.label} afterHeading={sidebarInfoContent}>
             <TextFilter
               label={localization.search.textFilter.label}
               searchTerm={textFilterValue}
