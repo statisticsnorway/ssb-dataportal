@@ -126,7 +126,6 @@ export const nb = {
     selectCode: 'Velg kode',
     filterLabel: 'Filtrer på kode eller navn',
     filterPlaceholder: 'Filtrer på kode eller navn',
-    clearFilter: 'Fjern filter',
     expandAll: 'Åpne alle',
     collapseAll: 'Lukk alle',
     codeColumn: 'Kode',
