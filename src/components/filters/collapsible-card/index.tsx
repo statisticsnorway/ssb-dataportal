@@ -1,4 +1,4 @@
-import { Card, Details, DetailsSummary, Fieldset } from '@digdir/designsystemet-react';
+import { Card, Details, DetailsSummary, Fieldset, FieldsetLegend } from '@digdir/designsystemet-react';
 import type { ReactNode } from 'react';
 import { useState } from 'react';
 import { sanitizeId } from '@/utils/functions';
@@ -47,7 +47,8 @@ export function CollapsibleCard({
 
   return (
     <Card className={`${styles.filterCard} ${isFlat ? styles.flatFilterCard : ''} ${cardClassName}`}>
-      <Fieldset className={styles.fieldset} aria-label={heading}>
+      <Fieldset className={styles.fieldset}>
+        <FieldsetLegend className='ds-sr-only'>{heading}</FieldsetLegend>
         <Details
           className={`${styles.details} ${isFlat ? styles.flatDetails : ''}`}
           defaultOpen={defaultOpen}
