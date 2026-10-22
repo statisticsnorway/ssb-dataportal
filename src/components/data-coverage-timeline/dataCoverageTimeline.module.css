@@ -158,8 +158,11 @@
 }
 
 .popoverList {
-  margin: 0.25rem 0 0;
-  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--small-gap);
+  margin: 0.5rem 0 0;
+  padding: 0.125rem;
   max-height: min(40vh, 16rem);
   overflow: auto;
 }

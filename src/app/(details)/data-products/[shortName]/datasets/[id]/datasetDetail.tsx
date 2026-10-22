@@ -129,7 +129,7 @@ export default function DatasetDetail({
             >
               {localization.datasetDetail.dataFiles}
             </Heading>
-            <div>
+            <div className={styles.dataFilesList}>
               {dataFiles
                 .toSorted((a, b) =>
                   sortDateStringsDescending(
