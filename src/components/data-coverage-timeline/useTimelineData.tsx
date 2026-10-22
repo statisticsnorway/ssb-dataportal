@@ -68,7 +68,7 @@ const parseItems = (data: DaplaDataFileDTO[]): TimelineItem[] =>
         },
       ];
     })
-    .sort((a, b) => a.start.localeCompare(b.start));
+    .sort((a, b) => a.start.localeCompare(b.start) || a.end.localeCompare(b.end));
 
 /**
  * Keeps only the newest file version for identical period ranges.
@@ -88,7 +88,7 @@ const keepNewestVersionPerPeriod = (items: TimelineItem[]): TimelineItem[] => {
     }
   }
 
-  return [...latestByPeriod.values()].sort((a, b) => a.start.localeCompare(b.start));
+  return [...latestByPeriod.values()].sort((a, b) => a.start.localeCompare(b.start) || a.end.localeCompare(b.end));
 };
 
 /**
@@ -102,12 +102,27 @@ const keepNewestVersionPerPeriod = (items: TimelineItem[]): TimelineItem[] => {
 const hasMixedPeriodTypes = (items: TimelineItem[]): boolean => new Set(items.map((d) => d.periodType)).size !== 1;
 
 /**
- * Returns `true` if any item's start date is strictly before the previous item's end date.
+ * Returns `true` if all items share the exact same start date, representing a
+ * "collected" dataset where each file includes the entire time series up to that date.
  *
  * @param items - Parsed and sorted timeline items.
  */
-const hasOverlappingPeriods = (items: TimelineItem[]): boolean =>
-  items.some((item, i) => i > 0 && item.start < items[i - 1]!.end);
+const isCollectedDataset = (items: TimelineItem[]): boolean =>
+  items.length > 0 && items.every((item) => item.start === items[0]!.start);
+
+/**
+ * Returns `true` if any item's start date is strictly before the previous item's end date.
+ * Collected datasets (where all files share the same start date and contain the full
+ * cumulative time series) are exempt from this check.
+ *
+ * @param items - Parsed and sorted timeline items.
+ */
+const hasOverlappingPeriods = (items: TimelineItem[]): boolean => {
+  if (isCollectedDataset(items)) {
+    return false;
+  }
+  return items.some((item, i) => i > 0 && item.start < items[i - 1]!.end);
+};
 
 const hasSupportedPeriodType = (periodType: PeriodFormat): boolean => generateYearSlots(2000, periodType).length > 0;
 
@@ -132,8 +147,8 @@ const buildYearSlots = (
   items: TimelineItem[],
   periodType: PeriodFormat,
 ): { years: number[]; slots: Record<number, Slot[]> } => {
-  const minYear = Number(items.at(0)!.start.slice(0, 4));
-  const maxYear = Number(items.at(-1)!.end.slice(0, 4));
+  const minYear = Math.min(...items.map((item) => Number(item.start.slice(0, 4))));
+  const maxYear = Math.max(...items.map((item) => Number(item.end.slice(0, 4))));
   const years = Array.from({ length: maxYear - minYear + 1 }, (_, i) => minYear + i);
   const slots = Object.fromEntries(years.map((year) => [year, generateYearSlots(year, periodType)]));
   return { years, slots };
@@ -156,7 +171,7 @@ export interface TimelineData {
  * - `data` is empty or all entries fail to parse
  * - duplicate period ranges are reduced to newest API `data_file_version`
  * - items have mixed `period_type` values (the slot grid would be ambiguous)
- * - any two items have overlapping date ranges
+ * - any two items have overlapping date ranges (unless it is a collected dataset where all files share the same start date)
  * - `period_type` has no supported slot definition
  *
  * All derived values are memoised on `data` reference equality so the component only

@@ -19,6 +19,12 @@
   padding: 2rem;
 }
 
+.dataFilesList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--medium-gap);
+}
+
 .violationBadge {
   flex-shrink: 0;
   background: transparent;

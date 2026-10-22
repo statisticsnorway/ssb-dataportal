@@ -156,6 +156,38 @@ describe('useTimelineData', () => {
     expect(result.current.isValid).toBe(false);
   });
 
+  it('supports collected datasets where the entire time series is included in each file', () => {
+    const data = [
+      buildDataFile({
+        filePath:
+          'gs://ssb-utd-nudb-data-delt-utdanning-prod/nudb-data/klargjorte-data/eksamen/eksamen_p1998_p2025_v2.parquet',
+        version: 2,
+        from: new Date('1998-01-01T00:00:00'),
+        until: new Date('2025-12-31T23:59:59'),
+        periodType: PeriodFormat.YEAR,
+      }),
+      buildDataFile({
+        filePath:
+          'gs://ssb-utd-nudb-data-delt-utdanning-prod/nudb-data/klargjorte-data/eksamen/eksamen_p1998_p2024_v0.parquet',
+        version: 0,
+        from: new Date('1998-01-01T00:00:00'),
+        until: new Date('2024-12-31T23:59:59'),
+        periodType: PeriodFormat.YEAR,
+      }),
+    ];
+
+    const { result } = renderHook(() => useTimelineData(data));
+
+    expect(result.current.isValid).toBe(true);
+    expect(result.current.periodType).toBe(PeriodFormat.YEAR);
+    expect(result.current.items).toHaveLength(2);
+    expect(result.current.years[0]).toBe(1998);
+    expect(result.current.years.at(-1)).toBe(2025);
+    expect(result.current.years).toHaveLength(28);
+    expect(result.current.slots[1998]).toHaveLength(1);
+    expect(result.current.slots[2025]).toHaveLength(1);
+  });
+
   it('returns empty state for unsupported period type', () => {
     const data = [
       buildDataFile({
