@@ -26,11 +26,7 @@ import type { NamingViolationsRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: keycloak-token
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new ReportsApi(config);
+  const api = new ReportsApi();
 
   const body = {
     // boolean (optional)
@@ -68,7 +64,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[keycloak-token](../README.md#keycloak-token)
+No authorization required
 
 ### HTTP request headers
 
@@ -101,11 +97,7 @@ import type { RejectedDataFilesRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: keycloak-token
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new ReportsApi(config);
+  const api = new ReportsApi();
 
   const body = {
     // boolean (optional)
@@ -143,7 +135,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[keycloak-token](../README.md#keycloak-token)
+No authorization required
 
 ### HTTP request headers
 

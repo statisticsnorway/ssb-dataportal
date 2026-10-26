@@ -25,11 +25,7 @@ import type { RegisterTaskRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: metamapper-datadoc-m2m
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new TaskRegistrationApi(config);
+  const api = new TaskRegistrationApi();
 
   const body = {
     // string
@@ -64,7 +60,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[metamapper-datadoc-m2m](../README.md#metamapper-datadoc-m2m)
+No authorization required
 
 ### HTTP request headers
 

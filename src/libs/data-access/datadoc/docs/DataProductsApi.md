@@ -26,11 +26,7 @@ import type { GetDataProductByShortNameRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: keycloak-token
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new DataProductsApi(config);
+  const api = new DataProductsApi();
 
   const body = {
     // string
@@ -62,7 +58,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[keycloak-token](../README.md#keycloak-token)
+No authorization required
 
 ### HTTP request headers
 
@@ -96,11 +92,7 @@ import type { ListDataProductsRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: keycloak-token
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new DataProductsApi(config);
+  const api = new DataProductsApi();
 
   const body = {
     // DataProductType (optional)
@@ -132,7 +124,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[keycloak-token](../README.md#keycloak-token)
+No authorization required
 
 ### HTTP request headers
 

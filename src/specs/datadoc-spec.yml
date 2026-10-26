@@ -1,29 +1,7 @@
 openapi: 3.0.1
 info:
-  title: Internal Datadoc API
-  description: |
-    Service to maintain and expose metadata for data in Statistics Norway. Includes the following concepts:
-
-    - Data File: A logically defined blob of data from a file system or object storage.
-    - Dataset: A collection of related Data Files which together represent a coherent dataset. These are typically partitioned by time periods.
-    - Data Product: A collection of related Data Files that are produced and maintained by a Dapla team. All data which does not directly contribute to publication of a statistic on ssb.no is defined as a Data Product.
-    - Statistic Product: A collection of related Data Files that are produced and maintained by a Dapla team, and directly contribute to publication of a statistic on ssb.no. The list of all statistic products is defined by the Statistic Register.
-  contact:
-    name: Team Metadata
-    email: metadata@ssb.no
-  license:
-    name: CC BY 4.0
-    url: https://creativecommons.org/licenses/by/4.0/deed.no
-  version: "0.1"
-security:
-- keycloak-token: []
-tags:
-- name: Data Files
-  description: Maintain and retrieve metadata about Data Files.
-- name: Datasets
-  description: Retrieve metadata about Datasets.
-- name: Data Products
-  description: Retrieve metadata about Data Products.
+  title: Service
+  version: 1.0.0
 paths:
   /data-files:
     get:
@@ -129,7 +107,6 @@ paths:
                     detail: Job 01JD8XQ2 is no longer the active job for task SHARED:PROD:ssb-dapla-example-data-produkt-prod.
                       The active job is 01JD9ZR7.
       security:
-      - keycloak-token: []
       - metamapper-datadoc-m2m: []
   /data-files/{file-path}:
     get:
@@ -170,6 +147,92 @@ paths:
                     status: 404
                     detail: Not found
                     parameters: {}
+  /data-files/{file-path}/variables:
+    post:
+      tags:
+      - Data Files
+      operationId: registerDataFileVariables
+      parameters:
+      - name: file-path
+        in: path
+        required: true
+        schema:
+          type: string
+        content:
+          application/json:
+            examples:
+              example:
+                value: gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person-data_p2021_p2022_v2.parquet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateDataFileVariables"
+            examples:
+              variables:
+                value:
+                  variables:
+                  - name: person_id
+                    repetition_type: REQUIRED
+                    physical_type: INT64
+                  - name: tags
+                    repetition_type: OPTIONAL
+                    logical_type:
+                      type: LIST
+                    children:
+                    - name: list
+                      repetition_type: REPEATED
+                      children:
+                      - name: element
+                        repetition_type: OPTIONAL
+                        physical_type: BYTE_ARRAY
+                        logical_type:
+                          type: STRING
+        required: true
+      responses:
+        "200":
+          description: The data file exists and the variables passed validation and
+            were persisted.
+        "500":
+          description: An unexpected server error occurred.
+        "400":
+          description: Bad request.
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Bad request:
+                  value:
+                    type: about:blank
+                    status: 400
+                    detail: "Failed to convert argument [example] for value [null]\
+                      \ due to: Error deserializing type: example"
+                Constraint violation:
+                  value:
+                    suppressed: []
+                    parameters: {}
+                    type: https://zalando.github.io/problem/constraint-violation
+                    title: Constraint Violation
+                    status: 400
+                    violations:
+                    - field: classificationReference
+                      message: Code incorrect is not a valid classification id
+        "404":
+          description: Not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Not found:
+                  value:
+                    type: about:blank
+                    status: 404
+                    detail: Not found
+                    parameters: {}
+      security:
+      - metamapper-datadoc-m2m: []
   /data-products:
     get:
       tags:
@@ -348,6 +411,78 @@ paths:
                     parameters: {}
       security:
       - keycloak-token: []
+  /datasets/{id}/variables:
+    get:
+      tags:
+      - Datasets
+      operationId: listDatasetVariables
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: page
+        in: query
+        explode: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: page-size
+        in: query
+        explode: false
+        schema:
+          type: integer
+          format: int32
+          default: 100
+      responses:
+        "200":
+          description: List the variables belonging to a dataset.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DatasetVariablePageResponse"
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/DatasetVariablePageResponse"
+        "400":
+          description: Bad request.
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Bad request:
+                  value:
+                    type: about:blank
+                    status: 400
+                    detail: "Failed to convert argument [example] for value [null]\
+                      \ due to: Error deserializing type: example"
+                Constraint violation:
+                  value:
+                    suppressed: []
+                    parameters: {}
+                    type: https://zalando.github.io/problem/constraint-violation
+                    title: Constraint Violation
+                    status: 400
+                    violations:
+                    - field: classificationReference
+                      message: Code incorrect is not a valid classification id
+        "404":
+          description: Not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Not found:
+                  value:
+                    type: about:blank
+                    status: 404
+                    detail: Not found
+                    parameters: {}
   /reports/naming-violations:
     get:
       tags:
@@ -559,6 +694,18 @@ components:
         ] is the active job for \\[taskId\\], as set by task registration, and the\
         \ file is recorded as claimed by that task in that run. Omit both to write\
         \ without task tracking."
+    CreateDataFileVariables:
+      required:
+      - variables
+      type: object
+      properties:
+        variables:
+          minItems: 1
+          type: array
+          items:
+            $ref: "#/components/schemas/VariableNode"
+      description: "Variables received for an existing data file: the top-level nodes\
+        \ of its Parquet schema."
     DaplaDataFileDTO:
       required:
       - file_name
@@ -809,6 +956,48 @@ components:
       - PROCESSED_DATA
       - STATISTICS
       - OUTPUT_DATA
+    DatasetVariableDTO:
+      required:
+      - id
+      - short_name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        short_name:
+          type: string
+        physical_type_name:
+          type: string
+          nullable: true
+        logical_type_name:
+          type: string
+          nullable: true
+    DatasetVariablePageResponse:
+      required:
+      - has_next
+      - page
+      - page_size
+      - total_variables
+      - variables
+      type: object
+      properties:
+        variables:
+          type: array
+          items:
+            $ref: "#/components/schemas/DatasetVariableDTO"
+        total_variables:
+          type: integer
+          format: int64
+        page:
+          type: integer
+          format: int32
+        page_size:
+          type: integer
+          format: int32
+        has_next:
+          type: boolean
+      description: A page of variables belonging to a dataset.
     FileType:
       type: string
       description: Represents the physical file format of a dataset file.
@@ -820,6 +1009,67 @@ components:
       - JSON
       - XML
       - XLSX
+    LogicalType:
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          $ref: "#/components/schemas/LogicalTypeKind"
+        precision:
+          type: integer
+          description: DECIMAL.
+          format: int32
+          nullable: true
+        scale:
+          type: integer
+          description: DECIMAL.
+          format: int32
+          nullable: true
+        bit_width:
+          type: integer
+          description: INTEGER.
+          format: int32
+          nullable: true
+        signed:
+          type: boolean
+          description: INTEGER.
+          nullable: true
+        adjusted_to_utc:
+          type: boolean
+          description: TIME and TIMESTAMP.
+          nullable: true
+        unit:
+          description: TIME and TIMESTAMP.
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/TimeUnit"
+      description: "A logical type annotation, with the parameters belonging to its\
+        \ \\[type\\] if it has any."
+    LogicalTypeKind:
+      type: string
+      description: "The logical types accepted by the API, which are those Hardwood\
+        \ reports. They are named as in Parquet's \\`parquet.thrift\\`, so Hardwood's\
+        \ \\`NullType\\` is \\`UNKNOWN\\` and its \\`IntType\\` is \\`INTEGER\\`."
+      enum:
+      - STRING
+      - ENUM
+      - JSON
+      - BSON
+      - UUID
+      - DATE
+      - DECIMAL
+      - INTEGER
+      - TIME
+      - TIMESTAMP
+      - FLOAT16
+      - LIST
+      - MAP
+      - UNKNOWN
+      - VARIANT
+      - GEOMETRY
+      - GEOGRAPHY
+      - INTERVAL
     NamingViolation:
       required:
       - path
@@ -882,6 +1132,29 @@ components:
       - QUARTER
       - TRIANNUAL
       - HALF_YEAR
+    PhysicalType:
+      type: string
+      description: "The physical types accepted by the API. These are the Parquet\
+        \ physical types, which are the actual types of the data stored in the file."
+      enum:
+      - BOOLEAN
+      - INT32
+      - INT64
+      - INT96
+      - FLOAT
+      - DOUBLE
+      - BYTE_ARRAY
+      - FIXED_LEN_BYTE_ARRAY
+    RepetitionType:
+      type: string
+      enum:
+      - REQUIRED
+      - OPTIONAL
+      - REPEATED
+      x-enum-descriptions:
+      - This field is required (can not be null) and each row has exactly 1 value.
+      - The field is optional (can be null) and each row has 0 or 1 values.
+      - The field is repeated and can contain 0 or more values
     StorageCategory:
       type: string
       description: Describes the kind of Dapla bucket a data file is stored in.
@@ -920,15 +1193,43 @@ components:
       description: "Register a command for a task. \\[jobId\\] is opaque to us: we\
         \ only ever compare it for equality against the job id supplied with subsequent\
         \ data file writes."
-  securitySchemes:
-    keycloak-token:
-      type: http
-      description: A token granted by Statistics Norway's Keycloak instance.
-      scheme: bearer
-      bearerFormat: JWT
-    metamapper-datadoc-m2m:
-      type: http
-      description: A token granted by Statistics Norway's Keycloak instance. Only
-        for use by Metamapper.
-      scheme: bearer
-      bearerFormat: JWT
+    TimeUnit:
+      type: string
+      enum:
+      - MILLIS
+      - MICROS
+      - NANOS
+    VariableNode:
+      required:
+      - name
+      - repetition_type
+      type: object
+      properties:
+        name:
+          maxLength: 255
+          minLength: 1
+          type: string
+        repetition_type:
+          $ref: "#/components/schemas/RepetitionType"
+        physical_type:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/PhysicalType"
+        logical_type:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/LogicalType"
+        children:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/VariableNode"
+      description: "An API-owned representation of a node in the Parquet schema of\
+        \ a data file. It mirrors only the fields of Hardwood's \\`SchemaNode\\` that\
+        \ this API is interested in, rather than exposing the full Hardwood model.\
+        \ The \\[name\\] of a top-level node is the short name of the variable. A\
+        \ node with a \\[physicalType\\] is a PrimitiveNode where each row of the\
+        \ column holds a single data value. A node with \\[children\\] is a GroupNode\
+        \ where each row of the column can hold multiple data values. These may be\
+        \ a struct, a list or a map when its \\[logicalType\\] is \\`{\"type\": \"\
+        LIST\"}\\` or \\`{\"type\": \"MAP\"}\\`."

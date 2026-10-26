@@ -6,6 +6,7 @@ All URIs are relative to *http://localhost*
 |------------- | ------------- | -------------|
 | [**deleteDatasetById**](DatasetsApi.md#deletedatasetbyid) | **DELETE** /datasets/{id} | Delete a dataset. |
 | [**getDatasetById**](DatasetsApi.md#getdatasetbyid) | **GET** /datasets/{id} |  |
+| [**listDatasetVariables**](DatasetsApi.md#listdatasetvariables) | **GET** /datasets/{id}/variables |  |
 | [**listDatasets**](DatasetsApi.md#listdatasets) | **GET** /datasets |  |
 
 
@@ -29,11 +30,7 @@ import type { DeleteDatasetByIdRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: keycloak-token
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new DatasetsApi(config);
+  const api = new DatasetsApi();
 
   const body = {
     // string
@@ -65,7 +62,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[keycloak-token](../README.md#keycloak-token)
+No authorization required
 
 ### HTTP request headers
 
@@ -99,11 +96,7 @@ import type { GetDatasetByIdRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: keycloak-token
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new DatasetsApi(config);
+  const api = new DatasetsApi();
 
   const body = {
     // string
@@ -135,7 +128,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[keycloak-token](../README.md#keycloak-token)
+No authorization required
 
 ### HTTP request headers
 
@@ -147,6 +140,79 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Get a Dataset by ID. |  -  |
+| **404** | Not found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## listDatasetVariables
+
+> DatasetVariablePageResponse listDatasetVariables(id, page, pageSize)
+
+
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DatasetsApi,
+} from '';
+import type { ListDatasetVariablesRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const api = new DatasetsApi();
+
+  const body = {
+    // string
+    id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // number (optional)
+    page: 56,
+    // number (optional)
+    pageSize: 56,
+  } satisfies ListDatasetVariablesRequest;
+
+  try {
+    const data = await api.listDatasetVariables(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | `string` |  | [Defaults to `undefined`] |
+| **page** | `number` |  | [Optional] [Defaults to `0`] |
+| **pageSize** | `number` |  | [Optional] [Defaults to `100`] |
+
+### Return type
+
+[**DatasetVariablePageResponse**](DatasetVariablePageResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`, `application/problem+json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | List the variables belonging to a dataset. |  -  |
+| **400** | Bad request. |  -  |
 | **404** | Not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
@@ -169,11 +235,7 @@ import type { ListDatasetsRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: keycloak-token
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new DatasetsApi(config);
+  const api = new DatasetsApi();
 
   const body = {
     // string (optional)
@@ -217,7 +279,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[keycloak-token](../README.md#keycloak-token)
+No authorization required
 
 ### HTTP request headers
 
