@@ -10,7 +10,7 @@ import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { DetailsList } from '@/components/details-list';
 import { ExternalLink } from '@/components/link-components/externalLink';
 import { CopyTag } from '@/components/tag-components/copy-tag';
-import { DaplaDataFileDTO, DatasetDTO } from '@/libs/data-access/datadoc';
+import { DaplaDataFileDTO, DatasetDTO, DatasetVariableDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
 import { Visibility } from '@/types/item';
 import { getDaplaCtrlUrl } from '@/utils/config';
@@ -21,10 +21,12 @@ import styles from './dataset-page.module.css';
 
 export default function DatasetDetail({
   dataset,
+  variables,
   dataFilesShared,
   dataFilesProduct,
 }: Readonly<{
   dataset: DatasetDTO;
+  variables: Array<DatasetVariableDTO>;
   dataFilesShared: Array<DaplaDataFileDTO>;
   dataFilesProduct: Array<DaplaDataFileDTO>;
 }>) {
@@ -142,6 +144,28 @@ export default function DatasetDetail({
                 ))}
             </div>
           </Card>
+        )}
+        {isAuthenticated && (
+          <>
+            <Heading
+              level={2}
+              className={`${styles.detailsHeading} secondaryHeading`}
+              data-size='md'
+              id='tableHeading-variables'
+            >
+              Variabler
+            </Heading>
+
+            {variables.length > 0 &&
+              variables.map((variable) => (
+                <Card key={variable.id}>
+                  <Heading data-size='md' className='secondaryHeading' level={2}>
+                    {variable.short_name}
+                  </Heading>
+                  Datatype: {variable.physical_type_name}
+                </Card>
+              ))}
+          </>
         )}
       </main>
     </div>

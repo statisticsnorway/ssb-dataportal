@@ -18,6 +18,7 @@ import {
   DatasetDTOFromJSON,
   DatasetsApi,
   DatasetsApiInterface,
+  DatasetVariableDTO,
   ResponseError,
   StorageCategory,
 } from '@/libs/data-access/datadoc';
@@ -271,3 +272,24 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
     logAndThrowFetchError(logger, error);
   }
 }
+
+export async function listVariablesByDataset(
+  datasetId: string,
+): Promise<DatasetVariableDTO[]> { 
+  const logger = createLoggerWithBindings({ module: 'datasets', fn: 'listVariablesByDataset', datasetId });
+  /*if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
+    logger.warn({ fn: 'listVariablesByDataset' }, 'Using static mock data for variables');
+    const dataset = staticDatasets.find((dataset) => dataset.id === datasetId);
+    if (!dataset) throw new ResponseError(new Response(null, { status: 404 }));
+    return dataset.variables || [];
+  }*/
+  try {
+    const api = await getClientForApi(DatasetsApi);
+    const response = await api.listDatasetVariables({ id: datasetId });
+    logger.info({datasetId}, 'Fetched Variables for dataset');
+    return response.variables;
+  } catch (error: unknown) {
+    logAndThrowFetchError(logger, error);
+  }
+}
+
