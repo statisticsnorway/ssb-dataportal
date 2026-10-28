@@ -44,15 +44,13 @@ describe('services layout', () => {
     );
   });
 
-  it('shows the active discovery category and links to the other categories on mobile', () => {
+  it('keeps the active discovery category selected in the tab list', () => {
     mocks.pathname = '/data-products';
     renderLayout();
 
-    expect(screen.getByText(localization.tabs.dataProducts, { selector: 'span' })).toHaveAttribute(
-      'aria-current',
-      'page',
-    );
-    expect(screen.getByRole('button', { name: localization.tabs.switchSection })).toBeInTheDocument();
+    expect(screen.getByRole('tablist', { name: localization.tabs.ariaLabel })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: localization.tabs.dataProducts })).toHaveAttribute('aria-selected', 'true');
+    expect(screen.queryByRole('button', { name: localization.tabs.switchSection })).not.toBeInTheDocument();
   });
 
   it.each([

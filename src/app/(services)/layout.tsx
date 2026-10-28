@@ -1,8 +1,8 @@
 'use client';
 
-import { Details, Dropdown, Heading, Paragraph, Tabs } from '@digdir/designsystemet-react';
+import { Details, Heading, Paragraph, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import { localization } from '@/libs/language';
 import styles from './search-layout.module.css';
 import { tabBanners } from './tab-banners';
@@ -11,10 +11,35 @@ import { getTabForRoute, tabsData } from './tabs';
 export default function SearchLayout({ children }: Readonly<{ children: ReactNode }>) {
   const pathname = usePathname();
   const router = useRouter();
-  const [isSectionSwitcherOpen, setIsSectionSwitcherOpen] = useState(false);
 
   const activeTab = getTabForRoute(pathname) ?? tabsData.VariableDefinitions;
   const ActiveBanner = tabBanners[activeTab.id];
+  const tabListRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const scrollActiveTabIntoView = () => {
+      if (typeof window.matchMedia !== 'function' || !window.matchMedia('(max-width: 719px)').matches) return;
+
+      const tabList = tabListRef.current;
+      const selectedTab = tabList?.querySelector<HTMLElement>('[aria-selected="true"]');
+      if (!tabList || !selectedTab) return;
+
+      const tabListBounds = tabList.getBoundingClientRect();
+      const selectedTabBounds = selectedTab.getBoundingClientRect();
+      const selectedTabCenter = selectedTabBounds.left + selectedTabBounds.width / 2;
+      const tabListCenter = tabListBounds.left + tabListBounds.width / 2;
+
+      tabList.scrollTo({
+        left: tabList.scrollLeft + selectedTabCenter - tabListCenter,
+        behavior: 'instant',
+      });
+    };
+
+    scrollActiveTabIntoView();
+    window.addEventListener('resize', scrollActiveTabIntoView);
+
+    return () => window.removeEventListener('resize', scrollActiveTabIntoView);
+  }, [activeTab.id]);
 
   return (
     <Tabs className={styles.tabsContainer} value={activeTab.id}>
@@ -52,7 +77,13 @@ export default function SearchLayout({ children }: Readonly<{ children: ReactNod
         </div>
       </section>
       <nav className={`${styles.tabsNavigationContainer} container`}>
-        <Tabs.List aria-label={localization.tabs.ariaLabel}>
+        <Tabs.List
+          ref={(element) => {
+            tabListRef.current = element;
+          }}
+          className={styles.tabList}
+          aria-label={localization.tabs.ariaLabel}
+        >
           {Object.values(tabsData).map((tab) => (
             <Tabs.Tab
               aria-controls={tab.id}
@@ -66,39 +97,6 @@ export default function SearchLayout({ children }: Readonly<{ children: ReactNod
           ))}
         </Tabs.List>
       </nav>
-      <div className={`${styles.mobileCategorySwitcher} container`}>
-        <div className={styles.categoryDetails}>
-          <span className={styles.currentCategory} aria-current='page'>
-            {activeTab.label}
-          </span>
-        </div>
-        <Dropdown.TriggerContext>
-          <Dropdown.Trigger>{localization.tabs.switchSection}</Dropdown.Trigger>
-          <Dropdown
-            placement='bottom-end'
-            open={isSectionSwitcherOpen}
-            onOpen={() => setIsSectionSwitcherOpen(true)}
-            onClose={() => setIsSectionSwitcherOpen(false)}
-          >
-            <Dropdown.List>
-              {Object.values(tabsData)
-                .filter((tab) => tab.id !== activeTab.id)
-                .map((tab) => (
-                  <Dropdown.Item key={tab.id}>
-                    <Dropdown.Button
-                      onClick={() => {
-                        setIsSectionSwitcherOpen(false);
-                        router.push(tab.route);
-                      }}
-                    >
-                      {tab.label}
-                    </Dropdown.Button>
-                  </Dropdown.Item>
-                ))}
-            </Dropdown.List>
-          </Dropdown>
-        </Dropdown.TriggerContext>
-      </div>
       {children}
     </Tabs>
   );
