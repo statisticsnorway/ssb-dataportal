@@ -9,7 +9,7 @@ export const statuses = {
   draft: {
     label: `${localization.status.draft} (73)`,
     removeLabel: 'Fjern Utkast',
-    totalHits: hitsText(3),
+    totalHits: hitsText(73),
   },
   internal: {
     label: `${localization.status.publishedInternal} (3)`,
