@@ -59,6 +59,7 @@
 }
 
 .flatDetails {
+  margin-block-start: 0;
   --dsc-details-background: transparent;
   --dsc-details-summary-background: transparent;
   --dsc-details-summary-background--open: transparent;

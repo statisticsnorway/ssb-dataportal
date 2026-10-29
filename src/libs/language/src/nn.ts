@@ -377,9 +377,11 @@ export const nn = {
   search: {
     hits: 'treff',
     label: 'Søk',
+    numberOfHits: 'Tal på treff:',
     noHits: 'Søket ditt ga ingen treff',
     variableDefinitions: 'Søketreff variabeldefinisjonar',
     classifications: 'Søketreff klassifikasjonar',
+    pagination: 'Sider med søkjeresultat',
     textFilter: {
       label: 'Filtrer på namn',
       tagLabel: 'Namn:',
@@ -390,6 +392,7 @@ export const nn = {
       close: 'Lukk filter',
       label: 'Filter',
       filterAndSearch: 'Filter og søk',
+      showResults: 'Vis resultat',
       open: 'Opne filter',
     },
 

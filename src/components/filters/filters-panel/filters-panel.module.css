@@ -1,3 +1,7 @@
 .heading {
   margin-block-end: var(--small-gap);
 }
+
+.tags:not(:empty) {
+  margin-block-end: var(--medium-gap);
+}

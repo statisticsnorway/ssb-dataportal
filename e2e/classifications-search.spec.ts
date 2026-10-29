@@ -14,10 +14,10 @@ const searchResults = searchResultsMock;
 
 const companiesEnterprises = 'Bedrifter, foretak og regnskap';
 
-const TOTAL_RESULTS_TEXT = '12 treff';
-const FILTERED_RESULTS_TEXT = '1 treff';
-const ONE_RESULT_TEXT = '1 treff';
-const TWO_RESULTS_TEXT = '2 treff';
+const TOTAL_RESULTS_TEXT = /Antall treff: 12(?!\d)/;
+const FILTERED_RESULTS_TEXT = /Antall treff: 1(?!\d)/;
+const ONE_RESULT_TEXT = /Antall treff: 1(?!\d)/;
+const TWO_RESULTS_TEXT = /Antall treff: 2(?!\d)/;
 
 const getLocators = (page: Page) => ({
   searchBox: page.getByRole('searchbox', { name: localization.search.label }),

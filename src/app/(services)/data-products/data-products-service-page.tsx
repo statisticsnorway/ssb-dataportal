@@ -251,6 +251,9 @@ export const DataProductsServicePage = ({
         tabsId={tabsData.DataProducts.id}
         header={localization.tabs.dataProducts}
         asideClassName={styles.dataProductsFilterSection}
+        filtersHeading={localization.search.filter.label}
+        activeFilterCount={filterTags.length + (textFilterValue.trim() ? 1 : 0)}
+        onClearFilters={clearAll}
         totalHits={filteredDataProducts.length}
         infoContent={
           <FilterTagsSection

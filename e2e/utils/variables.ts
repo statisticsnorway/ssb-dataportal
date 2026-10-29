@@ -6,20 +6,20 @@ export const statuses = {
   draft: {
     label: `${localization.status.draft} (73)`,
     removeLabel: 'Fjern Utkast',
-    totalHits: '3 treff',
+    totalHits: /Antall treff: 3(?!\d)/,
   },
   internal: {
     label: `${localization.status.publishedInternal} (3)`,
     removeLabel: `${localization.status.publishedInternal}`,
-    totalHits: '3 treff',
+    totalHits: /Antall treff: 3(?!\d)/,
   },
   external: {
     label: `${localization.status.publishedExternal} (2)`,
     removeLabel: `${localization.status.publishedExternal}`,
-    totalHits: '2 treff',
+    totalHits: /Antall treff: 2(?!\d)/,
   },
   internalPlusExternal: {
-    totalHits: '5 treff',
+    totalHits: /Antall treff: 5(?!\d)/,
   },
 };
 
@@ -36,10 +36,10 @@ export const variables = {
   },
   healthRegion: 'Helseregion',
   population: 'Befolkning (25)',
-  workAndPayPlusPopulationHits: '32 treff',
+  workAndPayPlusPopulationHits: /Antall treff: 32(?!\d)/,
   bankingAndFinancialMarket: 'Bank og finansmarked (1)',
   companiesEnterprises: 'Bedrifter, foretak og regnskap (20)',
-  totalHits: '78 treff',
+  totalHits: /Antall treff: 78(?!\d)/,
 };
 
 export const spousesCountryBackgroundShortName = 'innv_ektef_landbak';
@@ -53,5 +53,5 @@ export const REMOVE_STANDARD = 'Fjern Standard';
 
 export const totalStandardMockClassifications = '10';
 export const totalCodelistMockClassifications = '2';
-export const hits = 'treff';
+export const hits = 'Antall treff:';
 export const languageButton = 'Language/Språk';

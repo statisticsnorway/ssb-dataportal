@@ -1,0 +1,113 @@
+.sheet {
+  box-sizing: border-box;
+  max-height: 90dvh;
+  overflow: hidden;
+}
+
+.sheet[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.sheet > button:first-child {
+  position: absolute;
+  top: var(--small-gap);
+  inset-inline-end: var(--small-gap);
+  z-index: 1;
+}
+
+.header {
+  flex: 0 0 auto;
+  padding-inline-end: 4rem;
+}
+
+.header > h2 {
+  margin: 0;
+}
+
+.content {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding-block-start: 0;
+  padding-inline: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.actions {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--small-gap);
+  border-block-start: 0;
+}
+
+.actions > button {
+  flex: 1 1 auto;
+}
+
+/* The sheet heading replaces the FiltersPanel heading rendered inside the filter content. */
+.content > h2 {
+  display: none;
+}
+
+/* Keep filter rows full-width within the sheet's content inset. */
+.content > div {
+  position: relative;
+  margin-inline: 0;
+  padding-inline: var(--dsc-dialog-spacing);
+  border-block-start: 0;
+}
+
+/* Draw full-width separators above every filter row without shifting its content. */
+.content > div::before {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  border-block-start: 1px solid var(--ds-color-secondary-border-subtle);
+  content: "";
+  pointer-events: none;
+}
+
+.content > div:last-child::after {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 0;
+  border-block-end: 1px solid var(--ds-color-secondary-border-subtle);
+  content: "";
+  pointer-events: none;
+}
+
+/* Expanded filter content starts at the same left edge as the filter heading. */
+.content details[open] > :last-child {
+  margin-block: 0.25rem;
+  margin-inline: 0;
+  padding-block: 0;
+  padding-inline: 0;
+  padding-inline-start: 0.75rem;
+  border-inline-start: 2px solid var(--ds-color-secondary-border-subtle);
+}
+
+/* No divider above the filters; the bottom separator is drawn on the last row. */
+.content {
+  border-block-start: 0;
+  border-block-end: 0;
+}
+
+.content > div:last-child {
+  border-block-end: 0;
+}
+
+/* Extend the toggle background edge to edge while keeping its content on the sheet inset. */
+.content summary {
+  width: calc(100% + 2 * var(--dsc-dialog-spacing));
+  margin-inline: calc(-1 * var(--dsc-dialog-spacing));
+  padding-inline: var(--dsc-dialog-spacing);
+}
+
+.content summary::after {
+  inset-inline-start: calc(var(--dsc-dialog-spacing) + 0.125rem);
+}

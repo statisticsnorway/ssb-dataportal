@@ -2,7 +2,7 @@
 
 import { Details, Heading, Paragraph, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { ReactNode } from 'react';
+import { ComponentRef, ReactNode, useCallback, useEffect, useRef } from 'react';
 import { localization } from '@/libs/language';
 import styles from './search-layout.module.css';
 import { tabBanners } from './tab-banners';
@@ -14,6 +14,33 @@ export default function SearchLayout({ children }: Readonly<{ children: ReactNod
 
   const activeTab = getTabForRoute(pathname) ?? tabsData.VariableDefinitions;
   const ActiveBanner = tabBanners[activeTab.id];
+  const tabListRef = useRef<ComponentRef<typeof Tabs.List>>(null);
+
+  const revealActiveTab = useCallback(() => {
+    const tabList = tabListRef.current;
+    const tab = tabList?.querySelector<HTMLElement>('[role="tab"][aria-selected="true"]');
+    if (!tabList || !tab || tabList.scrollWidth <= tabList.clientWidth) return;
+
+    const listRect = tabList.getBoundingClientRect();
+    const tabRect = tab.getBoundingClientRect();
+    const tabCenter = tabRect.left - listRect.left + tabList.scrollLeft + tabRect.width / 2;
+    const maxScrollLeft = tabList.scrollWidth - tabList.clientWidth;
+    const left = Math.min(Math.max(tabCenter - tabList.clientWidth / 2, 0), maxScrollLeft);
+    if (typeof tabList.scrollTo === 'function') {
+      tabList.scrollTo({ left, behavior: 'auto' });
+    } else {
+      tabList.scrollLeft = left;
+    }
+  }, []);
+
+  useEffect(() => {
+    revealActiveTab();
+  }, [activeTab.id, revealActiveTab]);
+
+  useEffect(() => {
+    window.addEventListener('resize', revealActiveTab);
+    return () => window.removeEventListener('resize', revealActiveTab);
+  }, [revealActiveTab]);
 
   return (
     <Tabs className={styles.tabsContainer} value={activeTab.id}>
@@ -51,7 +78,7 @@ export default function SearchLayout({ children }: Readonly<{ children: ReactNod
         </div>
       </section>
       <nav className={`${styles.tabsNavigationContainer} container`}>
-        <Tabs.List aria-label={localization.tabs.ariaLabel}>
+        <Tabs.List ref={tabListRef} aria-label={localization.tabs.ariaLabel}>
           {Object.values(tabsData).map((tab) => (
             <Tabs.Tab
               aria-controls={tab.id}

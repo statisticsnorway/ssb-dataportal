@@ -17,7 +17,7 @@ test.describe('authenticated', () => {
     const main = page.getByRole('main');
 
     await expect(main.getByRole('heading', { name: localization.tabs.dataProducts })).toBeVisible();
-    await expect(main.getByRole('paragraph')).toContainText(/(?:[4-9]|\d{2,}) treff/);
+    await expect(main.getByRole('paragraph')).toContainText(/Antall treff: (?:[4-9]|\d{2,})/);
     await expect(main).toContainText('Arblonn');
     await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
   });
@@ -43,17 +43,17 @@ test.describe('authenticated', () => {
     const otherProductFilter = main.getByRole('checkbox', { name: 'Annen dataprodukt' });
 
     await statisticProductFilter.check();
-    await expect(main.getByRole('paragraph')).toContainText('1 treff');
+    await expect(main.getByRole('paragraph')).toContainText(/Antall treff: 1(?!\d)/);
     await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
     await expect(main).not.toContainText('Arblonn');
 
     await otherProductFilter.check();
-    await expect(main.getByRole('paragraph')).toContainText(/(?:[4-9]|\d{2,}) treff/);
+    await expect(main.getByRole('paragraph')).toContainText(/Antall treff: (?:[4-9]|\d{2,})/);
     await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
     await expect(main).toContainText('Arblonn');
 
     await statisticProductFilter.uncheck();
-    await expect(main.getByRole('paragraph')).toContainText(/(?:[3-9]|\d{2,}) treff/);
+    await expect(main.getByRole('paragraph')).toContainText(/Antall treff: (?:[3-9]|\d{2,})/);
     await expect(main).toContainText('Arblonn');
     await expect(main).not.toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
   });
@@ -73,18 +73,18 @@ test.describe('authenticated', () => {
     await statisticProductFilter.check();
     await expect(subjectFilters).toBeVisible();
     await subjectCheckbox('Arbeid og lønn').check();
-    await expect(main.getByRole('paragraph')).toContainText('1 treff');
+    await expect(main.getByRole('paragraph')).toContainText(/Antall treff: 1(?!\d)/);
     await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
     await expect(main).not.toContainText('Arblonn');
     await expect(main).not.toContainText('Ameldingen');
 
     await subjectCheckbox('Arbeid og lønn').uncheck();
-    await expect(main.getByRole('paragraph')).toContainText('1 treff');
+    await expect(main.getByRole('paragraph')).toContainText(/Antall treff: 1(?!\d)/);
     await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
 
     await statisticProductFilter.uncheck();
     await expect(subjectFilters).not.toBeVisible();
-    await expect(main.getByRole('paragraph')).toContainText(/(?:[4-9]|\d{2,}) treff/);
+    await expect(main.getByRole('paragraph')).toContainText(/Antall treff: (?:[4-9]|\d{2,})/);
     await expect(main).toContainText('Arblonn');
   });
   test('Data products can be sorted alphabetically', async ({ page }) => {

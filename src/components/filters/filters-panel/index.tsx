@@ -1,5 +1,7 @@
 import { Heading } from '@digdir/designsystemet-react';
-import { ReactNode } from 'react';
+import { ReactNode, useContext } from 'react';
+import { localization } from '@/libs/language';
+import { FilterTagsSlotContext } from './filter-tags-slot';
 import styles from './filters-panel.module.css';
 
 interface FiltersPanelProps {
@@ -16,6 +18,8 @@ interface FiltersPanelProps {
  * @param visuallyHideHeading - Whether the heading should only be available to assistive technology.
  */
 const FiltersPanel = ({ heading, children, visuallyHideHeading = false }: FiltersPanelProps) => {
+  const tags = useContext(FilterTagsSlotContext);
+
   return (
     <>
       <Heading
@@ -25,6 +29,16 @@ const FiltersPanel = ({ heading, children, visuallyHideHeading = false }: Filter
       >
         {heading}
       </Heading>
+      {tags ? (
+        <section
+          id='filter-tags-section'
+          className={styles.tags}
+          aria-label={localization.filterTag.sectionLabel}
+          style={{ scrollMarginTop: '2rem' }}
+        >
+          {tags}
+        </section>
+      ) : null}
       {children}
     </>
   );

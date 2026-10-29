@@ -380,9 +380,11 @@ export const en = {
   search: {
     hits: 'hits',
     label: 'Search',
+    numberOfHits: 'Number of hits:',
     noHits: 'Your search returned no hits',
     variableDefinitions: 'Variable definition search hits',
     classifications: 'Classification search hits',
+    pagination: 'Search results pages',
     textFilter: {
       label: 'Filter by name',
       tagLabel: 'Name:',
@@ -393,6 +395,7 @@ export const en = {
       close: 'Close filter',
       label: 'Filter',
       filterAndSearch: 'Filter and search',
+      showResults: 'Show results',
       open: 'Open filter',
     },
 
