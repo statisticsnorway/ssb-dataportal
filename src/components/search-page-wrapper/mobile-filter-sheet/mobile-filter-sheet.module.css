@@ -58,7 +58,6 @@
 /* Run filter rows edge to edge, with their content aligned to the sheet heading. */
 .content > div {
   --flat-filter-inset: var(--dsc-dialog-spacing);
-  --flat-filter-border-color: var(--ds-color-secondary-border-subtle);
 
   margin-inline: 0;
 }

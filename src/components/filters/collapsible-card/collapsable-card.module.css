@@ -47,17 +47,16 @@
 .flatFilterCard {
   /* Horizontal inset of the toggle; the arrow and the rail below it are positioned from this. */
   --flat-filter-inset: 1rem;
-  --flat-filter-border-color: var(--ds-color-neutral-border-subtle);
 
   border: 0;
-  border-block-start: 1px solid var(--flat-filter-border-color);
+  border-block-start: 1px solid var(--separator-color);
   border-radius: 0;
   background-color: transparent;
   box-shadow: none;
 }
 
 .flatFilterCard:last-child {
-  border-block-end: 1px solid var(--flat-filter-border-color);
+  border-block-end: 1px solid var(--separator-color);
 }
 
 .flatDetails {
@@ -136,5 +135,5 @@
   margin-inline-start: calc(var(--flat-filter-inset) + 0.875rem - 1px);
   padding-block-start: 0;
   padding-inline-start: 0.75rem;
-  border-inline-start: 2px solid var(--flat-filter-border-color);
+  border-inline-start: 2px solid var(--separator-color);
 }
