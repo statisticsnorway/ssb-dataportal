@@ -2,7 +2,7 @@
 
 import { Details, Heading, Paragraph, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { ReactNode } from 'react';
+import { ComponentRef, ReactNode, useEffect, useRef } from 'react';
 import { localization } from '@/libs/language';
 import styles from './search-layout.module.css';
 import { tabBanners } from './tab-banners';
@@ -14,6 +14,22 @@ export default function SearchLayout({ children }: Readonly<{ children: ReactNod
 
   const activeTab = getTabForRoute(pathname) ?? tabsData.VariableDefinitions;
   const ActiveBanner = tabBanners[activeTab.id];
+  const tabListRef = useRef<ComponentRef<typeof Tabs.List>>(null);
+
+  // Keep the selected tab centred in the horizontally scrollable tab bar on narrow screens.
+  useEffect(() => {
+    const revealActiveTab = () => {
+      const tabList = tabListRef.current;
+      const tab = tabList?.querySelector('[role="tab"][aria-selected="true"]');
+      if (!tabList || !tab) return;
+      const listRect = tabList.getBoundingClientRect();
+      const tabRect = tab.getBoundingClientRect();
+      tabList.scrollLeft += tabRect.left - listRect.left - (listRect.width - tabRect.width) / 2;
+    };
+    revealActiveTab();
+    window.addEventListener('resize', revealActiveTab);
+    return () => window.removeEventListener('resize', revealActiveTab);
+  }, [activeTab.id]);
 
   return (
     <Tabs className={styles.tabsContainer} value={activeTab.id}>
@@ -51,7 +67,7 @@ export default function SearchLayout({ children }: Readonly<{ children: ReactNod
         </div>
       </section>
       <nav className={`${styles.tabsNavigationContainer} container`}>
-        <Tabs.List aria-label={localization.tabs.ariaLabel}>
+        <Tabs.List ref={tabListRef} aria-label={localization.tabs.ariaLabel}>
           {Object.values(tabsData).map((tab) => (
             <Tabs.Tab
               aria-controls={tab.id}

@@ -4,7 +4,7 @@ import searchResultsMock from '@/static-data/klass-search-results.json';
 import { SearchResultResource } from '@/libs/data-access/klass';
 import { Page } from '@playwright/test';
 import { checkCheckbox, expandFilterGroups } from './utils/commonUtils';
-import { CODELIST, REMOVE_STANDARD, STANDARD } from './utils/variables';
+import { CODELIST, hitsText, REMOVE_STANDARD, STANDARD } from './utils/variables';
 import { stripTitlePrefix } from '@/utils/classifications/classificationHelpers';
 import { stabilize } from './utils/commonUtils';
 
@@ -14,10 +14,10 @@ const searchResults = searchResultsMock;
 
 const companiesEnterprises = 'Bedrifter, foretak og regnskap';
 
-const TOTAL_RESULTS_TEXT = '12 treff';
-const FILTERED_RESULTS_TEXT = '1 treff';
-const ONE_RESULT_TEXT = '1 treff';
-const TWO_RESULTS_TEXT = '2 treff';
+const TOTAL_RESULTS_TEXT = hitsText(12);
+const FILTERED_RESULTS_TEXT = hitsText(1);
+const ONE_RESULT_TEXT = hitsText(1);
+const TWO_RESULTS_TEXT = hitsText(2);
 
 const getLocators = (page: Page) => ({
   searchBox: page.getByRole('searchbox', { name: localization.search.label }),

@@ -45,20 +45,22 @@
 }
 
 .flatFilterCard {
-  --flat-filter-rail-inline-start: 1.875rem;
+  /* Horizontal inset of the toggle; the arrow and the rail below it are positioned from this. */
+  --flat-filter-inset: 1rem;
 
   border: 0;
-  border-block-start: 1px solid var(--ds-color-neutral-border-subtle);
+  border-block-start: 1px solid var(--separator-color);
   border-radius: 0;
   background-color: transparent;
   box-shadow: none;
 }
 
 .flatFilterCard:last-child {
-  border-block-end: 1px solid var(--ds-color-neutral-border-subtle);
+  border-block-end: 1px solid var(--separator-color);
 }
 
 .flatDetails {
+  margin-block-start: 0;
   --dsc-details-background: transparent;
   --dsc-details-summary-background: transparent;
   --dsc-details-summary-background--open: transparent;
@@ -95,7 +97,7 @@
 .flatToggleFilter::after {
   position: absolute;
   inset-block-start: 50%;
-  inset-inline-start: 1.125rem;
+  inset-inline-start: calc(var(--flat-filter-inset) + 0.125rem);
   width: 1.5rem;
   height: 1.5rem;
   background: var(--text-color-primary);
@@ -103,6 +105,10 @@
   mask: 50% / contain no-repeat var(--dsc-details-icon-url);
   pointer-events: none;
   transform: translateY(-50%);
+}
+
+.flatDetails > .flatToggleFilter {
+  padding-inline: var(--flat-filter-inset);
 }
 
 .flatDetails[open] > .flatToggleFilter::before {
@@ -125,8 +131,9 @@
 
 .details > .flatFilterItems {
   margin-block: 0.5rem;
-  margin-inline-start: var(--flat-filter-rail-inline-start);
+  /* Centre the 2px rail under the 1.75rem arrow circle. */
+  margin-inline-start: calc(var(--flat-filter-inset) + 0.875rem - 1px);
   padding-block-start: 0;
   padding-inline-start: 0.75rem;
-  border-inline-start: 2px solid var(--ds-color-neutral-border-subtle);
+  border-inline-start: 2px solid var(--separator-color);
 }

@@ -8,3 +8,15 @@
   flex-wrap: wrap;
   height: 100%;
 }
+
+.tagsList > li {
+  max-width: 100%;
+}
+
+.tagsList > li > * {
+  max-width: 100%;
+  height: auto;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: start;
+}
