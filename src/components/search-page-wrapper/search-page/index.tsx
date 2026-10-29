@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Heading, TabsPanel } from '@digdir/designsystemet-react';
-import { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
+import { FC, ReactElement, ReactNode, useEffect, useMemo, useState } from 'react';
 import { FilterTagsSlotContext } from '@/components/filters/filters-panel';
 import { useIsPhone } from '@/hooks/useIsPhone';
 import { localization } from '@/libs/language';
@@ -69,15 +69,18 @@ const SearchPage: FC<SearchPageProps> = ({
     return totalHits;
   };
 
-  const tagsSection = (
-    <section
-      id='filter-tags-section'
-      className={styles.filterTags}
-      aria-label={localization.filterTag.sectionLabel}
-      style={{ scrollMarginTop: '2rem' }}
-    >
-      {infoContent}
-    </section>
+  const tagsSection = useMemo(
+    () => (
+      <section
+        id='filter-tags-section'
+        className={styles.filterTags}
+        aria-label={localization.filterTag.sectionLabel}
+        style={{ scrollMarginTop: '2rem' }}
+      >
+        {infoContent}
+      </section>
+    ),
+    [infoContent],
   );
 
   return (
