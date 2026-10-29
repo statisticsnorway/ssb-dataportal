@@ -2,7 +2,7 @@
 
 import { Details, Heading, Paragraph, Tabs } from '@digdir/designsystemet-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { ComponentRef, ReactNode, useCallback, useEffect, useRef } from 'react';
+import { ComponentRef, ReactNode, useEffect, useRef } from 'react';
 import { localization } from '@/libs/language';
 import styles from './search-layout.module.css';
 import { tabBanners } from './tab-banners';
@@ -16,31 +16,20 @@ export default function SearchLayout({ children }: Readonly<{ children: ReactNod
   const ActiveBanner = tabBanners[activeTab.id];
   const tabListRef = useRef<ComponentRef<typeof Tabs.List>>(null);
 
-  const revealActiveTab = useCallback(() => {
-    const tabList = tabListRef.current;
-    const tab = tabList?.querySelector<HTMLElement>('[role="tab"][aria-selected="true"]');
-    if (!tabList || !tab || tabList.scrollWidth <= tabList.clientWidth) return;
-
-    const listRect = tabList.getBoundingClientRect();
-    const tabRect = tab.getBoundingClientRect();
-    const tabCenter = tabRect.left - listRect.left + tabList.scrollLeft + tabRect.width / 2;
-    const maxScrollLeft = tabList.scrollWidth - tabList.clientWidth;
-    const left = Math.min(Math.max(tabCenter - tabList.clientWidth / 2, 0), maxScrollLeft);
-    if (typeof tabList.scrollTo === 'function') {
-      tabList.scrollTo({ left, behavior: 'auto' });
-    } else {
-      tabList.scrollLeft = left;
-    }
-  }, []);
-
+  // Keep the selected tab centred in the horizontally scrollable tab bar on narrow screens.
   useEffect(() => {
+    const revealActiveTab = () => {
+      const tabList = tabListRef.current;
+      const tab = tabList?.querySelector('[role="tab"][aria-selected="true"]');
+      if (!tabList || !tab) return;
+      const listRect = tabList.getBoundingClientRect();
+      const tabRect = tab.getBoundingClientRect();
+      tabList.scrollLeft += tabRect.left - listRect.left - (listRect.width - tabRect.width) / 2;
+    };
     revealActiveTab();
-  }, [activeTab.id, revealActiveTab]);
-
-  useEffect(() => {
     window.addEventListener('resize', revealActiveTab);
     return () => window.removeEventListener('resize', revealActiveTab);
-  }, [revealActiveTab]);
+  }, [activeTab.id]);
 
   return (
     <Tabs className={styles.tabsContainer} value={activeTab.id}>

@@ -85,49 +85,35 @@
   }
 }
 
-.mobileControls {
+.filterSection .filterTags:not(:empty) {
+  margin-block-end: var(--medium-gap);
+}
+
+.mobilePanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--small-gap);
+  margin-top: var(--small-gap);
+  padding: var(--small-gap);
+  background-color: var(--element-background-color);
+  border-radius: var(--ds-border-radius-lg);
+}
+
+.mobilePanel > section:empty {
   display: none;
 }
 
-.filterButton {
+.mobilePanel > button,
+.mobilePanel > section select {
   width: 100%;
 }
 
 @media (max-width: 719px) {
-  .mobilePanel {
-    display: flex;
-    flex-direction: column;
-    gap: var(--small-gap);
-    margin-top: var(--small-gap);
-    padding: var(--small-gap);
-    background-color: var(--element-background-color);
-    border-radius: var(--ds-border-radius-lg);
-  }
-
-  .mobilePanel > section:empty {
-    display: none;
-  }
-
-  .mobileControls {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--small-gap);
-  }
-
-  .mobileControls > section,
-  .mobileControls > section select {
-    width: 100%;
-  }
-
   .numHits {
     white-space: normal;
   }
 
-  .hitsSortGroup {
-    flex-wrap: wrap;
-  }
-
+  /* Hide the sidebar before hydration on phones; it is not rendered once the viewport is known. */
   .filterSection {
     display: none;
   }

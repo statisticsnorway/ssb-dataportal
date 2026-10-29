@@ -2,7 +2,7 @@
 
 import { Button, Heading, TabsPanel } from '@digdir/designsystemet-react';
 import { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
-import { FilterTagsSlotContext } from '@/components/filters/filters-panel/filter-tags-slot';
+import { FilterTagsSlotContext } from '@/components/filters/filters-panel';
 import { useIsPhone } from '@/hooks/useIsPhone';
 import { localization } from '@/libs/language';
 import { MobileFilterSheet } from '../mobile-filter-sheet';
@@ -10,7 +10,7 @@ import styles from './search-page.module.css';
 
 interface SearchPageProps {
   infoContent?: ReactNode;
-  asideContent?: ReactNode;
+  asideContent: ReactNode;
   asideClassName?: string;
   searchResult?: ReactElement;
   controlsContent?: ReactNode;
@@ -30,7 +30,7 @@ interface SearchPageProps {
  * supplementary search information and controls, and the main results area.
  *
  * @param infoContent     Optional content displayed above results (e.g. tags or info)
- * @param asideContent    Optional sidebar content for filters
+ * @param asideContent    Filter content, shown in the sidebar on desktop and in a bottom sheet on phones
  * @param asideClassName  Optional class name for customizing the filter sidebar
  * @param searchResult    Rendered search results
  * @param controlsContent Sorting or control UI for the results list
@@ -69,6 +69,17 @@ const SearchPage: FC<SearchPageProps> = ({
     return totalHits;
   };
 
+  const tagsSection = (
+    <section
+      id='filter-tags-section'
+      className={styles.filterTags}
+      aria-label={localization.filterTag.sectionLabel}
+      style={{ scrollMarginTop: '2rem' }}
+    >
+      {infoContent}
+    </section>
+  );
+
   return (
     <main id={`searchpage-${tabsId}`}>
       <header>
@@ -79,37 +90,25 @@ const SearchPage: FC<SearchPageProps> = ({
       <TabsPanel className={styles.tabsPanel} id={tabsId} value={String(tabsId)} aria-labelledby={tabsId}>
         <div className={`${styles.pageContainer} container`}>
           <div className={styles.searchHitsContainerWrapper}>
-            {asideContent && !isPhone ? (
+            {!isPhone ? (
               <aside className={`${styles.filterSection} ${asideClassName ?? ''}`} aria-label='Filters'>
-                <FilterTagsSlotContext.Provider value={infoContent}>{asideContent}</FilterTagsSlotContext.Provider>
+                <FilterTagsSlotContext.Provider value={tagsSection}>{asideContent}</FilterTagsSlotContext.Provider>
               </aside>
             ) : null}
             <div className={styles.mainSection}>
-              {asideContent ? (
+              {isPhone ? (
                 <div className={styles.mobilePanel}>
-                  <div className={styles.mobileControls}>
-                    {isPhone ? controlsContent : null}
-                    <Button
-                      variant='secondary'
-                      className={styles.filterButton}
-                      aria-haspopup='dialog'
-                      onClick={() => setIsFilterSheetOpen(true)}
-                      data-testid='mobile-filter-button'
-                    >
-                      {activeFilterCount > 0
-                        ? `${localization.search.filter.label} (${activeFilterCount})`
-                        : localization.search.filter.label}
-                    </Button>
-                  </div>
-                  {isPhone ? (
-                    <section
-                      id='filter-tags-section'
-                      aria-label={localization.filterTag.sectionLabel}
-                      style={{ scrollMarginTop: '2rem' }}
-                    >
-                      {infoContent}
-                    </section>
-                  ) : null}
+                  {controlsContent}
+                  <Button
+                    variant='secondary'
+                    aria-haspopup='dialog'
+                    onClick={() => setIsFilterSheetOpen(true)}
+                    data-testid='mobile-filter-button'
+                  >
+                    {localization.search.filter.label}
+                    {activeFilterCount > 0 ? ` (${activeFilterCount})` : null}
+                  </Button>
+                  {tagsSection}
                 </div>
               ) : null}
               <div className={styles.hitsAndSort}>
@@ -120,13 +119,12 @@ const SearchPage: FC<SearchPageProps> = ({
               </div>
               {searchResult}
             </div>
-            {asideContent && isPhone ? (
+            {isPhone ? (
               <MobileFilterSheet
                 open={isFilterSheetOpen}
                 onClose={() => setIsFilterSheetOpen(false)}
                 heading={filtersHeading}
-                activeFilterCount={activeFilterCount}
-                onClearFilters={onClearFilters}
+                onClearFilters={activeFilterCount > 0 ? onClearFilters : undefined}
               >
                 {asideContent}
               </MobileFilterSheet>

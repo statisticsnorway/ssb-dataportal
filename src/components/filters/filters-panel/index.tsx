@@ -1,8 +1,11 @@
 import { Heading } from '@digdir/designsystemet-react';
-import { ReactNode, useContext } from 'react';
-import { localization } from '@/libs/language';
-import { FilterTagsSlotContext } from './filter-tags-slot';
+import { createContext, ReactNode, useContext } from 'react';
 import styles from './filters-panel.module.css';
+
+/**
+ * Lets the search page place the active filter tags between the panel heading and the filters (desktop sidebar).
+ */
+export const FilterTagsSlotContext = createContext<ReactNode>(null);
 
 interface FiltersPanelProps {
   heading: string;
@@ -29,16 +32,7 @@ const FiltersPanel = ({ heading, children, visuallyHideHeading = false }: Filter
       >
         {heading}
       </Heading>
-      {tags ? (
-        <section
-          id='filter-tags-section'
-          className={styles.tags}
-          aria-label={localization.filterTag.sectionLabel}
-          style={{ scrollMarginTop: '2rem' }}
-        >
-          {tags}
-        </section>
-      ) : null}
+      {tags}
       {children}
     </>
   );

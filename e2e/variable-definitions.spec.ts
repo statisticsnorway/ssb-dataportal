@@ -1,7 +1,7 @@
 import { localization } from '@/libs/language';
 import { expect, test } from './fixtures/variableDefinitions.fixture';
 import { checkCheckbox, expandFilterGroups } from './utils/commonUtils';
-import { statuses, variables } from './utils/variables';
+import { hitsText, statuses, variables } from './utils/variables';
 
 test('Filter by subject field displays tags (listitem) and close button (x)', async ({ variableDefinitionsPage }) => {
   const main = variableDefinitionsPage.getByRole('main');
@@ -9,7 +9,7 @@ test('Filter by subject field displays tags (listitem) and close button (x)', as
 
   const checkbox = variableDefinitionsPage.getByRole('checkbox', { name: variables.socialConditionsAndCrime });
   await checkCheckbox(checkbox);
-  await expect(main).toContainText(/Antall treff: 2(?!\d)/);
+  await expect(main).toContainText(hitsText(2));
 
   const removeButton = variableDefinitionsPage.getByRole('button', {
     name: `${localization.filterTag.remove} ${variables.socialConditionsAndCrimeLabel}`,
@@ -75,18 +75,18 @@ test('Variable "Aksje" has two subject fields', async ({ variableDefinitionsPage
 
   await checkCheckbox(filterOne);
 
-  await expect(main).toContainText(/Antall treff: 1(?!\d)/);
+  await expect(main).toContainText(hitsText(1));
   await expect(main).toContainText('Aksje');
 
   await checkCheckbox(filterTwo);
 
-  await expect(main).toContainText(/Antall treff: 20(?!\d)/);
+  await expect(main).toContainText(hitsText(20));
   await expect(main).toContainText('Aksje');
 
   await filterOne.uncheck();
   await expect(filterOne).not.toBeChecked();
 
-  await expect(main).toContainText(/Antall treff: 20(?!\d)/);
+  await expect(main).toContainText(hitsText(20));
   await expect(main).toContainText('Aksje');
 });
 
@@ -115,9 +115,9 @@ test('Filter by name', async ({ variableDefinitionsPage }) => {
       name: localization.search.textFilter.label,
     })
     .fill('Baderom');
-  await expect(main).toContainText(/Antall treff: 1(?!\d)/);
+  await expect(main).toContainText(hitsText(1));
   await variableDefinitionsPage.getByRole('button', { name: 'Fjern Navn: Baderom' }).click();
-  await expect(main).toContainText(/Antall treff: 25(?!\d)/);
+  await expect(main).toContainText(hitsText(25));
 });
 
 test('Filter by name remove all', async ({ variableDefinitionsPage }) => {
@@ -135,7 +135,7 @@ test('Filter by name remove all', async ({ variableDefinitionsPage }) => {
       name: localization.search.textFilter.label,
     })
     .fill('Baderom');
-  await expect(main).toContainText(/Antall treff: 1(?!\d)/);
+  await expect(main).toContainText(hitsText(1));
   await variableDefinitionsPage.getByRole('button', { name: `${localization.button.removeFilter}` }).click();
   await expect(main).toContainText(variables.totalHits);
 });
@@ -223,7 +223,7 @@ test.describe('Variable definitions URL state', () => {
       .fill('Baderom');
     await expect(variableDefinitionsPage).toHaveURL(/[?&]q=Baderom/);
     await expect(variableDefinitionsPage).not.toHaveURL(/[?&]page=/);
-    await expect(variableDefinitionsPage.getByRole('main')).toContainText(/Antall treff: 1(?!\d)/);
+    await expect(variableDefinitionsPage.getByRole('main')).toContainText(hitsText(1));
   });
 
   test('updates URL when selecting status filter', async ({ variableDefinitionsPage }) => {
@@ -282,7 +282,7 @@ test.describe('Variable definitions URL state', () => {
     ).toHaveValue('Baderom');
     await expect(variableDefinitionsPage.getByRole('checkbox', { name: variables.population })).toBeChecked();
     await expect(variableDefinitionsPage.getByLabel(localization.search.sort.label)).toHaveValue('titleDesc');
-    await expect(variableDefinitionsPage.getByRole('main')).toContainText(/Antall treff: 1(?!\d)/);
+    await expect(variableDefinitionsPage.getByRole('main')).toContainText(hitsText(1));
   });
 
   test('keeps URL state after refresh', async ({ variableDefinitionsPage }) => {

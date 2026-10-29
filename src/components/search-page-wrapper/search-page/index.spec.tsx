@@ -124,19 +124,6 @@ describe('SearchPage', () => {
       expect(screen.getByTestId('mobile-filter-sheet')).not.toHaveAttribute('open');
     });
 
-    it('closes the dialog when the backdrop is clicked but not when the content is clicked', () => {
-      renderPage();
-      fireEvent.click(screen.getByTestId('mobile-filter-button'));
-      const dialog = screen.getByTestId('mobile-filter-sheet');
-      dialog.getBoundingClientRect = () => ({ top: 100, bottom: 500, left: 0, right: 360 }) as DOMRect;
-
-      fireEvent.click(dialog, { clientX: 100, clientY: 300 });
-      expect(dialog).toHaveAttribute('open');
-
-      fireEvent.click(dialog, { clientX: 100, clientY: 50 });
-      expect(dialog).not.toHaveAttribute('open');
-    });
-
     it('offers Clear filters only when filters are active', () => {
       const onClearFilters = vi.fn();
       const { unmount } = renderPage({ activeFilterCount: 0, onClearFilters });

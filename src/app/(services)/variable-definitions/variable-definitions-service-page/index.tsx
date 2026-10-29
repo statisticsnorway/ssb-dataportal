@@ -135,7 +135,6 @@ const VariableDefinitionsServicePage = ({
         tabsId={tabsData.VariableDefinitions.id}
         header={localization.tabs.variableDefinitions}
         asideClassName={styles.compactFilterSection}
-        filtersHeading={localization.search.filter.label}
         activeFilterCount={filterTags.length + (q.trim() ? 1 : 0)}
         onClearFilters={clearAll}
         asideContent={

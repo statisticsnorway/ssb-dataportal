@@ -112,17 +112,6 @@ describe('services layout', () => {
   });
 
   describe('tab bar scrolling', () => {
-    const mockOverflowingTabList = () => {
-      const tabList = screen.getByRole('tablist', { hidden: true }) as HTMLElement;
-      Object.defineProperty(tabList, 'scrollWidth', { configurable: true, value: 600 });
-      Object.defineProperty(tabList, 'clientWidth', { configurable: true, value: 300 });
-      tabList.getBoundingClientRect = () => ({ left: 0, right: 300, width: 300 }) as DOMRect;
-      tabList.scrollTo = vi.fn();
-      const selected = tabList.querySelector<HTMLElement>('[role="tab"][aria-selected="true"]');
-      selected!.getBoundingClientRect = () => ({ left: 400, right: 560, width: 160 }) as DOMRect;
-      return tabList;
-    };
-
     it('renders all tabs in a single labelled tab list', () => {
       renderLayout();
 
@@ -131,25 +120,20 @@ describe('services layout', () => {
       expect(screen.getAllByRole('tab')).toHaveLength(3);
     });
 
-    it('scrolls the selected tab into view inside the tab bar on resize', () => {
+    it('centres the selected tab inside the tab bar on resize', () => {
       mocks.pathname = '/data-products';
       renderLayout();
-      const tabList = mockOverflowingTabList();
+      const tabList = screen.getByRole('tablist', { hidden: true });
+      let scrollLeft = 0;
+      Object.defineProperty(tabList, 'scrollLeft', { get: () => scrollLeft, set: (v: number) => (scrollLeft = v) });
+      tabList.getBoundingClientRect = () => ({ left: 0, width: 300 }) as DOMRect;
+      const selected = tabList.querySelector('[role="tab"][aria-selected="true"]') as HTMLElement;
+      selected.getBoundingClientRect = () => ({ left: 400, width: 160 }) as DOMRect;
 
       fireEvent(window, new Event('resize'));
 
-      // Centers the tab (centre at 480) in the 300px wide list, clamped to the max scroll of 300.
-      expect(tabList.scrollTo).toHaveBeenCalledWith({ left: 300, behavior: 'auto' });
-    });
-
-    it('does not scroll when the tabs fit', () => {
-      renderLayout();
-      const tabList = screen.getByRole('tablist', { hidden: true }) as HTMLElement;
-      tabList.scrollTo = vi.fn();
-
-      fireEvent(window, new Event('resize'));
-
-      expect(tabList.scrollTo).not.toHaveBeenCalled();
+      // Tab centre (480) minus half the list width (150).
+      expect(scrollLeft).toBe(330);
     });
   });
 });

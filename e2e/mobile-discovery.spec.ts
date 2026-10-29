@@ -1,4 +1,5 @@
 import { expect, test } from '@bgotink/playwright-coverage';
+import type { Page } from '@playwright/test';
 import { tabsData } from '@/app/(services)/tabs';
 import { localization } from '@/libs/language';
 import { stabilize } from './utils/commonUtils';
@@ -9,7 +10,7 @@ test.beforeEach(async ({}, testInfo) => {
   if (testInfo.project.name === 'chrome-unauth') testInfo.skip();
 });
 
-const expectNoHorizontalOverflow = async (page: import('@playwright/test').Page) => {
+const expectNoHorizontalOverflow = async (page: Page) => {
   const { scrollWidth, clientWidth } = await page.evaluate(() => ({
     scrollWidth: document.documentElement.scrollWidth,
     clientWidth: document.documentElement.clientWidth,
@@ -17,7 +18,7 @@ const expectNoHorizontalOverflow = async (page: import('@playwright/test').Page)
   expect(scrollWidth).toBeLessThanOrEqual(clientWidth);
 };
 
-const expectSelectedTabVisible = async (page: import('@playwright/test').Page) => {
+const expectSelectedTabVisible = async (page: Page) => {
   const tabList = page.getByRole('tablist');
   const selectedTab = tabList.getByRole('tab', { selected: true });
   await expect(selectedTab).toBeVisible();

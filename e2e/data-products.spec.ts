@@ -2,6 +2,7 @@ import { expect, test } from '@bgotink/playwright-coverage';
 import { localization } from '@/libs/language';
 import { stabilize } from './utils/commonUtils';
 import { tabsData } from '@/app/(services)/tabs';
+import { hitsText } from './utils/variables';
 
 const route = tabsData.DataProducts.route;
 
@@ -43,7 +44,7 @@ test.describe('authenticated', () => {
     const otherProductFilter = main.getByRole('checkbox', { name: 'Annen dataprodukt' });
 
     await statisticProductFilter.check();
-    await expect(main.getByRole('paragraph')).toContainText(/Antall treff: 1(?!\d)/);
+    await expect(main.getByRole('paragraph')).toContainText(hitsText(1));
     await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
     await expect(main).not.toContainText('Arblonn');
 
@@ -73,13 +74,13 @@ test.describe('authenticated', () => {
     await statisticProductFilter.check();
     await expect(subjectFilters).toBeVisible();
     await subjectCheckbox('Arbeid og lønn').check();
-    await expect(main.getByRole('paragraph')).toContainText(/Antall treff: 1(?!\d)/);
+    await expect(main.getByRole('paragraph')).toContainText(hitsText(1));
     await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
     await expect(main).not.toContainText('Arblonn');
     await expect(main).not.toContainText('Ameldingen');
 
     await subjectCheckbox('Arbeid og lønn').uncheck();
-    await expect(main.getByRole('paragraph')).toContainText(/Antall treff: 1(?!\d)/);
+    await expect(main.getByRole('paragraph')).toContainText(hitsText(1));
     await expect(main).toContainText('Tilknytning til arbeid, utdanning og velferdsordninger');
 
     await statisticProductFilter.uncheck();
