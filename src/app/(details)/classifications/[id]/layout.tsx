@@ -1,30 +1,18 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { cache, ReactNode } from 'react';
-import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
+import { ReactNode } from 'react';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
-import { getRequestLanguage as getRequestLanguageFromRequest } from '@/libs/language/src/getRequestLanguage';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import ClassificationDetail from '../components/classificationDetail';
 import { VersionProvider, VersionResourceLayer } from '../components/versionContext';
-import { resolveDefaultVersion } from '../utils/versionSelection';
+import { getClassificationPageData, getResolvedVersion } from './resolvedVersion';
 
-export const getRequestLanguage = cache(async () => {
-  return getRequestLanguageFromRequest();
-});
-
-const getPageData = cache(async (id: number) => {
-  const logger = createLogger('classification-detail-page');
-  const language = await getRequestLanguage();
-  const classification = await fetchClassificationById(id, language, true);
-  logger.debug(`Fetched classification ${classification.name}`);
-  return { classification, language };
-});
+export { getRequestLanguage } from './resolvedVersion';
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
-  const { classification } = await getPageData(Number(id)).catch(() => ({
+  const { classification } = await getClassificationPageData(Number(id)).catch(() => ({
     classification: null,
   }));
 
@@ -50,7 +38,7 @@ export default async function ClassificationLayout({
     return notFound();
   }
 
-  const { classification, language } = await getPageData(classificationId).catch((error) => {
+  const { classification, language, defaultVersion } = await getResolvedVersion(classificationId).catch((error) => {
     logger.error({ id, error: sanitizeError(error) }, 'Failed to load classification details');
     return notFound();
   });
@@ -67,9 +55,6 @@ export default async function ClassificationLayout({
       return notFound();
     }
   }
-
-  const today = new Date();
-  const defaultVersion = resolveDefaultVersion(classification.versions ?? [], today);
 
   if (!defaultVersion) {
     return notFound();

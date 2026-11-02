@@ -1,10 +1,11 @@
 import { notFound } from 'next/navigation';
 
-import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout';
+import { getRequestLanguage, getResolvedVersion } from '@/app/(details)/classifications/[id]/resolvedVersion';
 import CorrespondenceDetailView from '@/app/(details)/classifications/components/views/CorrespondenceDetailView';
 import { buildDownloadHref } from '@/app/(details)/classifications/utils/download-urls';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { fetchCorrespondenceTable } from '@/libs/data/classifications/correspondencesData';
+import { fetchVersionById } from '@/libs/data/classifications/versionsData';
 
 export default async function CorrespondencePage({
   params,
@@ -18,6 +19,22 @@ export default async function CorrespondencePage({
   }
 
   const language = await getRequestLanguage();
+
+  // The correspondence id alone is not enough: without this check any table of
+  // any classification or version is reachable through this URL.
+  const { defaultVersion } = await getResolvedVersion(classificationId);
+
+  if (!defaultVersion?.id) {
+    return notFound();
+  }
+
+  const version = await fetchVersionById(defaultVersion.id, language, true);
+  const belongsToVersion = version?.correspondenceTables?.some((correspondence) => correspondence.id === tableId);
+
+  if (!version || !belongsToVersion) {
+    return notFound();
+  }
+
   const table = await fetchCorrespondenceTable(tableId, language);
 
   if (!table) {

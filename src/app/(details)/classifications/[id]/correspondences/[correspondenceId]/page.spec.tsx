@@ -4,6 +4,8 @@ import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 
 const mocks = vi.hoisted(() => ({
   fetchCorrespondenceTable: vi.fn(),
+  fetchVersionById: vi.fn(),
+  getResolvedVersion: vi.fn(),
   getRequestLanguage: vi.fn(),
   notFound: vi.fn(() => {
     throw new Error('NEXT_NOT_FOUND');
@@ -11,11 +13,15 @@ const mocks = vi.hoisted(() => ({
 }));
 
 vi.mock('next/navigation', () => ({ notFound: mocks.notFound }));
-vi.mock('@/app/(details)/classifications/[id]/layout', () => ({
+vi.mock('@/app/(details)/classifications/[id]/resolvedVersion', () => ({
   getRequestLanguage: mocks.getRequestLanguage,
+  getResolvedVersion: mocks.getResolvedVersion,
 }));
 vi.mock('@/libs/data/classifications/correspondencesData', () => ({
   fetchCorrespondenceTable: mocks.fetchCorrespondenceTable,
+}));
+vi.mock('@/libs/data/classifications/versionsData', () => ({
+  fetchVersionById: mocks.fetchVersionById,
 }));
 vi.mock('@/app/(details)/classifications/components/correspondence-table', () => ({
   CorrespondenceTable: ({ downloadHref }: { downloadHref: string }) => (
@@ -27,6 +33,15 @@ describe('CorrespondencePage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mocks.getRequestLanguage.mockResolvedValue('nb');
+    mocks.getResolvedVersion.mockResolvedValue({
+      classification: { id: 79, name: 'Testklassifikasjon' },
+      language: 'nb',
+      defaultVersion: { id: 364 },
+    });
+    mocks.fetchVersionById.mockResolvedValue({
+      id: 364,
+      correspondenceTables: [{ id: 2919 }, { id: 3000 }],
+    });
     mocks.fetchCorrespondenceTable.mockResolvedValue({
       name: 'Testkorrespondanse',
       id: 2919,
@@ -51,6 +66,55 @@ describe('CorrespondencePage', () => {
       'data-download-href',
       '/classifications/79/correspondences/2919/download?v=1&format=csv&language=nb',
     );
+  });
+
+  it('validates against the version the url resolves to', async () => {
+    const { default: CorrespondencePage } = await import('./page');
+
+    await CorrespondencePage({ params: Promise.resolve({ id: '79', correspondenceId: '2919' }) });
+
+    expect(mocks.getResolvedVersion).toHaveBeenCalledWith(79);
+    expect(mocks.fetchVersionById).toHaveBeenCalledWith(364, 'nb', true);
+  });
+
+  it('returns not found when the correspondence table belongs to another classification', async () => {
+    mocks.fetchVersionById.mockResolvedValue({ id: 364, correspondenceTables: [{ id: 3000 }] });
+    mocks.fetchCorrespondenceTable.mockResolvedValue({
+      name: 'Korrespondanse i en annen klassifikasjon',
+      id: 2919,
+      source: 'Fra-kodeliste',
+      target: 'Til-kodeliste',
+      correspondenceMaps: [],
+    });
+    const { default: CorrespondencePage } = await import('./page');
+
+    await expect(
+      CorrespondencePage({ params: Promise.resolve({ id: '79', correspondenceId: '2919' }) }),
+    ).rejects.toThrow('NEXT_NOT_FOUND');
+    expect(mocks.fetchCorrespondenceTable).not.toHaveBeenCalled();
+  });
+
+  it('returns not found when the correspondence table belongs to another version of the classification', async () => {
+    mocks.fetchVersionById.mockResolvedValue({ id: 364, correspondenceTables: [] });
+    const { default: CorrespondencePage } = await import('./page');
+
+    await expect(
+      CorrespondencePage({ params: Promise.resolve({ id: '79', correspondenceId: '2919' }) }),
+    ).rejects.toThrow('NEXT_NOT_FOUND');
+  });
+
+  it('returns not found when the classification has no resolvable version', async () => {
+    mocks.getResolvedVersion.mockResolvedValue({
+      classification: { id: 79, name: 'Testklassifikasjon' },
+      language: 'nb',
+      defaultVersion: null,
+    });
+    const { default: CorrespondencePage } = await import('./page');
+
+    await expect(
+      CorrespondencePage({ params: Promise.resolve({ id: '79', correspondenceId: '2919' }) }),
+    ).rejects.toThrow('NEXT_NOT_FOUND');
+    expect(mocks.fetchVersionById).not.toHaveBeenCalled();
   });
 
   it.each([
