@@ -8,8 +8,6 @@ import ClassificationDetail from '../components/classificationDetail';
 import { VersionProvider, VersionResourceLayer } from '../components/versionContext';
 import { getClassificationPageData, getResolvedVersion } from './resolvedVersion';
 
-export { getRequestLanguage } from './resolvedVersion';
-
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const { classification } = await getClassificationPageData(Number(id)).catch(() => ({
