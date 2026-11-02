@@ -23,7 +23,7 @@ vi.mock('@/libs/data/classifications/classificationData', () => ({
   fetchClassificationById: mocks.fetchClassificationById,
 }));
 
-vi.mock('@/app/(details)/classifications/[id]/resolvedVersion', () => ({
+vi.mock('@/libs/language/src/getRequestLanguage', () => ({
   getRequestLanguage: mocks.getRequestLanguage,
 }));
 

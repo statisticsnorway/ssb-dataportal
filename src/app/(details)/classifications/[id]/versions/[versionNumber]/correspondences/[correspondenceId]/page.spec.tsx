@@ -12,7 +12,7 @@ const mocks = vi.hoisted(() => ({
 }));
 
 vi.mock('next/navigation', () => ({ notFound: mocks.notFound }));
-vi.mock('@/app/(details)/classifications/[id]/resolvedVersion', () => ({
+vi.mock('@/libs/language/src/getRequestLanguage', () => ({
   getRequestLanguage: mocks.getRequestLanguage,
 }));
 vi.mock('@/libs/data/classifications/correspondencesData', () => ({

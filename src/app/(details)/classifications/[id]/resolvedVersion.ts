@@ -2,13 +2,9 @@ import 'server-only';
 
 import { cache } from 'react';
 import { fetchClassificationById } from '@/libs/data/classifications/classificationData';
-import { getRequestLanguage as getRequestLanguageFromRequest } from '@/libs/language/src/getRequestLanguage';
+import { getRequestLanguage } from '@/libs/language/src/getRequestLanguage';
 import { createLogger } from '@/libs/logger/server-logger';
 import { resolveDefaultVersion } from '../utils/versionSelection';
-
-export const getRequestLanguage = cache(async () => {
-  return getRequestLanguageFromRequest();
-});
 
 export const getClassificationPageData = cache(async (id: number) => {
   const logger = createLogger('classification-detail-page');
