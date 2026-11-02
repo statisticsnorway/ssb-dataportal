@@ -253,47 +253,6 @@ export async function getVariableDefinitionByShortNameAtDate(
   }
 }
 
-export async function getVariableDefinitionsByShortName(shortName: string): Promise<RenderedView[]> {
-  const logger = createLoggerWithBindings({ module: 'variable-definitions', fn: 'getVariableDefinitionsByShortName' });
-  if (process.env.VARDEF_USE_STATIC_DATA === 'true') {
-    logger.warn('Using static mock data for vardef');
-    return getStaticVariableDefinitionsByShortName(shortName);
-  }
-
-  const api = await getVardefClient();
-  if (!api) throw new Error('Could not access Vardef API!');
-
-  const params = {
-    shortName,
-    acceptLanguage: localization.getLanguage() as SupportedLanguages,
-    render: true,
-  } satisfies ListVariableDefinitionsRequest;
-
-  try {
-    const rawDataArray = await api.listVariableDefinitions(params);
-    const data = rawDataArray.filter(
-      (item): item is RenderedView => item !== undefined && instanceOfRenderedView(item),
-    );
-
-    if (data.length !== rawDataArray.length) {
-      logger.warn(
-        { shortName, total: rawDataArray.length, decoded: data.length },
-        'Some variable definitions could not be decoded to RenderedView',
-      );
-    }
-
-    logger.info({ shortName, count: data.length }, 'Fetched variable definitions by short name');
-    return data;
-  } catch (error: unknown) {
-    if (error instanceof ResponseError) {
-      logger.error({ statusCode: error.response.status, url: error.response.url }, 'API request failed');
-    } else {
-      logger.error({ error: sanitizeError(error) }, 'Unexpected error during fetch');
-    }
-    throw error;
-  }
-}
-
 export async function getValidityPeriodsById(id: string): Promise<VariableDefinitionValidityPeriod[]> {
   const logger = createLoggerWithBindings({
     module: 'variable-definitions',
