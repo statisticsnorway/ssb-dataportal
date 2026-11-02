@@ -15,6 +15,8 @@ const mocks = vi.hoisted(() => ({
   }),
 }));
 
+vi.mock('server-only', () => ({}));
+
 vi.mock('@/libs/data/classifications/classificationData', () => ({
   fetchClassificationById: mocks.fetchClassificationById,
 }));
