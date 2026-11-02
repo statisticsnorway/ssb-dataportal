@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { ReactNode } from 'react';
-import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout';
+import { getRequestLanguage } from '@/app/(details)/classifications/[id]/resolvedVersion';
 import { VersionResourceLayer } from '@/app/(details)/classifications/components/versionContext';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
 import { createLogger } from '@/libs/logger/server-logger';

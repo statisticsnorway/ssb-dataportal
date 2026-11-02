@@ -2,7 +2,7 @@ import { Link as DigdirLink, Heading } from '@digdir/designsystemet-react';
 import { ArrowLeftIcon } from '@navikt/aksel-icons';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout';
+import { getRequestLanguage } from '@/app/(details)/classifications/[id]/resolvedVersion';
 import { formatVariantName, mapVariantDetails } from '@/app/(details)/classifications/utils/variants';
 import { resolveDefaultVersion } from '@/app/(details)/classifications/utils/versionSelection';
 import { DetailsList } from '@/components/details-list';
