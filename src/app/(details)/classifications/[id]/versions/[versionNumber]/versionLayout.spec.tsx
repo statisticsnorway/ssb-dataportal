@@ -41,7 +41,7 @@ vi.mock('@/libs/logger/server-logger', () => ({
   createLogger: mocks.createLogger,
 }));
 
-vi.mock('@/app/(details)/classifications/[id]/layout', () => ({
+vi.mock('@/libs/language/src/getRequestLanguage', () => ({
   getRequestLanguage: mocks.getRequestLanguage,
 }));
 

@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
-import { getRequestLanguage } from '@/app/(details)/classifications/[id]/layout';
 import CorrespondenceDetailView from '@/app/(details)/classifications/components/views/CorrespondenceDetailView';
 import { buildDownloadHref } from '@/app/(details)/classifications/utils/download-urls';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 import { fetchCorrespondenceTable } from '@/libs/data/classifications/correspondencesData';
 import { fetchVersionById } from '@/libs/data/classifications/versionsData';
+import { getRequestLanguage } from '@/libs/language/src/getRequestLanguage';
 
 interface CorrespondencePageProps {
   params: Promise<{
