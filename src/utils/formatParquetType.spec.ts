@@ -8,7 +8,9 @@ describe('formatParquetType', () => {
     ['DOUBLE', 'Double-precision float'],
     ['INT64', '64-bit integer'],
     ['STRING', 'String'],
+    ['INTEGER', 'Integer'],
     ['UUID', 'UUID'],
+    ['constructor', 'Constructor'],
     ['CUSTOM_TYPE', 'Custom type'],
   ])('formats %s as %s', (typeName, expected) => {
     expect(formatParquetType(typeName)).toBe(expected);

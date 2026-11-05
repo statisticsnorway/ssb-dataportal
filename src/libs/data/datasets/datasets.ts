@@ -19,7 +19,6 @@ import {
   DatasetsApi,
   DatasetsApiInterface,
   DatasetVariableDTO,
-  DatasetVariablePageResponse,
   ResponseError,
   StorageCategory,
 } from '@/libs/data-access/datadoc';
@@ -33,7 +32,7 @@ import { getEncodedJwt } from '../../auth/jwt';
 
 const staticDataProducts = dataProductsStatic.map((dataProduct) => DataProductDTOFromJSON(dataProduct));
 const staticDatasets = datasetsStatic.map((dataset) => DatasetDTOFromJSON(dataset));
-const staticDatasetVariablesByDatasetId = datasetVariablesStatic as Record<string, DatasetVariablePageResponse>;
+const staticDatasetVariables: Record<string, DatasetVariableDTO[]> = datasetVariablesStatic;
 
 const ttlSeconds = Number(process.env.DATADOC_CACHE_TTL_SECONDS) || 3600;
 const dataDocFetchOptions = {
@@ -284,9 +283,9 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
 export async function listDatasetVariables(datasetId: string): Promise<DatasetVariableDTO[]> {
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'listDatasetVariables', datasetId });
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
-    const response = staticDatasetVariablesByDatasetId[datasetId];
-    logger.warn({ count: response?.variables.length ?? 0 }, 'Using static mock data for dataset variables');
-    return response?.variables ?? [];
+    const variables = staticDatasetVariables[datasetId] ?? [];
+    logger.warn({ count: variables.length }, 'Using static mock data for dataset variables');
+    return variables;
   }
 
   try {
