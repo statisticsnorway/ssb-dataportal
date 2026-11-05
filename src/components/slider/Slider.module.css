@@ -2,7 +2,7 @@
   --slider-track-height: 0.25rem;
   --slider-thumb-size: 1.25rem;
   --slider-track-color: var(--ds-color-neutral-border-subtle, #d0d5dd);
-  --slider-fill-color: var(--ds-color-accent-base-default, #0062ba);
+  --slider-fill-color: var(--ds-color-base-default);
   --slider-thumb-color: var(--ds-color-neutral-background-default, #fff);
   --slider-focus-color: var(--ds-color-focus-outer, #1e2b3c);
 
