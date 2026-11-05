@@ -78,7 +78,7 @@ export function DatasetFilters({ filters, timelinePeriods, onChange }: DatasetFi
             </FilterSection>
             {timelinePeriods.length > 0 ? (
               <FilterSection title={localization.datasetDetail.period} className={styles.filterSection}>
-                <Slider<readonly [number, number]>
+                <Slider
                   aria-label={localization.datasetDetail.periodRange}
                   valueLabel={label}
                   rangeLabels={[localization.datasetDetail.periodFrom, localization.datasetDetail.periodTo]}
@@ -89,7 +89,6 @@ export function DatasetFilters({ filters, timelinePeriods, onChange }: DatasetFi
                   disabled={lastIndex === 0}
                   formatValue={(index) => formatTimelinePeriod(timelinePeriods[index])}
                   onChange={updatePeriodRange}
-                  onChangeEnd={updatePeriodRange}
                 />
               </FilterSection>
             ) : null}

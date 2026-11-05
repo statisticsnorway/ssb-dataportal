@@ -1,20 +1,31 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
-import { Slider } from './index';
+import { Slider, type SliderProps } from './index';
+
+function ControlledSlider({
+  value: initialValue,
+  ...props
+}: Omit<SliderProps, 'onChange' | 'aria-label' | 'aria-labelledby'> & { 'aria-label': string }) {
+  const [value, setValue] = useState(initialValue);
+  return <Slider {...props} value={value} onChange={setValue} />;
+}
 
 describe('Slider', () => {
   it('renders an optional label with the slider control', () => {
-    render(<Slider aria-label='Period range' value={[0, 1]} min={0} max={1} valueLabel='Jan 2020 – Feb 2020' />);
+    render(
+      <ControlledSlider aria-label='Period range' value={[0, 1]} min={0} max={1} valueLabel='Jan 2020 – Feb 2020' />,
+    );
 
     expect(screen.getByText('Jan 2020 – Feb 2020')).toBeInTheDocument();
   });
 
   it('shows the formatted value for the focused thumb and updates it as the thumb moves', () => {
     render(
-      <Slider
+      <ControlledSlider
         aria-label='Period range'
         valueLabel='Jan 2020 – Dec 2022'
-        defaultValue={[0, 4]}
+        value={[0, 4]}
         min={0}
         max={4}
         formatValue={(value) => `Period ${value}`}
@@ -45,7 +56,7 @@ describe('Slider', () => {
   });
 
   it('moves a selected thumb along the inset track while dragging', () => {
-    render(<Slider aria-label='Period range' defaultValue={[0, 4]} min={0} max={4} />);
+    render(<ControlledSlider aria-label='Period range' value={[0, 4]} min={0} max={4} />);
 
     const minimumThumb = screen.getByRole('slider', { name: 'Period range min' });
     const track = minimumThumb.parentElement;
@@ -70,11 +81,7 @@ describe('Slider', () => {
 
   it('updates the range from a thumb keyboard event', () => {
     const onChange = vi.fn();
-    const onChangeEnd = vi.fn();
-
-    render(
-      <Slider aria-label='Period range' value={[0, 1]} min={0} max={1} onChange={onChange} onChangeEnd={onChangeEnd} />,
-    );
+    render(<Slider aria-label='Period range' value={[0, 1]} min={0} max={1} onChange={onChange} />);
 
     const maximumThumb = screen.getByRole('slider', { name: 'Period range max' });
     maximumThumb.focus();
@@ -82,6 +89,18 @@ describe('Slider', () => {
     fireEvent.keyDown(maximumThumb, { key: 'Home', code: 'Home' });
 
     expect(onChange).toHaveBeenCalledWith([0, 0]);
-    expect(onChangeEnd).toHaveBeenCalledWith([0, 0]);
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(maximumThumb).toHaveAttribute('aria-valuenow', '1');
+  });
+
+  it('keeps both thumbs within the range without crossing', () => {
+    render(<ControlledSlider aria-label='Period range' value={[1, 3]} min={0} max={4} />);
+
+    const minimumThumb = screen.getByRole('slider', { name: 'Period range min' });
+    const maximumThumb = screen.getByRole('slider', { name: 'Period range max' });
+    fireEvent.keyDown(minimumThumb, { key: 'End' });
+    expect(minimumThumb).toHaveAttribute('aria-valuenow', '3');
+    fireEvent.keyDown(maximumThumb, { key: 'Home' });
+    expect(maximumThumb).toHaveAttribute('aria-valuenow', '3');
   });
 });

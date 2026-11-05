@@ -3,32 +3,24 @@ import { type KeyboardEvent, type PointerEvent, type ReactNode, useId, useRef, u
 import styles from './Slider.module.css';
 
 type Range = readonly [number, number];
-export type SliderValue = number | Range;
 
 type Labelled =
   | { 'aria-label': string; 'aria-labelledby'?: never }
   | { 'aria-labelledby': string; 'aria-label'?: never };
 
-export type SliderProps<V extends SliderValue = number> = Labelled & {
-  value?: V;
-  defaultValue?: V;
-  onChange?: (value: V) => void;
-  onChangeEnd?: (value: V) => void;
+export type SliderProps = Labelled & {
+  value: Range;
+  onChange: (value: Range) => void;
   min?: number;
   max?: number;
   step?: number;
   disabled?: boolean;
-  name?: string;
   formatValue?: (value: number) => string;
   valueLabel?: ReactNode;
   /** Suffixes announced after `aria-label` for the first and last thumb of a range. */
   rangeLabels?: readonly [string, string];
   className?: string;
 };
-
-const isRange = (value: SliderValue): value is Range => typeof value !== 'number';
-
-const toList = (value: SliderValue): readonly number[] => (isRange(value) ? value : [value]);
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
@@ -40,11 +32,6 @@ const snap = (raw: number, min: number, max: number, step: number) => {
 };
 
 const percent = (value: number, min: number, max: number) => (max === min ? 0 : ((value - min) / (max - min)) * 100);
-
-const withThumb = (latest: SliderValue, index: number, next: number): SliderValue => {
-  if (!isRange(latest)) return next;
-  return index === 0 ? [Math.min(next, latest[1]), latest[1]] : [latest[0], Math.max(next, latest[0])];
-};
 
 const valueFromKey = (key: string, current: number, min: number, max: number, step: number): number | null => {
   switch (key) {
@@ -67,59 +54,47 @@ const valueFromKey = (key: string, current: number, min: number, max: number, st
   }
 };
 
-export function Slider<V extends SliderValue = number>({
+export function Slider({
   value,
-  defaultValue,
   onChange,
-  onChangeEnd,
   min = 0,
   max = 100,
   step = 1,
   disabled = false,
-  name,
   formatValue = String,
   valueLabel,
   rangeLabels = ['min', 'max'],
   className,
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledby,
-}: SliderProps<V>) {
-  const [internal, setInternal] = useState<SliderValue>(defaultValue ?? min);
+}: SliderProps) {
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
   const [focusedThumbIndex, setFocusedThumbIndex] = useState<number | null>(null);
   const thumbLabelId = useId();
   const trackRef = useRef<HTMLDivElement>(null);
-  const current: SliderValue = value ?? internal;
-  const currentRef = useRef<SliderValue>(current);
-  currentRef.current = current;
+  const currentRef = useRef(value);
+  currentRef.current = value;
 
-  const thumbs = toList(current);
-  const thumbIds = thumbs.map((_, index) => `${thumbLabelId}-${index}`);
+  const thumbIds = value.map((_, index) => `${thumbLabelId}-${index}`);
   const activeThumbIndex = draggingIndex ?? focusedThumbIndex;
-  const start = isRange(current) ? percent(current[0], min, max) : 0;
-  const end = percent(thumbs.at(-1) ?? min, min, max);
+  const start = percent(value[0], min, max);
+  const end = percent(value[1], min, max);
 
   const thumbLabel = (index: number) => {
-    if (!isRange(current)) return ariaLabel;
     const rangeLabel = index === 0 ? rangeLabels[0] : rangeLabels[1];
     return `${ariaLabel} ${rangeLabel}`;
   };
 
-  const commit = (index: number, raw: number): SliderValue => {
+  const commit = (index: number, raw: number) => {
     const latest = currentRef.current;
-    const latestThumbs = toList(latest);
     const next = snap(raw, min, max, step);
-    const nextValue = withThumb(latest, index, next);
-    const nextThumbs = toList(nextValue);
-    const changed = nextThumbs.some((thumb, thumbIndex) => thumb !== latestThumbs[thumbIndex]);
+    const nextValue: Range =
+      index === 0 ? [Math.min(next, latest[1]), latest[1]] : [latest[0], Math.max(next, latest[0])];
 
-    if (changed) {
+    if (nextValue[0] !== latest[0] || nextValue[1] !== latest[1]) {
       currentRef.current = nextValue;
-      setInternal(nextValue);
-      onChange?.(nextValue as V);
+      onChange(nextValue);
     }
-
-    return nextValue;
   };
 
   const rawFromPointer = (clientX: number) => {
@@ -152,19 +127,16 @@ export function Slider<V extends SliderValue = number>({
   };
 
   const handlePointerUp = () => {
-    if (draggingIndex === null) return;
     setDraggingIndex(null);
-    onChangeEnd?.(currentRef.current as V);
   };
 
   const handleKeyDown = (index: number) => (event: KeyboardEvent) => {
     if (disabled) return;
-    const raw = valueFromKey(event.key, thumbs[index] ?? min, min, max, step);
+    const raw = valueFromKey(event.key, value[index] ?? min, min, max, step);
     if (raw === null) return;
 
     event.preventDefault();
-    const nextValue = commit(index, raw);
-    onChangeEnd?.(nextValue as V);
+    commit(index, raw);
   };
 
   return (
@@ -193,7 +165,7 @@ export function Slider<V extends SliderValue = number>({
             }}
           />
 
-          {thumbs.map((thumb, index) => {
+          {value.map((thumb, index) => {
             const formattedValue = formatValue(thumb);
 
             return (
@@ -206,8 +178,8 @@ export function Slider<V extends SliderValue = number>({
                     data-dragging={draggingIndex === index || undefined}
                     style={{ insetInlineStart: `${percent(thumb, min, max)}%` }}
                     aria-valuenow={thumb}
-                    aria-valuemin={isRange(current) && index === 1 ? current[0] : min}
-                    aria-valuemax={isRange(current) && index === 0 ? current[1] : max}
+                    aria-valuemin={index === 1 ? value[0] : min}
+                    aria-valuemax={index === 0 ? value[1] : max}
                     aria-valuetext={formattedValue}
                     aria-orientation='horizontal'
                     aria-disabled={disabled || undefined}
@@ -233,10 +205,6 @@ export function Slider<V extends SliderValue = number>({
           })}
         </div>
       </div>
-
-      {name
-        ? thumbs.map((thumb, index) => <input key={thumbIds[index]} type='hidden' name={name} value={thumb} />)
-        : null}
     </div>
   );
 }
