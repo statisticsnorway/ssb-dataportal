@@ -189,39 +189,24 @@ export async function listDatasetsByProductShortNameAndStorageCategory(
 /**
  * Fetches the list of data files for a given dataset and storage category.
  * @param datasetId The ID of the dataset.
- * @param storageCategory The storage category of the data files to fetch.
+ * @param storageCategory The storage category of the data files to fetch. Omit to fetch all categories.
+ * @param variableIds Only fetch data files containing at least one of these variables.
  * @returns A promise that resolves to an array of DaplaDataFileDTO objects representing the fetched data files.
  */
 export async function listDataFilesByDatasetIdAndStorageCategory(
   datasetId: string,
-  storageCategory: StorageCategory,
-  variableIds?: string[],
-): Promise<Array<DaplaDataFileDTO>> {
-  return listDataFilesByDatasetId(datasetId, storageCategory, variableIds);
-}
-
-export async function listDataFilesByDatasetIdAndVariableIds(
-  datasetId: string,
-  variableIds: string[],
-): Promise<Array<DaplaDataFileDTO>> {
-  return listDataFilesByDatasetId(datasetId, undefined, variableIds);
-}
-
-async function listDataFilesByDatasetId(
-  datasetId: string,
   storageCategory?: StorageCategory,
   variableIds?: string[],
 ): Promise<Array<DaplaDataFileDTO>> {
-  const fn = storageCategory ? 'listDataFilesByDatasetIdAndStorageCategory' : 'listDataFilesByDatasetIdAndVariableIds';
   const logger = createLoggerWithBindings({
     module: 'datasets',
-    fn,
+    fn: 'listDataFilesByDatasetIdAndStorageCategory',
     datasetId,
     storageCategory,
   });
 
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
-    logger.warn({ fn }, 'Using static mock data for data files');
+    logger.warn({ fn: 'listDataFilesByDatasetIdAndStorageCategory' }, 'Using static mock data for data files');
     const datafilePath = join(process.cwd(), 'src', 'static-data', 'data-files', `${datasetId}.json`);
     try {
       const rawData = await readFile(datafilePath, 'utf-8');

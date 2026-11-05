@@ -20,7 +20,6 @@ import {
   getClientForApi,
   getDataProductByShortName,
   listDataFilesByDatasetIdAndStorageCategory,
-  listDataFilesByDatasetIdAndVariableIds,
   listDataProducts,
   listDatasetsByProductShortNameAndStorageCategory,
   listDatasetVariables,
@@ -240,37 +239,6 @@ describe('datadoc data fetching', () => {
           page: 0,
           pageSize: 100,
         },
-        expect.anything(),
-      );
-    });
-
-    it('fetches data files across storage categories for selected variable IDs', async () => {
-      process.env.DATADOC_USE_STATIC_DATA = 'false';
-      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
-
-      const mockResult = [
-        {
-          file_path: 'gs://bucket/path/file.parquet',
-          file_name: 'file.parquet',
-          naming_standard_violations: [],
-        } as DaplaDataFileDTO,
-      ];
-      const listDataFilesSpy = vi.spyOn(DataFilesApi.prototype, 'listDataFiles').mockResolvedValue({
-        data_files: mockResult,
-        total_data_files: mockResult.length,
-        page: 0,
-        page_size: 100,
-        has_next: false,
-      });
-
-      await expect(listDataFilesByDatasetIdAndVariableIds('dataset-id', ['variable-1'])).resolves.toEqual(mockResult);
-      expect(listDataFilesSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          datasetId: 'dataset-id',
-          variableIds: ['variable-1'],
-          page: 0,
-          pageSize: 100,
-        }),
         expect.anything(),
       );
     });

@@ -1,7 +1,7 @@
 'use server';
 
 import { authenticateUser } from '@/libs/auth/userAuth';
-import { listDataFilesByDatasetIdAndVariableIds } from '@/libs/data/datasets/datasets';
+import { listDataFilesByDatasetIdAndStorageCategory } from '@/libs/data/datasets/datasets';
 import type { DaplaDataFileDTO } from '@/libs/data-access/datadoc';
 
 const variableFilePathBatchSize = 8;
@@ -29,7 +29,7 @@ export async function listDatasetVariableDataFilePaths(datasetId: string, variab
     return [];
   }
 
-  return uniqueFilePaths(await listDataFilesByDatasetIdAndVariableIds(datasetId, uniqueVariableIds));
+  return uniqueFilePaths(await listDataFilesByDatasetIdAndStorageCategory(datasetId, undefined, uniqueVariableIds));
 }
 
 export async function listDatasetVariableDataFilePathsByVariableIds(
@@ -44,7 +44,9 @@ export async function listDatasetVariableDataFilePathsByVariableIds(
     const batchFilePaths = await Promise.all(
       batch.map(async (variableId) => ({
         variableId,
-        filePaths: uniqueFilePaths(await listDataFilesByDatasetIdAndVariableIds(datasetId, [variableId])),
+        filePaths: uniqueFilePaths(
+          await listDataFilesByDatasetIdAndStorageCategory(datasetId, undefined, [variableId]),
+        ),
       })),
     );
 

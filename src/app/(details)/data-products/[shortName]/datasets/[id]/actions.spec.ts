@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { authenticateUser } from '@/libs/auth/userAuth';
-import { listDataFilesByDatasetIdAndVariableIds } from '@/libs/data/datasets/datasets';
+import { listDataFilesByDatasetIdAndStorageCategory } from '@/libs/data/datasets/datasets';
 import type { DaplaDataFileDTO } from '@/libs/data-access/datadoc';
 import { listDatasetVariableDataFilePaths, listDatasetVariableDataFilePathsByVariableIds } from './actions';
 
 vi.mock('@/libs/auth/userAuth', () => ({ authenticateUser: vi.fn() }));
-vi.mock('@/libs/data/datasets/datasets', () => ({ listDataFilesByDatasetIdAndVariableIds: vi.fn() }));
+vi.mock('@/libs/data/datasets/datasets', () => ({ listDataFilesByDatasetIdAndStorageCategory: vi.fn() }));
 
 const file = (file_path: string) => ({ file_path }) as DaplaDataFileDTO;
 
@@ -20,24 +20,24 @@ describe('dataset variable actions', () => {
 
     await expect(listDatasetVariableDataFilePaths('ds', ['v1'])).rejects.toThrow('Unauthorized');
     await expect(listDatasetVariableDataFilePathsByVariableIds('ds', ['v1'])).rejects.toThrow('Unauthorized');
-    expect(listDataFilesByDatasetIdAndVariableIds).not.toHaveBeenCalled();
+    expect(listDataFilesByDatasetIdAndStorageCategory).not.toHaveBeenCalled();
   });
 
   it('returns nothing without fetching when there are no variable IDs', async () => {
     await expect(listDatasetVariableDataFilePaths('ds', ['', ''])).resolves.toEqual([]);
-    expect(listDataFilesByDatasetIdAndVariableIds).not.toHaveBeenCalled();
+    expect(listDataFilesByDatasetIdAndStorageCategory).not.toHaveBeenCalled();
   });
 
   it('de-duplicates variable IDs and file paths', async () => {
-    vi.mocked(listDataFilesByDatasetIdAndVariableIds).mockResolvedValue([file('a'), file('a'), file('b')]);
+    vi.mocked(listDataFilesByDatasetIdAndStorageCategory).mockResolvedValue([file('a'), file('a'), file('b')]);
 
     await expect(listDatasetVariableDataFilePaths('ds', ['v1', 'v1', 'v2'])).resolves.toEqual(['a', 'b']);
-    expect(listDataFilesByDatasetIdAndVariableIds).toHaveBeenCalledWith('ds', ['v1', 'v2']);
+    expect(listDataFilesByDatasetIdAndStorageCategory).toHaveBeenCalledWith('ds', undefined, ['v1', 'v2']);
   });
 
   it('fetches file paths per variable in batches', async () => {
-    vi.mocked(listDataFilesByDatasetIdAndVariableIds).mockImplementation(async (_id, [variableId]) => [
-      file(`${variableId}.parquet`),
+    vi.mocked(listDataFilesByDatasetIdAndStorageCategory).mockImplementation(async (_id, _category, variableIds) => [
+      file(`${variableIds?.[0]}.parquet`),
     ]);
     const ids = Array.from({ length: 10 }, (_, index) => `v${index}`);
 
@@ -45,6 +45,6 @@ describe('dataset variable actions', () => {
 
     expect(Object.keys(result)).toHaveLength(10);
     expect(result['v9']).toEqual(['v9.parquet']);
-    expect(listDataFilesByDatasetIdAndVariableIds).toHaveBeenCalledTimes(10);
+    expect(listDataFilesByDatasetIdAndStorageCategory).toHaveBeenCalledTimes(10);
   });
 });

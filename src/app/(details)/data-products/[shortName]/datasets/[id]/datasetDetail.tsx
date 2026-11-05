@@ -12,7 +12,7 @@ import {
   Tag,
 } from '@digdir/designsystemet-react';
 import { notFound } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { useTimelineData } from '@/components/data-coverage-timeline';
@@ -26,7 +26,6 @@ import { Slider } from '@/components/slider';
 import { CopyTag } from '@/components/tag-components/copy-tag';
 import { DaplaDataFileDTO, DatasetDTO, DatasetVariableDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
-import { clientLogger } from '@/libs/logger/client-logger';
 import { Visibility } from '@/types/item';
 import { getDaplaCtrlUrl } from '@/utils/config';
 import { convertAssessment, convertDataSetState } from '@/utils/functions';
@@ -35,14 +34,13 @@ import { DataFileSearchHit } from '../../components/DataFileSearchHit';
 import { listDatasetVariableDataFilePaths, listDatasetVariableDataFilePathsByVariableIds } from './actions';
 import DatasetVariableCard from './DatasetVariableCard';
 import styles from './dataset-page.module.css';
+import { useDebouncedLoad } from './useDebouncedLoad';
 
 type TimelinePeriodSlot = Slot & { year: number };
 type FilterState = {
   search: string;
   period: readonly [number, number] | null;
 };
-
-const emptyVariableFilePaths: Record<string, string[] | null> = {};
 
 const formatTimelinePeriod = (period: TimelinePeriodSlot | undefined, capitalize = false) => {
   if (!period) return '';
@@ -123,137 +121,54 @@ export default function DatasetDetail({
     () => filteredDatasetVariables.map((variable) => variable.id),
     [filteredDatasetVariables],
   );
-  const [variableDataFilePaths, setVariableDataFilePaths] = useState<{
-    filter: string;
-    filePaths: string[];
-  } | null>(null);
-  const [variableFilePathsById, setVariableFilePathsById] = useState<{
-    datasetId: string;
-    filePathsById: Record<string, string[] | null>;
-  } | null>(null);
-  const cachedVariableFilePathsById =
-    variableFilePathsById?.datasetId === datasetId ? variableFilePathsById.filePathsById : emptyVariableFilePaths;
-  const missingVariableIds = useMemo(
-    () => filteredVariableIds.filter((variableId) => !Object.hasOwn(cachedVariableFilePathsById, variableId)),
-    [cachedVariableFilePathsById, filteredVariableIds],
+
+  const nameMatchedFilePaths = useDebouncedLoad(
+    isValid && normalizedVariableNameFilter ? `${datasetId}:${filteredVariableIds.join(',')}` : null,
+    async () =>
+      new Set(
+        filteredVariableIds.length > 0 ? await listDatasetVariableDataFilePaths(datasetId, filteredVariableIds) : [],
+      ),
+    new Set<string>(),
+  );
+  const filePathsByVariableId = useDebouncedLoad(
+    isValid && isPeriodRangeFiltered ? datasetId : null,
+    () =>
+      listDatasetVariableDataFilePathsByVariableIds(
+        datasetId,
+        datasetVariables.map((variable) => variable.id),
+      ),
+    null,
+    0,
   );
 
-  useEffect(() => {
-    if (!normalizedVariableNameFilter || !isValid) {
-      return;
+  const periodFilteredDatasetVariables = useMemo(() => {
+    const variablePaths = filePathsByVariableId.value;
+    if (!isPeriodRangeFiltered || !variablePaths || !selectedPeriodStart || !selectedPeriodEnd) {
+      return filteredDatasetVariables;
     }
 
-    if (!datasetId || filteredVariableIds.length === 0) {
-      setVariableDataFilePaths({ filter: normalizedVariableNameFilter, filePaths: [] });
-      return;
-    }
-
-    let cancelled = false;
-    const timeoutId = window.setTimeout(() => {
-      listDatasetVariableDataFilePaths(datasetId, filteredVariableIds)
-        .then((filePaths) => {
-          if (!cancelled) {
-            setVariableDataFilePaths({ filter: normalizedVariableNameFilter, filePaths });
-          }
-        })
-        .catch((error: unknown) => {
-          clientLogger.error({ error }, 'Failed to load periods for dataset variable filter');
-          if (!cancelled) {
-            setVariableDataFilePaths({ filter: normalizedVariableNameFilter, filePaths: [] });
-          }
-        });
-    }, 250);
-
-    return () => {
-      cancelled = true;
-      window.clearTimeout(timeoutId);
-    };
-  }, [datasetId, filteredVariableIds, isValid, normalizedVariableNameFilter]);
-
-  useEffect(() => {
-    if (!isValid || !isPeriodRangeFiltered || !datasetId || missingVariableIds.length === 0) {
-      return;
-    }
-
-    let cancelled = false;
-    const timeoutId = window.setTimeout(() => {
-      listDatasetVariableDataFilePathsByVariableIds(datasetId, missingVariableIds)
-        .then((filePathsById) => {
-          if (!cancelled) {
-            setVariableFilePathsById((current) => {
-              const currentFilePaths = current?.datasetId === datasetId ? current.filePathsById : {};
-              return {
-                datasetId,
-                filePathsById: { ...currentFilePaths, ...filePathsById },
-              };
-            });
-          }
-        })
-        .catch((error: unknown) => {
-          clientLogger.error({ error }, 'Failed to load dataset variables for selected periods');
-          if (!cancelled) {
-            const failedFilePaths = Object.fromEntries(missingVariableIds.map((variableId) => [variableId, null]));
-            setVariableFilePathsById((current) => {
-              const currentFilePaths = current?.datasetId === datasetId ? current.filePathsById : {};
-              return {
-                datasetId,
-                filePathsById: { ...currentFilePaths, ...failedFilePaths },
-              };
-            });
-          }
-        });
-    }, 250);
-
-    return () => {
-      cancelled = true;
-      window.clearTimeout(timeoutId);
-    };
-  }, [datasetId, isPeriodRangeFiltered, isValid, missingVariableIds]);
-
-  const isVariableTimelineLoading =
-    isValid &&
-    normalizedVariableNameFilter.length > 0 &&
-    filteredVariableIds.length > 0 &&
-    variableDataFilePaths?.filter !== normalizedVariableNameFilter;
-  const isVariablePeriodLoading = isValid && isPeriodRangeFiltered && missingVariableIds.length > 0;
-
-  const filePathsInSelectedPeriod = useMemo(() => {
-    if (!isPeriodRangeFiltered || !selectedPeriodStart || !selectedPeriodEnd) {
-      return null;
-    }
-
-    return new Set(
+    const filePathsInSelectedPeriod = new Set(
       allItems
         .filter((item) => item.start <= selectedPeriodEnd && item.end >= selectedPeriodStart)
         .map((item) => item.file_path),
     );
-  }, [allItems, isPeriodRangeFiltered, selectedPeriodEnd, selectedPeriodStart]);
-
-  const periodFilteredDatasetVariables = useMemo(() => {
-    if (!filePathsInSelectedPeriod) {
-      return filteredDatasetVariables;
-    }
-
-    return filteredDatasetVariables.filter((variable) => {
-      const filePaths = cachedVariableFilePathsById[variable.id];
-      return filePaths == null || filePaths.some((filePath) => filePathsInSelectedPeriod.has(filePath));
-    });
-  }, [cachedVariableFilePathsById, filePathsInSelectedPeriod, filteredDatasetVariables]);
+    return filteredDatasetVariables.filter((variable) =>
+      variablePaths[variable.id]?.some((filePath) => filePathsInSelectedPeriod.has(filePath)),
+    );
+  }, [
+    allItems,
+    filePathsByVariableId.value,
+    filteredDatasetVariables,
+    isPeriodRangeFiltered,
+    selectedPeriodEnd,
+    selectedPeriodStart,
+  ]);
 
   const filteredTimelineItems = useMemo(() => {
-    let matchingItems = allItems;
-
-    if (normalizedVariableNameFilter) {
-      if (variableDataFilePaths?.filter !== normalizedVariableNameFilter) {
-        return [];
-      }
-
-      const filePaths = new Set(variableDataFilePaths.filePaths);
-      matchingItems = matchingItems.filter((item) => filePaths.has(item.file_path));
-    }
-
-    return matchingItems;
-  }, [allItems, normalizedVariableNameFilter, variableDataFilePaths]);
+    if (!normalizedVariableNameFilter) return allItems;
+    const filePaths = nameMatchedFilePaths.value;
+    return filePaths ? allItems.filter((item) => filePaths.has(item.file_path)) : [];
+  }, [allItems, nameMatchedFilePaths.value, normalizedVariableNameFilter]);
 
   const updatePeriodRange = (period: readonly [number, number]) => {
     updateFilters({ period: period[0] === 0 && period[1] === lastPeriodIndex ? null : period });
@@ -325,7 +240,7 @@ export default function DatasetDetail({
         <Card
           className={styles.tableContainer}
           data-testid='dataset-periods-and-variables'
-          aria-busy={isVariableTimelineLoading || isVariablePeriodLoading}
+          aria-busy={nameMatchedFilePaths.isLoading || filePathsByVariableId.isLoading}
         >
           {isAuthenticated && datasetVariables.length > 0 ? (
             <Details className={styles.filterDetails}>
