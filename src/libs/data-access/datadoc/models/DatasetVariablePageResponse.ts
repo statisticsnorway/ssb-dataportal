@@ -22,7 +22,7 @@ import {
 } from './DatasetVariableDTO';
 
 /**
- * 
+ * A page of variables belonging to a dataset.
  * @export
  * @interface DatasetVariablePageResponse
  */

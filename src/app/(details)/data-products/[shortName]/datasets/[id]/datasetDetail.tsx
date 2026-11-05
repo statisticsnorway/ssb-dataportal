@@ -159,12 +159,7 @@ export default function DatasetDetail({
               </Heading>
               <div className={styles.variablesList}>
                 {datasetVariables
-                  .toSorted(
-                    (a, b) =>
-                      a.short_name.localeCompare(b.short_name, 'nb') ||
-                      (a.physical_type_name ?? '').localeCompare(b.physical_type_name ?? '') ||
-                      (a.logical_type_name ?? '').localeCompare(b.logical_type_name ?? ''),
-                  )
+                  .toSorted((a, b) => a.short_name.localeCompare(b.short_name, 'nb'))
                   .map((variable) => (
                     <DatasetVariableCard key={variable.id} variable={variable} />
                   ))}

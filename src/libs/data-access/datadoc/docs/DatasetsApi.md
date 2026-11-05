@@ -170,7 +170,11 @@ import type { ListDatasetVariablesRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new DatasetsApi();
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: keycloak-token
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DatasetsApi(config);
 
   const body = {
     // string
@@ -208,7 +212,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[keycloak-token](../README.md#keycloak-token)
 
 ### HTTP request headers
 
@@ -220,6 +224,7 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | List the variables belonging to a dataset. |  -  |
+| **400** | Bad request. |  -  |
 | **404** | Not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

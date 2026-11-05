@@ -1,6 +1,7 @@
 
 # DatasetVariablePageResponse
 
+A page of variables belonging to a dataset.
 
 ## Properties
 

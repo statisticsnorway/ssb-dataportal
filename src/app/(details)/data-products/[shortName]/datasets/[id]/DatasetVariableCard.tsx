@@ -5,28 +5,23 @@ import { formatParquetType } from '@/utils/formatParquetType';
 import styles from './dataset-page.module.css';
 
 export default function DatasetVariableCard({ variable }: Readonly<{ variable: DatasetVariableDTO }>) {
+  const types = [
+    [localization.datasetDetail.physicalType, variable.physical_type_name],
+    [localization.datasetDetail.logicalType, variable.logical_type_name],
+  ] as const;
+
   return (
     <Card className={styles.variableCard} data-testid={`dataset-variable-card-${variable.id}`}>
       <Heading level={3} className={styles.variableHeading} data-size='sm'>
         {variable.short_name}
       </Heading>
       <dl className={styles.variableTypes}>
-        <div className={styles.variableType}>
-          <dt>{localization.datasetDetail.physicalType}</dt>
-          <dd>
-            {variable.physical_type_name
-              ? formatParquetType(variable.physical_type_name)
-              : localization.datasetDetail.notSpecified}
-          </dd>
-        </div>
-        <div className={styles.variableType}>
-          <dt>{localization.datasetDetail.logicalType}</dt>
-          <dd>
-            {variable.logical_type_name
-              ? formatParquetType(variable.logical_type_name)
-              : localization.datasetDetail.notSpecified}
-          </dd>
-        </div>
+        {types.map(([label, typeName]) => (
+          <div key={label} className={styles.variableType}>
+            <dt>{label}</dt>
+            <dd>{typeName ? formatParquetType(typeName) : localization.datasetDetail.notSpecified}</dd>
+          </div>
+        ))}
       </dl>
     </Card>
   );
