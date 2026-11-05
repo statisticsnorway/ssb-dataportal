@@ -14,12 +14,11 @@ async function assertAuthenticated() {
 export async function listDatasetVariableDataFilePaths(datasetId: string, variableIds: string[]): Promise<string[]> {
   await assertAuthenticated();
 
-  const uniqueVariableIds = [...new Set(variableIds.filter(Boolean))];
-  if (!datasetId || uniqueVariableIds.length === 0) {
+  if (variableIds.length === 0) {
     return [];
   }
 
-  const dataFiles = await listDataFilesByDatasetIdAndStorageCategory(datasetId, undefined, uniqueVariableIds);
+  const dataFiles = await listDataFilesByDatasetIdAndStorageCategory(datasetId, undefined, variableIds);
   return [...new Set(dataFiles.map((dataFile) => dataFile.file_path))];
 }
 

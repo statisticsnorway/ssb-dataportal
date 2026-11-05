@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { clientLogger } from '@/libs/logger/client-logger';
 
+const debounceMs = 250;
+
 /**
  * Loads data for `key` after a debounce. Nothing is loaded while `key` is null. `value` is undefined until the result
  * for the current key has arrived, and is `fallback` if loading failed.
  */
-export function useDebouncedLoad<T>(key: string | null, load: () => Promise<T>, fallback: T, delayMs = 250) {
+export function useDebouncedLoad<T>(key: string | null, load: () => Promise<T>, fallback: T) {
   const [result, setResult] = useState<{ key: string; value: T } | null>(null);
   const latest = useRef({ load, fallback });
   latest.current = { load, fallback };
@@ -24,13 +26,13 @@ export function useDebouncedLoad<T>(key: string | null, load: () => Promise<T>, 
         .then((value) => {
           if (!cancelled) setResult({ key, value });
         });
-    }, delayMs);
+    }, debounceMs);
 
     return () => {
       cancelled = true;
       window.clearTimeout(timeoutId);
     };
-  }, [key, delayMs]);
+  }, [key]);
 
   const isCurrent = key !== null && result?.key === key;
   return { value: isCurrent ? result.value : undefined, isLoading: key !== null && !isCurrent };

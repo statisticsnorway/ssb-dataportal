@@ -28,14 +28,14 @@ describe('dataset variable actions', () => {
   });
 
   it('returns nothing without fetching when there are no variable IDs', async () => {
-    await expect(listDatasetVariableDataFilePaths('ds', ['', ''])).resolves.toEqual([]);
+    await expect(listDatasetVariableDataFilePaths('ds', [])).resolves.toEqual([]);
     expect(listDataFilesByDatasetIdAndStorageCategory).not.toHaveBeenCalled();
   });
 
-  it('de-duplicates variable IDs and file paths', async () => {
+  it('de-duplicates file paths', async () => {
     vi.mocked(listDataFilesByDatasetIdAndStorageCategory).mockResolvedValue([file('a'), file('a'), file('b')]);
 
-    await expect(listDatasetVariableDataFilePaths('ds', ['v1', 'v1', 'v2'])).resolves.toEqual(['a', 'b']);
+    await expect(listDatasetVariableDataFilePaths('ds', ['v1', 'v2'])).resolves.toEqual(['a', 'b']);
     expect(listDataFilesByDatasetIdAndStorageCategory).toHaveBeenCalledWith('ds', undefined, ['v1', 'v2']);
   });
 

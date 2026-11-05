@@ -96,20 +96,18 @@ export default function DatasetDetail({
   const lastPeriodIndex = Math.max(0, timelinePeriods.length - 1);
   const [filters, setFilters] = useState<FilterState>({ search: '', period: null });
   const updateFilters = (updates: Partial<FilterState>) => setFilters((current) => ({ ...current, ...updates }));
-  const savedPeriodRange = filters.period;
-  const periodStartIndex = savedPeriodRange ? Math.max(0, Math.min(savedPeriodRange[0], lastPeriodIndex)) : 0;
-  const periodEndIndex = savedPeriodRange
-    ? Math.max(periodStartIndex, Math.min(savedPeriodRange[1], lastPeriodIndex))
-    : lastPeriodIndex;
+  const [periodStartIndex, periodEndIndex] = filters.period ?? [0, lastPeriodIndex];
   const selectedPeriods = timelinePeriods.slice(periodStartIndex, periodEndIndex + 1);
   const selectedPeriodStart = selectedPeriods[0]?.start;
   const selectedPeriodEnd = selectedPeriods.at(-1)?.end;
-  const isPeriodRangeFiltered =
-    timelinePeriods.length > 0 && (periodStartIndex > 0 || periodEndIndex < lastPeriodIndex);
+  const selectedPeriodRange =
+    filters.period && selectedPeriodStart && selectedPeriodEnd
+      ? { start: selectedPeriodStart, end: selectedPeriodEnd }
+      : undefined;
   const periodRangeLabel = formatTimelineRange(selectedPeriods);
   const trimmedSearch = filters.search.trim();
   const normalizedVariableNameFilter = trimmedSearch.toLocaleLowerCase('nb');
-  const hasActiveFilters = trimmedSearch.length > 0 || isPeriodRangeFiltered;
+  const hasActiveFilters = trimmedSearch.length > 0 || selectedPeriodRange !== undefined;
   const filteredDatasetVariables = useMemo(
     () =>
       datasetVariables
@@ -117,25 +115,28 @@ export default function DatasetDetail({
         .toSorted((a, b) => a.short_name.localeCompare(b.short_name, 'nb')),
     [datasetVariables, normalizedVariableNameFilter],
   );
-  const filteredVariableIds = useMemo(
-    () => filteredDatasetVariables.map((variable) => variable.id),
-    [filteredDatasetVariables],
-  );
 
   const nameMatchedFilePaths = useDebouncedLoad(
-    isValid && normalizedVariableNameFilter ? `${datasetId}:${filteredVariableIds.join(',')}` : null,
+    isValid && normalizedVariableNameFilter ? `${datasetId}:${normalizedVariableNameFilter}` : null,
     async () =>
       new Set(
-        filteredVariableIds.length > 0 ? await listDatasetVariableDataFilePaths(datasetId, filteredVariableIds) : [],
+        await listDatasetVariableDataFilePaths(
+          datasetId,
+          filteredDatasetVariables.map((v) => v.id),
+        ),
       ),
     new Set<string>(),
   );
   const variableIdsInPeriod = useDebouncedLoad(
-    isValid && isPeriodRangeFiltered && selectedPeriodStart && selectedPeriodEnd
-      ? `${datasetId}:${selectedPeriodStart}:${selectedPeriodEnd}`
-      : null,
+    selectedPeriodRange ? `${datasetId}:${selectedPeriodRange.start}:${selectedPeriodRange.end}` : null,
     async () =>
-      new Set(await listDatasetVariableIdsInPeriod(datasetId, selectedPeriodStart ?? '', selectedPeriodEnd ?? '')),
+      new Set(
+        await listDatasetVariableIdsInPeriod(
+          datasetId,
+          selectedPeriodRange?.start ?? '',
+          selectedPeriodRange?.end ?? '',
+        ),
+      ),
     null,
   );
   const periodFilteredDatasetVariables = useMemo(() => {
@@ -276,7 +277,7 @@ export default function DatasetDetail({
                             </Chip.Removable>
                           </li>
                         ) : null}
-                        {isPeriodRangeFiltered ? (
+                        {selectedPeriodRange ? (
                           <li>
                             <Chip.Removable
                               aria-label={`${localization.filterTag.remove} ${localization.datasetDetail.period}: ${periodRangeLabel}`}
@@ -301,11 +302,7 @@ export default function DatasetDetail({
               items={items}
               years={years}
               slots={slots}
-              selectedPeriodRange={
-                isPeriodRangeFiltered && selectedPeriodStart && selectedPeriodEnd
-                  ? { start: selectedPeriodStart, end: selectedPeriodEnd }
-                  : undefined
-              }
+              selectedPeriodRange={selectedPeriodRange}
             />
           ) : (
             // Fallback when calendar can't be rendered: List data files
