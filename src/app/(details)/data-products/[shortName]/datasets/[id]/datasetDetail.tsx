@@ -10,23 +10,26 @@ import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { DetailsList } from '@/components/details-list';
 import { ExternalLink } from '@/components/link-components/externalLink';
 import { CopyTag } from '@/components/tag-components/copy-tag';
-import { DaplaDataFileDTO, DatasetDTO } from '@/libs/data-access/datadoc';
+import { DaplaDataFileDTO, DatasetDTO, DatasetVariableDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
 import { Visibility } from '@/types/item';
 import { getDaplaCtrlUrl } from '@/utils/config';
 import { convertAssessment, convertDataSetState } from '@/utils/functions';
 import { sortDateStringsDescending } from '@/utils/sort';
 import { DataFileSearchHit } from '../../components/DataFileSearchHit';
+import DatasetVariableCard from './DatasetVariableCard';
 import styles from './dataset-page.module.css';
 
 export default function DatasetDetail({
   dataset,
   dataFilesShared,
   dataFilesProduct,
+  datasetVariables = [],
 }: Readonly<{
   dataset: DatasetDTO;
   dataFilesShared: Array<DaplaDataFileDTO>;
   dataFilesProduct: Array<DaplaDataFileDTO>;
+  datasetVariables?: DatasetVariableDTO[];
 }>) {
   const { isAuthenticated } = useAuthContext();
 
@@ -109,40 +112,66 @@ export default function DatasetDetail({
             { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
           ]}
         />
-        {isValid ? (
-          <DataCoverageTimeline
-            isValid={isValid}
-            periodType={periodType}
-            allItems={allItems}
-            items={items}
-            years={years}
-            slots={slots}
-          ></DataCoverageTimeline>
-        ) : (
-          // Fallback when calendar can't be rendered: List data files
-          <Card className={styles.tableContainer}>
-            <Heading
-              level={2}
-              className={`${styles.detailsHeading} secondaryHeading`}
-              data-size='md'
-              id={`tableHeading-dataFiles`}
-            >
-              {localization.datasetDetail.dataFiles}
-            </Heading>
-            <div className={styles.dataFilesList}>
-              {dataFiles
-                .toSorted((a, b) =>
-                  sortDateStringsDescending(
-                    a.contains_data_from?.toISOString().split('T')[0],
-                    b.contains_data_from?.toISOString().split('T')[0],
-                  ),
-                )
-                .map((dataFile) => (
-                  <DataFileSearchHit dataFile={dataFile} key={dataFile.file_path} />
-                ))}
-            </div>
-          </Card>
-        )}
+        <Card className={styles.tableContainer} data-testid='dataset-periods-and-variables'>
+          {isValid ? (
+            <DataCoverageTimeline
+              isValid={isValid}
+              periodType={periodType}
+              allItems={allItems}
+              items={items}
+              years={years}
+              slots={slots}
+            />
+          ) : (
+            // Fallback when calendar can't be rendered: List data files
+            <>
+              <Heading
+                level={2}
+                className={`${styles.detailsHeading} secondaryHeading`}
+                data-size='md'
+                id='tableHeading-dataFiles'
+              >
+                {localization.datasetDetail.dataFiles}
+              </Heading>
+              <div className={styles.dataFilesList}>
+                {dataFiles
+                  .toSorted((a, b) =>
+                    sortDateStringsDescending(
+                      a.contains_data_from?.toISOString().split('T')[0],
+                      b.contains_data_from?.toISOString().split('T')[0],
+                    ),
+                  )
+                  .map((dataFile) => (
+                    <DataFileSearchHit dataFile={dataFile} key={dataFile.file_path} />
+                  ))}
+              </div>
+            </>
+          )}
+          {datasetVariables.length > 0 ? (
+            <section className={styles.variablesSection} aria-labelledby='tableHeading-variables'>
+              <Heading
+                level={2}
+                className={`${styles.detailsHeading} secondaryHeading`}
+                data-size='md'
+                id='tableHeading-variables'
+              >
+                {localization.datasetDetail.variables}
+              </Heading>
+              <div className={styles.variablesList}>
+                {datasetVariables
+                  .toSorted(
+                    (a, b) =>
+                      a.short_name.localeCompare(b.short_name, 'nb') ||
+                      (a.physical_type_name ?? '').localeCompare(b.physical_type_name ?? '') ||
+                      (a.logical_type_name ?? '').localeCompare(b.logical_type_name ?? ''),
+                  )
+                  .map((variable) => (
+                    <DatasetVariableCard key={variable.id} variable={variable} />
+                  ))}
+              </div>
+            </section>
+          ) : null}
+        </Card>
       </main>
     </div>
   );

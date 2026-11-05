@@ -17,6 +17,7 @@ import * as runtime from '../runtime';
 import type {
   DatasetDTO,
   DatasetPageResponse,
+  DatasetVariablePageResponse,
   Problem,
   StorageCategory,
 } from '../models/index';
@@ -25,6 +26,8 @@ import {
     DatasetDTOToJSON,
     DatasetPageResponseFromJSON,
     DatasetPageResponseToJSON,
+    DatasetVariablePageResponseFromJSON,
+    DatasetVariablePageResponseToJSON,
     ProblemFromJSON,
     ProblemToJSON,
     StorageCategoryFromJSON,
@@ -37,6 +40,12 @@ export interface DeleteDatasetByIdRequest {
 
 export interface GetDatasetByIdRequest {
     id: string;
+}
+
+export interface ListDatasetVariablesRequest {
+    id: string;
+    page?: number;
+    pageSize?: number;
 }
 
 export interface ListDatasetsRequest {
@@ -82,6 +91,21 @@ export interface DatasetsApiInterface {
     /**
      */
     getDatasetById(requestParameters: GetDatasetByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatasetDTO>;
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {number} [page] 
+     * @param {number} [pageSize] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DatasetsApiInterface
+     */
+    listDatasetVariablesRaw(requestParameters: ListDatasetVariablesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatasetVariablePageResponse>>;
+
+    /**
+     */
+    listDatasetVariables(requestParameters: ListDatasetVariablesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatasetVariablePageResponse>;
 
     /**
      * 
@@ -193,6 +217,49 @@ export class DatasetsApi extends runtime.BaseAPI implements DatasetsApiInterface
      */
     async getDatasetById(requestParameters: GetDatasetByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatasetDTO> {
         const response = await this.getDatasetByIdRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async listDatasetVariablesRaw(requestParameters: ListDatasetVariablesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatasetVariablePageResponse>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling listDatasetVariables().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['page'] != null) {
+            queryParameters['page'] = requestParameters['page'];
+        }
+
+        if (requestParameters['pageSize'] != null) {
+            queryParameters['page-size'] = requestParameters['pageSize'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/datasets/{id}/variables`;
+        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DatasetVariablePageResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async listDatasetVariables(requestParameters: ListDatasetVariablesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatasetVariablePageResponse> {
+        const response = await this.listDatasetVariablesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

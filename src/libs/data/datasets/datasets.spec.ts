@@ -11,6 +11,7 @@ import {
   DatasetDTO,
   DatasetDTOFromJSON,
   DatasetsApi,
+  DatasetVariableDTO,
   StorageCategory,
 } from '@/libs/data-access/datadoc';
 import dataProducts from '@/static-data/data-products.json';
@@ -18,9 +19,11 @@ import datasetsStatic from '@/static-data/datasets.json';
 import {
   getClientForApi,
   getDataProductByShortName,
+  getStaticDatasetVariableDataFilesPage,
   listDataFilesByDatasetIdAndStorageCategory,
   listDataProducts,
   listDatasetsByProductShortNameAndStorageCategory,
+  listDatasetVariables,
 } from './datasets';
 
 vi.mock('server-only', () => ({}));
@@ -234,6 +237,110 @@ describe('datadoc data fetching', () => {
       await expect(
         listDataFilesByDatasetIdAndStorageCategory('does-not-exist', StorageCategory.SHARED),
       ).resolves.toEqual([]);
+
+      vi.unstubAllEnvs();
+    });
+  });
+
+  describe('listDatasetVariables', () => {
+    it('returns the static Datadoc variable response for the ameld fixture dataset', async () => {
+      vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
+
+      const variables = await listDatasetVariables('id11');
+      expect(variables).toHaveLength(12);
+      expect(variables[0]).toEqual({
+        id: '10000000-0000-4000-8000-000000000001',
+        short_name: 'arbeidsforhold_id',
+        physical_type_name: 'FIXED_LEN_BYTE_ARRAY',
+        logical_type_name: 'UUID',
+      });
+
+      await expect(listDatasetVariables('unknown-dataset')).resolves.toEqual([]);
+
+      vi.unstubAllEnvs();
+    });
+
+    it('fetches and combines all API pages', async () => {
+      process.env.DATADOC_USE_STATIC_DATA = 'false';
+      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
+      const variables = [
+        { id: 'variable-1', short_name: 'person_id' },
+        { id: 'variable-2', short_name: 'income' },
+      ] as DatasetVariableDTO[];
+      const listDatasetVariablesSpy = vi.spyOn(DatasetsApi.prototype, 'listDatasetVariables');
+      listDatasetVariablesSpy
+        .mockResolvedValueOnce({
+          variables: [variables[0]!],
+          total_variables: 2,
+          page: 0,
+          page_size: 1,
+          has_next: true,
+        })
+        .mockResolvedValueOnce({
+          variables: [variables[1]!],
+          total_variables: 2,
+          page: 1,
+          page_size: 1,
+          has_next: false,
+        });
+
+      await expect(listDatasetVariables('dataset-id')).resolves.toEqual(variables);
+      expect(listDatasetVariablesSpy).toHaveBeenNthCalledWith(
+        1,
+        { id: 'dataset-id', page: 0, pageSize: 100 },
+        expect.anything(),
+      );
+      expect(listDatasetVariablesSpy).toHaveBeenNthCalledWith(
+        2,
+        { id: 'dataset-id', page: 1, pageSize: 100 },
+        expect.anything(),
+      );
+    });
+  });
+
+  describe('getStaticDatasetVariableDataFilesPage', () => {
+    it('returns paginated file records for a variable-to-file association', async () => {
+      vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
+
+      const firstPage = await getStaticDatasetVariableDataFilesPage(
+        'id11',
+        '10000000-0000-4000-8000-000000000001',
+        0,
+        2,
+      );
+      const secondPage = await getStaticDatasetVariableDataFilesPage(
+        'id11',
+        '10000000-0000-4000-8000-000000000001',
+        1,
+        2,
+      );
+
+      expect(firstPage).toMatchObject({ total_data_files: 4, page: 0, page_size: 2, has_next: true });
+      expect(firstPage.data_files.map((dataFile) => dataFile.file_path)).toEqual([
+        'gs://.../ameld_p2016-H1.parquet',
+        'gs://.../ameld_p2017-H1.parquet',
+      ]);
+      expect(firstPage.data_files[0]).toMatchObject({
+        file_name: 'ameld_p2016-H1.parquet',
+        naming_standard_violations: [],
+      });
+      expect(secondPage).toMatchObject({ total_data_files: 4, page: 1, page_size: 2, has_next: false });
+      expect(secondPage.data_files.map((dataFile) => dataFile.file_path)).toEqual([
+        'gs://.../ameld_p2017-H2.parquet',
+        'gs://.../ameld_p2018-H1.parquet',
+      ]);
+
+      vi.unstubAllEnvs();
+    });
+
+    it('returns only the files associated with the selected variable', async () => {
+      vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
+
+      const response = await getStaticDatasetVariableDataFilesPage('id11', '10000000-0000-4000-8000-000000000010');
+
+      expect(response.total_data_files).toBe(1);
+      expect(response.data_files[0]?.file_path).toBe('gs://.../ameld_p2018-H1.parquet');
+      expect(response.has_next).toBe(false);
 
       vi.unstubAllEnvs();
     });

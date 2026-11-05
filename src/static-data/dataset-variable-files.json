@@ -1,0 +1,54 @@
+{
+  "id11": {
+    "10000000-0000-4000-8000-000000000001": [
+      "gs://.../ameld_p2016-H1.parquet",
+      "gs://.../ameld_p2017-H1.parquet",
+      "gs://.../ameld_p2017-H2.parquet",
+      "gs://.../ameld_p2018-H1.parquet"
+    ],
+    "10000000-0000-4000-8000-000000000002": [
+      "gs://.../ameld_p2016-H1.parquet",
+      "gs://.../ameld_p2017-H1.parquet",
+      "gs://.../ameld_p2017-H2.parquet",
+      "gs://.../ameld_p2018-H1.parquet"
+    ],
+    "10000000-0000-4000-8000-000000000003": [
+      "gs://.../ameld_p2016-H1.parquet",
+      "gs://.../ameld_p2017-H1.parquet",
+      "gs://.../ameld_p2017-H2.parquet",
+      "gs://.../ameld_p2018-H1.parquet"
+    ],
+    "10000000-0000-4000-8000-000000000004": [
+      "gs://.../ameld_p2016-H1.parquet",
+      "gs://.../ameld_p2017-H1.parquet",
+      "gs://.../ameld_p2017-H2.parquet",
+      "gs://.../ameld_p2018-H1.parquet"
+    ],
+    "10000000-0000-4000-8000-000000000005": ["gs://.../ameld_p2017-H2.parquet", "gs://.../ameld_p2018-H1.parquet"],
+    "10000000-0000-4000-8000-000000000006": [
+      "gs://.../ameld_p2016-H1.parquet",
+      "gs://.../ameld_p2017-H1.parquet",
+      "gs://.../ameld_p2017-H2.parquet",
+      "gs://.../ameld_p2018-H1.parquet"
+    ],
+    "10000000-0000-4000-8000-000000000007": [
+      "gs://.../ameld_p2017-H1.parquet",
+      "gs://.../ameld_p2017-H2.parquet",
+      "gs://.../ameld_p2018-H1.parquet"
+    ],
+    "10000000-0000-4000-8000-000000000008": [
+      "gs://.../ameld_p2017-H1.parquet",
+      "gs://.../ameld_p2017-H2.parquet",
+      "gs://.../ameld_p2018-H1.parquet"
+    ],
+    "10000000-0000-4000-8000-000000000009": [
+      "gs://.../ameld_p2016-H1.parquet",
+      "gs://.../ameld_p2017-H1.parquet",
+      "gs://.../ameld_p2017-H2.parquet",
+      "gs://.../ameld_p2018-H1.parquet"
+    ],
+    "10000000-0000-4000-8000-000000000010": ["gs://.../ameld_p2018-H1.parquet"],
+    "10000000-0000-4000-8000-000000000011": ["gs://.../ameld_p2018-H1.parquet"],
+    "10000000-0000-4000-8000-000000000012": ["gs://.../ameld_p2017-H2.parquet", "gs://.../ameld_p2018-H1.parquet"]
+  }
+}

@@ -8,6 +8,7 @@ import {
   ConfigurationParameters,
   DaplaDataFileDTO,
   DaplaDataFileDTOFromJSON,
+  DaplaDataFilePageResponse,
   DataFilesApi,
   DataFilesApiInterface,
   DataProductDTO,
@@ -18,18 +19,24 @@ import {
   DatasetDTOFromJSON,
   DatasetsApi,
   DatasetsApiInterface,
+  DatasetVariableDTO,
+  DatasetVariablePageResponse,
   ResponseError,
   StorageCategory,
 } from '@/libs/data-access/datadoc';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger, createLoggerWithBindings } from '@/libs/logger/server-logger';
 import dataProductsStatic from '@/static-data/data-products.json';
+import datasetVariableFilesStatic from '@/static-data/dataset-variable-files.json';
+import datasetVariablesStatic from '@/static-data/dataset-variables.json';
 import datasetsStatic from '@/static-data/datasets.json';
 import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
 
 const staticDataProducts = dataProductsStatic.map((dataProduct) => DataProductDTOFromJSON(dataProduct));
 const staticDatasets = datasetsStatic.map((dataset) => DatasetDTOFromJSON(dataset));
+const staticDatasetVariablesByDatasetId = datasetVariablesStatic as Record<string, DatasetVariablePageResponse>;
+const staticVariableFilePathsByDatasetId = datasetVariableFilesStatic as Record<string, Record<string, string[]>>;
 
 const ttlSeconds = Number(process.env.DATADOC_CACHE_TTL_SECONDS) || 3600;
 const dataDocFetchOptions = {
@@ -250,6 +257,50 @@ export async function listDataFilesByDatasetIdAndStorageCategory(
 }
 
 /**
+ * Builds a paginated, Datadoc-shaped response for the static variable-to-file association fixture.
+ * This models the response planned for a dataset-variable data-files endpoint; it is not a live API call.
+ */
+export async function getStaticDatasetVariableDataFilesPage(
+  datasetId: string,
+  variableId: string,
+  page = 0,
+  pageSize = 100,
+): Promise<DaplaDataFilePageResponse> {
+  if (process.env.DATADOC_USE_STATIC_DATA !== 'true') {
+    throw new Error('Static dataset-variable file data requires DATADOC_USE_STATIC_DATA=true');
+  }
+  if (!Number.isInteger(page) || page < 0) {
+    throw new RangeError('Dataset variable data-file page must be a non-negative integer');
+  }
+  if (!Number.isInteger(pageSize) || pageSize < 1) {
+    throw new RangeError('Dataset variable data-file page size must be a positive integer');
+  }
+
+  const filePaths = new Set(staticVariableFilePathsByDatasetId[datasetId]?.[variableId] ?? []);
+  const [sharedFiles, productFiles] = await Promise.all([
+    listDataFilesByDatasetIdAndStorageCategory(datasetId, StorageCategory.SHARED),
+    listDataFilesByDatasetIdAndStorageCategory(datasetId, StorageCategory.PRODUCT),
+  ]);
+  const matchingFiles = [...sharedFiles, ...productFiles]
+    .filter((dataFile) => filePaths.has(dataFile.file_path))
+    .map((dataFile) => ({
+      ...dataFile,
+      file_name: dataFile.file_name || dataFile.file_path.split('/').at(-1) || dataFile.file_path,
+      naming_standard_violations: dataFile.naming_standard_violations ?? [],
+    }))
+    .toSorted((a, b) => a.file_path.localeCompare(b.file_path, 'nb'));
+  const start = page * pageSize;
+
+  return {
+    data_files: matchingFiles.slice(start, start + pageSize),
+    total_data_files: matchingFiles.length,
+    page,
+    page_size: pageSize,
+    has_next: start + pageSize < matchingFiles.length,
+  };
+}
+
+/**
  * Fetches a dataset by its ID.
  * @param id The ID of the dataset to fetch.
  * @returns A promise that resolves to a DatasetDTO object representing the fetched dataset.
@@ -267,6 +318,50 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
     const dto = await api.getDatasetById({ id: id });
     logger.info('Fetched Dataset');
     return dto;
+  } catch (error: unknown) {
+    logAndThrowFetchError(logger, error);
+  }
+}
+
+/**
+ * Fetches all variables registered for a dataset.
+ * @param datasetId The ID of the dataset.
+ * @returns A promise that resolves to the dataset's variables.
+ */
+export async function listDatasetVariables(datasetId: string): Promise<DatasetVariableDTO[]> {
+  const logger = createLoggerWithBindings({ module: 'datasets', fn: 'listDatasetVariables', datasetId });
+  if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
+    const response = staticDatasetVariablesByDatasetId[datasetId];
+    logger.warn({ count: response?.variables.length ?? 0 }, 'Using static mock data for dataset variables');
+    return response?.variables ?? [];
+  }
+
+  try {
+    const api = await getClientForApi(DatasetsApi);
+    const startTime = Date.now();
+    const allVariables: DatasetVariableDTO[] = [];
+    const pageSize = 100;
+    let page = 0;
+    let totalVariables = 0;
+
+    while (true) {
+      const response = await api.listDatasetVariables({ id: datasetId, page, pageSize }, dataDocFetchOptions);
+      allVariables.push(...response.variables);
+      totalVariables = response.total_variables;
+
+      if (!response.has_next) break;
+      page = response.page + 1;
+    }
+
+    if (allVariables.length !== totalVariables) {
+      throw new Error(`Expected ${totalVariables} dataset variables, but fetched ${allVariables.length}`);
+    }
+
+    logger.info(
+      { count: allVariables.length, totalVariables, durationMs: Date.now() - startTime },
+      'Fetched dataset variables from API',
+    );
+    return allVariables;
   } catch (error: unknown) {
     logAndThrowFetchError(logger, error);
   }

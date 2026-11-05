@@ -15,6 +15,8 @@ docs/DataProductsApi.md
 docs/DatasetDTO.md
 docs/DatasetPageResponse.md
 docs/DatasetState.md
+docs/DatasetVariableDTO.md
+docs/DatasetVariablePageResponse.md
 docs/DatasetsApi.md
 docs/FileType.md
 docs/NamingViolation.md
@@ -38,6 +40,8 @@ models/DataProductType.ts
 models/DatasetDTO.ts
 models/DatasetPageResponse.ts
 models/DatasetState.ts
+models/DatasetVariableDTO.ts
+models/DatasetVariablePageResponse.ts
 models/FileType.ts
 models/NamingViolation.ts
 models/NamingViolationResponse.ts

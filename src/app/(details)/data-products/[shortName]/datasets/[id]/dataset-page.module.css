@@ -25,6 +25,53 @@
   gap: var(--medium-gap);
 }
 
+.variablesSection {
+  margin-top: 2rem;
+  padding-top: 2rem;
+}
+
+.variablesList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.variableCard {
+  padding: 1rem 1.25rem;
+}
+
+.variableHeading {
+  margin: 0 0 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+.variableTypes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 1rem;
+  margin: 0;
+}
+
+.variableType {
+  min-width: 0;
+}
+
+.variableType + .variableType {
+  border-left: 0.0625rem solid var(--ds-color-neutral-border-subtle);
+  padding-left: 1rem;
+}
+
+.variableType dt {
+  color: var(--ds-color-neutral-text-subtle);
+  font-size: 0.875rem;
+}
+
+.variableType dd {
+  font-weight: 600;
+  margin: 0.25rem 0 0;
+  overflow-wrap: anywhere;
+}
+
 .violationBadge {
   flex-shrink: 0;
   background: transparent;

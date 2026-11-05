@@ -9,6 +9,8 @@ export * from './DataProductType';
 export * from './DatasetDTO';
 export * from './DatasetPageResponse';
 export * from './DatasetState';
+export * from './DatasetVariableDTO';
+export * from './DatasetVariablePageResponse';
 export * from './FileType';
 export * from './NamingViolation';
 export * from './NamingViolationResponse';
