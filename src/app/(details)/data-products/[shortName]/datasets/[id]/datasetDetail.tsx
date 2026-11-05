@@ -147,7 +147,7 @@ export default function DatasetDetail({
               </div>
             </>
           )}
-          {datasetVariables.length > 0 ? (
+          {isAuthenticated && datasetVariables.length > 0 ? (
             <section className={styles.variablesSection} aria-labelledby='tableHeading-variables'>
               <Heading
                 level={2}

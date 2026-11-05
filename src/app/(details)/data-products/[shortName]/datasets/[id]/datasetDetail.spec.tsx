@@ -129,11 +129,19 @@ describe('DatasetDetail', () => {
   it('shows only shared files for unauthenticated users', () => {
     auth.isAuthenticated = false;
 
-    render(<DatasetDetail dataset={dataset} dataFilesShared={[sharedFile]} dataFilesProduct={[productFile]} />);
+    render(
+      <DatasetDetail
+        dataset={dataset}
+        dataFilesShared={[sharedFile]}
+        dataFilesProduct={[productFile]}
+        datasetVariables={[{ id: 'private-variable', short_name: 'internal_only' } as DatasetVariableDTO]}
+      />,
+    );
 
     expect(screen.getByText(sharedFile.file_path!)).toBeDefined();
     expect(screen.queryByText(productFile.file_path!)).toBeNull();
     expect(screen.queryByRole('heading', { name: 'Variabler i datasettet' })).toBeNull();
+    expect(screen.queryByText('internal_only')).toBeNull();
   });
 
   it('hides shared files with naming standard violations for unauthenticated users', () => {
