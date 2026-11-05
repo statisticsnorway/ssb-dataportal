@@ -110,4 +110,30 @@ describe('services layout', () => {
     expect(screen.queryByRole('heading', { name: localization.migrationClassifications.header })).toBeNull();
     expect(screen.getByRole('heading', { name: localization.migrationVariableDefinitions.header })).toBeInTheDocument();
   });
+
+  describe('tab bar scrolling', () => {
+    it('renders all tabs in a single labelled tab list', () => {
+      renderLayout();
+
+      const tabList = screen.getByRole('tablist', { hidden: true });
+      expect(tabList).toHaveAccessibleName(localization.tabs.ariaLabel);
+      expect(screen.getAllByRole('tab')).toHaveLength(3);
+    });
+
+    it('centres the selected tab inside the tab bar on resize', () => {
+      mocks.pathname = '/data-products';
+      renderLayout();
+      const tabList = screen.getByRole('tablist', { hidden: true });
+      let scrollLeft = 0;
+      Object.defineProperty(tabList, 'scrollLeft', { get: () => scrollLeft, set: (v: number) => (scrollLeft = v) });
+      tabList.getBoundingClientRect = () => ({ left: 0, width: 300 }) as DOMRect;
+      const selected = tabList.querySelector('[role="tab"][aria-selected="true"]') as HTMLElement;
+      selected.getBoundingClientRect = () => ({ left: 400, width: 160 }) as DOMRect;
+
+      fireEvent(window, new Event('resize'));
+
+      // Tab centre (480) minus half the list width (150).
+      expect(scrollLeft).toBe(330);
+    });
+  });
 });

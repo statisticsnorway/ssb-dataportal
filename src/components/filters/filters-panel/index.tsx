@@ -1,6 +1,11 @@
 import { Heading } from '@digdir/designsystemet-react';
-import { ReactNode } from 'react';
+import { createContext, ReactNode, useContext } from 'react';
 import styles from './filters-panel.module.css';
+
+/**
+ * Lets the search page place the active filter tags between the panel heading and the filters (desktop sidebar).
+ */
+export const FilterTagsSlotContext = createContext<ReactNode>(null);
 
 interface FiltersPanelProps {
   heading: string;
@@ -16,6 +21,8 @@ interface FiltersPanelProps {
  * @param visuallyHideHeading - Whether the heading should only be available to assistive technology.
  */
 const FiltersPanel = ({ heading, children, visuallyHideHeading = false }: FiltersPanelProps) => {
+  const tags = useContext(FilterTagsSlotContext);
+
   return (
     <>
       <Heading
@@ -25,6 +32,7 @@ const FiltersPanel = ({ heading, children, visuallyHideHeading = false }: Filter
       >
         {heading}
       </Heading>
+      {tags}
       {children}
     </>
   );

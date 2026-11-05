@@ -157,9 +157,9 @@ describe('VariableDefinitionsServicePage', () => {
   });
 
   it('page renders filters', async () => {
-    const { findByRole, findByText, findByLabelText } = await renderPage();
+    const { findByRole, findByLabelText } = await renderPage();
     await findByRole('main');
-    expect(await findByText('Filter')).toBeInTheDocument();
+    expect(await findByRole('heading', { name: 'Filter', hidden: true })).toBeInTheDocument();
     expect(
       await findByLabelText(localization.search.textFilter.label, {
         selector: 'input',

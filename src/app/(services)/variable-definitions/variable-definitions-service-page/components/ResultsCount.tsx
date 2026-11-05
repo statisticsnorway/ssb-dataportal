@@ -28,5 +28,5 @@ export const ResultsCount = () => {
   const totalHits = filteredVariables.length;
   if (totalHits === 0) return localization.search.noHits;
 
-  return `${totalHits} ${localization.search.hits}`;
+  return `${localization.search.numberOfHits} ${totalHits}`;
 };

@@ -1,5 +1,6 @@
 import { Pagination, usePagination } from '@digdir/designsystemet-react';
 import { JSX, ReactNode } from 'react';
+import { useIsPhone } from '@/hooks/useIsPhone';
 import { localization } from '@/libs/language';
 import styles from './search-hit-container.module.css';
 
@@ -26,13 +27,14 @@ const SearchHitContainer = ({
 }: Props) => {
   let pagedHits: unknown[] = searchHits;
 
+  const isPhone = useIsPhone();
   const hasPagination = !!paginationInfo && !noSearchHits;
 
   const pagination = usePagination({
     currentPage: paginationInfo?.currentPage ?? 1,
     setCurrentPage: onPageChange,
     totalPages: paginationInfo?.totalPages as number,
-    showPages: 8,
+    showPages: isPhone ? 5 : 8,
   });
 
   const prevButtonProps = pagination.prevButtonProps;
@@ -45,7 +47,7 @@ const SearchHitContainer = ({
         {pagedHits.map((hit) => renderHit(hit))}
       </div>
       {hasPagination && (
-        <Pagination data-testid='pagination'>
+        <Pagination data-testid='pagination' aria-label={localization.search.pagination}>
           <Pagination.List>
             <Pagination.Item>
               <Pagination.Button aria-label={localization.previous} {...prevButtonProps}>

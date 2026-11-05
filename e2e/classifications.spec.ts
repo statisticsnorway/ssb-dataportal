@@ -6,7 +6,7 @@ import { stripTitlePrefix } from '@/utils/classifications/classificationHelpers'
 import {
   CLASSIFICATIONS_URL,
   CODELIST,
-  hits,
+  hitsText,
   REMOVE_STANDARD,
   STANDARD,
   totalCodelistMockClassifications,
@@ -80,7 +80,7 @@ test('Classifications page renders correct number of search hits', async ({ clas
     `${STANDARD} (${totalStandardMockClassifications})`,
   );
   await expect(page.getByLabel('Klassifikasjoner', { exact: true })).toContainText(
-    `${totalStandardMockClassifications} ${hits}`,
+    hitsText(totalStandardMockClassifications),
   );
   await page.getByRole('checkbox', { name: localization.classification.standard }).uncheck();
   await page.getByRole('checkbox', { name: localization.classification.codelist }).check();
@@ -88,7 +88,7 @@ test('Classifications page renders correct number of search hits', async ({ clas
     `${CODELIST} (${totalCodelistMockClassifications})`,
   );
   await expect(page.getByLabel('Klassifikasjoner', { exact: true })).toContainText(
-    `${totalCodelistMockClassifications} ${hits}`,
+    hitsText(totalCodelistMockClassifications),
   );
 });
 
