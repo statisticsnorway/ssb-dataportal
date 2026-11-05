@@ -195,6 +195,10 @@ export const nn = {
     namingStandardViolations: 'Tal på avvik frå namnestandard',
     dataFiles: 'Datafiler',
     dataCoverageTimeline: 'Tilgjengelege periodar',
+    variables: 'Variablar i datasettet',
+    physicalType: 'Fysisk type',
+    logicalType: 'Logisk type',
+    notSpecified: 'Ikkje oppgitt',
   },
   editing: {
     created: 'Oppretta',

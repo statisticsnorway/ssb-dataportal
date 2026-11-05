@@ -1,4 +1,4 @@
-import { Card, Heading, Popover } from '@digdir/designsystemet-react';
+import { Heading, Popover } from '@digdir/designsystemet-react';
 import React, { useMemo } from 'react';
 import { DataFileSearchHit } from '@/app/(details)/data-products/[shortName]/components/DataFileSearchHit';
 import { localization } from '@/libs/language/src/localization';
@@ -136,7 +136,7 @@ const DataCoverageTimeline = ({ isValid, allItems, years, slots }: TimelineData)
   const firstYear = displayYears[0]!;
 
   return (
-    <Card>
+    <>
       <Heading level={2} className={styles.detailsHeading} data-size='md' id='tableHeading-dataCoverageTimeline'>
         {localization.datasetDetail.dataCoverageTimeline}
       </Heading>
@@ -174,7 +174,7 @@ const DataCoverageTimeline = ({ isValid, allItems, years, slots }: TimelineData)
           </div>
         </div>
       </div>
-    </Card>
+    </>
   );
 };
 

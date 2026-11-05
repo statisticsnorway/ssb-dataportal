@@ -1,7 +1,12 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
-import { getDatasetById, listDataFilesByDatasetIdAndStorageCategory } from '@/libs/data/datasets/datasets';
+import { authenticateUser } from '@/libs/auth/userAuth';
+import {
+  getDatasetById,
+  listDataFilesByDatasetIdAndStorageCategory,
+  listDatasetVariables,
+} from '@/libs/data/datasets/datasets';
 import { StorageCategory } from '@/libs/data-access/datadoc';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
@@ -30,11 +35,27 @@ export default async function Dataset({ params }: Readonly<{ params: Promise<{ i
   const logger = createLogger('dataset-detail-page');
   const { id } = await params;
   logger.info({ id }, 'Dataset detail page access');
+  const auth = await authenticateUser();
 
-  const { dataset, dataFilesShared, dataFilesProduct } = await getPageData(id, true).catch((error) => {
-    logger.error({ id, error: sanitizeError(error) }, 'Failed to load dataset');
-    return notFound();
-  });
+  const [{ dataset, dataFilesShared, dataFilesProduct }, datasetVariables] = await Promise.all([
+    getPageData(id, auth.isAuthenticated).catch((error) => {
+      logger.error({ id, error: sanitizeError(error) }, 'Failed to load dataset');
+      return notFound();
+    }),
+    auth.isAuthenticated
+      ? listDatasetVariables(id).catch((error) => {
+          logger.warn({ id, error: sanitizeError(error) }, 'Failed to load dataset variables');
+          return [];
+        })
+      : Promise.resolve([]),
+  ]);
 
-  return <DatasetDetail dataset={dataset} dataFilesShared={dataFilesShared} dataFilesProduct={dataFilesProduct} />;
+  return (
+    <DatasetDetail
+      dataset={dataset}
+      dataFilesShared={dataFilesShared}
+      dataFilesProduct={dataFilesProduct}
+      datasetVariables={datasetVariables}
+    />
+  );
 }

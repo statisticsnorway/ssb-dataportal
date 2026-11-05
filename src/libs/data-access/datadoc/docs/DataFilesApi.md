@@ -7,6 +7,7 @@ All URIs are relative to *http://localhost*
 | [**createOrUpdateDaplaDataFile**](DataFilesApi.md#createorupdatedapladatafile) | **POST** /data-files |  |
 | [**getDataFileByFilePath**](DataFilesApi.md#getdatafilebyfilepath) | **GET** /data-files/{file-path} |  |
 | [**listDataFiles**](DataFilesApi.md#listdatafiles) | **GET** /data-files |  |
+| [**registerDataFileVariables**](DataFilesApi.md#registerdatafilevariables) | **POST** /data-files/{file-path}/variables |  |
 
 
 
@@ -29,8 +30,6 @@ async function example() {
   console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // Configure HTTP bearer authorization: metamapper-datadoc-m2m
-    accessToken: "YOUR BEARER TOKEN",
-    // Configure HTTP bearer authorization: keycloak-token
     accessToken: "YOUR BEARER TOKEN",
   });
   const api = new DataFilesApi(config);
@@ -65,7 +64,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[metamapper-datadoc-m2m](../README.md#metamapper-datadoc-m2m), [keycloak-token](../README.md#keycloak-token)
+[metamapper-datadoc-m2m](../README.md#metamapper-datadoc-m2m)
 
 ### HTTP request headers
 
@@ -156,7 +155,7 @@ example().catch(console.error);
 
 ## listDataFiles
 
-> DaplaDataFilePageResponse listDataFiles(datasetId, storageCategory, page, pageSize)
+> DaplaDataFilePageResponse listDataFiles(datasetId, storageCategory, variableIds, variableShortName, containsDataFrom, containsDataUntil, page, pageSize)
 
 
 
@@ -182,6 +181,14 @@ async function example() {
     datasetId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
     // StorageCategory (optional)
     storageCategory: ...,
+    // Array<string> (optional)
+    variableIds: ...,
+    // string (optional)
+    variableShortName: variableShortName_example,
+    // Date (optional)
+    containsDataFrom: 2013-10-20,
+    // Date (optional)
+    containsDataUntil: 2013-10-20,
     // number (optional)
     page: 56,
     // number (optional)
@@ -207,6 +214,10 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **datasetId** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **storageCategory** | `StorageCategory` |  | [Optional] [Defaults to `undefined`] [Enum: SOURCE, PRODUCT, SHARED] |
+| **variableIds** | `Array<string>` |  | [Optional] |
+| **variableShortName** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **containsDataFrom** | `Date` |  | [Optional] [Defaults to `undefined`] |
+| **containsDataUntil** | `Date` |  | [Optional] [Defaults to `undefined`] |
 | **page** | `number` |  | [Optional] [Defaults to `0`] |
 | **pageSize** | `number` |  | [Optional] [Defaults to `100`] |
 
@@ -228,6 +239,81 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | List Dapla Data Files. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## registerDataFileVariables
+
+> registerDataFileVariables(filePath, createDataFileVariables)
+
+
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DataFilesApi,
+} from '';
+import type { RegisterDataFileVariablesRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: metamapper-datadoc-m2m
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DataFilesApi(config);
+
+  const body = {
+    // string
+    filePath: filePath_example,
+    // CreateDataFileVariables
+    createDataFileVariables: {"variables":[{"name":"person_id","repetition_type":"REQUIRED","physical_type":"INT64"},{"name":"tags","repetition_type":"OPTIONAL","logical_type":{"type":"LIST"},"children":[{"name":"list","repetition_type":"REPEATED","children":[{"name":"element","repetition_type":"OPTIONAL","physical_type":"BYTE_ARRAY","logical_type":{"type":"STRING"}}]}]}]},
+  } satisfies RegisterDataFileVariablesRequest;
+
+  try {
+    const data = await api.registerDataFileVariables(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **filePath** | `string` |  | [Defaults to `undefined`] |
+| **createDataFileVariables** | [CreateDataFileVariables](CreateDataFileVariables.md) |  | |
+
+### Return type
+
+`void` (Empty response body)
+
+### Authorization
+
+[metamapper-datadoc-m2m](../README.md#metamapper-datadoc-m2m)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/problem+json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The data file exists and the variables passed validation and were persisted. |  -  |
+| **500** | An unexpected server error occurred. |  -  |
+| **400** | Bad request. |  -  |
+| **404** | Not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

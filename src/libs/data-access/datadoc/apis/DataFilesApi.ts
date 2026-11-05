@@ -16,6 +16,7 @@
 import * as runtime from '../runtime';
 import type {
   CreateDaplaDataFile,
+  CreateDataFileVariables,
   DaplaDataFileDTO,
   DaplaDataFilePageResponse,
   Problem,
@@ -24,6 +25,8 @@ import type {
 import {
     CreateDaplaDataFileFromJSON,
     CreateDaplaDataFileToJSON,
+    CreateDataFileVariablesFromJSON,
+    CreateDataFileVariablesToJSON,
     DaplaDataFileDTOFromJSON,
     DaplaDataFileDTOToJSON,
     DaplaDataFilePageResponseFromJSON,
@@ -45,8 +48,17 @@ export interface GetDataFileByFilePathRequest {
 export interface ListDataFilesRequest {
     datasetId?: string | null;
     storageCategory?: StorageCategory | null;
+    variableIds?: Array<string> | null;
+    variableShortName?: string | null;
+    containsDataFrom?: Date | null;
+    containsDataUntil?: Date | null;
     page?: number;
     pageSize?: number;
+}
+
+export interface RegisterDataFileVariablesRequest {
+    filePath: string;
+    createDataFileVariables: CreateDataFileVariables;
 }
 
 /**
@@ -86,6 +98,10 @@ export interface DataFilesApiInterface {
      * 
      * @param {string} [datasetId] 
      * @param {StorageCategory} [storageCategory] 
+     * @param {Array<string>} [variableIds] 
+     * @param {string} [variableShortName] 
+     * @param {Date} [containsDataFrom] 
+     * @param {Date} [containsDataUntil] 
      * @param {number} [page] 
      * @param {number} [pageSize] 
      * @param {*} [options] Override http request option.
@@ -97,6 +113,20 @@ export interface DataFilesApiInterface {
     /**
      */
     listDataFiles(requestParameters: ListDataFilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DaplaDataFilePageResponse>;
+
+    /**
+     * 
+     * @param {string} filePath 
+     * @param {CreateDataFileVariables} createDataFileVariables 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DataFilesApiInterface
+     */
+    registerDataFileVariablesRaw(requestParameters: RegisterDataFileVariablesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     */
+    registerDataFileVariables(requestParameters: RegisterDataFileVariablesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
 }
 
@@ -124,14 +154,6 @@ export class DataFilesApi extends runtime.BaseAPI implements DataFilesApiInterfa
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
             const tokenString = await token("metamapper-datadoc-m2m", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("keycloak-token", []);
 
             if (tokenString) {
                 headerParameters["Authorization"] = `Bearer ${tokenString}`;
@@ -213,6 +235,22 @@ export class DataFilesApi extends runtime.BaseAPI implements DataFilesApiInterfa
             queryParameters['storage-category'] = requestParameters['storageCategory'];
         }
 
+        if (requestParameters['variableIds'] != null) {
+            queryParameters['variable-ids'] = requestParameters['variableIds']!.join(runtime.COLLECTION_FORMATS["csv"]);
+        }
+
+        if (requestParameters['variableShortName'] != null) {
+            queryParameters['variable-short-name'] = requestParameters['variableShortName'];
+        }
+
+        if (requestParameters['containsDataFrom'] != null) {
+            queryParameters['contains-data-from'] = (requestParameters['containsDataFrom'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['containsDataUntil'] != null) {
+            queryParameters['contains-data-until'] = (requestParameters['containsDataUntil'] as any).toISOString().substring(0,10);
+        }
+
         if (requestParameters['page'] != null) {
             queryParameters['page'] = requestParameters['page'];
         }
@@ -249,6 +287,58 @@ export class DataFilesApi extends runtime.BaseAPI implements DataFilesApiInterfa
     async listDataFiles(requestParameters: ListDataFilesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DaplaDataFilePageResponse> {
         const response = await this.listDataFilesRaw(requestParameters, initOverrides);
         return await response.value();
+    }
+
+    /**
+     */
+    async registerDataFileVariablesRaw(requestParameters: RegisterDataFileVariablesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['filePath'] == null) {
+            throw new runtime.RequiredError(
+                'filePath',
+                'Required parameter "filePath" was null or undefined when calling registerDataFileVariables().'
+            );
+        }
+
+        if (requestParameters['createDataFileVariables'] == null) {
+            throw new runtime.RequiredError(
+                'createDataFileVariables',
+                'Required parameter "createDataFileVariables" was null or undefined when calling registerDataFileVariables().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("metamapper-datadoc-m2m", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/data-files/{file-path}/variables`;
+        urlPath = urlPath.replace(`{${"file-path"}}`, encodeURIComponent(String(requestParameters['filePath'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CreateDataFileVariablesToJSON(requestParameters['createDataFileVariables']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async registerDataFileVariables(requestParameters: RegisterDataFileVariablesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.registerDataFileVariablesRaw(requestParameters, initOverrides);
     }
 
 }

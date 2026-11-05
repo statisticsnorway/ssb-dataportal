@@ -18,18 +18,21 @@ import {
   DatasetDTOFromJSON,
   DatasetsApi,
   DatasetsApiInterface,
+  DatasetVariableDTO,
   ResponseError,
   StorageCategory,
 } from '@/libs/data-access/datadoc';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger, createLoggerWithBindings } from '@/libs/logger/server-logger';
 import dataProductsStatic from '@/static-data/data-products.json';
+import datasetVariablesStatic from '@/static-data/dataset-variables.json';
 import datasetsStatic from '@/static-data/datasets.json';
 import { getUserAgent } from '@/utils/userAgent';
 import { getEncodedJwt } from '../../auth/jwt';
 
 const staticDataProducts = dataProductsStatic.map((dataProduct) => DataProductDTOFromJSON(dataProduct));
 const staticDatasets = datasetsStatic.map((dataset) => DatasetDTOFromJSON(dataset));
+const staticDatasetVariables: Record<string, DatasetVariableDTO[]> = datasetVariablesStatic;
 
 const ttlSeconds = Number(process.env.DATADOC_CACHE_TTL_SECONDS) || 3600;
 const dataDocFetchOptions = {
@@ -267,6 +270,50 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
     const dto = await api.getDatasetById({ id: id });
     logger.info('Fetched Dataset');
     return dto;
+  } catch (error: unknown) {
+    logAndThrowFetchError(logger, error);
+  }
+}
+
+/**
+ * Fetches all variables registered for a dataset.
+ * @param datasetId The ID of the dataset.
+ * @returns A promise that resolves to the dataset's variables.
+ */
+export async function listDatasetVariables(datasetId: string): Promise<DatasetVariableDTO[]> {
+  const logger = createLoggerWithBindings({ module: 'datasets', fn: 'listDatasetVariables', datasetId });
+  if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
+    const variables = staticDatasetVariables[datasetId] ?? [];
+    logger.warn({ count: variables.length }, 'Using static mock data for dataset variables');
+    return variables;
+  }
+
+  try {
+    const api = await getClientForApi(DatasetsApi);
+    const startTime = Date.now();
+    const allVariables: DatasetVariableDTO[] = [];
+    const pageSize = 100;
+    let page = 0;
+    let totalVariables = 0;
+
+    while (true) {
+      const response = await api.listDatasetVariables({ id: datasetId, page, pageSize }, dataDocFetchOptions);
+      allVariables.push(...response.variables);
+      totalVariables = response.total_variables;
+
+      if (!response.has_next) break;
+      page = response.page + 1;
+    }
+
+    if (allVariables.length !== totalVariables) {
+      throw new Error(`Expected ${totalVariables} dataset variables, but fetched ${allVariables.length}`);
+    }
+
+    logger.info(
+      { count: allVariables.length, totalVariables, durationMs: Date.now() - startTime },
+      'Fetched dataset variables from API',
+    );
+    return allVariables;
   } catch (error: unknown) {
     logAndThrowFetchError(logger, error);
   }

@@ -199,6 +199,10 @@ export const en = {
     namingStandardViolations: 'Number of naming standard violations',
     dataFiles: 'Data files',
     dataCoverageTimeline: 'Available periods',
+    variables: 'Variables in the dataset',
+    physicalType: 'Physical type',
+    logicalType: 'Logical type',
+    notSpecified: 'Not specified',
   },
   editing: {
     created: 'Created',

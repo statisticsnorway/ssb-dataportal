@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { notFound } from 'next/navigation';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { DaplaDataFileDTO, DatasetDTO } from '@/libs/data-access/datadoc';
+import type { DaplaDataFileDTO, DatasetDTO, DatasetVariableDTO } from '@/libs/data-access/datadoc';
 import DatasetDetail from './datasetDetail';
 
 const auth = vi.hoisted(() => ({
@@ -83,22 +83,65 @@ describe('DatasetDetail', () => {
     auth.isAuthenticated = true;
   });
 
-  it('renders the dataset heading and shared and product files for authenticated users', () => {
-    render(<DatasetDetail dataset={dataset} dataFilesShared={[sharedFile]} dataFilesProduct={[productFile]} />);
+  it('renders each variable in its own card with side-by-side type details', () => {
+    const datasetVariables = [
+      {
+        id: 'variable-1',
+        short_name: 'income',
+        physical_type_name: 'INT64',
+        logical_type_name: 'DECIMAL',
+      },
+      {
+        id: 'variable-2',
+        short_name: 'person_id',
+        physical_type_name: 'BYTE_ARRAY',
+        logical_type_name: 'STRING',
+      },
+    ] as DatasetVariableDTO[];
+
+    render(
+      <DatasetDetail
+        dataset={dataset}
+        dataFilesShared={[sharedFile]}
+        dataFilesProduct={[productFile]}
+        datasetVariables={datasetVariables}
+      />,
+    );
 
     expect(screen.getByRole('heading', { level: 1 }).textContent).toBe('Example dataset');
     expect(screen.getByText(sharedFile.file_path!)).toBeDefined();
     expect(screen.getByText(productFile.file_path!)).toBeDefined();
+    expect(screen.getByRole('heading', { name: 'Variabler i datasettet' })).toBeDefined();
+    expect(screen.getByRole('heading', { level: 3, name: 'income' })).toBeDefined();
+    expect(screen.getByRole('heading', { level: 3, name: 'person_id' })).toBeDefined();
+    expect(screen.queryByTestId('dataset-variable-details-card')).toBeNull();
+    expect(screen.getAllByTestId(/^dataset-variable-card-/)).toHaveLength(2);
+    expect(screen.getByTestId('dataset-periods-and-variables')).toContainElement(
+      screen.getByRole('heading', { name: 'Variabler i datasettet' }),
+    );
+    expect(screen.getAllByText('Fysisk type')).toHaveLength(2);
+    expect(screen.getAllByText('Logisk type')).toHaveLength(2);
+    expect(screen.getByText('64-bit integer')).toBeDefined();
+    expect(screen.getByText('Decimal')).toBeDefined();
     expect(notFound).not.toHaveBeenCalled();
   });
 
   it('shows only shared files for unauthenticated users', () => {
     auth.isAuthenticated = false;
 
-    render(<DatasetDetail dataset={dataset} dataFilesShared={[sharedFile]} dataFilesProduct={[productFile]} />);
+    render(
+      <DatasetDetail
+        dataset={dataset}
+        dataFilesShared={[sharedFile]}
+        dataFilesProduct={[productFile]}
+        datasetVariables={[{ id: 'private-variable', short_name: 'internal_only' } as DatasetVariableDTO]}
+      />,
+    );
 
     expect(screen.getByText(sharedFile.file_path!)).toBeDefined();
     expect(screen.queryByText(productFile.file_path!)).toBeNull();
+    expect(screen.queryByRole('heading', { name: 'Variabler i datasettet' })).toBeNull();
+    expect(screen.queryByText('internal_only')).toBeNull();
   });
 
   it('hides shared files with naming standard violations for unauthenticated users', () => {
