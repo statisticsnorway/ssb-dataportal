@@ -1,28 +1,15 @@
 'use client';
 
-import {
-  Badge,
-  Card,
-  Chip,
-  Details,
-  DetailsContent,
-  DetailsSummary,
-  Heading,
-  Search,
-  Tag,
-} from '@digdir/designsystemet-react';
+import { Badge, Card, Heading, Tag } from '@digdir/designsystemet-react';
 import { notFound } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { useTimelineData } from '@/components/data-coverage-timeline';
 import DataCoverageTimeline from '@/components/data-coverage-timeline/dataCoverageTimeline';
-import type { Slot } from '@/components/data-coverage-timeline/types';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { DetailsList } from '@/components/details-list';
-import { FilterSection } from '@/components/filters';
 import { ExternalLink } from '@/components/link-components/externalLink';
-import { Slider } from '@/components/slider';
 import { CopyTag } from '@/components/tag-components/copy-tag';
 import { DaplaDataFileDTO, DatasetDTO, DatasetVariableDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
@@ -32,31 +19,10 @@ import { convertAssessment, convertDataSetState } from '@/utils/functions';
 import { sortDateStringsDescending } from '@/utils/sort';
 import { DataFileSearchHit } from '../../components/DataFileSearchHit';
 import { listDatasetVariableDataFilePaths, listDatasetVariableIdsInPeriod } from './actions';
-import DatasetVariableCard from './DatasetVariableCard';
+import DatasetVariableList from './DatasetVariableList';
 import styles from './dataset-page.module.css';
+import { DatasetFilters, type FilterState, getSelectedPeriods, type TimelinePeriodSlot } from './datasetFilters';
 import { useDebouncedLoad } from './useDebouncedLoad';
-
-type TimelinePeriodSlot = Slot & { year: number };
-type FilterState = {
-  search: string;
-  period: readonly [number, number] | null;
-};
-
-const formatTimelinePeriod = (period: TimelinePeriodSlot | undefined, capitalize = false) => {
-  if (!period) return '';
-  const label = capitalize ? `${period.label.charAt(0).toLocaleUpperCase()}${period.label.slice(1)}` : period.label;
-  return `${label} ${period.year}`;
-};
-
-const formatTimelineRange = (periods: TimelinePeriodSlot[]) => {
-  const firstPeriod = periods[0];
-  const lastPeriod = periods.at(-1);
-  if (!firstPeriod || !lastPeriod) return '';
-  if (firstPeriod.start === lastPeriod.start && firstPeriod.end === lastPeriod.end) {
-    return formatTimelinePeriod(firstPeriod, true);
-  }
-  return `${formatTimelinePeriod(firstPeriod, true)} – ${formatTimelinePeriod(lastPeriod)}`;
-};
 
 export default function DatasetDetail({
   dataset,
@@ -71,17 +37,13 @@ export default function DatasetDetail({
 }>) {
   const { isAuthenticated } = useAuthContext();
 
-  let dataFiles = isAuthenticated ? [...dataFilesShared, ...dataFilesProduct] : dataFilesShared;
-
   if (!isAuthenticated && dataset.has_naming_standard_violations === true) {
     notFound();
   }
 
-  if (!isAuthenticated) {
-    dataFiles = dataFiles.filter(
-      (df) => df.naming_standard_violations === undefined || df.naming_standard_violations.length === 0,
-    );
-  }
+  const dataFiles = isAuthenticated
+    ? [...dataFilesShared, ...dataFilesProduct]
+    : dataFilesShared.filter((df) => !df.naming_standard_violations?.length);
 
   const totalNamingStandardViolations = dataFiles.reduce(
     (total, dataFile) => total + (dataFile.naming_standard_violations?.length ?? 0),
@@ -93,21 +55,10 @@ export default function DatasetDetail({
     () => years.flatMap((year) => (slots[year] ?? []).map((slot) => ({ ...slot, year }))),
     [slots, years],
   );
-  const lastPeriodIndex = Math.max(0, timelinePeriods.length - 1);
   const [filters, setFilters] = useState<FilterState>({ search: '', period: null });
   const updateFilters = (updates: Partial<FilterState>) => setFilters((current) => ({ ...current, ...updates }));
-  const [periodStartIndex, periodEndIndex] = filters.period ?? [0, lastPeriodIndex];
-  const selectedPeriods = timelinePeriods.slice(periodStartIndex, periodEndIndex + 1);
-  const selectedPeriodStart = selectedPeriods[0]?.start;
-  const selectedPeriodEnd = selectedPeriods.at(-1)?.end;
-  const selectedPeriodRange =
-    filters.period && selectedPeriodStart && selectedPeriodEnd
-      ? { start: selectedPeriodStart, end: selectedPeriodEnd }
-      : undefined;
-  const periodRangeLabel = formatTimelineRange(selectedPeriods);
-  const trimmedSearch = filters.search.trim();
-  const normalizedVariableNameFilter = trimmedSearch.toLocaleLowerCase('nb');
-  const hasActiveFilters = trimmedSearch.length > 0 || selectedPeriodRange !== undefined;
+  const { range: selectedPeriodRange } = getSelectedPeriods(timelinePeriods, filters.period);
+  const normalizedVariableNameFilter = filters.search.trim().toLocaleLowerCase('nb');
   const filteredDatasetVariables = useMemo(
     () =>
       datasetVariables
@@ -149,12 +100,6 @@ export default function DatasetDetail({
     const filePaths = nameMatchedFilePaths.value;
     return filePaths ? allItems.filter((item) => filePaths.has(item.file_path)) : [];
   }, [allItems, nameMatchedFilePaths.value, normalizedVariableNameFilter]);
-
-  const updatePeriodRange = (period: readonly [number, number]) => {
-    updateFilters({ period: period[0] === 0 && period[1] === lastPeriodIndex ? null : period });
-  };
-
-  const resetFilters = () => updateFilters({ search: '', period: null });
 
   return (
     <div className={`${styles.detailsPage} container`}>
@@ -223,76 +168,7 @@ export default function DatasetDetail({
           aria-busy={nameMatchedFilePaths.isLoading || variableIdsInPeriod.isLoading}
         >
           {isAuthenticated && datasetVariables.length > 0 ? (
-            <Details className={styles.filterDetails}>
-              <DetailsSummary>{localization.datasetDetail.filter}</DetailsSummary>
-              <DetailsContent className={styles.filterDetailsContent}>
-                <div className={styles.filterPanel}>
-                  <div className={styles.filterSections}>
-                    <FilterSection title={localization.search.label} className={styles.filterSection}>
-                      <Search>
-                        <Search.Input
-                          id={localization.search.textFilter.inputId}
-                          aria-label={localization.search.textFilter.label}
-                          value={filters.search}
-                          onChange={(event) => updateFilters({ search: event.target.value })}
-                        />
-                        <Search.Clear onClick={() => updateFilters({ search: '' })} />
-                      </Search>
-                    </FilterSection>
-                    {isValid && timelinePeriods.length > 0 ? (
-                      <FilterSection title={localization.datasetDetail.period} className={styles.filterSection}>
-                        <Slider<readonly [number, number]>
-                          aria-label={localization.datasetDetail.periodRange}
-                          valueLabel={periodRangeLabel}
-                          rangeLabels={[localization.datasetDetail.periodFrom, localization.datasetDetail.periodTo]}
-                          value={[periodStartIndex, periodEndIndex]}
-                          min={0}
-                          max={lastPeriodIndex}
-                          step={1}
-                          disabled={lastPeriodIndex === 0}
-                          formatValue={(index) => formatTimelinePeriod(timelinePeriods[index])}
-                          onChange={updatePeriodRange}
-                          onChangeEnd={updatePeriodRange}
-                        />
-                      </FilterSection>
-                    ) : null}
-                  </div>
-                  {hasActiveFilters ? (
-                    <div className={styles.activeFiltersRow}>
-                      <Chip.Button className={styles.resetFiltersButton} onClick={resetFilters}>
-                        {localization.datasetDetail.resetFilters}
-                      </Chip.Button>
-                      <ul
-                        className={styles.activeFilterChips}
-                        aria-label={localization.filterTag.listLabel}
-                        aria-live='polite'
-                      >
-                        {trimmedSearch ? (
-                          <li>
-                            <Chip.Removable
-                              aria-label={`${localization.filterTag.remove} ${localization.search.label}: ${trimmedSearch}`}
-                              onClick={() => updateFilters({ search: '' })}
-                            >
-                              {`${localization.search.label}: «${trimmedSearch}»`}
-                            </Chip.Removable>
-                          </li>
-                        ) : null}
-                        {selectedPeriodRange ? (
-                          <li>
-                            <Chip.Removable
-                              aria-label={`${localization.filterTag.remove} ${localization.datasetDetail.period}: ${periodRangeLabel}`}
-                              onClick={() => updateFilters({ period: null })}
-                            >
-                              {periodRangeLabel}
-                            </Chip.Removable>
-                          </li>
-                        ) : null}
-                      </ul>
-                    </div>
-                  ) : null}
-                </div>
-              </DetailsContent>
-            </Details>
+            <DatasetFilters filters={filters} timelinePeriods={timelinePeriods} onChange={updateFilters} />
           ) : null}
           {isValid ? (
             <DataCoverageTimeline
@@ -330,19 +206,7 @@ export default function DatasetDetail({
             </>
           )}
           {isAuthenticated && datasetVariables.length > 0 ? (
-            <section className={styles.variablesSection}>
-              <ul className={styles.variablesList}>
-                {periodFilteredDatasetVariables.length === 0 ? (
-                  <li className={styles.variableNoHits} role='status'>
-                    {localization.search.noHits}
-                  </li>
-                ) : (
-                  periodFilteredDatasetVariables.map((variable) => (
-                    <DatasetVariableCard key={variable.id} variable={variable} />
-                  ))
-                )}
-              </ul>
-            </section>
+            <DatasetVariableList variables={periodFilteredDatasetVariables} />
           ) : null}
         </Card>
       </main>

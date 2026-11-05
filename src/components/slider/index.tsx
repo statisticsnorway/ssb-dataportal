@@ -41,6 +41,11 @@ const snap = (raw: number, min: number, max: number, step: number) => {
 
 const percent = (value: number, min: number, max: number) => (max === min ? 0 : ((value - min) / (max - min)) * 100);
 
+const withThumb = (latest: SliderValue, index: number, next: number): SliderValue => {
+  if (!isRange(latest)) return next;
+  return index === 0 ? [Math.min(next, latest[1]), latest[1]] : [latest[0], Math.max(next, latest[0])];
+};
+
 const valueFromKey = (key: string, current: number, min: number, max: number, step: number): number | null => {
   switch (key) {
     case 'ArrowRight':
@@ -89,19 +94,22 @@ export function Slider<V extends SliderValue = number>({
   currentRef.current = current;
 
   const thumbs = toList(current);
+  const thumbIds = thumbs.map((_, index) => `${thumbLabelId}-${index}`);
   const activeThumbIndex = draggingIndex ?? focusedThumbIndex;
   const start = isRange(current) ? percent(current[0], min, max) : 0;
-  const end = percent(thumbs[thumbs.length - 1] ?? min, min, max);
+  const end = percent(thumbs.at(-1) ?? min, min, max);
+
+  const thumbLabel = (index: number) => {
+    if (!isRange(current)) return ariaLabel;
+    const rangeLabel = index === 0 ? rangeLabels[0] : rangeLabels[1];
+    return `${ariaLabel} ${rangeLabel}`;
+  };
 
   const commit = (index: number, raw: number): SliderValue => {
     const latest = currentRef.current;
     const latestThumbs = toList(latest);
     const next = snap(raw, min, max, step);
-    const nextValue: SliderValue = isRange(latest)
-      ? index === 0
-        ? [Math.min(next, latest[1]), latest[1]]
-        : [latest[0], Math.max(next, latest[0])]
-      : next;
+    const nextValue = withThumb(latest, index, next);
     const nextThumbs = toList(nextValue);
     const changed = nextThumbs.some((thumb, thumbIndex) => thumb !== latestThumbs[thumbIndex]);
 
@@ -163,9 +171,9 @@ export function Slider<V extends SliderValue = number>({
     <div className={[styles.root, className].filter(Boolean).join(' ')} data-disabled={disabled || undefined}>
       {valueLabel ? <div className={styles.valueLabel}>{valueLabel}</div> : null}
       {ariaLabel
-        ? thumbs.map((_, index) => (
-            <span key={index} id={`${thumbLabelId}-${index}`} className='ds-sr-only'>
-              {isRange(current) ? `${ariaLabel} ${rangeLabels[index === 0 ? 0 : 1]}` : ariaLabel}
+        ? thumbIds.map((id, index) => (
+            <span key={id} id={id} className='ds-sr-only'>
+              {thumbLabel(index)}
             </span>
           ))
         : null}
@@ -189,7 +197,7 @@ export function Slider<V extends SliderValue = number>({
             const formattedValue = formatValue(thumb);
 
             return (
-              <Popover.TriggerContext key={index}>
+              <Popover.TriggerContext key={thumbIds[index]}>
                 <Popover.Trigger asChild>
                   <div
                     role='slider'
@@ -203,7 +211,7 @@ export function Slider<V extends SliderValue = number>({
                     aria-valuetext={formattedValue}
                     aria-orientation='horizontal'
                     aria-disabled={disabled || undefined}
-                    aria-labelledby={ariaLabelledby ?? (ariaLabel ? `${thumbLabelId}-${index}` : undefined)}
+                    aria-labelledby={ariaLabelledby ?? (ariaLabel ? thumbIds[index] : undefined)}
                     onKeyDown={handleKeyDown(index)}
                     onFocus={() => setFocusedThumbIndex(index)}
                     onBlur={() =>
@@ -226,7 +234,9 @@ export function Slider<V extends SliderValue = number>({
         </div>
       </div>
 
-      {name ? thumbs.map((thumb, index) => <input key={index} type='hidden' name={name} value={thumb} />) : null}
+      {name
+        ? thumbs.map((thumb, index) => <input key={thumbIds[index]} type='hidden' name={name} value={thumb} />)
+        : null}
     </div>
   );
 }
