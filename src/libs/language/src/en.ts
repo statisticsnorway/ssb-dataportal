@@ -201,6 +201,8 @@ export const en = {
     dataCoverageTimeline: 'Available periods',
     variables: 'Variables in the dataset',
     filter: 'Filter',
+    periodFrom: 'From',
+    periodTo: 'To',
     periodRange: 'Period range',
     period: 'Period',
     resetFilters: 'Reset filters',

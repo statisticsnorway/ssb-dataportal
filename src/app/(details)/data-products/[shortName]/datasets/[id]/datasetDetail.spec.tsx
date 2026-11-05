@@ -293,7 +293,7 @@ describe('DatasetDetail', () => {
 
     fireEvent.click(screen.getByText('Filtrer'));
     expect(screen.getByRole('heading', { name: 'Periode', level: 3 })).toBeInTheDocument();
-    const maximumPeriodThumb = screen.getByRole('slider', { name: 'Periodeintervall max' });
+    const maximumPeriodThumb = screen.getByRole('slider', { name: 'Periodeintervall Til' });
     maximumPeriodThumb.focus();
     fireEvent.keyDown(maximumPeriodThumb, { key: 'Home', code: 'Home' });
 

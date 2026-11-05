@@ -114,9 +114,9 @@ export default function DatasetDetail({
   const hasActiveFilters = trimmedSearch.length > 0 || isPeriodRangeFiltered;
   const filteredDatasetVariables = useMemo(
     () =>
-      datasetVariables.filter((variable) =>
-        variable.short_name.toLocaleLowerCase('nb').includes(normalizedVariableNameFilter),
-      ),
+      datasetVariables
+        .filter((variable) => variable.short_name.toLocaleLowerCase('nb').includes(normalizedVariableNameFilter))
+        .toSorted((a, b) => a.short_name.localeCompare(b.short_name, 'nb')),
     [datasetVariables, normalizedVariableNameFilter],
   );
   const filteredVariableIds = useMemo(
@@ -349,6 +349,7 @@ export default function DatasetDetail({
                         <Slider<readonly [number, number]>
                           aria-label={localization.datasetDetail.periodRange}
                           valueLabel={periodRangeLabel}
+                          rangeLabels={[localization.datasetDetail.periodFrom, localization.datasetDetail.periodTo]}
                           value={[periodStartIndex, periodEndIndex]}
                           min={0}
                           max={lastPeriodIndex}
@@ -445,9 +446,9 @@ export default function DatasetDetail({
                     {localization.search.noHits}
                   </li>
                 ) : (
-                  periodFilteredDatasetVariables
-                    .toSorted((a, b) => a.short_name.localeCompare(b.short_name, 'nb'))
-                    .map((variable) => <DatasetVariableCard key={variable.id} variable={variable} />)
+                  periodFilteredDatasetVariables.map((variable) => (
+                    <DatasetVariableCard key={variable.id} variable={variable} />
+                  ))
                 )}
               </ul>
             </section>

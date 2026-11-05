@@ -21,6 +21,8 @@ export type SliderProps<V extends SliderValue = number> = Labelled & {
   name?: string;
   formatValue?: (value: number) => string;
   valueLabel?: ReactNode;
+  /** Suffixes announced after `aria-label` for the first and last thumb of a range. */
+  rangeLabels?: readonly [string, string];
   className?: string;
 };
 
@@ -72,6 +74,7 @@ export function Slider<V extends SliderValue = number>({
   name,
   formatValue = String,
   valueLabel,
+  rangeLabels = ['min', 'max'],
   className,
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledby,
@@ -162,7 +165,7 @@ export function Slider<V extends SliderValue = number>({
       {ariaLabel
         ? thumbs.map((_, index) => (
             <span key={index} id={`${thumbLabelId}-${index}`} className='ds-sr-only'>
-              {isRange(current) ? `${ariaLabel} ${index === 0 ? 'min' : 'max'}` : ariaLabel}
+              {isRange(current) ? `${ariaLabel} ${rangeLabels[index === 0 ? 0 : 1]}` : ariaLabel}
             </span>
           ))
         : null}
@@ -201,7 +204,6 @@ export function Slider<V extends SliderValue = number>({
                     aria-orientation='horizontal'
                     aria-disabled={disabled || undefined}
                     aria-labelledby={ariaLabelledby ?? (ariaLabel ? `${thumbLabelId}-${index}` : undefined)}
-                    aria-label={formattedValue}
                     onKeyDown={handleKeyDown(index)}
                     onFocus={() => setFocusedThumbIndex(index)}
                     onBlur={() =>

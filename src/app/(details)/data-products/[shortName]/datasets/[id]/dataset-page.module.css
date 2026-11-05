@@ -95,12 +95,6 @@
   flex: 0 0 auto;
 }
 
-.periodRangeControls {
-  display: grid;
-  min-width: 0;
-  gap: var(--ds-size-2);
-}
-
 .variablesSection {
   margin-top: 2rem;
   padding-top: 2rem;

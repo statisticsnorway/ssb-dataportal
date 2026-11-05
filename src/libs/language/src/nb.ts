@@ -197,6 +197,8 @@ export const nb = {
     dataCoverageTimeline: 'Tilgjengelige perioder',
     variables: 'Variabler i datasettet',
     filter: 'Filtrer',
+    periodFrom: 'Fra',
+    periodTo: 'Til',
     periodRange: 'Periodeintervall',
     period: 'Periode',
     resetFilters: 'Nullstill filter',
