@@ -1,24 +1,64 @@
 'use client';
 
-import { Badge, Card, Heading, Tag } from '@digdir/designsystemet-react';
+import {
+  Badge,
+  Card,
+  Chip,
+  Details,
+  DetailsContent,
+  DetailsSummary,
+  Heading,
+  Search,
+  Tag,
+} from '@digdir/designsystemet-react';
 import { notFound } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { useTimelineData } from '@/components/data-coverage-timeline';
 import DataCoverageTimeline from '@/components/data-coverage-timeline/dataCoverageTimeline';
+import type { Slot } from '@/components/data-coverage-timeline/types';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { DetailsList } from '@/components/details-list';
+import { FilterSection } from '@/components/filters';
 import { ExternalLink } from '@/components/link-components/externalLink';
+import { Slider } from '@/components/slider';
 import { CopyTag } from '@/components/tag-components/copy-tag';
 import { DaplaDataFileDTO, DatasetDTO, DatasetVariableDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
+import { clientLogger } from '@/libs/logger/client-logger';
 import { Visibility } from '@/types/item';
 import { getDaplaCtrlUrl } from '@/utils/config';
 import { convertAssessment, convertDataSetState } from '@/utils/functions';
 import { sortDateStringsDescending } from '@/utils/sort';
 import { DataFileSearchHit } from '../../components/DataFileSearchHit';
+import { listDatasetVariableDataFilePaths, listDatasetVariableDataFilePathsByVariableIds } from './actions';
 import DatasetVariableCard from './DatasetVariableCard';
 import styles from './dataset-page.module.css';
+
+type TimelinePeriodSlot = Slot & { year: number };
+type FilterState = {
+  search: string;
+  period: readonly [number, number] | null;
+};
+
+const emptyVariableFilePaths: Record<string, string[] | null> = {};
+
+const formatTimelinePeriod = (period: TimelinePeriodSlot | undefined, capitalize = false) => {
+  if (!period) return '';
+  const label = capitalize ? `${period.label.charAt(0).toLocaleUpperCase()}${period.label.slice(1)}` : period.label;
+  return `${label} ${period.year}`;
+};
+
+const formatTimelineRange = (periods: TimelinePeriodSlot[]) => {
+  const firstPeriod = periods[0];
+  const lastPeriod = periods.at(-1);
+  if (!firstPeriod || !lastPeriod) return '';
+  if (firstPeriod.start === lastPeriod.start && firstPeriod.end === lastPeriod.end) {
+    return formatTimelinePeriod(firstPeriod, true);
+  }
+  return `${formatTimelinePeriod(firstPeriod, true)} – ${formatTimelinePeriod(lastPeriod)}`;
+};
 
 export default function DatasetDetail({
   dataset,
@@ -50,6 +90,176 @@ export default function DatasetDetail({
     0,
   );
   const { isValid, periodType, allItems, items, years, slots } = useTimelineData(dataFiles);
+  const datasetId = dataset.id ?? '';
+  const timelinePeriods = useMemo<TimelinePeriodSlot[]>(
+    () => years.flatMap((year) => (slots[year] ?? []).map((slot) => ({ ...slot, year }))),
+    [slots, years],
+  );
+  const lastPeriodIndex = Math.max(0, timelinePeriods.length - 1);
+  const [filters, setFilters] = useState<FilterState>({ search: '', period: null });
+  const updateFilters = (updates: Partial<FilterState>) => setFilters((current) => ({ ...current, ...updates }));
+  const savedPeriodRange = filters.period;
+  const periodStartIndex = savedPeriodRange ? Math.max(0, Math.min(savedPeriodRange[0], lastPeriodIndex)) : 0;
+  const periodEndIndex = savedPeriodRange
+    ? Math.max(periodStartIndex, Math.min(savedPeriodRange[1], lastPeriodIndex))
+    : lastPeriodIndex;
+  const selectedPeriods = timelinePeriods.slice(periodStartIndex, periodEndIndex + 1);
+  const selectedPeriodStart = selectedPeriods[0]?.start;
+  const selectedPeriodEnd = selectedPeriods.at(-1)?.end;
+  const isPeriodRangeFiltered =
+    timelinePeriods.length > 0 && (periodStartIndex > 0 || periodEndIndex < lastPeriodIndex);
+  const periodRangeLabel = formatTimelineRange(selectedPeriods);
+  const trimmedSearch = filters.search.trim();
+  const normalizedVariableNameFilter = trimmedSearch.toLocaleLowerCase('nb');
+  const hasActiveFilters = trimmedSearch.length > 0 || isPeriodRangeFiltered;
+  const filteredDatasetVariables = useMemo(
+    () =>
+      datasetVariables.filter((variable) =>
+        variable.short_name.toLocaleLowerCase('nb').includes(normalizedVariableNameFilter),
+      ),
+    [datasetVariables, normalizedVariableNameFilter],
+  );
+  const filteredVariableIds = useMemo(
+    () => filteredDatasetVariables.map((variable) => variable.id),
+    [filteredDatasetVariables],
+  );
+  const [variableDataFilePaths, setVariableDataFilePaths] = useState<{
+    filter: string;
+    filePaths: string[];
+  } | null>(null);
+  const [variableFilePathsById, setVariableFilePathsById] = useState<{
+    datasetId: string;
+    filePathsById: Record<string, string[] | null>;
+  } | null>(null);
+  const cachedVariableFilePathsById =
+    variableFilePathsById?.datasetId === datasetId ? variableFilePathsById.filePathsById : emptyVariableFilePaths;
+  const missingVariableIds = useMemo(
+    () => filteredVariableIds.filter((variableId) => !Object.hasOwn(cachedVariableFilePathsById, variableId)),
+    [cachedVariableFilePathsById, filteredVariableIds],
+  );
+
+  useEffect(() => {
+    if (!normalizedVariableNameFilter || !isValid) {
+      return;
+    }
+
+    if (!datasetId || filteredVariableIds.length === 0) {
+      setVariableDataFilePaths({ filter: normalizedVariableNameFilter, filePaths: [] });
+      return;
+    }
+
+    let cancelled = false;
+    const timeoutId = window.setTimeout(() => {
+      listDatasetVariableDataFilePaths(datasetId, filteredVariableIds)
+        .then((filePaths) => {
+          if (!cancelled) {
+            setVariableDataFilePaths({ filter: normalizedVariableNameFilter, filePaths });
+          }
+        })
+        .catch((error: unknown) => {
+          clientLogger.error({ error }, 'Failed to load periods for dataset variable filter');
+          if (!cancelled) {
+            setVariableDataFilePaths({ filter: normalizedVariableNameFilter, filePaths: [] });
+          }
+        });
+    }, 250);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timeoutId);
+    };
+  }, [datasetId, filteredVariableIds, isValid, normalizedVariableNameFilter]);
+
+  useEffect(() => {
+    if (!isValid || !isPeriodRangeFiltered || !datasetId || missingVariableIds.length === 0) {
+      return;
+    }
+
+    let cancelled = false;
+    const timeoutId = window.setTimeout(() => {
+      listDatasetVariableDataFilePathsByVariableIds(datasetId, missingVariableIds)
+        .then((filePathsById) => {
+          if (!cancelled) {
+            setVariableFilePathsById((current) => {
+              const currentFilePaths = current?.datasetId === datasetId ? current.filePathsById : {};
+              return {
+                datasetId,
+                filePathsById: { ...currentFilePaths, ...filePathsById },
+              };
+            });
+          }
+        })
+        .catch((error: unknown) => {
+          clientLogger.error({ error }, 'Failed to load dataset variables for selected periods');
+          if (!cancelled) {
+            const failedFilePaths = Object.fromEntries(missingVariableIds.map((variableId) => [variableId, null]));
+            setVariableFilePathsById((current) => {
+              const currentFilePaths = current?.datasetId === datasetId ? current.filePathsById : {};
+              return {
+                datasetId,
+                filePathsById: { ...currentFilePaths, ...failedFilePaths },
+              };
+            });
+          }
+        });
+    }, 250);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timeoutId);
+    };
+  }, [datasetId, isPeriodRangeFiltered, isValid, missingVariableIds]);
+
+  const isVariableTimelineLoading =
+    isValid &&
+    normalizedVariableNameFilter.length > 0 &&
+    filteredVariableIds.length > 0 &&
+    variableDataFilePaths?.filter !== normalizedVariableNameFilter;
+  const isVariablePeriodLoading = isValid && isPeriodRangeFiltered && missingVariableIds.length > 0;
+
+  const filePathsInSelectedPeriod = useMemo(() => {
+    if (!isPeriodRangeFiltered || !selectedPeriodStart || !selectedPeriodEnd) {
+      return null;
+    }
+
+    return new Set(
+      allItems
+        .filter((item) => item.start <= selectedPeriodEnd && item.end >= selectedPeriodStart)
+        .map((item) => item.file_path),
+    );
+  }, [allItems, isPeriodRangeFiltered, selectedPeriodEnd, selectedPeriodStart]);
+
+  const periodFilteredDatasetVariables = useMemo(() => {
+    if (!filePathsInSelectedPeriod) {
+      return filteredDatasetVariables;
+    }
+
+    return filteredDatasetVariables.filter((variable) => {
+      const filePaths = cachedVariableFilePathsById[variable.id];
+      return filePaths == null || filePaths.some((filePath) => filePathsInSelectedPeriod.has(filePath));
+    });
+  }, [cachedVariableFilePathsById, filePathsInSelectedPeriod, filteredDatasetVariables]);
+
+  const filteredTimelineItems = useMemo(() => {
+    let matchingItems = allItems;
+
+    if (normalizedVariableNameFilter) {
+      if (variableDataFilePaths?.filter !== normalizedVariableNameFilter) {
+        return [];
+      }
+
+      const filePaths = new Set(variableDataFilePaths.filePaths);
+      matchingItems = matchingItems.filter((item) => filePaths.has(item.file_path));
+    }
+
+    return matchingItems;
+  }, [allItems, normalizedVariableNameFilter, variableDataFilePaths]);
+
+  const updatePeriodRange = (period: readonly [number, number]) => {
+    updateFilters({ period: period[0] === 0 && period[1] === lastPeriodIndex ? null : period });
+  };
+
+  const resetFilters = () => updateFilters({ search: '', period: null });
 
   return (
     <div className={`${styles.detailsPage} container`}>
@@ -112,15 +322,95 @@ export default function DatasetDetail({
             { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
           ]}
         />
-        <Card className={styles.tableContainer} data-testid='dataset-periods-and-variables'>
+        <Card
+          className={styles.tableContainer}
+          data-testid='dataset-periods-and-variables'
+          aria-busy={isVariableTimelineLoading || isVariablePeriodLoading}
+        >
+          {isAuthenticated && datasetVariables.length > 0 ? (
+            <Details className={styles.filterDetails}>
+              <DetailsSummary>{localization.datasetDetail.filter}</DetailsSummary>
+              <DetailsContent className={styles.filterDetailsContent}>
+                <div className={styles.filterPanel}>
+                  <div className={styles.filterSections}>
+                    <FilterSection title={localization.search.label} className={styles.filterSection}>
+                      <Search>
+                        <Search.Input
+                          id={localization.search.textFilter.inputId}
+                          aria-label={localization.search.textFilter.label}
+                          value={filters.search}
+                          onChange={(event) => updateFilters({ search: event.target.value })}
+                        />
+                        <Search.Clear onClick={() => updateFilters({ search: '' })} />
+                      </Search>
+                    </FilterSection>
+                    {isValid && timelinePeriods.length > 0 ? (
+                      <FilterSection title={localization.datasetDetail.period} className={styles.filterSection}>
+                        <Slider<readonly [number, number]>
+                          aria-label={localization.datasetDetail.periodRange}
+                          valueLabel={periodRangeLabel}
+                          value={[periodStartIndex, periodEndIndex]}
+                          min={0}
+                          max={lastPeriodIndex}
+                          step={1}
+                          disabled={lastPeriodIndex === 0}
+                          formatValue={(index) => formatTimelinePeriod(timelinePeriods[index])}
+                          onChange={updatePeriodRange}
+                          onChangeEnd={updatePeriodRange}
+                        />
+                      </FilterSection>
+                    ) : null}
+                  </div>
+                  {hasActiveFilters ? (
+                    <div className={styles.activeFiltersRow}>
+                      <Chip.Button className={styles.resetFiltersButton} onClick={resetFilters}>
+                        {localization.datasetDetail.resetFilters}
+                      </Chip.Button>
+                      <ul
+                        className={styles.activeFilterChips}
+                        aria-label={localization.filterTag.listLabel}
+                        aria-live='polite'
+                      >
+                        {trimmedSearch ? (
+                          <li>
+                            <Chip.Removable
+                              aria-label={`${localization.filterTag.remove} ${localization.search.label}: ${trimmedSearch}`}
+                              onClick={() => updateFilters({ search: '' })}
+                            >
+                              {`${localization.search.label}: «${trimmedSearch}»`}
+                            </Chip.Removable>
+                          </li>
+                        ) : null}
+                        {isPeriodRangeFiltered ? (
+                          <li>
+                            <Chip.Removable
+                              aria-label={`${localization.filterTag.remove} ${localization.datasetDetail.period}: ${periodRangeLabel}`}
+                              onClick={() => updateFilters({ period: null })}
+                            >
+                              {periodRangeLabel}
+                            </Chip.Removable>
+                          </li>
+                        ) : null}
+                      </ul>
+                    </div>
+                  ) : null}
+                </div>
+              </DetailsContent>
+            </Details>
+          ) : null}
           {isValid ? (
             <DataCoverageTimeline
               isValid={isValid}
               periodType={periodType}
-              allItems={allItems}
+              allItems={filteredTimelineItems}
               items={items}
               years={years}
               slots={slots}
+              selectedPeriodRange={
+                isPeriodRangeFiltered && selectedPeriodStart && selectedPeriodEnd
+                  ? { start: selectedPeriodStart, end: selectedPeriodEnd }
+                  : undefined
+              }
             />
           ) : (
             // Fallback when calendar can't be rendered: List data files
@@ -148,22 +438,18 @@ export default function DatasetDetail({
             </>
           )}
           {isAuthenticated && datasetVariables.length > 0 ? (
-            <section className={styles.variablesSection} aria-labelledby='tableHeading-variables'>
-              <Heading
-                level={2}
-                className={`${styles.detailsHeading} secondaryHeading`}
-                data-size='md'
-                id='tableHeading-variables'
-              >
-                {localization.datasetDetail.variables}
-              </Heading>
-              <div className={styles.variablesList}>
-                {datasetVariables
-                  .toSorted((a, b) => a.short_name.localeCompare(b.short_name, 'nb'))
-                  .map((variable) => (
-                    <DatasetVariableCard key={variable.id} variable={variable} />
-                  ))}
-              </div>
+            <section className={styles.variablesSection}>
+              <ul className={styles.variablesList}>
+                {periodFilteredDatasetVariables.length === 0 ? (
+                  <li className={styles.variableNoHits} role='status'>
+                    {localization.search.noHits}
+                  </li>
+                ) : (
+                  periodFilteredDatasetVariables
+                    .toSorted((a, b) => a.short_name.localeCompare(b.short_name, 'nb'))
+                    .map((variable) => <DatasetVariableCard key={variable.id} variable={variable} />)
+                )}
+              </ul>
             </section>
           ) : null}
         </Card>

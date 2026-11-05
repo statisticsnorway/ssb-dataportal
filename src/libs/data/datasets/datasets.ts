@@ -195,16 +195,33 @@ export async function listDatasetsByProductShortNameAndStorageCategory(
 export async function listDataFilesByDatasetIdAndStorageCategory(
   datasetId: string,
   storageCategory: StorageCategory,
+  variableIds?: string[],
 ): Promise<Array<DaplaDataFileDTO>> {
+  return listDataFilesByDatasetId(datasetId, storageCategory, variableIds);
+}
+
+export async function listDataFilesByDatasetIdAndVariableIds(
+  datasetId: string,
+  variableIds: string[],
+): Promise<Array<DaplaDataFileDTO>> {
+  return listDataFilesByDatasetId(datasetId, undefined, variableIds);
+}
+
+async function listDataFilesByDatasetId(
+  datasetId: string,
+  storageCategory?: StorageCategory,
+  variableIds?: string[],
+): Promise<Array<DaplaDataFileDTO>> {
+  const fn = storageCategory ? 'listDataFilesByDatasetIdAndStorageCategory' : 'listDataFilesByDatasetIdAndVariableIds';
   const logger = createLoggerWithBindings({
     module: 'datasets',
-    fn: 'listDataFilesByDatasetIdAndStorageCategory',
+    fn,
     datasetId,
     storageCategory,
   });
 
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
-    logger.warn({ fn: 'listDataFilesByDatasetIdAndStorageCategory' }, 'Using static mock data for data files');
+    logger.warn({ fn }, 'Using static mock data for data files');
     const datafilePath = join(process.cwd(), 'src', 'static-data', 'data-files', `${datasetId}.json`);
     try {
       const rawData = await readFile(datafilePath, 'utf-8');
@@ -215,7 +232,7 @@ export async function listDataFilesByDatasetIdAndStorageCategory(
       }
       return parsedData
         .map((item) => DaplaDataFileDTOFromJSON(item))
-        .filter((dataFile) => dataFile.storage_category === storageCategory);
+        .filter((dataFile) => storageCategory === undefined || dataFile.storage_category === storageCategory);
     } catch (error: unknown) {
       logger.warn({ error: sanitizeError(error), datafilePath }, 'No static datafile found for dataset id');
       return [];
@@ -230,7 +247,10 @@ export async function listDataFilesByDatasetIdAndStorageCategory(
     let page = 0;
     let totalDataFiles = 0;
     while (true) {
-      const response = await api.listDataFiles({ datasetId, storageCategory, page, pageSize }, dataDocFetchOptions);
+      const response = await api.listDataFiles(
+        { datasetId, storageCategory, variableIds, page, pageSize },
+        dataDocFetchOptions,
+      );
 
       allDataFiles.push(...response.data_files);
       totalDataFiles = response.total_data_files;

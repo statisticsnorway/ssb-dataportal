@@ -1,4 +1,3 @@
-import { Card, Heading } from '@digdir/designsystemet-react';
 import type { DatasetVariableDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
 import { formatParquetType } from '@/utils/formatParquetType';
@@ -11,18 +10,18 @@ export default function DatasetVariableCard({ variable }: Readonly<{ variable: D
   ] as const;
 
   return (
-    <Card className={styles.variableCard} data-testid={`dataset-variable-card-${variable.id}`}>
-      <Heading level={3} className={styles.variableHeading} data-size='sm'>
-        {variable.short_name}
-      </Heading>
+    <li className={styles.variableItem} data-testid={`dataset-variable-card-${variable.id}`}>
+      <code className={styles.variableName}>{variable.short_name}</code>
       <dl className={styles.variableTypes}>
         {types.map(([label, typeName]) => (
           <div key={label} className={styles.variableType}>
             <dt>{label}</dt>
-            <dd>{typeName ? formatParquetType(typeName) : localization.datasetDetail.notSpecified}</dd>
+            <dd className={typeName ? undefined : styles.variableTypeMissing}>
+              {typeName ? formatParquetType(typeName) : localization.datasetDetail.notSpecified}
+            </dd>
           </div>
         ))}
       </dl>
-    </Card>
+    </li>
   );
 }

@@ -1,7 +1,12 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { notFound } from 'next/navigation';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useTimelineData } from '@/components/data-coverage-timeline';
+import type { TimelineItem } from '@/components/data-coverage-timeline/types';
+import type { TimelineData } from '@/components/data-coverage-timeline/useTimelineData';
 import type { DaplaDataFileDTO, DatasetDTO, DatasetVariableDTO } from '@/libs/data-access/datadoc';
+import { PeriodFormat } from '@/libs/data-access/datadoc';
+import { listDatasetVariableDataFilePaths, listDatasetVariableDataFilePathsByVariableIds } from './actions';
 import DatasetDetail from './datasetDetail';
 
 const auth = vi.hoisted(() => ({
@@ -35,7 +40,33 @@ vi.mock('@/components/data-coverage-timeline', () => ({
 }));
 
 vi.mock('@/components/data-coverage-timeline/dataCoverageTimeline', () => ({
-  default: () => null,
+  default: ({
+    allItems,
+    years,
+    slots,
+    selectedPeriodRange,
+  }: {
+    allItems: Array<{ file_path: string }>;
+    years: number[];
+    slots: Record<number, Array<{ label: string }>>;
+    selectedPeriodRange?: { start: string; end: string };
+  }) => (
+    <div
+      data-testid='data-coverage-timeline'
+      data-file-paths={allItems.map((item) => item.file_path).join(',')}
+      data-years={years.join(',')}
+      data-period-labels={Object.values(slots)
+        .flat()
+        .map((slot) => slot.label)
+        .join(',')}
+      data-selected-period-range={selectedPeriodRange ? `${selectedPeriodRange.start}:${selectedPeriodRange.end}` : ''}
+    />
+  ),
+}));
+
+vi.mock('./actions', () => ({
+  listDatasetVariableDataFilePaths: vi.fn(),
+  listDatasetVariableDataFilePathsByVariableIds: vi.fn(),
 }));
 
 vi.mock('@/components/dataportal-breadcrumbs', () => ({
@@ -77,13 +108,25 @@ const dataset = {
   has_naming_standard_violations: false,
 } as DatasetDTO;
 
+const emptyTimelineData: TimelineData = {
+  isValid: false,
+  periodType: '',
+  allItems: [],
+  items: [],
+  years: [],
+  slots: {},
+};
+
 describe('DatasetDetail', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     auth.isAuthenticated = true;
+    vi.mocked(useTimelineData).mockReturnValue(emptyTimelineData);
+    vi.mocked(listDatasetVariableDataFilePaths).mockResolvedValue([]);
+    vi.mocked(listDatasetVariableDataFilePathsByVariableIds).mockResolvedValue({});
   });
 
-  it('renders each variable in its own card with side-by-side type details', () => {
+  it('renders variables in a flat list with two-column type details', () => {
     const datasetVariables = [
       {
         id: 'variable-1',
@@ -95,7 +138,6 @@ describe('DatasetDetail', () => {
         id: 'variable-2',
         short_name: 'person_id',
         physical_type_name: 'BYTE_ARRAY',
-        logical_type_name: 'STRING',
       },
     ] as DatasetVariableDTO[];
 
@@ -111,19 +153,173 @@ describe('DatasetDetail', () => {
     expect(screen.getByRole('heading', { level: 1 }).textContent).toBe('Example dataset');
     expect(screen.getByText(sharedFile.file_path!)).toBeDefined();
     expect(screen.getByText(productFile.file_path!)).toBeDefined();
-    expect(screen.getByRole('heading', { name: 'Variabler i datasettet' })).toBeDefined();
-    expect(screen.getByRole('heading', { level: 3, name: 'income' })).toBeDefined();
-    expect(screen.getByRole('heading', { level: 3, name: 'person_id' })).toBeDefined();
+    expect(screen.queryByRole('heading', { name: 'Variabler i datasettet' })).toBeNull();
+    expect(screen.getByText('income', { selector: 'code' })).toBeDefined();
+    expect(screen.getByText('person_id', { selector: 'code' })).toBeDefined();
     expect(screen.queryByTestId('dataset-variable-details-card')).toBeNull();
-    expect(screen.getAllByTestId(/^dataset-variable-card-/)).toHaveLength(2);
+    const variableItems = screen.getAllByTestId(/^dataset-variable-card-/);
+    expect(variableItems).toHaveLength(2);
+    expect(variableItems.map((item) => item.tagName)).toEqual(['LI', 'LI']);
     expect(screen.getByTestId('dataset-periods-and-variables')).toContainElement(
-      screen.getByRole('heading', { name: 'Variabler i datasettet' }),
+      screen.getByTestId('dataset-variable-card-variable-1'),
     );
     expect(screen.getAllByText('Fysisk type')).toHaveLength(2);
     expect(screen.getAllByText('Logisk type')).toHaveLength(2);
     expect(screen.getByText('64-bit integer')).toBeDefined();
     expect(screen.getByText('Decimal')).toBeDefined();
+    expect(screen.getByText('Ikke oppgitt')).toBeDefined();
     expect(notFound).not.toHaveBeenCalled();
+  });
+
+  it('filters variables by name and limits the timeline to matching variable periods', async () => {
+    const timelineItems = [
+      {
+        ...sharedFile,
+        data_file_version: 0,
+        periodType: PeriodFormat.YEAR_MONTH,
+        start: '2020-01-01',
+        end: '2020-01-31',
+      },
+      {
+        ...productFile,
+        data_file_version: 0,
+        periodType: PeriodFormat.YEAR_MONTH,
+        start: '2020-02-01',
+        end: '2020-02-29',
+      },
+    ] as TimelineItem[];
+
+    vi.mocked(useTimelineData).mockReturnValue({
+      ...emptyTimelineData,
+      isValid: true,
+      periodType: PeriodFormat.YEAR_MONTH,
+      allItems: timelineItems,
+      items: timelineItems,
+      years: [2020],
+      slots: { 2020: [] },
+    });
+    vi.mocked(listDatasetVariableDataFilePaths).mockResolvedValue([productFile.file_path]);
+
+    render(
+      <DatasetDetail
+        dataset={dataset}
+        dataFilesShared={[sharedFile]}
+        dataFilesProduct={[productFile]}
+        datasetVariables={
+          [
+            { id: 'variable-1', short_name: 'income' },
+            { id: 'variable-2', short_name: 'person_id' },
+          ] as DatasetVariableDTO[]
+        }
+      />,
+    );
+
+    const filterSummary = screen.getByText('Filtrer');
+    const filterDetails = filterSummary.closest('details');
+    expect(filterDetails).not.toHaveAttribute('open');
+    fireEvent.click(filterSummary);
+    expect(filterDetails).toHaveAttribute('open');
+    expect(screen.getByRole('heading', { name: 'Søk', level: 3 })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Nullstill filter' })).toBeNull();
+    fireEvent.change(screen.getByRole('searchbox', { name: 'Filtrer på navn' }), {
+      target: { value: 'person' },
+    });
+
+    expect(screen.getByText('person_id', { selector: 'code' })).toBeDefined();
+    expect(screen.queryByText('income', { selector: 'code' })).toBeNull();
+    expect(screen.getByText('Søk: «person»')).toBeDefined();
+    expect(screen.getByRole('button', { name: 'Nullstill filter' })).toBeDefined();
+    await waitFor(() => {
+      expect(listDatasetVariableDataFilePaths).toHaveBeenCalledWith('123', ['variable-2']);
+      expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute('data-file-paths', productFile.file_path);
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Fjern Søk: person' }));
+    expect(screen.getByText('income', { selector: 'code' })).toBeDefined();
+    expect(screen.getByText('person_id', { selector: 'code' })).toBeDefined();
+    expect(screen.queryByRole('button', { name: 'Nullstill filter' })).toBeNull();
+  });
+
+  it('filters the timeline and variables to the selected period range', async () => {
+    const timelineItems = [
+      {
+        ...sharedFile,
+        data_file_version: 0,
+        periodType: PeriodFormat.YEAR_MONTH,
+        start: '2020-01-01',
+        end: '2020-01-31',
+      },
+      {
+        ...productFile,
+        data_file_version: 0,
+        periodType: PeriodFormat.YEAR_MONTH,
+        start: '2020-02-01',
+        end: '2020-02-29',
+      },
+    ] as TimelineItem[];
+    const slots = {
+      2020: [
+        { start: '2020-01-01', end: '2020-01-31', label: 'jan' },
+        { start: '2020-02-01', end: '2020-02-29', label: 'feb' },
+      ],
+    };
+
+    vi.mocked(useTimelineData).mockReturnValue({
+      ...emptyTimelineData,
+      isValid: true,
+      periodType: PeriodFormat.YEAR_MONTH,
+      allItems: timelineItems,
+      items: timelineItems,
+      years: [2020],
+      slots,
+    });
+    vi.mocked(listDatasetVariableDataFilePathsByVariableIds).mockResolvedValue({
+      'variable-1': [sharedFile.file_path],
+      'variable-2': [productFile.file_path],
+    });
+
+    render(
+      <DatasetDetail
+        dataset={dataset}
+        dataFilesShared={[sharedFile]}
+        dataFilesProduct={[productFile]}
+        datasetVariables={
+          [
+            { id: 'variable-1', short_name: 'income' },
+            { id: 'variable-2', short_name: 'person_id' },
+          ] as DatasetVariableDTO[]
+        }
+      />,
+    );
+
+    fireEvent.click(screen.getByText('Filtrer'));
+    expect(screen.getByRole('heading', { name: 'Periode', level: 3 })).toBeInTheDocument();
+    const maximumPeriodThumb = screen.getByRole('slider', { name: 'Periodeintervall max' });
+    maximumPeriodThumb.focus();
+    fireEvent.keyDown(maximumPeriodThumb, { key: 'Home', code: 'Home' });
+
+    await waitFor(() => {
+      expect(listDatasetVariableDataFilePathsByVariableIds).toHaveBeenCalledWith('123', ['variable-1', 'variable-2']);
+      expect(screen.getByText('income', { selector: 'code' })).toBeDefined();
+      expect(screen.queryByText('person_id', { selector: 'code' })).toBeNull();
+      expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute(
+        'data-file-paths',
+        `${sharedFile.file_path},${productFile.file_path}`,
+      );
+      expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute('data-period-labels', 'jan,feb');
+      expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute(
+        'data-selected-period-range',
+        '2020-01-01:2020-01-31',
+      );
+      expect(screen.getByRole('button', { name: 'Nullstill filter' })).toBeDefined();
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Fjern Periode: Jan 2020' }));
+
+    await waitFor(() => {
+      expect(screen.queryByRole('button', { name: 'Nullstill filter' })).toBeNull();
+      expect(screen.getByText('person_id', { selector: 'code' })).toBeDefined();
+      expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute('data-selected-period-range', '');
+    });
   });
 
   it('shows only shared files for unauthenticated users', () => {

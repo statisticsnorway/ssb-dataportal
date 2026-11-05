@@ -1,0 +1,91 @@
+.root {
+  --slider-track-height: 0.25rem;
+  --slider-thumb-size: 1.25rem;
+  --slider-track-color: var(--ds-color-neutral-border-subtle, #d0d5dd);
+  --slider-fill-color: var(--ds-color-accent-base-default, #0062ba);
+  --slider-thumb-color: var(--ds-color-neutral-background-default, #fff);
+  --slider-focus-color: var(--ds-color-focus-outer, #1e2b3c);
+
+  width: 100%;
+}
+
+.valueLabel {
+  margin-block-end: var(--ds-size-2);
+  font-size: var(--ds-body-sm-font-size);
+  text-align: end;
+}
+
+.valuePopover {
+  --dsc-popover-padding: var(--ds-size-1) var(--ds-size-2);
+  --dsc-popover-arrow-size: var(--ds-size-2);
+  --dsc-popover-border-radius: var(--ds-border-radius-sm);
+
+  font-size: var(--ds-body-sm-font-size);
+  line-height: 1.2;
+  pointer-events: none;
+}
+
+.hitArea {
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
+  height: var(--slider-thumb-size);
+  align-items: center;
+  padding-inline-start: calc(var(--slider-thumb-size) / 2 + var(--ds-size-2));
+  padding-inline-end: calc(var(--slider-thumb-size) / 2 + var(--ds-size-4));
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+
+.track {
+  position: relative;
+  width: 100%;
+  height: var(--slider-track-height);
+  border-radius: 999px;
+  background: var(--slider-track-color);
+}
+
+.fill {
+  position: absolute;
+  inset-block: 0;
+  border-radius: inherit;
+  background: var(--slider-fill-color);
+}
+
+.thumb {
+  position: absolute;
+  top: 50%;
+  width: var(--slider-thumb-size);
+  height: var(--slider-thumb-size);
+  box-sizing: border-box;
+  border: 2px solid var(--slider-fill-color);
+  border-radius: 50%;
+  background: var(--slider-thumb-color);
+  transform: translate(-50%, -50%);
+  cursor: grab;
+}
+
+.thumb:dir(rtl) {
+  transform: translate(50%, -50%);
+}
+
+.thumb[data-dragging] {
+  cursor: grabbing;
+}
+
+.thumb:focus-visible {
+  outline: 3px solid var(--slider-focus-color);
+  outline-offset: 2px;
+}
+
+.root[data-disabled] {
+  --slider-fill-color: var(--ds-color-neutral-border-default, #98a2b3);
+
+  opacity: 0.6;
+}
+
+.root[data-disabled] .hitArea,
+.root[data-disabled] .thumb {
+  cursor: not-allowed;
+}

@@ -4,7 +4,7 @@ import { DataFileSearchHit } from '@/app/(details)/data-products/[shortName]/com
 import { localization } from '@/libs/language/src/localization';
 import styles from './dataCoverageTimeline.module.css';
 import { type Slot, type TimelineItem } from './types';
-import { TimelineData } from './useTimelineData';
+import { type TimelineData } from './useTimelineData';
 
 const TOOLTIP_TEMPLATE = '{status}: {slotLabel} {year}';
 const DATA_PRESENT_TEMPLATE = '{slotLabel} {year}';
@@ -122,7 +122,15 @@ const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matche
  *
  * @param data - Array of file DTOs from the dataset API response.
  */
-const DataCoverageTimeline = ({ isValid, allItems, years, slots }: TimelineData) => {
+const DataCoverageTimeline = ({
+  isValid,
+  allItems,
+  years,
+  slots,
+  selectedPeriodRange,
+}: TimelineData & {
+  selectedPeriodRange?: { start: string; end: string };
+}) => {
   const findMatchingItemsForSlot = useMemo(
     () => (slot: Slot) => allItems.filter((item) => slotOverlapsItem(slot, item)),
     [allItems],
@@ -155,7 +163,12 @@ const DataCoverageTimeline = ({ isValid, allItems, years, slots }: TimelineData)
                       idx={idx}
                       totalSlots={yearSlots.length}
                       year={year}
-                      matchedItems={findMatchingItemsForSlot(slot)}
+                      matchedItems={
+                        !selectedPeriodRange ||
+                        (slot.start >= selectedPeriodRange.start && slot.end <= selectedPeriodRange.end)
+                          ? findMatchingItemsForSlot(slot)
+                          : []
+                      }
                     />
                   ))}
                 </div>
