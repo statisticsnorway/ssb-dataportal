@@ -3,74 +3,74 @@
     {
       "id": "10000000-0000-4000-8000-000000000001",
       "short_name": "arbeidsforhold_id",
-      "physical_type_name": "FIXED_LEN_BYTE_ARRAY",
-      "logical_type_name": "UUID"
+      "physical_type": "FIXED_LEN_BYTE_ARRAY",
+      "logical_type": "UUID"
     },
     {
       "id": "10000000-0000-4000-8000-000000000002",
       "short_name": "person_id",
-      "physical_type_name": "BYTE_ARRAY",
-      "logical_type_name": "STRING"
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING"
     },
     {
       "id": "10000000-0000-4000-8000-000000000003",
       "short_name": "arbeidsgiver_orgnr",
-      "physical_type_name": "BYTE_ARRAY",
-      "logical_type_name": "STRING"
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING"
     },
     {
       "id": "10000000-0000-4000-8000-000000000004",
       "short_name": "arbeidsforhold_startdato",
-      "physical_type_name": "INT32",
-      "logical_type_name": "DATE"
+      "physical_type": "INT32",
+      "logical_type": "DATE"
     },
     {
       "id": "10000000-0000-4000-8000-000000000005",
       "short_name": "arbeidsforhold_sluttdato",
-      "physical_type_name": "INT32",
-      "logical_type_name": "DATE"
+      "physical_type": "INT32",
+      "logical_type": "DATE"
     },
     {
       "id": "10000000-0000-4000-8000-000000000006",
       "short_name": "stillingsprosent",
-      "physical_type_name": "DOUBLE",
-      "logical_type_name": null
+      "physical_type": "DOUBLE",
+      "logical_type": null
     },
     {
       "id": "10000000-0000-4000-8000-000000000007",
       "short_name": "arbeidstid_avtalt_timer_per_uke",
-      "physical_type_name": "DOUBLE",
-      "logical_type_name": null
+      "physical_type": "DOUBLE",
+      "logical_type": null
     },
     {
       "id": "10000000-0000-4000-8000-000000000008",
       "short_name": "yrke_styrk08",
-      "physical_type_name": "BYTE_ARRAY",
-      "logical_type_name": "STRING"
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING"
     },
     {
       "id": "10000000-0000-4000-8000-000000000009",
       "short_name": "er_hovedarbeidsforhold",
-      "physical_type_name": "BOOLEAN",
-      "logical_type_name": null
+      "physical_type": "BOOLEAN",
+      "logical_type": null
     },
     {
       "id": "10000000-0000-4000-8000-000000000010",
       "short_name": "innrapportert_tidspunkt",
-      "physical_type_name": "INT64",
-      "logical_type_name": "TIMESTAMP"
+      "physical_type": "INT64",
+      "logical_type": "TIMESTAMP"
     },
     {
       "id": "10000000-0000-4000-8000-000000000011",
       "short_name": "timebetaling",
-      "physical_type_name": "INT64",
-      "logical_type_name": "DECIMAL"
+      "physical_type": "INT64",
+      "logical_type": "DECIMAL"
     },
     {
       "id": "10000000-0000-4000-8000-000000000012",
       "short_name": "arbeidssted",
-      "physical_type_name": null,
-      "logical_type_name": null
+      "physical_type": null,
+      "logical_type": null
     }
   ]
 }

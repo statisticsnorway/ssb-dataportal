@@ -155,7 +155,7 @@ example().catch(console.error);
 
 ## listDatasetVariables
 
-> DatasetVariablePageResponse listDatasetVariables(id, page, pageSize)
+> DatasetVariablePageResponse listDatasetVariables(id, variableShortName, containsDataFrom, containsDataUntil, page, pageSize)
 
 
 
@@ -179,6 +179,12 @@ async function example() {
   const body = {
     // string
     id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string (optional)
+    variableShortName: variableShortName_example,
+    // Date (optional)
+    containsDataFrom: 2013-10-20,
+    // Date (optional)
+    containsDataUntil: 2013-10-20,
     // number (optional)
     page: 56,
     // number (optional)
@@ -203,6 +209,9 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **id** | `string` |  | [Defaults to `undefined`] |
+| **variableShortName** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **containsDataFrom** | `Date` |  | [Optional] [Defaults to `undefined`] |
+| **containsDataUntil** | `Date` |  | [Optional] [Defaults to `undefined`] |
 | **page** | `number` |  | [Optional] [Defaults to `0`] |
 | **pageSize** | `number` |  | [Optional] [Defaults to `100`] |
 

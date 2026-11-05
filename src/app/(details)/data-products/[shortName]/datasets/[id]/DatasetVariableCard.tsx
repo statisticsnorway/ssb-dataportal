@@ -5,8 +5,8 @@ import styles from './dataset-page.module.css';
 
 export default function DatasetVariableCard({ variable }: Readonly<{ variable: DatasetVariableDTO }>) {
   const types = [
-    [localization.datasetDetail.physicalType, variable.physical_type_name],
-    [localization.datasetDetail.logicalType, variable.logical_type_name],
+    [localization.datasetDetail.physicalType, variable.physical_type],
+    [localization.datasetDetail.logicalType, variable.logical_type],
   ] as const;
 
   return (

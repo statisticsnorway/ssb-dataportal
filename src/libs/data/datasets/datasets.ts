@@ -19,6 +19,7 @@ import {
   DatasetsApi,
   DatasetsApiInterface,
   DatasetVariableDTO,
+  DatasetVariableDTOFromJSON,
   ResponseError,
   StorageCategory,
 } from '@/libs/data-access/datadoc';
@@ -32,7 +33,12 @@ import { getEncodedJwt } from '../../auth/jwt';
 
 const staticDataProducts = dataProductsStatic.map((dataProduct) => DataProductDTOFromJSON(dataProduct));
 const staticDatasets = datasetsStatic.map((dataset) => DatasetDTOFromJSON(dataset));
-const staticDatasetVariables: Record<string, DatasetVariableDTO[]> = datasetVariablesStatic;
+const staticDatasetVariables: Record<string, DatasetVariableDTO[]> = Object.fromEntries(
+  Object.entries(datasetVariablesStatic).map(([datasetId, variables]) => [
+    datasetId,
+    variables.map((variable) => DatasetVariableDTOFromJSON(variable)),
+  ]),
+);
 
 const ttlSeconds = Number(process.env.DATADOC_CACHE_TTL_SECONDS) || 3600;
 const dataDocFetchOptions = {
@@ -283,9 +289,13 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
 /**
  * Fetches all variables registered for a dataset.
  * @param datasetId The ID of the dataset.
+ * @param period Only fetch variables found in data files overlapping this period (inclusive). Ignored for static data.
  * @returns A promise that resolves to the dataset's variables.
  */
-export async function listDatasetVariables(datasetId: string): Promise<DatasetVariableDTO[]> {
+export async function listDatasetVariables(
+  datasetId: string,
+  period?: { from: Date; until: Date },
+): Promise<DatasetVariableDTO[]> {
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'listDatasetVariables', datasetId });
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     const variables = staticDatasetVariables[datasetId] ?? [];
@@ -302,7 +312,10 @@ export async function listDatasetVariables(datasetId: string): Promise<DatasetVa
     let totalVariables = 0;
 
     while (true) {
-      const response = await api.listDatasetVariables({ id: datasetId, page, pageSize }, dataDocFetchOptions);
+      const response = await api.listDatasetVariables(
+        { id: datasetId, containsDataFrom: period?.from, containsDataUntil: period?.until, page, pageSize },
+        dataDocFetchOptions,
+      );
       allVariables.push(...response.variables);
       totalVariables = response.total_variables;
 

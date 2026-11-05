@@ -31,7 +31,7 @@ import { getDaplaCtrlUrl } from '@/utils/config';
 import { convertAssessment, convertDataSetState } from '@/utils/functions';
 import { sortDateStringsDescending } from '@/utils/sort';
 import { DataFileSearchHit } from '../../components/DataFileSearchHit';
-import { listDatasetVariableDataFilePaths, listDatasetVariableDataFilePathsByVariableIds } from './actions';
+import { listDatasetVariableDataFilePaths, listDatasetVariableIdsInPeriod } from './actions';
 import DatasetVariableCard from './DatasetVariableCard';
 import styles from './dataset-page.module.css';
 import { useDebouncedLoad } from './useDebouncedLoad';
@@ -130,39 +130,18 @@ export default function DatasetDetail({
       ),
     new Set<string>(),
   );
-  const filePathsByVariableId = useDebouncedLoad(
-    isValid && isPeriodRangeFiltered ? datasetId : null,
-    () =>
-      listDatasetVariableDataFilePathsByVariableIds(
-        datasetId,
-        datasetVariables.map((variable) => variable.id),
-      ),
+  const variableIdsInPeriod = useDebouncedLoad(
+    isValid && isPeriodRangeFiltered && selectedPeriodStart && selectedPeriodEnd
+      ? `${datasetId}:${selectedPeriodStart}:${selectedPeriodEnd}`
+      : null,
+    async () =>
+      new Set(await listDatasetVariableIdsInPeriod(datasetId, selectedPeriodStart ?? '', selectedPeriodEnd ?? '')),
     null,
-    0,
   );
-
   const periodFilteredDatasetVariables = useMemo(() => {
-    const variablePaths = filePathsByVariableId.value;
-    if (!isPeriodRangeFiltered || !variablePaths || !selectedPeriodStart || !selectedPeriodEnd) {
-      return filteredDatasetVariables;
-    }
-
-    const filePathsInSelectedPeriod = new Set(
-      allItems
-        .filter((item) => item.start <= selectedPeriodEnd && item.end >= selectedPeriodStart)
-        .map((item) => item.file_path),
-    );
-    return filteredDatasetVariables.filter((variable) =>
-      variablePaths[variable.id]?.some((filePath) => filePathsInSelectedPeriod.has(filePath)),
-    );
-  }, [
-    allItems,
-    filePathsByVariableId.value,
-    filteredDatasetVariables,
-    isPeriodRangeFiltered,
-    selectedPeriodEnd,
-    selectedPeriodStart,
-  ]);
+    const ids = variableIdsInPeriod.value;
+    return ids ? filteredDatasetVariables.filter((variable) => ids.has(variable.id)) : filteredDatasetVariables;
+  }, [filteredDatasetVariables, variableIdsInPeriod.value]);
 
   const filteredTimelineItems = useMemo(() => {
     if (!normalizedVariableNameFilter) return allItems;
@@ -240,7 +219,7 @@ export default function DatasetDetail({
         <Card
           className={styles.tableContainer}
           data-testid='dataset-periods-and-variables'
-          aria-busy={nameMatchedFilePaths.isLoading || filePathsByVariableId.isLoading}
+          aria-busy={nameMatchedFilePaths.isLoading || variableIdsInPeriod.isLoading}
         >
           {isAuthenticated && datasetVariables.length > 0 ? (
             <Details className={styles.filterDetails}>

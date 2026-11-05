@@ -1,59 +1,36 @@
 'use server';
 
 import { authenticateUser } from '@/libs/auth/userAuth';
-import { listDataFilesByDatasetIdAndStorageCategory } from '@/libs/data/datasets/datasets';
-import type { DaplaDataFileDTO } from '@/libs/data-access/datadoc';
+import { listDataFilesByDatasetIdAndStorageCategory, listDatasetVariables } from '@/libs/data/datasets/datasets';
 
-const variableFilePathBatchSize = 8;
-
-const uniqueFilePaths = (dataFiles: DaplaDataFileDTO[]) => [
-  ...new Set(dataFiles.map((dataFile) => dataFile.file_path)),
-];
-
-async function getAuthenticatedVariableIds(datasetId: string, variableIds: string[]): Promise<string[]> {
+async function assertAuthenticated() {
   const { isAuthenticated } = await authenticateUser();
   if (!isAuthenticated) {
     throw new Error('Unauthorized');
   }
-
-  if (!datasetId) {
-    return [];
-  }
-
-  return [...new Set(variableIds.filter(Boolean))];
 }
 
+/** File paths of the data files containing at least one of the given variables. */
 export async function listDatasetVariableDataFilePaths(datasetId: string, variableIds: string[]): Promise<string[]> {
-  const uniqueVariableIds = await getAuthenticatedVariableIds(datasetId, variableIds);
-  if (uniqueVariableIds.length === 0) {
+  await assertAuthenticated();
+
+  const uniqueVariableIds = [...new Set(variableIds.filter(Boolean))];
+  if (!datasetId || uniqueVariableIds.length === 0) {
     return [];
   }
 
-  return uniqueFilePaths(await listDataFilesByDatasetIdAndStorageCategory(datasetId, undefined, uniqueVariableIds));
+  const dataFiles = await listDataFilesByDatasetIdAndStorageCategory(datasetId, undefined, uniqueVariableIds);
+  return [...new Set(dataFiles.map((dataFile) => dataFile.file_path))];
 }
 
-export async function listDatasetVariableDataFilePathsByVariableIds(
+/** IDs of the dataset's variables found in data files overlapping the period. Dates are inclusive, as `YYYY-MM-DD`. */
+export async function listDatasetVariableIdsInPeriod(
   datasetId: string,
-  variableIds: string[],
-): Promise<Record<string, string[]>> {
-  const uniqueVariableIds = await getAuthenticatedVariableIds(datasetId, variableIds);
-  const filePathsByVariableId: Record<string, string[]> = {};
+  from: string,
+  until: string,
+): Promise<string[]> {
+  await assertAuthenticated();
 
-  for (let index = 0; index < uniqueVariableIds.length; index += variableFilePathBatchSize) {
-    const batch = uniqueVariableIds.slice(index, index + variableFilePathBatchSize);
-    const batchFilePaths = await Promise.all(
-      batch.map(async (variableId) => ({
-        variableId,
-        filePaths: uniqueFilePaths(
-          await listDataFilesByDatasetIdAndStorageCategory(datasetId, undefined, [variableId]),
-        ),
-      })),
-    );
-
-    for (const { variableId, filePaths } of batchFilePaths) {
-      filePathsByVariableId[variableId] = filePaths;
-    }
-  }
-
-  return filePathsByVariableId;
+  const variables = await listDatasetVariables(datasetId, { from: new Date(from), until: new Date(until) });
+  return variables.map((variable) => variable.id);
 }

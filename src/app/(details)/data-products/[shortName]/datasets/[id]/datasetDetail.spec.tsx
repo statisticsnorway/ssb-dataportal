@@ -6,7 +6,7 @@ import type { TimelineItem } from '@/components/data-coverage-timeline/types';
 import type { TimelineData } from '@/components/data-coverage-timeline/useTimelineData';
 import type { DaplaDataFileDTO, DatasetDTO, DatasetVariableDTO } from '@/libs/data-access/datadoc';
 import { PeriodFormat } from '@/libs/data-access/datadoc';
-import { listDatasetVariableDataFilePaths, listDatasetVariableDataFilePathsByVariableIds } from './actions';
+import { listDatasetVariableDataFilePaths, listDatasetVariableIdsInPeriod } from './actions';
 import DatasetDetail from './datasetDetail';
 
 const auth = vi.hoisted(() => ({
@@ -66,7 +66,7 @@ vi.mock('@/components/data-coverage-timeline/dataCoverageTimeline', () => ({
 
 vi.mock('./actions', () => ({
   listDatasetVariableDataFilePaths: vi.fn(),
-  listDatasetVariableDataFilePathsByVariableIds: vi.fn(),
+  listDatasetVariableIdsInPeriod: vi.fn(),
 }));
 
 vi.mock('@/components/dataportal-breadcrumbs', () => ({
@@ -123,7 +123,7 @@ describe('DatasetDetail', () => {
     auth.isAuthenticated = true;
     vi.mocked(useTimelineData).mockReturnValue(emptyTimelineData);
     vi.mocked(listDatasetVariableDataFilePaths).mockResolvedValue([]);
-    vi.mocked(listDatasetVariableDataFilePathsByVariableIds).mockResolvedValue({});
+    vi.mocked(listDatasetVariableIdsInPeriod).mockResolvedValue([]);
   });
 
   it('renders variables in a flat list with two-column type details', () => {
@@ -131,13 +131,13 @@ describe('DatasetDetail', () => {
       {
         id: 'variable-1',
         short_name: 'income',
-        physical_type_name: 'INT64',
-        logical_type_name: 'DECIMAL',
+        physical_type: 'INT64',
+        logical_type: 'DECIMAL',
       },
       {
         id: 'variable-2',
         short_name: 'person_id',
-        physical_type_name: 'BYTE_ARRAY',
+        physical_type: 'BYTE_ARRAY',
       },
     ] as DatasetVariableDTO[];
 
@@ -272,10 +272,7 @@ describe('DatasetDetail', () => {
       years: [2020],
       slots,
     });
-    vi.mocked(listDatasetVariableDataFilePathsByVariableIds).mockResolvedValue({
-      'variable-1': [sharedFile.file_path],
-      'variable-2': [productFile.file_path],
-    });
+    vi.mocked(listDatasetVariableIdsInPeriod).mockResolvedValue(['variable-1']);
 
     render(
       <DatasetDetail
@@ -298,7 +295,7 @@ describe('DatasetDetail', () => {
     fireEvent.keyDown(maximumPeriodThumb, { key: 'Home', code: 'Home' });
 
     await waitFor(() => {
-      expect(listDatasetVariableDataFilePathsByVariableIds).toHaveBeenCalledWith('123', ['variable-1', 'variable-2']);
+      expect(listDatasetVariableIdsInPeriod).toHaveBeenCalledWith('123', '2020-01-01', '2020-01-31');
       expect(screen.getByText('income', { selector: 'code' })).toBeDefined();
       expect(screen.queryByText('person_id', { selector: 'code' })).toBeNull();
       expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute(

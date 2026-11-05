@@ -474,6 +474,26 @@ paths:
         schema:
           type: string
           format: uuid
+      - name: variable-short-name
+        in: query
+        explode: false
+        schema:
+          type: string
+          nullable: true
+      - name: contains-data-from
+        in: query
+        explode: false
+        schema:
+          type: string
+          format: date
+          nullable: true
+      - name: contains-data-until
+        in: query
+        explode: false
+        schema:
+          type: string
+          format: date
+          nullable: true
       - name: page
         in: query
         explode: false
@@ -1018,12 +1038,14 @@ components:
           format: uuid
         short_name:
           type: string
-        physical_type_name:
-          type: string
+        physical_type:
           nullable: true
-        logical_type_name:
-          type: string
+          allOf:
+          - $ref: "#/components/schemas/PhysicalType"
+        logical_type:
           nullable: true
+          allOf:
+          - $ref: "#/components/schemas/LogicalTypeKind"
     DatasetVariablePageResponse:
       required:
       - has_next
