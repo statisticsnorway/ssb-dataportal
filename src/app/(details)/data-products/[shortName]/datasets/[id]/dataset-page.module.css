@@ -156,7 +156,7 @@
 .variableType dd {
   margin: 0;
   color: var(--ds-color-neutral-text-default);
-  font-size: var(--ds-body-md-font-size);
+  font-size: var(--ds-body-lg-font-size);
   font-weight: var(--ds-font-weight-semibold);
   white-space: nowrap;
 }
@@ -170,7 +170,7 @@
   display: block;
   margin-block-start: var(--ds-size-1);
   color: var(--ds-color-neutral-text-subtle);
-  font-size: 12px;
+  font-size: var(--ds-body-sm-font-size);
   font-weight: var(--ds-font-weight-regular);
   white-space: normal;
 }
