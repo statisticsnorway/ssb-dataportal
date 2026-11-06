@@ -33,8 +33,10 @@ import { getEncodedJwt } from '../../auth/jwt';
 
 const staticDataProducts = dataProductsStatic.map((dataProduct) => DataProductDTOFromJSON(dataProduct));
 const staticDatasets = datasetsStatic.map((dataset) => DatasetDTOFromJSON(dataset));
+type StaticDatasetVariable = DatasetVariableDTO & { valid_from?: string; valid_until?: string };
+const staticDatasetVariableSource = datasetVariablesStatic as Record<string, StaticDatasetVariable[]>;
 const staticDatasetVariables: Record<string, DatasetVariableDTO[]> = Object.fromEntries(
-  Object.entries(datasetVariablesStatic).map(([datasetId, variables]) => [
+  Object.entries(staticDatasetVariableSource).map(([datasetId, variables]) => [
     datasetId,
     variables.map((variable) => DatasetVariableDTOFromJSON(variable)),
   ]),
@@ -289,7 +291,7 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
 /**
  * Fetches all variables registered for a dataset.
  * @param datasetId The ID of the dataset.
- * @param period Only fetch variables found in data files overlapping this period (inclusive). Ignored for static data.
+ * @param period Only fetch variables found in data files overlapping this period (inclusive). Static fixtures may define `valid_from` and `valid_until` per variable.
  * @returns A promise that resolves to the dataset's variables.
  */
 export async function listDatasetVariables(
@@ -298,7 +300,24 @@ export async function listDatasetVariables(
 ): Promise<DatasetVariableDTO[]> {
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'listDatasetVariables', datasetId });
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
-    const variables = staticDatasetVariables[datasetId] ?? [];
+    const sourceVariables = staticDatasetVariableSource[datasetId] ?? [];
+    let variables = staticDatasetVariables[datasetId] ?? [];
+
+    if (period && sourceVariables.some((variable) => variable.valid_from || variable.valid_until)) {
+      const from = period.from.toISOString().slice(0, 10);
+      const until = period.until.toISOString().slice(0, 10);
+      const eligibleIds = new Set(
+        sourceVariables
+          .filter(
+            (variable) =>
+              (variable.valid_from === undefined || variable.valid_from <= until) &&
+              (variable.valid_until === undefined || variable.valid_until >= from),
+          )
+          .map((variable) => variable.id),
+      );
+      variables = variables.filter((variable) => eligibleIds.has(variable.id));
+    }
+
     logger.warn({ count: variables.length }, 'Using static mock data for dataset variables');
     return variables;
   }

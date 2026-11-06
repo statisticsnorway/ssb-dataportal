@@ -3,24 +3,58 @@ import { localization } from '@/libs/language';
 import { formatParquetType } from '@/utils/formatParquetType';
 import styles from './dataset-page.module.css';
 
+type TypeDisplay =
+  | Readonly<{ variant: 'specified'; mainType: string; storedAs?: string }>
+  | Readonly<{ variant: 'notSpecified' }>;
+
+function getTypeDisplay(variable: DatasetVariableDTO): TypeDisplay {
+  if (variable.logical_type) {
+    const typeDisplay: TypeDisplay = {
+      variant: 'specified',
+      mainType: formatParquetType(variable.logical_type),
+    };
+
+    if (variable.physical_type) {
+      return { ...typeDisplay, storedAs: formatParquetType(variable.physical_type) };
+    }
+
+    return typeDisplay;
+  }
+
+  if (variable.physical_type) {
+    return { variant: 'specified', mainType: formatParquetType(variable.physical_type) };
+  }
+
+  return { variant: 'notSpecified' };
+}
+
 export default function DatasetVariableCard({ variable }: Readonly<{ variable: DatasetVariableDTO }>) {
-  const types = [
-    [localization.datasetDetail.physicalType, variable.physical_type],
-    [localization.datasetDetail.logicalType, variable.logical_type],
-  ] as const;
+  const typeDisplay = getTypeDisplay(variable);
 
   return (
     <li className={styles.variableItem} data-testid={`dataset-variable-card-${variable.id}`}>
-      <code className={styles.variableName}>{variable.short_name}</code>
+      <code className={styles.variableName} title={variable.short_name}>
+        {variable.short_name}
+      </code>
       <dl className={styles.variableTypes}>
-        {types.map(([label, typeName]) => (
-          <div key={label} className={styles.variableType}>
-            <dt>{label}</dt>
-            <dd className={typeName ? undefined : styles.variableTypeMissing}>
-              {typeName ? formatParquetType(typeName) : localization.datasetDetail.notSpecified}
-            </dd>
-          </div>
-        ))}
+        <div className={styles.variableType}>
+          <dt>{localization.classification.type}</dt>
+          <dd className={typeDisplay.variant === 'notSpecified' ? styles.variableTypeMissing : undefined}>
+            {typeDisplay.variant === 'notSpecified' ? (
+              <>
+                <span aria-hidden='true'>–</span>
+                <span className='ds-sr-only'>{localization.datasetDetail.notSpecified}</span>
+              </>
+            ) : (
+              <>
+                {typeDisplay.mainType}
+                {typeDisplay.storedAs ? (
+                  <span className={styles.variableTypeStoredAs}>Lagret som {typeDisplay.storedAs}</span>
+                ) : null}
+              </>
+            )}
+          </dd>
+        </div>
       </dl>
     </li>
   );
