@@ -58,13 +58,14 @@ export default function DatasetDetail({
   const [filters, setFilters] = useState<FilterState>({ search: '', period: null });
   const updateFilters = (updates: Partial<FilterState>) => setFilters((current) => ({ ...current, ...updates }));
   const { range: selectedPeriodRange } = getSelectedPeriods(timelinePeriods, filters.period);
-  const normalizedVariableNameFilter = filters.search.trim().toLocaleLowerCase('nb');
+  const language = localization.getLanguage();
+  const normalizedVariableNameFilter = filters.search.trim().toLocaleLowerCase(language);
   const filteredDatasetVariables = useMemo(
     () =>
       datasetVariables
-        .filter((variable) => variable.short_name.toLocaleLowerCase('nb').includes(normalizedVariableNameFilter))
-        .toSorted((a, b) => a.short_name.localeCompare(b.short_name, 'nb')),
-    [datasetVariables, normalizedVariableNameFilter],
+        .filter((variable) => variable.short_name.toLocaleLowerCase(language).includes(normalizedVariableNameFilter))
+        .toSorted((a, b) => a.short_name.localeCompare(b.short_name, language)),
+    [datasetVariables, language, normalizedVariableNameFilter],
   );
 
   const nameMatchedFilePaths = useDebouncedLoad(
