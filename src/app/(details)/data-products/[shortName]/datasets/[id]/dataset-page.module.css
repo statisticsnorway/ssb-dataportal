@@ -101,20 +101,23 @@
 }
 
 .variablesList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+  gap: var(--ds-size-4);
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
 .variableItem {
-  padding-block: var(--ds-size-3);
-}
-
-.variableItem:not(:last-child) {
-  border-block-end: var(--ds-border-width-default) solid var(--ds-color-neutral-border-subtle);
+  min-width: 0;
+  padding: var(--ds-size-6);
+  border-radius: var(--ds-border-radius-md);
+  background: color-mix(in srgb, var(--ds-color-neutral-surface-tinted) 40%, var(--ds-color-neutral-surface-default));
 }
 
 .variableNoHits {
+  grid-column: 1 / -1;
   padding-block: var(--ds-size-3);
   color: var(--ds-color-neutral-text-subtle);
   font-size: var(--ds-body-sm-font-size);
@@ -122,17 +125,19 @@
 
 .variableName {
   display: block;
-  margin-block-end: var(--ds-size-3);
-  overflow-wrap: anywhere;
+  overflow: hidden;
+  margin-block-end: var(--ds-size-6);
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-family: var(--font-family-monospace);
-  font-size: var(--ds-font-size-5);
+  font-size: var(--ds-font-size-6);
   font-weight: var(--ds-font-weight-semibold);
 }
 
 .variableTypes {
   display: grid;
-  grid-template-columns: calc(var(--ds-size-30) + var(--ds-size-30)) minmax(0, 1fr);
-  gap: var(--ds-size-2) var(--ds-size-4);
+  grid-template-columns: 1.4fr 1fr;
+  column-gap: var(--ds-size-4);
   margin: 0;
 }
 
@@ -144,20 +149,22 @@
 }
 
 .variableType dt {
-  color: var(--ds-color-neutral-text-subtle);
-  font-size: var(--ds-body-sm-font-size);
+  color: var(--ds-color-secondary-text-subtle);
+  font-size: 12px;
   font-weight: var(--ds-font-weight-regular);
 }
 
 .variableType dd {
   margin: 0;
-  overflow-wrap: anywhere;
+  color: var(--ds-color-neutral-text-default);
   font-size: var(--ds-body-md-font-size);
-  font-weight: var(--ds-font-weight-regular);
+  font-weight: var(--ds-font-weight-semibold);
+  white-space: nowrap;
 }
 
-.variableTypeMissing {
+.variableType dd.variableTypeMissing {
   color: var(--ds-color-neutral-text-subtle);
+  font-weight: var(--ds-font-weight-regular);
 }
 
 @container (min-width: 46rem) {
@@ -165,12 +172,6 @@
     border-block-start: 0;
     border-inline-start: var(--ds-border-width-default) solid var(--ds-color-secondary-border-subtle);
     padding-inline-start: var(--ds-size-4);
-  }
-}
-
-@media (max-width: 768px) {
-  .variableTypes {
-    grid-template-columns: 1fr;
   }
 }
 

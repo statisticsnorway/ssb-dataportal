@@ -203,11 +203,11 @@ describe('DatasetDetail', () => {
     expect(screen.getByTestId('dataset-periods-and-variables')).toContainElement(
       screen.getByTestId('dataset-variable-card-variable-1'),
     );
-    expect(screen.getAllByText('Fysisk type')).toHaveLength(2);
-    expect(screen.getAllByText('Logisk type')).toHaveLength(2);
+    expect(screen.getAllByText('Fysisk type', { selector: 'dt' })).toHaveLength(2);
+    expect(screen.getAllByText('Logisk type', { selector: 'dt' })).toHaveLength(2);
     expect(screen.getByText('64-bit integer')).toBeDefined();
     expect(screen.getByText('Decimal')).toBeDefined();
-    expect(screen.getByText('Ikke oppgitt')).toBeDefined();
+    expect(screen.getByText('–')).toBeDefined();
     expect(notFound).not.toHaveBeenCalled();
   });
 
