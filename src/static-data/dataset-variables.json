@@ -75,18 +75,600 @@
   ],
   "period-demo-monthly": [
     {
-      "id": "period-demo-monthly-variable",
-      "short_name": "monthly_measure",
+      "id": "period-demo-monthly-variable-01",
+      "short_name": "monthly_metric_01",
       "physical_type": "DOUBLE",
-      "logical_type": "DECIMAL"
+      "logical_type": "DECIMAL",
+      "valid_from": "2021-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-02",
+      "short_name": "monthly_metric_02",
+      "physical_type": "DOUBLE",
+      "logical_type": "DECIMAL",
+      "valid_from": "2021-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-03",
+      "short_name": "monthly_metric_03",
+      "physical_type": "DOUBLE",
+      "logical_type": "DECIMAL",
+      "valid_from": "2021-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-04",
+      "short_name": "monthly_metric_04",
+      "physical_type": "DOUBLE",
+      "logical_type": "DECIMAL",
+      "valid_from": "2021-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-05",
+      "short_name": "monthly_metric_05",
+      "physical_type": "DOUBLE",
+      "logical_type": "DECIMAL",
+      "valid_from": "2021-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-06",
+      "short_name": "monthly_metric_06",
+      "physical_type": "DOUBLE",
+      "logical_type": "DECIMAL",
+      "valid_from": "2021-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-07",
+      "short_name": "monthly_metric_07",
+      "physical_type": "DOUBLE",
+      "logical_type": "DECIMAL",
+      "valid_from": "2021-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-08",
+      "short_name": "monthly_metric_08",
+      "physical_type": "DOUBLE",
+      "logical_type": "DECIMAL",
+      "valid_from": "2021-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-09",
+      "short_name": "monthly_metric_09",
+      "physical_type": "DOUBLE",
+      "logical_type": "DECIMAL",
+      "valid_from": "2021-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-10",
+      "short_name": "monthly_metric_10",
+      "physical_type": "DOUBLE",
+      "logical_type": "DECIMAL",
+      "valid_from": "2021-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-11",
+      "short_name": "monthly_metric_11",
+      "physical_type": "INT64",
+      "logical_type": "INTEGER",
+      "valid_from": "2021-01-01",
+      "valid_until": "2022-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-12",
+      "short_name": "monthly_metric_12",
+      "physical_type": "INT64",
+      "logical_type": "INTEGER",
+      "valid_from": "2021-01-01",
+      "valid_until": "2022-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-13",
+      "short_name": "monthly_metric_13",
+      "physical_type": "INT64",
+      "logical_type": "INTEGER",
+      "valid_from": "2021-01-01",
+      "valid_until": "2022-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-14",
+      "short_name": "monthly_metric_14",
+      "physical_type": "INT64",
+      "logical_type": "INTEGER",
+      "valid_from": "2021-01-01",
+      "valid_until": "2022-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-15",
+      "short_name": "monthly_metric_15",
+      "physical_type": "INT64",
+      "logical_type": "INTEGER",
+      "valid_from": "2021-01-01",
+      "valid_until": "2022-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-16",
+      "short_name": "monthly_metric_16",
+      "physical_type": "INT64",
+      "logical_type": "INTEGER",
+      "valid_from": "2021-01-01",
+      "valid_until": "2022-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-17",
+      "short_name": "monthly_metric_17",
+      "physical_type": "INT64",
+      "logical_type": "INTEGER",
+      "valid_from": "2021-01-01",
+      "valid_until": "2022-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-18",
+      "short_name": "monthly_metric_18",
+      "physical_type": "INT64",
+      "logical_type": "INTEGER",
+      "valid_from": "2021-01-01",
+      "valid_until": "2022-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-19",
+      "short_name": "monthly_metric_19",
+      "physical_type": "INT64",
+      "logical_type": "INTEGER",
+      "valid_from": "2021-01-01",
+      "valid_until": "2022-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-20",
+      "short_name": "monthly_metric_20",
+      "physical_type": "INT64",
+      "logical_type": "INTEGER",
+      "valid_from": "2021-01-01",
+      "valid_until": "2022-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-21",
+      "short_name": "monthly_metric_21",
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING",
+      "valid_from": "2023-01-01",
+      "valid_until": "2024-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-22",
+      "short_name": "monthly_metric_22",
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING",
+      "valid_from": "2023-01-01",
+      "valid_until": "2024-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-23",
+      "short_name": "monthly_metric_23",
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING",
+      "valid_from": "2023-01-01",
+      "valid_until": "2024-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-24",
+      "short_name": "monthly_metric_24",
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING",
+      "valid_from": "2023-01-01",
+      "valid_until": "2024-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-25",
+      "short_name": "monthly_metric_25",
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING",
+      "valid_from": "2023-01-01",
+      "valid_until": "2024-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-26",
+      "short_name": "monthly_metric_26",
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING",
+      "valid_from": "2023-01-01",
+      "valid_until": "2024-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-27",
+      "short_name": "monthly_metric_27",
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING",
+      "valid_from": "2023-01-01",
+      "valid_until": "2024-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-28",
+      "short_name": "monthly_metric_28",
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING",
+      "valid_from": "2023-01-01",
+      "valid_until": "2024-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-29",
+      "short_name": "monthly_metric_29",
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING",
+      "valid_from": "2023-01-01",
+      "valid_until": "2024-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-30",
+      "short_name": "monthly_metric_30",
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING",
+      "valid_from": "2023-01-01",
+      "valid_until": "2024-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-31",
+      "short_name": "monthly_metric_31",
+      "physical_type": "BOOLEAN",
+      "logical_type": null,
+      "valid_from": "2025-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-32",
+      "short_name": "monthly_metric_32",
+      "physical_type": "BOOLEAN",
+      "logical_type": null,
+      "valid_from": "2025-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-33",
+      "short_name": "monthly_metric_33",
+      "physical_type": "BOOLEAN",
+      "logical_type": null,
+      "valid_from": "2025-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-34",
+      "short_name": "monthly_metric_34",
+      "physical_type": "BOOLEAN",
+      "logical_type": null,
+      "valid_from": "2025-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-35",
+      "short_name": "monthly_metric_35",
+      "physical_type": "BOOLEAN",
+      "logical_type": null,
+      "valid_from": "2025-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-36",
+      "short_name": "monthly_metric_36",
+      "physical_type": "BOOLEAN",
+      "logical_type": null,
+      "valid_from": "2025-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-37",
+      "short_name": "monthly_metric_37",
+      "physical_type": "BOOLEAN",
+      "logical_type": null,
+      "valid_from": "2025-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-38",
+      "short_name": "monthly_metric_38",
+      "physical_type": "BOOLEAN",
+      "logical_type": null,
+      "valid_from": "2025-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-39",
+      "short_name": "monthly_metric_39",
+      "physical_type": "BOOLEAN",
+      "logical_type": null,
+      "valid_from": "2025-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-40",
+      "short_name": "monthly_metric_40",
+      "physical_type": "BOOLEAN",
+      "logical_type": null,
+      "valid_from": "2025-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-41",
+      "short_name": "monthly_metric_41",
+      "physical_type": "INT32",
+      "logical_type": "DATE",
+      "valid_from": "2024-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-42",
+      "short_name": "monthly_metric_42",
+      "physical_type": "INT32",
+      "logical_type": "DATE",
+      "valid_from": "2024-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-43",
+      "short_name": "monthly_metric_43",
+      "physical_type": "INT32",
+      "logical_type": "DATE",
+      "valid_from": "2024-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-44",
+      "short_name": "monthly_metric_44",
+      "physical_type": "INT32",
+      "logical_type": "DATE",
+      "valid_from": "2024-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-45",
+      "short_name": "monthly_metric_45",
+      "physical_type": "INT32",
+      "logical_type": "DATE",
+      "valid_from": "2024-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-46",
+      "short_name": "monthly_metric_46",
+      "physical_type": "INT32",
+      "logical_type": "DATE",
+      "valid_from": "2024-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-47",
+      "short_name": "monthly_metric_47",
+      "physical_type": "INT32",
+      "logical_type": "DATE",
+      "valid_from": "2024-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-48",
+      "short_name": "monthly_metric_48",
+      "physical_type": "INT32",
+      "logical_type": "DATE",
+      "valid_from": "2024-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-49",
+      "short_name": "monthly_metric_49",
+      "physical_type": "INT32",
+      "logical_type": "DATE",
+      "valid_from": "2024-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-monthly-variable-50",
+      "short_name": "monthly_metric_50",
+      "physical_type": "INT32",
+      "logical_type": "DATE",
+      "valid_from": "2024-01-01",
+      "valid_until": "2025-12-31"
     }
   ],
   "period-demo-quarterly": [
     {
-      "id": "period-demo-quarterly-variable",
-      "short_name": "quarterly_count",
+      "id": "period-demo-quarterly-variable-01",
+      "short_name": "quarterly_metric_01",
       "physical_type": "INT64",
-      "logical_type": "INTEGER"
+      "logical_type": "INTEGER",
+      "valid_from": "2016-01-01",
+      "valid_until": "2018-12-31"
+    },
+    {
+      "id": "period-demo-quarterly-variable-02",
+      "short_name": "quarterly_metric_02",
+      "physical_type": "INT64",
+      "logical_type": "INTEGER",
+      "valid_from": "2016-01-01",
+      "valid_until": "2018-12-31"
+    },
+    {
+      "id": "period-demo-quarterly-variable-03",
+      "short_name": "quarterly_metric_03",
+      "physical_type": "INT64",
+      "logical_type": "INTEGER",
+      "valid_from": "2016-01-01",
+      "valid_until": "2018-12-31"
+    },
+    {
+      "id": "period-demo-quarterly-variable-04",
+      "short_name": "quarterly_metric_04",
+      "physical_type": "INT64",
+      "logical_type": "INTEGER",
+      "valid_from": "2016-01-01",
+      "valid_until": "2018-12-31"
+    },
+    {
+      "id": "period-demo-quarterly-variable-05",
+      "short_name": "quarterly_metric_05",
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING",
+      "valid_from": "2019-01-01",
+      "valid_until": "2022-12-31"
+    },
+    {
+      "id": "period-demo-quarterly-variable-06",
+      "short_name": "quarterly_metric_06",
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING",
+      "valid_from": "2019-01-01",
+      "valid_until": "2022-12-31"
+    },
+    {
+      "id": "period-demo-quarterly-variable-07",
+      "short_name": "quarterly_metric_07",
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING",
+      "valid_from": "2019-01-01",
+      "valid_until": "2022-12-31"
+    },
+    {
+      "id": "period-demo-quarterly-variable-08",
+      "short_name": "quarterly_metric_08",
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING",
+      "valid_from": "2019-01-01",
+      "valid_until": "2022-12-31"
+    },
+    {
+      "id": "period-demo-quarterly-variable-09",
+      "short_name": "quarterly_metric_09",
+      "physical_type": "DOUBLE",
+      "logical_type": "DECIMAL",
+      "valid_from": "2023-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-quarterly-variable-10",
+      "short_name": "quarterly_metric_10",
+      "physical_type": "DOUBLE",
+      "logical_type": "DECIMAL",
+      "valid_from": "2023-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-quarterly-variable-11",
+      "short_name": "quarterly_metric_11",
+      "physical_type": "DOUBLE",
+      "logical_type": "DECIMAL",
+      "valid_from": "2023-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-quarterly-variable-12",
+      "short_name": "quarterly_metric_12",
+      "physical_type": "DOUBLE",
+      "logical_type": "DECIMAL",
+      "valid_from": "2023-01-01",
+      "valid_until": "2025-12-31"
+    }
+  ],
+  "period-demo-yearly": [
+    {
+      "id": "period-demo-yearly-variable-01",
+      "short_name": "yearly_metric_01",
+      "physical_type": "INT32",
+      "logical_type": "DATE",
+      "valid_from": "1996-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-yearly-variable-02",
+      "short_name": "yearly_metric_02",
+      "physical_type": "INT32",
+      "logical_type": "DATE",
+      "valid_from": "1996-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-yearly-variable-03",
+      "short_name": "yearly_metric_03",
+      "physical_type": "INT32",
+      "logical_type": "DATE",
+      "valid_from": "1996-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-yearly-variable-04",
+      "short_name": "yearly_metric_04",
+      "physical_type": "INT32",
+      "logical_type": "DATE",
+      "valid_from": "1996-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-yearly-variable-05",
+      "short_name": "yearly_metric_05",
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING",
+      "valid_from": "1996-01-01",
+      "valid_until": "2010-12-31"
+    },
+    {
+      "id": "period-demo-yearly-variable-06",
+      "short_name": "yearly_metric_06",
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING",
+      "valid_from": "1996-01-01",
+      "valid_until": "2010-12-31"
+    },
+    {
+      "id": "period-demo-yearly-variable-07",
+      "short_name": "yearly_metric_07",
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING",
+      "valid_from": "1996-01-01",
+      "valid_until": "2010-12-31"
+    },
+    {
+      "id": "period-demo-yearly-variable-08",
+      "short_name": "yearly_metric_08",
+      "physical_type": "BYTE_ARRAY",
+      "logical_type": "STRING",
+      "valid_from": "1996-01-01",
+      "valid_until": "2010-12-31"
+    },
+    {
+      "id": "period-demo-yearly-variable-09",
+      "short_name": "yearly_metric_09",
+      "physical_type": "DOUBLE",
+      "logical_type": "DECIMAL",
+      "valid_from": "2011-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-yearly-variable-10",
+      "short_name": "yearly_metric_10",
+      "physical_type": "DOUBLE",
+      "logical_type": "DECIMAL",
+      "valid_from": "2011-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-yearly-variable-11",
+      "short_name": "yearly_metric_11",
+      "physical_type": "DOUBLE",
+      "logical_type": "DECIMAL",
+      "valid_from": "2011-01-01",
+      "valid_until": "2025-12-31"
+    },
+    {
+      "id": "period-demo-yearly-variable-12",
+      "short_name": "yearly_metric_12",
+      "physical_type": "DOUBLE",
+      "logical_type": "DECIMAL",
+      "valid_from": "2011-01-01",
+      "valid_until": "2025-12-31"
     }
   ]
 }

@@ -208,20 +208,24 @@ describe('datadoc data fetching', () => {
       vi.unstubAllEnvs();
     });
 
-    it('loads the local monthly and quarterly timeline examples', async () => {
+    it('loads the local monthly, quarterly, and yearly timeline examples', async () => {
       vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
 
-      const [monthly, quarterly] = await Promise.all([
+      const [monthly, quarterly, yearly] = await Promise.all([
         listDataFilesByDatasetIdAndStorageCategory('period-demo-monthly', StorageCategory.PRODUCT),
         listDataFilesByDatasetIdAndStorageCategory('period-demo-quarterly', StorageCategory.PRODUCT),
+        listDataFilesByDatasetIdAndStorageCategory('period-demo-yearly', StorageCategory.PRODUCT),
       ]);
 
-      expect(monthly).toHaveLength(24);
+      expect(monthly).toHaveLength(60);
       expect(monthly.every((file) => file.period_type === PeriodFormat.YEAR_MONTH)).toBe(true);
-      expect(quarterly).toHaveLength(20);
+      expect(quarterly).toHaveLength(40);
       expect(quarterly.every((file) => file.period_type === PeriodFormat.QUARTER)).toBe(true);
-      await expect(listDatasetVariables('period-demo-monthly')).resolves.toHaveLength(1);
-      await expect(listDatasetVariables('period-demo-quarterly')).resolves.toHaveLength(1);
+      expect(yearly).toHaveLength(30);
+      expect(yearly.every((file) => file.period_type === PeriodFormat.YEAR)).toBe(true);
+      await expect(listDatasetVariables('period-demo-monthly')).resolves.toHaveLength(50);
+      await expect(listDatasetVariables('period-demo-quarterly')).resolves.toHaveLength(12);
+      await expect(listDatasetVariables('period-demo-yearly')).resolves.toHaveLength(12);
 
       vi.unstubAllEnvs();
     });
@@ -274,6 +278,25 @@ describe('datadoc data fetching', () => {
   });
 
   describe('listDatasetVariables', () => {
+    it('filters local example variables to those valid in the requested period', async () => {
+      vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
+
+      const earlyVariables = await listDatasetVariables('period-demo-monthly', {
+        from: new Date('2021-01-01'),
+        until: new Date('2021-12-31'),
+      });
+      const recentVariables = await listDatasetVariables('period-demo-monthly', {
+        from: new Date('2025-01-01'),
+        until: new Date('2025-12-31'),
+      });
+
+      expect(earlyVariables).toHaveLength(20);
+      expect(recentVariables).toHaveLength(30);
+      expect(earlyVariables.map((variable) => variable.id)).not.toEqual(recentVariables.map((variable) => variable.id));
+
+      vi.unstubAllEnvs();
+    });
+
     it('returns the static Datadoc variable response for the ameld fixture dataset', async () => {
       vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
 
