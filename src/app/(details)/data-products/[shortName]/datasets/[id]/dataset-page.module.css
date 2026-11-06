@@ -136,8 +136,7 @@
 
 .variableTypes {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  column-gap: var(--ds-size-4);
+  grid-template-columns: minmax(0, 1fr);
   margin: 0;
 }
 
@@ -165,6 +164,15 @@
 .variableType dd.variableTypeMissing {
   color: var(--ds-color-neutral-text-subtle);
   font-weight: var(--ds-font-weight-regular);
+}
+
+.variableTypeStoredAs {
+  display: block;
+  margin-block-start: var(--ds-size-1);
+  color: var(--ds-color-neutral-text-subtle);
+  font-size: 12px;
+  font-weight: var(--ds-font-weight-regular);
+  white-space: normal;
 }
 
 @container (min-width: 46rem) {

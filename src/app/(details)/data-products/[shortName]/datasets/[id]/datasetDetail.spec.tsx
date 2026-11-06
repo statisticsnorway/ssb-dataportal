@@ -173,7 +173,7 @@ describe('DatasetDetail', () => {
     vi.mocked(listDatasetVariableIdsInPeriod).mockResolvedValue([]);
   });
 
-  it('renders variables in a flat list with two-column type details', () => {
+  it('renders one type with the logical type preferred and physical storage details underneath', () => {
     const datasetVariables = [
       {
         id: 'variable-1',
@@ -185,6 +185,10 @@ describe('DatasetDetail', () => {
         id: 'variable-2',
         short_name: 'person_id',
         physical_type: 'BYTE_ARRAY',
+      },
+      {
+        id: 'variable-3',
+        short_name: 'unknown_type',
       },
     ] as DatasetVariableDTO[];
 
@@ -198,16 +202,17 @@ describe('DatasetDetail', () => {
     expect(screen.getByText('person_id', { selector: 'code' })).toBeDefined();
     expect(screen.queryByTestId('dataset-variable-details-card')).toBeNull();
     const variableItems = screen.getAllByTestId(/^dataset-variable-card-/);
-    expect(variableItems).toHaveLength(2);
-    expect(variableItems.map((item) => item.tagName)).toEqual(['LI', 'LI']);
+    expect(variableItems).toHaveLength(3);
+    expect(variableItems.map((item) => item.tagName)).toEqual(['LI', 'LI', 'LI']);
     expect(screen.getByTestId('dataset-periods-and-variables')).toContainElement(
       screen.getByTestId('dataset-variable-card-variable-1'),
     );
-    expect(screen.getAllByText('Fysisk type', { selector: 'dt' })).toHaveLength(2);
-    expect(screen.getAllByText('Logisk type', { selector: 'dt' })).toHaveLength(2);
-    expect(screen.getByText('64-bit integer')).toBeDefined();
+    expect(screen.getAllByText('Type', { selector: 'dt' })).toHaveLength(3);
+    expect(screen.getByText('Lagret som 64-bit integer')).toBeDefined();
     expect(screen.getByText('Decimal')).toBeDefined();
-    expect(screen.getByText('–')).toBeDefined();
+    expect(screen.getByText('Byte array')).toBeDefined();
+    expect(screen.getByText('–', { selector: 'span[aria-hidden="true"]' })).toBeDefined();
+    expect(screen.getByText('Ikke oppgitt')).toHaveClass('ds-sr-only');
     expect(notFound).not.toHaveBeenCalled();
   });
 
