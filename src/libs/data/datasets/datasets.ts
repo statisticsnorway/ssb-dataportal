@@ -19,6 +19,7 @@ import {
   DatasetsApi,
   DatasetsApiInterface,
   DatasetVariableDTO,
+  DatasetVariableDTOFromJSON,
   ResponseError,
   StorageCategory,
 } from '@/libs/data-access/datadoc';
@@ -32,7 +33,12 @@ import { getEncodedJwt } from '../../auth/jwt';
 
 const staticDataProducts = dataProductsStatic.map((dataProduct) => DataProductDTOFromJSON(dataProduct));
 const staticDatasets = datasetsStatic.map((dataset) => DatasetDTOFromJSON(dataset));
-const staticDatasetVariables: Record<string, DatasetVariableDTO[]> = datasetVariablesStatic;
+const staticDatasetVariables: Record<string, DatasetVariableDTO[]> = Object.fromEntries(
+  Object.entries(datasetVariablesStatic).map(([datasetId, variables]) => [
+    datasetId,
+    variables.map((variable) => DatasetVariableDTOFromJSON(variable)),
+  ]),
+);
 
 const ttlSeconds = Number(process.env.DATADOC_CACHE_TTL_SECONDS) || 3600;
 const dataDocFetchOptions = {
@@ -189,12 +195,14 @@ export async function listDatasetsByProductShortNameAndStorageCategory(
 /**
  * Fetches the list of data files for a given dataset and storage category.
  * @param datasetId The ID of the dataset.
- * @param storageCategory The storage category of the data files to fetch.
+ * @param storageCategory The storage category of the data files to fetch. Omit to fetch all categories.
+ * @param variableIds Only fetch data files containing at least one of these variables.
  * @returns A promise that resolves to an array of DaplaDataFileDTO objects representing the fetched data files.
  */
 export async function listDataFilesByDatasetIdAndStorageCategory(
   datasetId: string,
-  storageCategory: StorageCategory,
+  storageCategory?: StorageCategory,
+  variableIds?: string[],
 ): Promise<Array<DaplaDataFileDTO>> {
   const logger = createLoggerWithBindings({
     module: 'datasets',
@@ -215,7 +223,7 @@ export async function listDataFilesByDatasetIdAndStorageCategory(
       }
       return parsedData
         .map((item) => DaplaDataFileDTOFromJSON(item))
-        .filter((dataFile) => dataFile.storage_category === storageCategory);
+        .filter((dataFile) => storageCategory === undefined || dataFile.storage_category === storageCategory);
     } catch (error: unknown) {
       logger.warn({ error: sanitizeError(error), datafilePath }, 'No static datafile found for dataset id');
       return [];
@@ -230,7 +238,10 @@ export async function listDataFilesByDatasetIdAndStorageCategory(
     let page = 0;
     let totalDataFiles = 0;
     while (true) {
-      const response = await api.listDataFiles({ datasetId, storageCategory, page, pageSize }, dataDocFetchOptions);
+      const response = await api.listDataFiles(
+        { datasetId, storageCategory, variableIds, page, pageSize },
+        dataDocFetchOptions,
+      );
 
       allDataFiles.push(...response.data_files);
       totalDataFiles = response.total_data_files;
@@ -278,9 +289,13 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
 /**
  * Fetches all variables registered for a dataset.
  * @param datasetId The ID of the dataset.
+ * @param period Only fetch variables found in data files overlapping this period (inclusive). Ignored for static data.
  * @returns A promise that resolves to the dataset's variables.
  */
-export async function listDatasetVariables(datasetId: string): Promise<DatasetVariableDTO[]> {
+export async function listDatasetVariables(
+  datasetId: string,
+  period?: { from: Date; until: Date },
+): Promise<DatasetVariableDTO[]> {
   const logger = createLoggerWithBindings({ module: 'datasets', fn: 'listDatasetVariables', datasetId });
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     const variables = staticDatasetVariables[datasetId] ?? [];
@@ -297,7 +312,10 @@ export async function listDatasetVariables(datasetId: string): Promise<DatasetVa
     let totalVariables = 0;
 
     while (true) {
-      const response = await api.listDatasetVariables({ id: datasetId, page, pageSize }, dataDocFetchOptions);
+      const response = await api.listDatasetVariables(
+        { id: datasetId, containsDataFrom: period?.from, containsDataUntil: period?.until, page, pageSize },
+        dataDocFetchOptions,
+      );
       allVariables.push(...response.variables);
       totalVariables = response.total_variables;
 

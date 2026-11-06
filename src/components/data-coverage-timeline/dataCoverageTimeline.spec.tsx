@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { type DaplaDataFileDTO, PeriodFormat } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language/src/localization';
 import DataCoverageTimeline, { formatAvailableDatasets, slotOverlapsItem } from './dataCoverageTimeline';
+import styles from './dataCoverageTimeline.module.css';
 import { type Slot, type TimelineItem } from './types';
 import { useTimelineData } from './useTimelineData';
 import { getFileNameFromFilePath } from './utils';
@@ -80,6 +81,41 @@ describe('DataCoverageTimeline', () => {
     expect(screen.getByText('2024')).toBeInTheDocument();
     expect(screen.getByText(janLabel)).toBeInTheDocument();
     expect(screen.getByText(decLabel)).toBeInTheDocument();
+  });
+
+  it('keeps all timeline cells and grays out periods outside the selected range', () => {
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p2024_01.parquet',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-01-31'),
+        periodType: PeriodFormat.YEAR_MONTH,
+      }),
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p2024_02.parquet',
+        from: new Date('2024-02-01'),
+        until: new Date('2024-02-29'),
+        periodType: PeriodFormat.YEAR_MONTH,
+      }),
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p2024_03.parquet',
+        from: new Date('2024-03-01'),
+        until: new Date('2024-03-31'),
+        periodType: PeriodFormat.YEAR_MONTH,
+      }),
+    ];
+
+    const { container } = render(
+      <DataCoverageTimeline
+        {...buildTimelineData(data)}
+        selectedPeriodRange={{ start: '2024-02-01', end: '2024-02-29' }}
+      />,
+    );
+
+    const cells = Array.from(container.querySelectorAll(`.${styles.cell}`));
+    const filledClass = styles.cellFilled ?? 'cellFilled';
+    expect(cells).toHaveLength(12);
+    expect(cells.slice(0, 3).map((cell) => cell.classList.contains(filledClass))).toEqual([false, true, false]);
   });
 
   it('returns null for empty data', () => {

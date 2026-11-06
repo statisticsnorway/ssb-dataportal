@@ -8,8 +8,8 @@ Name | Type
 ------------ | -------------
 `id` | string
 `short_name` | string
-`physical_type_name` | string
-`logical_type_name` | string
+`physical_type` | [PhysicalType](PhysicalType.md)
+`logical_type` | [LogicalTypeKind](LogicalTypeKind.md)
 
 ## Example
 
@@ -20,8 +20,8 @@ import type { DatasetVariableDTO } from ''
 const example = {
   "id": null,
   "short_name": null,
-  "physical_type_name": null,
-  "logical_type_name": null,
+  "physical_type": null,
+  "logical_type": null,
 } satisfies DatasetVariableDTO
 
 console.log(example)

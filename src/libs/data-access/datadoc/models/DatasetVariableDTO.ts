@@ -13,6 +13,21 @@
  */
 
 import { mapValues } from '../runtime';
+import type { PhysicalType } from './PhysicalType';
+import {
+    PhysicalTypeFromJSON,
+    PhysicalTypeFromJSONTyped,
+    PhysicalTypeToJSON,
+    PhysicalTypeToJSONTyped,
+} from './PhysicalType';
+import type { LogicalTypeKind } from './LogicalTypeKind';
+import {
+    LogicalTypeKindFromJSON,
+    LogicalTypeKindFromJSONTyped,
+    LogicalTypeKindToJSON,
+    LogicalTypeKindToJSONTyped,
+} from './LogicalTypeKind';
+
 /**
  * 
  * @export
@@ -33,17 +48,19 @@ export interface DatasetVariableDTO {
     short_name: string;
     /**
      * 
-     * @type {string}
+     * @type {PhysicalType}
      * @memberof DatasetVariableDTO
      */
-    physical_type_name?: string | null;
+    physical_type?: PhysicalType | null;
     /**
      * 
-     * @type {string}
+     * @type {LogicalTypeKind}
      * @memberof DatasetVariableDTO
      */
-    logical_type_name?: string | null;
+    logical_type?: LogicalTypeKind | null;
 }
+
+
 
 /**
  * Check if a given object implements the DatasetVariableDTO interface.
@@ -66,8 +83,8 @@ export function DatasetVariableDTOFromJSONTyped(json: any, ignoreDiscriminator: 
         
         'id': json['id'],
         'short_name': json['short_name'],
-        'physical_type_name': json['physical_type_name'] == null ? undefined : json['physical_type_name'],
-        'logical_type_name': json['logical_type_name'] == null ? undefined : json['logical_type_name'],
+        'physical_type': json['physical_type'] == null ? undefined : PhysicalTypeFromJSON(json['physical_type']),
+        'logical_type': json['logical_type'] == null ? undefined : LogicalTypeKindFromJSON(json['logical_type']),
     };
 }
 
@@ -84,8 +101,8 @@ export function DatasetVariableDTOToJSONTyped(value?: DatasetVariableDTO | null,
         
         'id': value['id'],
         'short_name': value['short_name'],
-        'physical_type_name': value['physical_type_name'],
-        'logical_type_name': value['logical_type_name'],
+        'physical_type': PhysicalTypeToJSON(value['physical_type']),
+        'logical_type': LogicalTypeKindToJSON(value['logical_type']),
     };
 }
 

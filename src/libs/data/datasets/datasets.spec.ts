@@ -219,7 +219,7 @@ describe('datadoc data fetching', () => {
         } as DaplaDataFileDTO,
       ];
 
-      vi.spyOn(DataFilesApi.prototype, 'listDataFiles').mockResolvedValue({
+      const listDataFilesSpy = vi.spyOn(DataFilesApi.prototype, 'listDataFiles').mockResolvedValue({
         data_files: mockResult,
         total_data_files: mockResult.length,
         page: 0,
@@ -227,9 +227,22 @@ describe('datadoc data fetching', () => {
         has_next: false,
       });
 
-      const result = await listDataFilesByDatasetIdAndStorageCategory('dataset-id', StorageCategory.SHARED);
+      const result = await listDataFilesByDatasetIdAndStorageCategory('dataset-id', StorageCategory.SHARED, [
+        'variable-1',
+      ]);
       expect(result).toEqual(mockResult);
+      expect(listDataFilesSpy).toHaveBeenCalledWith(
+        {
+          datasetId: 'dataset-id',
+          storageCategory: StorageCategory.SHARED,
+          variableIds: ['variable-1'],
+          page: 0,
+          pageSize: 100,
+        },
+        expect.anything(),
+      );
     });
+
     it('static data returns empty array when no file exists', async () => {
       vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
 
@@ -250,8 +263,8 @@ describe('datadoc data fetching', () => {
       expect(variables[0]).toEqual({
         id: '10000000-0000-4000-8000-000000000001',
         short_name: 'arbeidsforhold_id',
-        physical_type_name: 'FIXED_LEN_BYTE_ARRAY',
-        logical_type_name: 'UUID',
+        physical_type: 'FIXED_LEN_BYTE_ARRAY',
+        logical_type: 'UUID',
       });
 
       await expect(listDatasetVariables('unknown-dataset')).resolves.toEqual([]);
@@ -292,6 +305,27 @@ describe('datadoc data fetching', () => {
       expect(listDatasetVariablesSpy).toHaveBeenNthCalledWith(
         2,
         { id: 'dataset-id', page: 1, pageSize: 100 },
+        expect.anything(),
+      );
+    });
+
+    it('passes the period to the API', async () => {
+      process.env.DATADOC_USE_STATIC_DATA = 'false';
+      process.env.SSB_DATAPORTAL_JWT_TOKEN = 'my-cool-token';
+      const listDatasetVariablesSpy = vi.spyOn(DatasetsApi.prototype, 'listDatasetVariables').mockResolvedValue({
+        variables: [],
+        total_variables: 0,
+        page: 0,
+        page_size: 100,
+        has_next: false,
+      });
+      const from = new Date('2020-01-01');
+      const until = new Date('2020-01-31');
+
+      await listDatasetVariables('dataset-id', { from, until });
+
+      expect(listDatasetVariablesSpy).toHaveBeenCalledWith(
+        { id: 'dataset-id', containsDataFrom: from, containsDataUntil: until, page: 0, pageSize: 100 },
         expect.anything(),
       );
     });

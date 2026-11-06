@@ -1,0 +1,16 @@
+.section {
+  min-width: 0;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--ds-size-2);
+  margin-block-end: var(--ds-size-2);
+}
+
+.title {
+  margin: 0;
+  font-weight: var(--ds-font-weight-semibold);
+}

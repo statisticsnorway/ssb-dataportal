@@ -2,6 +2,7 @@
 
 import { Badge, Card, Heading, Tag } from '@digdir/designsystemet-react';
 import { notFound } from 'next/navigation';
+import { useMemo, useState } from 'react';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { useTimelineData } from '@/components/data-coverage-timeline';
@@ -17,8 +18,11 @@ import { getDaplaCtrlUrl } from '@/utils/config';
 import { convertAssessment, convertDataSetState } from '@/utils/functions';
 import { sortDateStringsDescending } from '@/utils/sort';
 import { DataFileSearchHit } from '../../components/DataFileSearchHit';
-import DatasetVariableCard from './DatasetVariableCard';
+import { listDatasetVariableDataFilePaths, listDatasetVariableIdsInPeriod } from './actions';
+import DatasetVariableList from './DatasetVariableList';
 import styles from './dataset-page.module.css';
+import { DatasetFilters, type FilterState, getSelectedPeriods, type TimelinePeriodSlot } from './datasetFilters';
+import { useDebouncedLoad } from './useDebouncedLoad';
 
 export default function DatasetDetail({
   dataset,
@@ -33,23 +37,70 @@ export default function DatasetDetail({
 }>) {
   const { isAuthenticated } = useAuthContext();
 
-  let dataFiles = isAuthenticated ? [...dataFilesShared, ...dataFilesProduct] : dataFilesShared;
-
   if (!isAuthenticated && dataset.has_naming_standard_violations === true) {
     notFound();
   }
 
-  if (!isAuthenticated) {
-    dataFiles = dataFiles.filter(
-      (df) => df.naming_standard_violations === undefined || df.naming_standard_violations.length === 0,
-    );
-  }
+  const dataFiles = isAuthenticated
+    ? [...dataFilesShared, ...dataFilesProduct]
+    : dataFilesShared.filter((df) => !df.naming_standard_violations?.length);
 
   const totalNamingStandardViolations = dataFiles.reduce(
     (total, dataFile) => total + (dataFile.naming_standard_violations?.length ?? 0),
     0,
   );
   const { isValid, periodType, allItems, items, years, slots } = useTimelineData(dataFiles);
+  const datasetId = dataset.id ?? '';
+  const timelinePeriods = useMemo<TimelinePeriodSlot[]>(
+    () => years.flatMap((year) => (slots[year] ?? []).map((slot) => ({ ...slot, year }))),
+    [slots, years],
+  );
+  const [filters, setFilters] = useState<FilterState>({ search: '', period: null });
+  const updateFilters = (updates: Partial<FilterState>) => setFilters((current) => ({ ...current, ...updates }));
+  const { range: selectedPeriodRange } = getSelectedPeriods(timelinePeriods, filters.period);
+  const language = localization.getLanguage();
+  const normalizedVariableNameFilter = filters.search.trim().toLocaleLowerCase(language);
+  const filteredDatasetVariables = useMemo(
+    () =>
+      datasetVariables
+        .filter((variable) => variable.short_name.toLocaleLowerCase(language).includes(normalizedVariableNameFilter))
+        .toSorted((a, b) => a.short_name.localeCompare(b.short_name, language)),
+    [datasetVariables, language, normalizedVariableNameFilter],
+  );
+
+  const nameMatchedFilePaths = useDebouncedLoad(
+    isValid && normalizedVariableNameFilter ? `${datasetId}:${normalizedVariableNameFilter}` : null,
+    async () =>
+      new Set(
+        await listDatasetVariableDataFilePaths(
+          datasetId,
+          filteredDatasetVariables.map((v) => v.id),
+        ),
+      ),
+    new Set<string>(),
+  );
+  const variableIdsInPeriod = useDebouncedLoad(
+    selectedPeriodRange ? `${datasetId}:${selectedPeriodRange.start}:${selectedPeriodRange.end}` : null,
+    async () =>
+      new Set(
+        await listDatasetVariableIdsInPeriod(
+          datasetId,
+          selectedPeriodRange?.start ?? '',
+          selectedPeriodRange?.end ?? '',
+        ),
+      ),
+    null,
+  );
+  const periodFilteredDatasetVariables = useMemo(() => {
+    const ids = variableIdsInPeriod.value;
+    return ids ? filteredDatasetVariables.filter((variable) => ids.has(variable.id)) : filteredDatasetVariables;
+  }, [filteredDatasetVariables, variableIdsInPeriod.value]);
+
+  const filteredTimelineItems = useMemo(() => {
+    if (!normalizedVariableNameFilter) return allItems;
+    const filePaths = nameMatchedFilePaths.value;
+    return filePaths ? allItems.filter((item) => filePaths.has(item.file_path)) : [];
+  }, [allItems, nameMatchedFilePaths.value, normalizedVariableNameFilter]);
 
   return (
     <div className={`${styles.detailsPage} container`}>
@@ -112,15 +163,23 @@ export default function DatasetDetail({
             { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
           ]}
         />
-        <Card className={styles.tableContainer} data-testid='dataset-periods-and-variables'>
+        <Card
+          className={styles.tableContainer}
+          data-testid='dataset-periods-and-variables'
+          aria-busy={nameMatchedFilePaths.isLoading || variableIdsInPeriod.isLoading}
+        >
+          {isAuthenticated && datasetVariables.length > 0 ? (
+            <DatasetFilters filters={filters} timelinePeriods={timelinePeriods} onChange={updateFilters} />
+          ) : null}
           {isValid ? (
             <DataCoverageTimeline
               isValid={isValid}
               periodType={periodType}
-              allItems={allItems}
+              allItems={filteredTimelineItems}
               items={items}
               years={years}
               slots={slots}
+              selectedPeriodRange={selectedPeriodRange}
             />
           ) : (
             // Fallback when calendar can't be rendered: List data files
@@ -148,23 +207,7 @@ export default function DatasetDetail({
             </>
           )}
           {isAuthenticated && datasetVariables.length > 0 ? (
-            <section className={styles.variablesSection} aria-labelledby='tableHeading-variables'>
-              <Heading
-                level={2}
-                className={`${styles.detailsHeading} secondaryHeading`}
-                data-size='md'
-                id='tableHeading-variables'
-              >
-                {localization.datasetDetail.variables}
-              </Heading>
-              <div className={styles.variablesList}>
-                {datasetVariables
-                  .toSorted((a, b) => a.short_name.localeCompare(b.short_name, 'nb'))
-                  .map((variable) => (
-                    <DatasetVariableCard key={variable.id} variable={variable} />
-                  ))}
-              </div>
-            </section>
+            <DatasetVariableList variables={periodFilteredDatasetVariables} />
           ) : null}
         </Card>
       </main>

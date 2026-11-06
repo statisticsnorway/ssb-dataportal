@@ -44,6 +44,9 @@ export interface GetDatasetByIdRequest {
 
 export interface ListDatasetVariablesRequest {
     id: string;
+    variableShortName?: string | null;
+    containsDataFrom?: Date | null;
+    containsDataUntil?: Date | null;
     page?: number;
     pageSize?: number;
 }
@@ -95,6 +98,9 @@ export interface DatasetsApiInterface {
     /**
      * 
      * @param {string} id 
+     * @param {string} [variableShortName] 
+     * @param {Date} [containsDataFrom] 
+     * @param {Date} [containsDataUntil] 
      * @param {number} [page] 
      * @param {number} [pageSize] 
      * @param {*} [options] Override http request option.
@@ -231,6 +237,18 @@ export class DatasetsApi extends runtime.BaseAPI implements DatasetsApiInterface
         }
 
         const queryParameters: any = {};
+
+        if (requestParameters['variableShortName'] != null) {
+            queryParameters['variable-short-name'] = requestParameters['variableShortName'];
+        }
+
+        if (requestParameters['containsDataFrom'] != null) {
+            queryParameters['contains-data-from'] = (requestParameters['containsDataFrom'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['containsDataUntil'] != null) {
+            queryParameters['contains-data-until'] = (requestParameters['containsDataUntil'] as any).toISOString().substring(0,10);
+        }
 
         if (requestParameters['page'] != null) {
             queryParameters['page'] = requestParameters['page'];
