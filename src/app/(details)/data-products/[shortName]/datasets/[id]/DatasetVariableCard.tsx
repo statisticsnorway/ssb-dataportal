@@ -7,16 +7,29 @@ type TypeDisplay =
   | Readonly<{ variant: 'specified'; mainType: string; storedAs?: string }>
   | Readonly<{ variant: 'notSpecified' }>;
 
+function getTypeDisplay(variable: DatasetVariableDTO): TypeDisplay {
+  if (variable.logical_type) {
+    const typeDisplay: TypeDisplay = {
+      variant: 'specified',
+      mainType: formatParquetType(variable.logical_type),
+    };
+
+    if (variable.physical_type) {
+      return { ...typeDisplay, storedAs: formatParquetType(variable.physical_type) };
+    }
+
+    return typeDisplay;
+  }
+
+  if (variable.physical_type) {
+    return { variant: 'specified', mainType: formatParquetType(variable.physical_type) };
+  }
+
+  return { variant: 'notSpecified' };
+}
+
 export default function DatasetVariableCard({ variable }: Readonly<{ variable: DatasetVariableDTO }>) {
-  const typeDisplay: TypeDisplay = variable.logical_type
-    ? {
-        variant: 'specified',
-        mainType: formatParquetType(variable.logical_type),
-        ...(variable.physical_type ? { storedAs: formatParquetType(variable.physical_type) } : {}),
-      }
-    : variable.physical_type
-      ? { variant: 'specified', mainType: formatParquetType(variable.physical_type) }
-      : { variant: 'notSpecified' };
+  const typeDisplay = getTypeDisplay(variable);
 
   return (
     <li className={styles.variableItem} data-testid={`dataset-variable-card-${variable.id}`}>
