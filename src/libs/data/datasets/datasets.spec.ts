@@ -12,6 +12,7 @@ import {
   DatasetDTOFromJSON,
   DatasetsApi,
   DatasetVariableDTO,
+  PeriodFormat,
   StorageCategory,
 } from '@/libs/data-access/datadoc';
 import dataProducts from '@/static-data/data-products.json';
@@ -203,6 +204,24 @@ describe('datadoc data fetching', () => {
       expect(result.length).toBeGreaterThan(0);
       expect(result[0]?.product_short_name).toEqual('arblonn');
       expect(result[0]?.contains_data_from).toBeInstanceOf(Date);
+
+      vi.unstubAllEnvs();
+    });
+
+    it('loads the local monthly and quarterly timeline examples', async () => {
+      vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
+
+      const [monthly, quarterly] = await Promise.all([
+        listDataFilesByDatasetIdAndStorageCategory('period-demo-monthly', StorageCategory.PRODUCT),
+        listDataFilesByDatasetIdAndStorageCategory('period-demo-quarterly', StorageCategory.PRODUCT),
+      ]);
+
+      expect(monthly).toHaveLength(24);
+      expect(monthly.every((file) => file.period_type === PeriodFormat.YEAR_MONTH)).toBe(true);
+      expect(quarterly).toHaveLength(20);
+      expect(quarterly.every((file) => file.period_type === PeriodFormat.QUARTER)).toBe(true);
+      await expect(listDatasetVariables('period-demo-monthly')).resolves.toHaveLength(1);
+      await expect(listDatasetVariables('period-demo-quarterly')).resolves.toHaveLength(1);
 
       vi.unstubAllEnvs();
     });

@@ -1,0 +1,242 @@
+[
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2024-01.parquet",
+    "file_name": "arblonn_p2024-01.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2024-01-01T00:00:00",
+    "contains_data_until": "2024-01-31T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2024-02.parquet",
+    "file_name": "arblonn_p2024-02.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2024-02-01T00:00:00",
+    "contains_data_until": "2024-02-29T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2024-03.parquet",
+    "file_name": "arblonn_p2024-03.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2024-03-01T00:00:00",
+    "contains_data_until": "2024-03-31T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2024-04.parquet",
+    "file_name": "arblonn_p2024-04.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2024-04-01T00:00:00",
+    "contains_data_until": "2024-04-30T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2024-05.parquet",
+    "file_name": "arblonn_p2024-05.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2024-05-01T00:00:00",
+    "contains_data_until": "2024-05-31T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2024-06.parquet",
+    "file_name": "arblonn_p2024-06.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2024-06-01T00:00:00",
+    "contains_data_until": "2024-06-30T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2024-07.parquet",
+    "file_name": "arblonn_p2024-07.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2024-07-01T00:00:00",
+    "contains_data_until": "2024-07-31T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2024-08.parquet",
+    "file_name": "arblonn_p2024-08.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2024-08-01T00:00:00",
+    "contains_data_until": "2024-08-31T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2024-09.parquet",
+    "file_name": "arblonn_p2024-09.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2024-09-01T00:00:00",
+    "contains_data_until": "2024-09-30T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2024-10.parquet",
+    "file_name": "arblonn_p2024-10.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2024-10-01T00:00:00",
+    "contains_data_until": "2024-10-31T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2024-11.parquet",
+    "file_name": "arblonn_p2024-11.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2024-11-01T00:00:00",
+    "contains_data_until": "2024-11-30T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2024-12.parquet",
+    "file_name": "arblonn_p2024-12.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2024-12-01T00:00:00",
+    "contains_data_until": "2024-12-31T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2025-01.parquet",
+    "file_name": "arblonn_p2025-01.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2025-01-01T00:00:00",
+    "contains_data_until": "2025-01-31T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2025-02.parquet",
+    "file_name": "arblonn_p2025-02.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2025-02-01T00:00:00",
+    "contains_data_until": "2025-02-28T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2025-03.parquet",
+    "file_name": "arblonn_p2025-03.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2025-03-01T00:00:00",
+    "contains_data_until": "2025-03-31T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2025-04.parquet",
+    "file_name": "arblonn_p2025-04.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2025-04-01T00:00:00",
+    "contains_data_until": "2025-04-30T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2025-05.parquet",
+    "file_name": "arblonn_p2025-05.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2025-05-01T00:00:00",
+    "contains_data_until": "2025-05-31T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2025-06.parquet",
+    "file_name": "arblonn_p2025-06.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2025-06-01T00:00:00",
+    "contains_data_until": "2025-06-30T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2025-07.parquet",
+    "file_name": "arblonn_p2025-07.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2025-07-01T00:00:00",
+    "contains_data_until": "2025-07-31T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2025-08.parquet",
+    "file_name": "arblonn_p2025-08.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2025-08-01T00:00:00",
+    "contains_data_until": "2025-08-31T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2025-09.parquet",
+    "file_name": "arblonn_p2025-09.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2025-09-01T00:00:00",
+    "contains_data_until": "2025-09-30T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2025-10.parquet",
+    "file_name": "arblonn_p2025-10.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2025-10-01T00:00:00",
+    "contains_data_until": "2025-10-31T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2025-11.parquet",
+    "file_name": "arblonn_p2025-11.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2025-11-01T00:00:00",
+    "contains_data_until": "2025-11-30T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  },
+  {
+    "file_path": "gs://ssb-arbmark-register-data-produkt-test/arblonn/period-demo/monthly/arblonn_p2025-12.parquet",
+    "file_name": "arblonn_p2025-12.parquet",
+    "file_type": "PARQUET",
+    "storage_category": "PRODUCT",
+    "contains_data_from": "2025-12-01T00:00:00",
+    "contains_data_until": "2025-12-31T23:59:59",
+    "period_type": "YEAR_MONTH",
+    "naming_standard_violations": []
+  }
+]

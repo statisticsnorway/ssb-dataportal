@@ -206,5 +206,27 @@
     "dataset_state": "PROCESSED_DATA",
     "owner": "utd-nudb",
     "storage_category": "PRODUCT"
+  },
+  {
+    "id": "period-demo-monthly",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "arblonn",
+    "short_description": "Local test example: monthly periods (2024–2025)",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register",
+    "has_naming_standard_violations": false,
+    "storage_category": "PRODUCT"
+  },
+  {
+    "id": "period-demo-quarterly",
+    "storage_location_name": "ssb-arbmark-register-data-produkt-test",
+    "product_short_name": "arblonn",
+    "short_description": "Local test example: quarterly periods (2021–2025)",
+    "assessment": "PROTECTED",
+    "dataset_state": "PROCESSED_DATA",
+    "owner": "arbmark-register",
+    "has_naming_standard_violations": false,
+    "storage_category": "PRODUCT"
   }
 ]

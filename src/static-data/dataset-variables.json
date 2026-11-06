@@ -72,5 +72,21 @@
       "physical_type": null,
       "logical_type": null
     }
+  ],
+  "period-demo-monthly": [
+    {
+      "id": "period-demo-monthly-variable",
+      "short_name": "monthly_measure",
+      "physical_type": "DOUBLE",
+      "logical_type": "DECIMAL"
+    }
+  ],
+  "period-demo-quarterly": [
+    {
+      "id": "period-demo-quarterly-variable",
+      "short_name": "quarterly_count",
+      "physical_type": "INT64",
+      "logical_type": "INTEGER"
+    }
   ]
 }
