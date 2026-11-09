@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { NuqsTestingAdapter } from 'nuqs/adapters/testing';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 
@@ -56,7 +57,11 @@ describe('CorrespondencePage', () => {
   it('renders a correspondence table and links back to the overview', async () => {
     const { default: CorrespondencePage } = await import('./page');
 
-    render(await CorrespondencePage({ params: Promise.resolve({ id: '79', correspondenceId: '2919' }) }));
+    render(
+      <NuqsTestingAdapter>
+        {await CorrespondencePage({ params: Promise.resolve({ id: '79', correspondenceId: '2919' }) })}
+      </NuqsTestingAdapter>,
+    );
 
     expect(mocks.fetchCorrespondenceTable).toHaveBeenCalledWith(2919, 'nb');
     expect(screen.getByRole('link', { name: /^Tilbake$/ })).toHaveAttribute(

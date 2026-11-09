@@ -83,14 +83,17 @@ export async function downloadCorrespondenceAction({
   tableId,
   language,
   format,
+  inverted,
 }: {
   tableId: number;
   language: SupportedLanguage;
   format: FileDownloadFormat;
+  inverted?: boolean;
 }) {
   return fetchCorrespondenceDownload({
     tableId,
     language,
     format,
+    inverted,
   });
 }

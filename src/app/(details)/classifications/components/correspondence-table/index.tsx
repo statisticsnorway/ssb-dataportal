@@ -24,6 +24,12 @@ interface CorrespondenceTableProps {
   downloadHref: string;
   onDownloadClick?: () => void;
   tableLabel?: string;
+  /**
+   * Controlled direction. When omitted the component keeps its own state, which is what
+   * the code-changes table does; its download does not yet honour the direction.
+   */
+  inverted?: boolean;
+  onInvertedChange?: (inverted: boolean) => void;
 }
 
 interface MappingGroup {
@@ -101,8 +107,18 @@ export function CorrespondenceTable({
   downloadHref,
   onDownloadClick,
   tableLabel = localization.classification.correspondence.tableLabel,
+  inverted: controlledInverted,
+  onInvertedChange,
 }: Readonly<CorrespondenceTableProps>) {
-  const [inverted, setInverted] = useState(false);
+  const [uncontrolledInverted, setUncontrolledInverted] = useState(false);
+  const inverted = controlledInverted ?? uncontrolledInverted;
+  const toggleInverted = () => {
+    const next = !inverted;
+    if (controlledInverted === undefined) {
+      setUncontrolledInverted(next);
+    }
+    onInvertedChange?.(next);
+  };
   const [filterTerm, setFilterTerm] = useState('');
   const normalizedSourceName = sourceName.trim();
   const normalizedTargetName = targetName.trim();
@@ -131,7 +147,7 @@ export function CorrespondenceTable({
           <CodeSearch searchId='correspondence-filter-input' filterTerm={filterTerm} setFilterTerm={setFilterTerm} />
         </div>
         <div className={styles.actions}>
-          <Button variant='secondary' onClick={() => setInverted((current) => !current)}>
+          <Button variant='secondary' aria-pressed={inverted} onClick={toggleInverted}>
             {localization.versions.invert}
           </Button>
           {onDownloadClick ? (
