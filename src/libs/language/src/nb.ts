@@ -6,6 +6,8 @@
  * Please maintain alphabetical order on variable name for ease of maintenance!
  */
 
+import { PeriodFormat } from '@/libs/data-access/datadoc';
+
 export const nb = {
   apiDocumentation: 'API-dokumentasjon',
   apiDocVardef: 'Variabeldefinisjoner',
@@ -186,14 +188,18 @@ export const nb = {
   },
   dataset: {
     periodicity: {
-      name: 'Periodisering',
-      daily: 'Daglig',
-      weekly: 'Ukentlig',
-      monthly: 'Månedlig',
-      quarterly: 'Kvartalsvis',
-      yearly: 'Årlig'
-    }
-
+      label: 'Periodisering',
+      periodFormat: {
+        YEAR: 'Årlig',
+        HALF_YEAR: 'Halvårlig',
+        TRIANNUAL: 'Tertialvis',
+        QUARTER: 'Kvartalsvis',
+        BIMESTER: 'Annenhver måned',
+        YEAR_MONTH: 'Månedlig',
+        YEAR_WEEK: 'Ukentlig',
+        YEAR_MONTH_DAY: 'Daglig',
+      } satisfies Record<PeriodFormat, string>,
+    },
   },
   datasetDetail: {
     aboutDataset: 'Om datasettet',
