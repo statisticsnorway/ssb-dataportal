@@ -473,6 +473,7 @@ export const en = {
   versions: {
     name: 'Name',
     invert: 'Invert table',
+    downloadStoredDirection: 'The download always goes from {sourceName} to {targetName}.',
     isNotValid: "This version is not valid on today's date.",
     noChanges: 'No changes to codes for this version',
     numberOfCodesAndLevels: 'This version contains {numberOfCodes} codes organized into {numberOfLevels} {level}.',

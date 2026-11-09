@@ -470,6 +470,7 @@ export const nn = {
   versions: {
     name: 'Namn',
     invert: 'Inverter tabell',
+    downloadStoredDirection: 'Nedlastinga gjeld alltid frå {sourceName} til {targetName}.',
     isNotValid: 'Versjonen er ikkje gyldig på dagens dato.',
     noChanges: 'Ingen kodeendringar finst for den aktuelle versjonen.',
     numberOfCodesAndLevels: 'Versjonen inneheld {numberOfCodes} kodar fordelt over {numberOfLevels} {level}.',

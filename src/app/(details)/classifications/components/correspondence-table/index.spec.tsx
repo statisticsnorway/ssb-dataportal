@@ -129,6 +129,41 @@ describe('CorrespondenceTable', () => {
     expect(screen.getByRole('button', { name: 'Inverter tabell' })).toHaveAttribute('aria-pressed', 'true');
   });
 
+  it('names the direction the download will use once the table is inverted', async () => {
+    const user = userEvent.setup();
+    const onDownloadClick = vi.fn();
+
+    render(
+      <CorrespondenceTable
+        sourceName='Naeringsgruppering 2007'
+        targetName='Naeringsgruppering 2025'
+        mappings={mappings}
+        downloadHref='/download'
+        onDownloadClick={onDownloadClick}
+        downloadFollowsStoredDirection={true}
+      />,
+    );
+
+    const note = 'Nedlastingen gjelder alltid fra Naeringsgruppering 2007 til Naeringsgruppering 2025.';
+    expect(screen.queryByText(note)).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Inverter tabell' }));
+
+    // Spells out the stored direction, which the swapped headers no longer show.
+    expect(screen.getByText(note)).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Last ned' })).toHaveAccessibleDescription(note);
+  });
+
+  it('stays quiet when the download follows the inverted view', async () => {
+    const user = userEvent.setup();
+    renderTable();
+
+    await user.click(screen.getByRole('button', { name: 'Inverter tabell' }));
+
+    expect(screen.queryByText(/Nedlastingen gjelder alltid/)).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Last ned' })).not.toHaveAccessibleDescription();
+  });
+
   it('filters mappings by code or name on either side', async () => {
     const user = userEvent.setup();
     renderTable();
