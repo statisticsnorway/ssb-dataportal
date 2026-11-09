@@ -21,6 +21,7 @@ import { DataFileSearchHit } from '../../components/DataFileSearchHit';
 import { listDatasetVariableDataFilePaths, listDatasetVariableIdsInPeriod } from './actions';
 import DatasetVariableList from './DatasetVariableList';
 import styles from './dataset-page.module.css';
+import workspaceStyles from './dataset-workspace.module.css';
 import { DatasetFilters, type FilterState, getSelectedPeriods, type TimelinePeriodSlot } from './datasetFilters';
 import { useDebouncedLoad } from './useDebouncedLoad';
 
@@ -60,7 +61,7 @@ export default function DatasetDetail({
   const { range: selectedPeriodRange } = getSelectedPeriods(timelinePeriods, filters.period);
   const language = localization.getLanguage();
   const normalizedVariableNameFilter = filters.search.trim().toLocaleLowerCase(language);
-  const filteredDatasetVariables = useMemo(
+  const matchingDatasetVariables = useMemo(
     () =>
       datasetVariables
         .filter((variable) => variable.short_name.toLocaleLowerCase(language).includes(normalizedVariableNameFilter))
@@ -68,13 +69,13 @@ export default function DatasetDetail({
     [datasetVariables, language, normalizedVariableNameFilter],
   );
 
-  const nameMatchedFilePaths = useDebouncedLoad(
-    isValid && normalizedVariableNameFilter ? `${datasetId}:${normalizedVariableNameFilter}` : null,
+  const matchingFilePaths = useDebouncedLoad(
+    isValid && normalizedVariableNameFilter ? JSON.stringify([datasetId, normalizedVariableNameFilter]) : null,
     async () =>
       new Set(
         await listDatasetVariableDataFilePaths(
           datasetId,
-          filteredDatasetVariables.map((v) => v.id),
+          matchingDatasetVariables.map((variable) => variable.id),
         ),
       ),
     new Set<string>(),
@@ -93,14 +94,51 @@ export default function DatasetDetail({
   );
   const periodFilteredDatasetVariables = useMemo(() => {
     const ids = variableIdsInPeriod.value;
-    return ids ? filteredDatasetVariables.filter((variable) => ids.has(variable.id)) : filteredDatasetVariables;
-  }, [filteredDatasetVariables, variableIdsInPeriod.value]);
+    return ids ? matchingDatasetVariables.filter((variable) => ids.has(variable.id)) : matchingDatasetVariables;
+  }, [matchingDatasetVariables, variableIdsInPeriod.value]);
 
   const filteredTimelineItems = useMemo(() => {
     if (!normalizedVariableNameFilter) return allItems;
-    const filePaths = nameMatchedFilePaths.value;
+    const filePaths = matchingFilePaths.value;
     return filePaths ? allItems.filter((item) => filePaths.has(item.file_path)) : [];
-  }, [allItems, nameMatchedFilePaths.value, normalizedVariableNameFilter]);
+  }, [allItems, matchingFilePaths.value, normalizedVariableNameFilter]);
+
+  const timelineContent = isValid ? (
+    <DataCoverageTimeline
+      isValid={isValid}
+      periodType={periodType}
+      allItems={filteredTimelineItems}
+      items={items}
+      years={years}
+      slots={slots}
+      selectedPeriodRange={selectedPeriodRange}
+    />
+  ) : (
+    <>
+      <Heading
+        level={2}
+        className={`${styles.detailsHeading} secondaryHeading`}
+        data-size='md'
+        id='tableHeading-dataFiles'
+      >
+        {localization.datasetDetail.dataFiles}
+      </Heading>
+      <div className={styles.dataFilesList}>
+        {dataFiles
+          .toSorted((a, b) =>
+            sortDateStringsDescending(
+              a.contains_data_from?.toISOString().split('T')[0],
+              b.contains_data_from?.toISOString().split('T')[0],
+            ),
+          )
+          .map((dataFile) => (
+            <DataFileSearchHit dataFile={dataFile} key={dataFile.file_path} />
+          ))}
+      </div>
+    </>
+  );
+  const showFilters = isAuthenticated && datasetVariables.length > 0;
+  const variableContent = showFilters ? <DatasetVariableList variables={periodFilteredDatasetVariables} /> : null;
 
   return (
     <div className={`${styles.detailsPage} container`}>
@@ -164,51 +202,20 @@ export default function DatasetDetail({
           ]}
         />
         <Card
-          className={styles.tableContainer}
+          className={showFilters ? workspaceStyles.workspaceCard : styles.tableContainer}
           data-testid='dataset-periods-and-variables'
-          aria-busy={nameMatchedFilePaths.isLoading || variableIdsInPeriod.isLoading}
+          aria-busy={matchingFilePaths.isLoading || variableIdsInPeriod.isLoading}
         >
-          {isAuthenticated && datasetVariables.length > 0 ? (
-            <DatasetFilters filters={filters} timelinePeriods={timelinePeriods} onChange={updateFilters} />
-          ) : null}
-          {isValid ? (
-            <DataCoverageTimeline
-              isValid={isValid}
-              periodType={periodType}
-              allItems={filteredTimelineItems}
-              items={items}
-              years={years}
-              slots={slots}
-              selectedPeriodRange={selectedPeriodRange}
-            />
-          ) : (
-            // Fallback when calendar can't be rendered: List data files
-            <>
-              <Heading
-                level={2}
-                className={`${styles.detailsHeading} secondaryHeading`}
-                data-size='md'
-                id='tableHeading-dataFiles'
-              >
-                {localization.datasetDetail.dataFiles}
-              </Heading>
-              <div className={styles.dataFilesList}>
-                {dataFiles
-                  .toSorted((a, b) =>
-                    sortDateStringsDescending(
-                      a.contains_data_from?.toISOString().split('T')[0],
-                      b.contains_data_from?.toISOString().split('T')[0],
-                    ),
-                  )
-                  .map((dataFile) => (
-                    <DataFileSearchHit dataFile={dataFile} key={dataFile.file_path} />
-                  ))}
-              </div>
-            </>
-          )}
-          {isAuthenticated && datasetVariables.length > 0 ? (
-            <DatasetVariableList variables={periodFilteredDatasetVariables} />
-          ) : null}
+          <DatasetFilters
+            filters={filters}
+            timelinePeriods={timelinePeriods}
+            onChange={updateFilters}
+            content={{
+              timeline: timelineContent,
+              variables: variableContent,
+              showFilters,
+            }}
+          />
         </Card>
       </main>
     </div>

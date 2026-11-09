@@ -13,6 +13,10 @@
   border: 0;
 }
 
+.fieldset > .details {
+  margin-block: 0;
+}
+
 .toggleFilter {
   box-sizing: border-box;
   background-color: var(--ds-color-surface-tinted);
@@ -124,9 +128,10 @@
 }
 
 .details > .flatFilterItems {
-  margin-block: 0.5rem;
+  margin-block: 0;
+  margin-block-end: 0.75rem;
   margin-inline-start: var(--flat-filter-rail-inline-start);
-  padding-block-start: 0;
+  padding-block: 0;
   padding-inline-start: 0.75rem;
   border-inline-start: 2px solid var(--ds-color-neutral-border-subtle);
 }
