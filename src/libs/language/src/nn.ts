@@ -184,6 +184,16 @@ export const nn = {
     sortByMostNamingStandardViolations: 'Flest avvik frå namnestandard',
     noDatasetAvailable: 'Ingen datasett tilgjengeleg',
   },
+  dataset: {
+    periodicity: {
+      name: 'Periodisering',
+      daily: 'Dagleg',
+      weekly: 'Veckjeleg',
+      monthly: 'Månedleg',
+      quarterly: 'Kvartalsvis',
+      yearly: 'Årleg',
+    },
+  },
   datasetDetail: {
     aboutDataset: 'Om datasettet',
     dataProduct: 'Dataprodukt',

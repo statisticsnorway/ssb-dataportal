@@ -188,6 +188,16 @@ export const en = {
     sortByMostNamingStandardViolations: 'Most naming standard violations',
     noDatasetAvailable: 'No dataset available',
   },
+  dataset: {
+    periodicity: {
+      name: 'Periodicity',
+      daily: 'Daily',
+      weekly: 'Weekly',
+      monthly: 'Monthly',
+      quarterly: 'Quarterly',
+      yearly: 'Yearly',
+    },
+  },
   datasetDetail: {
     aboutDataset: 'About dataset',
     dataProduct: 'Data product',
