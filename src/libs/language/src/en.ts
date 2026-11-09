@@ -86,6 +86,8 @@ export const en = {
       confirm: 'Download file',
       inProgress: 'Downloading ...',
       error: 'Could not download the file. Please try again.',
+      invertedOnlyCsv: 'The inverted table can only be downloaded as CSV.',
+      invertedFileSuffix: 'inverted',
     },
     correspondence: {
       heading: 'Correspondences',

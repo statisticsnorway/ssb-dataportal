@@ -82,6 +82,8 @@ export const nn = {
       confirm: 'Last ned fil',
       inProgress: 'Lastar ned ...',
       error: 'Klarte ikkje laste ned filen. Prøv igjen.',
+      invertedOnlyCsv: 'Den inverterte tabellen kan berre lastast ned som CSV.',
+      invertedFileSuffix: 'invertert',
     },
     correspondence: {
       heading: 'Korrespondansar',
