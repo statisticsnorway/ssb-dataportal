@@ -184,6 +184,17 @@ export const nb = {
     sortByMostNamingStandardViolations: 'Flest navnestandardavvik',
     noDatasetAvailable: 'Ingen datasett tilgjengelig',
   },
+  dataset: {
+    periodicity: {
+      name: 'Periodisering',
+      daily: 'Daglig',
+      weekly: 'Ukentlig',
+      monthly: 'Månedlig',
+      quarterly: 'Kvartalsvis',
+      yearly: 'Årlig'
+    }
+
+  },
   datasetDetail: {
     aboutDataset: 'Om datasettet',
     dataProduct: 'Dataprodukt',
