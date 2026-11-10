@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import type { DatasetVariableDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
 import { formatParquetType } from '@/utils/formatParquetType';
@@ -39,11 +40,21 @@ function getTypeDisplay(variable: DatasetVariableDTO, language: string): TypeDis
 export default function DatasetVariableCard({ variable }: Readonly<{ variable: DatasetVariableDTO }>) {
   const language = localization.getLanguage();
   const typeDisplay = getTypeDisplay(variable, language);
+  const variableNameParts = variable.short_name.split('_');
 
   return (
     <li className={styles.variableItem} data-testid={`dataset-variable-card-${variable.id}`}>
       <code className={styles.variableName} title={variable.short_name}>
-        {variable.short_name}
+        {variableNameParts.map((part, index) => (
+          <Fragment key={`${index}-${part}`}>
+            {part}
+            {index < variableNameParts.length - 1 ? (
+              <>
+                _<wbr />
+              </>
+            ) : null}
+          </Fragment>
+        ))}
       </code>
       <dl className={styles.variableTypes}>
         <div className={styles.variableType}>
