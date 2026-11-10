@@ -38,6 +38,7 @@
 .workspaceRail {
   --filter-inline-padding: var(--ds-size-6);
   flex: 0 0 17rem;
+  min-width: 0;
   box-sizing: border-box;
   padding: 0;
   border-inline-end: var(--ds-border-width-default) solid var(--ds-color-neutral-border-subtle);

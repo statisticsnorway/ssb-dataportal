@@ -41,6 +41,18 @@
   flex: 0 0 auto;
 }
 
+.activeFilterChips > li {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.activeFilterChips > li > button {
+  max-width: 100%;
+  height: auto;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 .variablesSection {
   margin-top: 2rem;
   padding-top: 2rem;
@@ -103,7 +115,8 @@
   color: var(--ds-color-neutral-text-default);
   font-size: var(--ds-body-lg-font-size);
   font-weight: var(--ds-font-weight-semibold);
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .variableType dd.variableTypeMissing {
