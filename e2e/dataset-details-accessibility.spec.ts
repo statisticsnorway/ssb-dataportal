@@ -13,13 +13,13 @@ test.describe('Dataset details – accessibility', () => {
 
   test('Page follows wcag standard with filters expanded', async ({ page }) => {
     await page.getByRole('button', { name: localization.search.textFilter.label }).click();
-    await page.getByRole('button', { name: localization.datasetDetail.period }).click();
+    await page.getByRole('button', { name: localization.datasetDetail.period, exact: true }).click();
     const results = await new AxeBuilder({ page }).withTags(['wcag21a', 'wcag21aa']).analyze();
     expect(results.violations).toEqual([]);
   });
 
   test('Color contrasts are accessible with an active period filter', async ({ page }) => {
-    await page.getByRole('button', { name: localization.datasetDetail.period }).click();
+    await page.getByRole('button', { name: localization.datasetDetail.period, exact: true }).click();
     const thumb = page.getByRole('slider', {
       name: `${localization.datasetDetail.periodRange} ${localization.datasetDetail.periodTo}`,
     });
