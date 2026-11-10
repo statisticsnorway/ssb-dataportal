@@ -23,7 +23,7 @@
 .workspaceToolbar {
   display: flex;
   align-items: center;
-  padding: var(--ds-size-5) var(--ds-size-6);
+  padding: var(--ds-size-5);
   border-start-start-radius: inherit;
   border-start-end-radius: inherit;
   border-bottom: var(--ds-border-width-default) solid var(--ds-color-neutral-border-subtle);
@@ -33,15 +33,16 @@
 }
 .workspaceBody {
   display: flex;
+  flex-direction: column;
   align-items: stretch;
 }
 .workspaceRail {
-  --filter-inline-padding: var(--ds-size-6);
-  flex: 0 0 17rem;
+  --filter-inline-padding: var(--ds-size-4);
+  flex: 0 0 auto;
   min-width: 0;
   box-sizing: border-box;
   padding: 0;
-  border-inline-end: var(--ds-border-width-default) solid var(--ds-color-neutral-border-subtle);
+  border-bottom: var(--ds-border-width-default) solid var(--ds-color-neutral-border-subtle);
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -51,7 +52,10 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--ds-size-2);
-  padding: var(--ds-size-6) var(--filter-inline-padding);
+  padding: var(--ds-size-4);
+}
+.workspaceRailToolbar > button {
+  display: none;
 }
 .workspaceRailTitle {
   margin: 0;
@@ -68,11 +72,11 @@
   gap: var(--ds-size-2);
 }
 .workspaceRail.workspaceRailCollapsed {
-  flex-basis: var(--ds-size-16);
+  flex-basis: auto;
   padding: 0;
 }
 .workspaceRailCollapsed .workspaceRailToolbar {
-  justify-content: center;
+  justify-content: flex-start;
   padding: var(--ds-size-3);
 }
 .filterGroups {
@@ -104,41 +108,42 @@
 .workspaceResults {
   flex: 1;
   min-width: 0;
-  padding: var(--ds-size-6);
+  padding: var(--ds-size-5);
   display: flex;
   flex-direction: column;
   gap: var(--ds-size-8);
 }
-@media (max-width: 70rem) {
-  .workspaceRail {
-    --filter-inline-padding: var(--ds-size-4);
-    flex-basis: 14rem;
-  }
-
-  .workspaceRailToolbar {
-    padding: var(--ds-size-4);
-  }
-}
-@media (max-width: 48rem) {
+@media (min-width: 768px) {
   .workspaceBody {
-    flex-direction: column;
+    flex-direction: row;
   }
   .workspaceRail {
-    flex-basis: auto;
-    border-inline-end: 0;
-    border-bottom: var(--ds-border-width-default) solid var(--ds-color-neutral-border-subtle);
+    flex-basis: 14rem;
+    border-bottom: 0;
+    border-inline-end: var(--ds-border-width-default) solid var(--ds-color-neutral-border-subtle);
   }
   .workspaceRail.workspaceRailCollapsed {
-    flex-basis: auto;
+    flex-basis: var(--ds-size-16);
   }
   .workspaceRailCollapsed .workspaceRailToolbar {
-    justify-content: flex-start;
+    justify-content: center;
   }
   .workspaceRailToolbar > button {
-    display: none;
+    display: inline-flex;
   }
-  .workspaceToolbar,
+  .workspaceToolbar {
+    padding: var(--ds-size-5) var(--ds-size-6);
+  }
   .workspaceResults {
-    padding: var(--ds-size-5);
+    padding: var(--ds-size-6);
+  }
+}
+@media (min-width: 1120px) {
+  .workspaceRail {
+    --filter-inline-padding: var(--ds-size-6);
+    flex-basis: 17rem;
+  }
+  .workspaceRailToolbar {
+    padding: var(--ds-size-6) var(--filter-inline-padding);
   }
 }

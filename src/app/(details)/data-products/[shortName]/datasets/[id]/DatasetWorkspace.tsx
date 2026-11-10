@@ -28,14 +28,14 @@ export function DatasetWorkspace({ search, period, activeFilters, timeline, vari
   useEffect(() => {
     if (typeof window.matchMedia !== 'function') return;
 
-    const phoneScreen = window.matchMedia('(max-width: 48rem)');
+    const desktopScreen = window.matchMedia('(min-width: 768px)');
     const keepFiltersExpanded = () => {
-      if (phoneScreen.matches) setFiltersCollapsed(false);
+      if (!desktopScreen.matches) setFiltersCollapsed(false);
     };
 
     keepFiltersExpanded();
-    phoneScreen.addEventListener('change', keepFiltersExpanded);
-    return () => phoneScreen.removeEventListener('change', keepFiltersExpanded);
+    desktopScreen.addEventListener('change', keepFiltersExpanded);
+    return () => desktopScreen.removeEventListener('change', keepFiltersExpanded);
   }, []);
 
   if (!showFilters) return timeline;
