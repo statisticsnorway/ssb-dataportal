@@ -90,6 +90,80 @@ describe('CorrespondenceTable', () => {
     expect(firstRowCells?.[2]).toHaveTextContent('01.479');
   });
 
+  it('reports direction changes and respects a controlled direction', async () => {
+    const user = userEvent.setup();
+    const onInvertedChange = vi.fn();
+
+    const { rerender } = render(
+      <CorrespondenceTable
+        sourceName='Naeringsgruppering 2025'
+        targetName='Naeringsgruppering 2007'
+        mappings={mappings}
+        downloadHref='/download'
+        inverted={false}
+        onInvertedChange={onInvertedChange}
+      />,
+    );
+
+    const invertButton = screen.getByRole('button', { name: 'Inverter tabell' });
+    expect(invertButton).toHaveAttribute('aria-pressed', 'false');
+
+    await user.click(invertButton);
+
+    // Controlled: the parent is told, but nothing flips until it passes the new value back.
+    expect(onInvertedChange).toHaveBeenCalledWith(true);
+    expect(screen.getAllByRole('columnheader')[0]).toHaveTextContent('Naeringsgruppering 2025');
+
+    rerender(
+      <CorrespondenceTable
+        sourceName='Naeringsgruppering 2025'
+        targetName='Naeringsgruppering 2007'
+        mappings={mappings}
+        downloadHref='/download'
+        inverted={true}
+        onInvertedChange={onInvertedChange}
+      />,
+    );
+
+    expect(screen.getAllByRole('columnheader')[0]).toHaveTextContent('Naeringsgruppering 2007');
+    expect(screen.getByRole('button', { name: 'Inverter tabell' })).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('names the direction the download will use once the table is inverted', async () => {
+    const user = userEvent.setup();
+    const onDownloadClick = vi.fn();
+
+    render(
+      <CorrespondenceTable
+        sourceName='Naeringsgruppering 2007'
+        targetName='Naeringsgruppering 2025'
+        mappings={mappings}
+        downloadHref='/download'
+        onDownloadClick={onDownloadClick}
+        downloadFollowsStoredDirection={true}
+      />,
+    );
+
+    const note = 'Nedlastingen gjelder alltid fra Naeringsgruppering 2007 til Naeringsgruppering 2025.';
+    expect(screen.queryByText(note)).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Inverter tabell' }));
+
+    // Spells out the stored direction, which the swapped headers no longer show.
+    expect(screen.getByText(note)).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Last ned' })).toHaveAccessibleDescription(note);
+  });
+
+  it('stays quiet when the download follows the inverted view', async () => {
+    const user = userEvent.setup();
+    renderTable();
+
+    await user.click(screen.getByRole('button', { name: 'Inverter tabell' }));
+
+    expect(screen.queryByText(/Nedlastingen gjelder alltid/)).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Last ned' })).not.toHaveAccessibleDescription();
+  });
+
   it('filters mappings by code or name on either side', async () => {
     const user = userEvent.setup();
     renderTable();

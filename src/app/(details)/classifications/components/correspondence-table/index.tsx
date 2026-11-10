@@ -24,6 +24,18 @@ interface CorrespondenceTableProps {
   downloadHref: string;
   onDownloadClick?: () => void;
   tableLabel?: string;
+  /**
+   * Controlled direction. When omitted the component keeps its own state, which is what
+   * the code-changes table does; its download does not yet honour the direction.
+   */
+  inverted?: boolean;
+  onInvertedChange?: (inverted: boolean) => void;
+  /**
+   * Set when the download ignores the inverted view and always returns the stored direction.
+   * While inverted, the direction the file will actually use is spelled out next to the
+   * download button, since the table headers no longer reveal it.
+   */
+  downloadFollowsStoredDirection?: boolean;
 }
 
 interface MappingGroup {
@@ -101,8 +113,19 @@ export function CorrespondenceTable({
   downloadHref,
   onDownloadClick,
   tableLabel = localization.classification.correspondence.tableLabel,
+  inverted: controlledInverted,
+  onInvertedChange,
+  downloadFollowsStoredDirection = false,
 }: Readonly<CorrespondenceTableProps>) {
-  const [inverted, setInverted] = useState(false);
+  const [uncontrolledInverted, setUncontrolledInverted] = useState(false);
+  const inverted = controlledInverted ?? uncontrolledInverted;
+  const toggleInverted = () => {
+    const next = !inverted;
+    if (controlledInverted === undefined) {
+      setUncontrolledInverted(next);
+    }
+    onInvertedChange?.(next);
+  };
   const [filterTerm, setFilterTerm] = useState('');
   const normalizedSourceName = sourceName.trim();
   const normalizedTargetName = targetName.trim();
@@ -122,6 +145,16 @@ export function CorrespondenceTable({
     );
   }, [filterTerm, mappings]);
   const groupedMappings = useMemo(() => groupMappings(filteredMappings, inverted), [filteredMappings, inverted]);
+  const showStoredDirectionNote = downloadFollowsStoredDirection && inverted;
+  const storedDirectionNoteId = 'correspondence-download-direction';
+  const storedDirectionNote = showStoredDirectionNote
+    ? String(
+        localization.formatString(localization.versions.downloadStoredDirection, {
+          sourceName: normalizedSourceName,
+          targetName: normalizedTargetName,
+        }),
+      )
+    : null;
   const hasNoFilterResults = filterTerm.trim().length > 0 && groupedMappings.length === 0;
 
   return (
@@ -131,20 +164,31 @@ export function CorrespondenceTable({
           <CodeSearch searchId='correspondence-filter-input' filterTerm={filterTerm} setFilterTerm={setFilterTerm} />
         </div>
         <div className={styles.actions}>
-          <Button variant='secondary' onClick={() => setInverted((current) => !current)}>
+          <Button variant='secondary' aria-pressed={inverted} onClick={toggleInverted}>
             {localization.versions.invert}
           </Button>
           {onDownloadClick ? (
-            <Button variant='secondary' onClick={onDownloadClick}>
+            <Button
+              variant='secondary'
+              onClick={onDownloadClick}
+              aria-describedby={storedDirectionNote ? storedDirectionNoteId : undefined}
+            >
               {localization.classification.download.button}
             </Button>
           ) : (
             <Button asChild variant='secondary'>
-              <Link href={downloadHref}>{localization.classification.download.button}</Link>
+              <Link href={downloadHref} aria-describedby={storedDirectionNote ? storedDirectionNoteId : undefined}>
+                {localization.classification.download.button}
+              </Link>
             </Button>
           )}
         </div>
       </div>
+      {storedDirectionNote ? (
+        <p id={storedDirectionNoteId} className={styles.downloadDirectionNote}>
+          {storedDirectionNote}
+        </p>
+      ) : null}
       {hasNoFilterResults ? (
         <Alert role='status' data-color='info'>
           {`0 ${localization.search.hits}`}

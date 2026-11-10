@@ -1,9 +1,12 @@
-import { Chip, Details, DetailsContent, DetailsSummary, Search } from '@digdir/designsystemet-react';
+import { Chip } from '@digdir/designsystemet-react';
 import type { Slot } from '@/components/data-coverage-timeline/types';
-import { FilterSection } from '@/components/filters';
+import { CollapsibleCard } from '@/components/filters/collapsible-card';
+import { TextFilter } from '@/components/filters/text-filter';
 import { Slider } from '@/components/slider';
 import { localization } from '@/libs/language';
+import { DatasetWorkspace, type DatasetWorkspaceContent } from './DatasetWorkspace';
 import styles from './dataset-page.module.css';
+import workspaceStyles from './dataset-workspace.module.css';
 
 export type TimelinePeriodSlot = Slot & { year: number };
 export type FilterState = {
@@ -48,9 +51,10 @@ type DatasetFiltersProps = Readonly<{
   filters: FilterState;
   timelinePeriods: TimelinePeriodSlot[];
   onChange: (updates: Partial<FilterState>) => void;
+  content: DatasetWorkspaceContent;
 }>;
 
-export function DatasetFilters({ filters, timelinePeriods, onChange }: DatasetFiltersProps) {
+export function DatasetFilters({ filters, timelinePeriods, onChange, content }: DatasetFiltersProps) {
   const { lastIndex, startIndex, endIndex, label, range } = getSelectedPeriods(timelinePeriods, filters.period);
   const trimmedSearch = filters.search.trim();
   const hasActiveFilters = trimmedSearch.length > 0 || range !== undefined;
@@ -58,72 +62,59 @@ export function DatasetFilters({ filters, timelinePeriods, onChange }: DatasetFi
   const updatePeriodRange = (period: readonly [number, number]) => {
     onChange({ period: period[0] === 0 && period[1] === lastIndex ? null : period });
   };
-
-  return (
-    <Details className={styles.filterDetails}>
-      <DetailsSummary>{localization.datasetDetail.filter}</DetailsSummary>
-      <DetailsContent className={styles.filterDetailsContent}>
-        <div className={styles.filterPanel}>
-          <div className={styles.filterSections}>
-            <FilterSection title={localization.search.label} className={styles.filterSection}>
-              <Search>
-                <Search.Input
-                  id={localization.search.textFilter.inputId}
-                  aria-label={localization.search.textFilter.label}
-                  value={filters.search}
-                  onChange={(event) => onChange({ search: event.target.value })}
-                />
-                <Search.Clear onClick={() => onChange({ search: '' })} />
-              </Search>
-            </FilterSection>
-            {timelinePeriods.length > 0 ? (
-              <FilterSection title={localization.datasetDetail.period} className={styles.filterSection}>
-                <Slider
-                  aria-label={localization.datasetDetail.periodRange}
-                  valueLabel={label}
-                  rangeLabels={[localization.datasetDetail.periodFrom, localization.datasetDetail.periodTo]}
-                  value={[startIndex, endIndex]}
-                  min={0}
-                  max={lastIndex}
-                  step={1}
-                  disabled={lastIndex === 0}
-                  formatValue={(index) => formatTimelinePeriod(timelinePeriods[index])}
-                  onChange={updatePeriodRange}
-                />
-              </FilterSection>
-            ) : null}
-          </div>
-          {hasActiveFilters ? (
-            <div className={styles.activeFiltersRow}>
-              <Chip.Button className={styles.resetFiltersButton} onClick={onReset}>
-                {localization.datasetDetail.resetFilters}
-              </Chip.Button>
-              <ul className={styles.activeFilterChips} aria-label={localization.filterTag.listLabel} aria-live='polite'>
-                {trimmedSearch ? (
-                  <li>
-                    <Chip.Removable
-                      aria-label={`${localization.filterTag.remove} ${localization.search.label}: ${trimmedSearch}`}
-                      onClick={() => onChange({ search: '' })}
-                    >
-                      {`${localization.search.label}: «${trimmedSearch}»`}
-                    </Chip.Removable>
-                  </li>
-                ) : null}
-                {range ? (
-                  <li>
-                    <Chip.Removable
-                      aria-label={`${localization.filterTag.remove} ${localization.datasetDetail.period}: ${label}`}
-                      onClick={() => onChange({ period: null })}
-                    >
-                      {label}
-                    </Chip.Removable>
-                  </li>
-                ) : null}
-              </ul>
-            </div>
-          ) : null}
-        </div>
-      </DetailsContent>
-    </Details>
+  const searchControl = (
+    <TextFilter
+      label={localization.search.textFilter.label}
+      searchTerm={filters.search}
+      setSearchTerm={(search) => onChange({ search })}
+    />
   );
+  const periodControl =
+    timelinePeriods.length > 0 ? (
+      <CollapsibleCard heading={localization.datasetDetail.period} variant='flat' defaultOpen={false}>
+        <Slider
+          aria-label={localization.datasetDetail.periodRange}
+          valueLabel={label}
+          rangeLabels={[localization.datasetDetail.periodFrom, localization.datasetDetail.periodTo]}
+          value={[startIndex, endIndex]}
+          min={0}
+          max={lastIndex}
+          step={1}
+          disabled={lastIndex === 0}
+          formatValue={(index) => formatTimelinePeriod(timelinePeriods[index])}
+          onChange={updatePeriodRange}
+        />
+      </CollapsibleCard>
+    ) : null;
+  const activeFilters = hasActiveFilters ? (
+    <div className={workspaceStyles.activeFilters}>
+      <Chip.Button className={styles.resetFiltersButton} onClick={onReset}>
+        {localization.datasetDetail.resetFilters}
+      </Chip.Button>
+      <ul className={styles.activeFilterChips} aria-label={localization.filterTag.listLabel} aria-live='polite'>
+        {trimmedSearch ? (
+          <li>
+            <Chip.Removable
+              aria-label={`${localization.filterTag.remove} ${localization.search.label}: ${trimmedSearch}`}
+              onClick={() => onChange({ search: '' })}
+            >
+              {`${localization.search.label}: «${trimmedSearch}»`}
+            </Chip.Removable>
+          </li>
+        ) : null}
+        {range ? (
+          <li>
+            <Chip.Removable
+              aria-label={`${localization.filterTag.remove} ${localization.datasetDetail.period}: ${label}`}
+              onClick={() => onChange({ period: null })}
+            >
+              {label}
+            </Chip.Removable>
+          </li>
+        ) : null}
+      </ul>
+    </div>
+  ) : null;
+
+  return <DatasetWorkspace {...content} search={searchControl} period={periodControl} activeFilters={activeFilters} />;
 }

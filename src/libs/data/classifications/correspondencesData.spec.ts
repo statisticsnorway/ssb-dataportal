@@ -104,3 +104,59 @@ describe('fetchCorrespondenceTable', () => {
     await expect(fetchCorrespondenceTable(1506, 'nb')).rejects.toBe(error);
   });
 });
+
+describe('fetchCorrespondenceDownload (inverted)', () => {
+  const table = {
+    id: 1506,
+    source: 'A',
+    target: 'B',
+    correspondenceMaps: [
+      { sourceCode: '01', sourceName: 'Oslo', targetCode: '0301', targetName: 'Oslo' },
+      { sourceCode: '12', sourceName: 'Navn med "hermetegn"', targetCode: '1201', targetName: 'Bergen' },
+      { sourceCode: '13', sourceName: 'Uten treff', targetCode: undefined, targetName: undefined },
+    ],
+  };
+
+  it('swaps source and target and keeps the KLASS csv shape', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
+    vi.spyOn(CorrespondenceTablesApi.prototype, 'correspondenceTables').mockResolvedValue(table);
+
+    const result = await fetchCorrespondenceDownload({
+      tableId: 1506,
+      language: 'nb',
+      format: 'csv',
+      inverted: true,
+    });
+
+    expect(result.mimeType).toBe('text/csv');
+    expect(result.content.split('\n')).toEqual([
+      '"sourceCode";"sourceName";"targetCode";"targetName"',
+      '"0301";"Oslo";"01";"Oslo"',
+      '"1201";"Bergen";"12";"Navn med ""hermetegn"""',
+      '"";"";"13";"Uten treff"',
+    ]);
+  });
+
+  it('does not touch the passthrough when not inverted', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
+    const tablesSpy = vi.spyOn(CorrespondenceTablesApi.prototype, 'correspondenceTables');
+    vi.spyOn(CorrespondenceTablesApi.prototype, 'correspondenceTablesRaw').mockResolvedValue({
+      raw: new Response('"sourceCode";"sourceName";"targetCode";"targetName"', {
+        headers: { 'content-type': 'text/csv; charset=utf-8' },
+      }),
+      value: async () => ({}),
+    });
+
+    await fetchCorrespondenceDownload({ tableId: 1506, language: 'nb', format: 'csv', inverted: false });
+
+    expect(tablesSpy).not.toHaveBeenCalled();
+  });
+
+  it('refuses to invert json or xml, which carry contradicting table metadata', async () => {
+    vi.stubEnv('KLASS_USE_STATIC_DATA', 'false');
+
+    await expect(
+      fetchCorrespondenceDownload({ tableId: 1506, language: 'nb', format: 'json', inverted: true }),
+    ).rejects.toThrow(/only supported for csv/);
+  });
+});

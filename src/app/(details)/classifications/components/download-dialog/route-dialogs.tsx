@@ -14,8 +14,8 @@ import { DownloadChangesDialog, DownloadCodesDialog, DownloadCorrespondenceDialo
 type DownloadFormat = 'csv' | 'xml' | 'json';
 type DownloadLanguage = 'nb' | 'nn' | 'en';
 
-function buildSharePath(pathname: string, format: DownloadFormat, language: DownloadLanguage) {
-  return `${getDownloadPath(getBasePathFromDownloadPath(pathname))}?${buildDownloadQuery({ format, language })}`;
+function buildSharePath(pathname: string, format: DownloadFormat, language: DownloadLanguage, inverted?: boolean) {
+  return `${getDownloadPath(getBasePathFromDownloadPath(pathname))}?${buildDownloadQuery({ format, language, inverted })}`;
 }
 
 function getLevelValue(levelNumber: number | undefined, index: number): string {
@@ -174,8 +174,9 @@ export function DownloadCorrespondenceRouteDialog() {
       initialFormat={config.format}
       initialLanguage={config.language}
       dialogSubheading={correspondenceTable.name}
+      inverted={config.inverted}
       onDialogClose={() => router.push(closePath)}
-      buildShareUrl={({ language, format }) => buildSharePath(pathname, format, language)}
+      buildShareUrl={({ language, format }) => buildSharePath(pathname, format, language, config.inverted)}
     />
   );
 }
