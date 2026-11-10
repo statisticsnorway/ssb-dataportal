@@ -49,7 +49,9 @@ export function DatasetWorkspace({ search, period, activeFilters, timeline, vari
       </header>
       <div className={styles.workspaceBody}>
         <aside
-          className={`${styles.workspaceRail}${filtersCollapsed ? ` ${styles.workspaceRailCollapsed}` : ''}`}
+          className={
+            filtersCollapsed ? `${styles.workspaceRail} ${styles.workspaceRailCollapsed}` : styles.workspaceRail
+          }
           aria-label={localization.datasetDetail.filter}
         >
           <div className={styles.workspaceRailToolbar}>
