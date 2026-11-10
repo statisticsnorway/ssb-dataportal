@@ -208,9 +208,9 @@ describe('DatasetDetail', () => {
       screen.getByTestId('dataset-variable-card-variable-1'),
     );
     expect(screen.getAllByText('Type', { selector: 'dt' })).toHaveLength(3);
-    expect(screen.getByText('Lagret som 64-bit integer')).toBeDefined();
-    expect(screen.getByText('Decimal')).toBeDefined();
-    expect(screen.getByText('Byte array')).toBeDefined();
+    expect(screen.getByText('Lagret som 64-bits heltall')).toBeDefined();
+    expect(screen.getByText('Desimaltall')).toBeDefined();
+    expect(screen.getByText('Bytesekvens')).toBeDefined();
     expect(screen.getByText('–', { selector: 'span[aria-hidden="true"]' })).toBeDefined();
     expect(screen.getByText('Ikke oppgitt')).toHaveClass('ds-sr-only');
     expect(notFound).not.toHaveBeenCalled();
@@ -225,13 +225,13 @@ describe('DatasetDetail', () => {
 
     renderDatasetDetail();
 
-    const filterSummary = screen.getByText('Filtrer');
-    const filterDetails = filterSummary.closest('details');
-    expect(filterDetails).not.toHaveAttribute('open');
-    fireEvent.click(filterSummary);
-    expect(filterDetails).toHaveAttribute('open');
-    expect(screen.getByRole('heading', { name: 'Søk', level: 3 })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Filtrer på navn' }));
+    expect(screen.getByRole('searchbox', { name: 'Filtrer på navn' })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Nullstill filter' })).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: 'Skjul filtre' }));
+    expect(screen.queryByRole('searchbox', { name: 'Filtrer på navn' })).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: 'Vis filtre' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Filtrer på navn' }));
     fireEvent.change(screen.getByRole('searchbox', { name: 'Filtrer på navn' }), {
       target: { value: 'person' },
     });
@@ -256,8 +256,7 @@ describe('DatasetDetail', () => {
 
     renderDatasetDetail();
 
-    fireEvent.click(screen.getByText('Filtrer'));
-    expect(screen.getByRole('heading', { name: 'Periode', level: 3 })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Periode' }));
     const maximumPeriodThumb = screen.getByRole('slider', { name: 'Periodeintervall Til' });
     maximumPeriodThumb.focus();
     fireEvent.keyDown(maximumPeriodThumb, { key: 'Home', code: 'Home' });

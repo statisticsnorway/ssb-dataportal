@@ -1,33 +1,38 @@
 import type { LogicalTypeKind, PhysicalType } from '@/libs/data-access/datadoc';
+import type { SupportedLanguage } from '@/libs/language';
 
 /** Exhaustive over the generated enums, so a type added to the Datadoc spec fails to compile until it is labelled. */
-const parquetTypeLabels: Record<PhysicalType | LogicalTypeKind, string> = {
-  BOOLEAN: 'Boolean',
-  INT32: '32-bit integer',
-  INT64: '64-bit integer',
-  INT96: '96-bit integer',
-  FLOAT: 'Single-precision float',
-  DOUBLE: 'Double-precision float',
-  BYTE_ARRAY: 'Byte array',
-  FIXED_LEN_BYTE_ARRAY: 'Fixed-length byte array',
-  STRING: 'String',
-  ENUM: 'Enum',
-  JSON: 'JSON',
-  BSON: 'BSON',
-  UUID: 'UUID',
-  DATE: 'Date',
-  DECIMAL: 'Decimal',
-  INTEGER: 'Integer',
-  TIME: 'Time',
-  TIMESTAMP: 'Timestamp',
-  FLOAT16: '16-bit float',
-  LIST: 'List',
-  MAP: 'Map',
-  UNKNOWN: 'Unknown',
-  VARIANT: 'Variant',
-  GEOMETRY: 'Geometry',
-  GEOGRAPHY: 'Geography',
-  INTERVAL: 'Interval',
+const parquetTypeLabels: Record<PhysicalType | LogicalTypeKind, Record<SupportedLanguage, string>> = {
+  BOOLEAN: { en: 'Boolean', nb: 'Boolsk verdi', nn: 'Boolsk verdi' },
+  INT32: { en: '32-bit integer', nb: '32-bits heltall', nn: '32-bits heiltal' },
+  INT64: { en: '64-bit integer', nb: '64-bits heltall', nn: '64-bits heiltal' },
+  INT96: { en: '96-bit integer', nb: '96-bits heltall', nn: '96-bits heiltal' },
+  FLOAT: { en: 'Single-precision float', nb: '32-bits flyttall', nn: '32-bits flyttal' },
+  DOUBLE: { en: 'Double-precision float', nb: '64-bits flyttall', nn: '64-bits flyttal' },
+  BYTE_ARRAY: { en: 'Byte array', nb: 'Bytesekvens', nn: 'Bytesekvens' },
+  FIXED_LEN_BYTE_ARRAY: {
+    en: 'Fixed-length byte array',
+    nb: 'Bytesekvens med fast lengde',
+    nn: 'Bytesekvens med fast lengd',
+  },
+  STRING: { en: 'String', nb: 'Tekst', nn: 'Tekst' },
+  ENUM: { en: 'Enum', nb: 'Opplistet verdi', nn: 'Opplista verdi' },
+  JSON: { en: 'JSON', nb: 'JSON', nn: 'JSON' },
+  BSON: { en: 'BSON', nb: 'BSON', nn: 'BSON' },
+  UUID: { en: 'UUID', nb: 'UUID', nn: 'UUID' },
+  DATE: { en: 'Date', nb: 'Dato', nn: 'Dato' },
+  DECIMAL: { en: 'Decimal', nb: 'Desimaltall', nn: 'Desimaltal' },
+  INTEGER: { en: 'Integer', nb: 'Heltall', nn: 'Heiltal' },
+  TIME: { en: 'Time', nb: 'Klokkeslett', nn: 'Klokkeslett' },
+  TIMESTAMP: { en: 'Timestamp', nb: 'Tidsstempel', nn: 'Tidsstempel' },
+  FLOAT16: { en: '16-bit float', nb: '16-bits flyttall', nn: '16-bits flyttal' },
+  LIST: { en: 'List', nb: 'Liste', nn: 'Liste' },
+  MAP: { en: 'Map', nb: 'Nøkkel-verdi-kart', nn: 'Nøkkel-verdi-kart' },
+  UNKNOWN: { en: 'Unknown', nb: 'Ukjent', nn: 'Ukjend' },
+  VARIANT: { en: 'Variant', nb: 'Variant', nn: 'Variant' },
+  GEOMETRY: { en: 'Geometry', nb: 'Geometri', nn: 'Geometri' },
+  GEOGRAPHY: { en: 'Geography', nb: 'Geografi', nn: 'Geografi' },
+  INTERVAL: { en: 'Interval', nb: 'Intervall', nn: 'Intervall' },
 };
 
 function isKnownType(typeName: string): typeName is keyof typeof parquetTypeLabels {
@@ -35,8 +40,11 @@ function isKnownType(typeName: string): typeName is keyof typeof parquetTypeLabe
 }
 
 /** Formats a Parquet physical or logical type name for display. Datadoc types the names as plain strings. */
-export function formatParquetType(typeName: string): string {
-  if (isKnownType(typeName)) return parquetTypeLabels[typeName];
+export function formatParquetType(typeName: string, language: string = 'en'): string {
+  if (isKnownType(typeName)) {
+    const supportedLanguage: SupportedLanguage = language === 'nb' || language === 'nn' ? language : 'en';
+    return parquetTypeLabels[typeName][supportedLanguage];
+  }
 
   const words = typeName.toLocaleLowerCase('en').replaceAll('_', ' ');
   return words.charAt(0).toUpperCase() + words.slice(1);

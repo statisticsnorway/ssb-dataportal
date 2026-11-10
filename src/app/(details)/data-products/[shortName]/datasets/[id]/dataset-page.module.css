@@ -25,60 +25,6 @@
   gap: var(--medium-gap);
 }
 
-.filterPanel {
-  margin-inline: calc(-1 * var(--ds-size-5));
-}
-
-.filterDetails {
-  --filter-section-min-width: calc(var(--ds-size-30) + var(--ds-size-30) + var(--ds-size-30));
-
-  container-type: inline-size;
-  border: var(--ds-border-width-default) solid var(--ds-color-secondary-border-subtle);
-  border-radius: var(--ds-border-radius-lg);
-}
-
-.filterDetails:not([open]) > summary {
-  border-radius: var(--ds-border-radius-lg);
-}
-
-.filterDetails[open] > summary {
-  border-start-start-radius: var(--ds-border-radius-lg);
-  border-start-end-radius: var(--ds-border-radius-lg);
-}
-
-.filterDetails > div.filterDetailsContent {
-  margin-block-start: 0;
-  margin-block-end: 0;
-}
-
-.filterSections {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: var(--ds-size-4);
-}
-
-.filterSection {
-  box-sizing: border-box;
-  flex: 1 1 var(--filter-section-min-width);
-  min-width: min(100%, var(--filter-section-min-width));
-  padding-block: var(--ds-size-3);
-  padding-inline: var(--ds-size-3);
-}
-
-.filterSection + .filterSection {
-  border-block-start: var(--ds-border-width-default) solid var(--ds-color-secondary-border-subtle);
-}
-
-.activeFiltersRow {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--ds-size-2);
-  border-block-start: var(--ds-border-width-default) solid var(--ds-color-secondary-border-subtle);
-  padding-block: var(--ds-size-3);
-  padding-inline: var(--ds-size-5);
-}
-
 .activeFilterChips {
   display: flex;
   flex: 1 1 auto;
@@ -173,14 +119,6 @@
   font-size: var(--ds-body-sm-font-size);
   font-weight: var(--ds-font-weight-regular);
   white-space: normal;
-}
-
-@container (min-width: 46rem) {
-  .filterSection + .filterSection {
-    border-block-start: 0;
-    border-inline-start: var(--ds-border-width-default) solid var(--ds-color-secondary-border-subtle);
-    padding-inline-start: var(--ds-size-4);
-  }
 }
 
 .violationBadge {

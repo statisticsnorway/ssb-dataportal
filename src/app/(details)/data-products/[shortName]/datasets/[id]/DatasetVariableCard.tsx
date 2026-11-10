@@ -4,32 +4,41 @@ import { formatParquetType } from '@/utils/formatParquetType';
 import styles from './dataset-page.module.css';
 
 type TypeDisplay =
-  | Readonly<{ variant: 'specified'; mainType: string; storedAs?: string }>
+  | Readonly<{
+      variant: 'specified';
+      mainType: string;
+      storedAs?: string;
+    }>
   | Readonly<{ variant: 'notSpecified' }>;
 
-function getTypeDisplay(variable: DatasetVariableDTO): TypeDisplay {
+function getTypeDisplay(variable: DatasetVariableDTO, language: string): TypeDisplay {
   if (variable.logical_type) {
+    const mainType = formatParquetType(variable.logical_type, language);
+    const storedAs = variable.physical_type ? formatParquetType(variable.physical_type, language) : undefined;
     const typeDisplay: TypeDisplay = {
       variant: 'specified',
-      mainType: formatParquetType(variable.logical_type),
+      mainType,
     };
 
-    if (variable.physical_type) {
-      return { ...typeDisplay, storedAs: formatParquetType(variable.physical_type) };
-    }
+    if (storedAs) return { ...typeDisplay, storedAs };
 
     return typeDisplay;
   }
 
   if (variable.physical_type) {
-    return { variant: 'specified', mainType: formatParquetType(variable.physical_type) };
+    const mainType = formatParquetType(variable.physical_type, language);
+    return {
+      variant: 'specified',
+      mainType,
+    };
   }
 
   return { variant: 'notSpecified' };
 }
 
 export default function DatasetVariableCard({ variable }: Readonly<{ variable: DatasetVariableDTO }>) {
-  const typeDisplay = getTypeDisplay(variable);
+  const language = localization.getLanguage();
+  const typeDisplay = getTypeDisplay(variable, language);
 
   return (
     <li className={styles.variableItem} data-testid={`dataset-variable-card-${variable.id}`}>
@@ -49,7 +58,9 @@ export default function DatasetVariableCard({ variable }: Readonly<{ variable: D
               <>
                 {typeDisplay.mainType}
                 {typeDisplay.storedAs ? (
-                  <span className={styles.variableTypeStoredAs}>Lagret som {typeDisplay.storedAs}</span>
+                  <span className={styles.variableTypeStoredAs}>
+                    {localization.datasetDetail.storedAs} {typeDisplay.storedAs}
+                  </span>
                 ) : null}
               </>
             )}

@@ -20,15 +20,10 @@ type Props = DatasetWorkspaceContent &
 export function DatasetWorkspace({ search, period, activeFilters, timeline, variables, showFilters }: Props) {
   const [filtersCollapsed, setFiltersCollapsed] = useState(false);
   const filterPanelId = useId();
-  const english = localization.getLanguage() === 'en';
-  const variablesTitle = english ? 'Variables' : 'Variabler';
-  const toggleLabel = english
-    ? filtersCollapsed
-      ? 'Expand filters'
-      : 'Collapse filters'
-    : filtersCollapsed
-      ? 'Vis filtre'
-      : 'Skjul filtre';
+  const variablesTitle = localization.datasetDetail.workspaceVariables;
+  const toggleLabel = filtersCollapsed
+    ? localization.datasetDetail.expandFilters
+    : localization.datasetDetail.collapseFilters;
 
   if (!showFilters) return timeline;
 
