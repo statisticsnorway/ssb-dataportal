@@ -199,6 +199,10 @@ export default function DatasetDetail({
                 ]
               : []),
             { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
+            {
+              label: localization.dataset.periodicity.label,
+              value: 'This is a placeholder',
+            },
           ]}
         />
         <Card
