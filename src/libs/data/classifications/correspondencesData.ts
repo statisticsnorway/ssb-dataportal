@@ -1,6 +1,7 @@
 'use server';
 
 import {
+  CorrespondenceMapResource,
   CorrespondenceTableResource,
   CorrespondenceTableResourceFromJSONTyped,
   CorrespondenceTablesApi,
@@ -30,6 +31,38 @@ interface CorrespondenceDownloadRequest {
   tableId: number;
   language: SupportedLanguage;
   format: CorrespondenceDownloadFormat;
+  /**
+   * Swap source and target. Mirrors what KLASS itself does for `correspondsAt?inverted=true`,
+   * which the stored-table endpoint does not support, so we build the file locally.
+   * Only supported for csv, because the json/xml payloads also carry the table's own
+   * source/target metadata, which would contradict the swapped rows.
+   */
+  inverted?: boolean;
+}
+
+function escapeCsv(value: string): string {
+  return `"${value.replaceAll('"', '""')}"`;
+}
+
+/**
+ * Reproduces the csv KLASS returns for `/correspondencetables/{id}`:
+ * four semicolon-separated, always-quoted columns.
+ */
+function toCorrespondenceCsv(maps: CorrespondenceMapResource[], inverted: boolean): string {
+  const header = ['sourceCode', 'sourceName', 'targetCode', 'targetName'].map(escapeCsv).join(';');
+
+  const rows = maps.map((map) =>
+    [
+      (inverted ? map.targetCode : map.sourceCode) ?? '',
+      (inverted ? map.targetName : map.sourceName) ?? '',
+      (inverted ? map.sourceCode : map.targetCode) ?? '',
+      (inverted ? map.sourceName : map.targetName) ?? '',
+    ]
+      .map(escapeCsv)
+      .join(';'),
+  );
+
+  return [header, ...rows].join('\n');
 }
 
 function buildKlassClientConfig(): ConfigurationParameters {
@@ -121,7 +154,27 @@ export async function fetchCorrespondenceDownload({
   tableId,
   language,
   format,
+  inverted = false,
 }: CorrespondenceDownloadRequest): Promise<{ content: string; mimeType: string }> {
+  // The stored-table endpoint has no `inverted` parameter, so the swapped file is built
+  // from the table's own mappings. The normal direction stays a byte-for-byte passthrough.
+  if (inverted) {
+    if (format !== 'csv') {
+      throw new Error(`Inverted correspondence download is only supported for csv, got "${format}"`);
+    }
+
+    const table = await fetchCorrespondenceTable(tableId, language);
+
+    if (!table) {
+      throw new Error(`Correspondence table ${tableId} not found`);
+    }
+
+    return {
+      content: toCorrespondenceCsv(table.correspondenceMaps ?? [], true),
+      mimeType: FILE_DOWNLOAD_ACCEPT.csv,
+    };
+  }
+
   if (process.env.KLASS_USE_STATIC_DATA === 'true') {
     logger.warn({ tableId }, 'Using static mock data for correspondence download');
     return {

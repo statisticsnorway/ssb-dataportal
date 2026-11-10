@@ -11,6 +11,8 @@ export interface DownloadConfig {
   format: FileDownloadFormat;
   language: SupportedLanguage;
   level?: string;
+  /** Correspondence tables only: download the mappings with source and target swapped. */
+  inverted?: boolean;
 }
 
 function isFormat(value: string | null): value is FileDownloadFormat {
@@ -35,6 +37,7 @@ export function parseDownloadConfig(
     format: isFormat(format) ? format : 'csv',
     language: isLanguage(language) ? language : defaultLanguage,
     level: level,
+    inverted: searchParams.get('inverted') === 'true',
   };
 }
 
@@ -45,6 +48,9 @@ export function buildDownloadQuery(config: DownloadConfig): string {
   query.set('language', config.language);
   if (config.level) {
     query.set('level', config.level);
+  }
+  if (config.inverted) {
+    query.set('inverted', 'true');
   }
   return query.toString();
 }
@@ -60,4 +66,19 @@ export function getDownloadPath(pathname: string): string {
 export function getBasePathFromDownloadPath(pathname: string): string {
   const suffix = `/${DOWNLOAD_PATH_SEGMENT}`;
   return pathname.endsWith(suffix) ? pathname.slice(0, -suffix.length) : pathname;
+}
+
+/** Adds or removes the `inverted` flag on an already-built download href. */
+export function withInvertedParam(href: string, inverted: boolean): string {
+  const [path, query = ''] = href.split('?');
+  const params = new URLSearchParams(query);
+
+  if (inverted) {
+    params.set('inverted', 'true');
+  } else {
+    params.delete('inverted');
+  }
+
+  const nextQuery = params.toString();
+  return nextQuery ? `${path}?${nextQuery}` : (path ?? href);
 }

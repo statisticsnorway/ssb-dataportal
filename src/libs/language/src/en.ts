@@ -86,6 +86,8 @@ export const en = {
       confirm: 'Download file',
       inProgress: 'Downloading ...',
       error: 'Could not download the file. Please try again.',
+      invertedOnlyCsv: 'The inverted table can only be downloaded as CSV.',
+      invertedFileSuffix: 'inverted',
     },
     correspondence: {
       heading: 'Correspondences',
@@ -471,6 +473,7 @@ export const en = {
   versions: {
     name: 'Name',
     invert: 'Invert table',
+    downloadStoredDirection: 'The download always goes from {sourceName} to {targetName}.',
     isNotValid: "This version is not valid on today's date.",
     noChanges: 'No changes to codes for this version',
     numberOfCodesAndLevels: 'This version contains {numberOfCodes} codes organized into {numberOfLevels} {level}.',

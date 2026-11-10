@@ -5,7 +5,7 @@ import { DetailsList } from '@/components/details-list';
 import { CorrespondenceMapResource, CorrespondenceTableResource } from '@/libs/data-access/klass';
 import { localization } from '@/libs/language';
 import { mapCorrespondenceDetails } from '../../utils/correspondences';
-import { CorrespondenceTable } from '../correspondence-table';
+import { CorrespondenceTableWithDirection } from '../correspondence-table/correspondence-table-with-direction';
 import styles from './views.module.css';
 
 function countDistinctCodes(mappings: CorrespondenceMapResource[], side: 'source' | 'target'): number {
@@ -60,7 +60,7 @@ export default function CorrespondenceDetailView({
           targetName: table.target?.trim() || '',
         })}
       </p>
-      <CorrespondenceTable
+      <CorrespondenceTableWithDirection
         sourceName={table.source ?? ''}
         targetName={table.target ?? ''}
         mappings={table.correspondenceMaps ?? []}

@@ -14,6 +14,9 @@ import styles from './download-dialog.module.css';
 import { createDownloadBlob } from './download-utils';
 
 const FORMAT_OPTIONS = ['csv', 'xml', 'json'] as const satisfies ReadonlyArray<FileDownloadFormat>;
+// The stored-table json/xml payloads carry the table's own source/target metadata, which would
+// contradict swapped rows, so an inverted download is csv only.
+const INVERTED_FORMAT_OPTIONS = ['csv'] as const satisfies ReadonlyArray<FileDownloadFormat>;
 
 function download(content: string, mimeType: string, fileName: string) {
   const blob = createDownloadBlob(content, mimeType, fileName);
@@ -65,6 +68,7 @@ interface DownloadCorrespondenceDialogProps {
   initialFormat?: FileDownloadFormat;
   initialLanguage?: SupportedLanguage;
   dialogSubheading?: string;
+  inverted?: boolean;
   onDialogClose?: () => void;
   buildShareUrl?: (args: { language: SupportedLanguage; format: FileDownloadFormat; level?: string }) => string;
 }
@@ -101,6 +105,12 @@ interface DownloadDialogBaseProps {
   showTrigger?: boolean;
   initialFormat?: FileDownloadFormat;
   initialLanguage?: SupportedLanguage;
+  /** Narrows the selectable formats. Defaults to all supported formats. */
+  formatOptions?: ReadonlyArray<FileDownloadFormat>;
+  /** Appended to the generated file name, before the extension. */
+  fileNameSuffix?: string;
+  /** Rendered next to the format picker, e.g. to explain a narrowed format list. */
+  formatNote?: string;
   onDialogClose?: () => void;
   buildShareUrl?: (args: { language: SupportedLanguage; format: FileDownloadFormat; level?: string }) => string;
 }
@@ -116,11 +126,14 @@ function DownloadDialog({
   showTrigger = true,
   initialFormat,
   initialLanguage,
+  formatOptions = FORMAT_OPTIONS,
+  fileNameSuffix,
+  formatNote,
   onDialogClose,
   buildShareUrl,
 }: Readonly<DownloadDialogBaseProps>) {
   const defaultLanguage = initialLanguage ?? (localization.getLanguage() as SupportedLanguage);
-  const defaultFormat = initialFormat ?? 'csv';
+  const defaultFormat = initialFormat ?? formatOptions[0] ?? 'csv';
   const languageLabels: Record<SupportedLanguage, string> = {
     nb: localization.classification.about.langNB,
     nn: localization.classification.about.langNN,
@@ -194,7 +207,8 @@ function DownloadDialog({
     try {
       const payload = await handleAction({ language, format, level: selectedLevel });
       const filePrefix = filePrefixByLanguage[language];
-      download(payload.content, payload.mimeType, `${filePrefix}-${versionId}-${language}.${format}`);
+      const suffix = fileNameSuffix ? `-${fileNameSuffix}` : '';
+      download(payload.content, payload.mimeType, `${filePrefix}-${versionId}-${language}${suffix}.${format}`);
     } catch {
       setErrorMessage(title.error);
     } finally {
@@ -219,12 +233,13 @@ function DownloadDialog({
               value={format}
               onChange={(event) => setFormat(event.target.value as FileDownloadFormat)}
             >
-              {FORMAT_OPTIONS.map((item) => (
+              {formatOptions.map((item) => (
                 <Select.Option key={item} value={item}>
                   {item.toUpperCase()}
                 </Select.Option>
               ))}
             </Select>
+            {formatNote ? <Field.Description>{formatNote}</Field.Description> : null}
           </Field>
           <Field>
             <Label htmlFor='download-language'>{title.languageLabel}</Label>
@@ -423,12 +438,16 @@ export function DownloadCorrespondenceDialog({
   initialFormat,
   initialLanguage,
   dialogSubheading,
+  inverted = false,
   onDialogClose,
   buildShareUrl,
 }: Readonly<DownloadCorrespondenceDialogProps>) {
   return (
     <DownloadDialog
       versionId={tableId}
+      formatOptions={inverted ? INVERTED_FORMAT_OPTIONS : FORMAT_OPTIONS}
+      formatNote={inverted ? localization.classification.download.invertedOnlyCsv : undefined}
+      fileNameSuffix={inverted ? localization.classification.download.invertedFileSuffix : undefined}
       filePrefixByLanguage={{
         nb: 'klassifikasjon-korrespondansetabell',
         nn: 'klassifikasjon-korrespondansetabell',
@@ -437,7 +456,7 @@ export function DownloadCorrespondenceDialog({
       title={localization.classification.download}
       open={open}
       showTrigger={showTrigger}
-      initialFormat={initialFormat}
+      initialFormat={inverted ? 'csv' : initialFormat}
       initialLanguage={initialLanguage}
       context={{
         heading: localization.classification.download.headingCorrespondence,
@@ -450,6 +469,7 @@ export function DownloadCorrespondenceDialog({
           tableId,
           language,
           format,
+          inverted,
         })
       }
     />

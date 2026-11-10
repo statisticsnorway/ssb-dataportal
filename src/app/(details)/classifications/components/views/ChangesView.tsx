@@ -130,6 +130,7 @@ export default function ChangesView({
           language: localization.getLanguage() as 'nb' | 'nn' | 'en',
         })}
         onDownloadClick={handleOpenDownloadRoute}
+        downloadFollowsStoredDirection={true}
         tableLabel={localization.versions.codeChangesTableLabel}
       />
     );

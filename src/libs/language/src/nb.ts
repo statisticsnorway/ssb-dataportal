@@ -82,6 +82,8 @@ export const nb = {
       confirm: 'Last ned fil',
       inProgress: 'Laster ned ...',
       error: 'Kunne ikke laste ned filen. Prøv igjen.',
+      invertedOnlyCsv: 'Den inverterte tabellen kan bare lastes ned som CSV.',
+      invertedFileSuffix: 'invertert',
     },
     correspondence: {
       heading: 'Korrespondanser',
@@ -466,6 +468,7 @@ export const nb = {
   versions: {
     name: 'Navn',
     invert: 'Inverter tabell',
+    downloadStoredDirection: 'Nedlastingen gjelder alltid fra {sourceName} til {targetName}.',
     isNotValid: 'Versjonen er ikke gyldig på dagens dato.',
     noChanges: 'Ingen kodeendringer finnes for den aktuelle versjonen.',
     numberOfCodesAndLevels: 'Versjonen inneholder {numberOfCodes} koder fordelt over {numberOfLevels} {level}.',

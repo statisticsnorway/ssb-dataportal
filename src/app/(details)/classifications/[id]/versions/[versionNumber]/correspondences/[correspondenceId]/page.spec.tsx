@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { NuqsTestingAdapter } from 'nuqs/adapters/testing';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { buildUrl } from '@/app/(details)/classifications/utils/urls';
 
@@ -50,9 +51,13 @@ describe('CorrespondencePage', () => {
     const { default: CorrespondencePage } = await import('./page');
 
     render(
-      await CorrespondencePage({
-        params: Promise.resolve({ id: '6', versionNumber: '3218', correspondenceId: '2919' }),
-      }),
+      <NuqsTestingAdapter>
+        {
+          await CorrespondencePage({
+            params: Promise.resolve({ id: '6', versionNumber: '3218', correspondenceId: '2919' }),
+          })
+        }
+      </NuqsTestingAdapter>,
     );
 
     expect(screen.getByRole('link', { name: /^Tilbake$/ })).toHaveAttribute(
