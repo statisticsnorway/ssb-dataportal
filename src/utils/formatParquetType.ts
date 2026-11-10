@@ -1,42 +1,26 @@
 import type { LogicalTypeKind, PhysicalType } from '@/libs/data-access/datadoc';
+import type { SupportedLanguage } from '@/libs/language';
+import { en } from '@/libs/language/src/en';
+import { nb } from '@/libs/language/src/nb';
+import { nn } from '@/libs/language/src/nn';
 
 /** Exhaustive over the generated enums, so a type added to the Datadoc spec fails to compile until it is labelled. */
-const parquetTypeLabels: Record<PhysicalType | LogicalTypeKind, string> = {
-  BOOLEAN: 'Boolean',
-  INT32: '32-bit integer',
-  INT64: '64-bit integer',
-  INT96: '96-bit integer',
-  FLOAT: 'Single-precision float',
-  DOUBLE: 'Double-precision float',
-  BYTE_ARRAY: 'Byte array',
-  FIXED_LEN_BYTE_ARRAY: 'Fixed-length byte array',
-  STRING: 'String',
-  ENUM: 'Enum',
-  JSON: 'JSON',
-  BSON: 'BSON',
-  UUID: 'UUID',
-  DATE: 'Date',
-  DECIMAL: 'Decimal',
-  INTEGER: 'Integer',
-  TIME: 'Time',
-  TIMESTAMP: 'Timestamp',
-  FLOAT16: '16-bit float',
-  LIST: 'List',
-  MAP: 'Map',
-  UNKNOWN: 'Unknown',
-  VARIANT: 'Variant',
-  GEOMETRY: 'Geometry',
-  GEOGRAPHY: 'Geography',
-  INTERVAL: 'Interval',
+const parquetTypeLabels: Record<SupportedLanguage, Record<PhysicalType | LogicalTypeKind, string>> = {
+  en: en.parquetTypes,
+  nb: nb.parquetTypes,
+  nn: nn.parquetTypes,
 };
 
-function isKnownType(typeName: string): typeName is keyof typeof parquetTypeLabels {
-  return Object.hasOwn(parquetTypeLabels, typeName);
+function isKnownType(typeName: string): typeName is PhysicalType | LogicalTypeKind {
+  return Object.hasOwn(parquetTypeLabels.en, typeName);
 }
 
 /** Formats a Parquet physical or logical type name for display. Datadoc types the names as plain strings. */
-export function formatParquetType(typeName: string): string {
-  if (isKnownType(typeName)) return parquetTypeLabels[typeName];
+export function formatParquetType(typeName: string, language: string = 'en'): string {
+  if (isKnownType(typeName)) {
+    const supportedLanguage: SupportedLanguage = language === 'nb' || language === 'nn' ? language : 'en';
+    return parquetTypeLabels[supportedLanguage][typeName];
+  }
 
   const words = typeName.toLocaleLowerCase('en').replaceAll('_', ' ');
   return words.charAt(0).toUpperCase() + words.slice(1);
