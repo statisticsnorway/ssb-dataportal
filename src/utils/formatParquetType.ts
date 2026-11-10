@@ -12,8 +12,8 @@ const parquetTypeLabels: Record<PhysicalType | LogicalTypeKind, Record<Supported
   BYTE_ARRAY: { en: 'Byte array', nb: 'Bytearray', nn: 'Bytearray' },
   FIXED_LEN_BYTE_ARRAY: {
     en: 'Fixed-length byte array',
-    nb: 'Bytesekvens med fast lengde',
-    nn: 'Bytesekvens med fast lengd',
+    nb: 'Bytearray med fast lengde',
+    nn: 'Bytearray med fast lengd',
   },
   STRING: { en: 'String', nb: 'Streng', nn: 'Streng' },
   ENUM: { en: 'Enum', nb: 'Enum', nn: 'Enum' },
