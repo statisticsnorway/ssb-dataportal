@@ -17,7 +17,7 @@
   align-items: center;
   flex-wrap: wrap;
   gap: var(--ds-size-3);
-  padding-block: 0 var(--ds-size-5);
+  padding-block: 0 var(--ds-size-2);
   padding-inline: var(--filter-inline-padding);
 }
 .workspaceToolbar {
@@ -54,13 +54,17 @@
 }
 .workspaceRailTitle {
   margin: 0;
-  font-size: var(--ds-body-md-font-size);
+  font-size: var(--ds-body-lg-font-size);
   font-weight: var(--ds-font-weight-semibold);
 }
 .workspaceFilterControls:not([hidden]) {
   display: flex;
   flex-direction: column;
   gap: var(--ds-size-6);
+}
+
+.workspaceFilterControls:has(> .activeFilters) {
+  gap: var(--ds-size-2);
 }
 .workspaceRail.workspaceRailCollapsed {
   flex-basis: var(--ds-size-16);

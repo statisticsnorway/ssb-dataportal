@@ -41,7 +41,7 @@ export function DatasetWorkspace({ search, period, activeFilters, timeline, vari
         >
           <div className={styles.workspaceRailToolbar}>
             {!filtersCollapsed ? (
-              <Heading level={3} data-size='sm' className={styles.workspaceRailTitle}>
+              <Heading level={3} data-size='md' className={styles.workspaceRailTitle}>
                 {localization.datasetDetail.filter}
               </Heading>
             ) : null}

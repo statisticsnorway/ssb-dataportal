@@ -228,9 +228,9 @@ describe('DatasetDetail', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Filtrer på navn' }));
     expect(screen.getByRole('searchbox', { name: 'Filtrer på navn' })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Nullstill filter' })).toBeNull();
-    fireEvent.click(screen.getByRole('button', { name: 'Skjul filtre' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Skjul filterpanelet' }));
     expect(screen.queryByRole('searchbox', { name: 'Filtrer på navn' })).toBeNull();
-    fireEvent.click(screen.getByRole('button', { name: 'Vis filtre' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Vis filterpanelet' }));
     fireEvent.click(screen.getByRole('button', { name: 'Filtrer på navn' }));
     fireEvent.change(screen.getByRole('searchbox', { name: 'Filtrer på navn' }), {
       target: { value: 'person' },
