@@ -210,7 +210,7 @@ describe('DatasetDetail', () => {
     expect(screen.getAllByText('Type', { selector: 'dt' })).toHaveLength(3);
     expect(screen.getByText('Lagret som 64-bits heltall')).toBeDefined();
     expect(screen.getByText('Desimaltall')).toBeDefined();
-    expect(screen.getByText('Bytesekvens')).toBeDefined();
+    expect(screen.getByText('Bytearray')).toBeDefined();
     expect(screen.getByText('–', { selector: 'span[aria-hidden="true"]' })).toBeDefined();
     expect(screen.getByText('Ikke oppgitt')).toHaveClass('ds-sr-only');
     expect(notFound).not.toHaveBeenCalled();
