@@ -19,7 +19,6 @@
   gap: var(--ds-size-3);
   padding-block: 0 var(--ds-size-5);
   padding-inline: var(--filter-inline-padding);
-  border-bottom: var(--ds-border-width-default) solid var(--ds-color-neutral-border-subtle);
 }
 .workspaceToolbar {
   display: flex;
