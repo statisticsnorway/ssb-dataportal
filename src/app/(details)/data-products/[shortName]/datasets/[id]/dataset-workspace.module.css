@@ -133,6 +133,9 @@
   .workspaceRailCollapsed .workspaceRailToolbar {
     justify-content: flex-start;
   }
+  .workspaceRailToolbar > button {
+    display: none;
+  }
   .workspaceToolbar,
   .workspaceResults {
     padding: var(--ds-size-5);

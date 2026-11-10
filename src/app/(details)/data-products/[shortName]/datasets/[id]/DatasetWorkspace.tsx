@@ -1,6 +1,6 @@
 import { Button, Heading } from '@digdir/designsystemet-react';
 import { SidebarRightIcon } from '@navikt/aksel-icons';
-import { type ReactNode, useId, useState } from 'react';
+import { type ReactNode, useEffect, useId, useState } from 'react';
 import { localization } from '@/libs/language';
 import styles from './dataset-workspace.module.css';
 
@@ -24,6 +24,19 @@ export function DatasetWorkspace({ search, period, activeFilters, timeline, vari
   const toggleLabel = filtersCollapsed
     ? localization.datasetDetail.expandFilters
     : localization.datasetDetail.collapseFilters;
+
+  useEffect(() => {
+    if (typeof window.matchMedia !== 'function') return;
+
+    const phoneScreen = window.matchMedia('(max-width: 48rem)');
+    const keepFiltersExpanded = () => {
+      if (phoneScreen.matches) setFiltersCollapsed(false);
+    };
+
+    keepFiltersExpanded();
+    phoneScreen.addEventListener('change', keepFiltersExpanded);
+    return () => phoneScreen.removeEventListener('change', keepFiltersExpanded);
+  }, []);
 
   if (!showFilters) return timeline;
 
