@@ -6,8 +6,6 @@ const CORRESPONDENCE_URL = `${buildUrl({ classificationId: 91, versionId: 363, c
 
 /**
  * Both url shapes reach the same table and must both offer a working download.
- * The version-free shape is what the correspondences tab links to, and it went
- * unnoticed for months because only the version-pinned one was covered here.
  */
 const downloadUrlShapes = [
   { name: 'version-pinned url', url: CORRESPONDENCE_URL, tableId: 1506 },
