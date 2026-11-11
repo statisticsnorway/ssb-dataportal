@@ -4,25 +4,55 @@ import { expect, test } from './fixtures/classification.fixture';
 
 const CORRESPONDENCE_URL = `${buildUrl({ classificationId: 91, versionId: 363, correspondenceId: 1506 })}`;
 
-test('correspondence details supports downloading correspondence table', async ({ page }) => {
-  await page.goto(CORRESPONDENCE_URL);
+/**
+ * Both url shapes reach the same table and must both offer a working download.
+ * The version-free shape is what the correspondences tab links to, and it went
+ * unnoticed for months because only the version-pinned one was covered here.
+ */
+const downloadUrlShapes = [
+  { name: 'version-pinned url', url: CORRESPONDENCE_URL, tableId: 1506 },
+  { name: 'version-free url', url: buildUrl({ classificationId: 91, correspondenceId: 1253 }), tableId: 1253 },
+] as const;
 
-  const openDownloadDialog = page.getByRole('link', {
-    name: localization.classification.download.button,
+for (const { name, url, tableId } of downloadUrlShapes) {
+  test(`correspondence details supports downloading correspondence table from the ${name}`, async ({ page }) => {
+    await page.goto(url);
+
+    const openDownloadDialog = page.getByRole('link', {
+      name: localization.classification.download.button,
+    });
+    await openDownloadDialog.click();
+
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toBeVisible();
+    await dialog.getByLabel(localization.classification.download.formatLabel).selectOption('xml');
+    await dialog.getByLabel(localization.classification.download.languageLabel).selectOption('en');
+
+    const [download] = await Promise.all([
+      page.waitForEvent('download'),
+      dialog.getByRole('button', { name: localization.classification.download.confirm }).click(),
+    ]);
+
+    expect(download.suggestedFilename()).toBe(`classification-correspondence-table-${tableId}-en.xml`);
   });
-  await openDownloadDialog.click();
+}
 
-  const dialog = page.getByRole('dialog');
-  await expect(dialog).toBeVisible();
-  await dialog.getByLabel(localization.classification.download.formatLabel).selectOption('xml');
-  await dialog.getByLabel(localization.classification.download.languageLabel).selectOption('en');
+test('correspondences tab links to tables without a version segment', async ({ page }) => {
+  await page.goto(buildUrl({ classificationId: 91, tab: 'correspondences' }));
 
-  const [download] = await Promise.all([
-    page.waitForEvent('download'),
-    dialog.getByRole('button', { name: localization.classification.download.confirm }).click(),
-  ]);
+  await expect(page.getByRole('link', { name: /EU\/EFTA/i }).first()).toHaveAttribute(
+    'href',
+    buildUrl({ classificationId: 91, correspondenceId: 1253 }),
+  );
+});
 
-  expect(download.suggestedFilename()).toMatch(/^classification-correspondence-table-1506-en\.xml$/);
+test('version-pinned correspondences tab keeps the version in its links', async ({ page }) => {
+  await page.goto(buildUrl({ classificationId: 91, versionId: 1698, tab: 'correspondences' }));
+
+  await expect(page.getByRole('link', { name: /EU\/EFTA/i }).first()).toHaveAttribute(
+    'href',
+    buildUrl({ classificationId: 91, versionId: 1698, correspondenceId: 1253 }),
+  );
 });
 
 test('correspondence download dialog can copy shareable link', async ({ page }, testInfo) => {
@@ -55,7 +85,8 @@ test('correspondence download dialog can copy shareable link', async ({ page }, 
  * - correspondence 1506 exists on versions 363 and 364, both of classification 91
  * - correspondence 1507 exists on version 364 only
  * - classification 2003 has versions 1, 2 and 3, none with correspondence tables
- * - the unversioned url for classification 91 resolves to version 363
+ * - the version-free url for classification 91 resolves to version 1633, which holds
+ *   correspondence 1253 but neither 1506 nor 1507
  */
 const notFoundCases = [
   {

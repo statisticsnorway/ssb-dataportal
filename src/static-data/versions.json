@@ -4408,6 +4408,439 @@
       }
     },
     {
+      "name": "Landkoder (SSB-3) 2019",
+      "id": 1633,
+      "validFrom": "2019-01-01",
+      "lastModified": "2024-05-10T06:29:09.000+0000",
+      "published": ["nb", "nn", "en"],
+      "introduction": "Kodereferanse har rekkefølgen (alfa-2, alfa-3, num-3, SSB-3), for eks. Norge (NO, NOR, 578, 000).           \n\t\t\nDet engelske navnet for Tyrkia (Turkey) ble endret til Türkiye.\nHviterussland endret navn til Belarus.\nKodene er uendret.",
+      "contactPerson": {
+        "name": "Moe, Dana",
+        "email": "Dana.Moe@ssb.no",
+        "phone": ""
+      },
+      "owningSection": "320 - Seksjon for befolkningsstatistikk",
+      "legalBase": "",
+      "publications": "",
+      "derivedFrom": "https://www.iso.org/obp/ui/#iso:pub:PUB500001:en",
+      "correspondenceTables": [
+        {
+          "name": "Landkoder (SSB-3) 2100 - Landkoder (SSB-3) 2019",
+          "id": 950,
+          "contactPerson": {
+            "name": "Moe, Dana",
+            "email": "Dana.Moe@ssb.no",
+            "phone": ""
+          },
+          "owningSection": "320",
+          "source": "Landkoder (SSB-3) 2100",
+          "sourceId": 1698,
+          "target": "Landkoder (SSB-3) 2019",
+          "targetId": 1633,
+          "changeTable": true,
+          "lastModified": "2024-06-13T08:11:44.000+0000",
+          "published": ["nb", "nn", "en"],
+          "sourceLevel": null,
+          "targetLevel": null,
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/correspondencetables/950"
+            },
+            "source": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/1698{?language,includeFuture}",
+              "templated": true
+            },
+            "target": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/1633{?language,includeFuture}",
+              "templated": true
+            }
+          }
+        },
+        {
+          "name": "EU/EFTA/andre land 2023 - Landkoder (SSB-3) 2100",
+          "id": 1253,
+          "contactPerson": {
+            "name": "Moe, Dana",
+            "email": "Dana.Moe@ssb.no",
+            "phone": ""
+          },
+          "owningSection": "320",
+          "source": "EU/EFTA/andre land 2023",
+          "sourceId": 2054,
+          "target": "Landkoder (SSB-3) 2100",
+          "targetId": 1698,
+          "changeTable": false,
+          "lastModified": "2023-03-20T12:14:36.000+0000",
+          "published": ["nb", "nn", "en"],
+          "sourceLevel": {
+            "levelNumber": 3,
+            "levelName": "Nivå 3"
+          },
+          "targetLevel": {
+            "levelNumber": 1,
+            "levelName": "Nivå 1"
+          },
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/correspondencetables/1253"
+            },
+            "source": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/2054{?language,includeFuture}",
+              "templated": true
+            },
+            "target": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/1698{?language,includeFuture}",
+              "templated": true
+            }
+          }
+        },
+        {
+          "name": "Landkoder (alfa-3) 2023 - Landkoder (SSB-3) 2100",
+          "id": 953,
+          "contactPerson": {
+            "name": "Moe, Dana",
+            "email": "Dana.Moe@ssb.no",
+            "phone": ""
+          },
+          "owningSection": "320",
+          "source": "Landkoder (alfa-3) 2023",
+          "sourceId": 1836,
+          "target": "Landkoder (SSB-3) 2100",
+          "targetId": 1698,
+          "changeTable": false,
+          "lastModified": "2022-11-08T08:49:08.000+0000",
+          "published": ["nb", "nn", "en"],
+          "sourceLevel": null,
+          "targetLevel": null,
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/correspondencetables/953"
+            },
+            "source": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/1836{?language,includeFuture}",
+              "templated": true
+            },
+            "target": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/1698{?language,includeFuture}",
+              "templated": true
+            }
+          }
+        },
+        {
+          "name": "Landkoder (alfa-2) 2023 - Landkoder (SSB-3) 2100",
+          "id": 952,
+          "contactPerson": {
+            "name": "Rolsdorph, Nina",
+            "email": "Nina.Rolsdorph@ssb.no",
+            "phone": ""
+          },
+          "owningSection": "214",
+          "source": "Landkoder (alfa-2) 2023",
+          "sourceId": 1693,
+          "target": "Landkoder (SSB-3) 2100",
+          "targetId": 1698,
+          "changeTable": false,
+          "lastModified": "2022-11-08T08:47:58.000+0000",
+          "published": ["nb", "nn", "en"],
+          "sourceLevel": null,
+          "targetLevel": null,
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/correspondencetables/952"
+            },
+            "source": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/1693{?language,includeFuture}",
+              "templated": true
+            },
+            "target": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/1698{?language,includeFuture}",
+              "templated": true
+            }
+          }
+        },
+        {
+          "name": "Statsborgerskap 2025 - Landkoder (SSB-3) 2100",
+          "id": 2772,
+          "contactPerson": {
+            "name": "Moe, Dana",
+            "email": "Dana.Moe@ssb.no",
+            "phone": ""
+          },
+          "owningSection": "320",
+          "source": "Statsborgerskap 2025",
+          "sourceId": 3255,
+          "target": "Landkoder (SSB-3) 2100",
+          "targetId": 1698,
+          "changeTable": false,
+          "lastModified": "2025-10-17T11:40:43.000+0000",
+          "published": ["nb", "nn", "en"],
+          "sourceLevel": null,
+          "targetLevel": null,
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/correspondencetables/2772"
+            },
+            "source": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/3255{?language,includeFuture}",
+              "templated": true
+            },
+            "target": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/1698{?language,includeFuture}",
+              "templated": true
+            }
+          }
+        },
+        {
+          "name": "Statsborgerskap 2023 - Landkoder (SSB-3) 2100",
+          "id": 1495,
+          "contactPerson": {
+            "name": "Moe, Dana",
+            "email": "Dana.Moe@ssb.no",
+            "phone": ""
+          },
+          "owningSection": "320",
+          "source": "Statsborgerskap 2023",
+          "sourceId": 2059,
+          "target": "Landkoder (SSB-3) 2100",
+          "targetId": 1698,
+          "changeTable": false,
+          "lastModified": "2023-10-19T08:41:03.000+0000",
+          "published": ["nb", "nn", "en"],
+          "sourceLevel": null,
+          "targetLevel": null,
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/correspondencetables/1495"
+            },
+            "source": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/2059{?language,includeFuture}",
+              "templated": true
+            },
+            "target": {
+              "href": "https://data.ssb.no/api/klass/v1/versions/1698{?language,includeFuture}",
+              "templated": true
+            }
+          }
+        }
+      ],
+      "classificationVariants": [
+        {
+          "name": "Overnattingsstatistikk 2024  - variant av Landkoder (SSB-3) 2100",
+          "id": 2875,
+          "contactPerson": {
+            "name": "Endre Furu",
+            "email": "ebf@ssb.no",
+            "phone": ""
+          },
+          "owningSection": "422",
+          "lastModified": "2026-03-17T10:25:54.000+0000",
+          "published": ["nb", "nn", "en"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/variants/2875"
+            }
+          }
+        },
+        {
+          "name": "land_godstransport 2024-03  - variant av Landkoder (SSB-3) 2100",
+          "id": 2680,
+          "contactPerson": {
+            "name": "Stavnes, Einar Døvik",
+            "email": "Einar.Stavnes@ssb.no",
+            "phone": ""
+          },
+          "owningSection": "821",
+          "lastModified": "2024-03-19T14:31:34.000+0000",
+          "published": ["nb", "nn"],
+          "_links": {
+            "self": {
+              "href": "https://data.ssb.no/api/klass/v1/variants/2680"
+            }
+          }
+        }
+      ],
+      "changelogs": [
+        {
+          "changeOccured": "2024-05-10T06:29:09.000+0000",
+          "description": "Skrivefeil rettet i det engelske navnet på Elfenbeinskysten."
+        }
+      ],
+      "levels": [
+        {
+          "levelNumber": 1,
+          "levelName": "Nivå 1"
+        }
+      ],
+      "classificationItems": [
+        {
+          "code": "000",
+          "parentCode": "",
+          "level": "1",
+          "name": "Norge",
+          "shortName": null,
+          "notes": "Inkluderer også Svalbard og Jan Mayen (SJ, SJM, 744, 001) til tross for at øyene har sin egen kode."
+        },
+        {
+          "code": "101",
+          "parentCode": "",
+          "level": "1",
+          "name": "Danmark",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "102",
+          "parentCode": "",
+          "level": "1",
+          "name": "Grønland",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "103",
+          "parentCode": "",
+          "level": "1",
+          "name": "Finland",
+          "shortName": null,
+          "notes": "Vær oppmerksom på at Åland (AX, ALA, 248, 107) har fått tildelt sin egen kode i 2004.  I noen tilfeller ekskluderes det fra Finland."
+        },
+        {
+          "code": "104",
+          "parentCode": "",
+          "level": "1",
+          "name": "Færøyene",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "105",
+          "parentCode": "",
+          "level": "1",
+          "name": "Island",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "106",
+          "parentCode": "",
+          "level": "1",
+          "name": "Sverige",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "111",
+          "parentCode": "",
+          "level": "1",
+          "name": "Albania",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "112",
+          "parentCode": "",
+          "level": "1",
+          "name": "Belgia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "113",
+          "parentCode": "",
+          "level": "1",
+          "name": "Bulgaria",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "114",
+          "parentCode": "",
+          "level": "1",
+          "name": "Andorra",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "115",
+          "parentCode": "",
+          "level": "1",
+          "name": "Estland",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        },
+        {
+          "code": "117",
+          "parentCode": "",
+          "level": "1",
+          "name": "Frankrike",
+          "shortName": null,
+          "notes": "I noen tilfeller lages diverse sammensetninger av: Metropolitan France (tidligere FX, FXX, 249, 199), F. Guiana (GF, GUF, 254, 745), Guadalope (GP, GLP, 312, 630 eller 631), Saint-Martin (MF, MAF, 663, 686), Martinique (MQ, MTQ, 474, 650), Reunion (RE, RE"
+        },
+        {
+          "code": "118",
+          "parentCode": "",
+          "level": "1",
+          "name": "Gibraltar",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "119",
+          "parentCode": "",
+          "level": "1",
+          "name": "Hellas",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "120",
+          "parentCode": "",
+          "level": "1",
+          "name": "Belarus",
+          "shortName": null,
+          "notes": "Hviterussland (BY, BLR, 112, 120) endret navn (norsk) til Belarus (BY, BLR, 112, 120)."
+        },
+        {
+          "code": "121",
+          "parentCode": "",
+          "level": "1",
+          "name": "Irland",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "122",
+          "parentCode": "",
+          "level": "1",
+          "name": "Kroatia",
+          "shortName": null,
+          "notes": "Tidligere Jugoslavia (YU, YUG, 890, 116)."
+        },
+        {
+          "code": "123",
+          "parentCode": "",
+          "level": "1",
+          "name": "Italia",
+          "shortName": null,
+          "notes": ""
+        },
+        {
+          "code": "124",
+          "parentCode": "",
+          "level": "1",
+          "name": "Latvia",
+          "shortName": null,
+          "notes": "Tidligere Sovjetunionen (SU, SUN, 810, 135)."
+        }
+      ],
+      "_links": {
+        "self": {
+          "href": "https://data.ssb.no/api/klass/v1/versions/1633"
+        }
+      },
+      "validTo": "2100-01-01"
+    },
+    {
       "name": "Landkoder (SSB-3) 2100",
       "id": 1698,
       "validFrom": "2100-01-01",
