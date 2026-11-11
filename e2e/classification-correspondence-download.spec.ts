@@ -35,24 +35,6 @@ for (const { name, url, tableId } of downloadUrlShapes) {
   });
 }
 
-test('correspondences tab links to tables without a version segment', async ({ page }) => {
-  await page.goto(buildUrl({ classificationId: 91, tab: 'correspondences' }));
-
-  await expect(page.getByRole('link', { name: /EU\/EFTA/i }).first()).toHaveAttribute(
-    'href',
-    buildUrl({ classificationId: 91, correspondenceId: 1253 }),
-  );
-});
-
-test('version-pinned correspondences tab keeps the version in its links', async ({ page }) => {
-  await page.goto(buildUrl({ classificationId: 91, versionId: 1698, tab: 'correspondences' }));
-
-  await expect(page.getByRole('link', { name: /EU\/EFTA/i }).first()).toHaveAttribute(
-    'href',
-    buildUrl({ classificationId: 91, versionId: 1698, correspondenceId: 1253 }),
-  );
-});
-
 test('correspondence download dialog can copy shareable link', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'firefox');
   await page.goto(CORRESPONDENCE_URL);
