@@ -88,4 +88,49 @@ describe('CorrespondencesView', () => {
     expect(screen.getByRole('status')).toHaveTextContent(localization.classification.correspondence.none);
     expect(screen.queryByText('Næringsgruppering 2025 - Næringsgruppering 2007')).not.toBeInTheDocument();
   });
+
+  describe('card links', () => {
+    it('links without a version segment when no version id is given', () => {
+      render(
+        <CorrespondencesView
+          classificationId={classificationId}
+          classificationVersion={versionWithOneCorrespondence}
+        />,
+      );
+
+      expect(screen.getByRole('link', { name: /Korrespondansetabell/ })).toHaveAttribute(
+        'href',
+        `/classifications/${classificationId}/correspondences/1506`,
+      );
+    });
+
+    it('keeps the version segment when a version id is given', () => {
+      render(
+        <CorrespondencesView
+          classificationId={classificationId}
+          classificationVersion={versionWithOneCorrespondence}
+          versionId={2345}
+        />,
+      );
+
+      expect(screen.getByRole('link', { name: /Korrespondansetabell/ })).toHaveAttribute(
+        'href',
+        `/classifications/${classificationId}/versions/2345/correspondences/1506`,
+      );
+    });
+
+    it('ignores the version on the resource so links follow the default version', () => {
+      render(
+        <CorrespondencesView
+          classificationId={classificationId}
+          classificationVersion={{ ...versionWithOneCorrespondence, id: 999 }}
+        />,
+      );
+
+      expect(screen.getByRole('link', { name: /Korrespondansetabell/ })).toHaveAttribute(
+        'href',
+        `/classifications/${classificationId}/correspondences/1506`,
+      );
+    });
+  });
 });

@@ -9,5 +9,11 @@ export default function Correspondences() {
   if (!versionResource || classification.id === undefined) {
     return notFound();
   }
-  return <CorrespondencesView classificationId={classification.id} classificationVersion={versionResource} />;
+  return (
+    <CorrespondencesView
+      classificationId={classification.id}
+      classificationVersion={versionResource}
+      versionId={versionResource.id}
+    />
+  );
 }
