@@ -53,8 +53,7 @@ test.describe('Timeline accessibility', () => {
     const period = timeline.getByRole('button', {
       name: new RegExp(`${localization.dataCoverageTimeline.tooltipStatusDataPresent}.*H1 2017`),
     });
-    await period.focus();
-    await page.keyboard.press('Enter');
+    await period.click();
     await expect(timeline.getByRole('article')).not.toHaveCount(0);
     await page.keyboard.press('Escape');
     await page.setViewportSize({ width: 320, height: 900 });

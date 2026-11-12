@@ -31,7 +31,7 @@ test.describe('Dataset details – accessibility', () => {
     expect(results.violations).toEqual([]);
   });
 
-  test('selects periods without dragging and preserves keyboard focus on reset', async ({ page }) => {
+  test('selects a period and preserves keyboard focus on reset', async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 900 });
     await page.getByRole('button', { name: localization.search.textFilter.label, exact: true }).click();
     await page.getByRole('searchbox').fill('person');
@@ -39,9 +39,9 @@ test.describe('Dataset details – accessibility', () => {
       localization.datasetDetail.variablesFound.replace('{count}', '1'),
     );
     await page.getByRole('button', { name: localization.datasetDetail.period, exact: true }).click();
-    const to = page.getByLabel(localization.datasetDetail.periodTo, { exact: true });
-    await to.selectOption('0');
-    await expect(to).toHaveValue('0');
+    const from = page.getByLabel(localization.datasetDetail.periodFrom, { exact: true });
+    await from.selectOption('1');
+    await expect(from).toHaveValue('1');
     const reset = page.getByRole('button', { name: localization.datasetDetail.resetFilters, exact: true });
     await reset.focus();
     await page.keyboard.press('Enter');

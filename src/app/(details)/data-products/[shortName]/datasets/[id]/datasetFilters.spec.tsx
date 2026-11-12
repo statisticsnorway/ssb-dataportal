@@ -31,7 +31,7 @@ describe('DatasetFilters accessibility', () => {
     expect(screen.queryByRole('button', { name: localization.datasetDetail.resetFilters })).not.toBeInTheDocument();
   });
 
-  it('selects a period without dragging and restores focus after removing it', () => {
+  it('supports period selection with dropdowns and restores focus after removing it', () => {
     render(<Harness initial={{ search: '', period: null }} />);
     const periodToggle = screen.getByRole('button', { name: new RegExp(`^${localization.datasetDetail.period}$`) });
     fireEvent.click(periodToggle);

@@ -51,7 +51,15 @@ test.describe('authenticated', () => {
 
   test('includes files which violate the naming standard', async ({ page }) => {
     await page.goto(EXAMPLE_DATASET);
-    await expect(page.getByRole('button', { name: /invalid\.parquet/ })).toBeVisible();
+    await page
+      .getByTestId('data-coverage-timeline')
+      .getByRole('button', { name: /H1 2017/ })
+      .click();
+    await expect(
+      page.getByRole('button', {
+        name: `1 ${localization.datasetDetail.namingStandardViolations}`,
+      }),
+    ).toBeVisible();
   });
 
   test('include owning team detail', async ({ page }) => {

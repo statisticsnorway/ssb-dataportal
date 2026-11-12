@@ -79,6 +79,20 @@ describe('Slider', () => {
     expect(screen.getByRole('slider', { name: 'Period range min' })).toHaveAttribute('aria-valuenow', '2');
   });
 
+  it('updates the nearest thumb when the track is clicked without dragging', () => {
+    render(<ControlledSlider aria-label='Period range' value={[0, 4]} min={0} max={4} />);
+
+    const track = screen.getByTestId('slider-track');
+    Object.defineProperty(track, 'getBoundingClientRect', {
+      value: () => ({ left: 20, right: 120, width: 100 }),
+    });
+
+    fireEvent.pointerDown(track, { button: 0, pointerId: 1, clientX: 70 });
+
+    expect(screen.getByRole('slider', { name: 'Period range min' })).toHaveAttribute('aria-valuenow', '2');
+    expect(screen.getByRole('slider', { name: 'Period range min' })).toHaveFocus();
+  });
+
   it('updates the range from a thumb keyboard event', () => {
     const onChange = vi.fn();
     render(<Slider aria-label='Period range' value={[0, 1]} min={0} max={1} onChange={onChange} />);
