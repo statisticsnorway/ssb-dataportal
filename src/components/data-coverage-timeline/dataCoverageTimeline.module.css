@@ -54,6 +54,16 @@
   border-radius: 600rem;
 }
 
+.mobileTrack > :first-child {
+  border-start-start-radius: inherit;
+  border-end-start-radius: inherit;
+}
+
+.mobileTrack > :last-child {
+  border-start-end-radius: inherit;
+  border-end-end-radius: inherit;
+}
+
 .mobileFilled,
 .mobileEmpty {
   flex: 1;
