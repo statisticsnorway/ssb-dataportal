@@ -1,3 +1,4 @@
+import { Tag } from '@digdir/designsystemet-react';
 import { Fragment } from 'react';
 import type { DatasetVariableDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
@@ -67,7 +68,9 @@ export default function DatasetVariableCard({ variable }: Readonly<{ variable: D
               </>
             ) : (
               <>
-                {typeDisplay.mainType}
+                <Tag data-color='magic' data-size='md' className={styles.variableTypeTag}>
+                  {typeDisplay.mainType}
+                </Tag>
                 {typeDisplay.storedAs ? (
                   <span className={styles.variableTypeStoredAs}>
                     {localization.datasetDetail.storedAs} {typeDisplay.storedAs}

@@ -119,6 +119,12 @@
   overflow-wrap: anywhere;
 }
 
+.variableTypeTag {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 .variableType dd.variableTypeMissing {
   color: var(--ds-color-neutral-text-subtle);
   font-weight: var(--ds-font-weight-regular);
