@@ -191,6 +191,11 @@ export const nn = {
   },
 
   dataCoverageTimeline: {
+    fileVersion: 'Versjon {version}',
+    unversioned: 'Ikkje versjonert',
+    showYear: 'Vis periodar for {year}',
+    hideYear: 'Skjul periodar for {year}',
+    noYearData: 'Ingen datafiler for dette året i det gjeldande utvalet.',
     availableDataFileLabel: 'tilhøyrande datafil',
     availableDataFileLabelPlural: 'tilhøyrande datafiler',
     filePathLabel: 'Filsti',
@@ -200,10 +205,12 @@ export const nn = {
     labelQuarterPrefix: 'K',
     labelTriannualPrefix: 'T',
     monthsShort: ['jan.', 'feb.', 'mars', 'apr.', 'mai', 'juni', 'juli', 'aug.', 'sep.', 'okt.', 'nov.', 'des.'],
+    outsideSelectedPeriodRange: '{slotLabel} {year} er utanfor det valde periodeintervallet',
     statusDataPresent: 'Data finst',
     statusMissingTargetSegment: 'Ingen fil med data for perioden',
     tooltipStatusDataPresent: 'Fil med data finst',
     tooltipStatusMissingTargetSegment: 'Ingen fil med data for perioden',
+    yearGroupLabel: 'År {year}',
   },
   dataProduct: {
     labelPlural: 'Dataprodukt',
@@ -225,6 +232,8 @@ export const nn = {
     namingStandardViolations: 'Tal på avvik frå namnestandard',
     dataFiles: 'Datafiler',
     dataCoverageTimeline: 'Tilgjengelege periodar',
+    showAllTimelinePeriods: 'Vis alle periodar',
+    showFewerTimelinePeriods: 'Vis færre periodar',
     variables: 'Variablar i datasettet',
     workspaceVariables: 'Variablar',
     filter: 'Filtrer',

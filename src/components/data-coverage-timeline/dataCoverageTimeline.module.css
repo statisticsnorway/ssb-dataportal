@@ -1,4 +1,7 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   width: 100%;
   background-color: var(--white-color);
   padding: 0.5rem;
@@ -18,11 +21,142 @@
   user-select: none;
 }
 
+.timelineViewport {
+  width: 100%;
+  min-width: 0;
+}
+
+.yearRows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.mobileYearButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  height: 2.25rem;
+  min-height: 2.25rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.mobileTrack {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  height: 1.5rem;
+  overflow: hidden;
+  border-radius: 600rem;
+}
+
+.mobileFilled,
+.mobileEmpty {
+  flex: 1;
+  border-right: 1px solid var(--white-color);
+}
+
+.mobileFilled:last-child,
+.mobileEmpty:last-child {
+  border-right: 0;
+}
+
+.mobileFilled {
+  background: var(--ds-color-secondary-border-default);
+}
+
+.mobileEmpty {
+  background: var(--ds-color-neutral-surface-tinted);
+}
+
+.mobileFiles {
+  margin: 0.5rem 0 1rem 2.5rem;
+}
+
+.mobileFileList {
+  list-style: none;
+  margin: 0.5rem 0 1rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mobileFiles :global(.ds-tag[data-color="magic"]) {
+  --dsc-tag-color: #3f3f46;
+  color: #3f3f46;
+}
+
 .rowWrapper {
   display: flex;
   align-items: center;
   gap: 1rem;
   width: 100%;
+}
+
+.ellipsisRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.ellipsisSpacer {
+  width: 2.5rem;
+  flex-shrink: 0;
+}
+
+.ellipsisTrack {
+  flex: 1 1 0%;
+  height: 1.5rem;
+}
+
+.ellipsisButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: 600rem;
+  padding: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.ellipsisButton:hover {
+  background-color: var(--ds-color-neutral-surface-tinted);
+}
+
+.ellipsisButton:focus-visible {
+  outline: 0.12rem solid black;
+  outline-offset: 0.125rem;
+}
+
+.ellipsisDots {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.125rem;
+}
+
+.ellipsisDot {
+  width: 0.1875rem;
+  height: 0.1875rem;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+.timelineToggle {
+  align-self: flex-end;
 }
 
 .yearLabel {
@@ -37,15 +171,25 @@
 .track {
   position: relative;
   flex: 1 1 0%;
-  height: 1.25rem;
-  background-color: var(--ds-color-neutral-surface-tinted);
+  height: 1.5rem;
+  background-color: var(--white-color);
   border-radius: 600rem;
   display: flex;
   align-items: center;
 }
 
+.cellSegment {
+  position: relative;
+  flex: 1 1 0%;
+  min-width: 0;
+  height: 100%;
+}
+
 .cell {
   position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
   padding: 0;
   outline: none;
@@ -57,6 +201,8 @@
 .cellTrigger {
   position: absolute;
   top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
   z-index: 1;
   appearance: none;
@@ -70,6 +216,7 @@
   --dsc-button-padding: 0;
   --dsc-button-size: auto;
 }
+
 .cellTrigger:focus-visible {
   outline: 0.12rem solid black;
   outline-offset: 0.125rem;
@@ -87,17 +234,16 @@
 }
 
 .cellFilled {
-  background-color: var(--ds-color-secondary-surface-active);
+  background-color: var(--ds-color-secondary-border-default);
   cursor: pointer;
 }
 
 .cellFilled:hover {
-  background-color: var(--ds-color-secondary-surface-hover);
+  background-color: var(--ds-color-secondary-text-default, #162327);
 }
 
 .cellEmpty {
-  background-color: var(--ds-color-neutral-surface-default);
-  opacity: 0.6;
+  background-color: var(--ds-color-neutral-surface-tinted);
 }
 
 .axisRow {
@@ -133,6 +279,80 @@
   padding: 0 0.125rem;
 }
 
+.axisLabelCompact {
+  display: none;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: #3f3f46;
+  font-size: 0.8rem;
+}
+
+.legendSwatch {
+  width: 1.25rem;
+  height: 0.75rem;
+  border-radius: 0.125rem;
+  flex-shrink: 0;
+}
+
+.legendSwatchFilled {
+  background-color: var(--ds-color-secondary-border-default);
+}
+
+.legendSwatchEmpty {
+  background-color: var(--ds-color-neutral-surface-tinted);
+  border: 1px solid var(--ds-color-neutral-border-default, #767676);
+}
+
+@media (max-width: 600px) {
+  .yearRows {
+    gap: 0;
+  }
+  .rowWrapper,
+  .ellipsisRow,
+  .axisRow {
+    gap: 0.5rem;
+  }
+
+  .yearLabel,
+  .axisSpacer,
+  .ellipsisSpacer {
+    width: 2rem;
+  }
+
+  .yearLabel {
+    font-size: 0.65rem;
+  }
+
+  .axisLabelsContainer {
+    font-size: 0.65rem;
+  }
+
+  .axisLabel {
+    padding: 0;
+  }
+
+  .monthAxis .axisLabelFull {
+    display: none;
+  }
+
+  .monthAxis .axisLabelCompact {
+    display: inline;
+  }
+}
+
 .popoverContent {
   width: max-content;
   max-width: min(44rem, calc(100dvw - 1.25rem));
@@ -166,6 +386,12 @@
   max-height: min(40vh, 16rem);
   overflow: auto;
 }
+
+.popoverList :global(.ds-tag[data-color="magic"]) {
+  --dsc-tag-color: #3f3f46;
+  color: #3f3f46;
+}
+
 @media (max-width: 768px) {
   .timelinePopover {
     --dsc-popover-max-width: calc(100dvw - 0.75rem);
