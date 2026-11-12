@@ -138,7 +138,12 @@ export default function DatasetDetail({
     </>
   );
   const showFilters = isAuthenticated && datasetVariables.length > 0;
-  const variableContent = showFilters ? <DatasetVariableList variables={periodFilteredDatasetVariables} /> : null;
+  const variableContent = showFilters ? (
+    <DatasetVariableList
+      variables={periodFilteredDatasetVariables}
+      isLoading={matchingFilePaths.isLoading || variableIdsInPeriod.isLoading}
+    />
+  ) : null;
 
   return (
     <div className={`${styles.detailsPage} container`}>

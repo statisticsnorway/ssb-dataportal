@@ -226,6 +226,7 @@ export const en = {
     noDatasetAvailable: 'No dataset available',
   },
   datasetDetail: {
+    variablesFound: '{count} variables found',
     aboutDataset: 'About dataset',
     dataProduct: 'Data product',
     bucket: 'Bucket',
