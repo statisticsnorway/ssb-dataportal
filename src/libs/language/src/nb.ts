@@ -206,6 +206,7 @@ export const nb = {
     labelTriannualPrefix: 'T',
     monthsShort: ['jan.', 'feb.', 'mars', 'apr.', 'mai', 'juni', 'juli', 'aug.', 'sep.', 'okt.', 'nov.', 'des.'],
     outsideSelectedPeriodRange: '{slotLabel} {year} er utenfor det valgte periodeintervallet',
+    dataAvailableButFiltered: 'Det finnes data for {slotLabel} {year}, men de skjules av gjeldende filtre',
     statusDataPresent: 'Data finnes',
     statusMissingTargetSegment: 'Ingen fil med data for perioden',
     tooltipStatusDataPresent: 'Fil med data finnes',

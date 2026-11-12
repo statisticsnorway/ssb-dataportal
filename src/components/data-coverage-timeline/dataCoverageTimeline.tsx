@@ -46,6 +46,7 @@ interface CellProps {
   totalSlots: number;
   year: number;
   matchedItems: TimelineItem[];
+  hasFilteredData: boolean;
   isOutsideSelectedRange: boolean;
 }
 
@@ -60,7 +61,15 @@ interface CellProps {
  * @param year        - The year this slot belongs to.
  * @param matchedItems - Matched `TimelineItem` values when data exists for this slot.
  */
-const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matchedItems, isOutsideSelectedRange }) => {
+const TimelineCell: React.FC<CellProps> = ({
+  slot,
+  idx,
+  totalSlots,
+  year,
+  matchedItems,
+  hasFilteredData,
+  isOutsideSelectedRange,
+}) => {
   const popoverId = useId();
   const text = localization.dataCoverageTimeline;
   const baseValues = { slotLabel: slot.label, year };
@@ -76,18 +85,21 @@ const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matche
   });
 
   const fileCountLabel = `${datasetNames.length} ${datasetNames.length === 1 ? text.availableDataFileLabel : text.availableDataFileLabelPlural}`;
-  const triggerLabel = isOutsideSelectedRange
-    ? formatTemplate(text.outsideSelectedPeriodRange, baseValues)
-    : hasData && datasetNames.length > 0
+  const triggerLabel =
+    hasData && datasetNames.length > 0
       ? `${text.tooltipStatusDataPresent}: ${dataPresentTitle}. ${fileCountLabel}`
-      : baseTooltip;
+      : hasFilteredData
+        ? formatTemplate(text.dataAvailableButFiltered, baseValues)
+        : isOutsideSelectedRange
+          ? formatTemplate(text.outsideSelectedPeriodRange, baseValues)
+          : baseTooltip;
 
   return (
     <Popover.TriggerContext>
       <div className={styles.cellSegment}>
         <div
           aria-hidden='true'
-          className={`${styles.cell} ${hasData ? styles.cellFilled : styles.cellEmpty} ${isFirst ? styles.cellFirst : ''} ${isLast ? styles.cellLast : ''}`}
+          className={`${styles.cell} ${hasData ? styles.cellFilled : styles.cellEmpty} ${hasFilteredData ? styles.cellFiltered : ''} ${isFirst ? styles.cellFirst : ''} ${isLast ? styles.cellLast : ''}`}
         />
         <Popover.Trigger aria-label={triggerLabel} className={styles.cellTrigger} />
       </div>
@@ -97,9 +109,7 @@ const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matche
         id={popoverId}
         className={`${styles.timelinePopover} ${hasData ? styles.timelinePopoverFilled : styles.timelinePopoverEmpty}`}
       >
-        {isOutsideSelectedRange ? (
-          formatTemplate(text.outsideSelectedPeriodRange, baseValues)
-        ) : hasData && datasetNames.length > 0 ? (
+        {hasData && datasetNames.length > 0 ? (
           <div className={styles.popoverContent}>
             <div className={styles.popoverTitle}>{dataPresentTitle}</div>
             <div>
@@ -112,6 +122,10 @@ const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matche
               ))}
             </div>
           </div>
+        ) : hasFilteredData ? (
+          formatTemplate(text.dataAvailableButFiltered, baseValues)
+        ) : isOutsideSelectedRange ? (
+          formatTemplate(text.outsideSelectedPeriodRange, baseValues)
         ) : (
           baseTooltip
         )}
@@ -135,10 +149,12 @@ const TimelineCell: React.FC<CellProps> = ({ slot, idx, totalSlots, year, matche
 const DataCoverageTimeline = ({
   isValid,
   allItems,
+  unfilteredItems = allItems,
   years,
   slots,
   selectedPeriodRange,
 }: TimelineData & {
+  unfilteredItems?: TimelineItem[];
   selectedPeriodRange?: { start: string; end: string };
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -151,6 +167,10 @@ const DataCoverageTimeline = ({
   const findMatchingItemsForSlot = useMemo(
     () => (slot: Slot) => allItems.filter((item) => slotOverlapsItem(slot, item)),
     [allItems],
+  );
+  const findUnfilteredItemsForSlot = useMemo(
+    () => (slot: Slot) => unfilteredItems.filter((item) => slotOverlapsItem(slot, item)),
+    [unfilteredItems],
   );
 
   if (!isValid) return null;
@@ -226,12 +246,16 @@ const DataCoverageTimeline = ({
                   const outside =
                     selectedPeriodRange !== undefined &&
                     !(slot.start >= selectedPeriodRange.start && slot.end <= selectedPeriodRange.end);
-                  return { slot, matchedItems: outside ? [] : findMatchingItemsForSlot(slot) };
+                  const matchedItems = outside ? [] : findMatchingItemsForSlot(slot);
+                  const hasFilteredData = findUnfilteredItemsForSlot(slot).length > 0 && matchedItems.length === 0;
+                  return { slot, matchedItems, hasFilteredData };
                 });
                 if (isMobile) {
                   const panelId = `${instanceId}-${year}`;
                   const open = expandedYear === year;
-                  const hasData = periods.some(({ matchedItems }) => matchedItems.length > 0);
+                  const hasData = periods.some(
+                    ({ matchedItems, hasFilteredData }) => matchedItems.length > 0 || hasFilteredData,
+                  );
                   return (
                     <div key={year}>
                       <Button
@@ -249,10 +273,16 @@ const DataCoverageTimeline = ({
                       >
                         <span className={styles.yearLabel}>{year}</span>
                         <span className={styles.mobileTrack} aria-hidden='true'>
-                          {periods.map(({ slot, matchedItems }) => (
+                          {periods.map(({ slot, matchedItems, hasFilteredData }) => (
                             <span
                               key={slot.label}
-                              className={matchedItems.length ? styles.mobileFilled : styles.mobileEmpty}
+                              className={
+                                matchedItems.length
+                                  ? styles.mobileFilled
+                                  : hasFilteredData
+                                    ? styles.mobileFiltered
+                                    : styles.mobileEmpty
+                              }
                             />
                           ))}
                         </span>
@@ -260,7 +290,7 @@ const DataCoverageTimeline = ({
                       <div id={panelId} hidden={!open} className={styles.mobileFiles}>
                         {open &&
                           (hasData ? (
-                            periods.map(({ slot, matchedItems }) =>
+                            periods.map(({ slot, matchedItems, hasFilteredData }) =>
                               matchedItems.length ? (
                                 <div key={slot.label}>
                                   <Heading level={3} data-size='xs'>{`${slot.label} ${year}`}</Heading>
@@ -271,6 +301,16 @@ const DataCoverageTimeline = ({
                                       </li>
                                     ))}
                                   </ul>
+                                </div>
+                              ) : hasFilteredData ? (
+                                <div key={slot.label}>
+                                  <Heading level={3} data-size='xs'>{`${slot.label} ${year}`}</Heading>
+                                  <p>
+                                    {formatTemplate(localization.dataCoverageTimeline.dataAvailableButFiltered, {
+                                      slotLabel: slot.label,
+                                      year,
+                                    })}
+                                  </p>
                                 </div>
                               ) : null,
                             )
@@ -296,6 +336,9 @@ const DataCoverageTimeline = ({
                         const isOutsideSelectedRange =
                           selectedPeriodRange !== undefined &&
                           !(slot.start >= selectedPeriodRange.start && slot.end <= selectedPeriodRange.end);
+                        const matchedItems = isOutsideSelectedRange ? [] : findMatchingItemsForSlot(slot);
+                        const hasFilteredData =
+                          findUnfilteredItemsForSlot(slot).length > 0 && matchedItems.length === 0;
 
                         return (
                           <TimelineCell
@@ -305,7 +348,8 @@ const DataCoverageTimeline = ({
                             totalSlots={yearSlots.length}
                             year={year}
                             isOutsideSelectedRange={isOutsideSelectedRange}
-                            matchedItems={isOutsideSelectedRange ? [] : findMatchingItemsForSlot(slot)}
+                            matchedItems={matchedItems}
+                            hasFilteredData={hasFilteredData}
                           />
                         );
                       })}

@@ -210,6 +210,7 @@ export const en = {
     labelTriannualPrefix: 'T',
     monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     outsideSelectedPeriodRange: '{slotLabel} {year} is outside the selected period range',
+    dataAvailableButFiltered: 'Data is available for {slotLabel} {year}, but is hidden by the current filters',
     statusDataPresent: 'Data available',
     statusMissingTargetSegment: 'No file with data for this period',
     tooltipStatusDataPresent: 'Data file exists',

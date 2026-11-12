@@ -58,6 +58,37 @@ describe('DataCoverageTimeline', () => {
     expect(screen.queryByText('data.parquet')).not.toBeInTheDocument();
   });
 
+  it('marks mobile periods with data hidden by the current filters', () => {
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() })),
+    );
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/data.parquet',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-06-30'),
+        periodType: PeriodFormat.HALF_YEAR,
+      }),
+    ];
+    const timeline = buildTimelineData(data);
+    const { container } = render(
+      <DataCoverageTimeline {...timeline} allItems={[]} unfilteredItems={timeline.allItems} />,
+    );
+
+    expect(container.querySelector(`.${styles.mobileFiltered}`)).toBeInTheDocument();
+    fireEvent.click(
+      screen.getByRole('button', { name: localization.dataCoverageTimeline.showYear.replace('{year}', '2024') }),
+    );
+    expect(
+      screen.getByText(
+        localization.dataCoverageTimeline.dataAvailableButFiltered
+          .replace('{slotLabel}', 'H1')
+          .replace('{year}', '2024'),
+      ),
+    ).toBeInTheDocument();
+  });
+
   it('collapses long mobile timelines and explains empty years', () => {
     vi.stubGlobal(
       'matchMedia',
@@ -189,11 +220,13 @@ describe('DataCoverageTimeline', () => {
 
     const cells = Array.from(container.querySelectorAll(`.${styles.cell}`));
     const filledClass = styles.cellFilled ?? 'cellFilled';
+    const filteredClass = styles.cellFiltered ?? 'cellFiltered';
     expect(cells).toHaveLength(12);
     expect(cells.slice(0, 3).map((cell) => cell.classList.contains(filledClass))).toEqual([false, true, false]);
+    expect(cells.slice(0, 3).map((cell) => cell.classList.contains(filteredClass))).toEqual([true, false, true]);
     expect(
       screen.getByRole('button', {
-        name: localization.dataCoverageTimeline.outsideSelectedPeriodRange
+        name: localization.dataCoverageTimeline.dataAvailableButFiltered
           .replace('{slotLabel}', localization.dataCoverageTimeline.monthsShort[0]!)
           .replace('{year}', '2024'),
       }),

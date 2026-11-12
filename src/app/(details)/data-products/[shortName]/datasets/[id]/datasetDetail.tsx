@@ -108,6 +108,7 @@ export default function DatasetDetail({
       isValid={isValid}
       periodType={periodType}
       allItems={filteredTimelineItems}
+      unfilteredItems={allItems}
       items={items}
       years={years}
       slots={slots}
