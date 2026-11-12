@@ -100,7 +100,7 @@ export default function DatasetDetail({
   const filteredTimelineItems = useMemo(() => {
     if (!normalizedVariableNameFilter) return allItems;
     const filePaths = matchingFilePaths.value;
-    return filePaths ? allItems.filter((item) => filePaths.has(item.file_path)) : [];
+    return filePaths ? allItems.filter((item) => filePaths.has(item.file_path)) : allItems;
   }, [allItems, matchingFilePaths.value, normalizedVariableNameFilter]);
 
   const timelineContent = isValid ? (

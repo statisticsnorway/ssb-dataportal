@@ -172,6 +172,19 @@ const DataCoverageTimeline = ({
     () => (slot: Slot) => unfilteredItems.filter((item) => slotOverlapsItem(slot, item)),
     [unfilteredItems],
   );
+  const hasAnyFilteredData = useMemo(
+    () =>
+      years.some((year) =>
+        (slots[year] ?? []).some((slot) => {
+          const isOutsideSelectedRange =
+            selectedPeriodRange !== undefined &&
+            !(slot.start >= selectedPeriodRange.start && slot.end <= selectedPeriodRange.end);
+          const matchedItems = isOutsideSelectedRange ? [] : findMatchingItemsForSlot(slot);
+          return findUnfilteredItemsForSlot(slot).length > 0 && matchedItems.length === 0;
+        }),
+      ),
+    [findMatchingItemsForSlot, findUnfilteredItemsForSlot, selectedPeriodRange, slots, years],
+  );
 
   if (!isValid) return null;
 
@@ -384,6 +397,12 @@ const DataCoverageTimeline = ({
             <span className={`${styles.legendSwatch} ${styles.legendSwatchEmpty}`} aria-hidden='true' />
             <span>{localization.dataCoverageTimeline.statusMissingTargetSegment}</span>
           </li>
+          {hasAnyFilteredData ? (
+            <li className={styles.legendItem}>
+              <span className={`${styles.legendSwatch} ${styles.legendSwatchFiltered}`} aria-hidden='true' />
+              <span>{localization.dataCoverageTimeline.statusDataAvailableButFiltered}</span>
+            </li>
+          ) : null}
         </ul>
       </section>
     </>

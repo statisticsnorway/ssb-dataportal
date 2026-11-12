@@ -319,12 +319,17 @@
 }
 
 .legendSwatchFilled {
-  background-color: var(--ds-color-secondary-border-default);
+  background-color: var(--ds-color-secondary-surface-tinted);
+  box-shadow: inset 0 0 0 1.5px var(--ds-color-secondary-border-subtle);
 }
 
 .legendSwatchEmpty {
   background-color: var(--ds-color-neutral-surface-tinted);
-  border: 1px solid var(--ds-color-neutral-border-default, #767676);
+}
+
+.legendSwatchFiltered {
+  background-color: var(--ds-color-neutral-surface-tinted);
+  box-shadow: inset 0 0 0 1.5px var(--ds-color-neutral-border-subtle);
 }
 
 @media (max-width: 600px) {

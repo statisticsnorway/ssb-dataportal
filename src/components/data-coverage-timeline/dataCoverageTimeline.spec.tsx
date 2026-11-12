@@ -87,6 +87,7 @@ describe('DataCoverageTimeline', () => {
           .replace('{year}', '2024'),
       ),
     ).toBeInTheDocument();
+    expect(screen.getByText(localization.dataCoverageTimeline.statusDataAvailableButFiltered)).toBeInTheDocument();
   });
 
   it('collapses long mobile timelines and explains empty years', () => {
@@ -177,6 +178,7 @@ describe('DataCoverageTimeline', () => {
     expect(screen.getByText(decLabel)).toBeInTheDocument();
     expect(screen.getByText(text.statusDataPresent)).toBeInTheDocument();
     expect(screen.getByText(text.statusMissingTargetSegment)).toBeInTheDocument();
+    expect(screen.queryByText(text.statusDataAvailableButFiltered)).not.toBeInTheDocument();
     expect(
       screen.getByRole('button', {
         name: `${text.tooltipStatusDataPresent}: ${janLabel} 2024. 1 ${text.availableDataFileLabel}`,
@@ -231,6 +233,7 @@ describe('DataCoverageTimeline', () => {
           .replace('{year}', '2024'),
       }),
     ).toBeInTheDocument();
+    expect(screen.getByText(localization.dataCoverageTimeline.statusDataAvailableButFiltered)).toBeInTheDocument();
   });
 
   it('returns null for empty data', () => {
