@@ -85,7 +85,7 @@ export function DatasetFilters({ filters, timelinePeriods, onChange, content }: 
   );
   const periodControl =
     timelinePeriods.length > 0 ? (
-      <div ref={periodRef}>
+      <div ref={periodRef} className={workspaceStyles.periodFilter}>
         <CollapsibleCard heading={localization.datasetDetail.period} variant='flat' defaultOpen={false}>
           <div className={workspaceStyles.periodSelectors}>
             <div>

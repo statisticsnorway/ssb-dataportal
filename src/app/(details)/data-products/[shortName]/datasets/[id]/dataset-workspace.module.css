@@ -105,6 +105,10 @@
   border-block-end: 0;
 }
 
+.periodFilter :global(.ds-card:last-child) {
+  border-block-end: 1px solid var(--ds-color-secondary-border-subtle);
+}
+
 .filterGroups :global(.ds-details) > summary {
   padding-inline: var(--filter-inline-padding);
 }
