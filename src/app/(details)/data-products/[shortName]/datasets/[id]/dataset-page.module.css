@@ -120,7 +120,7 @@
 }
 
 .variableTypeMagic {
-  color: var(--ds-color-magic-text-default);
+  color: var(--ds-color-magic-text-subtle);
 }
 
 .variableType dd.variableTypeMissing {
