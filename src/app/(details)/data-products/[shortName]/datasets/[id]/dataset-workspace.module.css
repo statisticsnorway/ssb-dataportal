@@ -102,7 +102,7 @@
 }
 
 .filterGroups :global(.ds-card:last-child) {
-  border-block-end-color: var(--ds-color-secondary-border-subtle);
+  border-block-end: 0;
 }
 
 .filterGroups :global(.ds-details) > summary {
