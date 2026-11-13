@@ -1,8 +1,8 @@
-import { render, renderHook, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { fireEvent, render, renderHook, screen } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { type DaplaDataFileDTO, PeriodFormat } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language/src/localization';
-import DataCoverageTimeline, { formatAvailableDatasets, slotOverlapsItem } from './dataCoverageTimeline';
+import DataCoverageTimeline, { slotOverlapsItem } from './dataCoverageTimeline';
 import styles from './dataCoverageTimeline.module.css';
 import { type Slot, type TimelineItem } from './types';
 import { useTimelineData } from './useTimelineData';
@@ -27,6 +27,99 @@ const buildDataFile = ({ filePath, from, until, periodType }: BuildDataFileInput
 const buildTimelineData = (data: DaplaDataFileDTO[]) => renderHook(() => useTimelineData(data)).result.current;
 
 describe('DataCoverageTimeline', () => {
+  afterEach(() => vi.unstubAllGlobals());
+  beforeEach(() => {
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({ matches: false, addEventListener: vi.fn(), removeEventListener: vi.fn() })),
+    );
+  });
+
+  it('opens mobile file cards grouped by period without a second button or filenames', () => {
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() })),
+    );
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/data.parquet',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-06-30'),
+        periodType: PeriodFormat.HALF_YEAR,
+      }),
+    ];
+    render(<DataCoverageTimeline {...buildTimelineData(data)} />);
+    expect(screen.queryByRole('article')).not.toBeInTheDocument();
+    fireEvent.click(
+      screen.getByRole('button', { name: localization.dataCoverageTimeline.showYear.replace('{year}', '2024') }),
+    );
+    expect(screen.getByRole('heading', { name: 'H1 2024' })).toBeInTheDocument();
+    expect(screen.getByRole('article')).toBeInTheDocument();
+    expect(screen.queryByText('data.parquet')).not.toBeInTheDocument();
+  });
+
+  it('marks mobile periods with data hidden by the current filters', () => {
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() })),
+    );
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/data.parquet',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-06-30'),
+        periodType: PeriodFormat.HALF_YEAR,
+      }),
+    ];
+    const timeline = buildTimelineData(data);
+    const { container } = render(
+      <DataCoverageTimeline {...timeline} allItems={[]} unfilteredItems={timeline.allItems} />,
+    );
+
+    expect(container.querySelector(`.${styles.mobileSegment}.${styles.cellFiltered}`)).toBeInTheDocument();
+    fireEvent.click(
+      screen.getByRole('button', { name: localization.dataCoverageTimeline.showYear.replace('{year}', '2024') }),
+    );
+    expect(
+      screen.getByText(
+        localization.dataCoverageTimeline.dataAvailableButFiltered
+          .replace('{slotLabel}', 'H1')
+          .replace('{year}', '2024'),
+      ),
+    ).toBeInTheDocument();
+    expect(screen.getByText(localization.dataCoverageTimeline.statusDataAvailableButFiltered)).toBeInTheDocument();
+  });
+
+  it('collapses long mobile timelines and explains empty years', () => {
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() })),
+    );
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/old.parquet',
+        from: new Date('2010-01-01'),
+        until: new Date('2010-12-31'),
+        periodType: PeriodFormat.YEAR,
+      }),
+      buildDataFile({
+        filePath: 'gs://bucket/new.parquet',
+        from: new Date('2025-01-01'),
+        until: new Date('2025-12-31'),
+        periodType: PeriodFormat.YEAR,
+      }),
+    ];
+    render(<DataCoverageTimeline {...buildTimelineData(data)} />);
+    expect(screen.queryByRole('button', { name: /2022/ })).not.toBeInTheDocument();
+    fireEvent.click(screen.getAllByRole('button', { name: localization.datasetDetail.showAllTimelinePeriods })[0]!);
+    fireEvent.click(
+      screen.getByRole('button', { name: localization.dataCoverageTimeline.showYear.replace('{year}', '2022') }),
+    );
+    expect(screen.getByText(localization.dataCoverageTimeline.noYearData)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: localization.datasetDetail.showFewerTimelinePeriods }));
+    expect(screen.queryByRole('button', { name: /2022/ })).not.toBeInTheDocument();
+    expect(screen.queryByText(localization.dataCoverageTimeline.noYearData)).not.toBeInTheDocument();
+  });
   it('treats YEAR slot as covered when an item spans multiple years', () => {
     const slot: Slot = {
       start: '2019-01-01',
@@ -45,14 +138,21 @@ describe('DataCoverageTimeline', () => {
     expect(slotOverlapsItem(slot, item)).toBe(true);
   });
 
-  it('formats available datasets as unique file names', () => {
-    const datasets = formatAvailableDatasets([
-      'gs://bucket/a/data_p2024-01_v2.parquet',
-      'gs://bucket/b/data_p2024-01_v2.parquet',
-      'gs://bucket/a/data_p2024-02_v1.parquet',
-    ]);
-
-    expect(datasets).toEqual(['data_p2024-01_v2.parquet', 'data_p2024-02_v1.parquet']);
+  it('counts files with identical basenames separately', () => {
+    const data = ['a', 'b'].map((folder) =>
+      buildDataFile({
+        filePath: `gs://bucket/${folder}/data.parquet`,
+        from: new Date('2024-01-01'),
+        until: new Date('2024-12-31'),
+        periodType: PeriodFormat.YEAR,
+      }),
+    );
+    render(<DataCoverageTimeline {...buildTimelineData(data)} />);
+    expect(
+      screen.getByRole('button', {
+        name: new RegExp(`2 ${localization.dataCoverageTimeline.availableDataFileLabelPlural}`),
+      }),
+    ).toBeInTheDocument();
   });
 
   it('renders monthly timeline with present and missing segments', () => {
@@ -78,9 +178,24 @@ describe('DataCoverageTimeline', () => {
     const decLabel = text.monthsShort[11]!;
 
     expect(screen.getByRole('heading', { name: localization.datasetDetail.dataCoverageTimeline })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: localization.datasetDetail.dataCoverageTimeline })).toBeInTheDocument();
+    expect(screen.getByRole('group', { name: text.yearGroupLabel.replace('{year}', '2024') })).toBeInTheDocument();
     expect(screen.getByText('2024')).toBeInTheDocument();
     expect(screen.getByText(janLabel)).toBeInTheDocument();
     expect(screen.getByText(decLabel)).toBeInTheDocument();
+    expect(screen.getByText(text.statusDataPresent)).toBeInTheDocument();
+    expect(screen.getByText(text.statusMissingTargetSegment)).toBeInTheDocument();
+    expect(screen.queryByText(text.statusDataAvailableButFiltered)).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', {
+        name: `${text.tooltipStatusDataPresent}: ${janLabel} 2024. 1 ${text.availableDataFileLabel}`,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', {
+        name: `${text.tooltipStatusMissingTargetSegment}: ${text.monthsShort[1]} 2024`,
+      }),
+    ).toBeInTheDocument();
   });
 
   it('keeps all timeline cells and grays out periods outside the selected range', () => {
@@ -114,8 +229,18 @@ describe('DataCoverageTimeline', () => {
 
     const cells = Array.from(container.querySelectorAll(`.${styles.cell}`));
     const filledClass = styles.cellFilled ?? 'cellFilled';
+    const filteredClass = styles.cellFiltered ?? 'cellFiltered';
     expect(cells).toHaveLength(12);
     expect(cells.slice(0, 3).map((cell) => cell.classList.contains(filledClass))).toEqual([false, true, false]);
+    expect(cells.slice(0, 3).map((cell) => cell.classList.contains(filteredClass))).toEqual([true, false, true]);
+    expect(
+      screen.getByRole('button', {
+        name: localization.dataCoverageTimeline.dataAvailableButFiltered
+          .replace('{slotLabel}', localization.dataCoverageTimeline.monthsShort[0]!)
+          .replace('{year}', '2024'),
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(localization.dataCoverageTimeline.statusDataAvailableButFiltered)).toBeInTheDocument();
   });
 
   it('returns null for empty data', () => {
@@ -170,6 +295,66 @@ describe('DataCoverageTimeline', () => {
     expect(screen.getByText('2022')).toBeInTheDocument();
     expect(screen.getByText('2023')).toBeInTheDocument();
     expect(screen.getByText('2024')).toBeInTheDocument();
+  });
+
+  it('shows five year rows and expands the timeline when there are more than five years', () => {
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p1998_p2025.parquet',
+        from: new Date('1998-01-01'),
+        until: new Date('2025-12-31'),
+        periodType: PeriodFormat.YEAR,
+      }),
+    ];
+
+    const { container } = render(<DataCoverageTimeline {...buildTimelineData(data)} />);
+
+    const yearLabels = () =>
+      Array.from(container.querySelectorAll(`.${styles.yearLabel}`)).map((label) => label.textContent);
+    expect(yearLabels()).toEqual(['2025', '2024', '2023', '1999', '1998']);
+    expect(screen.queryByText('2022', { exact: true })).not.toBeInTheDocument();
+
+    const expandButtons = screen.getAllByRole('button', { name: localization.datasetDetail.showAllTimelinePeriods });
+    expect(expandButtons).toHaveLength(2);
+    const expandButton = expandButtons[0]!;
+    const middleEllipsisButton = expandButtons[1]!;
+    expect(expandButton).toHaveAttribute('aria-expanded', 'false');
+    expect(middleEllipsisButton.querySelectorAll('circle')).toHaveLength(3);
+    fireEvent.click(middleEllipsisButton);
+
+    expect(yearLabels()).toHaveLength(28);
+    expect(screen.getByText('2022', { exact: true })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: localization.datasetDetail.showFewerTimelinePeriods })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: localization.datasetDetail.showFewerTimelinePeriods }));
+
+    expect(yearLabels()).toEqual(['2025', '2024', '2023', '1999', '1998']);
+    expect(screen.getAllByRole('button', { name: localization.datasetDetail.showAllTimelinePeriods })).toHaveLength(2);
+    expect(
+      screen.getAllByRole('button', { name: localization.datasetDetail.showAllTimelinePeriods })[0],
+    ).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('does not collapse a timeline with five or fewer year rows', () => {
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p2020_p2024.parquet',
+        from: new Date('2020-01-01'),
+        until: new Date('2024-12-31'),
+        periodType: PeriodFormat.YEAR,
+      }),
+    ];
+
+    render(<DataCoverageTimeline {...buildTimelineData(data)} />);
+
+    expect(screen.getByText('2020')).toBeInTheDocument();
+    expect(screen.getByText('2024')).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: localization.datasetDetail.showAllTimelinePeriods }),
+    ).not.toBeInTheDocument();
   });
 
   it('renders timeline for collected datasets spanning across multiple years', () => {
