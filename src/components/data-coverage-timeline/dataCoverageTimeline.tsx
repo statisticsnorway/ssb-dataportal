@@ -228,7 +228,11 @@ const DataCoverageTimeline = ({
                           toggleRef.current?.focus();
                         }}
                       >
-                        <span aria-hidden='true'>⋮</span>
+                        <svg aria-hidden='true' viewBox='0 0 24 24' fill='currentColor'>
+                          <circle cx='12' cy='6' r='1.5' />
+                          <circle cx='12' cy='12' r='1.5' />
+                          <circle cx='12' cy='18' r='1.5' />
+                        </svg>
                       </Button>
                     </div>
                   </div>

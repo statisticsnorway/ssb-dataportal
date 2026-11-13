@@ -319,7 +319,7 @@ describe('DataCoverageTimeline', () => {
     const expandButton = expandButtons[0]!;
     const middleEllipsisButton = expandButtons[1]!;
     expect(expandButton).toHaveAttribute('aria-expanded', 'false');
-    expect(middleEllipsisButton).toHaveTextContent('⋮');
+    expect(middleEllipsisButton.querySelectorAll('circle')).toHaveLength(3);
     fireEvent.click(middleEllipsisButton);
 
     expect(yearLabels()).toHaveLength(28);

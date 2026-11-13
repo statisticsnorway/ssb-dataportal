@@ -127,6 +127,12 @@
   cursor: pointer;
 }
 
+.ellipsisButton > svg {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+}
+
 .ellipsisButton:hover {
   background-color: var(--ds-color-neutral-surface-tinted);
 }
