@@ -67,7 +67,7 @@ export default function DatasetVariableCard({ variable }: Readonly<{ variable: D
               </>
             ) : (
               <>
-                <span className={styles.variableTypeMagic}>{typeDisplay.mainType}</span>
+                {typeDisplay.mainType}
                 {typeDisplay.storedAs ? (
                   <span className={styles.variableTypeStoredAs}>
                     {localization.datasetDetail.storedAs} {typeDisplay.storedAs}

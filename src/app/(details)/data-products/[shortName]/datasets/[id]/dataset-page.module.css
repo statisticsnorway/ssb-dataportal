@@ -119,10 +119,6 @@
   overflow-wrap: anywhere;
 }
 
-.variableTypeMagic {
-  color: var(--ds-color-magic-text-subtle);
-}
-
 .variableType dd.variableTypeMissing {
   color: var(--ds-color-neutral-text-subtle);
   font-weight: var(--ds-font-weight-regular);
