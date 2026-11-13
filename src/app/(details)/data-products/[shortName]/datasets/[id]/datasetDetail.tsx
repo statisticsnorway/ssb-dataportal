@@ -100,7 +100,7 @@ export default function DatasetDetail({
   const filteredTimelineItems = useMemo(() => {
     if (!normalizedVariableNameFilter) return allItems;
     const filePaths = matchingFilePaths.value;
-    return filePaths ? allItems.filter((item) => filePaths.has(item.file_path)) : allItems;
+    return filePaths ? allItems.filter((item) => filePaths.has(item.file_path)) : [];
   }, [allItems, matchingFilePaths.value, normalizedVariableNameFilter]);
 
   const timelineContent = isValid ? (
@@ -139,12 +139,7 @@ export default function DatasetDetail({
     </>
   );
   const showFilters = isAuthenticated && datasetVariables.length > 0;
-  const variableContent = showFilters ? (
-    <DatasetVariableList
-      variables={periodFilteredDatasetVariables}
-      isLoading={matchingFilePaths.isLoading || variableIdsInPeriod.isLoading}
-    />
-  ) : null;
+  const variableContent = showFilters ? <DatasetVariableList variables={periodFilteredDatasetVariables} /> : null;
 
   return (
     <div className={`${styles.detailsPage} container`}>

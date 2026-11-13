@@ -1,5 +1,4 @@
-import { Chip, Label, Select } from '@digdir/designsystemet-react';
-import { useId, useRef } from 'react';
+import { Chip } from '@digdir/designsystemet-react';
 import type { Slot } from '@/components/data-coverage-timeline/types';
 import { CollapsibleCard } from '@/components/filters/collapsible-card';
 import { TextFilter } from '@/components/filters/text-filter';
@@ -56,83 +55,36 @@ type DatasetFiltersProps = Readonly<{
 }>;
 
 export function DatasetFilters({ filters, timelinePeriods, onChange, content }: DatasetFiltersProps) {
-  const searchRef = useRef<HTMLDivElement>(null);
-  const periodRef = useRef<HTMLDivElement>(null);
-  const periodId = useId();
-  const restoreFocus = (container: HTMLDivElement | null) => {
-    const input = container?.querySelector<HTMLInputElement>('input');
-    if (input?.closest('details')?.open) input.focus();
-    else container?.querySelector<HTMLElement>('summary')?.focus();
-  };
   const { lastIndex, startIndex, endIndex, label, range } = getSelectedPeriods(timelinePeriods, filters.period);
   const trimmedSearch = filters.search.trim();
   const hasActiveFilters = trimmedSearch.length > 0 || range !== undefined;
-  const onReset = () => {
-    restoreFocus(searchRef.current);
-    onChange({ search: '', period: null });
-  };
+  const onReset = () => onChange({ search: '', period: null });
   const updatePeriodRange = (period: readonly [number, number]) => {
     onChange({ period: period[0] === 0 && period[1] === lastIndex ? null : period });
   };
   const searchControl = (
-    <div ref={searchRef}>
-      <TextFilter
-        label={localization.search.textFilter.label}
-        searchTerm={filters.search}
-        setSearchTerm={(search) => onChange({ search })}
-      />
-    </div>
+    <TextFilter
+      label={localization.search.textFilter.label}
+      searchTerm={filters.search}
+      setSearchTerm={(search) => onChange({ search })}
+    />
   );
   const periodControl =
     timelinePeriods.length > 0 ? (
-      <div ref={periodRef} className={workspaceStyles.periodFilter}>
-        <CollapsibleCard heading={localization.datasetDetail.period} variant='flat' defaultOpen={false}>
-          <div className={workspaceStyles.periodSelectors}>
-            <div>
-              <Label htmlFor={`${periodId}-from`}>{localization.datasetDetail.periodFrom}</Label>
-              <Select
-                id={`${periodId}-from`}
-                value={startIndex}
-                disabled={lastIndex === 0}
-                onChange={(event) => updatePeriodRange([Number(event.target.value), endIndex])}
-              >
-                {timelinePeriods.map((period, index) => (
-                  <Select.Option key={period.start} value={index} disabled={index > endIndex}>
-                    {formatTimelinePeriod(period)}
-                  </Select.Option>
-                ))}
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor={`${periodId}-to`}>{localization.datasetDetail.periodTo}</Label>
-              <Select
-                id={`${periodId}-to`}
-                value={endIndex}
-                disabled={lastIndex === 0}
-                onChange={(event) => updatePeriodRange([startIndex, Number(event.target.value)])}
-              >
-                {timelinePeriods.map((period, index) => (
-                  <Select.Option key={period.start} value={index} disabled={index < startIndex}>
-                    {formatTimelinePeriod(period)}
-                  </Select.Option>
-                ))}
-              </Select>
-            </div>
-          </div>
-          <Slider
-            aria-label={localization.datasetDetail.periodRange}
-            valueLabel={label}
-            rangeLabels={[localization.datasetDetail.periodFrom, localization.datasetDetail.periodTo]}
-            value={[startIndex, endIndex]}
-            min={0}
-            max={lastIndex}
-            step={1}
-            disabled={lastIndex === 0}
-            formatValue={(index) => formatTimelinePeriod(timelinePeriods[index])}
-            onChange={updatePeriodRange}
-          />
-        </CollapsibleCard>
-      </div>
+      <CollapsibleCard heading={localization.datasetDetail.period} variant='flat' defaultOpen={false}>
+        <Slider
+          aria-label={localization.datasetDetail.periodRange}
+          valueLabel={label}
+          rangeLabels={[localization.datasetDetail.periodFrom, localization.datasetDetail.periodTo]}
+          value={[startIndex, endIndex]}
+          min={0}
+          max={lastIndex}
+          step={1}
+          disabled={lastIndex === 0}
+          formatValue={(index) => formatTimelinePeriod(timelinePeriods[index])}
+          onChange={updatePeriodRange}
+        />
+      </CollapsibleCard>
     ) : null;
   const activeFilters = hasActiveFilters ? (
     <div className={workspaceStyles.activeFilters}>
@@ -144,10 +96,7 @@ export function DatasetFilters({ filters, timelinePeriods, onChange, content }: 
           <li>
             <Chip.Removable
               aria-label={`${localization.filterTag.remove} ${localization.search.label}: ${trimmedSearch}`}
-              onClick={() => {
-                restoreFocus(searchRef.current);
-                onChange({ search: '' });
-              }}
+              onClick={() => onChange({ search: '' })}
             >
               {`${localization.search.label}: «${trimmedSearch}»`}
             </Chip.Removable>
@@ -157,10 +106,7 @@ export function DatasetFilters({ filters, timelinePeriods, onChange, content }: 
           <li>
             <Chip.Removable
               aria-label={`${localization.filterTag.remove} ${localization.datasetDetail.period}: ${label}`}
-              onClick={() => {
-                restoreFocus(periodRef.current);
-                onChange({ period: null });
-              }}
+              onClick={() => onChange({ period: null })}
             >
               {label}
             </Chip.Removable>

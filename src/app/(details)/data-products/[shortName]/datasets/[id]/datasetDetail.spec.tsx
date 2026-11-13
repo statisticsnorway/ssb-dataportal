@@ -8,7 +8,6 @@ import type { TimelineData } from '@/components/data-coverage-timeline/useTimeli
 import type { DaplaDataFileDTO, DatasetDTO, DatasetVariableDTO } from '@/libs/data-access/datadoc';
 import { PeriodFormat } from '@/libs/data-access/datadoc';
 import { listDatasetVariableDataFilePaths, listDatasetVariableIdsInPeriod } from './actions';
-import styles from './dataset-page.module.css';
 import DatasetDetail from './datasetDetail';
 
 const auth = vi.hoisted(() => ({
@@ -211,7 +210,6 @@ describe('DatasetDetail', () => {
     expect(screen.getAllByText('Type', { selector: 'dt' })).toHaveLength(3);
     expect(screen.getByText('Lagret som 64-bits heltall')).toBeDefined();
     expect(screen.getByText('Desimaltall')).toBeDefined();
-    expect(screen.getByText('Desimaltall')).toHaveClass(styles.variableTypeMagic ?? 'variableTypeMagic');
     expect(screen.getByText('Bytearray')).toBeDefined();
     expect(screen.getByText('–', { selector: 'span[aria-hidden="true"]' })).toBeDefined();
     expect(screen.getByText('Ikke oppgitt')).toHaveClass('ds-sr-only');

@@ -30,26 +30,4 @@ test.describe('Dataset details – accessibility', () => {
     const results = await new AxeBuilder({ page }).withRules(['color-contrast']).analyze();
     expect(results.violations).toEqual([]);
   });
-
-  test('selects a period and preserves keyboard focus on reset', async ({ page }) => {
-    await page.setViewportSize({ width: 320, height: 900 });
-    await page.getByRole('button', { name: localization.search.textFilter.label, exact: true }).click();
-    await page.getByRole('searchbox').fill('person');
-    await expect(page.getByRole('status')).toHaveText(
-      localization.datasetDetail.variablesFound.replace('{count}', '1'),
-    );
-    await page.getByRole('button', { name: localization.datasetDetail.period, exact: true }).click();
-    const from = page.getByLabel(localization.datasetDetail.periodFrom, { exact: true });
-    await from.selectOption('1');
-    await expect(from).toHaveValue('1');
-    const reset = page.getByRole('button', { name: localization.datasetDetail.resetFilters, exact: true });
-    await reset.focus();
-    await page.keyboard.press('Enter');
-    await expect(page.getByRole('searchbox')).toBeFocused();
-    await expect(reset).toHaveCount(0);
-    const results = await new AxeBuilder({ page })
-      .withRules(['label', 'select-name', 'color-contrast', 'aria-valid-attr-value'])
-      .analyze();
-    expect(results.violations).toEqual([]);
-  });
 });

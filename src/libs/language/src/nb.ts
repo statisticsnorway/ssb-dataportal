@@ -224,7 +224,6 @@ export const nb = {
     noDatasetAvailable: 'Ingen datasett tilgjengelig',
   },
   datasetDetail: {
-    variablesFound: '{count} variabler funnet',
     aboutDataset: 'Om datasettet',
     dataProduct: 'Dataprodukt',
     bucket: 'Bøtte',

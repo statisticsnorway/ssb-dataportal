@@ -2,19 +2,6 @@
   padding: 0;
   overflow: visible;
 }
-
-.periodSelectors {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-size-3);
-  margin-bottom: var(--ds-size-4);
-}
-
-.periodSelectors select {
-  width: 100%;
-  min-width: 0;
-}
-
 .workspace {
   border-radius: inherit;
 }
@@ -99,14 +86,6 @@
 .filterGroups :global(.ds-card) {
   width: 100%;
   box-sizing: border-box;
-}
-
-.filterGroups :global(.ds-card:last-child) {
-  border-block-end: 0;
-}
-
-.periodFilter :global(.ds-card:last-child) {
-  border-block-end: 1px solid var(--ds-color-secondary-border-subtle);
 }
 
 .filterGroups :global(.ds-details) > summary {
