@@ -200,7 +200,7 @@ export const nn = {
     availableDataFileLabelPlural: 'tilhøyrande datafiler',
     filePathLabel: 'Filsti',
     labelBimesterPrefix: 'B',
-    labelFullYear: 'Heile',
+    labelFullYear: 'Heile året',
     labelHalfYearPrefix: 'H',
     labelQuarterPrefix: 'K',
     labelTriannualPrefix: 'T',
