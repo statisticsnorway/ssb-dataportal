@@ -2,7 +2,7 @@ import { fireEvent, render, renderHook, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { type DaplaDataFileDTO, PeriodFormat } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language/src/localization';
-import DataCoverageTimeline, { formatAvailableDatasets, slotOverlapsItem } from './dataCoverageTimeline';
+import DataCoverageTimeline, { slotOverlapsItem } from './dataCoverageTimeline';
 import styles from './dataCoverageTimeline.module.css';
 import { type Slot, type TimelineItem } from './types';
 import { useTimelineData } from './useTimelineData';
@@ -76,7 +76,7 @@ describe('DataCoverageTimeline', () => {
       <DataCoverageTimeline {...timeline} allItems={[]} unfilteredItems={timeline.allItems} />,
     );
 
-    expect(container.querySelector(`.${styles.mobileFiltered}`)).toBeInTheDocument();
+    expect(container.querySelector(`.${styles.mobileSegment}.${styles.cellFiltered}`)).toBeInTheDocument();
     fireEvent.click(
       screen.getByRole('button', { name: localization.dataCoverageTimeline.showYear.replace('{year}', '2024') }),
     );
@@ -138,14 +138,21 @@ describe('DataCoverageTimeline', () => {
     expect(slotOverlapsItem(slot, item)).toBe(true);
   });
 
-  it('formats available datasets as unique file names', () => {
-    const datasets = formatAvailableDatasets([
-      'gs://bucket/a/data_p2024-01_v2.parquet',
-      'gs://bucket/b/data_p2024-01_v2.parquet',
-      'gs://bucket/a/data_p2024-02_v1.parquet',
-    ]);
-
-    expect(datasets).toEqual(['data_p2024-01_v2.parquet', 'data_p2024-02_v1.parquet']);
+  it('counts files with identical basenames separately', () => {
+    const data = ['a', 'b'].map((folder) =>
+      buildDataFile({
+        filePath: `gs://bucket/${folder}/data.parquet`,
+        from: new Date('2024-01-01'),
+        until: new Date('2024-12-31'),
+        periodType: PeriodFormat.YEAR,
+      }),
+    );
+    render(<DataCoverageTimeline {...buildTimelineData(data)} />);
+    expect(
+      screen.getByRole('button', {
+        name: new RegExp(`2 ${localization.dataCoverageTimeline.availableDataFileLabelPlural}`),
+      }),
+    ).toBeInTheDocument();
   });
 
   it('renders monthly timeline with present and missing segments', () => {
@@ -312,7 +319,7 @@ describe('DataCoverageTimeline', () => {
     const expandButton = expandButtons[0]!;
     const middleEllipsisButton = expandButtons[1]!;
     expect(expandButton).toHaveAttribute('aria-expanded', 'false');
-    expect(middleEllipsisButton.querySelectorAll(`.${styles.ellipsisDot}`)).toHaveLength(3);
+    expect(middleEllipsisButton).toHaveTextContent('⋮');
     fireEvent.click(middleEllipsisButton);
 
     expect(yearLabels()).toHaveLength(28);
