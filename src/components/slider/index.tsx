@@ -112,7 +112,16 @@ export function Slider({
 
     if (!(event.target instanceof HTMLElement)) return;
     const thumb = event.target.closest<HTMLElement>('[role="slider"]');
-    if (!thumb) return;
+    if (!thumb) {
+      const track = trackRef.current;
+      if (!track?.contains(event.target)) return;
+
+      const next = rawFromPointer(event.clientX);
+      const index = Math.abs(next - currentRef.current[0]) <= Math.abs(next - currentRef.current[1]) ? 0 : 1;
+      event.currentTarget.querySelectorAll<HTMLElement>('[role="slider"]')[index]?.focus();
+      commit(index, next);
+      return;
+    }
     const index = Array.from(event.currentTarget.querySelectorAll('[role="slider"]')).indexOf(thumb);
     if (index < 0) return;
 
@@ -156,7 +165,7 @@ export function Slider({
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
       >
-        <div ref={trackRef} className={styles.track}>
+        <div ref={trackRef} className={styles.track} data-testid='slider-track'>
           <div
             className={styles.fill}
             style={{
