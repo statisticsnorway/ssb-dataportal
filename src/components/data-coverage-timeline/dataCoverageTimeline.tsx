@@ -83,11 +83,12 @@ const TimelineCell: React.FC<CellProps> = ({
   });
 
   const fileCountLabel = `${matchedItems.length} ${matchedItems.length === 1 ? text.availableDataFileLabel : text.availableDataFileLabelPlural}`;
-  const emptyMessage = hasFilteredData
-    ? formatTemplate(text.dataAvailableButFiltered, baseValues)
-    : isOutsideSelectedRange
-      ? formatTemplate(text.outsideSelectedPeriodRange, baseValues)
-      : baseTooltip;
+  let emptyMessage = baseTooltip;
+  if (hasFilteredData) {
+    emptyMessage = formatTemplate(text.dataAvailableButFiltered, baseValues);
+  } else if (isOutsideSelectedRange) {
+    emptyMessage = formatTemplate(text.outsideSelectedPeriodRange, baseValues);
+  }
   const triggerLabel = hasData
     ? `${text.tooltipStatusDataPresent}: ${dataPresentTitle}. ${fileCountLabel}`
     : emptyMessage;
@@ -145,6 +146,39 @@ interface MobileTimelineYearProps {
 const MobileTimelineYear = ({ year, periods, open, panelId, onToggle }: MobileTimelineYearProps) => {
   const text = localization.dataCoverageTimeline;
   const hasYearData = periods.some(({ matchedItems, hasFilteredData }) => matchedItems.length > 0 || hasFilteredData);
+  let panelContent: React.ReactNode = null;
+
+  if (open) {
+    if (hasYearData) {
+      panelContent = periods.map(({ slot, matchedItems, hasFilteredData }) => {
+        let periodContent: React.ReactNode;
+        if (matchedItems.length > 0) {
+          periodContent = (
+            <ul className={styles.mobileFileList}>
+              {matchedItems.map((item) => (
+                <li key={item.file_path}>
+                  <DataFileSearchHit dataFile={item} />
+                </li>
+              ))}
+            </ul>
+          );
+        } else if (hasFilteredData) {
+          periodContent = <p>{formatTemplate(text.dataAvailableButFiltered, { slotLabel: slot.label, year })}</p>;
+        } else {
+          periodContent = <p>{text.statusMissingTargetSegment}</p>;
+        }
+
+        return (
+          <div key={slot.label}>
+            <Heading level={3} data-size='xs'>{`${slot.label} ${year}`}</Heading>
+            {periodContent}
+          </div>
+        );
+      });
+    } else {
+      panelContent = <p>{text.noYearData}</p>;
+    }
+  }
 
   return (
     <div>
@@ -171,29 +205,7 @@ const MobileTimelineYear = ({ year, periods, open, panelId, onToggle }: MobileTi
         </span>
       </Button>
       <div id={panelId} hidden={!open} className={styles.mobileFiles}>
-        {open &&
-          (hasYearData ? (
-            periods.map(({ slot, matchedItems, hasFilteredData }) => (
-              <div key={slot.label}>
-                <Heading level={3} data-size='xs'>{`${slot.label} ${year}`}</Heading>
-                {matchedItems.length > 0 ? (
-                  <ul className={styles.mobileFileList}>
-                    {matchedItems.map((item) => (
-                      <li key={item.file_path}>
-                        <DataFileSearchHit dataFile={item} />
-                      </li>
-                    ))}
-                  </ul>
-                ) : hasFilteredData ? (
-                  <p>{formatTemplate(text.dataAvailableButFiltered, { slotLabel: slot.label, year })}</p>
-                ) : (
-                  <p>{text.statusMissingTargetSegment}</p>
-                )}
-              </div>
-            ))
-          ) : (
-            <p>{text.noYearData}</p>
-          ))}
+        {panelContent}
       </div>
     </div>
   );
