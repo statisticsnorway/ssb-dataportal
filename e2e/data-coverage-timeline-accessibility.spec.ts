@@ -54,8 +54,10 @@ test.describe('Timeline accessibility', () => {
       name: new RegExp(`${localization.dataCoverageTimeline.tooltipStatusDataPresent}.*H1 2017`),
     });
     await period.click();
-    await expect(timeline.getByRole('article')).not.toHaveCount(0);
+    const fileCard = timeline.getByRole('article').first();
+    await expect(fileCard).toBeVisible();
     await page.keyboard.press('Escape');
+    await expect(fileCard).not.toBeVisible();
     await page.setViewportSize({ width: 320, height: 900 });
     await expect(
       timeline.getByRole('button', { name: localization.dataCoverageTimeline.showYear.replace('{year}', '2017') }),

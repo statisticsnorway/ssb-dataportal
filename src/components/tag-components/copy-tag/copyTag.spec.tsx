@@ -18,11 +18,15 @@ vi.mock('@/libs/language/src/localization', () => ({
     copy: {
       shortName: 'Copy short name',
       id: 'Copy id',
+      filePath: 'Copy file path',
       copied: 'Copied',
     },
     variableDefinition: {
       id: 'ID',
       shortName: 'Short name',
+    },
+    dataCoverageTimeline: {
+      filePathLabel: 'File path',
     },
   },
 }));
@@ -73,5 +77,12 @@ describe('CopyTag', () => {
     button.click();
 
     expect(copyToClipboardMock).toHaveBeenCalledWith('hello');
+  });
+
+  it('uses distinct file path and copy labels', () => {
+    const { container } = render(<CopyTag text='gs://bucket/data.parquet' copyType='file_path' />);
+
+    expect(container.querySelector('[aria-label="File path"]')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Copy file path' })).toBeInTheDocument();
   });
 });

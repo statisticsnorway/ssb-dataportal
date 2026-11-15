@@ -26,22 +26,24 @@ const localizeCopyTypeLabel = (it: CopyType): string => {
   }
 };
 
+const localizeTagLabel = (copyType: CopyType): string => {
+  switch (copyType) {
+    case 'short_name':
+      return localization.variableDefinition.shortName;
+    case 'id':
+      return localization.variableDefinition.id;
+    case 'file_path':
+      return localization.dataCoverageTimeline.filePathLabel;
+    default:
+      return assertUnreachable(copyType);
+  }
+};
+
 const CopyTag = ({ text, copyType = 'short_name', size = 'md' }: CopyTagProps) => {
   const { copied, copyToClipboard } = useClipboard();
   const copyLabel = localizeCopyTypeLabel(copyType);
   return (
-    <Tag
-      data-size={size}
-      data-color='magic'
-      className={styles.copyText}
-      aria-label={
-        copyType === 'file_path'
-          ? localization.dataCoverageTimeline.filePathLabel
-          : copyType === 'short_name'
-            ? localization.variableDefinition.shortName
-            : localization.variableDefinition.id
-      }
-    >
+    <Tag data-size={size} data-color='magic' className={styles.copyText} aria-label={localizeTagLabel(copyType)}>
       <div className={styles.copyWrapper}>
         <span className={styles.copyLabel}>{copyType === 'file_path' ? copyLabel : text}</span>
         <Tooltip content={copied ? localization.copy.copied : copyLabel}>

@@ -32,21 +32,17 @@ const formatTemplate = (template: string, values: Record<string, string | number
 export const slotOverlapsItem = (slot: Slot, item: TimelineItem): boolean =>
   item.start <= slot.end && item.end >= slot.start;
 
-interface CellProps {
-  slot: Slot;
-  idx: number;
-  totalSlots: number;
-  year: number;
-  matchedItems: TimelineItem[];
-  hasFilteredData: boolean;
-  isOutsideSelectedRange: boolean;
-}
-
 interface PeriodStatus {
   slot: Slot;
   matchedItems: TimelineItem[];
   hasFilteredData: boolean;
   isOutsideSelectedRange: boolean;
+}
+
+interface CellProps extends PeriodStatus {
+  idx: number;
+  totalSlots: number;
+  year: number;
 }
 
 /**
@@ -143,41 +139,48 @@ interface MobileTimelineYearProps {
   onToggle: () => void;
 }
 
+interface MobileTimelinePeriodProps {
+  period: PeriodStatus;
+  year: number;
+}
+
+const MobileTimelinePeriod = ({ period, year }: MobileTimelinePeriodProps) => {
+  const { slot, matchedItems, hasFilteredData } = period;
+  const text = localization.dataCoverageTimeline;
+
+  if (matchedItems.length > 0) {
+    return (
+      <ul className={styles.mobileFileList}>
+        {matchedItems.map((item) => (
+          <li key={item.file_path}>
+            <DataFileSearchHit dataFile={item} />
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  if (hasFilteredData) {
+    return <p>{formatTemplate(text.dataAvailableButFiltered, { slotLabel: slot.label, year })}</p>;
+  }
+
+  return <p>{text.statusMissingTargetSegment}</p>;
+};
+
 const MobileTimelineYear = ({ year, periods, open, panelId, onToggle }: MobileTimelineYearProps) => {
   const text = localization.dataCoverageTimeline;
   const hasYearData = periods.some(({ matchedItems, hasFilteredData }) => matchedItems.length > 0 || hasFilteredData);
   let panelContent: React.ReactNode = null;
 
-  if (open) {
-    if (hasYearData) {
-      panelContent = periods.map(({ slot, matchedItems, hasFilteredData }) => {
-        let periodContent: React.ReactNode;
-        if (matchedItems.length > 0) {
-          periodContent = (
-            <ul className={styles.mobileFileList}>
-              {matchedItems.map((item) => (
-                <li key={item.file_path}>
-                  <DataFileSearchHit dataFile={item} />
-                </li>
-              ))}
-            </ul>
-          );
-        } else if (hasFilteredData) {
-          periodContent = <p>{formatTemplate(text.dataAvailableButFiltered, { slotLabel: slot.label, year })}</p>;
-        } else {
-          periodContent = <p>{text.statusMissingTargetSegment}</p>;
-        }
-
-        return (
-          <div key={slot.label}>
-            <Heading level={3} data-size='xs'>{`${slot.label} ${year}`}</Heading>
-            {periodContent}
-          </div>
-        );
-      });
-    } else {
-      panelContent = <p>{text.noYearData}</p>;
-    }
+  if (open && hasYearData) {
+    panelContent = periods.map((period) => (
+      <div key={period.slot.label}>
+        <Heading level={3} data-size='xs'>{`${period.slot.label} ${year}`}</Heading>
+        <MobileTimelinePeriod period={period} year={year} />
+      </div>
+    ));
+  } else if (open) {
+    panelContent = <p>{text.noYearData}</p>;
   }
 
   return (

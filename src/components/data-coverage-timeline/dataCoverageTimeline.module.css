@@ -82,18 +82,13 @@
   gap: 0.75rem;
 }
 
-.mobileFiles :global(.ds-tag[data-color="magic"]) {
+.mobileFiles :global(.ds-tag[data-color="magic"]),
+.popoverList :global(.ds-tag[data-color="magic"]) {
   --dsc-tag-color: #3f3f46;
   color: #3f3f46;
 }
 
-.rowWrapper {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-}
-
+.rowWrapper,
 .ellipsisRow {
   display: flex;
   align-items: center;
@@ -101,7 +96,8 @@
   width: 100%;
 }
 
-.ellipsisSpacer {
+.ellipsisSpacer,
+.axisSpacer {
   width: 2.5rem;
   flex-shrink: 0;
 }
@@ -247,11 +243,6 @@
   padding-top: 0.375rem;
 }
 
-.axisSpacer {
-  width: 2.5rem;
-  flex-shrink: 0;
-}
-
 .axisLabelsContainer {
   flex: 1 1 0%;
   display: flex;
@@ -367,11 +358,6 @@
   padding: 0.125rem;
   max-height: min(40vh, 16rem);
   overflow: auto;
-}
-
-.popoverList :global(.ds-tag[data-color="magic"]) {
-  --dsc-tag-color: #3f3f46;
-  color: #3f3f46;
 }
 
 @media (max-width: 768px) {
