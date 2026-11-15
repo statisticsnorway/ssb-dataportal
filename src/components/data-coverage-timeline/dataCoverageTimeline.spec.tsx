@@ -54,6 +54,10 @@ describe('DataCoverageTimeline', () => {
       screen.getByRole('button', { name: localization.dataCoverageTimeline.showYear.replace('{year}', '2024') }),
     );
     expect(screen.getByRole('heading', { name: 'H1 2024' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'H2 2024' })).toBeInTheDocument();
+    expect(
+      screen.getByText(localization.dataCoverageTimeline.statusMissingTargetSegment, { selector: 'p' }),
+    ).toBeInTheDocument();
     expect(screen.getByRole('article')).toBeInTheDocument();
     expect(screen.queryByText('data.parquet')).not.toBeInTheDocument();
   });

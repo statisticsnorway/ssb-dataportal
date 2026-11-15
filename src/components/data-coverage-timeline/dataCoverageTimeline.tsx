@@ -243,7 +243,7 @@ const DataCoverageTimeline = ({
               if (isMobile) {
                 const panelId = `${instanceId}-${year}`;
                 const open = expandedYear === year;
-                const availablePeriods = periods.filter(
+                const hasYearData = periods.some(
                   ({ matchedItems, hasFilteredData }) => matchedItems.length > 0 || hasFilteredData,
                 );
                 return (
@@ -277,8 +277,8 @@ const DataCoverageTimeline = ({
                     </Button>
                     <div id={panelId} hidden={!open} className={styles.mobileFiles}>
                       {open &&
-                        (availablePeriods.length ? (
-                          availablePeriods.map(({ slot, matchedItems }) => (
+                        (hasYearData ? (
+                          periods.map(({ slot, matchedItems, hasFilteredData }) => (
                             <div key={slot.label}>
                               <Heading level={3} data-size='xs'>{`${slot.label} ${year}`}</Heading>
                               {matchedItems.length ? (
@@ -289,13 +289,15 @@ const DataCoverageTimeline = ({
                                     </li>
                                   ))}
                                 </ul>
-                              ) : (
+                              ) : hasFilteredData ? (
                                 <p>
                                   {formatTemplate(localization.dataCoverageTimeline.dataAvailableButFiltered, {
                                     slotLabel: slot.label,
                                     year,
                                   })}
                                 </p>
+                              ) : (
+                                <p>{localization.dataCoverageTimeline.statusMissingTargetSegment}</p>
                               )}
                             </div>
                           ))
