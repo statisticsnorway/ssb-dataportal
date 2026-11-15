@@ -1,5 +1,4 @@
 import { Badge, Popover, Tag } from '@digdir/designsystemet-react';
-import { useId } from 'react';
 import { SearchHit } from '@/components/search-hit';
 import { CopyTag } from '@/components/tag-components/copy-tag';
 import { localization } from '@/libs/language';
@@ -12,7 +11,6 @@ interface DataFileSearchHitProps {
 }
 
 export const DataFileSearchHit = ({ dataFile }: DataFileSearchHitProps) => {
-  const violationId = useId();
   const violations = dataFile.naming_standard_violations ?? [];
 
   return (
@@ -41,7 +39,7 @@ export const DataFileSearchHit = ({ dataFile }: DataFileSearchHitProps) => {
                 aria-hidden
               />
             </Popover.Trigger>
-            <Popover placement='top' id={violationId} className={styles.violationPopover}>
+            <Popover placement='top' className={styles.violationPopover}>
               <ul className={styles.violationsList}>
                 {violations.map((violation) => (
                   <li key={violation}>{violation}</li>

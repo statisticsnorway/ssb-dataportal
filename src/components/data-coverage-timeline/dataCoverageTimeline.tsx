@@ -65,7 +65,6 @@ const TimelineCell: React.FC<CellProps> = ({
   hasFilteredData,
   isOutsideSelectedRange,
 }) => {
-  const popoverId = useId();
   const text = localization.dataCoverageTimeline;
   const baseValues = { slotLabel: slot.label, year };
   const hasData = matchedItems.length > 0;
@@ -107,7 +106,6 @@ const TimelineCell: React.FC<CellProps> = ({
       <Popover
         placement='top'
         data-autoplacement='true'
-        id={popoverId}
         className={classNames(
           styles.timelinePopover,
           hasData ? styles.timelinePopoverFilled : styles.timelinePopoverEmpty,
@@ -383,11 +381,7 @@ const DataCoverageTimeline = ({
               {axisSlots.map((slot) => (
                 <span key={slot.label} className={styles.axisLabel}>
                   <span className={styles.axisLabelFull}>{slot.label}</span>
-                  {useMonthInitials && (
-                    <span className={styles.axisLabelCompact} aria-hidden='true'>
-                      {slot.label.slice(0, 1)}
-                    </span>
-                  )}
+                  {useMonthInitials && <span className={styles.axisLabelCompact}>{slot.label.slice(0, 1)}</span>}
                 </span>
               ))}
             </div>
