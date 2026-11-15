@@ -342,16 +342,14 @@ const DataCoverageTimeline = ({
                 );
               }
               return (
-                <div
-                  key={year}
-                  className={styles.rowWrapper}
-                  role='group'
-                  aria-label={formatTemplate(localization.dataCoverageTimeline.yearGroupLabel, { year })}
-                >
+                <div key={year} className={styles.rowWrapper}>
                   <span className={styles.yearLabel} aria-hidden='true'>
                     {year}
                   </span>
-                  <div className={styles.track}>
+                  <fieldset className={styles.track}>
+                    <legend className='ds-sr-only'>
+                      {formatTemplate(localization.dataCoverageTimeline.yearGroupLabel, { year })}
+                    </legend>
                     {periods.map(({ slot, matchedItems, hasFilteredData, isOutsideSelectedRange }, idx) => (
                       <TimelineCell
                         key={slot.label}
@@ -364,7 +362,7 @@ const DataCoverageTimeline = ({
                         hasFilteredData={hasFilteredData}
                       />
                     ))}
-                  </div>
+                  </fieldset>
                 </div>
               );
             })}
