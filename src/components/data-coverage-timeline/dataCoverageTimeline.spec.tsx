@@ -26,20 +26,19 @@ const buildDataFile = ({ filePath, from, until, periodType }: BuildDataFileInput
 
 const buildTimelineData = (data: DaplaDataFileDTO[]) => renderHook(() => useTimelineData(data)).result.current;
 
+const mockMobileViewport = (matches: boolean) => {
+  vi.stubGlobal(
+    'matchMedia',
+    vi.fn(() => ({ matches, addEventListener: vi.fn(), removeEventListener: vi.fn() })),
+  );
+};
+
 describe('DataCoverageTimeline', () => {
   afterEach(() => vi.unstubAllGlobals());
-  beforeEach(() => {
-    vi.stubGlobal(
-      'matchMedia',
-      vi.fn(() => ({ matches: false, addEventListener: vi.fn(), removeEventListener: vi.fn() })),
-    );
-  });
+  beforeEach(() => mockMobileViewport(false));
 
   it('opens mobile file cards grouped by period without a second button or filenames', () => {
-    vi.stubGlobal(
-      'matchMedia',
-      vi.fn(() => ({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() })),
-    );
+    mockMobileViewport(true);
     const data = [
       buildDataFile({
         filePath: 'gs://bucket/data.parquet',
@@ -63,10 +62,7 @@ describe('DataCoverageTimeline', () => {
   });
 
   it('marks mobile periods with data hidden by the current filters', () => {
-    vi.stubGlobal(
-      'matchMedia',
-      vi.fn(() => ({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() })),
-    );
+    mockMobileViewport(true);
     const data = [
       buildDataFile({
         filePath: 'gs://bucket/data.parquet',
@@ -95,10 +91,7 @@ describe('DataCoverageTimeline', () => {
   });
 
   it('collapses long mobile timelines and explains empty years', () => {
-    vi.stubGlobal(
-      'matchMedia',
-      vi.fn(() => ({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() })),
-    );
+    mockMobileViewport(true);
     const data = [
       buildDataFile({
         filePath: 'gs://bucket/old.parquet',

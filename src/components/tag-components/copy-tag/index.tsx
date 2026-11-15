@@ -13,27 +13,23 @@ interface CopyTagProps {
 
 type CopyType = 'short_name' | 'id' | 'file_path';
 
-const localizeCopyTypeLabel = (it: CopyType): string => {
-  switch (it) {
-    case 'short_name':
-      return localization.copy.shortName;
-    case 'id':
-      return localization.copy.id;
-    case 'file_path':
-      return localization.copy.filePath;
-    default:
-      return assertUnreachable(it);
-  }
-};
-
-const localizeTagLabel = (copyType: CopyType): string => {
+const localizeLabels = (copyType: CopyType): { copyLabel: string; tagLabel: string } => {
   switch (copyType) {
     case 'short_name':
-      return localization.variableDefinition.shortName;
+      return {
+        copyLabel: localization.copy.shortName,
+        tagLabel: localization.variableDefinition.shortName,
+      };
     case 'id':
-      return localization.variableDefinition.id;
+      return {
+        copyLabel: localization.copy.id,
+        tagLabel: localization.variableDefinition.id,
+      };
     case 'file_path':
-      return localization.dataCoverageTimeline.filePathLabel;
+      return {
+        copyLabel: localization.copy.filePath,
+        tagLabel: localization.dataCoverageTimeline.filePathLabel,
+      };
     default:
       return assertUnreachable(copyType);
   }
@@ -41,9 +37,9 @@ const localizeTagLabel = (copyType: CopyType): string => {
 
 const CopyTag = ({ text, copyType = 'short_name', size = 'md' }: CopyTagProps) => {
   const { copied, copyToClipboard } = useClipboard();
-  const copyLabel = localizeCopyTypeLabel(copyType);
+  const { copyLabel, tagLabel } = localizeLabels(copyType);
   return (
-    <Tag data-size={size} data-color='magic' className={styles.copyText} aria-label={localizeTagLabel(copyType)}>
+    <Tag data-size={size} data-color='magic' className={styles.copyText} aria-label={tagLabel}>
       <div className={styles.copyWrapper}>
         <span className={styles.copyLabel}>{copyType === 'file_path' ? copyLabel : text}</span>
         <Tooltip content={copied ? localization.copy.copied : copyLabel}>

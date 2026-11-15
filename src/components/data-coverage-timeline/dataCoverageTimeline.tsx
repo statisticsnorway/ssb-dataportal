@@ -7,8 +7,6 @@ import styles from './dataCoverageTimeline.module.css';
 import { type Slot, type TimelineItem } from './types';
 import { type TimelineData } from './useTimelineData';
 
-const TOOLTIP_TEMPLATE = '{status}: {slotLabel} {year}';
-const DATA_PRESENT_TEMPLATE = '{slotLabel} {year}';
 const MAX_COLLAPSED_YEAR_ROWS = 5;
 const subscribeToMobile = (callback: () => void) => {
   const query = window.matchMedia('(max-width: 600px)');
@@ -70,12 +68,8 @@ const TimelineCell: React.FC<CellProps> = ({
   const hasData = matchedItems.length > 0;
   const isFirst = idx === 0;
   const isLast = idx === totalSlots - 1;
-  const dataPresentTitle = formatTemplate(DATA_PRESENT_TEMPLATE, baseValues);
-
-  const baseTooltip = formatTemplate(TOOLTIP_TEMPLATE, {
-    ...baseValues,
-    status: text.tooltipStatusMissingTargetSegment,
-  });
+  const dataPresentTitle = `${slot.label} ${year}`;
+  const baseTooltip = `${text.tooltipStatusMissingTargetSegment}: ${dataPresentTitle}`;
 
   const fileCountLabel = `${matchedItems.length} ${matchedItems.length === 1 ? text.availableDataFileLabel : text.availableDataFileLabelPlural}`;
   let emptyMessage = baseTooltip;

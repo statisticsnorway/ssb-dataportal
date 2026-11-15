@@ -168,13 +168,17 @@
   height: 100%;
 }
 
-.cell {
+.cell,
+.cellTrigger {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   padding: 0;
+}
+
+.cell {
   outline: none;
   box-sizing: border-box;
   border-right: 0.06rem solid var(--white-color);
@@ -182,16 +186,10 @@
 }
 
 .cellTrigger {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   z-index: 1;
   appearance: none;
   border: 0;
   margin: 0;
-  padding: 0;
   background: transparent;
   cursor: pointer;
   --dsc-button-background: transparent;
