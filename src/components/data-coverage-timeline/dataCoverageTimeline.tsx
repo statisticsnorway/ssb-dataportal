@@ -1,4 +1,5 @@
 import { Button, Heading, Popover } from '@digdir/designsystemet-react';
+import classNames from 'classnames';
 import React, { useId, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { DataFileSearchHit } from '@/app/(details)/data-products/[shortName]/components/DataFileSearchHit';
 import { localization } from '@/libs/language/src/localization';
@@ -41,6 +42,13 @@ interface CellProps {
   isOutsideSelectedRange: boolean;
 }
 
+interface PeriodStatus {
+  slot: Slot;
+  matchedItems: TimelineItem[];
+  hasFilteredData: boolean;
+  isOutsideSelectedRange: boolean;
+}
+
 /**
  * Renders a single slot cell within a year's timeline row.
  *
@@ -48,7 +56,7 @@ interface CellProps {
  *
  * @param slot        - Slot definition to render.
  * @param idx         - Zero-based index of the slot within the year.
- * @param totalSlots  - Total slots in the year, used to compute percentage width.
+ * @param totalSlots  - Total slots in the year, used to identify the final slot.
  * @param year        - The year this slot belongs to.
  * @param matchedItems - Matched `TimelineItem` values when data exists for this slot.
  */
@@ -75,20 +83,27 @@ const TimelineCell: React.FC<CellProps> = ({
   });
 
   const fileCountLabel = `${matchedItems.length} ${matchedItems.length === 1 ? text.availableDataFileLabel : text.availableDataFileLabelPlural}`;
+  const emptyMessage = hasFilteredData
+    ? formatTemplate(text.dataAvailableButFiltered, baseValues)
+    : isOutsideSelectedRange
+      ? formatTemplate(text.outsideSelectedPeriodRange, baseValues)
+      : baseTooltip;
   const triggerLabel = hasData
     ? `${text.tooltipStatusDataPresent}: ${dataPresentTitle}. ${fileCountLabel}`
-    : hasFilteredData
-      ? formatTemplate(text.dataAvailableButFiltered, baseValues)
-      : isOutsideSelectedRange
-        ? formatTemplate(text.outsideSelectedPeriodRange, baseValues)
-        : baseTooltip;
+    : emptyMessage;
 
   return (
     <Popover.TriggerContext>
       <div className={styles.cellSegment}>
         <div
           aria-hidden='true'
-          className={`${styles.cell} ${hasData ? styles.cellFilled : styles.cellEmpty} ${hasFilteredData ? styles.cellFiltered : ''} ${isFirst ? styles.cellFirst : ''} ${isLast ? styles.cellLast : ''}`}
+          className={classNames(
+            styles.cell,
+            hasData ? styles.cellFilled : styles.cellEmpty,
+            hasFilteredData && styles.cellFiltered,
+            isFirst && styles.cellFirst,
+            isLast && styles.cellLast,
+          )}
         />
         <Popover.Trigger aria-label={triggerLabel} className={styles.cellTrigger} />
       </div>
@@ -96,27 +111,91 @@ const TimelineCell: React.FC<CellProps> = ({
         placement='top'
         data-autoplacement='true'
         id={popoverId}
-        className={`${styles.timelinePopover} ${hasData ? styles.timelinePopoverFilled : styles.timelinePopoverEmpty}`}
+        className={classNames(
+          styles.timelinePopover,
+          hasData ? styles.timelinePopoverFilled : styles.timelinePopoverEmpty,
+        )}
       >
         {hasData ? (
           <div className={styles.popoverContent}>
             <div className={styles.popoverTitle}>{dataPresentTitle}</div>
             <div>{fileCountLabel}:</div>
             <div className={styles.popoverList}>
-              {matchedItems.map((dataFile: TimelineItem) => (
+              {matchedItems.map((dataFile) => (
                 <DataFileSearchHit dataFile={dataFile} key={dataFile.file_path} />
               ))}
             </div>
           </div>
-        ) : hasFilteredData ? (
-          formatTemplate(text.dataAvailableButFiltered, baseValues)
-        ) : isOutsideSelectedRange ? (
-          formatTemplate(text.outsideSelectedPeriodRange, baseValues)
         ) : (
-          baseTooltip
+          emptyMessage
         )}
       </Popover>
     </Popover.TriggerContext>
+  );
+};
+
+interface MobileTimelineYearProps {
+  year: number;
+  periods: PeriodStatus[];
+  open: boolean;
+  panelId: string;
+  onToggle: () => void;
+}
+
+const MobileTimelineYear = ({ year, periods, open, panelId, onToggle }: MobileTimelineYearProps) => {
+  const text = localization.dataCoverageTimeline;
+  const hasYearData = periods.some(({ matchedItems, hasFilteredData }) => matchedItems.length > 0 || hasFilteredData);
+
+  return (
+    <div>
+      <Button
+        variant='tertiary'
+        className={styles.mobileYearButton}
+        aria-label={formatTemplate(open ? text.hideYear : text.showYear, { year })}
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={onToggle}
+      >
+        <span className={styles.yearLabel}>{year}</span>
+        <span className={styles.mobileTrack} aria-hidden='true'>
+          {periods.map(({ slot, matchedItems, hasFilteredData }) => (
+            <span
+              key={slot.label}
+              className={classNames(
+                styles.mobileSegment,
+                matchedItems.length > 0 ? styles.cellFilled : styles.cellEmpty,
+                matchedItems.length === 0 && hasFilteredData && styles.cellFiltered,
+              )}
+            />
+          ))}
+        </span>
+      </Button>
+      <div id={panelId} hidden={!open} className={styles.mobileFiles}>
+        {open &&
+          (hasYearData ? (
+            periods.map(({ slot, matchedItems, hasFilteredData }) => (
+              <div key={slot.label}>
+                <Heading level={3} data-size='xs'>{`${slot.label} ${year}`}</Heading>
+                {matchedItems.length > 0 ? (
+                  <ul className={styles.mobileFileList}>
+                    {matchedItems.map((item) => (
+                      <li key={item.file_path}>
+                        <DataFileSearchHit dataFile={item} />
+                      </li>
+                    ))}
+                  </ul>
+                ) : hasFilteredData ? (
+                  <p>{formatTemplate(text.dataAvailableButFiltered, { slotLabel: slot.label, year })}</p>
+                ) : (
+                  <p>{text.statusMissingTargetSegment}</p>
+                )}
+              </div>
+            ))
+          ) : (
+            <p>{text.noYearData}</p>
+          ))}
+      </div>
+    </div>
   );
 };
 
@@ -124,14 +203,18 @@ const TimelineCell: React.FC<CellProps> = ({
  * Renders the full data coverage timeline.
  *
  * One row is rendered per year, each divided into slots whose granularity
- * (month, quarter, week, etc.) is driven by the dataset's `period_type` field.
+ * (month, quarter, half-year, etc.) is driven by the dataset's `period_type` field.
  * The axis row at the bottom mirrors the first year's slot labels so they
  * always stay in sync with the grid.
  *
  * Renders nothing when `isValid` is false (e.g. mixed `period_type` values).
  *
- * @param data - Array of file DTOs from the dataset API response.
  */
+type DataCoverageTimelineProps = Pick<TimelineData, 'isValid' | 'allItems' | 'years' | 'slots'> & {
+  unfilteredItems?: TimelineItem[];
+  selectedPeriodRange?: { start: string; end: string };
+};
+
 const DataCoverageTimeline = ({
   isValid,
   allItems,
@@ -139,10 +222,7 @@ const DataCoverageTimeline = ({
   years,
   slots,
   selectedPeriodRange,
-}: TimelineData & {
-  unfilteredItems?: TimelineItem[];
-  selectedPeriodRange?: { start: string; end: string };
-}) => {
+}: DataCoverageTimelineProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [expandedYear, setExpandedYear] = useState<number | null>(null);
   const isMobile = useSyncExternalStore(subscribeToMobile, getMobileSnapshot, getServerSnapshot);
@@ -155,7 +235,7 @@ const DataCoverageTimeline = ({
       new Map(
         years.map((year) => [
           year,
-          (slots[year] ?? []).map((slot) => {
+          (slots[year] ?? []).map((slot): PeriodStatus => {
             const isOutsideSelectedRange =
               selectedPeriodRange !== undefined &&
               !(slot.start >= selectedPeriodRange.start && slot.end <= selectedPeriodRange.end);
@@ -243,69 +323,15 @@ const DataCoverageTimeline = ({
               if (isMobile) {
                 const panelId = `${instanceId}-${year}`;
                 const open = expandedYear === year;
-                const hasYearData = periods.some(
-                  ({ matchedItems, hasFilteredData }) => matchedItems.length > 0 || hasFilteredData,
-                );
                 return (
-                  <div key={year}>
-                    <Button
-                      variant='tertiary'
-                      className={styles.mobileYearButton}
-                      aria-label={formatTemplate(
-                        open ? localization.dataCoverageTimeline.hideYear : localization.dataCoverageTimeline.showYear,
-                        { year },
-                      )}
-                      aria-expanded={open}
-                      aria-controls={panelId}
-                      onClick={() => setExpandedYear(open ? null : year)}
-                    >
-                      <span className={styles.yearLabel}>{year}</span>
-                      <span className={styles.mobileTrack} aria-hidden='true'>
-                        {periods.map(({ slot, matchedItems, hasFilteredData }) => (
-                          <span
-                            key={slot.label}
-                            className={`${styles.mobileSegment} ${
-                              matchedItems.length
-                                ? styles.cellFilled
-                                : hasFilteredData
-                                  ? `${styles.cellEmpty} ${styles.cellFiltered}`
-                                  : styles.cellEmpty
-                            }`}
-                          />
-                        ))}
-                      </span>
-                    </Button>
-                    <div id={panelId} hidden={!open} className={styles.mobileFiles}>
-                      {open &&
-                        (hasYearData ? (
-                          periods.map(({ slot, matchedItems, hasFilteredData }) => (
-                            <div key={slot.label}>
-                              <Heading level={3} data-size='xs'>{`${slot.label} ${year}`}</Heading>
-                              {matchedItems.length ? (
-                                <ul className={styles.mobileFileList}>
-                                  {matchedItems.map((item) => (
-                                    <li key={item.file_path}>
-                                      <DataFileSearchHit dataFile={item} />
-                                    </li>
-                                  ))}
-                                </ul>
-                              ) : hasFilteredData ? (
-                                <p>
-                                  {formatTemplate(localization.dataCoverageTimeline.dataAvailableButFiltered, {
-                                    slotLabel: slot.label,
-                                    year,
-                                  })}
-                                </p>
-                              ) : (
-                                <p>{localization.dataCoverageTimeline.statusMissingTargetSegment}</p>
-                              )}
-                            </div>
-                          ))
-                        ) : (
-                          <p>{localization.dataCoverageTimeline.noYearData}</p>
-                        ))}
-                    </div>
-                  </div>
+                  <MobileTimelineYear
+                    key={year}
+                    year={year}
+                    periods={periods}
+                    open={open}
+                    panelId={panelId}
+                    onToggle={() => setExpandedYear(open ? null : year)}
+                  />
                 );
               }
               return (
