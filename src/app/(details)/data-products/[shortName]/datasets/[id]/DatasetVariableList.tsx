@@ -9,9 +9,9 @@ export default function DatasetVariableList({
 }: Readonly<{ variables: DatasetVariableDTO[]; isLoading?: boolean }>) {
   return (
     <section className={styles.variablesSection}>
-      <p role='status' aria-atomic='true' className='ds-sr-only'>
+      <output aria-atomic='true' className='ds-sr-only'>
         {!isLoading ? localization.datasetDetail.variablesFound.replace('{count}', String(variables.length)) : ''}
-      </p>
+      </output>
       <ul className={styles.variablesList}>
         {variables.length === 0 ? (
           <li className={styles.variableNoHits}>{localization.search.noHits}</li>
