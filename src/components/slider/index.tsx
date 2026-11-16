@@ -116,6 +116,7 @@ export function Slider({
       const track = trackRef.current;
       if (!track?.contains(event.target)) return;
 
+      event.preventDefault();
       const next = rawFromPointer(event.clientX);
       const index = Math.abs(next - currentRef.current[0]) <= Math.abs(next - currentRef.current[1]) ? 0 : 1;
       event.currentTarget.querySelectorAll<HTMLElement>('[role="slider"]')[index]?.focus();

@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { Slider, type SliderProps } from './index';
@@ -91,6 +92,26 @@ describe('Slider', () => {
 
     expect(screen.getByRole('slider', { name: 'Period range min' })).toHaveAttribute('aria-valuenow', '2');
     expect(screen.getByRole('slider', { name: 'Period range min' })).toHaveFocus();
+  });
+
+  it('keeps focus on the selected thumb after the full track click', async () => {
+    const user = userEvent.setup();
+    render(<ControlledSlider aria-label='Period range' value={[0, 4]} min={0} max={4} />);
+
+    const track = screen.getByTestId('slider-track');
+    Object.defineProperty(track, 'getBoundingClientRect', {
+      value: () => ({ left: 20, right: 120, width: 100 }),
+    });
+
+    await user.pointer([{ target: track, keys: '[MouseLeft>]', coords: { clientX: 70 } }, { keys: '[/MouseLeft]' }]);
+
+    const minimumThumb = screen.getByRole('slider', { name: 'Period range min' });
+    expect(minimumThumb).toHaveAttribute('aria-valuenow', '2');
+    expect(minimumThumb).toHaveFocus();
+
+    await user.keyboard('{ArrowRight}');
+
+    expect(minimumThumb).toHaveAttribute('aria-valuenow', '3');
   });
 
   it('updates the range from a thumb keyboard event', () => {
