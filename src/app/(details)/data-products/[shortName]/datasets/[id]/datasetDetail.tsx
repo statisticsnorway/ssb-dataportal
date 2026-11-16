@@ -50,7 +50,7 @@ export default function DatasetDetail({
     (total, dataFile) => total + (dataFile.naming_standard_violations?.length ?? 0),
     0,
   );
-  const { isValid, periodType, allItems, items, years, slots } = useTimelineData(dataFiles);
+  const { isValid, allItems, years, slots } = useTimelineData(dataFiles);
   const datasetId = dataset.id ?? '';
   const timelinePeriods = useMemo<TimelinePeriodSlot[]>(
     () => years.flatMap((year) => (slots[year] ?? []).map((slot) => ({ ...slot, year }))),
@@ -106,9 +106,8 @@ export default function DatasetDetail({
   const timelineContent = isValid ? (
     <DataCoverageTimeline
       isValid={isValid}
-      periodType={periodType}
       allItems={filteredTimelineItems}
-      items={items}
+      unfilteredItems={allItems}
       years={years}
       slots={slots}
       selectedPeriodRange={selectedPeriodRange}

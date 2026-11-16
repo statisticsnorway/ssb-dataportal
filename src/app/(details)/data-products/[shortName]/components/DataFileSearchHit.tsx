@@ -11,37 +11,37 @@ interface DataFileSearchHitProps {
 }
 
 export const DataFileSearchHit = ({ dataFile }: DataFileSearchHitProps) => {
+  const violations = dataFile.naming_standard_violations ?? [];
+
   return (
     <SearchHit
-      key={dataFile.file_path}
-      title={undefined}
-      href={undefined}
-      description={undefined}
       tagsList=<>
         <Tag data-color='magic'>{formatPeriodString(dataFile)}</Tag>
         <Tag data-color='magic'>
-          {dataFile.data_file_version != null ? `Versjon ${dataFile.data_file_version}` : 'Ikke versjonert'}
+          {dataFile.data_file_version != null
+            ? localization.dataCoverageTimeline.fileVersion.replace('{version}', String(dataFile.data_file_version))
+            : localization.dataCoverageTimeline.unversioned}
         </Tag>
         <Tag data-color='magic'>{dataFile.file_type}</Tag>
         <CopyTag text={dataFile.file_path ?? 'undefined'} copyType='file_path' />
-        {(dataFile.naming_standard_violations?.length ?? 0) > 0 ? (
+        {violations.length > 0 ? (
           <Popover.TriggerContext>
             <Popover.Trigger
               inline
               className={styles.violationPopoverTrigger}
-              aria-label={`${dataFile.naming_standard_violations?.length ?? 0} ${localization.datasetDetail.namingStandardViolations}`}
+              aria-label={`${violations.length} ${localization.datasetDetail.namingStandardViolations}`}
             >
               <Badge
-                count={dataFile.naming_standard_violations?.length ?? 0}
+                count={violations.length}
                 data-color='warning'
                 data-size='sm'
                 className={styles.violationBadge}
                 aria-hidden
               />
             </Popover.Trigger>
-            <Popover placement='top' id={`violations-${dataFile.file_path}`} className={styles.violationPopover}>
+            <Popover placement='top' className={styles.violationPopover}>
               <ul className={styles.violationsList}>
-                {(dataFile.naming_standard_violations ?? []).map((violation) => (
+                {violations.map((violation) => (
                   <li key={violation}>{violation}</li>
                 ))}
               </ul>
