@@ -59,6 +59,13 @@ export default function DatasetDetail({
   const [filters, setFilters] = useState<FilterState>({ search: '', period: null });
   const updateFilters = (updates: Partial<FilterState>) => setFilters((current) => ({ ...current, ...updates }));
   const { range: selectedPeriodRange } = getSelectedPeriods(timelinePeriods, filters.period);
+  const selectTimelinePeriod = (slot: { start: string; end: string }) => {
+    const index = timelinePeriods.findIndex((period) => period.start === slot.start && period.end === slot.end);
+    if (index >= 0) {
+      const isAlreadySelected = filters.period?.[0] === index && filters.period[1] === index;
+      updateFilters({ period: isAlreadySelected ? null : [index, index] });
+    }
+  };
   const language = localization.getLanguage();
   const normalizedVariableNameFilter = filters.search.trim().toLocaleLowerCase(language);
   const matchingDatasetVariables = useMemo(
@@ -111,6 +118,7 @@ export default function DatasetDetail({
       years={years}
       slots={slots}
       selectedPeriodRange={selectedPeriodRange}
+      onSelectPeriod={selectTimelinePeriod}
     />
   ) : (
     <>

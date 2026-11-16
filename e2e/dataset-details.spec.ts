@@ -62,6 +62,25 @@ test.describe('authenticated', () => {
     ).toBeVisible();
   });
 
+  test('selects a timeline period and filters variables to that period', async ({ page }) => {
+    const hydrationErrors: string[] = [];
+    page.on('console', (message) => {
+      if (message.type() === 'error' && /hydrated/i.test(message.text())) hydrationErrors.push(message.text());
+    });
+    await page.goto(`${route}/ameld/datasets/id11`);
+
+    await page
+      .getByTestId('data-coverage-timeline')
+      .getByRole('button', { name: /H1 2017/ })
+      .click();
+
+    await expect(page.getByTestId('data-coverage-timeline').getByRole('article')).toBeVisible();
+    await expect(page.getByText('arbeidsforhold_id', { exact: true })).toBeVisible();
+    await expect(page.getByText('innrapportert_tidspunkt', { exact: true })).not.toBeVisible();
+    await expect(page.getByRole('button', { name: /H1 2017/ })).toHaveAttribute('aria-pressed', 'true');
+    expect(hydrationErrors).toEqual([]);
+  });
+
   test('include owning team detail', async ({ page }) => {
     await page.goto(EXAMPLE_DATASET);
     await expect(page.getByText(localization.datasetDetail.responsible)).toBeVisible();

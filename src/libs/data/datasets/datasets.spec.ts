@@ -252,6 +252,20 @@ describe('datadoc data fetching', () => {
 
       vi.unstubAllEnvs();
     });
+
+    it('filters static fixture files by associated variable IDs', async () => {
+      vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
+
+      const files = await listDataFilesByDatasetIdAndStorageCategory('id11', undefined, [
+        '10000000-0000-4000-8000-000000000005',
+      ]);
+
+      expect(files.map((file) => file.file_path)).toEqual([
+        'gs://.../ameld_p2017-H2.parquet',
+        'gs://.../ameld_p2018-H1.parquet',
+      ]);
+      vi.unstubAllEnvs();
+    });
   });
 
   describe('listDatasetVariables', () => {
@@ -269,6 +283,24 @@ describe('datadoc data fetching', () => {
 
       await expect(listDatasetVariables('unknown-dataset')).resolves.toEqual([]);
 
+      vi.unstubAllEnvs();
+    });
+
+    it('filters static fixture variables to files overlapping the selected period', async () => {
+      vi.stubEnv('DATADOC_USE_STATIC_DATA', 'true');
+
+      const variables = await listDatasetVariables('id11', {
+        from: new Date('2017-01-01'),
+        until: new Date('2017-06-30'),
+      });
+
+      expect(variables.map((variable) => variable.short_name)).toEqual([
+        'arbeidsforhold_id',
+        'person_id',
+        'arbeidsgiver_orgnr',
+        'arbeidsforhold_startdato',
+        'stillingsprosent',
+      ]);
       vi.unstubAllEnvs();
     });
 

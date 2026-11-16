@@ -47,23 +47,37 @@ vi.mock('@/components/data-coverage-timeline/dataCoverageTimeline', () => ({
     years,
     slots,
     selectedPeriodRange,
+    onSelectPeriod,
   }: {
     allItems: Array<{ file_path: string }>;
     years: number[];
-    slots: Record<number, Array<{ label: string }>>;
+    slots: Record<number, Array<{ start: string; end: string; label: string }>>;
     selectedPeriodRange?: { start: string; end: string };
-  }) => (
-    <div
-      data-testid='data-coverage-timeline'
-      data-file-paths={allItems.map((item) => item.file_path).join(',')}
-      data-years={years.join(',')}
-      data-period-labels={Object.values(slots)
-        .flat()
-        .map((slot) => slot.label)
-        .join(',')}
-      data-selected-period-range={selectedPeriodRange ? `${selectedPeriodRange.start}:${selectedPeriodRange.end}` : ''}
-    />
-  ),
+    onSelectPeriod?: (slot: { start: string; end: string }, year: number) => void;
+  }) => {
+    const firstPeriod = years.flatMap((year) => (slots[year] ?? []).map((period) => ({ period, year })))[0];
+    return (
+      <>
+        <div
+          data-testid='data-coverage-timeline'
+          data-file-paths={allItems.map((item) => item.file_path).join(',')}
+          data-years={years.join(',')}
+          data-period-labels={Object.values(slots)
+            .flat()
+            .map((slot) => slot.label)
+            .join(',')}
+          data-selected-period-range={
+            selectedPeriodRange ? `${selectedPeriodRange.start}:${selectedPeriodRange.end}` : ''
+          }
+        />
+        {firstPeriod ? (
+          <button type='button' onClick={() => onSelectPeriod?.(firstPeriod.period, firstPeriod.year)}>
+            Select first timeline period
+          </button>
+        ) : null}
+      </>
+    );
+  },
 }));
 
 vi.mock('./actions', () => ({
@@ -285,6 +299,33 @@ describe('DatasetDetail', () => {
       expect(screen.queryByRole('button', { name: 'Nullstill filter' })).toBeNull();
       expect(screen.getByText('person_id', { selector: 'code' })).toBeDefined();
       expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute('data-selected-period-range', '');
+    });
+  });
+
+  it('selects a single period when a timeline period is clicked', async () => {
+    vi.mocked(useTimelineData).mockReturnValue(twoPeriodTimelineData);
+    vi.mocked(listDatasetVariableIdsInPeriod).mockResolvedValue(['variable-1']);
+
+    renderDatasetDetail();
+    fireEvent.click(screen.getByRole('button', { name: 'Select first timeline period' }));
+
+    await waitFor(() => {
+      expect(listDatasetVariableIdsInPeriod).toHaveBeenCalledWith('123', '2020-01-01', '2020-01-31');
+      expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute(
+        'data-selected-period-range',
+        '2020-01-01:2020-01-31',
+      );
+      expect(screen.getByText('income', { selector: 'code' })).toBeInTheDocument();
+      expect(screen.queryByText('person_id', { selector: 'code' })).not.toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Select first timeline period' }));
+
+    await waitFor(() => {
+      expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute('data-selected-period-range', '');
+      expect(screen.getByText('income', { selector: 'code' })).toBeInTheDocument();
+      expect(screen.getByText('person_id', { selector: 'code' })).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: 'Nullstill filter' })).not.toBeInTheDocument();
     });
   });
 

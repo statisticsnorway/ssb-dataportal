@@ -152,6 +152,32 @@ describe('DataCoverageTimeline', () => {
     ).toBeInTheDocument();
   });
 
+  it('reports the clicked period to its owner', () => {
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p2024_01.parquet',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-01-31'),
+        periodType: PeriodFormat.YEAR_MONTH,
+      }),
+    ];
+    const onSelectPeriod = vi.fn();
+    render(<DataCoverageTimeline {...buildTimelineData(data)} onSelectPeriod={onSelectPeriod} />);
+
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: new RegExp(
+          `${localization.dataCoverageTimeline.tooltipStatusDataPresent}: ${localization.dataCoverageTimeline.monthsShort[0]} 2024`,
+        ),
+      }),
+    );
+
+    expect(onSelectPeriod).toHaveBeenCalledWith(
+      expect.objectContaining({ start: '2024-01-01', end: '2024-01-31' }),
+      2024,
+    );
+  });
+
   it('renders monthly timeline with present and missing segments', () => {
     const data = [
       buildDataFile({
@@ -195,7 +221,7 @@ describe('DataCoverageTimeline', () => {
     ).toBeInTheDocument();
   });
 
-  it('keeps all timeline cells and grays out periods outside the selected range', () => {
+  it('keeps popover data for grayed-out periods and marks the selected period', () => {
     const data = [
       buildDataFile({
         filePath: 'gs://bucket/dataset/data_p2024_01.parquet',
@@ -226,18 +252,24 @@ describe('DataCoverageTimeline', () => {
 
     const cells = Array.from(container.querySelectorAll(`.${styles.cell}`));
     const filledClass = styles.cellFilled ?? 'cellFilled';
-    const filteredClass = styles.cellFiltered ?? 'cellFiltered';
+    const outsideClass = styles.cellOutsideSelectedRange ?? 'cellOutsideSelectedRange';
+    const selectedClass = styles.cellSelected ?? 'cellSelected';
     expect(cells).toHaveLength(12);
-    expect(cells.slice(0, 3).map((cell) => cell.classList.contains(filledClass))).toEqual([false, true, false]);
-    expect(cells.slice(0, 3).map((cell) => cell.classList.contains(filteredClass))).toEqual([true, false, true]);
+    expect(cells.slice(0, 3).map((cell) => cell.classList.contains(filledClass))).toEqual([true, true, true]);
+    expect(cells.slice(0, 3).map((cell) => cell.classList.contains(outsideClass))).toEqual([true, false, true]);
+    expect(cells[1]).toHaveClass(selectedClass);
     expect(
       screen.getByRole('button', {
-        name: localization.dataCoverageTimeline.dataAvailableButFiltered
-          .replace('{slotLabel}', localization.dataCoverageTimeline.monthsShort[0]!)
-          .replace('{year}', '2024'),
+        name: `${localization.dataCoverageTimeline.tooltipStatusDataPresent}: ${localization.dataCoverageTimeline.monthsShort[0]} 2024. 1 ${localization.dataCoverageTimeline.availableDataFileLabel}`,
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText(localization.dataCoverageTimeline.statusDataAvailableButFiltered)).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', {
+        name: new RegExp(
+          `${localization.dataCoverageTimeline.tooltipStatusDataPresent}: ${localization.dataCoverageTimeline.monthsShort[1]} 2024`,
+        ),
+      }),
+    ).toHaveAttribute('aria-pressed', 'true');
   });
 
   it('returns null for empty data', () => {

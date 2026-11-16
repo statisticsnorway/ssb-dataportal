@@ -26,6 +26,7 @@ import {
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger, createLoggerWithBindings } from '@/libs/logger/server-logger';
 import dataProductsStatic from '@/static-data/data-products.json';
+import datasetVariableDataFilesStatic from '@/static-data/dataset-variable-data-files.json';
 import datasetVariablesStatic from '@/static-data/dataset-variables.json';
 import datasetsStatic from '@/static-data/datasets.json';
 import { getUserAgent } from '@/utils/userAgent';
@@ -39,6 +40,7 @@ const staticDatasetVariables: Record<string, DatasetVariableDTO[]> = Object.from
     variables.map((variable) => DatasetVariableDTOFromJSON(variable)),
   ]),
 );
+const staticVariableDataFiles = datasetVariableDataFilesStatic as Record<string, Record<string, string[]>>;
 
 const ttlSeconds = Number(process.env.DATADOC_CACHE_TTL_SECONDS) || 3600;
 const dataDocFetchOptions = {
@@ -223,7 +225,15 @@ export async function listDataFilesByDatasetIdAndStorageCategory(
       }
       return parsedData
         .map((item) => DaplaDataFileDTOFromJSON(item))
-        .filter((dataFile) => storageCategory === undefined || dataFile.storage_category === storageCategory);
+        .filter((dataFile) => storageCategory === undefined || dataFile.storage_category === storageCategory)
+        .filter((dataFile) => {
+          const variableFiles = staticVariableDataFiles[datasetId];
+          if (variableIds === undefined || !variableFiles) {
+            return true;
+          }
+          const variablesForFile = variableFiles[dataFile.file_path ?? ''] ?? [];
+          return variableIds.some((variableId) => variablesForFile.includes(variableId));
+        });
     } catch (error: unknown) {
       logger.warn({ error: sanitizeError(error), datafilePath }, 'No static datafile found for dataset id');
       return [];
@@ -289,7 +299,7 @@ export async function getDatasetById(id: string): Promise<DatasetDTO> {
 /**
  * Fetches all variables registered for a dataset.
  * @param datasetId The ID of the dataset.
- * @param period Only fetch variables found in data files overlapping this period (inclusive). Ignored for static data.
+ * @param period Only fetch variables found in data files overlapping this period (inclusive).
  * @returns A promise that resolves to the dataset's variables.
  */
 export async function listDatasetVariables(
@@ -300,6 +310,26 @@ export async function listDatasetVariables(
   if (process.env.DATADOC_USE_STATIC_DATA === 'true') {
     const variables = staticDatasetVariables[datasetId] ?? [];
     logger.warn({ count: variables.length }, 'Using static mock data for dataset variables');
+    const variableFiles = staticVariableDataFiles[datasetId];
+    if (period && variableFiles) {
+      const dataFiles = await listDataFilesByDatasetIdAndStorageCategory(datasetId);
+      const filesInPeriod = new Set(
+        dataFiles
+          .filter(
+            (file) =>
+              file.contains_data_from &&
+              file.contains_data_until &&
+              file.contains_data_from <= period.until &&
+              file.contains_data_until >= period.from,
+          )
+          .map((file) => file.file_path ?? ''),
+      );
+      return variables.filter((variable) =>
+        Object.entries(variableFiles).some(
+          ([filePath, variableIds]) => filesInPeriod.has(filePath) && variableIds.includes(variable.id),
+        ),
+      );
+    }
     return variables;
   }
 

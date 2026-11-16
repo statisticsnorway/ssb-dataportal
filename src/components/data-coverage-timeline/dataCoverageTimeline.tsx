@@ -41,6 +41,8 @@ interface CellProps extends PeriodStatus {
   idx: number;
   totalSlots: number;
   year: number;
+  isSelected: boolean;
+  onSelectPeriod?: (slot: Slot, year: number) => void;
 }
 
 /**
@@ -62,6 +64,8 @@ const TimelineCell: React.FC<CellProps> = ({
   matchedItems,
   hasFilteredData,
   isOutsideSelectedRange,
+  isSelected,
+  onSelectPeriod,
 }) => {
   const text = localization.dataCoverageTimeline;
   const baseValues = { slotLabel: slot.label, year };
@@ -91,11 +95,18 @@ const TimelineCell: React.FC<CellProps> = ({
             styles.cell,
             hasData ? styles.cellFilled : styles.cellEmpty,
             hasFilteredData && styles.cellFiltered,
+            isOutsideSelectedRange && styles.cellOutsideSelectedRange,
+            isSelected && styles.cellSelected,
             isFirst && styles.cellFirst,
             isLast && styles.cellLast,
           )}
         />
-        <Popover.Trigger aria-label={triggerLabel} className={styles.cellTrigger} />
+        <Popover.Trigger
+          aria-label={triggerLabel}
+          aria-pressed={isSelected}
+          className={styles.cellTrigger}
+          onClick={() => onSelectPeriod?.(slot, year)}
+        />
       </div>
       <Popover
         placement='top'
@@ -129,6 +140,8 @@ interface MobileTimelineYearProps {
   open: boolean;
   panelId: string;
   onToggle: () => void;
+  selectedPeriodRange?: { start: string; end: string };
+  onSelectPeriod?: (slot: Slot, year: number) => void;
 }
 
 interface MobileTimelinePeriodProps {
@@ -159,7 +172,15 @@ const MobileTimelinePeriod = ({ period, year }: MobileTimelinePeriodProps) => {
   return <p>{text.statusMissingTargetSegment}</p>;
 };
 
-const MobileTimelineYear = ({ year, periods, open, panelId, onToggle }: MobileTimelineYearProps) => {
+const MobileTimelineYear = ({
+  year,
+  periods,
+  open,
+  panelId,
+  onToggle,
+  selectedPeriodRange,
+  onSelectPeriod,
+}: MobileTimelineYearProps) => {
   const text = localization.dataCoverageTimeline;
   const hasYearData = periods.some(({ matchedItems, hasFilteredData }) => matchedItems.length > 0 || hasFilteredData);
   let panelContent: React.ReactNode = null;
@@ -167,7 +188,14 @@ const MobileTimelineYear = ({ year, periods, open, panelId, onToggle }: MobileTi
   if (open && hasYearData) {
     panelContent = periods.map((period) => (
       <div key={period.slot.label}>
-        <Heading level={3} data-size='xs'>{`${period.slot.label} ${year}`}</Heading>
+        <Button
+          variant='tertiary'
+          className={styles.mobilePeriodButton}
+          aria-pressed={selectedPeriodRange?.start === period.slot.start && selectedPeriodRange.end === period.slot.end}
+          onClick={() => onSelectPeriod?.(period.slot, year)}
+        >
+          <Heading level={3} data-size='xs'>{`${period.slot.label} ${year}`}</Heading>
+        </Button>
         <MobileTimelinePeriod period={period} year={year} />
       </div>
     ));
@@ -187,13 +215,17 @@ const MobileTimelineYear = ({ year, periods, open, panelId, onToggle }: MobileTi
       >
         <span className={styles.yearLabel}>{year}</span>
         <span className={styles.mobileTrack} aria-hidden='true'>
-          {periods.map(({ slot, matchedItems, hasFilteredData }) => (
+          {periods.map(({ slot, matchedItems, hasFilteredData, isOutsideSelectedRange }) => (
             <span
               key={slot.label}
               className={classNames(
                 styles.mobileSegment,
                 matchedItems.length > 0 ? styles.cellFilled : styles.cellEmpty,
                 matchedItems.length === 0 && hasFilteredData && styles.cellFiltered,
+                isOutsideSelectedRange && styles.mobileSegmentOutsideSelectedRange,
+                selectedPeriodRange?.start === slot.start &&
+                  selectedPeriodRange.end === slot.end &&
+                  styles.mobileSegmentSelected,
               )}
             />
           ))}
@@ -220,6 +252,7 @@ const MobileTimelineYear = ({ year, periods, open, panelId, onToggle }: MobileTi
 type DataCoverageTimelineProps = Pick<TimelineData, 'isValid' | 'allItems' | 'years' | 'slots'> & {
   unfilteredItems?: TimelineItem[];
   selectedPeriodRange?: { start: string; end: string };
+  onSelectPeriod?: (slot: Slot, year: number) => void;
 };
 
 const DataCoverageTimeline = ({
@@ -229,6 +262,7 @@ const DataCoverageTimeline = ({
   years,
   slots,
   selectedPeriodRange,
+  onSelectPeriod,
 }: DataCoverageTimelineProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [expandedYear, setExpandedYear] = useState<number | null>(null);
@@ -246,7 +280,7 @@ const DataCoverageTimeline = ({
             const isOutsideSelectedRange =
               selectedPeriodRange !== undefined &&
               !(slot.start >= selectedPeriodRange.start && slot.end <= selectedPeriodRange.end);
-            const matchedItems = isOutsideSelectedRange ? [] : allItems.filter((item) => slotOverlapsItem(slot, item));
+            const matchedItems = allItems.filter((item) => slotOverlapsItem(slot, item));
             const hasFilteredData =
               matchedItems.length === 0 && unfilteredItems.some((item) => slotOverlapsItem(slot, item));
             return { slot, matchedItems, hasFilteredData, isOutsideSelectedRange };
@@ -338,6 +372,8 @@ const DataCoverageTimeline = ({
                     open={open}
                     panelId={panelId}
                     onToggle={() => setExpandedYear(open ? null : year)}
+                    selectedPeriodRange={selectedPeriodRange}
+                    onSelectPeriod={onSelectPeriod}
                   />
                 );
               }
@@ -346,8 +382,8 @@ const DataCoverageTimeline = ({
                   <span className={styles.yearLabel} aria-hidden='true'>
                     {year}
                   </span>
-                  <fieldset className={styles.track}>
-                    <legend className='ds-sr-only'>
+                  <fieldset className={styles.track} aria-labelledby={`${instanceId}-${year}-legend`}>
+                    <legend id={`${instanceId}-${year}-legend`} className='ds-sr-only'>
                       {formatTemplate(localization.dataCoverageTimeline.yearGroupLabel, { year })}
                     </legend>
                     {periods.map(({ slot, matchedItems, hasFilteredData, isOutsideSelectedRange }, idx) => (
@@ -358,8 +394,10 @@ const DataCoverageTimeline = ({
                         totalSlots={periods.length}
                         year={year}
                         isOutsideSelectedRange={isOutsideSelectedRange}
+                        isSelected={selectedPeriodRange?.start === slot.start && selectedPeriodRange.end === slot.end}
                         matchedItems={matchedItems}
                         hasFilteredData={hasFilteredData}
+                        onSelectPeriod={onSelectPeriod}
                       />
                     ))}
                   </fieldset>
