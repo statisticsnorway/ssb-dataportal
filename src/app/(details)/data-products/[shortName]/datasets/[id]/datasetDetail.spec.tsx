@@ -339,6 +339,36 @@ describe('DatasetDetail', () => {
     expect(screen.getByRole('searchbox', { name: 'Filtrer på navn' })).toHaveValue('income');
   });
 
+  it.each([
+    { isAuthenticated: false, datasetVariables: defaultProps.datasetVariables, scenario: 'unauthenticated users' },
+    { isAuthenticated: true, datasetVariables: [], scenario: 'datasets without variables' },
+  ])('disables timeline selection for $scenario', ({ isAuthenticated, datasetVariables }) => {
+    auth.isAuthenticated = isAuthenticated;
+    vi.mocked(useTimelineData).mockReturnValue(twoPeriodTimelineData);
+
+    renderDatasetDetail({ datasetVariables });
+
+    expect(vi.mocked(DataCoverageTimeline).mock.lastCall?.[0].onSelectPeriod).toBeUndefined();
+    expect(screen.getByTestId('data-coverage-timeline')).toBeInTheDocument();
+    expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute('data-selected-period-range', '');
+    expect(listDatasetVariableIdsInPeriod).not.toHaveBeenCalled();
+  });
+
+  it('cancels a pending period variable request when authentication is lost', async () => {
+    vi.mocked(useTimelineData).mockReturnValue(twoPeriodTimelineData);
+    const { rerender } = renderDatasetDetail();
+    selectTimelinePeriod('2020-01-01', '2020-01-31');
+
+    auth.isAuthenticated = false;
+    rerender(<DatasetDetail {...defaultProps} />);
+
+    await act(() => new Promise((resolve) => setTimeout(resolve, 300)));
+
+    expect(listDatasetVariableIdsInPeriod).not.toHaveBeenCalled();
+    expect(vi.mocked(DataCoverageTimeline).mock.lastCall?.[0].onSelectPeriod).toBeUndefined();
+    expect(screen.getByTestId('dataset-periods-and-variables')).toHaveAttribute('aria-busy', 'false');
+  });
+
   it('shows only shared files for unauthenticated users', () => {
     auth.isAuthenticated = false;
 

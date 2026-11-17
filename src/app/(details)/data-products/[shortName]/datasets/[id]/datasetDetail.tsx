@@ -51,6 +51,7 @@ export default function DatasetDetail({
     0,
   );
   const { isValid, allItems, years, slots } = useTimelineData(dataFiles);
+  const showFilters = isAuthenticated && datasetVariables.length > 0;
   const datasetId = dataset.id ?? '';
   const timelinePeriods = useMemo<TimelinePeriodSlot[]>(
     () => years.flatMap((year) => (slots[year] ?? []).map((slot) => ({ ...slot, year }))),
@@ -89,7 +90,7 @@ export default function DatasetDetail({
     new Set<string>(),
   );
   const variableIdsInPeriod = useDebouncedLoad(
-    selectedPeriodRange ? `${datasetId}:${selectedPeriodRange.start}:${selectedPeriodRange.end}` : null,
+    showFilters && selectedPeriodRange ? `${datasetId}:${selectedPeriodRange.start}:${selectedPeriodRange.end}` : null,
     async () =>
       new Set(
         await listDatasetVariableIdsInPeriod(
@@ -119,7 +120,7 @@ export default function DatasetDetail({
       years={years}
       slots={slots}
       selectedPeriodRange={selectedPeriodRange}
-      onSelectPeriod={selectTimelinePeriod}
+      onSelectPeriod={showFilters ? selectTimelinePeriod : undefined}
     />
   ) : (
     <>
@@ -145,7 +146,6 @@ export default function DatasetDetail({
       </div>
     </>
   );
-  const showFilters = isAuthenticated && datasetVariables.length > 0;
   const variableContent = showFilters ? (
     <DatasetVariableList
       variables={periodFilteredDatasetVariables}
