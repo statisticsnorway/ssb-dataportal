@@ -69,18 +69,20 @@ test.describe('authenticated', () => {
     });
     await page.goto(`${route}/ameld/datasets/id11`);
 
-    await page
-      .getByTestId('data-coverage-timeline')
-      .getByRole('button', { name: /H1 2017/ })
-      .click();
+    const timeline = page.getByTestId('data-coverage-timeline');
+    const periodButton = timeline.getByRole('button', { name: /H1 2017/ });
+    await periodButton.click();
 
-    await expect(page.getByTestId('data-coverage-timeline').getByRole('article')).toBeVisible();
+    await expect(timeline.getByRole('article')).toBeVisible();
     await expect(page.getByText('arbeidsforhold_id', { exact: true })).toBeVisible();
     await expect(page.getByText('innrapportert_tidspunkt', { exact: true })).not.toBeVisible();
-    await expect(page.getByTestId('data-coverage-timeline').getByRole('button', { name: /H1 2017/ })).toHaveAttribute(
-      'aria-pressed',
-      'true',
-    );
+    await expect(periodButton).toHaveAttribute('aria-pressed', 'true');
+
+    await periodButton.click();
+
+    await expect(periodButton).toHaveAttribute('aria-pressed', 'false');
+    await expect(page.getByText('innrapportert_tidspunkt', { exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Fjern Periode: H1 2017', exact: true })).not.toBeVisible();
     expect(hydrationErrors).toEqual([]);
   });
 
