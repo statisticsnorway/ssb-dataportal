@@ -7,6 +7,7 @@ import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { useTimelineData } from '@/components/data-coverage-timeline';
 import DataCoverageTimeline from '@/components/data-coverage-timeline/dataCoverageTimeline';
+import type { Slot } from '@/components/data-coverage-timeline/types';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { DetailsList } from '@/components/details-list';
 import { ExternalLink } from '@/components/link-components/externalLink';
@@ -24,6 +25,59 @@ import styles from './dataset-page.module.css';
 import workspaceStyles from './dataset-workspace.module.css';
 import { DatasetFilters, type FilterState, getSelectedPeriods, type TimelinePeriodSlot } from './datasetFilters';
 import { useDebouncedLoad } from './useDebouncedLoad';
+
+function DatasetAbout({
+  dataset,
+  isAuthenticated,
+  totalNamingStandardViolations,
+}: Readonly<{
+  dataset: DatasetDTO;
+  isAuthenticated: boolean;
+  totalNamingStandardViolations: number;
+}>) {
+  return (
+    <DetailsList
+      title={localization.datasetDetail.aboutDataset}
+      allowedVisibility={isAuthenticated ? Visibility.INTERNAL : Visibility.EXTERNAL}
+      content={[
+        { label: localization.datasetDetail.dataProduct, value: dataset.product_short_name },
+        { label: localization.datasetDetail.bucket, value: dataset.storage_location_name },
+        {
+          label: localization.datasetDetail.datasetState,
+          value: dataset.dataset_state && <Tag data-color='magic'>{convertDataSetState(dataset.dataset_state)}</Tag>,
+        },
+        {
+          label: localization.datasetDetail.assessment,
+          value: dataset.assessment && <Tag data-color='magic'> {convertAssessment(dataset.assessment)}</Tag>,
+        },
+        {
+          label: localization.datasetDetail.responsible,
+          value: (
+            <ExternalLink linkText={dataset.owner ?? 'undefined'} href={`${getDaplaCtrlUrl()}/team/${dataset.owner}`} />
+          ),
+          visibility: new Set([Visibility.INTERNAL]),
+        },
+        ...(totalNamingStandardViolations > 0
+          ? [
+              {
+                label: localization.datasetDetail.namingStandardViolations,
+                value: (
+                  <Badge
+                    count={totalNamingStandardViolations}
+                    data-color='warning'
+                    data-size='sm'
+                    className={styles.violationBadge}
+                    aria-label={`${totalNamingStandardViolations} total ${localization.datasetDetail.namingStandardViolations}`}
+                  />
+                ),
+              },
+            ]
+          : []),
+        { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
+      ]}
+    />
+  );
+}
 
 export default function DatasetDetail({
   dataset,
@@ -51,6 +105,7 @@ export default function DatasetDetail({
     0,
   );
   const { isValid, allItems, years, slots } = useTimelineData(dataFiles);
+  const canFilterVariables = isAuthenticated && datasetVariables.length > 0;
   const datasetId = dataset.id ?? '';
   const timelinePeriods = useMemo<TimelinePeriodSlot[]>(
     () => years.flatMap((year) => (slots[year] ?? []).map((slot) => ({ ...slot, year }))),
@@ -59,6 +114,14 @@ export default function DatasetDetail({
   const [filters, setFilters] = useState<FilterState>({ search: '', period: null });
   const updateFilters = (updates: Partial<FilterState>) => setFilters((current) => ({ ...current, ...updates }));
   const { range: selectedPeriodRange } = getSelectedPeriods(timelinePeriods, filters.period);
+  const toggleTimelinePeriod = (slot: Pick<Slot, 'start' | 'end'>) => {
+    const startIndex = timelinePeriods.findIndex((period) => period.start === slot.start);
+    const endIndex = timelinePeriods.findIndex((period) => period.end === slot.end);
+    if (startIndex < 0 || endIndex < startIndex) return;
+
+    const isAlreadySelected = filters.period?.[0] === startIndex && filters.period[1] === endIndex;
+    updateFilters({ period: isAlreadySelected ? null : [startIndex, endIndex] });
+  };
   const language = localization.getLanguage();
   const normalizedVariableNameFilter = filters.search.trim().toLocaleLowerCase(language);
   const matchingDatasetVariables = useMemo(
@@ -81,7 +144,9 @@ export default function DatasetDetail({
     new Set<string>(),
   );
   const variableIdsInPeriod = useDebouncedLoad(
-    selectedPeriodRange ? `${datasetId}:${selectedPeriodRange.start}:${selectedPeriodRange.end}` : null,
+    canFilterVariables && selectedPeriodRange
+      ? `${datasetId}:${selectedPeriodRange.start}:${selectedPeriodRange.end}`
+      : null,
     async () =>
       new Set(
         await listDatasetVariableIdsInPeriod(
@@ -111,6 +176,7 @@ export default function DatasetDetail({
       years={years}
       slots={slots}
       selectedPeriodRange={selectedPeriodRange}
+      onSelectPeriod={canFilterVariables ? toggleTimelinePeriod : undefined}
     />
   ) : (
     <>
@@ -136,8 +202,7 @@ export default function DatasetDetail({
       </div>
     </>
   );
-  const showFilters = isAuthenticated && datasetVariables.length > 0;
-  const variableContent = showFilters ? (
+  const variableContent = canFilterVariables ? (
     <DatasetVariableList
       variables={periodFilteredDatasetVariables}
       isLoading={matchingFilePaths.isLoading || variableIdsInPeriod.isLoading}
@@ -160,53 +225,13 @@ export default function DatasetDetail({
         <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='xl' level={1}>
           {dataset.short_description}
         </Heading>
-        <DetailsList
-          title={localization.datasetDetail.aboutDataset}
-          allowedVisibility={isAuthenticated ? Visibility.INTERNAL : Visibility.EXTERNAL}
-          content={[
-            { label: localization.datasetDetail.dataProduct, value: dataset.product_short_name },
-            { label: localization.datasetDetail.bucket, value: dataset.storage_location_name },
-            {
-              label: localization.datasetDetail.datasetState,
-              value: dataset.dataset_state && (
-                <Tag data-color='magic'>{convertDataSetState(dataset.dataset_state)}</Tag>
-              ),
-            },
-            {
-              label: localization.datasetDetail.assessment,
-              value: dataset.assessment && <Tag data-color='magic'> {convertAssessment(dataset.assessment)}</Tag>,
-            },
-            {
-              label: localization.datasetDetail.responsible,
-              value: (
-                <ExternalLink
-                  linkText={dataset.owner ?? 'undefined'}
-                  href={`${getDaplaCtrlUrl()}/team/${dataset.owner}`}
-                />
-              ),
-              visibility: new Set([Visibility.INTERNAL]),
-            },
-            ...(totalNamingStandardViolations > 0
-              ? [
-                  {
-                    label: localization.datasetDetail.namingStandardViolations,
-                    value: (
-                      <Badge
-                        count={totalNamingStandardViolations}
-                        data-color='warning'
-                        data-size='sm'
-                        className={styles.violationBadge}
-                        aria-label={`${totalNamingStandardViolations} total ${localization.datasetDetail.namingStandardViolations}`}
-                      />
-                    ),
-                  },
-                ]
-              : []),
-            { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
-          ]}
+        <DatasetAbout
+          dataset={dataset}
+          isAuthenticated={isAuthenticated}
+          totalNamingStandardViolations={totalNamingStandardViolations}
         />
         <Card
-          className={showFilters ? workspaceStyles.workspaceCard : styles.tableContainer}
+          className={canFilterVariables ? workspaceStyles.workspaceCard : styles.tableContainer}
           data-testid='dataset-periods-and-variables'
           aria-busy={matchingFilePaths.isLoading || variableIdsInPeriod.isLoading}
         >
@@ -217,7 +242,7 @@ export default function DatasetDetail({
             content={{
               timeline: timelineContent,
               variables: variableContent,
-              showFilters,
+              showFilters: canFilterVariables,
             }}
           />
         </Card>

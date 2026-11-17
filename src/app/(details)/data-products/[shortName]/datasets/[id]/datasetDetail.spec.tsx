@@ -1,8 +1,9 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { notFound } from 'next/navigation';
 import type { ComponentProps } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useTimelineData } from '@/components/data-coverage-timeline';
+import DataCoverageTimeline from '@/components/data-coverage-timeline/dataCoverageTimeline';
 import type { TimelineItem } from '@/components/data-coverage-timeline/types';
 import type { TimelineData } from '@/components/data-coverage-timeline/useTimelineData';
 import type { DaplaDataFileDTO, DatasetDTO, DatasetVariableDTO } from '@/libs/data-access/datadoc';
@@ -42,27 +43,31 @@ vi.mock('@/components/data-coverage-timeline', () => ({
 }));
 
 vi.mock('@/components/data-coverage-timeline/dataCoverageTimeline', () => ({
-  default: ({
-    allItems,
-    years,
-    slots,
-    selectedPeriodRange,
-  }: {
-    allItems: Array<{ file_path: string }>;
-    years: number[];
-    slots: Record<number, Array<{ label: string }>>;
-    selectedPeriodRange?: { start: string; end: string };
-  }) => (
-    <div
-      data-testid='data-coverage-timeline'
-      data-file-paths={allItems.map((item) => item.file_path).join(',')}
-      data-years={years.join(',')}
-      data-period-labels={Object.values(slots)
-        .flat()
-        .map((slot) => slot.label)
-        .join(',')}
-      data-selected-period-range={selectedPeriodRange ? `${selectedPeriodRange.start}:${selectedPeriodRange.end}` : ''}
-    />
+  default: vi.fn(
+    ({
+      allItems,
+      years,
+      slots,
+      selectedPeriodRange,
+    }: {
+      allItems: Array<{ file_path: string }>;
+      years: number[];
+      slots: Record<number, Array<{ label: string }>>;
+      selectedPeriodRange?: { start: string; end: string };
+    }) => (
+      <div
+        data-testid='data-coverage-timeline'
+        data-file-paths={allItems.map((item) => item.file_path).join(',')}
+        data-years={years.join(',')}
+        data-period-labels={Object.values(slots)
+          .flat()
+          .map((slot) => slot.label)
+          .join(',')}
+        data-selected-period-range={
+          selectedPeriodRange ? `${selectedPeriodRange.start}:${selectedPeriodRange.end}` : ''
+        }
+      />
+    ),
   ),
 }));
 
@@ -163,6 +168,10 @@ const defaultProps: ComponentProps<typeof DatasetDetail> = {
 
 function renderDatasetDetail(overrides: Partial<ComponentProps<typeof DatasetDetail>> = {}) {
   return render(<DatasetDetail {...defaultProps} {...overrides} />);
+}
+
+function selectTimelinePeriod(start: string, end: string) {
+  act(() => vi.mocked(DataCoverageTimeline).mock.lastCall?.[0].onSelectPeriod?.({ start, end, label: '' }));
 }
 
 describe('DatasetDetail', () => {
@@ -286,6 +295,78 @@ describe('DatasetDetail', () => {
       expect(screen.getByText('person_id', { selector: 'code' })).toBeDefined();
       expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute('data-selected-period-range', '');
     });
+  });
+
+  it('selects a single period when a timeline period is clicked', async () => {
+    vi.mocked(useTimelineData).mockReturnValue(twoPeriodTimelineData);
+    vi.mocked(listDatasetVariableIdsInPeriod).mockResolvedValue(['variable-1']);
+
+    renderDatasetDetail();
+    selectTimelinePeriod('2020-01-01', '2020-01-31');
+
+    await waitFor(() => {
+      expect(listDatasetVariableIdsInPeriod).toHaveBeenCalledWith('123', '2020-01-01', '2020-01-31');
+      expect(screen.getByText('income', { selector: 'code' })).toBeInTheDocument();
+      expect(screen.queryByText('person_id', { selector: 'code' })).not.toBeInTheDocument();
+    });
+
+    selectTimelinePeriod('2020-01-01', '2020-01-31');
+
+    expect(screen.getByText('person_id', { selector: 'code' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Nullstill filter' })).not.toBeInTheDocument();
+  });
+
+  it('toggles a whole year without clearing the name search', async () => {
+    vi.mocked(useTimelineData).mockReturnValue({
+      ...twoPeriodTimelineData,
+      slots: {
+        2020: [
+          { start: '2020-01-01', end: '2020-06-30', label: 'H1' },
+          { start: '2020-07-01', end: '2020-12-31', label: 'H2' },
+        ],
+      },
+    });
+    vi.mocked(listDatasetVariableIdsInPeriod).mockResolvedValue(['variable-1']);
+    renderDatasetDetail();
+    fireEvent.click(screen.getByRole('button', { name: 'Filtrer på navn' }));
+    fireEvent.change(screen.getByRole('searchbox', { name: 'Filtrer på navn' }), { target: { value: 'income' } });
+    selectTimelinePeriod('2020-01-01', '2020-12-31');
+    await waitFor(() => {
+      expect(listDatasetVariableIdsInPeriod).toHaveBeenCalledWith('123', '2020-01-01', '2020-12-31');
+    });
+    selectTimelinePeriod('2020-01-01', '2020-12-31');
+    expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute('data-selected-period-range', '');
+    expect(screen.getByRole('searchbox', { name: 'Filtrer på navn' })).toHaveValue('income');
+  });
+
+  it.each([
+    { isAuthenticated: false, datasetVariables: defaultProps.datasetVariables, scenario: 'unauthenticated users' },
+    { isAuthenticated: true, datasetVariables: [], scenario: 'datasets without variables' },
+  ])('disables timeline selection for $scenario', ({ isAuthenticated, datasetVariables }) => {
+    auth.isAuthenticated = isAuthenticated;
+    vi.mocked(useTimelineData).mockReturnValue(twoPeriodTimelineData);
+
+    renderDatasetDetail({ datasetVariables });
+
+    expect(vi.mocked(DataCoverageTimeline).mock.lastCall?.[0].onSelectPeriod).toBeUndefined();
+    expect(screen.getByTestId('data-coverage-timeline')).toBeInTheDocument();
+    expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute('data-selected-period-range', '');
+    expect(listDatasetVariableIdsInPeriod).not.toHaveBeenCalled();
+  });
+
+  it('cancels a pending period variable request when authentication is lost', async () => {
+    vi.mocked(useTimelineData).mockReturnValue(twoPeriodTimelineData);
+    const { rerender } = renderDatasetDetail();
+    selectTimelinePeriod('2020-01-01', '2020-01-31');
+
+    auth.isAuthenticated = false;
+    rerender(<DatasetDetail {...defaultProps} />);
+
+    await act(() => new Promise((resolve) => setTimeout(resolve, 300)));
+
+    expect(listDatasetVariableIdsInPeriod).not.toHaveBeenCalled();
+    expect(vi.mocked(DataCoverageTimeline).mock.lastCall?.[0].onSelectPeriod).toBeUndefined();
+    expect(screen.getByTestId('dataset-periods-and-variables')).toHaveAttribute('aria-busy', 'false');
   });
 
   it('shows only shared files for unauthenticated users', () => {
