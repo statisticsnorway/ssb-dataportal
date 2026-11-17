@@ -42,7 +42,7 @@ interface CellProps extends PeriodStatus {
   totalSlots: number;
   year: number;
   isSelected: boolean;
-  onSelectPeriod?: (slot: Slot, year: number) => void;
+  onSelectPeriod?: (slot: Slot) => void;
 }
 
 /**
@@ -103,9 +103,9 @@ const TimelineCell: React.FC<CellProps> = ({
         />
         <Popover.Trigger
           aria-label={triggerLabel}
-          aria-pressed={isSelected}
+          aria-pressed={onSelectPeriod ? isSelected : undefined}
           className={styles.cellTrigger}
-          onClick={() => onSelectPeriod?.(slot, year)}
+          onClick={() => onSelectPeriod?.(slot)}
         />
       </div>
       <Popover
@@ -141,7 +141,7 @@ interface MobileTimelineYearProps {
   panelId: string;
   onToggle: () => void;
   selectedPeriodRange?: { start: string; end: string };
-  onSelectPeriod?: (slot: Slot, year: number) => void;
+  onSelectPeriod?: (slot: Slot) => void;
 }
 
 interface MobileTimelinePeriodProps {
@@ -183,7 +183,12 @@ const MobileTimelineYear = ({
 }: MobileTimelineYearProps) => {
   const text = localization.dataCoverageTimeline;
   const hasYearData = periods.some(({ matchedItems, hasFilteredData }) => matchedItems.length > 0 || hasFilteredData);
-  const isSelected = selectedPeriodRange?.start === `${year}-01-01` && selectedPeriodRange.end === `${year}-12-31`;
+  const yearSlot: Slot = {
+    start: `${year}-01-01`,
+    end: `${year}-12-31`,
+    label: String(year),
+  };
+  const isSelected = selectedPeriodRange?.start === yearSlot.start && selectedPeriodRange.end === yearSlot.end;
   let panelContent: React.ReactNode = null;
 
   if (open && hasYearData) {
@@ -204,11 +209,11 @@ const MobileTimelineYear = ({
         className={styles.mobileYearButton}
         aria-label={formatTemplate(open ? text.hideYear : text.showYear, { year })}
         aria-expanded={open}
-        aria-pressed={isSelected}
+        aria-pressed={onSelectPeriod ? isSelected : undefined}
         aria-controls={panelId}
         onClick={() => {
           onToggle();
-          onSelectPeriod?.({ start: `${year}-01-01`, end: `${year}-12-31`, label: String(year) }, year);
+          onSelectPeriod?.(yearSlot);
         }}
       >
         <span className={styles.yearLabel}>{year}</span>
@@ -248,7 +253,7 @@ const MobileTimelineYear = ({
 type DataCoverageTimelineProps = Pick<TimelineData, 'isValid' | 'allItems' | 'years' | 'slots'> & {
   unfilteredItems?: TimelineItem[];
   selectedPeriodRange?: { start: string; end: string };
-  onSelectPeriod?: (slot: Slot, year: number) => void;
+  onSelectPeriod?: (slot: Slot) => void;
 };
 
 const DataCoverageTimeline = ({

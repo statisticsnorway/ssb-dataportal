@@ -7,6 +7,7 @@ import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { useTimelineData } from '@/components/data-coverage-timeline';
 import DataCoverageTimeline from '@/components/data-coverage-timeline/dataCoverageTimeline';
+import type { Slot } from '@/components/data-coverage-timeline/types';
 import { DataportalBreadcrumbs } from '@/components/dataportal-breadcrumbs';
 import { DetailsList } from '@/components/details-list';
 import { ExternalLink } from '@/components/link-components/externalLink';
@@ -51,7 +52,7 @@ export default function DatasetDetail({
     0,
   );
   const { isValid, allItems, years, slots } = useTimelineData(dataFiles);
-  const showFilters = isAuthenticated && datasetVariables.length > 0;
+  const canFilterVariables = isAuthenticated && datasetVariables.length > 0;
   const datasetId = dataset.id ?? '';
   const timelinePeriods = useMemo<TimelinePeriodSlot[]>(
     () => years.flatMap((year) => (slots[year] ?? []).map((slot) => ({ ...slot, year }))),
@@ -60,13 +61,13 @@ export default function DatasetDetail({
   const [filters, setFilters] = useState<FilterState>({ search: '', period: null });
   const updateFilters = (updates: Partial<FilterState>) => setFilters((current) => ({ ...current, ...updates }));
   const { range: selectedPeriodRange } = getSelectedPeriods(timelinePeriods, filters.period);
-  const selectTimelinePeriod = (slot: { start: string; end: string }) => {
+  const toggleTimelinePeriod = (slot: Pick<Slot, 'start' | 'end'>) => {
     const startIndex = timelinePeriods.findIndex((period) => period.start === slot.start);
     const endIndex = timelinePeriods.findIndex((period) => period.end === slot.end);
-    if (startIndex >= 0 && endIndex >= startIndex) {
-      const isAlreadySelected = filters.period?.[0] === startIndex && filters.period[1] === endIndex;
-      updateFilters({ period: isAlreadySelected ? null : [startIndex, endIndex] });
-    }
+    if (startIndex < 0 || endIndex < startIndex) return;
+
+    const isAlreadySelected = filters.period?.[0] === startIndex && filters.period[1] === endIndex;
+    updateFilters({ period: isAlreadySelected ? null : [startIndex, endIndex] });
   };
   const language = localization.getLanguage();
   const normalizedVariableNameFilter = filters.search.trim().toLocaleLowerCase(language);
@@ -90,7 +91,9 @@ export default function DatasetDetail({
     new Set<string>(),
   );
   const variableIdsInPeriod = useDebouncedLoad(
-    showFilters && selectedPeriodRange ? `${datasetId}:${selectedPeriodRange.start}:${selectedPeriodRange.end}` : null,
+    canFilterVariables && selectedPeriodRange
+      ? `${datasetId}:${selectedPeriodRange.start}:${selectedPeriodRange.end}`
+      : null,
     async () =>
       new Set(
         await listDatasetVariableIdsInPeriod(
@@ -120,7 +123,7 @@ export default function DatasetDetail({
       years={years}
       slots={slots}
       selectedPeriodRange={selectedPeriodRange}
-      onSelectPeriod={showFilters ? selectTimelinePeriod : undefined}
+      onSelectPeriod={canFilterVariables ? toggleTimelinePeriod : undefined}
     />
   ) : (
     <>
@@ -146,7 +149,7 @@ export default function DatasetDetail({
       </div>
     </>
   );
-  const variableContent = showFilters ? (
+  const variableContent = canFilterVariables ? (
     <DatasetVariableList
       variables={periodFilteredDatasetVariables}
       isLoading={matchingFilePaths.isLoading || variableIdsInPeriod.isLoading}
@@ -215,7 +218,7 @@ export default function DatasetDetail({
           ]}
         />
         <Card
-          className={showFilters ? workspaceStyles.workspaceCard : styles.tableContainer}
+          className={canFilterVariables ? workspaceStyles.workspaceCard : styles.tableContainer}
           data-testid='dataset-periods-and-variables'
           aria-busy={matchingFilePaths.isLoading || variableIdsInPeriod.isLoading}
         >
@@ -226,7 +229,7 @@ export default function DatasetDetail({
             content={{
               timeline: timelineContent,
               variables: variableContent,
-              showFilters,
+              showFilters: canFilterVariables,
             }}
           />
         </Card>

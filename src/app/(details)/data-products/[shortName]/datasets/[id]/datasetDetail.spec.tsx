@@ -171,7 +171,7 @@ function renderDatasetDetail(overrides: Partial<ComponentProps<typeof DatasetDet
 }
 
 function selectTimelinePeriod(start: string, end: string) {
-  act(() => vi.mocked(DataCoverageTimeline).mock.lastCall?.[0].onSelectPeriod?.({ start, end, label: '' }, 2020));
+  act(() => vi.mocked(DataCoverageTimeline).mock.lastCall?.[0].onSelectPeriod?.({ start, end, label: '' }));
 }
 
 describe('DatasetDetail', () => {

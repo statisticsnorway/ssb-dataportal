@@ -51,7 +51,7 @@ describe('DataCoverageTimeline', () => {
     const onSelectPeriod = vi.fn();
     const { rerender } = render(<DataCoverageTimeline {...timeline} onSelectPeriod={onSelectPeriod} />);
     fireEvent.click(screen.getByRole('button', { name: /2024/ }));
-    expect(onSelectPeriod).toHaveBeenCalledWith({ start: '2024-01-01', end: '2024-12-31', label: '2024' }, 2024);
+    expect(onSelectPeriod).toHaveBeenCalledWith({ start: '2024-01-01', end: '2024-12-31', label: '2024' });
     rerender(
       <DataCoverageTimeline
         {...timeline}
@@ -85,6 +85,7 @@ describe('DataCoverageTimeline', () => {
       screen.getByRole('button', { name: localization.dataCoverageTimeline.showYear.replace('{year}', '2024') }),
     );
     expect(screen.getByRole('heading', { name: 'H1 2024' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /2024/ })).not.toHaveAttribute('aria-pressed');
     expect(screen.getByRole('heading', { name: 'H2 2024' })).toBeInTheDocument();
     expect(
       screen.getByText(localization.dataCoverageTimeline.statusMissingTargetSegment, { selector: 'p' }),
@@ -219,7 +220,7 @@ describe('DataCoverageTimeline', () => {
       screen.getByRole('button', {
         name: `${text.tooltipStatusDataPresent}: ${janLabel} 2024. 1 ${text.availableDataFileLabel}`,
       }),
-    ).toBeInTheDocument();
+    ).not.toHaveAttribute('aria-pressed');
     expect(
       screen.getByRole('button', {
         name: `${text.tooltipStatusMissingTargetSegment}: ${text.monthsShort[1]} 2024`,
@@ -228,6 +229,7 @@ describe('DataCoverageTimeline', () => {
   });
 
   it('keeps popover data for grayed-out periods and marks the selected period', () => {
+    const onSelectPeriod = vi.fn();
     const data = [
       buildDataFile({
         filePath: 'gs://bucket/dataset/data_p2024_01.parquet',
@@ -252,6 +254,7 @@ describe('DataCoverageTimeline', () => {
     const { container } = render(
       <DataCoverageTimeline
         {...buildTimelineData(data)}
+        onSelectPeriod={onSelectPeriod}
         selectedPeriodRange={{ start: '2024-02-01', end: '2024-02-29' }}
       />,
     );
@@ -276,6 +279,12 @@ describe('DataCoverageTimeline', () => {
         ),
       }),
     ).toHaveAttribute('aria-pressed', 'true');
+    fireEvent.click(screen.getByRole('button', { name: /2024/, pressed: true }));
+    expect(onSelectPeriod).toHaveBeenCalledWith({
+      start: '2024-02-01',
+      end: '2024-02-29',
+      label: localization.dataCoverageTimeline.monthsShort[1],
+    });
   });
 
   it('returns null for empty data', () => {
