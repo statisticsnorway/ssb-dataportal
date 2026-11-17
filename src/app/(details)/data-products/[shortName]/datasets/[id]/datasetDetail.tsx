@@ -26,6 +26,59 @@ import workspaceStyles from './dataset-workspace.module.css';
 import { DatasetFilters, type FilterState, getSelectedPeriods, type TimelinePeriodSlot } from './datasetFilters';
 import { useDebouncedLoad } from './useDebouncedLoad';
 
+function DatasetAbout({
+  dataset,
+  isAuthenticated,
+  totalNamingStandardViolations,
+}: Readonly<{
+  dataset: DatasetDTO;
+  isAuthenticated: boolean;
+  totalNamingStandardViolations: number;
+}>) {
+  return (
+    <DetailsList
+      title={localization.datasetDetail.aboutDataset}
+      allowedVisibility={isAuthenticated ? Visibility.INTERNAL : Visibility.EXTERNAL}
+      content={[
+        { label: localization.datasetDetail.dataProduct, value: dataset.product_short_name },
+        { label: localization.datasetDetail.bucket, value: dataset.storage_location_name },
+        {
+          label: localization.datasetDetail.datasetState,
+          value: dataset.dataset_state && <Tag data-color='magic'>{convertDataSetState(dataset.dataset_state)}</Tag>,
+        },
+        {
+          label: localization.datasetDetail.assessment,
+          value: dataset.assessment && <Tag data-color='magic'> {convertAssessment(dataset.assessment)}</Tag>,
+        },
+        {
+          label: localization.datasetDetail.responsible,
+          value: (
+            <ExternalLink linkText={dataset.owner ?? 'undefined'} href={`${getDaplaCtrlUrl()}/team/${dataset.owner}`} />
+          ),
+          visibility: new Set([Visibility.INTERNAL]),
+        },
+        ...(totalNamingStandardViolations > 0
+          ? [
+              {
+                label: localization.datasetDetail.namingStandardViolations,
+                value: (
+                  <Badge
+                    count={totalNamingStandardViolations}
+                    data-color='warning'
+                    data-size='sm'
+                    className={styles.violationBadge}
+                    aria-label={`${totalNamingStandardViolations} total ${localization.datasetDetail.namingStandardViolations}`}
+                  />
+                ),
+              },
+            ]
+          : []),
+        { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
+      ]}
+    />
+  );
+}
+
 export default function DatasetDetail({
   dataset,
   dataFilesShared,
@@ -172,50 +225,10 @@ export default function DatasetDetail({
         <Heading className={`${styles.detailsHeading} primaryHeading`} data-size='xl' level={1}>
           {dataset.short_description}
         </Heading>
-        <DetailsList
-          title={localization.datasetDetail.aboutDataset}
-          allowedVisibility={isAuthenticated ? Visibility.INTERNAL : Visibility.EXTERNAL}
-          content={[
-            { label: localization.datasetDetail.dataProduct, value: dataset.product_short_name },
-            { label: localization.datasetDetail.bucket, value: dataset.storage_location_name },
-            {
-              label: localization.datasetDetail.datasetState,
-              value: dataset.dataset_state && (
-                <Tag data-color='magic'>{convertDataSetState(dataset.dataset_state)}</Tag>
-              ),
-            },
-            {
-              label: localization.datasetDetail.assessment,
-              value: dataset.assessment && <Tag data-color='magic'> {convertAssessment(dataset.assessment)}</Tag>,
-            },
-            {
-              label: localization.datasetDetail.responsible,
-              value: (
-                <ExternalLink
-                  linkText={dataset.owner ?? 'undefined'}
-                  href={`${getDaplaCtrlUrl()}/team/${dataset.owner}`}
-                />
-              ),
-              visibility: new Set([Visibility.INTERNAL]),
-            },
-            ...(totalNamingStandardViolations > 0
-              ? [
-                  {
-                    label: localization.datasetDetail.namingStandardViolations,
-                    value: (
-                      <Badge
-                        count={totalNamingStandardViolations}
-                        data-color='warning'
-                        data-size='sm'
-                        className={styles.violationBadge}
-                        aria-label={`${totalNamingStandardViolations} total ${localization.datasetDetail.namingStandardViolations}`}
-                      />
-                    ),
-                  },
-                ]
-              : []),
-            { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
-          ]}
+        <DatasetAbout
+          dataset={dataset}
+          isAuthenticated={isAuthenticated}
+          totalNamingStandardViolations={totalNamingStandardViolations}
         />
         <Card
           className={canFilterVariables ? workspaceStyles.workspaceCard : styles.tableContainer}
