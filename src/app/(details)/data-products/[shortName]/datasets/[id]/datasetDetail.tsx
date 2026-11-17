@@ -60,10 +60,11 @@ export default function DatasetDetail({
   const updateFilters = (updates: Partial<FilterState>) => setFilters((current) => ({ ...current, ...updates }));
   const { range: selectedPeriodRange } = getSelectedPeriods(timelinePeriods, filters.period);
   const selectTimelinePeriod = (slot: { start: string; end: string }) => {
-    const index = timelinePeriods.findIndex((period) => period.start === slot.start && period.end === slot.end);
-    if (index >= 0) {
-      const isAlreadySelected = filters.period?.[0] === index && filters.period[1] === index;
-      updateFilters({ period: isAlreadySelected ? null : [index, index] });
+    const startIndex = timelinePeriods.findIndex((period) => period.start === slot.start);
+    const endIndex = timelinePeriods.findIndex((period) => period.end === slot.end);
+    if (startIndex >= 0 && endIndex >= startIndex) {
+      const isAlreadySelected = filters.period?.[0] === startIndex && filters.period[1] === endIndex;
+      updateFilters({ period: isAlreadySelected ? null : [startIndex, endIndex] });
     }
   };
   const language = localization.getLanguage();

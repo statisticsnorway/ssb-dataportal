@@ -183,19 +183,13 @@ const MobileTimelineYear = ({
 }: MobileTimelineYearProps) => {
   const text = localization.dataCoverageTimeline;
   const hasYearData = periods.some(({ matchedItems, hasFilteredData }) => matchedItems.length > 0 || hasFilteredData);
+  const isSelected = selectedPeriodRange?.start === `${year}-01-01` && selectedPeriodRange.end === `${year}-12-31`;
   let panelContent: React.ReactNode = null;
 
   if (open && hasYearData) {
     panelContent = periods.map((period) => (
       <div key={period.slot.label}>
-        <Button
-          variant='tertiary'
-          className={styles.mobilePeriodButton}
-          aria-pressed={selectedPeriodRange?.start === period.slot.start && selectedPeriodRange.end === period.slot.end}
-          onClick={() => onSelectPeriod?.(period.slot, year)}
-        >
-          <Heading level={3} data-size='xs'>{`${period.slot.label} ${year}`}</Heading>
-        </Button>
+        <Heading level={3} data-size='xs'>{`${period.slot.label} ${year}`}</Heading>
         <MobileTimelinePeriod period={period} year={year} />
       </div>
     ));
@@ -210,8 +204,12 @@ const MobileTimelineYear = ({
         className={styles.mobileYearButton}
         aria-label={formatTemplate(open ? text.hideYear : text.showYear, { year })}
         aria-expanded={open}
+        aria-pressed={isSelected}
         aria-controls={panelId}
-        onClick={onToggle}
+        onClick={() => {
+          onToggle();
+          onSelectPeriod?.({ start: `${year}-01-01`, end: `${year}-12-31`, label: String(year) }, year);
+        }}
       >
         <span className={styles.yearLabel}>{year}</span>
         <span className={styles.mobileTrack} aria-hidden='true'>
@@ -223,9 +221,7 @@ const MobileTimelineYear = ({
                 matchedItems.length > 0 ? styles.cellFilled : styles.cellEmpty,
                 matchedItems.length === 0 && hasFilteredData && styles.cellFiltered,
                 isOutsideSelectedRange && styles.mobileSegmentOutsideSelectedRange,
-                selectedPeriodRange?.start === slot.start &&
-                  selectedPeriodRange.end === slot.end &&
-                  styles.mobileSegmentSelected,
+                isSelected && styles.mobileSegmentSelected,
               )}
             />
           ))}

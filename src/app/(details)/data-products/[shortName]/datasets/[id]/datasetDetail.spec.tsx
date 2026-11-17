@@ -71,9 +71,22 @@ vi.mock('@/components/data-coverage-timeline/dataCoverageTimeline', () => ({
           }
         />
         {firstPeriod ? (
-          <button type='button' onClick={() => onSelectPeriod?.(firstPeriod.period, firstPeriod.year)}>
-            Select first timeline period
-          </button>
+          <>
+            <button type='button' onClick={() => onSelectPeriod?.(firstPeriod.period, firstPeriod.year)}>
+              Select first timeline period
+            </button>
+            <button
+              type='button'
+              onClick={() =>
+                onSelectPeriod?.(
+                  { start: `${firstPeriod.year}-01-01`, end: `${firstPeriod.year}-12-31` },
+                  firstPeriod.year,
+                )
+              }
+            >
+              Select first timeline year
+            </button>
+          </>
         ) : null}
       </>
     );
@@ -327,6 +340,33 @@ describe('DatasetDetail', () => {
       expect(screen.getByText('person_id', { selector: 'code' })).toBeInTheDocument();
       expect(screen.queryByRole('button', { name: 'Nullstill filter' })).not.toBeInTheDocument();
     });
+  });
+
+  it('toggles a whole year without clearing the name search', async () => {
+    vi.mocked(useTimelineData).mockReturnValue({
+      ...twoPeriodTimelineData,
+      slots: {
+        2020: [
+          { start: '2020-01-01', end: '2020-06-30', label: 'H1' },
+          { start: '2020-07-01', end: '2020-12-31', label: 'H2' },
+        ],
+      },
+    });
+    vi.mocked(listDatasetVariableIdsInPeriod).mockResolvedValue(['variable-1']);
+    renderDatasetDetail();
+    fireEvent.click(screen.getByRole('button', { name: 'Filtrer på navn' }));
+    fireEvent.change(screen.getByRole('searchbox', { name: 'Filtrer på navn' }), { target: { value: 'income' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Select first timeline year' }));
+    await waitFor(() => {
+      expect(listDatasetVariableIdsInPeriod).toHaveBeenCalledWith('123', '2020-01-01', '2020-12-31');
+    });
+    expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute(
+      'data-selected-period-range',
+      '2020-01-01:2020-12-31',
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'Select first timeline year' }));
+    expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute('data-selected-period-range', '');
+    expect(screen.getByRole('searchbox', { name: 'Filtrer på navn' })).toHaveValue('income');
   });
 
   it('shows only shared files for unauthenticated users', () => {

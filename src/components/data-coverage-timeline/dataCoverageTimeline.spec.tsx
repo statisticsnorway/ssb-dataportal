@@ -37,6 +37,38 @@ describe('DataCoverageTimeline', () => {
   afterEach(() => vi.unstubAllGlobals());
   beforeEach(() => mockMobileViewport(false));
 
+  it('selects a whole year from the mobile year button while expanding its details', () => {
+    mockMobileViewport(true);
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/data.parquet',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-06-30'),
+        periodType: PeriodFormat.HALF_YEAR,
+      }),
+    ];
+    const timeline = buildTimelineData(data);
+    const onSelectPeriod = vi.fn();
+    const { rerender } = render(<DataCoverageTimeline {...timeline} onSelectPeriod={onSelectPeriod} />);
+    fireEvent.click(screen.getByRole('button', { name: /2024/ }));
+    expect(onSelectPeriod).toHaveBeenCalledWith({ start: '2024-01-01', end: '2024-12-31', label: '2024' }, 2024);
+    rerender(
+      <DataCoverageTimeline
+        {...timeline}
+        onSelectPeriod={onSelectPeriod}
+        selectedPeriodRange={{ start: '2024-01-01', end: '2024-12-31' }}
+      />,
+    );
+    const yearButton = screen.getByRole('button', { name: /2024/ });
+    expect(yearButton).toHaveAttribute('aria-pressed', 'true');
+    expect(yearButton).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByRole('heading', { name: 'H1 2024' })).toBeVisible();
+    expect(screen.queryByRole('button', { name: 'H1 2024' })).not.toBeInTheDocument();
+    fireEvent.click(yearButton);
+    expect(yearButton).toHaveAttribute('aria-expanded', 'false');
+    expect(onSelectPeriod).toHaveBeenCalledTimes(2);
+  });
+
   it('opens mobile file cards grouped by period without a second button or filenames', () => {
     mockMobileViewport(true);
     const data = [

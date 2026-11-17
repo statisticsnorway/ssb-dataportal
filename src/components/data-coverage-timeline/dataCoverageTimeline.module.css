@@ -41,11 +41,6 @@
   background: transparent;
 }
 
-.mobilePeriodButton {
-  justify-content: flex-start;
-  padding-inline: 0;
-}
-
 .mobileTrack {
   display: flex;
   flex: 1;
