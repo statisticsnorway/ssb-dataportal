@@ -2,7 +2,8 @@
 
 import { Badge, Card, Heading, Tag } from '@digdir/designsystemet-react';
 import { notFound } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { parseAsString, useQueryStates } from 'nuqs';
+import { useMemo } from 'react';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { useTimelineData } from '@/components/data-coverage-timeline';
@@ -14,6 +15,7 @@ import { ExternalLink } from '@/components/link-components/externalLink';
 import { CopyTag } from '@/components/tag-components/copy-tag';
 import { DaplaDataFileDTO, DatasetDTO, DatasetVariableDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
+import { clientLogger } from '@/libs/logger/client-logger';
 import { Visibility } from '@/types/item';
 import { getDaplaCtrlUrl } from '@/utils/config';
 import { convertAssessment, convertDataSetState } from '@/utils/functions';
@@ -111,8 +113,29 @@ export default function DatasetDetail({
     () => years.flatMap((year) => (slots[year] ?? []).map((slot) => ({ ...slot, year }))),
     [slots, years],
   );
-  const [filters, setFilters] = useState<FilterState>({ search: '', period: null });
-  const updateFilters = (updates: Partial<FilterState>) => setFilters((current) => ({ ...current, ...updates }));
+  const [{ q, periodFrom, periodTo }, setQueryState] = useQueryStates({
+    q: parseAsString.withDefault(''),
+    periodFrom: parseAsString,
+    periodTo: parseAsString,
+  });
+  // Persist boundaries rather than indexes so links survive changes to available periods.
+  const startIndex = timelinePeriods.findIndex((period) => period.start === periodFrom);
+  const endIndex = timelinePeriods.findIndex((period) => period.end === periodTo);
+  const filters: FilterState = {
+    search: canFilterVariables ? q : '',
+    period: canFilterVariables && isValid && startIndex >= 0 && endIndex >= startIndex ? [startIndex, endIndex] : null,
+  };
+  const updateFilters = (updates: Partial<FilterState>) => {
+    const queryUpdate: Partial<{ q: string | null; periodFrom: string | null; periodTo: string | null }> = {};
+    if (updates.search !== undefined) queryUpdate.q = updates.search || null;
+    if (updates.period !== undefined) {
+      queryUpdate.periodFrom = updates.period ? (timelinePeriods[updates.period[0]]?.start ?? null) : null;
+      queryUpdate.periodTo = updates.period ? (timelinePeriods[updates.period[1]]?.end ?? null) : null;
+    }
+    setQueryState(queryUpdate).catch((error) => {
+      clientLogger.error('Failed to update query state', error);
+    });
+  };
   const { range: selectedPeriodRange } = getSelectedPeriods(timelinePeriods, filters.period);
   const toggleTimelinePeriod = (slot: Pick<Slot, 'start' | 'end'>) => {
     const startIndex = timelinePeriods.findIndex((period) => period.start === slot.start);
