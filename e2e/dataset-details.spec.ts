@@ -77,7 +77,10 @@ test.describe('authenticated', () => {
     await expect(page.getByTestId('data-coverage-timeline').getByRole('article')).toBeVisible();
     await expect(page.getByText('arbeidsforhold_id', { exact: true })).toBeVisible();
     await expect(page.getByText('innrapportert_tidspunkt', { exact: true })).not.toBeVisible();
-    await expect(page.getByRole('button', { name: /H1 2017/ })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByTestId('data-coverage-timeline').getByRole('button', { name: /H1 2017/ })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
     expect(hydrationErrors).toEqual([]);
   });
 
