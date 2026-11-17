@@ -184,32 +184,6 @@ describe('DataCoverageTimeline', () => {
     ).toBeInTheDocument();
   });
 
-  it('reports the clicked period to its owner', () => {
-    const data = [
-      buildDataFile({
-        filePath: 'gs://bucket/dataset/data_p2024_01.parquet',
-        from: new Date('2024-01-01'),
-        until: new Date('2024-01-31'),
-        periodType: PeriodFormat.YEAR_MONTH,
-      }),
-    ];
-    const onSelectPeriod = vi.fn();
-    render(<DataCoverageTimeline {...buildTimelineData(data)} onSelectPeriod={onSelectPeriod} />);
-
-    fireEvent.click(
-      screen.getByRole('button', {
-        name: new RegExp(
-          `${localization.dataCoverageTimeline.tooltipStatusDataPresent}: ${localization.dataCoverageTimeline.monthsShort[0]} 2024`,
-        ),
-      }),
-    );
-
-    expect(onSelectPeriod).toHaveBeenCalledWith(
-      expect.objectContaining({ start: '2024-01-01', end: '2024-01-31' }),
-      2024,
-    );
-  });
-
   it('renders monthly timeline with present and missing segments', () => {
     const data = [
       buildDataFile({

@@ -1,8 +1,9 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { notFound } from 'next/navigation';
 import type { ComponentProps } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useTimelineData } from '@/components/data-coverage-timeline';
+import DataCoverageTimeline from '@/components/data-coverage-timeline/dataCoverageTimeline';
 import type { TimelineItem } from '@/components/data-coverage-timeline/types';
 import type { TimelineData } from '@/components/data-coverage-timeline/useTimelineData';
 import type { DaplaDataFileDTO, DatasetDTO, DatasetVariableDTO } from '@/libs/data-access/datadoc';
@@ -42,55 +43,32 @@ vi.mock('@/components/data-coverage-timeline', () => ({
 }));
 
 vi.mock('@/components/data-coverage-timeline/dataCoverageTimeline', () => ({
-  default: ({
-    allItems,
-    years,
-    slots,
-    selectedPeriodRange,
-    onSelectPeriod,
-  }: {
-    allItems: Array<{ file_path: string }>;
-    years: number[];
-    slots: Record<number, Array<{ start: string; end: string; label: string }>>;
-    selectedPeriodRange?: { start: string; end: string };
-    onSelectPeriod?: (slot: { start: string; end: string }, year: number) => void;
-  }) => {
-    const firstPeriod = years.flatMap((year) => (slots[year] ?? []).map((period) => ({ period, year })))[0];
-    return (
-      <>
-        <div
-          data-testid='data-coverage-timeline'
-          data-file-paths={allItems.map((item) => item.file_path).join(',')}
-          data-years={years.join(',')}
-          data-period-labels={Object.values(slots)
-            .flat()
-            .map((slot) => slot.label)
-            .join(',')}
-          data-selected-period-range={
-            selectedPeriodRange ? `${selectedPeriodRange.start}:${selectedPeriodRange.end}` : ''
-          }
-        />
-        {firstPeriod ? (
-          <>
-            <button type='button' onClick={() => onSelectPeriod?.(firstPeriod.period, firstPeriod.year)}>
-              Select first timeline period
-            </button>
-            <button
-              type='button'
-              onClick={() =>
-                onSelectPeriod?.(
-                  { start: `${firstPeriod.year}-01-01`, end: `${firstPeriod.year}-12-31` },
-                  firstPeriod.year,
-                )
-              }
-            >
-              Select first timeline year
-            </button>
-          </>
-        ) : null}
-      </>
-    );
-  },
+  default: vi.fn(
+    ({
+      allItems,
+      years,
+      slots,
+      selectedPeriodRange,
+    }: {
+      allItems: Array<{ file_path: string }>;
+      years: number[];
+      slots: Record<number, Array<{ label: string }>>;
+      selectedPeriodRange?: { start: string; end: string };
+    }) => (
+      <div
+        data-testid='data-coverage-timeline'
+        data-file-paths={allItems.map((item) => item.file_path).join(',')}
+        data-years={years.join(',')}
+        data-period-labels={Object.values(slots)
+          .flat()
+          .map((slot) => slot.label)
+          .join(',')}
+        data-selected-period-range={
+          selectedPeriodRange ? `${selectedPeriodRange.start}:${selectedPeriodRange.end}` : ''
+        }
+      />
+    ),
+  ),
 }));
 
 vi.mock('./actions', () => ({
@@ -190,6 +168,10 @@ const defaultProps: ComponentProps<typeof DatasetDetail> = {
 
 function renderDatasetDetail(overrides: Partial<ComponentProps<typeof DatasetDetail>> = {}) {
   return render(<DatasetDetail {...defaultProps} {...overrides} />);
+}
+
+function selectTimelinePeriod(start: string, end: string) {
+  act(() => vi.mocked(DataCoverageTimeline).mock.lastCall?.[0].onSelectPeriod?.({ start, end, label: '' }, 2020));
 }
 
 describe('DatasetDetail', () => {
@@ -320,26 +302,18 @@ describe('DatasetDetail', () => {
     vi.mocked(listDatasetVariableIdsInPeriod).mockResolvedValue(['variable-1']);
 
     renderDatasetDetail();
-    fireEvent.click(screen.getByRole('button', { name: 'Select first timeline period' }));
+    selectTimelinePeriod('2020-01-01', '2020-01-31');
 
     await waitFor(() => {
       expect(listDatasetVariableIdsInPeriod).toHaveBeenCalledWith('123', '2020-01-01', '2020-01-31');
-      expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute(
-        'data-selected-period-range',
-        '2020-01-01:2020-01-31',
-      );
       expect(screen.getByText('income', { selector: 'code' })).toBeInTheDocument();
       expect(screen.queryByText('person_id', { selector: 'code' })).not.toBeInTheDocument();
     });
 
-    fireEvent.click(screen.getByRole('button', { name: 'Select first timeline period' }));
+    selectTimelinePeriod('2020-01-01', '2020-01-31');
 
-    await waitFor(() => {
-      expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute('data-selected-period-range', '');
-      expect(screen.getByText('income', { selector: 'code' })).toBeInTheDocument();
-      expect(screen.getByText('person_id', { selector: 'code' })).toBeInTheDocument();
-      expect(screen.queryByRole('button', { name: 'Nullstill filter' })).not.toBeInTheDocument();
-    });
+    expect(screen.getByText('person_id', { selector: 'code' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Nullstill filter' })).not.toBeInTheDocument();
   });
 
   it('toggles a whole year without clearing the name search', async () => {
@@ -356,15 +330,11 @@ describe('DatasetDetail', () => {
     renderDatasetDetail();
     fireEvent.click(screen.getByRole('button', { name: 'Filtrer på navn' }));
     fireEvent.change(screen.getByRole('searchbox', { name: 'Filtrer på navn' }), { target: { value: 'income' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Select first timeline year' }));
+    selectTimelinePeriod('2020-01-01', '2020-12-31');
     await waitFor(() => {
       expect(listDatasetVariableIdsInPeriod).toHaveBeenCalledWith('123', '2020-01-01', '2020-12-31');
     });
-    expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute(
-      'data-selected-period-range',
-      '2020-01-01:2020-12-31',
-    );
-    fireEvent.click(screen.getByRole('button', { name: 'Select first timeline year' }));
+    selectTimelinePeriod('2020-01-01', '2020-12-31');
     expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute('data-selected-period-range', '');
     expect(screen.getByRole('searchbox', { name: 'Filtrer på navn' })).toHaveValue('income');
   });

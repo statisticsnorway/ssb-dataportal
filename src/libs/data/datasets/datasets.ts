@@ -313,7 +313,7 @@ export async function listDatasetVariables(
     const variableFiles = staticVariableDataFiles[datasetId];
     if (period && variableFiles) {
       const dataFiles = await listDataFilesByDatasetIdAndStorageCategory(datasetId);
-      const filesInPeriod = new Set(
+      const variableIdsInPeriod = new Set(
         dataFiles
           .filter(
             (file) =>
@@ -322,13 +322,9 @@ export async function listDatasetVariables(
               file.contains_data_from <= period.until &&
               file.contains_data_until >= period.from,
           )
-          .map((file) => file.file_path ?? ''),
+          .flatMap((file) => variableFiles[file.file_path ?? ''] ?? []),
       );
-      return variables.filter((variable) =>
-        Object.entries(variableFiles).some(
-          ([filePath, variableIds]) => filesInPeriod.has(filePath) && variableIds.includes(variable.id),
-        ),
-      );
+      return variables.filter((variable) => variableIdsInPeriod.has(variable.id));
     }
     return variables;
   }
