@@ -200,6 +200,7 @@ export default function DatasetDetail({
 
   const timelineContent = isValid ? (
     <DataCoverageTimeline
+      showHeading={!canFilterVariables}
       isValid={isValid}
       allItems={filteredTimelineItems}
       unfilteredItems={allItems}

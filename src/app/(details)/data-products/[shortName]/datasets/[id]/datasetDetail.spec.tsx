@@ -320,6 +320,7 @@ describe('DatasetDetail', () => {
     renderDatasetDetail({ datasetVariables });
 
     expect(screen.getByRole('heading', { level: 1 }).textContent).toBe('Example dataset');
+    expect(screen.getAllByRole('heading', { name: 'Variabler' })).toHaveLength(1);
     expect(screen.getByText(sharedFile.file_path!)).toBeDefined();
     expect(screen.getByText(productFile.file_path!)).toBeDefined();
     expect(screen.queryByRole('heading', { name: 'Variabler i datasettet' })).toBeNull();
