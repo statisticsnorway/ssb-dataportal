@@ -251,12 +251,14 @@ const MobileTimelineYear = ({
  *
  */
 type DataCoverageTimelineProps = Pick<TimelineData, 'isValid' | 'allItems' | 'years' | 'slots'> & {
+  showHeading?: boolean;
   unfilteredItems?: TimelineItem[];
   selectedPeriodRange?: { start: string; end: string };
   onSelectPeriod?: (slot: Slot) => void;
 };
 
 const DataCoverageTimeline = ({
+  showHeading = true,
   isValid,
   allItems,
   unfilteredItems = allItems,
@@ -308,10 +310,17 @@ const DataCoverageTimeline = ({
 
   return (
     <>
-      <Heading level={2} className={styles.detailsHeading} data-size='md' id={headingId}>
-        {localization.datasetDetail.dataCoverageTimeline}
-      </Heading>
-      <section className={styles.container} aria-labelledby={headingId} data-testid='data-coverage-timeline'>
+      {showHeading ? (
+        <Heading level={2} className={styles.detailsHeading} data-size='md' id={headingId}>
+          {localization.datasetDetail.dataCoverageTimeline}
+        </Heading>
+      ) : null}
+      <section
+        className={styles.container}
+        aria-labelledby={showHeading ? headingId : undefined}
+        aria-label={showHeading ? undefined : localization.datasetDetail.dataCoverageTimeline}
+        data-testid='data-coverage-timeline'
+      >
         {canCollapseYears && (
           <Button
             type='button'

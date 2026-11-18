@@ -83,12 +83,7 @@ export function DatasetWorkspace({ search, period, activeFilters, timeline, vari
         </aside>
         <div className={styles.workspaceResults}>
           {timeline}
-          <section>
-            <Heading level={2} data-size='md' className={`${styles.variablesTitle} secondaryHeading`}>
-              {variablesTitle}
-            </Heading>
-            <div className={styles.variableCollection}>{variables}</div>
-          </section>
+          <div className={styles.variableCollection}>{variables}</div>
         </div>
       </div>
     </div>

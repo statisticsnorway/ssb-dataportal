@@ -2,7 +2,8 @@
 
 import { Badge, Card, Heading, Tag } from '@digdir/designsystemet-react';
 import { notFound } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { parseAsString, useQueryStates } from 'nuqs';
+import { useMemo } from 'react';
 import { tabsData } from '@/app/(services)/tabs';
 import { useAuthContext } from '@/app/authContext';
 import { useTimelineData } from '@/components/data-coverage-timeline';
@@ -14,6 +15,7 @@ import { ExternalLink } from '@/components/link-components/externalLink';
 import { CopyTag } from '@/components/tag-components/copy-tag';
 import { DaplaDataFileDTO, DatasetDTO, DatasetVariableDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
+import { clientLogger } from '@/libs/logger/client-logger';
 import { Visibility } from '@/types/item';
 import { getDaplaCtrlUrl } from '@/utils/config';
 import { convertAssessment, convertDataSetState } from '@/utils/functions';
@@ -25,6 +27,30 @@ import styles from './dataset-page.module.css';
 import workspaceStyles from './dataset-workspace.module.css';
 import { DatasetFilters, type FilterState, getSelectedPeriods, type TimelinePeriodSlot } from './datasetFilters';
 import { useDebouncedLoad } from './useDebouncedLoad';
+
+function getPeriodIndexes(
+  timelinePeriods: TimelinePeriodSlot[],
+  start: string | null,
+  end: string | null,
+): FilterState['period'] {
+  const startIndex = timelinePeriods.findIndex((period) => period.start === start);
+  const endIndex = timelinePeriods.findIndex((period) => period.end === end);
+  return startIndex >= 0 && endIndex >= startIndex ? [startIndex, endIndex] : null;
+}
+
+function getDatasetFilterState(
+  timelinePeriods: TimelinePeriodSlot[],
+  query: { q: string; periodFrom: string | null; periodTo: string | null },
+  canFilterVariables: boolean,
+  isValid: boolean,
+): FilterState {
+  if (!canFilterVariables) return { search: '', period: null };
+
+  return {
+    search: query.q,
+    period: isValid ? getPeriodIndexes(timelinePeriods, query.periodFrom, query.periodTo) : null,
+  };
+}
 
 function DatasetAbout({
   dataset,
@@ -111,16 +137,31 @@ export default function DatasetDetail({
     () => years.flatMap((year) => (slots[year] ?? []).map((slot) => ({ ...slot, year }))),
     [slots, years],
   );
-  const [filters, setFilters] = useState<FilterState>({ search: '', period: null });
-  const updateFilters = (updates: Partial<FilterState>) => setFilters((current) => ({ ...current, ...updates }));
+  const [{ q, periodFrom, periodTo }, setQueryState] = useQueryStates({
+    q: parseAsString.withDefault(''),
+    periodFrom: parseAsString,
+    periodTo: parseAsString,
+  });
+  // Persist boundaries rather than indexes so links survive changes to available periods.
+  const filters = getDatasetFilterState(timelinePeriods, { q, periodFrom, periodTo }, canFilterVariables, isValid);
+  const updateFilters = (updates: Partial<FilterState>) => {
+    const queryUpdate: Partial<{ q: string | null; periodFrom: string | null; periodTo: string | null }> = {};
+    if (updates.search !== undefined) queryUpdate.q = updates.search || null;
+    if (updates.period !== undefined) {
+      queryUpdate.periodFrom = updates.period ? (timelinePeriods[updates.period[0]]?.start ?? null) : null;
+      queryUpdate.periodTo = updates.period ? (timelinePeriods[updates.period[1]]?.end ?? null) : null;
+    }
+    setQueryState(queryUpdate).catch((error) => {
+      clientLogger.error('Failed to update query state', error);
+    });
+  };
   const { range: selectedPeriodRange } = getSelectedPeriods(timelinePeriods, filters.period);
   const toggleTimelinePeriod = (slot: Pick<Slot, 'start' | 'end'>) => {
-    const startIndex = timelinePeriods.findIndex((period) => period.start === slot.start);
-    const endIndex = timelinePeriods.findIndex((period) => period.end === slot.end);
-    if (startIndex < 0 || endIndex < startIndex) return;
+    const period = getPeriodIndexes(timelinePeriods, slot.start, slot.end);
+    if (!period) return;
 
-    const isAlreadySelected = filters.period?.[0] === startIndex && filters.period[1] === endIndex;
-    updateFilters({ period: isAlreadySelected ? null : [startIndex, endIndex] });
+    const isAlreadySelected = filters.period?.[0] === period[0] && filters.period[1] === period[1];
+    updateFilters({ period: isAlreadySelected ? null : period });
   };
   const language = localization.getLanguage();
   const normalizedVariableNameFilter = filters.search.trim().toLocaleLowerCase(language);
@@ -170,6 +211,7 @@ export default function DatasetDetail({
 
   const timelineContent = isValid ? (
     <DataCoverageTimeline
+      showHeading={!canFilterVariables}
       isValid={isValid}
       allItems={filteredTimelineItems}
       unfilteredItems={allItems}

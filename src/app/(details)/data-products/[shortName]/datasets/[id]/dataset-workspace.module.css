@@ -22,9 +22,6 @@
   margin: 0;
   padding: 0;
 }
-.variablesTitle {
-  margin: 0 0 var(--ds-size-6);
-}
 .activeFilters {
   display: flex;
   align-items: center;

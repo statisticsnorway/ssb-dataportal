@@ -185,6 +185,21 @@ describe('DataCoverageTimeline', () => {
     ).toBeInTheDocument();
   });
 
+  it('keeps an accessible region label when the heading is hidden', () => {
+    const data = [
+      buildDataFile({
+        filePath: 'gs://bucket/dataset/data_p2024.parquet',
+        from: new Date('2024-01-01'),
+        until: new Date('2024-12-31'),
+        periodType: PeriodFormat.YEAR,
+      }),
+    ];
+    render(<DataCoverageTimeline {...buildTimelineData(data)} showHeading={false} />);
+
+    expect(screen.queryByRole('heading', { name: localization.datasetDetail.dataCoverageTimeline })).toBeNull();
+    expect(screen.getByRole('region', { name: localization.datasetDetail.dataCoverageTimeline })).toBeInTheDocument();
+  });
+
   it('renders monthly timeline with present and missing segments', () => {
     const data = [
       buildDataFile({

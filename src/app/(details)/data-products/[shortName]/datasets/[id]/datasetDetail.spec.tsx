@@ -1,5 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { notFound } from 'next/navigation';
+import { NuqsTestingAdapter, type UrlUpdateEvent } from 'nuqs/adapters/testing';
 import type { ComponentProps } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useTimelineData } from '@/components/data-coverage-timeline';
@@ -166,8 +167,18 @@ const defaultProps: ComponentProps<typeof DatasetDetail> = {
   ],
 };
 
-function renderDatasetDetail(overrides: Partial<ComponentProps<typeof DatasetDetail>> = {}) {
-  return render(<DatasetDetail {...defaultProps} {...overrides} />);
+function renderDatasetDetail(
+  overrides: Partial<ComponentProps<typeof DatasetDetail>> = {},
+  searchParams = '',
+  onUrlUpdate: (event: UrlUpdateEvent) => void = vi.fn(),
+) {
+  return render(<DatasetDetail {...defaultProps} {...overrides} />, {
+    wrapper: ({ children }) => (
+      <NuqsTestingAdapter searchParams={searchParams} onUrlUpdate={onUrlUpdate} hasMemory>
+        {children}
+      </NuqsTestingAdapter>
+    ),
+  });
 }
 
 function selectTimelinePeriod(start: string, end: string) {
@@ -181,6 +192,110 @@ describe('DatasetDetail', () => {
     vi.mocked(useTimelineData).mockReturnValue(emptyTimelineData);
     vi.mocked(listDatasetVariableDataFilePaths).mockResolvedValue([]);
     vi.mocked(listDatasetVariableIdsInPeriod).mockResolvedValue([]);
+  });
+
+  it('restores search and period filters from the URL', async () => {
+    vi.mocked(useTimelineData).mockReturnValue(twoPeriodTimelineData);
+    vi.mocked(listDatasetVariableIdsInPeriod).mockResolvedValue(['variable-1']);
+    renderDatasetDetail({}, '?q=income&periodFrom=2020-01-01&periodTo=2020-01-31');
+
+    expect(screen.getByText('Søk: «income»')).toBeInTheDocument();
+    expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute(
+      'data-selected-period-range',
+      '2020-01-01:2020-01-31',
+    );
+    await waitFor(() => {
+      expect(listDatasetVariableIdsInPeriod).toHaveBeenCalledWith('123', '2020-01-01', '2020-01-31');
+    });
+  });
+
+  it.each([
+    'periodFrom=invalid&periodTo=2020-01-31',
+    'periodFrom=2020-02-01&periodTo=2020-01-31',
+    'periodFrom=2020-01-01',
+    'periodTo=2020-01-31',
+    'periodFrom=2019-01-01&periodTo=2019-01-31',
+  ])('ignores an unavailable or invalid period without rewriting the URL: %s', async (params) => {
+    vi.mocked(useTimelineData).mockReturnValue(twoPeriodTimelineData);
+    const onUrlUpdate = vi.fn();
+    renderDatasetDetail({}, `?${params}`, onUrlUpdate);
+
+    expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute('data-selected-period-range', '');
+    await act(() => new Promise((resolve) => setTimeout(resolve, 300)));
+    expect(listDatasetVariableIdsInPeriod).not.toHaveBeenCalled();
+    expect(onUrlUpdate).not.toHaveBeenCalled();
+  });
+
+  it('updates both period boundaries together and resets only dataset filter parameters', async () => {
+    vi.mocked(useTimelineData).mockReturnValue(twoPeriodTimelineData);
+    const onUrlUpdate = vi.fn<(event: UrlUpdateEvent) => void>();
+    renderDatasetDetail({}, '?q=income&other=keep', onUrlUpdate);
+    selectTimelinePeriod('2020-01-01', '2020-01-31');
+
+    await waitFor(() => {
+      const params = onUrlUpdate.mock.calls.at(-1)?.[0].searchParams;
+      expect(params?.get('periodFrom')).toBe('2020-01-01');
+      expect(params?.get('periodTo')).toBe('2020-01-31');
+      expect(params?.get('q')).toBe('income');
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Nullstill filter' }));
+    await waitFor(() => {
+      const params = onUrlUpdate.mock.calls.at(-1)?.[0].searchParams;
+      expect(params?.has('q')).toBe(false);
+      expect(params?.has('periodFrom')).toBe(false);
+      expect(params?.has('periodTo')).toBe(false);
+      expect(params?.get('other')).toBe('keep');
+    });
+  });
+
+  it('updates search and dropdown filters and clears the full-range selection', async () => {
+    vi.mocked(useTimelineData).mockReturnValue(twoPeriodTimelineData);
+    const onUrlUpdate = vi.fn<(event: UrlUpdateEvent) => void>();
+    renderDatasetDetail({}, '', onUrlUpdate);
+    fireEvent.click(screen.getByRole('button', { name: 'Filtrer på navn' }));
+    fireEvent.change(screen.getByRole('searchbox', { name: 'Filtrer på navn' }), { target: { value: 'income' } });
+    await waitFor(() => expect(onUrlUpdate.mock.calls.at(-1)?.[0].searchParams.get('q')).toBe('income'));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Periode' }));
+    fireEvent.change(screen.getByRole('combobox', { name: 'Til' }), { target: { value: '0' } });
+    await waitFor(() => {
+      expect(onUrlUpdate.mock.calls.at(-1)?.[0].searchParams.get('periodTo')).toBe('2020-01-31');
+    });
+    fireEvent.change(screen.getByRole('combobox', { name: 'Til' }), { target: { value: '1' } });
+    await waitFor(() => {
+      const params = onUrlUpdate.mock.calls.at(-1)?.[0].searchParams;
+      expect(params?.has('periodFrom')).toBe(false);
+      expect(params?.has('periodTo')).toBe(false);
+      expect(params?.get('q')).toBe('income');
+    });
+  });
+
+  it('keeps URL period boundaries selected when older periods are added', () => {
+    vi.mocked(useTimelineData).mockReturnValue(twoPeriodTimelineData);
+    const { rerender } = renderDatasetDetail({}, '?periodFrom=2020-02-01&periodTo=2020-02-29');
+    vi.mocked(useTimelineData).mockReturnValue({
+      ...twoPeriodTimelineData,
+      years: [2019, 2020],
+      slots: {
+        ...twoPeriodTimelineData.slots,
+        2019: [{ start: '2019-12-01', end: '2019-12-31', label: 'des' }],
+      },
+    });
+    rerender(<DatasetDetail {...defaultProps} />);
+    expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute(
+      'data-selected-period-range',
+      '2020-02-01:2020-02-29',
+    );
+  });
+
+  it('ignores URL filters when variable filtering is unavailable', async () => {
+    auth.isAuthenticated = false;
+    vi.mocked(useTimelineData).mockReturnValue(twoPeriodTimelineData);
+    renderDatasetDetail({}, '?q=income&periodFrom=2020-01-01&periodTo=2020-01-31');
+    expect(screen.getByTestId('data-coverage-timeline')).toHaveAttribute('data-selected-period-range', '');
+    await act(() => new Promise((resolve) => setTimeout(resolve, 300)));
+    expect(listDatasetVariableIdsInPeriod).not.toHaveBeenCalled();
+    expect(listDatasetVariableDataFilePaths).not.toHaveBeenCalled();
   });
 
   it('renders one type with the logical type preferred and physical storage details underneath', () => {
@@ -205,6 +320,7 @@ describe('DatasetDetail', () => {
     renderDatasetDetail({ datasetVariables });
 
     expect(screen.getByRole('heading', { level: 1 }).textContent).toBe('Example dataset');
+    expect(screen.getAllByRole('heading', { name: 'Variabler' })).toHaveLength(1);
     expect(screen.getByText(sharedFile.file_path!)).toBeDefined();
     expect(screen.getByText(productFile.file_path!)).toBeDefined();
     expect(screen.queryByRole('heading', { name: 'Variabler i datasettet' })).toBeNull();
