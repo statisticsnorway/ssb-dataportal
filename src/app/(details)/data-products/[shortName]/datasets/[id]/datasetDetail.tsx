@@ -38,6 +38,20 @@ function getPeriodIndexes(
   return startIndex >= 0 && endIndex >= startIndex ? [startIndex, endIndex] : null;
 }
 
+function getDatasetFilterState(
+  timelinePeriods: TimelinePeriodSlot[],
+  query: { q: string; periodFrom: string | null; periodTo: string | null },
+  canFilterVariables: boolean,
+  isValid: boolean,
+): FilterState {
+  if (!canFilterVariables) return { search: '', period: null };
+
+  return {
+    search: query.q,
+    period: isValid ? getPeriodIndexes(timelinePeriods, query.periodFrom, query.periodTo) : null,
+  };
+}
+
 function DatasetAbout({
   dataset,
   isAuthenticated,
@@ -129,10 +143,7 @@ export default function DatasetDetail({
     periodTo: parseAsString,
   });
   // Persist boundaries rather than indexes so links survive changes to available periods.
-  const filters: FilterState = {
-    search: canFilterVariables ? q : '',
-    period: canFilterVariables && isValid ? getPeriodIndexes(timelinePeriods, periodFrom, periodTo) : null,
-  };
+  const filters = getDatasetFilterState(timelinePeriods, { q, periodFrom, periodTo }, canFilterVariables, isValid);
   const updateFilters = (updates: Partial<FilterState>) => {
     const queryUpdate: Partial<{ q: string | null; periodFrom: string | null; periodTo: string | null }> = {};
     if (updates.search !== undefined) queryUpdate.q = updates.search || null;
