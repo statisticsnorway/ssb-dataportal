@@ -28,6 +28,16 @@ import workspaceStyles from './dataset-workspace.module.css';
 import { DatasetFilters, type FilterState, getSelectedPeriods, type TimelinePeriodSlot } from './datasetFilters';
 import { useDebouncedLoad } from './useDebouncedLoad';
 
+function getPeriodIndexes(
+  timelinePeriods: TimelinePeriodSlot[],
+  start: string | null,
+  end: string | null,
+): FilterState['period'] {
+  const startIndex = timelinePeriods.findIndex((period) => period.start === start);
+  const endIndex = timelinePeriods.findIndex((period) => period.end === end);
+  return startIndex >= 0 && endIndex >= startIndex ? [startIndex, endIndex] : null;
+}
+
 function DatasetAbout({
   dataset,
   isAuthenticated,
@@ -119,11 +129,9 @@ export default function DatasetDetail({
     periodTo: parseAsString,
   });
   // Persist boundaries rather than indexes so links survive changes to available periods.
-  const startIndex = timelinePeriods.findIndex((period) => period.start === periodFrom);
-  const endIndex = timelinePeriods.findIndex((period) => period.end === periodTo);
   const filters: FilterState = {
     search: canFilterVariables ? q : '',
-    period: canFilterVariables && isValid && startIndex >= 0 && endIndex >= startIndex ? [startIndex, endIndex] : null,
+    period: canFilterVariables && isValid ? getPeriodIndexes(timelinePeriods, periodFrom, periodTo) : null,
   };
   const updateFilters = (updates: Partial<FilterState>) => {
     const queryUpdate: Partial<{ q: string | null; periodFrom: string | null; periodTo: string | null }> = {};
@@ -138,12 +146,11 @@ export default function DatasetDetail({
   };
   const { range: selectedPeriodRange } = getSelectedPeriods(timelinePeriods, filters.period);
   const toggleTimelinePeriod = (slot: Pick<Slot, 'start' | 'end'>) => {
-    const startIndex = timelinePeriods.findIndex((period) => period.start === slot.start);
-    const endIndex = timelinePeriods.findIndex((period) => period.end === slot.end);
-    if (startIndex < 0 || endIndex < startIndex) return;
+    const period = getPeriodIndexes(timelinePeriods, slot.start, slot.end);
+    if (!period) return;
 
-    const isAlreadySelected = filters.period?.[0] === startIndex && filters.period[1] === endIndex;
-    updateFilters({ period: isAlreadySelected ? null : [startIndex, endIndex] });
+    const isAlreadySelected = filters.period?.[0] === period[0] && filters.period[1] === period[1];
+    updateFilters({ period: isAlreadySelected ? null : period });
   };
   const language = localization.getLanguage();
   const normalizedVariableNameFilter = filters.search.trim().toLocaleLowerCase(language);
