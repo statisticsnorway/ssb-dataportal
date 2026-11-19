@@ -44,7 +44,8 @@ export function EmptyState(props: EmptyStateProps) {
   const { title, description } = getCopy(props.reason, props);
 
   return (
-    <div className={styles.emptyState} role='status'>
+    <div className={styles.emptyState}>
+      <output className='ds-sr-only'>{`${title}. ${description}`}</output>
       <Heading className={styles.title} level={3} data-size='sm'>
         {title}
       </Heading>

@@ -30,6 +30,19 @@ function getPeriodIndexes(
   return startIndex >= 0 && endIndex >= startIndex ? [startIndex, endIndex] : null;
 }
 
+function getEmptyState(
+  query: string,
+  period: string,
+  hasSelectedPeriod: boolean,
+  onReset: () => void,
+): EmptyStateProps {
+  if (query && hasSelectedPeriod) {
+    return { reason: 'no-match-for-combination', filters: [`«${query}»`, period], onReset };
+  }
+  if (query) return { reason: 'no-name-match', query, onReset };
+  return { reason: 'no-data-for-period', period, onReset: hasSelectedPeriod ? onReset : undefined };
+}
+
 export default function DatasetVariableWorkspace({
   datasetId,
   dataFilesShared,
@@ -79,16 +92,7 @@ export default function DatasetVariableWorkspace({
   const resetFilters = () => updateFilters({ search: '', period: null });
   const { range: selectedPeriodRange, label: periodLabel } = getSelectedPeriods(timelinePeriods, filters.period);
   const query = filters.search.trim();
-  const emptyState: EmptyStateProps =
-    query && selectedPeriodRange
-      ? { reason: 'no-match-for-combination', filters: [`«${query}»`, periodLabel], onReset: resetFilters }
-      : query
-        ? { reason: 'no-name-match', query, onReset: resetFilters }
-        : {
-            reason: 'no-data-for-period',
-            period: periodLabel,
-            onReset: selectedPeriodRange ? resetFilters : undefined,
-          };
+  const emptyState = getEmptyState(query, periodLabel, selectedPeriodRange !== undefined, resetFilters);
   const toggleTimelinePeriod = (slot: Pick<Slot, 'start' | 'end'>) => {
     const period = getPeriodIndexes(timelinePeriods, slot.start, slot.end);
     if (!period) return;
