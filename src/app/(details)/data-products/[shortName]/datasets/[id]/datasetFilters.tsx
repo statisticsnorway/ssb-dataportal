@@ -53,7 +53,7 @@ type DatasetFiltersProps = Readonly<{
   timelinePeriods: TimelinePeriodSlot[];
   onChange: (updates: Partial<FilterState>) => void;
   content: Omit<DatasetWorkspaceContent, 'variables'> & {
-    variables: ReactNode | ((onReset: () => void) => ReactNode);
+    variables: (onReset: () => void) => ReactNode;
   };
 }>;
 
@@ -175,7 +175,7 @@ export function DatasetFilters({ filters, timelinePeriods, onChange, content }: 
   return (
     <DatasetWorkspace
       {...content}
-      variables={typeof content.variables === 'function' ? content.variables(onReset) : content.variables}
+      variables={content.variables(onReset)}
       search={searchControl}
       period={periodControl}
       activeFilters={activeFilters}

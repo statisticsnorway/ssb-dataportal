@@ -15,6 +15,7 @@ import { Visibility } from '@/types/item';
 import { getDaplaCtrlUrl } from '@/utils/config';
 import { convertAssessment, convertDataSetState } from '@/utils/functions';
 import styles from './dataset-page.module.css';
+import { getVisibleDataFiles } from './getVisibleDataFiles';
 
 function DatasetAbout({
   dataset,
@@ -83,9 +84,7 @@ export default function DatasetDetail({
   const { isAuthenticated } = useAuthContext();
   if (!isAuthenticated && dataset.has_naming_standard_violations === true) notFound();
 
-  const dataFiles = isAuthenticated
-    ? [...dataFilesShared, ...dataFilesProduct]
-    : dataFilesShared.filter((file) => !file.naming_standard_violations?.length);
+  const dataFiles = getVisibleDataFiles(dataFilesShared, dataFilesProduct, isAuthenticated);
   const totalNamingStandardViolations = dataFiles.reduce(
     (total, file) => total + (file.naming_standard_violations?.length ?? 0),
     0,

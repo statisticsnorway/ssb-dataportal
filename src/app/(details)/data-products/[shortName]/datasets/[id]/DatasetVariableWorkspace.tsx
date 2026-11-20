@@ -18,6 +18,7 @@ import styles from './dataset-page.module.css';
 import workspaceStyles from './dataset-workspace.module.css';
 import { DatasetFilters, type FilterState, getSelectedPeriods, type TimelinePeriodSlot } from './datasetFilters';
 import type { EmptyStateProps } from './EmptyState';
+import { getVisibleDataFiles } from './getVisibleDataFiles';
 import { useDebouncedLoad } from './useDebouncedLoad';
 
 function getPeriodIndexes(
@@ -51,10 +52,7 @@ export default function DatasetVariableWorkspace({
 }>) {
   const { isAuthenticated } = useAuthContext();
   const dataFiles = useMemo(
-    () =>
-      isAuthenticated
-        ? [...dataFilesShared, ...dataFilesProduct]
-        : dataFilesShared.filter((file) => !file.naming_standard_violations?.length),
+    () => getVisibleDataFiles(dataFilesShared, dataFilesProduct, isAuthenticated),
     [dataFilesShared, dataFilesProduct, isAuthenticated],
   );
   const { isValid, allItems, years, slots } = useTimelineData(dataFiles);
