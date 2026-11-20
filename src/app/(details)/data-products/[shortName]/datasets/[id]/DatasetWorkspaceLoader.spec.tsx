@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { listDatasetVariables } from '@/libs/data/datasets/datasets';
-import DatasetWorkspaceLoader from './DatasetWorkspaceLoader';
+import DatasetWorkspaceLoader, { preloadDatasetWorkspace } from './DatasetWorkspaceLoader';
 
 vi.mock('server-only', () => ({}));
 vi.mock('@/libs/data/datasets/datasets', () => ({ listDatasetVariables: vi.fn() }));
@@ -32,9 +32,16 @@ describe('DatasetWorkspaceLoader', () => {
   });
 
   it('does not fetch variables for unauthenticated users', async () => {
+    preloadDatasetWorkspace(props.datasetId, false);
     const workspace = await DatasetWorkspaceLoader({ ...props, isAuthenticated: false });
     expect(listDatasetVariables).not.toHaveBeenCalled();
     expect(workspace.props.datasetVariables).toEqual([]);
+  });
+
+  it('starts loading variables when the workspace is preloaded', () => {
+    vi.mocked(listDatasetVariables).mockResolvedValue([]);
+    preloadDatasetWorkspace(props.datasetId, true);
+    expect(listDatasetVariables).toHaveBeenCalledWith(props.datasetId);
   });
 
   it('preserves the empty variable fallback when fetching fails', async () => {

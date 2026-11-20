@@ -30,17 +30,12 @@ function getPeriodIndexes(
   return startIndex >= 0 && endIndex >= startIndex ? [startIndex, endIndex] : null;
 }
 
-function getEmptyState(
-  query: string,
-  period: string,
-  hasSelectedPeriod: boolean,
-  onReset: () => void,
-): EmptyStateProps {
+function getEmptyState(query: string, period: string, hasSelectedPeriod: boolean): EmptyStateProps {
   if (query && hasSelectedPeriod) {
-    return { reason: 'no-match-for-combination', filters: [`«${query}»`, period], onReset };
+    return { reason: 'no-match-for-combination', filters: [`«${query}»`, period] };
   }
-  if (query) return { reason: 'no-name-match', query, onReset };
-  return { reason: 'no-data-for-period', period, onReset: hasSelectedPeriod ? onReset : undefined };
+  if (query) return { reason: 'no-name-match', query };
+  return { reason: 'no-data-for-period', period };
 }
 
 export default function DatasetVariableWorkspace({
@@ -89,10 +84,9 @@ export default function DatasetVariableWorkspace({
       clientLogger.error('Failed to update query state', error);
     });
   };
-  const resetFilters = () => updateFilters({ search: '', period: null });
   const { range: selectedPeriodRange, label: periodLabel } = getSelectedPeriods(timelinePeriods, filters.period);
   const query = filters.search.trim();
-  const emptyState = getEmptyState(query, periodLabel, selectedPeriodRange !== undefined, resetFilters);
+  const emptyState = getEmptyState(query, periodLabel, selectedPeriodRange !== undefined);
   const toggleTimelinePeriod = (slot: Pick<Slot, 'start' | 'end'>) => {
     const period = getPeriodIndexes(timelinePeriods, slot.start, slot.end);
     if (!period) return;
@@ -191,13 +185,14 @@ export default function DatasetVariableWorkspace({
         onChange={updateFilters}
         content={{
           timeline,
-          variables: canFilterVariables ? (
-            <DatasetVariableList
-              variables={periodFilteredDatasetVariables}
-              isLoading={isLoading}
-              emptyState={emptyState}
-            />
-          ) : null,
+          variables: (onReset) =>
+            canFilterVariables ? (
+              <DatasetVariableList
+                variables={periodFilteredDatasetVariables}
+                isLoading={isLoading}
+                emptyState={{ ...emptyState, onReset: query || selectedPeriodRange ? onReset : undefined }}
+              />
+            ) : null,
           showFilters: canFilterVariables,
         }}
       />

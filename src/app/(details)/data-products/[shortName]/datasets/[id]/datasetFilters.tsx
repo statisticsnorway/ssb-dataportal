@@ -1,5 +1,5 @@
 import { Chip, Label, Select } from '@digdir/designsystemet-react';
-import { useId, useRef } from 'react';
+import { type ReactNode, useId, useRef } from 'react';
 import type { Slot } from '@/components/data-coverage-timeline/types';
 import { CollapsibleCard } from '@/components/filters/collapsible-card';
 import { TextFilter } from '@/components/filters/text-filter';
@@ -52,7 +52,9 @@ type DatasetFiltersProps = Readonly<{
   filters: FilterState;
   timelinePeriods: TimelinePeriodSlot[];
   onChange: (updates: Partial<FilterState>) => void;
-  content: DatasetWorkspaceContent;
+  content: Omit<DatasetWorkspaceContent, 'variables'> & {
+    variables: ReactNode | ((onReset: () => void) => ReactNode);
+  };
 }>;
 
 export function DatasetFilters({ filters, timelinePeriods, onChange, content }: DatasetFiltersProps) {
@@ -170,5 +172,13 @@ export function DatasetFilters({ filters, timelinePeriods, onChange, content }: 
     </div>
   ) : null;
 
-  return <DatasetWorkspace {...content} search={searchControl} period={periodControl} activeFilters={activeFilters} />;
+  return (
+    <DatasetWorkspace
+      {...content}
+      variables={typeof content.variables === 'function' ? content.variables(onReset) : content.variables}
+      search={searchControl}
+      period={periodControl}
+      activeFilters={activeFilters}
+    />
+  );
 }

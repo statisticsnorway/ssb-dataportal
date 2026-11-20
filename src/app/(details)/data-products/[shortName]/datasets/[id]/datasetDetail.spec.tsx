@@ -239,6 +239,19 @@ describe('DatasetDetail', () => {
     });
   });
 
+  it('restores focus to the search filter when the empty-state reset is used', async () => {
+    renderDatasetDetail({}, '?q=unknown');
+    const resetButtons = screen.getAllByRole('button', { name: 'Nullstill filter' });
+    const resetButton = resetButtons.at(-1)!;
+    resetButton.focus();
+    fireEvent.click(resetButton);
+
+    await waitFor(() =>
+      expect(screen.queryByRole('heading', { name: 'Ingen variabler matcher «unknown»' })).not.toBeInTheDocument(),
+    );
+    expect(screen.getByRole('searchbox', { hidden: true }).closest('details')?.querySelector('summary')).toHaveFocus();
+  });
+
   it('does not render dataset details again when filters or their request results change', async () => {
     vi.mocked(useTimelineData).mockReturnValue(twoPeriodTimelineData);
     renderDatasetDetail();
