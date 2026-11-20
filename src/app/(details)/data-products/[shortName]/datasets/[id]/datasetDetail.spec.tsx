@@ -7,11 +7,13 @@ import { useTimelineData } from '@/components/data-coverage-timeline';
 import DataCoverageTimeline from '@/components/data-coverage-timeline/dataCoverageTimeline';
 import type { TimelineItem } from '@/components/data-coverage-timeline/types';
 import type { TimelineData } from '@/components/data-coverage-timeline/useTimelineData';
+import { DetailsList } from '@/components/details-list';
 import type { DaplaDataFileDTO, DatasetDTO, DatasetVariableDTO } from '@/libs/data-access/datadoc';
 import { PeriodFormat } from '@/libs/data-access/datadoc';
 import { listDatasetVariableDataFilePaths, listDatasetVariableIdsInPeriod } from './actions';
+import DatasetVariableWorkspace from './DatasetVariableWorkspace';
 import styles from './dataset-page.module.css';
-import DatasetDetail from './datasetDetail';
+import DatasetDetailShell from './datasetDetail';
 
 const auth = vi.hoisted(() => ({
   isAuthenticated: true,
@@ -82,7 +84,7 @@ vi.mock('@/components/dataportal-breadcrumbs', () => ({
 }));
 
 vi.mock('@/components/details-list', () => ({
-  DetailsList: () => null,
+  DetailsList: vi.fn(() => null),
 }));
 
 vi.mock('@/components/link-components/externalLink', () => ({
@@ -157,6 +159,34 @@ const twoPeriodTimelineData: TimelineData = {
   },
 };
 
+function DatasetDetail({
+  dataset,
+  dataFilesShared,
+  dataFilesProduct,
+  datasetVariables,
+}: {
+  dataset: DatasetDTO;
+  dataFilesShared: DaplaDataFileDTO[];
+  dataFilesProduct: DaplaDataFileDTO[];
+  datasetVariables: DatasetVariableDTO[];
+}) {
+  return (
+    <DatasetDetailShell
+      dataset={dataset}
+      dataFilesShared={dataFilesShared}
+      dataFilesProduct={dataFilesProduct}
+      workspace={
+        <DatasetVariableWorkspace
+          datasetId={dataset.id ?? ''}
+          dataFilesShared={dataFilesShared}
+          dataFilesProduct={dataFilesProduct}
+          datasetVariables={datasetVariables}
+        />
+      }
+    />
+  );
+}
+
 const defaultProps: ComponentProps<typeof DatasetDetail> = {
   dataset,
   dataFilesShared: [sharedFile],
@@ -207,6 +237,33 @@ describe('DatasetDetail', () => {
     await waitFor(() => {
       expect(listDatasetVariableIdsInPeriod).toHaveBeenCalledWith('123', '2020-01-01', '2020-01-31');
     });
+  });
+
+  it('restores focus to the search filter when the empty-state reset is used', async () => {
+    renderDatasetDetail({}, '?q=unknown');
+    const resetButtons = screen.getAllByRole('button', { name: 'Nullstill filter' });
+    const resetButton = resetButtons.at(-1)!;
+    resetButton.focus();
+    fireEvent.click(resetButton);
+
+    await waitFor(() =>
+      expect(screen.queryByRole('heading', { name: 'Ingen variabler matcher «unknown»' })).not.toBeInTheDocument(),
+    );
+    expect(screen.getByRole('searchbox', { hidden: true }).closest('details')?.querySelector('summary')).toHaveFocus();
+  });
+
+  it('does not render dataset details again when filters or their request results change', async () => {
+    vi.mocked(useTimelineData).mockReturnValue(twoPeriodTimelineData);
+    renderDatasetDetail();
+    const initialRenderCount = vi.mocked(DetailsList).mock.calls.length;
+
+    fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'income' } });
+    await waitFor(() => expect(listDatasetVariableDataFilePaths).toHaveBeenCalled());
+    await waitFor(() =>
+      expect(screen.getByTestId('dataset-periods-and-variables')).toHaveAttribute('aria-busy', 'false'),
+    );
+
+    expect(DetailsList).toHaveBeenCalledTimes(initialRenderCount);
   });
 
   it.each([

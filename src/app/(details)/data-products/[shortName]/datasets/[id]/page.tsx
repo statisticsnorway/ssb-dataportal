@@ -1,15 +1,14 @@
+import { Spinner } from '@digdir/designsystemet-react';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { cache } from 'react';
+import { cache, Suspense } from 'react';
 import { authenticateUser } from '@/libs/auth/userAuth';
-import {
-  getDatasetById,
-  listDataFilesByDatasetIdAndStorageCategory,
-  listDatasetVariables,
-} from '@/libs/data/datasets/datasets';
+import { getDatasetById, listDataFilesByDatasetIdAndStorageCategory } from '@/libs/data/datasets/datasets';
 import { StorageCategory } from '@/libs/data-access/datadoc';
+import { localization } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
+import DatasetWorkspaceLoader, { preloadDatasetWorkspace } from './DatasetWorkspaceLoader';
 import DatasetDetail from './datasetDetail';
 
 /**
@@ -36,26 +35,30 @@ export default async function Dataset({ params }: Readonly<{ params: Promise<{ i
   const { id } = await params;
   logger.info({ id }, 'Dataset detail page access');
   const auth = await authenticateUser();
+  preloadDatasetWorkspace(id, auth.isAuthenticated);
 
-  const [{ dataset, dataFilesShared, dataFilesProduct }, datasetVariables] = await Promise.all([
-    getPageData(id, auth.isAuthenticated).catch((error) => {
-      logger.error({ id, error: sanitizeError(error) }, 'Failed to load dataset');
-      return notFound();
-    }),
-    auth.isAuthenticated
-      ? listDatasetVariables(id).catch((error) => {
-          logger.warn({ id, error: sanitizeError(error) }, 'Failed to load dataset variables');
-          return [];
-        })
-      : Promise.resolve([]),
-  ]);
+  const { dataset, dataFilesShared, dataFilesProduct } = await getPageData(id, auth.isAuthenticated).catch((error) => {
+    logger.error({ id, error: sanitizeError(error) }, 'Failed to load dataset');
+    return notFound();
+  });
+
+  if (!auth.isAuthenticated && dataset.has_naming_standard_violations === true) notFound();
 
   return (
     <DatasetDetail
       dataset={dataset}
       dataFilesShared={dataFilesShared}
       dataFilesProduct={dataFilesProduct}
-      datasetVariables={datasetVariables}
+      workspace={
+        <Suspense fallback={<Spinner aria-label={localization.loading.results} />}>
+          <DatasetWorkspaceLoader
+            datasetId={id}
+            isAuthenticated={auth.isAuthenticated}
+            dataFilesShared={dataFilesShared}
+            dataFilesProduct={dataFilesProduct}
+          />
+        </Suspense>
+      }
     />
   );
 }

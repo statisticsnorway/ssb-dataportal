@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, memo } from 'react';
 import type { DatasetVariableDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
 import { formatParquetType } from '@/utils/formatParquetType';
@@ -37,8 +37,7 @@ function getTypeDisplay(variable: DatasetVariableDTO, language: string): TypeDis
   return { variant: 'notSpecified' };
 }
 
-export default function DatasetVariableCard({ variable }: Readonly<{ variable: DatasetVariableDTO }>) {
-  const language = localization.getLanguage();
+function DatasetVariableCard({ variable, language }: Readonly<{ variable: DatasetVariableDTO; language: string }>) {
   const typeDisplay = getTypeDisplay(variable, language);
   const variableNameParts = variable.short_name.split('_');
 
@@ -81,3 +80,5 @@ export default function DatasetVariableCard({ variable }: Readonly<{ variable: D
     </li>
   );
 }
+
+export default memo(DatasetVariableCard);

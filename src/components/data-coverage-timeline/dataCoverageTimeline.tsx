@@ -274,6 +274,8 @@ const DataCoverageTimeline = ({
   const headingId = `${instanceId}-heading`;
   const rowsId = `${instanceId}-years`;
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const selectedPeriodStart = selectedPeriodRange?.start;
+  const selectedPeriodEnd = selectedPeriodRange?.end;
   const periodsByYear = useMemo(
     () =>
       new Map(
@@ -281,8 +283,9 @@ const DataCoverageTimeline = ({
           year,
           (slots[year] ?? []).map((slot): PeriodStatus => {
             const isOutsideSelectedRange =
-              selectedPeriodRange !== undefined &&
-              !(slot.start >= selectedPeriodRange.start && slot.end <= selectedPeriodRange.end);
+              selectedPeriodStart !== undefined &&
+              selectedPeriodEnd !== undefined &&
+              !(slot.start >= selectedPeriodStart && slot.end <= selectedPeriodEnd);
             const matchedItems = allItems.filter((item) => slotOverlapsItem(slot, item));
             const hasFilteredData =
               matchedItems.length === 0 && unfilteredItems.some((item) => slotOverlapsItem(slot, item));
@@ -290,7 +293,7 @@ const DataCoverageTimeline = ({
           }),
         ]),
       ),
-    [allItems, unfilteredItems, selectedPeriodRange, slots, years],
+    [allItems, unfilteredItems, selectedPeriodStart, selectedPeriodEnd, slots, years],
   );
   const hasAnyFilteredData = [...periodsByYear.values()].some((periods) =>
     periods.some((period) => period.hasFilteredData),

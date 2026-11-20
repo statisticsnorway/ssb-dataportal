@@ -74,13 +74,6 @@
   background: color-mix(in srgb, var(--ds-color-neutral-surface-tinted) 40%, var(--ds-color-neutral-surface-default));
 }
 
-.variableNoHits {
-  grid-column: 1 / -1;
-  padding-block: var(--ds-size-3);
-  color: var(--ds-color-neutral-text-subtle);
-  font-size: var(--ds-body-sm-font-size);
-}
-
 .variableName {
   display: block;
   overflow-wrap: anywhere;
