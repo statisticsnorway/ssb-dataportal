@@ -181,18 +181,16 @@ export default function DatasetVariableWorkspace({
         filters={filters}
         timelinePeriods={timelinePeriods}
         onChange={updateFilters}
-        content={{
-          timeline,
-          variables: (onReset) =>
-            canFilterVariables ? (
-              <DatasetVariableList
-                variables={periodFilteredDatasetVariables}
-                isLoading={isLoading}
-                emptyState={{ ...emptyState, onReset: query || selectedPeriodRange ? onReset : undefined }}
-              />
-            ) : null,
-          showFilters: canFilterVariables,
-        }}
+        content={{ timeline, showFilters: canFilterVariables }}
+        renderVariables={(onReset) =>
+          canFilterVariables ? (
+            <DatasetVariableList
+              variables={periodFilteredDatasetVariables}
+              isLoading={isLoading}
+              emptyState={{ ...emptyState, onReset: query || selectedPeriodRange ? onReset : undefined }}
+            />
+          ) : null
+        }
       />
     </Card>
   );

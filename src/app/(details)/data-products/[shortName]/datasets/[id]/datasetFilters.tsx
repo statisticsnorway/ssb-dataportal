@@ -52,12 +52,11 @@ type DatasetFiltersProps = Readonly<{
   filters: FilterState;
   timelinePeriods: TimelinePeriodSlot[];
   onChange: (updates: Partial<FilterState>) => void;
-  content: Omit<DatasetWorkspaceContent, 'variables'> & {
-    variables: (onReset: () => void) => ReactNode;
-  };
+  content: Omit<DatasetWorkspaceContent, 'variables'>;
+  renderVariables: (onReset: () => void) => ReactNode;
 }>;
 
-export function DatasetFilters({ filters, timelinePeriods, onChange, content }: DatasetFiltersProps) {
+export function DatasetFilters({ filters, timelinePeriods, onChange, content, renderVariables }: DatasetFiltersProps) {
   const searchRef = useRef<HTMLDivElement>(null);
   const periodRef = useRef<HTMLDivElement>(null);
   const periodId = useId();
@@ -175,7 +174,7 @@ export function DatasetFilters({ filters, timelinePeriods, onChange, content }: 
   return (
     <DatasetWorkspace
       {...content}
-      variables={content.variables(onReset)}
+      variables={renderVariables(onReset)}
       search={searchControl}
       period={periodControl}
       activeFilters={activeFilters}
