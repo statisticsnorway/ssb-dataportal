@@ -16,7 +16,7 @@ export default function DatasetVariableList({
         {!isLoading ? localization.datasetDetail.variablesFound.replace('{count}', String(variables.length)) : ''}
       </output>
       {variables.length === 0 ? (
-        !isLoading && <EmptyState {...emptyState} />
+        <div className={styles.emptyResults}>{!isLoading && <EmptyState {...emptyState} />}</div>
       ) : (
         <ul className={styles.variablesList}>
           {variables.map((variable) => (

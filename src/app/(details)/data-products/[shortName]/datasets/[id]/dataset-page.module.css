@@ -67,6 +67,10 @@
   padding: 0;
 }
 
+.emptyResults {
+  min-height: 16rem;
+}
+
 .variableItem {
   min-width: 0;
   padding: var(--ds-size-6);

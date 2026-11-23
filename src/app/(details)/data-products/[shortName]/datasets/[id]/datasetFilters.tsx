@@ -59,8 +59,13 @@ type DatasetFiltersProps = Readonly<{
 export function DatasetFilters({ filters, timelinePeriods, onChange, content, renderVariables }: DatasetFiltersProps) {
   const searchRef = useRef<HTMLDivElement>(null);
   const periodRef = useRef<HTMLDivElement>(null);
+  const filterToggleRef = useRef<HTMLButtonElement>(null);
   const periodId = useId();
   const restoreFocus = (container: HTMLDivElement | null) => {
+    if (container?.closest('[hidden]')) {
+      filterToggleRef.current?.focus();
+      return;
+    }
     const input = container?.querySelector<HTMLInputElement>('input');
     if (input?.closest('details')?.open) input.focus();
     else container?.querySelector<HTMLElement>('summary')?.focus();
@@ -178,6 +183,7 @@ export function DatasetFilters({ filters, timelinePeriods, onChange, content, re
       search={searchControl}
       period={periodControl}
       activeFilters={activeFilters}
+      filterToggleRef={filterToggleRef}
     />
   );
 }

@@ -266,6 +266,20 @@ describe('DatasetDetail', () => {
     expect(DetailsList).toHaveBeenCalledTimes(initialRenderCount);
   });
 
+  it('focuses the sidebar toggle when resetting empty results with the sidebar collapsed', async () => {
+    renderDatasetDetail({}, '?q=unknown');
+    const toggle = screen.getByRole('button', { name: 'Skjul filterpanelet' });
+    fireEvent.click(toggle);
+    const reset = screen.getByRole('button', { name: 'Nullstill filter' });
+    reset.focus();
+    fireEvent.click(reset);
+
+    await waitFor(() =>
+      expect(screen.queryByRole('heading', { name: 'Ingen variabler matcher «unknown»' })).not.toBeInTheDocument(),
+    );
+    expect(toggle).toHaveFocus();
+  });
+
   it.each([
     'periodFrom=invalid&periodTo=2020-01-31',
     'periodFrom=2020-02-01&periodTo=2020-01-31',

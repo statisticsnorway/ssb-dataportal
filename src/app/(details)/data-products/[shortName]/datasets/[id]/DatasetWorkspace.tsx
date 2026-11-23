@@ -1,6 +1,6 @@
 import { Button, Heading } from '@digdir/designsystemet-react';
 import { SidebarRightIcon } from '@navikt/aksel-icons';
-import { type ReactNode, useEffect, useId, useState } from 'react';
+import { type ReactNode, type Ref, useEffect, useId, useState } from 'react';
 import { localization } from '@/libs/language';
 import styles from './dataset-workspace.module.css';
 
@@ -15,9 +15,18 @@ type Props = DatasetWorkspaceContent &
     search: ReactNode;
     period: ReactNode;
     activeFilters: ReactNode;
+    filterToggleRef?: Ref<HTMLButtonElement>;
   }>;
 
-export function DatasetWorkspace({ search, period, activeFilters, timeline, variables, showFilters }: Props) {
+export function DatasetWorkspace({
+  search,
+  period,
+  activeFilters,
+  timeline,
+  variables,
+  showFilters,
+  filterToggleRef,
+}: Props) {
   const [filtersCollapsed, setFiltersCollapsed] = useState(false);
   const filterPanelId = useId();
   const variablesTitle = localization.datasetDetail.workspaceVariables;
@@ -61,6 +70,7 @@ export function DatasetWorkspace({ search, period, activeFilters, timeline, vari
               </Heading>
             ) : null}
             <Button
+              ref={filterToggleRef}
               variant='tertiary'
               data-size='sm'
               icon
