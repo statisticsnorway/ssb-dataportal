@@ -39,7 +39,8 @@ function getEmptyState(query: string, period: string, hasSelectedPeriod: boolean
   return { reason: 'no-data-for-period', period };
 }
 
-export default function DatasetVariableWorkspace({
+/** Owns URL filters and filter requests, coordinating the timeline and variable results. */
+export default function DatasetVariablesWorkspace({
   datasetId,
   dataFilesShared,
   dataFilesProduct,

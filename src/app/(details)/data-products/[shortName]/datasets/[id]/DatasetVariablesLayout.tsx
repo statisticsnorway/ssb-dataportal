@@ -4,13 +4,13 @@ import { type ReactNode, type Ref, useEffect, useId, useState } from 'react';
 import { localization } from '@/libs/language';
 import styles from './dataset-workspace.module.css';
 
-export type DatasetWorkspaceContent = Readonly<{
+export type DatasetVariablesLayoutContent = Readonly<{
   timeline: ReactNode;
   variables: ReactNode;
   showFilters: boolean;
 }>;
 
-type Props = DatasetWorkspaceContent &
+type Props = DatasetVariablesLayoutContent &
   Readonly<{
     search: ReactNode;
     period: ReactNode;
@@ -18,7 +18,8 @@ type Props = DatasetWorkspaceContent &
     filterToggleRef?: Ref<HTMLButtonElement>;
   }>;
 
-export function DatasetWorkspace({
+/** Arranges the filter sidebar, timeline, and variable results without owning data or filter state. */
+export function DatasetVariablesLayout({
   search,
   period,
   activeFilters,

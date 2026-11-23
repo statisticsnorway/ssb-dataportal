@@ -8,7 +8,7 @@ import { StorageCategory } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
-import DatasetWorkspaceLoader, { preloadDatasetWorkspace } from './DatasetWorkspaceLoader';
+import DatasetVariablesLoader, { preloadDatasetVariables } from './DatasetVariablesLoader';
 import DatasetDetail from './datasetDetail';
 
 /**
@@ -35,7 +35,7 @@ export default async function Dataset({ params }: Readonly<{ params: Promise<{ i
   const { id } = await params;
   logger.info({ id }, 'Dataset detail page access');
   const auth = await authenticateUser();
-  preloadDatasetWorkspace(id, auth.isAuthenticated);
+  preloadDatasetVariables(id, auth.isAuthenticated);
 
   const { dataset, dataFilesShared, dataFilesProduct } = await getPageData(id, auth.isAuthenticated).catch((error) => {
     logger.error({ id, error: sanitizeError(error) }, 'Failed to load dataset');
@@ -49,9 +49,9 @@ export default async function Dataset({ params }: Readonly<{ params: Promise<{ i
       dataset={dataset}
       dataFilesShared={dataFilesShared}
       dataFilesProduct={dataFilesProduct}
-      workspace={
+      datasetVariablesWorkspace={
         <Suspense fallback={<Spinner aria-label={localization.loading.results} />}>
-          <DatasetWorkspaceLoader
+          <DatasetVariablesLoader
             datasetId={id}
             isAuthenticated={auth.isAuthenticated}
             dataFilesShared={dataFilesShared}

@@ -74,12 +74,12 @@ export default function DatasetDetail({
   dataset,
   dataFilesShared,
   dataFilesProduct,
-  workspace,
+  datasetVariablesWorkspace,
 }: Readonly<{
   dataset: DatasetDTO;
   dataFilesShared: DaplaDataFileDTO[];
   dataFilesProduct: DaplaDataFileDTO[];
-  workspace: ReactNode;
+  datasetVariablesWorkspace: ReactNode;
 }>) {
   const { isAuthenticated } = useAuthContext();
   if (!isAuthenticated && dataset.has_naming_standard_violations === true) notFound();
@@ -111,7 +111,7 @@ export default function DatasetDetail({
           isAuthenticated={isAuthenticated}
           totalNamingStandardViolations={totalNamingStandardViolations}
         />
-        {workspace}
+        {datasetVariablesWorkspace}
       </main>
     </div>
   );

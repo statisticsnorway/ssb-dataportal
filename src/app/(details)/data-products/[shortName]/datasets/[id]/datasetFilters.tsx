@@ -5,7 +5,7 @@ import { CollapsibleCard } from '@/components/filters/collapsible-card';
 import { TextFilter } from '@/components/filters/text-filter';
 import { Slider } from '@/components/slider';
 import { localization } from '@/libs/language';
-import { DatasetWorkspace, type DatasetWorkspaceContent } from './DatasetWorkspace';
+import { DatasetVariablesLayout, type DatasetVariablesLayoutContent } from './DatasetVariablesLayout';
 import styles from './dataset-page.module.css';
 import workspaceStyles from './dataset-workspace.module.css';
 
@@ -52,7 +52,7 @@ type DatasetFiltersProps = Readonly<{
   filters: FilterState;
   timelinePeriods: TimelinePeriodSlot[];
   onChange: (updates: Partial<FilterState>) => void;
-  content: Omit<DatasetWorkspaceContent, 'variables'>;
+  content: Omit<DatasetVariablesLayoutContent, 'variables'>;
   renderVariables: (onReset: () => void) => ReactNode;
 }>;
 
@@ -177,7 +177,7 @@ export function DatasetFilters({ filters, timelinePeriods, onChange, content, re
   ) : null;
 
   return (
-    <DatasetWorkspace
+    <DatasetVariablesLayout
       {...content}
       variables={renderVariables(onReset)}
       search={searchControl}

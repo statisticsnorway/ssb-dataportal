@@ -11,7 +11,7 @@ import { DetailsList } from '@/components/details-list';
 import type { DaplaDataFileDTO, DatasetDTO, DatasetVariableDTO } from '@/libs/data-access/datadoc';
 import { PeriodFormat } from '@/libs/data-access/datadoc';
 import { listDatasetVariableDataFilePaths, listDatasetVariableIdsInPeriod } from './actions';
-import DatasetVariableWorkspace from './DatasetVariableWorkspace';
+import DatasetVariablesWorkspace from './DatasetVariablesWorkspace';
 import styles from './dataset-page.module.css';
 import DatasetDetailShell from './datasetDetail';
 
@@ -175,8 +175,8 @@ function DatasetDetail({
       dataset={dataset}
       dataFilesShared={dataFilesShared}
       dataFilesProduct={dataFilesProduct}
-      workspace={
-        <DatasetVariableWorkspace
+      datasetVariablesWorkspace={
+        <DatasetVariablesWorkspace
           datasetId={dataset.id ?? ''}
           dataFilesShared={dataFilesShared}
           dataFilesProduct={dataFilesProduct}

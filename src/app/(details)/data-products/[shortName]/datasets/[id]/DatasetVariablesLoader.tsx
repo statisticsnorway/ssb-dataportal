@@ -5,7 +5,7 @@ import { listDatasetVariables } from '@/libs/data/datasets/datasets';
 import type { DaplaDataFileDTO } from '@/libs/data-access/datadoc';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
-import DatasetVariableWorkspace from './DatasetVariableWorkspace';
+import DatasetVariablesWorkspace from './DatasetVariablesWorkspace';
 
 const getWorkspaceVariables = cache(async (datasetId: string, isAuthenticated: boolean) =>
   isAuthenticated
@@ -19,11 +19,11 @@ const getWorkspaceVariables = cache(async (datasetId: string, isAuthenticated: b
     : [],
 );
 
-export function preloadDatasetWorkspace(datasetId: string, isAuthenticated: boolean) {
+export function preloadDatasetVariables(datasetId: string, isAuthenticated: boolean) {
   void getWorkspaceVariables(datasetId, isAuthenticated);
 }
 
-export default async function DatasetWorkspaceLoader({
+export default async function DatasetVariablesLoader({
   datasetId,
   isAuthenticated,
   dataFilesShared,
@@ -37,7 +37,7 @@ export default async function DatasetWorkspaceLoader({
   const datasetVariables = await getWorkspaceVariables(datasetId, isAuthenticated);
 
   return (
-    <DatasetVariableWorkspace
+    <DatasetVariablesWorkspace
       datasetId={datasetId}
       dataFilesShared={dataFilesShared}
       dataFilesProduct={dataFilesProduct}
