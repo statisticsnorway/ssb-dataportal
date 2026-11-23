@@ -1,23 +1,33 @@
 import { Button, Heading } from '@digdir/designsystemet-react';
 import { SidebarRightIcon } from '@navikt/aksel-icons';
-import { type ReactNode, useEffect, useId, useState } from 'react';
+import { type ReactNode, type Ref, useEffect, useId, useState } from 'react';
 import { localization } from '@/libs/language';
 import styles from './dataset-workspace.module.css';
 
-export type DatasetWorkspaceContent = Readonly<{
+export type DatasetVariablesLayoutContent = Readonly<{
   timeline: ReactNode;
   variables: ReactNode;
   showFilters: boolean;
 }>;
 
-type Props = DatasetWorkspaceContent &
+type Props = DatasetVariablesLayoutContent &
   Readonly<{
     search: ReactNode;
     period: ReactNode;
     activeFilters: ReactNode;
+    filterToggleRef?: Ref<HTMLButtonElement>;
   }>;
 
-export function DatasetWorkspace({ search, period, activeFilters, timeline, variables, showFilters }: Props) {
+/** Arranges the filter sidebar, timeline, and variable results without owning data or filter state. */
+export function DatasetVariablesLayout({
+  search,
+  period,
+  activeFilters,
+  timeline,
+  variables,
+  showFilters,
+  filterToggleRef,
+}: Props) {
   const [filtersCollapsed, setFiltersCollapsed] = useState(false);
   const filterPanelId = useId();
   const variablesTitle = localization.datasetDetail.workspaceVariables;
@@ -61,6 +71,7 @@ export function DatasetWorkspace({ search, period, activeFilters, timeline, vari
               </Heading>
             ) : null}
             <Button
+              ref={filterToggleRef}
               variant='tertiary'
               data-size='sm'
               icon

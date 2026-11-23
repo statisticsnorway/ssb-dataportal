@@ -67,18 +67,15 @@
   padding: 0;
 }
 
+.emptyResults {
+  min-height: 16rem;
+}
+
 .variableItem {
   min-width: 0;
   padding: var(--ds-size-6);
   border-radius: var(--ds-border-radius-md);
   background: color-mix(in srgb, var(--ds-color-neutral-surface-tinted) 40%, var(--ds-color-neutral-surface-default));
-}
-
-.variableNoHits {
-  grid-column: 1 / -1;
-  padding-block: var(--ds-size-3);
-  color: var(--ds-color-neutral-text-subtle);
-  font-size: var(--ds-body-sm-font-size);
 }
 
 .variableName {

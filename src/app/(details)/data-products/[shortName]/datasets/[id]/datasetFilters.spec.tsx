@@ -16,7 +16,8 @@ function Harness({ initial }: Readonly<{ initial: FilterState }>) {
       filters={filters}
       timelinePeriods={periods}
       onChange={(updates) => setFilters((current) => ({ ...current, ...updates }))}
-      content={{ showFilters: true, timeline: <p>{JSON.stringify(filters)}</p>, variables: null }}
+      content={{ showFilters: true, timeline: <p>{JSON.stringify(filters)}</p> }}
+      renderVariables={() => null}
     />
   );
 }

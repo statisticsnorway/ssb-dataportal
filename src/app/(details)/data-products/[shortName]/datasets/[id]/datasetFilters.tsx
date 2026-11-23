@@ -1,11 +1,11 @@
 import { Chip, Label, Select } from '@digdir/designsystemet-react';
-import { useId, useRef } from 'react';
+import { type ReactNode, useId, useRef } from 'react';
 import type { Slot } from '@/components/data-coverage-timeline/types';
 import { CollapsibleCard } from '@/components/filters/collapsible-card';
 import { TextFilter } from '@/components/filters/text-filter';
 import { Slider } from '@/components/slider';
 import { localization } from '@/libs/language';
-import { DatasetWorkspace, type DatasetWorkspaceContent } from './DatasetWorkspace';
+import { DatasetVariablesLayout, type DatasetVariablesLayoutContent } from './DatasetVariablesLayout';
 import styles from './dataset-page.module.css';
 import workspaceStyles from './dataset-workspace.module.css';
 
@@ -52,14 +52,20 @@ type DatasetFiltersProps = Readonly<{
   filters: FilterState;
   timelinePeriods: TimelinePeriodSlot[];
   onChange: (updates: Partial<FilterState>) => void;
-  content: DatasetWorkspaceContent;
+  content: Omit<DatasetVariablesLayoutContent, 'variables'>;
+  renderVariables: (onReset: () => void) => ReactNode;
 }>;
 
-export function DatasetFilters({ filters, timelinePeriods, onChange, content }: DatasetFiltersProps) {
+export function DatasetFilters({ filters, timelinePeriods, onChange, content, renderVariables }: DatasetFiltersProps) {
   const searchRef = useRef<HTMLDivElement>(null);
   const periodRef = useRef<HTMLDivElement>(null);
+  const filterToggleRef = useRef<HTMLButtonElement>(null);
   const periodId = useId();
   const restoreFocus = (container: HTMLDivElement | null) => {
+    if (container?.closest('[hidden]')) {
+      filterToggleRef.current?.focus();
+      return;
+    }
     const input = container?.querySelector<HTMLInputElement>('input');
     if (input?.closest('details')?.open) input.focus();
     else container?.querySelector<HTMLElement>('summary')?.focus();
@@ -170,5 +176,14 @@ export function DatasetFilters({ filters, timelinePeriods, onChange, content }: 
     </div>
   ) : null;
 
-  return <DatasetWorkspace {...content} search={searchControl} period={periodControl} activeFilters={activeFilters} />;
+  return (
+    <DatasetVariablesLayout
+      {...content}
+      variables={renderVariables(onReset)}
+      search={searchControl}
+      period={periodControl}
+      activeFilters={activeFilters}
+      filterToggleRef={filterToggleRef}
+    />
+  );
 }

@@ -2,23 +2,28 @@ import type { DatasetVariableDTO } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
 import DatasetVariableCard from './DatasetVariableCard';
 import styles from './dataset-page.module.css';
+import { EmptyState, type EmptyStateProps } from './EmptyState';
 
 export default function DatasetVariableList({
   variables,
   isLoading = false,
-}: Readonly<{ variables: DatasetVariableDTO[]; isLoading?: boolean }>) {
+  emptyState,
+}: Readonly<{ variables: DatasetVariableDTO[]; isLoading?: boolean; emptyState: EmptyStateProps }>) {
+  const language = localization.getLanguage();
   return (
     <section className={styles.variablesSection}>
       <output aria-atomic='true' className='ds-sr-only'>
         {!isLoading ? localization.datasetDetail.variablesFound.replace('{count}', String(variables.length)) : ''}
       </output>
-      <ul className={styles.variablesList}>
-        {variables.length === 0 ? (
-          <li className={styles.variableNoHits}>{localization.search.noHits}</li>
-        ) : (
-          variables.map((variable) => <DatasetVariableCard key={variable.id} variable={variable} />)
-        )}
-      </ul>
+      {variables.length === 0 ? (
+        <div className={styles.emptyResults}>{!isLoading && <EmptyState {...emptyState} />}</div>
+      ) : (
+        <ul className={styles.variablesList}>
+          {variables.map((variable) => (
+            <DatasetVariableCard key={variable.id} variable={variable} language={language} />
+          ))}
+        </ul>
+      )}
     </section>
   );
 }
