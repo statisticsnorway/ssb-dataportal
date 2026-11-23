@@ -1,4 +1,5 @@
 import { Button, Heading, Paragraph } from '@digdir/designsystemet-react';
+import { localization } from '@/libs/language';
 import styles from './EmptyState.module.css';
 
 type EmptyStateVariant =
@@ -16,20 +17,22 @@ type EmptyStateCopyLookup = {
 
 const copyByReason: EmptyStateCopyLookup = {
   'no-data-for-period': ({ period }) => ({
-    title: `Ingen variabler for ${period}`,
-    description: 'Det finnes ingen fil med data for denne perioden.',
+    title: localization.datasetDetail.emptyState.noDataForPeriodTitle.replace('{period}', () => period),
+    description: localization.datasetDetail.emptyState.noDataForPeriodDescription,
   }),
   'no-name-match': ({ query }) => ({
-    title: `Ingen variabler matcher «${query}»`,
-    description: 'Sjekk stavemåten eller prøv et kortere søk.',
+    title: localization.datasetDetail.emptyState.noNameMatchTitle.replace('{query}', () => query),
+    description: localization.datasetDetail.emptyState.noNameMatchDescription,
   }),
   'invalid-name': ({ hint }) => ({
-    title: 'Ugyldig søk',
+    title: localization.datasetDetail.emptyState.invalidNameTitle,
     description: hint,
   }),
   'no-match-for-combination': ({ filters }) => ({
-    title: `Ingen variabler for ${filters.join(', ')}`,
-    description: 'Prøv et annet filter, eller fjern filteret for å se alle variabler.',
+    title: localization.datasetDetail.emptyState.noMatchForCombinationTitle.replace('{filters}', () =>
+      filters.join(', '),
+    ),
+    description: localization.datasetDetail.emptyState.noMatchForCombinationDescription,
   }),
 };
 
@@ -52,7 +55,7 @@ export function EmptyState(props: EmptyStateProps) {
       <Paragraph className={styles.description}>{description}</Paragraph>
       {props.onReset ? (
         <Button type='button' className={styles.resetButton} variant='secondary' onClick={props.onReset}>
-          Nullstill filter
+          {localization.datasetDetail.resetFilters}
         </Button>
       ) : null}
     </div>

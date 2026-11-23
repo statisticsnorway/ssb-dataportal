@@ -228,6 +228,15 @@ export const en = {
     noDatasetAvailable: 'No dataset available',
   },
   datasetDetail: {
+    emptyState: {
+      noDataForPeriodTitle: 'No variables for {period}',
+      noDataForPeriodDescription: 'There is no file with data for this period.',
+      noNameMatchTitle: 'No variables match “{query}”',
+      noNameMatchDescription: 'Check the spelling or try a shorter search.',
+      invalidNameTitle: 'Invalid search',
+      noMatchForCombinationTitle: 'No variables for {filters}',
+      noMatchForCombinationDescription: 'Try a different filter, or remove the filter to see all variables.',
+    },
     variablesFound: '{count} variables found',
     aboutDataset: 'About dataset',
     dataProduct: 'Data product',

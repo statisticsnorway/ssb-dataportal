@@ -224,6 +224,15 @@ export const nb = {
     noDatasetAvailable: 'Ingen datasett tilgjengelig',
   },
   datasetDetail: {
+    emptyState: {
+      noDataForPeriodTitle: 'Ingen variabler for {period}',
+      noDataForPeriodDescription: 'Det finnes ingen fil med data for denne perioden.',
+      noNameMatchTitle: 'Ingen variabler matcher «{query}»',
+      noNameMatchDescription: 'Sjekk stavemåten eller prøv et kortere søk.',
+      invalidNameTitle: 'Ugyldig søk',
+      noMatchForCombinationTitle: 'Ingen variabler for {filters}',
+      noMatchForCombinationDescription: 'Prøv et annet filter, eller fjern filteret for å se alle variabler.',
+    },
     variablesFound: '{count} variabler funnet',
     aboutDataset: 'Om datasettet',
     dataProduct: 'Dataprodukt',
