@@ -13,9 +13,9 @@ import { pad2 } from './utils';
  * - `count`: how many slots per year (e.g. 4 for quarterly)
  * - `label`: the display label for a slot, given its zero-based index
  *
- * `monthsEach` (slots per year ÷ 12 months) is derived on-the-fly in `generateYearSlots`.
+ * The number of months per slot is derived on-the-fly in `generateYearSlots`.
  */
-const PERIOD_DEFS: Partial<Record<PeriodType, Omit<PeriodDef, 'monthsEach'>>> = {
+const PERIOD_DEFS: Partial<Record<PeriodType, PeriodDef>> = {
   [PeriodType.MONTH]: {
     count: 12,
     label: (i) => localization.dataCoverageTimeline.monthsShort[i] ?? '',
@@ -45,6 +45,8 @@ const PERIOD_DEFS: Partial<Record<PeriodType, Omit<PeriodDef, 'monthsEach'>>> = 
     label: () => localization.dataCoverageTimeline.labelFullYear,
   },
 };
+
+export const isSupportedPeriodType = (periodType: PeriodType): boolean => periodType in PERIOD_DEFS;
 
 /**
  * Produces the full list of expected slots for a given year and period type.

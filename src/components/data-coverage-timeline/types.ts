@@ -15,6 +15,5 @@ export type Slot = {
 
 export type PeriodDef = {
   count: number;
-  monthsEach: number;
   label: (slotIndex: number) => string;
 };

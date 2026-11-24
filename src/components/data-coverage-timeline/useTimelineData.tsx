@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { type DaplaDataFileDTO, type PeriodType } from '@/libs/data-access/datadoc';
 import { clientLogger } from '@/libs/logger/client-logger';
-import { generateYearSlots } from './periodDefinitions';
+import { generateYearSlots, isSupportedPeriodType } from './periodDefinitions';
 import { type Slot, type TimelineItem } from './types';
 import { pad2 } from './utils';
 
@@ -112,8 +112,6 @@ const hasOverlappingPeriods = (items: TimelineItem[]): boolean => {
   return items.some((item, i) => i > 0 && item.start < items[i - 1]!.end);
 };
 
-const hasSupportedPeriodType = (periodType: PeriodType): boolean => generateYearSlots(2000, periodType).length > 0;
-
 /**
  * Derives the full year range covered by the items and pre-generates a slot grid for
  * each year in that range.
@@ -183,7 +181,7 @@ export const useTimelineData = (data: DaplaDataFileDTO[], periodType: PeriodType
       clientLogger.warn('Timeline hidden reason: overlapping periods');
       return empty;
     }
-    if (!periodType || !hasSupportedPeriodType(periodType)) {
+    if (!periodType || !isSupportedPeriodType(periodType)) {
       clientLogger.warn(`Timeline hidden reason: unsupported period type (${periodType ?? 'missing'})`);
       return empty;
     }
