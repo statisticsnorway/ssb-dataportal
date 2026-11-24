@@ -66,8 +66,8 @@ function DatasetAbout({
           : []),
         { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
         {
-          label: 'Label',
-          value: 'This is a placeholder',
+          label: localization.dataset.periodicity.label,
+          value: dataset.period_type && localization.dataset.periodType[dataset.period_type],
         },
       ]}
     />

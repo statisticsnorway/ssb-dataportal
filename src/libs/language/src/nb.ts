@@ -6,6 +6,9 @@
  * Please maintain alphabetical order on variable name for ease of maintenance!
  */
 
+import { PeriodFormat } from '@/libs/data-access/datadoc/models/PeriodFormat';
+import { PeriodType } from '@/libs/data-access/datadoc/models/PeriodType';
+
 export const nb = {
   parquetTypes: {
     BOOLEAN: 'Boolsk verdi',
@@ -222,6 +225,31 @@ export const nb = {
     dataset: 'Datasett',
     sortByMostNamingStandardViolations: 'Flest navnestandardavvik',
     noDatasetAvailable: 'Ingen datasett tilgjengelig',
+  },
+  dataset: {
+    periodicity: {
+      label: 'Periodisering',
+      periodFormat: {
+        YEAR: 'Årlig',
+        HALF_YEAR: 'Halvårlig',
+        TRIANNUAL: 'Tertialvis',
+        QUARTER: 'Kvartalsvis',
+        BIMESTER: 'Annenhver måned',
+        YEAR_MONTH: 'Månedlig',
+        YEAR_WEEK: 'Ukentlig',
+        YEAR_MONTH_DAY: 'Daglig',
+      } satisfies Record<PeriodFormat, string>,
+    },
+    periodType: {
+      YEAR: 'Årlig',
+      HALF_YEAR: 'Halvårlig',
+      TRIANNUAL: 'Tertialvis',
+      QUARTER: 'Kvartalsvis',
+      BIMESTER: 'Annenhver måned',
+      MONTH: 'Månedlig',
+      WEEK: 'Ukentlig',
+      DAY: 'Daglig',
+    } satisfies Record<PeriodType, string>,
   },
   datasetDetail: {
     emptyState: {
