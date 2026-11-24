@@ -4,9 +4,8 @@
  * Please maintain alphabetical order on variable name for ease of maintenance!
  */
 
-import { PeriodFormat } from '@/libs/data-access/datadoc/models/PeriodFormat';
-import type { Translation } from './nb';
 import { PeriodType } from '@/libs/data-access/datadoc/models/PeriodType';
+import type { Translation } from './nb';
 
 export const nn = {
   parquetTypes: {
@@ -228,16 +227,6 @@ export const nn = {
   dataset: {
     periodicity: {
       label: 'Periodisering',
-      periodFormat: {
-        YEAR: 'Årleg',
-        HALF_YEAR: 'Halvårleg',
-        TRIANNUAL: 'Tertialvis',
-        QUARTER: 'Kvartalsvis',
-        BIMESTER: 'Annannkvar måned',
-        YEAR_MONTH: 'Månadleg',
-        YEAR_WEEK: 'Vekentleg',
-        YEAR_MONTH_DAY: 'Dagleg',
-      } satisfies Record<PeriodFormat, string>,
     },
     periodType: {
       YEAR: 'Årleg',

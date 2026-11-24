@@ -6,7 +6,6 @@
  * Please maintain alphabetical order on variable name for ease of maintenance!
  */
 
-import { PeriodFormat } from '@/libs/data-access/datadoc/models/PeriodFormat';
 import { PeriodType } from '@/libs/data-access/datadoc/models/PeriodType';
 
 export const nb = {
@@ -228,17 +227,7 @@ export const nb = {
   },
   dataset: {
     periodicity: {
-      label: 'Periodisering',
-      periodFormat: {
-        YEAR: 'Årlig',
-        HALF_YEAR: 'Halvårlig',
-        TRIANNUAL: 'Tertialvis',
-        QUARTER: 'Kvartalsvis',
-        BIMESTER: 'Annenhver måned',
-        YEAR_MONTH: 'Månedlig',
-        YEAR_WEEK: 'Ukentlig',
-        YEAR_MONTH_DAY: 'Daglig',
-      } satisfies Record<PeriodFormat, string>,
+      label: 'Periodisering'
     },
     periodType: {
       YEAR: 'Årlig',

@@ -6,7 +6,6 @@
  * Please maintain alphabetical order on variable name for ease of maintenance!
  */
 
-import { PeriodFormat } from '@/libs/data-access/datadoc/models/PeriodFormat';
 import { PeriodType } from '@/libs/data-access/datadoc/models/PeriodType';
 import type { Translation } from './nb';
 
@@ -232,16 +231,6 @@ export const en = {
   dataset: {
     periodicity: {
       label: 'Periodicity',
-      periodFormat: {
-        YEAR: 'Yearly',
-        HALF_YEAR: 'Half-yearly',
-        TRIANNUAL: 'Triannual',
-        QUARTER: 'Quarterly',
-        BIMESTER: 'Bimonthly',
-        YEAR_MONTH: 'Monthly',
-        YEAR_WEEK: 'Weekly',
-        YEAR_MONTH_DAY: 'Daily',
-      } satisfies Record<PeriodFormat, string>,
     },
     periodType: {
       YEAR: 'Yearly',
