@@ -227,7 +227,7 @@ export const nb = {
   },
   dataset: {
     periodicity: {
-      label: 'Periodisering'
+      label: 'Periodisering',
     },
     periodType: {
       YEAR: 'Årlig',
