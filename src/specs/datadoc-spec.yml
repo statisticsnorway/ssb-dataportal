@@ -74,6 +74,18 @@ paths:
           type: string
           format: date
           nullable: true
+      - name: storage-location-name
+        in: query
+        explode: false
+        schema:
+          type: string
+          nullable: true
+      - name: has-variables
+        in: query
+        explode: false
+        schema:
+          type: boolean
+          nullable: true
       - name: page
         in: query
         explode: false
@@ -90,7 +102,10 @@ paths:
           default: 100
       responses:
         "200":
-          description: List Dapla Data Files.
+          description: "List Dapla Data Files. Timestamps are returned in UTC. Files\
+            \ with invalid date or path metadata are included with their file path\
+            \ and file name, but without optional metadata. Pagination counts include\
+            \ these files."
           content:
             application/json:
               schema:
@@ -667,10 +682,22 @@ paths:
                 value:
                   command: start
                   job_id: 01JD8XQ2
+                  operation_type: LIST_OBJECTS
+              partial:
+                value:
+                  command: partial
+                  job_id: 01JD8XQ2
+                  operation_type: LIST_OBJECTS
+              aborted:
+                value:
+                  command: aborted
+                  job_id: 01JD8XQ2
+                  operation_type: LIST_OBJECTS
               complete:
                 value:
                   command: complete
                   job_id: 01JD8XQ2
+                  operation_type: LIST_OBJECTS
         required: true
       responses:
         "200":
@@ -775,8 +802,16 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/VariableNode"
+        task_id:
+          type: string
+          nullable: true
+        job_id:
+          type: string
+          nullable: true
       description: "Variables received for an existing data file: the top-level nodes\
-        \ of its Parquet schema."
+        \ of its Parquet schema. \\[taskId\\] and \\[jobId\\] are optional, but must\
+        \ be supplied together. When supplied, the write is only accepted if \\[jobId\\\
+        ] is the active job for \\[taskId\\]."
     DaplaDataFileDTO:
       required:
       - file_name
@@ -803,12 +838,12 @@ components:
         data_last_modified_at:
           type: string
           description: "The last modified timestamp of the data file, as reported\
-            \ by the storage provider."
+            \ by the storage provider, in UTC."
           format: date-time
           nullable: true
         file_last_scanned_at:
           type: string
-          description: The last time we updated metadata for this data file.
+          description: "The last time we updated metadata for this data file, in UTC."
           format: date-time
           nullable: true
         checksum:
@@ -858,14 +893,14 @@ components:
           nullable: true
         contains_data_from:
           type: string
-          description: "The start date of the time period the data file covers, sourced\
-            \ from the file path."
+          description: "The start of the time period the data file covers, sourced\
+            \ from the file path, in UTC."
           format: date-time
           nullable: true
         contains_data_until:
           type: string
-          description: "The end date of the time period the data file covers, sourced\
-            \ from the file path."
+          description: "The end of the time period the data file covers, sourced from\
+            \ the file path, in UTC."
           format: date-time
           nullable: true
         period_type:
@@ -991,6 +1026,10 @@ components:
           nullable: true
           allOf:
           - $ref: "#/components/schemas/StorageCategory"
+        period_type:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/PeriodType"
       description: A Dataset is a group of data files within one product and state
         with the same short description.
     DatasetPageResponse:
@@ -1193,6 +1232,11 @@ components:
         number_of_violations:
           type: integer
           format: int64
+    OperationType:
+      type: string
+      enum:
+      - LIST_OBJECTS
+      - EXTRACT_VARIABLES
     PeriodFormat:
       type: string
       description: The category of time period that a data file covers.
@@ -1205,6 +1249,26 @@ components:
       - QUARTER
       - TRIANNUAL
       - HALF_YEAR
+    PeriodType:
+      type: string
+      enum:
+      - YEAR
+      - MONTH
+      - DAY
+      - WEEK
+      - BIMESTER
+      - QUARTER
+      - TRIANNUAL
+      - HALF_YEAR
+      x-enum-descriptions:
+      - The data file covers a single year.
+      - The data file covers a single month.
+      - The data file covers a single day.
+      - The data file covers a single week.
+      - The data file covers a two-month period.
+      - The data file covers a three-month period.
+      - The data file covers a four-month period.
+      - The data file covers a six-month period.
     PhysicalType:
       type: string
       description: "The physical types accepted by the API. These are the Parquet\
@@ -1257,12 +1321,15 @@ components:
       required:
       - command
       - job_id
+      - operation_type
       type: object
       properties:
         command:
           $ref: "#/components/schemas/TaskCommand"
         job_id:
           type: string
+        operation_type:
+          $ref: "#/components/schemas/OperationType"
       description: "Register a command for a task. \\[jobId\\] is opaque to us: we\
         \ only ever compare it for equality against the job id supplied with subsequent\
         \ data file writes."

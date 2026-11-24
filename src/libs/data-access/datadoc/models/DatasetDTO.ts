@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { PeriodType } from './PeriodType';
+import {
+    PeriodTypeFromJSON,
+    PeriodTypeFromJSONTyped,
+    PeriodTypeToJSON,
+    PeriodTypeToJSONTyped,
+} from './PeriodType';
 import type { StorageCategory } from './StorageCategory';
 import {
     StorageCategoryFromJSON,
@@ -95,6 +102,12 @@ export interface DatasetDTO {
      * @memberof DatasetDTO
      */
     storage_category?: StorageCategory | null;
+    /**
+     * 
+     * @type {PeriodType}
+     * @memberof DatasetDTO
+     */
+    period_type?: PeriodType | null;
 }
 
 
@@ -130,6 +143,7 @@ export function DatasetDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'owner': json['owner'] == null ? undefined : json['owner'],
         'has_naming_standard_violations': json['has_naming_standard_violations'],
         'storage_category': json['storage_category'] == null ? undefined : StorageCategoryFromJSON(json['storage_category']),
+        'period_type': json['period_type'] == null ? undefined : PeriodTypeFromJSON(json['period_type']),
     };
 }
 
@@ -153,6 +167,7 @@ export function DatasetDTOToJSONTyped(value?: DatasetDTO | null, ignoreDiscrimin
         'owner': value['owner'],
         'has_naming_standard_violations': value['has_naming_standard_violations'],
         'storage_category': StorageCategoryToJSON(value['storage_category']),
+        'period_type': PeriodTypeToJSON(value['period_type']),
     };
 }
 

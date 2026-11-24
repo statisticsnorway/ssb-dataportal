@@ -9,6 +9,7 @@ Name | Type
 ------------ | -------------
 `command` | [TaskCommand](TaskCommand.md)
 `job_id` | string
+`operation_type` | [OperationType](OperationType.md)
 
 ## Example
 
@@ -19,6 +20,7 @@ import type { TaskRegistration } from ''
 const example = {
   "command": null,
   "job_id": null,
+  "operation_type": null,
 } satisfies TaskRegistration
 
 console.log(example)
