@@ -65,6 +65,10 @@ function DatasetAbout({
             ]
           : []),
         { label: localization.datasetDetail.id, value: <CopyTag text={dataset.id ?? 'undefined'} copyType='id' /> },
+        {
+          label: 'Label',
+          value: 'This is a placeholder',
+        },
       ]}
     />
   );

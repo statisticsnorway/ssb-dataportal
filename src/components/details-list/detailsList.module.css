@@ -1,13 +1,19 @@
 .tableContainer {
-  padding: 1.5rem;
-  padding-bottom: 0.5rem;
+    /*padding: 1.5rem;
+  padding-bottom: 0.5rem;*/
 }
+
+.headingDivider {
+  margin-bottom: 2rem;
+}
+
 .detailsHeading {
   margin-bottom: 2rem;
 }
 .row {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 1rem;
   padding-left: 0;
   font-family: var(--font-open-sans);

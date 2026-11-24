@@ -35,15 +35,18 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage, allowed
   return (
     <Card className={styles.tableContainer}>
       {title && (
-        <Heading
-          level={2}
-          className={`${styles.detailsHeading} infoHeadingSecondary`}
-          data-size='md'
-          id={`tableHeading-${title}`}
-          {...(fallbackLanguage ? { lang: fallbackLanguage } : {})}
-        >
-          {title}
-        </Heading>
+        <>
+          <Heading
+            level={2}
+            className={`${styles.detailsHeading} infoHeadingSecondary`}
+            data-size='md'
+            id={`tableHeading-${title}`}
+            {...(fallbackLanguage ? { lang: fallbackLanguage } : {})}
+          >
+            {title}
+          </Heading>
+          <Divider className={styles.headingDivider} />
+        </>
       )}
       {visibleRows.map((row, index) => (
         <dl key={getRowKey(row, index)} className={styles.row}>
