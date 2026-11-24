@@ -35,7 +35,7 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage, allowed
   return (
     <Card className={styles.tableContainer}>
       {title && (
-        <>
+        <header className={styles.header}>
           <Heading
             level={2}
             className={`${styles.detailsHeading} infoHeadingSecondary`}
@@ -46,7 +46,7 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage, allowed
             {title}
           </Heading>
           <Divider className={styles.headingDivider} />
-        </>
+        </header>
       )}
       {visibleRows.map((row, index) => (
         <dl key={getRowKey(row, index)} className={styles.row}>
@@ -68,7 +68,7 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage, allowed
           <dd className={styles.value} aria-label={row.label} {...setHtmlLang(row.value)}>
             {row.value}
           </dd>
-          {index != visibleRows.length - 1 && <Divider />}
+          <Divider />
         </dl>
       ))}
     </Card>
