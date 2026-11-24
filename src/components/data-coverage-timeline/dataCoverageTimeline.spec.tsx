@@ -1,6 +1,6 @@
 import { fireEvent, render, renderHook, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { type DaplaDataFileDTO, PeriodFormat } from '@/libs/data-access/datadoc';
+import { type DaplaDataFileDTO, PeriodFormat, PeriodType } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language/src/localization';
 import DataCoverageTimeline, { slotOverlapsItem } from './dataCoverageTimeline';
 import styles from './dataCoverageTimeline.module.css';
@@ -24,7 +24,20 @@ const buildDataFile = ({ filePath, from, until, periodType }: BuildDataFileInput
   period_type: periodType,
 });
 
-const buildTimelineData = (data: DaplaDataFileDTO[]) => renderHook(() => useTimelineData(data)).result.current;
+const periodTypes: Record<PeriodFormat, PeriodType> = {
+  YEAR: PeriodType.YEAR,
+  YEAR_MONTH: PeriodType.MONTH,
+  YEAR_MONTH_DAY: PeriodType.DAY,
+  YEAR_WEEK: PeriodType.WEEK,
+  BIMESTER: PeriodType.BIMESTER,
+  QUARTER: PeriodType.QUARTER,
+  TRIANNUAL: PeriodType.TRIANNUAL,
+  HALF_YEAR: PeriodType.HALF_YEAR,
+};
+
+const buildTimelineData = (data: DaplaDataFileDTO[]) =>
+  renderHook(() => useTimelineData(data, data[0]?.period_type ? periodTypes[data[0].period_type] : undefined)).result
+    .current;
 
 const mockMobileViewport = (matches: boolean) => {
   vi.stubGlobal(
@@ -160,7 +173,6 @@ describe('DataCoverageTimeline', () => {
       file_path: 'gs://bucket/dataset/ufo-observasjoner_p2018_p2019_v1.parquet',
       file_name: 'ufo-observasjoner_p2018_p2019_v1.parquet',
       data_file_version: 1,
-      periodType: PeriodFormat.YEAR,
       start: '2018-01-01',
       end: '2019-12-31',
       naming_standard_violations: [],
@@ -310,7 +322,7 @@ describe('DataCoverageTimeline', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('returns null for mixed period types', () => {
+  it('uses the dataset period type when file period formats differ', () => {
     const data = [
       buildDataFile({
         filePath: 'gs://bucket/dataset/month_p2024_01.parquet',
@@ -328,9 +340,7 @@ describe('DataCoverageTimeline', () => {
 
     render(<DataCoverageTimeline {...buildTimelineData(data)} />);
 
-    expect(
-      screen.queryByRole('heading', { name: localization.datasetDetail.dataCoverageTimeline }),
-    ).not.toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: localization.datasetDetail.dataCoverageTimeline })).toBeInTheDocument();
   });
 
   it('renders the full year range including years without files', () => {

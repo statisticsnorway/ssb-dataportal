@@ -2,7 +2,7 @@ import 'server-only';
 
 import { cache } from 'react';
 import { listDatasetVariables } from '@/libs/data/datasets/datasets';
-import type { DaplaDataFileDTO } from '@/libs/data-access/datadoc';
+import type { DaplaDataFileDTO, PeriodType } from '@/libs/data-access/datadoc';
 import { sanitizeError } from '@/libs/logger/sanitize';
 import { createLogger } from '@/libs/logger/server-logger';
 import DatasetVariablesWorkspace from './DatasetVariablesWorkspace';
@@ -25,11 +25,13 @@ export function preloadDatasetVariables(datasetId: string, isAuthenticated: bool
 
 export default async function DatasetVariablesLoader({
   datasetId,
+  periodType,
   isAuthenticated,
   dataFilesShared,
   dataFilesProduct,
 }: Readonly<{
   datasetId: string;
+  periodType?: PeriodType | null;
   isAuthenticated: boolean;
   dataFilesShared: DaplaDataFileDTO[];
   dataFilesProduct: DaplaDataFileDTO[];
@@ -39,6 +41,7 @@ export default async function DatasetVariablesLoader({
   return (
     <DatasetVariablesWorkspace
       datasetId={datasetId}
+      periodType={periodType}
       dataFilesShared={dataFilesShared}
       dataFilesProduct={dataFilesProduct}
       datasetVariables={datasetVariables}

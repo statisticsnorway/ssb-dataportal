@@ -9,7 +9,6 @@ import type { TimelineItem } from '@/components/data-coverage-timeline/types';
 import type { TimelineData } from '@/components/data-coverage-timeline/useTimelineData';
 import { DetailsList } from '@/components/details-list';
 import type { DaplaDataFileDTO, DatasetDTO, DatasetVariableDTO } from '@/libs/data-access/datadoc';
-import { PeriodFormat } from '@/libs/data-access/datadoc';
 import { listDatasetVariableDataFilePaths, listDatasetVariableIdsInPeriod } from './actions';
 import DatasetVariablesWorkspace from './DatasetVariablesWorkspace';
 import styles from './dataset-page.module.css';
@@ -120,7 +119,6 @@ const dataset = {
 
 const emptyTimelineData: TimelineData = {
   isValid: false,
-  periodType: '',
   allItems: [],
   items: [],
   years: [],
@@ -131,14 +129,12 @@ const timelineItems = [
   {
     ...sharedFile,
     data_file_version: 0,
-    periodType: PeriodFormat.YEAR_MONTH,
     start: '2020-01-01',
     end: '2020-01-31',
   },
   {
     ...productFile,
     data_file_version: 0,
-    periodType: PeriodFormat.YEAR_MONTH,
     start: '2020-02-01',
     end: '2020-02-29',
   },
@@ -147,7 +143,6 @@ const timelineItems = [
 const twoPeriodTimelineData: TimelineData = {
   ...emptyTimelineData,
   isValid: true,
-  periodType: PeriodFormat.YEAR_MONTH,
   allItems: timelineItems,
   items: timelineItems,
   years: [2020],
@@ -178,6 +173,7 @@ function DatasetDetail({
       datasetVariablesWorkspace={
         <DatasetVariablesWorkspace
           datasetId={dataset.id ?? ''}
+          periodType={dataset.period_type}
           dataFilesShared={dataFilesShared}
           dataFilesProduct={dataFilesProduct}
           datasetVariables={datasetVariables}

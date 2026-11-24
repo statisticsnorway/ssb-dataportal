@@ -1,4 +1,4 @@
-import { PeriodFormat } from '@/libs/data-access/datadoc';
+import { PeriodType } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language/src/localization';
 import { type PeriodDef, type Slot } from './types';
 import { pad2 } from './utils';
@@ -15,32 +15,32 @@ import { pad2 } from './utils';
  *
  * `monthsEach` (slots per year ÷ 12 months) is derived on-the-fly in `generateYearSlots`.
  */
-const PERIOD_DEFS: Partial<Record<PeriodFormat, Omit<PeriodDef, 'monthsEach'>>> = {
-  [PeriodFormat.YEAR_MONTH]: {
+const PERIOD_DEFS: Partial<Record<PeriodType, Omit<PeriodDef, 'monthsEach'>>> = {
+  [PeriodType.MONTH]: {
     count: 12,
     label: (i) => localization.dataCoverageTimeline.monthsShort[i] ?? '',
   },
-  [PeriodFormat.YEAR_MONTH_DAY]: {
+  [PeriodType.DAY]: {
     count: 12,
     label: (i) => localization.dataCoverageTimeline.monthsShort[i] ?? '',
   },
-  [PeriodFormat.BIMESTER]: {
+  [PeriodType.BIMESTER]: {
     count: 6,
     label: (i) => `${localization.dataCoverageTimeline.labelBimesterPrefix}${i + 1}`,
   },
-  [PeriodFormat.QUARTER]: {
+  [PeriodType.QUARTER]: {
     count: 4,
     label: (i) => `${localization.dataCoverageTimeline.labelQuarterPrefix}${i + 1}`,
   },
-  [PeriodFormat.TRIANNUAL]: {
+  [PeriodType.TRIANNUAL]: {
     count: 3,
     label: (i) => `${localization.dataCoverageTimeline.labelTriannualPrefix}${i + 1}`,
   },
-  [PeriodFormat.HALF_YEAR]: {
+  [PeriodType.HALF_YEAR]: {
     count: 2,
     label: (i) => `${localization.dataCoverageTimeline.labelHalfYearPrefix}${i + 1}`,
   },
-  [PeriodFormat.YEAR]: {
+  [PeriodType.YEAR]: {
     count: 1,
     label: () => localization.dataCoverageTimeline.labelFullYear,
   },
@@ -60,7 +60,7 @@ const PERIOD_DEFS: Partial<Record<PeriodFormat, Omit<PeriodDef, 'monthsEach'>>> 
  * @param periodType - The period type that defines slot count and labels.
  * @returns An array of `Slot` objects covering the full year.
  */
-export const generateYearSlots = (year: number, periodType: PeriodFormat): Slot[] => {
+export const generateYearSlots = (year: number, periodType: PeriodType): Slot[] => {
   const def = PERIOD_DEFS[periodType];
   if (!def) return [];
   const monthsEach = 12 / def.count;

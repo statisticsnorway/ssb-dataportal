@@ -247,7 +247,7 @@ const MobileTimelineYear = ({
  * The axis row at the bottom mirrors the first year's slot labels so they
  * always stay in sync with the grid.
  *
- * Renders nothing when `isValid` is false (e.g. mixed `period_type` values).
+ * Renders nothing when `isValid` is false.
  *
  */
 type DataCoverageTimelineProps = Pick<TimelineData, 'isValid' | 'allItems' | 'years' | 'slots'> & {
