@@ -35,10 +35,10 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage, allowed
   return (
     <Card className={styles.tableContainer}>
       {title && (
-        <header className={styles.header}>
+        <>
           <Heading
             level={2}
-            className={`${styles.detailsHeading} infoHeadingSecondary`}
+            className={`${styles.detailsHeading} infoHeadingPrimary`}
             data-size='md'
             id={`tableHeading-${title}`}
             {...(fallbackLanguage ? { lang: fallbackLanguage } : {})}
@@ -46,14 +46,14 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage, allowed
             {title}
           </Heading>
           <Divider className={styles.headingDivider} />
-        </header>
+        </>
       )}
       <div className={styles.contentContainer}>
       {visibleRows.map((row, index) => (
         <dl key={getRowKey(row, index)} className={styles.row}>
           {row.popover ? (
             <dt className={`${styles.popoverKey} infoHeadingSecondary`} aria-label={row.label}>
-              <span className={styles.popoverLabel}>{row.label}</span>
+              <span className={`${styles.popoverLabel} infoHeadingSecondary`}>{row.label}</span>
               <Popover.TriggerContext>
                 <Popover.Trigger aria-label={`${row.label} information`} inline className={styles.popoverButton}>
                   <QuestionmarkCircleIcon title='Information' fontSize='2rem' aria-hidden focusable='false' />
