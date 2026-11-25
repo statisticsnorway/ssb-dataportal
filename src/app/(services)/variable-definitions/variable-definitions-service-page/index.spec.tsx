@@ -178,6 +178,44 @@ describe('VariableDefinitionsServicePage', () => {
       }),
     ).toBeInTheDocument();
   });
+
+  it('updates status names when the language changes', async () => {
+    localization.setLanguage('nb');
+    const variablesPromise = Promise.resolve({
+      data: getStaticVariableDefinitions(),
+      error: null,
+    });
+    const subjectFieldsPromise = Promise.resolve({
+      data: defaultSubjectFields,
+      error: null,
+    });
+    const { findByRole, rerender } = await renderPage(
+      true,
+      variablesPromise,
+      subjectFieldsPromise,
+      '?status=DRAFT',
+    );
+    expect(await findByRole('checkbox', { name: /Utkast/, hidden: true })).toBeChecked();
+    expect(await findByRole('button', { name: 'Fjern Utkast' })).toBeInTheDocument();
+
+    localization.setLanguage('en');
+    await act(async () => {
+      rerender(
+        <NuqsTestingAdapter searchParams='?status=DRAFT'>
+          <AuthProvider isAuthenticated>
+            <VariableDefinitionsServicePage
+              variablesPromise={variablesPromise}
+              subjectFieldsPromise={subjectFieldsPromise}
+            />
+          </AuthProvider>
+        </NuqsTestingAdapter>,
+      );
+    });
+
+    expect(await findByRole('checkbox', { name: /Draft/, hidden: true })).toBeChecked();
+    expect(await findByRole('button', { name: 'Remove Draft' })).toBeInTheDocument();
+    localization.setLanguage('nb');
+  });
 });
 
 describe('URL state', () => {
