@@ -531,7 +531,7 @@ export const en = {
     id: 'ID',
     internalPersonalData: 'Contains special categories of personal data',
     labelPlural: 'Variable definitions',
-    mail: 'Email',
+    mail: 'E-mail',
     owner: 'Owner',
     unitTypeInfo:
       'A unit type is the type of objects (units) that statistics are produced for, for example person, enterprise, and election',

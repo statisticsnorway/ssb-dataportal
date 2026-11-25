@@ -527,7 +527,7 @@ export const nb = {
     id: 'ID',
     internalPersonalData: 'Inneholder særlige kategorier av personopplysninger',
     labelPlural: 'Variabeldefinisjoner',
-    mail: 'Mail',
+    mail: 'E-post',
     owner: 'Eier',
     unitTypeInfo:
       'En enhetstype er typen av objekter (enheter) som det lages statistikk om, f.eks. person, foretak og valg',
