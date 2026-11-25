@@ -1,6 +1,6 @@
 import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { NuqsTestingAdapter, type UrlUpdateEvent } from 'nuqs/adapters/testing';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { AuthProvider } from '@/app/authContext';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
@@ -8,6 +8,9 @@ import { KlassCode } from '@/types/klass-codes';
 import { getStaticVariableDefinitions } from '@/utils/mock-data';
 import VariableDefinitionsServicePage from '.';
 
+afterEach(() => {
+  localization.setLanguage('nb');
+});
 const defaultSubjectFields: KlassCode[] = [
   {
     code: 'al',
