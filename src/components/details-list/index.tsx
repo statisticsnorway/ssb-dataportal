@@ -1,7 +1,8 @@
-import { Card, Divider, Heading,  Popover } from '@digdir/designsystemet-react';
+import { Divider, Popover } from '@digdir/designsystemet-react';
 import { QuestionmarkCircleIcon } from '@navikt/aksel-icons';
 import { localization } from '@/libs/language/src/localization';
 import { Item, Visibility } from '@/types/item';
+import { DetailsCard } from './detailsCard';
 import styles from './detailsList.module.css';
 
 interface DetailsListProps {
@@ -33,23 +34,7 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage, allowed
   });
 
   return (
-    <>
-    <Card className={styles.tableContainer}>
-      {title && (
-        <>
-          <Heading
-            level={2}
-            className={`${styles.detailsHeading} infoHeadingPrimary`}
-            data-size='md'
-            id={`tableHeading-${title}`}
-            {...(fallbackLanguage ? { lang: fallbackLanguage } : {})}
-          >
-            {title}
-          </Heading>
-          <Divider className={styles.headingDivider} />
-        </>
-      )}
-      <div className={styles.contentContainer}>
+    <DetailsCard title={title} lang={fallbackLanguage} variant='list'>
       {visibleRows.map((row, index) => (
         <dl key={getRowKey(row, index)} className={styles.row}>
           {row.popover ? (
@@ -57,7 +42,7 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage, allowed
               <span className={`${styles.popoverLabel} infoHeadingSecondary`}>{row.label}</span>
               <Popover.TriggerContext>
                 <Popover.Trigger aria-label={`${row.label} information`} inline className={styles.popoverButton}>
-                  <QuestionmarkCircleIcon title='Information' fontSize='2rem' aria-hidden focusable='false' />
+                  <QuestionmarkCircleIcon title='Information' fontSize='1em' aria-hidden focusable='false' />
                 </Popover.Trigger>
                 <Popover placement='top' id='info'>
                   {popoverContent}
@@ -73,9 +58,7 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage, allowed
           <Divider />
         </dl>
       ))}
-      </div>
-    </Card>
-    </>
+    </DetailsCard>
   );
 };
 
