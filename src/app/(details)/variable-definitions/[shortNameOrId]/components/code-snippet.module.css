@@ -1,23 +1,13 @@
-.codeSnippet {
-  padding: 1.5rem;
-}
-
-.header {
-  padding: 0;
-  margin-bottom: 0;
-}
-
 .helpText {
-  padding: 0 0 0.75rem;
+  margin: 0;
 }
 
 .codeBlock {
   position: relative;
   overflow: hidden;
   padding: 0;
+  min-width: 0; /* lets the <pre> scroll instead of stretching the card */
   border-radius: calc(var(--dsc-card-border-radius) - var(--dsc-card-border-width));
-  --dsc-card-block-border-width: 0;
-  --dsc-card-block-border-color: transparent;
 }
 
 .codeBlock :global(pre) {

@@ -33,6 +33,7 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage, allowed
   });
 
   return (
+    <>
     <Card className={styles.tableContainer}>
       {title && (
         <>
@@ -74,6 +75,7 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage, allowed
       ))}
       </div>
     </Card>
+    </>
   );
 };
 
