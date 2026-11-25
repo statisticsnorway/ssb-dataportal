@@ -1,4 +1,4 @@
-import { Card, Divider, Heading, Popover } from '@digdir/designsystemet-react';
+import { Card, Divider, Heading,  Popover } from '@digdir/designsystemet-react';
 import { QuestionmarkCircleIcon } from '@navikt/aksel-icons';
 import { localization } from '@/libs/language/src/localization';
 import { Item, Visibility } from '@/types/item';
@@ -48,10 +48,11 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage, allowed
           <Divider className={styles.headingDivider} />
         </header>
       )}
+      <div className={styles.contentContainer}>
       {visibleRows.map((row, index) => (
         <dl key={getRowKey(row, index)} className={styles.row}>
           {row.popover ? (
-            <dt className={styles.popoverKey} aria-label={row.label}>
+            <dt className={`${styles.popoverKey} infoHeadingSecondary`} aria-label={row.label}>
               <span className={styles.popoverLabel}>{row.label}</span>
               <Popover.TriggerContext>
                 <Popover.Trigger aria-label={`${row.label} information`} inline className={styles.popoverButton}>
@@ -71,6 +72,7 @@ const DetailsList = ({ title, content, popoverContent, fallbackLanguage, allowed
           <Divider />
         </dl>
       ))}
+      </div>
     </Card>
   );
 };

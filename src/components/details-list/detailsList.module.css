@@ -3,18 +3,24 @@
   overflow: hidden;
 }
 
+/*
+.header {
+  margin-bottom: 2rem;
+}*/
+
 .headingDivider {
   width: 100%;
 }
 
-.header {
-  margin-bottom: 2rem;
+.contentContainer {
+  padding: 0.5rem 0;
 }
-
+/*
 .detailsHeading {
   margin-bottom: 2rem;
   padding: 1.5rem 1.5rem 0;
-}
+}*/
+
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -25,9 +31,10 @@
   color: var(--text-color-primary);
 }
 
+/*
 .row:last-child {
   padding-bottom: 1.5rem;
-}
+}*/
 
 .key {
   font-weight: var(--font-weight-heavy);
@@ -54,10 +61,10 @@
   --dsc-button-padding: 0 0.5rem;
   --dsc-button-size: 2rem;
 }
-
+/*
 .popoverLabel {
   font-weight: var(--font-weight-heavy);
-}
+}*/
 
 @media (min-width: 768px) {
   .row {
