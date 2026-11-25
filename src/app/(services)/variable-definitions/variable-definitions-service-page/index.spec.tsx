@@ -189,14 +189,9 @@ describe('VariableDefinitionsServicePage', () => {
       data: defaultSubjectFields,
       error: null,
     });
-    const { findByRole, rerender } = await renderPage(
-      true,
-      variablesPromise,
-      subjectFieldsPromise,
-      '?status=DRAFT',
-    );
+    const { findByRole, rerender } = await renderPage(true, variablesPromise, subjectFieldsPromise, '?status=DRAFT');
     expect(await findByRole('checkbox', { name: /Utkast/, hidden: true })).toBeChecked();
-    expect(await findByRole('button', { name: 'Fjern Utkast' })).toBeInTheDocument();
+    expect(await findByRole('button', { name: 'Fjern Utkast', hidden: true })).toBeInTheDocument();
 
     localization.setLanguage('en');
     await act(async () => {
@@ -213,7 +208,7 @@ describe('VariableDefinitionsServicePage', () => {
     });
 
     expect(await findByRole('checkbox', { name: /Draft/, hidden: true })).toBeChecked();
-    expect(await findByRole('button', { name: 'Remove Draft' })).toBeInTheDocument();
+    expect(await findByRole('button', { name: 'Remove Draft', hidden: true })).toBeInTheDocument();
     localization.setLanguage('nb');
   });
 });
