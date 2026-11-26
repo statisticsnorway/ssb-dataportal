@@ -26,7 +26,9 @@ docs/NamingViolation.md
 docs/NamingViolationResponse.md
 docs/NamingViolationSummaryResponse.md
 docs/NamingViolations200Response.md
+docs/OperationType.md
 docs/PeriodFormat.md
+docs/PeriodType.md
 docs/PhysicalType.md
 docs/Problem.md
 docs/RepetitionType.md
@@ -57,7 +59,9 @@ models/NamingViolation.ts
 models/NamingViolationResponse.ts
 models/NamingViolationSummaryResponse.ts
 models/NamingViolations200Response.ts
+models/OperationType.ts
 models/PeriodFormat.ts
+models/PeriodType.ts
 models/PhysicalType.ts
 models/Problem.ts
 models/RepetitionType.ts

@@ -1,13 +1,15 @@
 
 # CreateDataFileVariables
 
-Variables received for an existing data file: the top-level nodes of its Parquet schema.
+Variables received for an existing data file: the top-level nodes of its Parquet schema. \\[taskId\\] and \\[jobId\\] are optional, but must be supplied together. When supplied, the write is only accepted if \\[jobId\\] is the active job for \\[taskId\\].
 
 ## Properties
 
 Name | Type
 ------------ | -------------
 `variables` | [Array&lt;VariableNode&gt;](VariableNode.md)
+`task_id` | string
+`job_id` | string
 
 ## Example
 
@@ -17,6 +19,8 @@ import type { CreateDataFileVariables } from ''
 // TODO: Update the object below with actual values
 const example = {
   "variables": null,
+  "task_id": null,
+  "job_id": null,
 } satisfies CreateDataFileVariables
 
 console.log(example)

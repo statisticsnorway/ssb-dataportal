@@ -6,6 +6,8 @@
  * Please maintain alphabetical order on variable name for ease of maintenance!
  */
 
+import { PeriodType } from '@/libs/data-access/datadoc/models/PeriodType';
+
 export const nb = {
   parquetTypes: {
     BOOLEAN: 'Boolsk verdi',
@@ -222,6 +224,21 @@ export const nb = {
     dataset: 'Datasett',
     sortByMostNamingStandardViolations: 'Flest navnestandardavvik',
     noDatasetAvailable: 'Ingen datasett tilgjengelig',
+  },
+  dataset: {
+    periodicity: {
+      label: 'Periodisering',
+    },
+    periodType: {
+      YEAR: 'Årlig',
+      HALF_YEAR: 'Halvårlig',
+      TRIANNUAL: 'Tertialvis',
+      QUARTER: 'Kvartalsvis',
+      BIMESTER: 'Annenhver måned',
+      MONTH: 'Månedlig',
+      WEEK: 'Ukentlig',
+      DAY: 'Daglig',
+    } satisfies Record<PeriodType, string>,
   },
   datasetDetail: {
     emptyState: {
@@ -510,7 +527,7 @@ export const nb = {
     id: 'ID',
     internalPersonalData: 'Inneholder særlige kategorier av personopplysninger',
     labelPlural: 'Variabeldefinisjoner',
-    mail: 'Mail',
+    mail: 'E-post',
     owner: 'Eier',
     unitTypeInfo:
       'En enhetstype er typen av objekter (enheter) som det lages statistikk om, f.eks. person, foretak og valg',

@@ -87,13 +87,13 @@ export interface DaplaDataFileDTO {
      */
     file_type?: FileType | null;
     /**
-     * The last modified timestamp of the data file, as reported by the storage provider.
+     * The last modified timestamp of the data file, as reported by the storage provider, in UTC.
      * @type {Date}
      * @memberof DaplaDataFileDTO
      */
     data_last_modified_at?: Date | null;
     /**
-     * The last time we updated metadata for this data file.
+     * The last time we updated metadata for this data file, in UTC.
      * @type {Date}
      * @memberof DaplaDataFileDTO
      */
@@ -153,13 +153,13 @@ export interface DaplaDataFileDTO {
      */
     data_file_version?: number | null;
     /**
-     * The start date of the time period the data file covers, sourced from the file path.
+     * The start of the time period the data file covers, sourced from the file path, in UTC.
      * @type {Date}
      * @memberof DaplaDataFileDTO
      */
     contains_data_from?: Date | null;
     /**
-     * The end date of the time period the data file covers, sourced from the file path.
+     * The end of the time period the data file covers, sourced from the file path, in UTC.
      * @type {Date}
      * @memberof DaplaDataFileDTO
      */

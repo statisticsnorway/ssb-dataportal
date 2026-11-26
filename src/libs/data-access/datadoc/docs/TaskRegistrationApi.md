@@ -35,7 +35,7 @@ async function example() {
     // string
     taskId: taskId_example,
     // TaskRegistration
-    taskRegistration: {"command":"start","job_id":"01JD8XQ2"},
+    taskRegistration: {"command":"start","job_id":"01JD8XQ2","operation_type":"LIST_OBJECTS"},
   } satisfies RegisterTaskRequest;
 
   try {

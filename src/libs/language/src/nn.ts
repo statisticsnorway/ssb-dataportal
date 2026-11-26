@@ -4,6 +4,7 @@
  * Please maintain alphabetical order on variable name for ease of maintenance!
  */
 
+import { PeriodType } from '@/libs/data-access/datadoc/models/PeriodType';
 import type { Translation } from './nb';
 
 export const nn = {
@@ -222,6 +223,21 @@ export const nn = {
     dataset: 'Datasett',
     sortByMostNamingStandardViolations: 'Flest avvik frå namnestandard',
     noDatasetAvailable: 'Ingen datasett tilgjengeleg',
+  },
+  dataset: {
+    periodicity: {
+      label: 'Periodisering',
+    },
+    periodType: {
+      YEAR: 'Årleg',
+      HALF_YEAR: 'Halvårleg',
+      TRIANNUAL: 'Tertialvis',
+      QUARTER: 'Kvartalsvis',
+      BIMESTER: 'Annannkvar måned',
+      MONTH: 'Månadleg',
+      WEEK: 'Vekentleg',
+      DAY: 'Dagleg',
+    } satisfies Record<PeriodType, string>,
   },
   datasetDetail: {
     emptyState: {

@@ -49,6 +49,7 @@ const VariableDefinitionsServicePage = ({
   });
 
   const { q, status, subjects, sort, page } = queryState;
+  const language = localization.getLanguage();
   const statusLabelByValue = getStatusLabelByValue();
 
   const { data: subjectFields } = use(subjectFieldsPromise);
@@ -59,7 +60,7 @@ const VariableDefinitionsServicePage = ({
         value,
         label: statusLabelByValue[value] ?? value,
       })),
-    [status],
+    [status, language],
   );
 
   const subjectFilters = useMemo<FilterItem[]>(

@@ -1,13 +1,12 @@
 import { useMemo } from 'react';
-import { type DaplaDataFileDTO, PeriodFormat } from '@/libs/data-access/datadoc';
+import { type DaplaDataFileDTO, type PeriodType } from '@/libs/data-access/datadoc';
 import { clientLogger } from '@/libs/logger/client-logger';
-import { generateYearSlots } from './periodDefinitions';
+import { generateYearSlots, isSupportedPeriodType } from './periodDefinitions';
 import { type Slot, type TimelineItem } from './types';
 import { pad2 } from './utils';
 
 const empty = {
   isValid: false as const,
-  periodType: '' as PeriodFormat | '',
   allItems: [] as TimelineItem[],
   items: [] as TimelineItem[],
   years: [] as number[],
@@ -43,7 +42,7 @@ const parseDay = (value: Date | undefined | null): string | null => {
 
 /**
  * Converts raw API DTOs into typed `TimelineItem` objects, dropping any entries
- * that have invalid/missing dates or a missing `period_type`.
+ * that have invalid or missing dates.
  * The result is sorted ascending by start date so that the first and last elements
  * give the year boundaries cheaply, and the overlap check can run in a single pass.
  *
@@ -55,13 +54,12 @@ const parseItems = (data: DaplaDataFileDTO[]): TimelineItem[] =>
     .flatMap((dataFile) => {
       const start = parseDay(dataFile.contains_data_from);
       const end = parseDay(dataFile.contains_data_until);
-      if (!start || !end || !dataFile.period_type) return [];
+      if (!start || !end) return [];
       return [
         {
           ...dataFile,
           file_path: dataFile.file_path,
           data_file_version: dataFile.data_file_version ?? 0,
-          periodType: dataFile.period_type,
           start,
           end,
           naming_standard_violations: dataFile.naming_standard_violations ?? [],
@@ -81,7 +79,7 @@ const keepNewestVersionPerPeriod = (items: TimelineItem[]): TimelineItem[] => {
   const latestByPeriod = new Map<string, TimelineItem>();
 
   for (const item of items) {
-    const key = `${item.periodType}|${item.start}|${item.end}`;
+    const key = `${item.start}|${item.end}`;
     const existing = latestByPeriod.get(key);
     if (!existing || item.data_file_version > existing.data_file_version || item.file_path > existing.file_path) {
       latestByPeriod.set(key, item);
@@ -90,16 +88,6 @@ const keepNewestVersionPerPeriod = (items: TimelineItem[]): TimelineItem[] => {
 
   return [...latestByPeriod.values()].sort((a, b) => a.start.localeCompare(b.start) || a.end.localeCompare(b.end));
 };
-
-/**
- * Returns `true` if the items span more than one distinct `periodType`.
- *
- * Mixed period types (e.g. some files are `YEAR_MONTH` and others are `YEAR_WEEK`)
- * make the slot grid ambiguous, so we treat this as an invalid dataset.
- *
- * @param items - Parsed timeline items.
- */
-const hasMixedPeriodTypes = (items: TimelineItem[]): boolean => new Set(items.map((d) => d.periodType)).size !== 1;
 
 /**
  * Returns `true` if all items share the exact same start date, representing a
@@ -124,8 +112,6 @@ const hasOverlappingPeriods = (items: TimelineItem[]): boolean => {
   return items.some((item, i) => i > 0 && item.start < items[i - 1]!.end);
 };
 
-const hasSupportedPeriodType = (periodType: PeriodFormat): boolean => generateYearSlots(2000, periodType).length > 0;
-
 /**
  * Derives the full year range covered by the items and pre-generates a slot grid for
  * each year in that range.
@@ -139,13 +125,13 @@ const hasSupportedPeriodType = (periodType: PeriodFormat): boolean => generateYe
  * without re-deriving them.
  *
  * @param items - Parsed, sorted, and validated timeline items.
- * @param periodType - The shared period type for all items.
+ * @param periodType - The period type configured on the dataset.
  * @returns An object with `years` (the full inclusive range) and `slots` (a map from year
  *   to its pre-generated slot array).
  */
 const buildYearSlots = (
   items: TimelineItem[],
-  periodType: PeriodFormat,
+  periodType: PeriodType,
 ): { years: number[]; slots: Record<number, Slot[]> } => {
   const minYear = Math.min(...items.map((item) => Number(item.start.slice(0, 4))));
   const maxYear = Math.max(...items.map((item) => Number(item.end.slice(0, 4))));
@@ -156,7 +142,6 @@ const buildYearSlots = (
 
 export interface TimelineData {
   isValid: boolean;
-  periodType: PeriodFormat | '';
   allItems: TimelineItem[];
   items: TimelineItem[];
   years: number[];
@@ -165,22 +150,22 @@ export interface TimelineData {
 
 /**
  * Transforms a raw array of API file DTOs into everything the timeline component needs
- * to render: parsed items, a year range, pre-generated slot grids, and the shared period type.
+ * to render: parsed items, a year range, and pre-generated slot grids.
  *
  * Returns `isValid: false` (with empty collections) when:
  * - `data` is empty or all entries fail to parse
  * - duplicate period ranges are reduced to newest API `data_file_version`
- * - items have mixed `period_type` values (the slot grid would be ambiguous)
  * - any two items have overlapping date ranges (unless it is a collected dataset where all files share the same start date)
- * - `period_type` has no supported slot definition
+ * - the dataset `period_type` is missing or has no supported slot definition
  *
  * All derived values are memoised on `data` reference equality so the component only
  * recomputes when the API response actually changes.
  *
  * @param data - Raw file DTOs from the dataset API response.
- * @returns `{ isValid, periodType, items, years, slots }`
+ * @param periodType - Period type configured on the dataset.
+ * @returns `{ isValid, items, years, slots }`
  */
-export const useTimelineData = (data: DaplaDataFileDTO[]): TimelineData => {
+export const useTimelineData = (data: DaplaDataFileDTO[], periodType: PeriodType | null | undefined): TimelineData => {
   return useMemo(() => {
     if (data.length === 0) {
       clientLogger.warn('Timeline hidden reason: no data');
@@ -192,20 +177,15 @@ export const useTimelineData = (data: DaplaDataFileDTO[]): TimelineData => {
       clientLogger.warn('Timeline hidden reason: no valid timeline items');
       return empty;
     }
-    if (hasMixedPeriodTypes(items)) {
-      clientLogger.warn('Timeline hidden reason: mixed period types');
-      return empty;
-    }
     if (hasOverlappingPeriods(items)) {
       clientLogger.warn('Timeline hidden reason: overlapping periods');
       return empty;
     }
-    const periodType = items[0]!.periodType;
-    if (!hasSupportedPeriodType(periodType)) {
-      clientLogger.warn(`Timeline hidden reason: unsupported period type (${periodType})`);
+    if (!periodType || !isSupportedPeriodType(periodType)) {
+      clientLogger.warn(`Timeline hidden reason: unsupported period type (${periodType ?? 'missing'})`);
       return empty;
     }
     const { years, slots } = buildYearSlots(items, periodType);
-    return { isValid: true as const, periodType, allItems, items, years, slots };
-  }, [data]);
+    return { isValid: true as const, allItems, items, years, slots };
+  }, [data, periodType]);
 };

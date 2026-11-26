@@ -1,15 +1,10 @@
 import { use, useMemo } from 'react';
 import { VariableStatus } from '@/libs/data-access/variable-definitions/internal';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal/models/RenderedView';
-import { FilterItem } from '@/types/filters';
+import { localization } from '@/libs/language';
+import type { FilterItem } from '@/types/filters';
 import { convertStatus, getParentCode } from '@/utils/functions';
 import { useAuthorizedVariables } from './useAuthorizedVariables';
-
-const STATUSES: FilterItem[] = [
-  { value: VariableStatus.Draft, label: convertStatus(VariableStatus.Draft) },
-  { value: VariableStatus.PublishedInternal, label: convertStatus(VariableStatus.PublishedInternal) },
-  { value: VariableStatus.PublishedExternal, label: convertStatus(VariableStatus.PublishedExternal) },
-];
 
 /**
  * Computes the count of variables per status.
@@ -23,13 +18,19 @@ export function useStatusCounts(
   variablesPromise: Promise<{ data: RenderedView[]; error: Error | null }>,
 ): FilterItem[] {
   const { data: variables } = use(variablesPromise);
+  const language = localization.getLanguage();
 
   const counts: FilterItem[] = useMemo(() => {
+    const statuses = [
+      { value: VariableStatus.Draft, label: convertStatus(VariableStatus.Draft) },
+      { value: VariableStatus.PublishedInternal, label: convertStatus(VariableStatus.PublishedInternal) },
+      { value: VariableStatus.PublishedExternal, label: convertStatus(VariableStatus.PublishedExternal) },
+    ];
     const statusCounts: Record<string, number> = {};
 
-    if (!variables?.length) return STATUSES;
+    if (!variables?.length) return statuses;
 
-    STATUSES.forEach((f) => (statusCounts[f.value] = 0));
+    statuses.forEach((f) => (statusCounts[f.value] = 0));
 
     variables.forEach((variable: RenderedView) => {
       const status = String(variable.variable_status);
@@ -39,11 +40,11 @@ export function useStatusCounts(
       }
     });
 
-    return STATUSES.map((status) => ({
+    return statuses.map((status) => ({
       ...status,
       count: statusCounts[status.value] ?? 0,
     }));
-  }, [variables, STATUSES]);
+  }, [variables, language]);
 
   return counts;
 }

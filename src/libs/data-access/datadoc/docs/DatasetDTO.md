@@ -16,6 +16,7 @@ Name | Type
 `owner` | string
 `has_naming_standard_violations` | boolean
 `storage_category` | [StorageCategory](StorageCategory.md)
+`period_type` | [PeriodType](PeriodType.md)
 
 ## Example
 
@@ -33,6 +34,7 @@ const example = {
   "owner": null,
   "has_naming_standard_violations": null,
   "storage_category": null,
+  "period_type": null,
 } satisfies DatasetDTO
 
 console.log(example)

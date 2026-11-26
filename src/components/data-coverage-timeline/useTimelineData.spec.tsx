@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { type DaplaDataFileDTO, PeriodFormat } from '@/libs/data-access/datadoc';
+import { type DaplaDataFileDTO, PeriodFormat, PeriodType } from '@/libs/data-access/datadoc';
 import { useTimelineData } from './useTimelineData';
 import { getFileNameFromFilePath } from './utils';
 
@@ -9,69 +9,68 @@ type BuildDataFileInput = {
   version?: number | null;
   from?: Date | null;
   until?: Date | null;
-  periodType?: PeriodFormat | null;
 };
 
-const buildDataFile = ({ filePath, version, from, until, periodType }: BuildDataFileInput): DaplaDataFileDTO => ({
+const buildDataFile = ({ filePath, version, from, until }: BuildDataFileInput): DaplaDataFileDTO => ({
   file_path: filePath,
   file_name: getFileNameFromFilePath(filePath),
   data_file_version: version ?? null,
   naming_standard_violations: [],
   contains_data_from: from ?? null,
   contains_data_until: until ?? null,
-  period_type: (periodType ?? null) as PeriodFormat | null,
 });
 
 describe('useTimelineData', () => {
   it('returns empty state for empty input', () => {
-    const { result } = renderHook(() => useTimelineData([]));
+    const { result } = renderHook(() => useTimelineData([], PeriodType.MONTH));
 
     expect(result.current.isValid).toBe(false);
     expect(result.current.items).toEqual([]);
     expect(result.current.years).toEqual([]);
     expect(result.current.slots).toEqual({});
-    expect(result.current.periodType).toBe('');
   });
 
-  it('returns empty state when all items are invalid', () => {
+  it('returns empty state when all items have invalid dates', () => {
     const data = [
       buildDataFile({
-        filePath: 'gs://bucket/dataset/no_period.parquet',
-        from: new Date('2024-01-01'),
+        filePath: 'gs://bucket/dataset/no_start.parquet',
         until: new Date('2024-01-31'),
-        periodType: null,
       }),
       buildDataFile({
         filePath: 'gs://bucket/dataset/no_dates.parquet',
-        periodType: PeriodFormat.YEAR_MONTH,
       }),
     ];
 
-    const { result } = renderHook(() => useTimelineData(data));
+    const { result } = renderHook(() => useTimelineData(data, PeriodType.MONTH));
 
     expect(result.current.isValid).toBe(false);
     expect(result.current.items).toEqual([]);
   });
 
-  it('returns empty state for mixed period types', () => {
+  it('uses the dataset period type instead of data file period formats', () => {
     const data = [
-      buildDataFile({
-        filePath: 'gs://bucket/dataset/month_p2024-01.parquet',
-        from: new Date('2024-01-01'),
-        until: new Date('2024-01-31'),
-        periodType: PeriodFormat.YEAR_MONTH,
-      }),
-      buildDataFile({
-        filePath: 'gs://bucket/dataset/q2_p2024.parquet',
-        from: new Date('2024-04-01'),
-        until: new Date('2024-06-30'),
-        periodType: PeriodFormat.QUARTER,
-      }),
+      {
+        ...buildDataFile({
+          filePath: 'gs://bucket/dataset/month_p2024-01.parquet',
+          from: new Date('2024-01-01'),
+          until: new Date('2024-01-31'),
+        }),
+        period_type: PeriodFormat.YEAR_MONTH,
+      },
+      {
+        ...buildDataFile({
+          filePath: 'gs://bucket/dataset/q2_p2024.parquet',
+          from: new Date('2024-04-01'),
+          until: new Date('2024-06-30'),
+        }),
+        period_type: PeriodFormat.QUARTER,
+      },
     ];
 
-    const { result } = renderHook(() => useTimelineData(data));
+    const { result } = renderHook(() => useTimelineData(data, PeriodType.MONTH));
 
-    expect(result.current.isValid).toBe(false);
+    expect(result.current.isValid).toBe(true);
+    expect(result.current.slots[2024]).toHaveLength(12);
   });
 
   it('returns empty state for overlapping periods', () => {
@@ -80,17 +79,15 @@ describe('useTimelineData', () => {
         filePath: 'gs://bucket/dataset/data_p2024-01.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-01-31'),
-        periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
         filePath: 'gs://bucket/dataset/data_p2024-01-15_p2024-02-15.parquet',
         from: new Date('2024-01-15'),
         until: new Date('2024-02-15'),
-        periodType: PeriodFormat.YEAR_MONTH,
       }),
     ];
 
-    const { result } = renderHook(() => useTimelineData(data));
+    const { result } = renderHook(() => useTimelineData(data, PeriodType.MONTH));
 
     expect(result.current.isValid).toBe(false);
   });
@@ -102,25 +99,22 @@ describe('useTimelineData', () => {
         version: 1,
         from: new Date('2024-01-01'),
         until: new Date('2024-01-31'),
-        periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
         filePath: 'gs://bucket/dataset/data_p2024-01_v2.parquet',
         version: 2,
         from: new Date('2024-01-01'),
         until: new Date('2024-01-31'),
-        periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
         filePath: 'gs://bucket/dataset/data_p2024-02_v1.parquet',
         version: 1,
         from: new Date('2024-02-01'),
         until: new Date('2024-02-29'),
-        periodType: PeriodFormat.YEAR_MONTH,
       }),
     ];
 
-    const { result } = renderHook(() => useTimelineData(data));
+    const { result } = renderHook(() => useTimelineData(data, PeriodType.MONTH));
 
     expect(result.current.isValid).toBe(true);
     expect(result.current.allItems).toHaveLength(3);
@@ -141,17 +135,15 @@ describe('useTimelineData', () => {
         filePath: 'gs://bucket/dataset/data_p2024_p2026_v1.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-01-31'),
-        periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
         filePath: 'gs://bucket/dataset/data_p2024_p2025_v1.parquet',
         from: new Date('2024-01-15'),
         until: new Date('2024-02-15'),
-        periodType: PeriodFormat.YEAR_MONTH,
       }),
     ];
 
-    const { result } = renderHook(() => useTimelineData(data));
+    const { result } = renderHook(() => useTimelineData(data, PeriodType.MONTH));
 
     expect(result.current.isValid).toBe(false);
   });
@@ -164,7 +156,6 @@ describe('useTimelineData', () => {
         version: 2,
         from: new Date('1998-01-01T00:00:00'),
         until: new Date('2025-12-31T23:59:59'),
-        periodType: PeriodFormat.YEAR,
       }),
       buildDataFile({
         filePath:
@@ -172,14 +163,12 @@ describe('useTimelineData', () => {
         version: 0,
         from: new Date('1998-01-01T00:00:00'),
         until: new Date('2024-12-31T23:59:59'),
-        periodType: PeriodFormat.YEAR,
       }),
     ];
 
-    const { result } = renderHook(() => useTimelineData(data));
+    const { result } = renderHook(() => useTimelineData(data, PeriodType.YEAR));
 
     expect(result.current.isValid).toBe(true);
-    expect(result.current.periodType).toBe(PeriodFormat.YEAR);
     expect(result.current.items).toHaveLength(2);
     expect(result.current.years[0]).toBe(1998);
     expect(result.current.years.at(-1)).toBe(2025);
@@ -194,11 +183,10 @@ describe('useTimelineData', () => {
         filePath: 'gs://bucket/dataset/week_p2024-W01.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-01-07'),
-        periodType: PeriodFormat.YEAR_WEEK,
       }),
     ];
 
-    const { result } = renderHook(() => useTimelineData(data));
+    const { result } = renderHook(() => useTimelineData(data, PeriodType.WEEK));
 
     expect(result.current.isValid).toBe(false);
   });
@@ -209,21 +197,17 @@ describe('useTimelineData', () => {
         filePath: 'gs://bucket/dataset/data_p2024-03.parquet',
         from: new Date('2024-03-01'),
         until: new Date('2024-03-31'),
-        periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
         filePath: 'gs://bucket/dataset/data_p2022-12.parquet',
         from: new Date('2022-12-01T12:00:00Z'),
         until: new Date('2022-12-31T12:00:00Z'),
-        periodType: PeriodFormat.YEAR_MONTH,
       }),
     ];
 
-    const { result } = renderHook(() => useTimelineData(data));
+    const { result } = renderHook(() => useTimelineData(data, PeriodType.MONTH));
 
     expect(result.current.isValid).toBe(true);
-    expect(result.current.periodType).toBe(PeriodFormat.YEAR_MONTH);
-
     expect(result.current.items[0]?.file_path).toBe('gs://bucket/dataset/data_p2022-12.parquet');
     expect(result.current.items[1]?.file_path).toBe('gs://bucket/dataset/data_p2024-03.parquet');
 
@@ -240,17 +224,15 @@ describe('useTimelineData', () => {
         filePath: 'gs://bucket/dataset/data_p2018_p2019.parquet',
         from: new Date('2018-01-01T00:00:00Z'),
         until: new Date('2019-12-31T23:59:59Z'),
-        periodType: PeriodFormat.YEAR,
       }),
       buildDataFile({
         filePath: 'gs://bucket/dataset/data_p2021.parquet',
         from: new Date('2021-01-01T00:00:00Z'),
         until: new Date('2021-12-31T23:59:59Z'),
-        periodType: PeriodFormat.YEAR,
       }),
     ];
 
-    const { result } = renderHook(() => useTimelineData(data));
+    const { result } = renderHook(() => useTimelineData(data, PeriodType.YEAR));
 
     expect(result.current.isValid).toBe(true);
     expect(result.current.items[0]?.end).toBe('2019-12-31');
@@ -263,11 +245,10 @@ describe('useTimelineData', () => {
         filePath: 'gs://bucket/dataset/data_p2018_p2019.parquet',
         from: new Date('2018-01-01T00:00:00'),
         until: new Date('2019-12-31T23:59:59'),
-        periodType: PeriodFormat.YEAR,
       }),
     ];
 
-    const { result } = renderHook(() => useTimelineData(data));
+    const { result } = renderHook(() => useTimelineData(data, PeriodType.YEAR));
 
     expect(result.current.isValid).toBe(true);
     expect(result.current.items[0]?.start).toBe('2018-01-01');
@@ -280,11 +261,10 @@ describe('useTimelineData', () => {
         filePath: 'gs://bucket/dataset/data_p2018_p2019.parquet',
         from: new Date('2018-01-01T00:00:00Z'),
         until: new Date('2019-12-31T23:59:59Z'),
-        periodType: PeriodFormat.YEAR,
       }),
     ];
 
-    const { result } = renderHook(() => useTimelineData(data));
+    const { result } = renderHook(() => useTimelineData(data, PeriodType.YEAR));
 
     expect(result.current.isValid).toBe(true);
     expect(result.current.items[0]?.start).toBe('2018-01-01');

@@ -26,7 +26,7 @@ const ClassificationCard = ({ content, title, href }: Readonly<ClassificationCar
     <Card className={href ? styles.linkedCard : undefined}>
       {href && <Link className={styles.cardLink} href={href} aria-label={title} />}
       {title && (
-        <Heading level={3} className={`${styles.detailsHeading} infoHeadingSecondary`} id={`tableHeading-${title}`}>
+        <Heading level={3} className={`${styles.detailsHeading} infoHeadingPrimary`} id={`tableHeading-${title}`}>
           <span className={styles.titleText}>{title}</span>
           <ArrowRightIcon className={styles.arrowIcon} aria-hidden='true' focusable='false' />
         </Heading>

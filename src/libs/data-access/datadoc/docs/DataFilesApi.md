@@ -155,7 +155,7 @@ example().catch(console.error);
 
 ## listDataFiles
 
-> DaplaDataFilePageResponse listDataFiles(datasetId, storageCategory, variableIds, variableShortName, containsDataFrom, containsDataUntil, page, pageSize)
+> DaplaDataFilePageResponse listDataFiles(datasetId, storageCategory, variableIds, variableShortName, containsDataFrom, containsDataUntil, storageLocationName, hasVariables, page, pageSize)
 
 
 
@@ -189,6 +189,10 @@ async function example() {
     containsDataFrom: 2013-10-20,
     // Date (optional)
     containsDataUntil: 2013-10-20,
+    // string (optional)
+    storageLocationName: storageLocationName_example,
+    // boolean (optional)
+    hasVariables: true,
     // number (optional)
     page: 56,
     // number (optional)
@@ -218,6 +222,8 @@ example().catch(console.error);
 | **variableShortName** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **containsDataFrom** | `Date` |  | [Optional] [Defaults to `undefined`] |
 | **containsDataUntil** | `Date` |  | [Optional] [Defaults to `undefined`] |
+| **storageLocationName** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **hasVariables** | `boolean` |  | [Optional] [Defaults to `undefined`] |
 | **page** | `number` |  | [Optional] [Defaults to `0`] |
 | **pageSize** | `number` |  | [Optional] [Defaults to `100`] |
 
@@ -238,7 +244,7 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | List Dapla Data Files. |  -  |
+| **200** | List Dapla Data Files. Timestamps are returned in UTC. Files with invalid date or path metadata are included with their file path and file name, but without optional metadata. Pagination counts include these files. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

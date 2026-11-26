@@ -1,9 +1,10 @@
 'use client';
 
-import { Button, Card, Heading, Paragraph, Tooltip } from '@digdir/designsystemet-react';
+import { Button, Paragraph, Tooltip } from '@digdir/designsystemet-react';
 import { FilesIcon } from '@navikt/aksel-icons';
 import dynamic from 'next/dynamic';
 import { coldarkCold } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { DetailsCard } from '@/components/details-list/detailsCard';
 import { ExternalLink } from '@/components/link-components/externalLink';
 import { useClipboard } from '@/hooks/useClipboard';
 import { localization } from '@/libs/language';
@@ -41,17 +42,14 @@ const CodeSnippet = ({
   const daplaManualUrl = process.env.NEXT_PUBLIC_DAPLA_MANUAL_URL;
   const pyPiPackageUrl = process.env.NEXT_PUBLIC_DAPLA_METADATA_PYPI;
   return (
-    <Card className={styles.codeSnippet}>
-      <Heading className={`${styles.header} infoHeadingSecondary`} id={`tableHeading-code`} data-size='md' level={2}>
-        {localization.codeSnippet.codeExample}
-      </Heading>
+    <DetailsCard title={localization.codeSnippet.codeExample} headingId='tableHeading-code'>
       {pyPiPackageUrl && (
         <Paragraph className={styles.helpText}>
           {localization.codeSnippet.getVariableDefinition}{' '}
           <ExternalLink linkText={localization.codeSnippet.linkToPyPiPackage} href={pyPiPackageUrl} />
         </Paragraph>
       )}
-      <Card.Block className={styles.codeBlock}>
+      <div className={styles.codeBlock}>
         <Tooltip content={copied ? copiedLabel : copyLabel}>
           <Button
             className={styles.copyCodeButton}
@@ -74,7 +72,7 @@ const CodeSnippet = ({
         >
           {codeString}
         </SyntaxHighlighter>
-      </Card.Block>
+      </div>
       <footer className={styles.linkFooter}>
         {daplaLabVardefUrl && (
           <ExternalLink
@@ -93,7 +91,7 @@ const CodeSnippet = ({
           />
         )}
       </footer>
-    </Card>
+    </DetailsCard>
   );
 };
 

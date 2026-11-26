@@ -52,6 +52,8 @@ export interface ListDataFilesRequest {
     variableShortName?: string | null;
     containsDataFrom?: Date | null;
     containsDataUntil?: Date | null;
+    storageLocationName?: string | null;
+    hasVariables?: boolean | null;
     page?: number;
     pageSize?: number;
 }
@@ -102,6 +104,8 @@ export interface DataFilesApiInterface {
      * @param {string} [variableShortName] 
      * @param {Date} [containsDataFrom] 
      * @param {Date} [containsDataUntil] 
+     * @param {string} [storageLocationName] 
+     * @param {boolean} [hasVariables] 
      * @param {number} [page] 
      * @param {number} [pageSize] 
      * @param {*} [options] Override http request option.
@@ -249,6 +253,14 @@ export class DataFilesApi extends runtime.BaseAPI implements DataFilesApiInterfa
 
         if (requestParameters['containsDataUntil'] != null) {
             queryParameters['contains-data-until'] = (requestParameters['containsDataUntil'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['storageLocationName'] != null) {
+            queryParameters['storage-location-name'] = requestParameters['storageLocationName'];
+        }
+
+        if (requestParameters['hasVariables'] != null) {
+            queryParameters['has-variables'] = requestParameters['hasVariables'];
         }
 
         if (requestParameters['page'] != null) {

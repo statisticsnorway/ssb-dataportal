@@ -7,7 +7,7 @@ import { useAuthContext } from '@/app/authContext';
 import { useTimelineData } from '@/components/data-coverage-timeline';
 import DataCoverageTimeline from '@/components/data-coverage-timeline/dataCoverageTimeline';
 import type { Slot } from '@/components/data-coverage-timeline/types';
-import type { DaplaDataFileDTO, DatasetVariableDTO } from '@/libs/data-access/datadoc';
+import type { DaplaDataFileDTO, DatasetVariableDTO, PeriodType } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language';
 import { clientLogger } from '@/libs/logger/client-logger';
 import { sortDateStringsDescending } from '@/utils/sort';
@@ -42,11 +42,13 @@ function getEmptyState(query: string, period: string, hasSelectedPeriod: boolean
 /** Owns URL filters and filter requests, coordinating the timeline and variable results. */
 export default function DatasetVariablesWorkspace({
   datasetId,
+  periodType,
   dataFilesShared,
   dataFilesProduct,
   datasetVariables,
 }: Readonly<{
   datasetId: string;
+  periodType?: PeriodType | null;
   dataFilesShared: DaplaDataFileDTO[];
   dataFilesProduct: DaplaDataFileDTO[];
   datasetVariables: DatasetVariableDTO[];
@@ -56,7 +58,7 @@ export default function DatasetVariablesWorkspace({
     () => (isAuthenticated ? [...dataFilesShared, ...dataFilesProduct] : getPublicDataFiles(dataFilesShared)),
     [dataFilesShared, dataFilesProduct, isAuthenticated],
   );
-  const { isValid, allItems, years, slots } = useTimelineData(dataFiles);
+  const { isValid, allItems, years, slots } = useTimelineData(dataFiles, periodType);
   const canFilterVariables = isAuthenticated && datasetVariables.length > 0;
   const timelinePeriods = useMemo<TimelinePeriodSlot[]>(
     () => years.flatMap((year) => (slots[year] ?? []).map((slot) => ({ ...slot, year }))),

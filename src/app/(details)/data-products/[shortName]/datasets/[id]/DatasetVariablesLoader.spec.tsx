@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { listDatasetVariables } from '@/libs/data/datasets/datasets';
+import { PeriodType } from '@/libs/data-access/datadoc';
 import DatasetVariablesLoader, { preloadDatasetVariables } from './DatasetVariablesLoader';
 
 vi.mock('server-only', () => ({}));
@@ -9,6 +10,7 @@ vi.mock('./DatasetVariablesWorkspace', () => ({ default: () => null }));
 
 const props = {
   datasetId: 'id11',
+  periodType: PeriodType.HALF_YEAR,
   isAuthenticated: true,
   dataFilesShared: [],
   dataFilesProduct: [],
@@ -25,6 +27,7 @@ describe('DatasetVariablesLoader', () => {
     expect(listDatasetVariables).toHaveBeenCalledWith('id11');
     expect(workspace.props).toEqual({
       datasetId: 'id11',
+      periodType: PeriodType.HALF_YEAR,
       dataFilesShared: props.dataFilesShared,
       dataFilesProduct: props.dataFilesProduct,
       datasetVariables: variables,

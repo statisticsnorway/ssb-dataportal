@@ -53,6 +53,7 @@ export default async function Dataset({ params }: Readonly<{ params: Promise<{ i
         <Suspense fallback={<Spinner aria-label={localization.loading.results} />}>
           <DatasetVariablesLoader
             datasetId={id}
+            periodType={dataset.period_type}
             isAuthenticated={auth.isAuthenticated}
             dataFilesShared={dataFilesShared}
             dataFilesProduct={dataFilesProduct}

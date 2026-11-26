@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { OperationType } from './OperationType';
+import {
+    OperationTypeFromJSON,
+    OperationTypeFromJSONTyped,
+    OperationTypeToJSON,
+    OperationTypeToJSONTyped,
+} from './OperationType';
 import type { TaskCommand } from './TaskCommand';
 import {
     TaskCommandFromJSON,
@@ -39,6 +46,12 @@ export interface TaskRegistration {
      * @memberof TaskRegistration
      */
     job_id: string;
+    /**
+     * 
+     * @type {OperationType}
+     * @memberof TaskRegistration
+     */
+    operation_type: OperationType;
 }
 
 
@@ -49,6 +62,7 @@ export interface TaskRegistration {
 export function instanceOfTaskRegistration(value: object): value is TaskRegistration {
     if (!('command' in value) || value['command'] === undefined) return false;
     if (!('job_id' in value) || value['job_id'] === undefined) return false;
+    if (!('operation_type' in value) || value['operation_type'] === undefined) return false;
     return true;
 }
 
@@ -64,6 +78,7 @@ export function TaskRegistrationFromJSONTyped(json: any, ignoreDiscriminator: bo
         
         'command': TaskCommandFromJSON(json['command']),
         'job_id': json['job_id'],
+        'operation_type': OperationTypeFromJSON(json['operation_type']),
     };
 }
 
@@ -80,6 +95,7 @@ export function TaskRegistrationToJSONTyped(value?: TaskRegistration | null, ign
         
         'command': TaskCommandToJSON(value['command']),
         'job_id': value['job_id'],
+        'operation_type': OperationTypeToJSON(value['operation_type']),
     };
 }
 

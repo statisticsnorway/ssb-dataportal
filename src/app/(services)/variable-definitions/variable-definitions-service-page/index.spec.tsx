@@ -1,6 +1,6 @@
 import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { NuqsTestingAdapter, type UrlUpdateEvent } from 'nuqs/adapters/testing';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { AuthProvider } from '@/app/authContext';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
@@ -8,6 +8,9 @@ import { KlassCode } from '@/types/klass-codes';
 import { getStaticVariableDefinitions } from '@/utils/mock-data';
 import VariableDefinitionsServicePage from '.';
 
+afterEach(() => {
+  localization.setLanguage('nb');
+});
 const defaultSubjectFields: KlassCode[] = [
   {
     code: 'al',
@@ -177,6 +180,39 @@ describe('VariableDefinitionsServicePage', () => {
         hidden: true,
       }),
     ).toBeInTheDocument();
+  });
+
+  it('updates status names when the language changes', async () => {
+    localization.setLanguage('nb');
+    const variablesPromise = Promise.resolve({
+      data: getStaticVariableDefinitions(),
+      error: null,
+    });
+    const subjectFieldsPromise = Promise.resolve({
+      data: defaultSubjectFields,
+      error: null,
+    });
+    const { findByRole, rerender } = await renderPage(true, variablesPromise, subjectFieldsPromise, '?status=DRAFT');
+    expect(await findByRole('checkbox', { name: /Utkast/, hidden: true })).toBeChecked();
+    expect(await findByRole('button', { name: 'Fjern Utkast', hidden: true })).toBeInTheDocument();
+
+    localization.setLanguage('en');
+    await act(async () => {
+      rerender(
+        <NuqsTestingAdapter searchParams='?status=DRAFT'>
+          <AuthProvider isAuthenticated>
+            <VariableDefinitionsServicePage
+              variablesPromise={variablesPromise}
+              subjectFieldsPromise={subjectFieldsPromise}
+            />
+          </AuthProvider>
+        </NuqsTestingAdapter>,
+      );
+    });
+
+    expect(await findByRole('checkbox', { name: /Draft/, hidden: true })).toBeChecked();
+    expect(await findByRole('button', { name: 'Remove Draft', hidden: true })).toBeInTheDocument();
+    localization.setLanguage('nb');
   });
 });
 

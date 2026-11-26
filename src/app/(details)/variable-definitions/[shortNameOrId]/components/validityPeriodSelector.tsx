@@ -1,7 +1,8 @@
 'use client';
 
-import { Button, Card, Dropdown, Heading, Link, Paragraph } from '@digdir/designsystemet-react';
+import { Button, Dropdown, Link, Paragraph } from '@digdir/designsystemet-react';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { DetailsCard } from '@/components/details-list/detailsCard';
 import { RenderedView } from '@/libs/data-access/variable-definitions/internal';
 import { localization } from '@/libs/language';
 import { formatDate, formatLocaleDate } from '@/utils/functions';
@@ -25,10 +26,7 @@ export function ValidityPeriodSelector({ validityPeriods }: Readonly<ValidityPer
   };
 
   return (
-    <Card>
-      <Heading level={2} className='infoHeadingSecondary' data-size='md'>
-        {localization.validity.validityPeriods}
-      </Heading>
+    <DetailsCard title={localization.validity.validityPeriods} headingId='tableHeading-validity'>
       <Paragraph>{localization.validity.validityPeriodsInfo}</Paragraph>
       <Button variant='secondary' popovertarget='validity-period-dropdown'>
         {localization.validity.chooseValidityPeriod}
@@ -44,6 +42,6 @@ export function ValidityPeriodSelector({ validityPeriods }: Readonly<ValidityPer
           ))}
         </Dropdown.List>
       </Dropdown>
-    </Card>
+    </DetailsCard>
   );
 }

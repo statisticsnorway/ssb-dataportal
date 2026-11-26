@@ -6,6 +6,7 @@
  * Please maintain alphabetical order on variable name for ease of maintenance!
  */
 
+import { PeriodType } from '@/libs/data-access/datadoc/models/PeriodType';
 import type { Translation } from './nb';
 
 export const en = {
@@ -226,6 +227,21 @@ export const en = {
     dataset: 'Dataset',
     sortByMostNamingStandardViolations: 'Most naming standard violations',
     noDatasetAvailable: 'No dataset available',
+  },
+  dataset: {
+    periodicity: {
+      label: 'Periodicity',
+    },
+    periodType: {
+      YEAR: 'Yearly',
+      HALF_YEAR: 'Half-yearly',
+      TRIANNUAL: 'Triannual',
+      QUARTER: 'Quarterly',
+      BIMESTER: 'Bimonthly',
+      MONTH: 'Monthly',
+      WEEK: 'Weekly',
+      DAY: 'Daily',
+    } satisfies Record<PeriodType, string>,
   },
   datasetDetail: {
     emptyState: {
@@ -515,7 +531,7 @@ export const en = {
     id: 'ID',
     internalPersonalData: 'Contains special categories of personal data',
     labelPlural: 'Variable definitions',
-    mail: 'Email',
+    mail: 'E-mail',
     owner: 'Owner',
     unitTypeInfo:
       'A unit type is the type of objects (units) that statistics are produced for, for example person, enterprise, and election',

@@ -1,6 +1,6 @@
 import { fireEvent, render, renderHook, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { type DaplaDataFileDTO, PeriodFormat } from '@/libs/data-access/datadoc';
+import { type DaplaDataFileDTO, PeriodType } from '@/libs/data-access/datadoc';
 import { localization } from '@/libs/language/src/localization';
 import DataCoverageTimeline, { slotOverlapsItem } from './dataCoverageTimeline';
 import styles from './dataCoverageTimeline.module.css';
@@ -12,19 +12,18 @@ type BuildDataFileInput = {
   filePath: string;
   from: Date;
   until: Date;
-  periodType: PeriodFormat;
 };
 
-const buildDataFile = ({ filePath, from, until, periodType }: BuildDataFileInput): DaplaDataFileDTO => ({
+const buildDataFile = ({ filePath, from, until }: BuildDataFileInput): DaplaDataFileDTO => ({
   file_path: filePath,
   file_name: getFileNameFromFilePath(filePath),
   naming_standard_violations: [],
   contains_data_from: from,
   contains_data_until: until,
-  period_type: periodType,
 });
 
-const buildTimelineData = (data: DaplaDataFileDTO[]) => renderHook(() => useTimelineData(data)).result.current;
+const buildTimelineData = (data: DaplaDataFileDTO[], periodType: PeriodType = PeriodType.MONTH) =>
+  renderHook(() => useTimelineData(data, periodType)).result.current;
 
 const mockMobileViewport = (matches: boolean) => {
   vi.stubGlobal(
@@ -44,10 +43,9 @@ describe('DataCoverageTimeline', () => {
         filePath: 'gs://bucket/data.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-06-30'),
-        periodType: PeriodFormat.HALF_YEAR,
       }),
     ];
-    const timeline = buildTimelineData(data);
+    const timeline = buildTimelineData(data, PeriodType.HALF_YEAR);
     const onSelectPeriod = vi.fn();
     const { rerender } = render(<DataCoverageTimeline {...timeline} onSelectPeriod={onSelectPeriod} />);
     fireEvent.click(screen.getByRole('button', { name: /2024/ }));
@@ -76,10 +74,9 @@ describe('DataCoverageTimeline', () => {
         filePath: 'gs://bucket/data.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-06-30'),
-        periodType: PeriodFormat.HALF_YEAR,
       }),
     ];
-    render(<DataCoverageTimeline {...buildTimelineData(data)} />);
+    render(<DataCoverageTimeline {...buildTimelineData(data, PeriodType.HALF_YEAR)} />);
     expect(screen.queryByRole('article')).not.toBeInTheDocument();
     fireEvent.click(
       screen.getByRole('button', { name: localization.dataCoverageTimeline.showYear.replace('{year}', '2024') }),
@@ -101,10 +98,9 @@ describe('DataCoverageTimeline', () => {
         filePath: 'gs://bucket/data.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-06-30'),
-        periodType: PeriodFormat.HALF_YEAR,
       }),
     ];
-    const timeline = buildTimelineData(data);
+    const timeline = buildTimelineData(data, PeriodType.HALF_YEAR);
     const { container } = render(
       <DataCoverageTimeline {...timeline} allItems={[]} unfilteredItems={timeline.allItems} />,
     );
@@ -130,16 +126,14 @@ describe('DataCoverageTimeline', () => {
         filePath: 'gs://bucket/old.parquet',
         from: new Date('2010-01-01'),
         until: new Date('2010-12-31'),
-        periodType: PeriodFormat.YEAR,
       }),
       buildDataFile({
         filePath: 'gs://bucket/new.parquet',
         from: new Date('2025-01-01'),
         until: new Date('2025-12-31'),
-        periodType: PeriodFormat.YEAR,
       }),
     ];
-    render(<DataCoverageTimeline {...buildTimelineData(data)} />);
+    render(<DataCoverageTimeline {...buildTimelineData(data, PeriodType.YEAR)} />);
     expect(screen.queryByRole('button', { name: /2022/ })).not.toBeInTheDocument();
     fireEvent.click(screen.getAllByRole('button', { name: localization.datasetDetail.showAllTimelinePeriods })[0]!);
     fireEvent.click(
@@ -160,7 +154,6 @@ describe('DataCoverageTimeline', () => {
       file_path: 'gs://bucket/dataset/ufo-observasjoner_p2018_p2019_v1.parquet',
       file_name: 'ufo-observasjoner_p2018_p2019_v1.parquet',
       data_file_version: 1,
-      periodType: PeriodFormat.YEAR,
       start: '2018-01-01',
       end: '2019-12-31',
       naming_standard_violations: [],
@@ -174,10 +167,9 @@ describe('DataCoverageTimeline', () => {
         filePath: `gs://bucket/${folder}/data.parquet`,
         from: new Date('2024-01-01'),
         until: new Date('2024-12-31'),
-        periodType: PeriodFormat.YEAR,
       }),
     );
-    render(<DataCoverageTimeline {...buildTimelineData(data)} />);
+    render(<DataCoverageTimeline {...buildTimelineData(data, PeriodType.YEAR)} />);
     expect(
       screen.getByRole('button', {
         name: new RegExp(`2 ${localization.dataCoverageTimeline.availableDataFileLabelPlural}`),
@@ -191,10 +183,9 @@ describe('DataCoverageTimeline', () => {
         filePath: 'gs://bucket/dataset/data_p2024.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-12-31'),
-        periodType: PeriodFormat.YEAR,
       }),
     ];
-    render(<DataCoverageTimeline {...buildTimelineData(data)} showHeading={false} />);
+    render(<DataCoverageTimeline {...buildTimelineData(data, PeriodType.YEAR)} showHeading={false} />);
 
     expect(screen.queryByRole('heading', { name: localization.datasetDetail.dataCoverageTimeline })).toBeNull();
     expect(screen.getByRole('region', { name: localization.datasetDetail.dataCoverageTimeline })).toBeInTheDocument();
@@ -206,13 +197,11 @@ describe('DataCoverageTimeline', () => {
         filePath: 'gs://bucket/dataset/data_p2024_01.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-01-31'),
-        periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
         filePath: 'gs://bucket/dataset/data_p2024_03.parquet',
         from: new Date('2024-03-01'),
         until: new Date('2024-03-31'),
-        periodType: PeriodFormat.YEAR_MONTH,
       }),
     ];
 
@@ -250,19 +239,16 @@ describe('DataCoverageTimeline', () => {
         filePath: 'gs://bucket/dataset/data_p2024_01.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-01-31'),
-        periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
         filePath: 'gs://bucket/dataset/data_p2024_02.parquet',
         from: new Date('2024-02-01'),
         until: new Date('2024-02-29'),
-        periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
         filePath: 'gs://bucket/dataset/data_p2024_03.parquet',
         from: new Date('2024-03-01'),
         until: new Date('2024-03-31'),
-        periodType: PeriodFormat.YEAR_MONTH,
       }),
     ];
 
@@ -310,42 +296,17 @@ describe('DataCoverageTimeline', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('returns null for mixed period types', () => {
-    const data = [
-      buildDataFile({
-        filePath: 'gs://bucket/dataset/month_p2024_01.parquet',
-        from: new Date('2024-01-01'),
-        until: new Date('2024-01-31'),
-        periodType: PeriodFormat.YEAR_MONTH,
-      }),
-      buildDataFile({
-        filePath: 'gs://bucket/dataset/q2_p2024.parquet',
-        from: new Date('2024-04-01'),
-        until: new Date('2024-06-30'),
-        periodType: PeriodFormat.QUARTER,
-      }),
-    ];
-
-    render(<DataCoverageTimeline {...buildTimelineData(data)} />);
-
-    expect(
-      screen.queryByRole('heading', { name: localization.datasetDetail.dataCoverageTimeline }),
-    ).not.toBeInTheDocument();
-  });
-
   it('renders the full year range including years without files', () => {
     const data = [
       buildDataFile({
         filePath: 'gs://bucket/dataset/data_p2022_01.parquet',
         from: new Date('2022-01-01'),
         until: new Date('2022-01-31'),
-        periodType: PeriodFormat.YEAR_MONTH,
       }),
       buildDataFile({
         filePath: 'gs://bucket/dataset/data_p2024_01.parquet',
         from: new Date('2024-01-01'),
         until: new Date('2024-01-31'),
-        periodType: PeriodFormat.YEAR_MONTH,
       }),
     ];
 
@@ -362,11 +323,10 @@ describe('DataCoverageTimeline', () => {
         filePath: 'gs://bucket/dataset/data_p1998_p2025.parquet',
         from: new Date('1998-01-01'),
         until: new Date('2025-12-31'),
-        periodType: PeriodFormat.YEAR,
       }),
     ];
 
-    const { container } = render(<DataCoverageTimeline {...buildTimelineData(data)} />);
+    const { container } = render(<DataCoverageTimeline {...buildTimelineData(data, PeriodType.YEAR)} />);
 
     const yearLabels = () =>
       Array.from(container.querySelectorAll(`.${styles.yearLabel}`)).map((label) => label.textContent);
@@ -403,11 +363,10 @@ describe('DataCoverageTimeline', () => {
         filePath: 'gs://bucket/dataset/data_p2020_p2024.parquet',
         from: new Date('2020-01-01'),
         until: new Date('2024-12-31'),
-        periodType: PeriodFormat.YEAR,
       }),
     ];
 
-    render(<DataCoverageTimeline {...buildTimelineData(data)} />);
+    render(<DataCoverageTimeline {...buildTimelineData(data, PeriodType.YEAR)} />);
 
     expect(screen.getByText('2020')).toBeInTheDocument();
     expect(screen.getByText('2024')).toBeInTheDocument();
@@ -422,17 +381,15 @@ describe('DataCoverageTimeline', () => {
         filePath: 'gs://bucket/dataset/eksamen_p1998_p2025_v2.parquet',
         from: new Date('1998-01-01T00:00:00'),
         until: new Date('2025-12-31T23:59:59'),
-        periodType: PeriodFormat.YEAR,
       }),
       buildDataFile({
         filePath: 'gs://bucket/dataset/eksamen_p1998_p2024_v0.parquet',
         from: new Date('1998-01-01T00:00:00'),
         until: new Date('2024-12-31T23:59:59'),
-        periodType: PeriodFormat.YEAR,
       }),
     ];
 
-    render(<DataCoverageTimeline {...buildTimelineData(data)} />);
+    render(<DataCoverageTimeline {...buildTimelineData(data, PeriodType.YEAR)} />);
 
     expect(screen.getByRole('heading', { name: localization.datasetDetail.dataCoverageTimeline })).toBeInTheDocument();
     expect(screen.getByText('1998')).toBeInTheDocument();

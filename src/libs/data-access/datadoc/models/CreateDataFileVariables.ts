@@ -22,7 +22,7 @@ import {
 } from './VariableNode';
 
 /**
- * Variables received for an existing data file: the top-level nodes of its Parquet schema.
+ * Variables received for an existing data file: the top-level nodes of its Parquet schema. \[taskId\] and \[jobId\] are optional, but must be supplied together. When supplied, the write is only accepted if \[jobId\] is the active job for \[taskId\].
  * @export
  * @interface CreateDataFileVariables
  */
@@ -33,6 +33,18 @@ export interface CreateDataFileVariables {
      * @memberof CreateDataFileVariables
      */
     variables: Array<VariableNode>;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateDataFileVariables
+     */
+    task_id?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateDataFileVariables
+     */
+    job_id?: string | null;
 }
 
 /**
@@ -54,6 +66,8 @@ export function CreateDataFileVariablesFromJSONTyped(json: any, ignoreDiscrimina
     return {
         
         'variables': ((json['variables'] as Array<any>).map(VariableNodeFromJSON)),
+        'task_id': json['task_id'] == null ? undefined : json['task_id'],
+        'job_id': json['job_id'] == null ? undefined : json['job_id'],
     };
 }
 
@@ -69,6 +83,8 @@ export function CreateDataFileVariablesToJSONTyped(value?: CreateDataFileVariabl
     return {
         
         'variables': ((value['variables'] as Array<any>).map(VariableNodeToJSON)),
+        'task_id': value['task_id'],
+        'job_id': value['job_id'],
     };
 }
 
