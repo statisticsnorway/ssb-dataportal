@@ -47,7 +47,7 @@
     "codegen:datadoc": "openapi-generator-cli generate --generator-key datadoc"
   },
   "dependencies": {
-    "@biomejs/biome": "2.5.15",
+    "@biomejs/biome": "2.6.8",
     "@digdir/designsystemet-react": "1.24.0",
     "@navikt/aksel-icons": "8.23.0",
     "@next/env": "16.4.6",
